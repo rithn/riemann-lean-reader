@@ -1,0 +1,26 @@
+Development/AbelianVarietyTheory/Proofs/ToricGeometry/CubeSectionFacesAndDoubling.lean:133:    simp (config := {decide := true}) [diagChart, two_smul]
+Development/AbelianVarietyTheory/Proofs/ToricGeometry/CubeSectionFacesAndDoubling.lean:151:  simp (config := {decide := true}) only [diagChart, if_true, if_false, ho]
+Development/AbelianVarietyTheory/Proofs/DivisorProofs/SumLambdaPullRhoIdentity.lean:119:    simp (config := {decide := true}) [wedge_castAdd_join, basePart_join, fibrePart_join, sgn]
+Development/AbelianVarietyTheory/Proofs/DivisorProofs/AlternatingCubeProductValueFderivAtZero.lean:26:  simp (config := {decide := true}) [Finset.prod_insert]
+Development/AbelianVarietyTheory/Proofs/DivisorProofs/AlternatingCubeProductValueFderivAtZero.lean:36:  simp (config := {decide := true}) [Finset.sum_insert]
+Development/AbelianVarietyTheory/Proofs/DivisorProofs/CubeBundleOfTranslate.lean:59:    simp (config := {decide := true}) only [split3, if_true, if_false, Finset.mem_insert, Finset.mem_singleton,
+Development/AbelianVarietyTheory/Definitions/GlobalTwisting/SetUnipotentTranslate.lean:616:    interval_cases r <;> simp_all (config := {decide := true})
+Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/FramePointAlgCoordEq.lean:53:    simp (config := {decide := true}) only [ordProd, List.ofFn_succ, List.ofFn_zero, List.prod_cons, List.prod_nil, mul_one, Matrix.mul_apply, Fin.sum_univ_three, Matrix.sub_apply, Matrix.smul_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Matrix.one_apply, Matrix.zero_apply, smul_eq_mul, z01, z02, z12, y01, y02, y12, hd, hb.2, hl, w0, w1, w2, zpow_one, zpow_zero, _root_.zpow_neg_one, Units.val_one, map_one, if_true, if_false, mul_zero, zero_mul, sub_zero, zero_sub, add_zero, zero_add] at e
+Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/CompactIntegralFields/OverFacts.lean:84:    · fin_cases i <;> fin_cases j <;> simp (config := {decide := true}) at hij ⊢ <;>
+Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CuspidalTwists/FiniteOrderCongruences/PTenInd.lean:21:  simp (config := {decide := true}) [Fin.succAbove, Fin.sum_univ_succ, Matrix.det_succ_row_zero, Matrix.submatrix_apply, Matrix.charmatrix_apply,
+Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CuspidalTwists/FiniteOrderCongruences/PTenInd.lean:29:  simp (config := {decide := true}) [Fin.succAbove, Fin.sum_univ_succ, Matrix.det_succ_row_zero, Matrix.submatrix_apply, Matrix.charmatrix_apply,
+ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/VtUniq.lean:484:  simp (config := {decide := true}) [psum, hpadd, hpzero, List.finRange, Equiv.ulift]
+ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/DiscreteValuationRings/CartesianLiftThreeCompProjection.lean:96:  simp (config := {decide := true}) only [Finset.sum_insert, Finset.mem_insert, Finset.mem_singleton,
+ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/DiscreteValuationRings/CartesianLiftThreeCompProjection.lean:98:  simp (config := {decide := true}) only [Finset.card_empty, Finset.card_singleton, Finset.card_insert_of_notMem,
+CompanionTheory/HarishChandraModules/KFiniteAnalyticVectors/AdmissibleSmoothVectors/IwaAll.lean:81:        cases x <;> cases y <;> cases z <;> cases w <;> simp (config := { decide := true })
+CompanionTheory/HarishChandraModules/KFiniteAnalyticVectors/AdmissibleSmoothVectors/IwaAll.lean:86:        cases x <;> cases y <;> cases z <;> cases w <;> simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:74:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:77:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:80:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:83:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:86:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:89:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:92:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:95:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/PeriodIntegrals/UnitaryGroupMassFormula/JetIntegrality/HighGOf.lean:98:    simp only [map_add, hpd]; simp (config := { decide := true })
+Formalism/SharpRestriction/LevelLetterCocycles/MemPrimesOverOfMem.lean:366:  interval_cases l <;> simp_all (config := {decide := true})

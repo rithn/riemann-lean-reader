@@ -1,0 +1,12 @@
+BuildAid/D1.lean:1:import Lean.LibrarySuggestions.Basic
+BuildAid/D1.lean:2:import Lean.Elab.Command
+BuildAid/D2.lean:1:import Lean.LibrarySuggestions.Basic
+BuildAid/D2.lean:2:import Lean.Elab.Command
+BuildAid/D5.lean:1:import Lean.LibrarySuggestions.Basic
+BuildAid/D5.lean:2:import Lean.Elab.Command
+BuildAid/D4.lean:1:import Lean.LibrarySuggestions.Basic
+BuildAid/D4.lean:2:import Lean.Elab.Command
+BuildAid/D3.lean:1:import Lean.LibrarySuggestions.Basic
+BuildAid/D3.lean:2:import Lean.Elab.Command
+Formalism/LocalToGlobal/IndefiniteReal/HeckeNonvanishing/Imports.lean:1:import Lean
+Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean:1:import Lean
