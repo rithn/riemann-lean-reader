@@ -1,0 +1,114 @@
+nodes:
+  - id: f-commutative-algebra--invariant-subspace-mobius-inverse-rec-eq-of-finrank-lt
+    title: "Vocabulary for class functions on matrices, plus a recursion over invariant subspaces"
+    kind: step
+    status: explained
+    chunk: c0055
+    plain: >
+      Mostly definitions, with a few small proved facts.
+      nilRad of a subspace A is the set of linear maps h that send everything into A and kill A.
+      A class function is one unchanged by conjugating its input (changing basis).
+      "Primitive" means: for each subspace strictly between 0 and everything, and each map g preserving it,
+      the sum of the function over g plus every h in nilRad is zero.
+      The file also defines a recursion peeling off invariant subspaces, shows it stabilises once the depth exceeds the dimension,
+      and defines counting objects such as the number of invertible matrices, convolution, and a von Mangoldt-style function.
+    lean: ["Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/InvariantSubspaceMobiusInverseRecEqOfFinrankLt.lean:11"]
+    mathlib: [finsum, LinearMap.charpoly, Submodule.finrank_lt]
+    needs: [linear-algebra, polynomials, concept-group-representations]
+  - id: f-character-theory--charpoly-block-and-invariant-under-stabilizer-nilradic
+    title: The characteristic polynomial of a block-triangular map is the product of its blocks
+    kind: step
+    status: explained
+    chunk: c0055
+    plain: >
+      Let g be a linear map that sends a subspace A into itself.
+      Then the characteristic polynomial of g is the product of two others:
+      that of g restricted to A, and that of the map g induces on the quotient space V mod A.
+      Second claim: adding any map h that sends everything into A and kills A does not change the characteristic polynomial.
+      Proof: choose a basis of A followed by a basis of the quotient. In it the matrix of g has a zero block in the lower left,
+      and the characteristic polynomial of such a block matrix is the product of the diagonal blocks.
+      Adding h changes only the upper right block.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/CharpolyBlockAndInvariantUnderStabilizerNilradic.lean:36"]
+    mathlib: [Matrix.charpoly_fromBlocks_zero₂₁, LinearMap.charpoly_toMatrix, Submodule.mapQ]
+    needs: [f-commutative-algebra--invariant-subspace-mobius-inverse-rec-eq-of-finrank-lt, linear-algebra, polynomials]
+  - id: f-exists-perm-of-sum-min-eq-positive-family
+    title: Two lists with the same "capped sums" are rearrangements of each other
+    kind: step
+    status: explained
+    chunk: c0055
+    plain: >
+      Take two finite lists of positive whole numbers e and e'.
+      For each cap j, add up min(j, entry) over each list.
+      The claim: if these sums agree for every j, then the lists contain the same numbers the same number of times,
+      so one is a reordering of the other.
+      Example: the lists (1, 3) and (3, 1) match; (2, 2) and (1, 3) do not, since their sums at cap 2 differ.
+      Proof: the sum at cap j plus one, minus the sum at cap j, counts the entries larger than j.
+      Differences of these counts give the number of entries equal to j+1, which is then the same for both lists.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsPermOfSumMinEqPositiveFamily.lean:22"]
+    mathlib: [Equiv.ofFiberEquiv, Fintype.equivOfCardEq]
+    needs: [counting, proofs]
+  - id: f-primary-endomorphism-cyclic-decomposition-finrank-ker
+    title: A primary linear map splits into cyclic blocks, with computable kernel sizes
+    kind: step
+    status: explained
+    chunk: c0055
+    plain: >
+      Let g be a linear map on a finite-dimensional space over a field, and f an irreducible polynomial
+      with f(g) raised to some power equal to zero.
+      The claim: the space splits into a sum of cyclic pieces, each looking like polynomials modulo a power of f
+      (with g acting as multiplication by x), with all exponents positive.
+      Moreover the dimension of the kernel of f(g)^j equals the degree of f times the sum over the pieces of min(j, exponent).
+      The proof uses the standard structure theorem for torsion modules over polynomials,
+      treating the space as a module where x acts as g, then counts kernel dimensions piece by piece.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/PrimaryEndomorphismCyclicDecompositionFinrankKer.lean:104"]
+    mathlib: [Module.torsion_by_prime_power_decomposition, Module.AEval', LinearMap.finrank_range_add_finrank_ker]
+    needs: [linear-algebra, polynomials, concept-finitely-generated-abelian-groups]
+  - id: f-conj-of-primary-finrank-ker-pow-eq
+    title: Primary maps with equal kernel sizes are conjugate
+    kind: step
+    status: explained
+    chunk: c0055
+    plain: >
+      Take two linear maps g and g' on the same finite-dimensional space, and an irreducible polynomial f
+      where a power of f applied to each map gives zero.
+      The claim: if, for every j, the kernels of f(g)^j and f(g')^j have the same dimension,
+      then g and g' are conjugate, meaning g' is g after a change of basis.
+      Proof: split each map into cyclic blocks using the previous decomposition.
+      Equal kernel sizes force the lists of block sizes to match up to reordering.
+      Matching blocks pairwise gives an isomorphism between the two module structures, which is the change of basis.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/ConjOfPrimaryFinrankKerPowEq.lean:24"]
+    mathlib: [LinearEquiv.piCongrLeft, Module.AEval'.of]
+    needs: [f-primary-endomorphism-cyclic-decomposition-finrank-ker, f-exists-perm-of-sum-min-eq-positive-family, linear-algebra, polynomials]
+  - id: f-ker-aeval-add-stabilizer-nilradical-socle
+    title: Adding a nilradical element can only grow the kernel
+    kind: step
+    status: explained
+    chunk: c0055
+    plain: >
+      Fix a map g and a polynomial f, and let A be the kernel of f(g).
+      Let h be a map sending everything into A and killing A.
+      The claim: the kernel of f(g) sits inside the kernel of f(g+h).
+      And if the two kernels are equal, then for every power j the kernels of f(g)^j and f(g+h)^j
+      have the same dimension (in fact the same kernel).
+      The proof shows that any polynomial in g+h agrees with the same polynomial in g on A,
+      and differs from it by something in A everywhere, then climbs up one power at a time.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/KerAevalAddStabilizerNilradicalSocle.lean:46"]
+    mathlib: [Polynomial.induction_on', Polynomial.aeval_monomial, LinearMap.mem_ker]
+    needs: [f-commutative-algebra--invariant-subspace-mobius-inverse-rec-eq-of-finrank-lt, linear-algebra, polynomials]
+  - id: f-primitive-end-class-function-eq-zero-of-primary
+    title: A primitive class function vanishes if it vanishes on the "simplest" primary maps
+    kind: step
+    status: explained
+    chunk: c0055
+    plain: >
+      Setting: a finite field, a finite-dimensional space V, and a class function phi on the linear maps of V that is primitive.
+      Suppose f is irreducible and phi vanishes at every map whose characteristic polynomial is f^m and which satisfies f(g) = 0.
+      The claim: phi then vanishes at every map whose characteristic polynomial is f^m.
+      Proof by strong induction on how far the kernel of f(g) is from the whole space.
+      The primitive sum over g plus h, over all h in the nilradical, is zero.
+      Its terms equal phi(g) when the kernel stays the same, by conjugacy, and vanish otherwise, by induction.
+      The count of h with unchanged kernel is at least one (h = 0), so phi(g) is zero.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/PrimitiveEndClassFunctionEqZeroOfPrimary.lean:11"]
+    mathlib: [finsum_mem_eq_finite_toFinset_sum, LinearMap.aeval_self_charpoly, Nat.strong_induction_on]
+    needs: [f-commutative-algebra--invariant-subspace-mobius-inverse-rec-eq-of-finrank-lt, f-character-theory--charpoly-block-and-invariant-under-stabilizer-nilradic, f-ker-aeval-add-stabilizer-nilradical-socle, f-conj-of-primary-finrank-ker-pow-eq, linear-algebra, polynomials, concept-group-representations]
+    orphan: true

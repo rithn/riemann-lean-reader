@@ -1,0 +1,157 @@
+nodes:
+  - id: f-metric-periods--in-flag-domain-one
+    title: Flag-domain definitions for matrices (Gram matrices, potentials)
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file is mostly definitions, with one small proof. From a complex
+      square matrix g and a list of real weights it builds a Gram matrix (the
+      table of inner products of g's columns, weighted), its leading corner
+      blocks, and half the log of a corner's determinant. It defines a
+      "flag domain" of matrices that are invertible with a negative-definite
+      corner for a sign pattern, plus potentials for 2 by 2 cases and a
+      log-sine quantity. The only theorem says the identity matrix lies in the
+      flag domain; the proof notes the relevant corner is empty.
+    lean: ["Development/AutomorphicSpectrum/Definitions/MetricPeriods/InFlagDomainOne.lean:38"]
+    mathlib: [Matrix.PosDef, Matrix.det]
+    needs: [concept-hermitian-unitary-matrices, linear-algebra, complex-numbers]
+  - id: f-metric-proofs--cont-diff-at-frame-entry
+    title: Entries of a changed-frame matrix are twice differentiable
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file proves smoothness facts for 2 by 2 matrices that depend on a
+      parameter. If a matrix G is twice differentiable and g is holomorphic
+      (complex differentiable), then each entry of the "changed frame" matrix,
+      conjugate transpose of g times G times g, is twice differentiable. The
+      proof uses a theorem of Osgood to turn complex differentiability into
+      smoothness, then expands the matrix product entry by entry. A second
+      result shows the potential built from a positive-definite matrix and a
+      complex number is twice differentiable, since it is built from logs of
+      positive real numbers. The file also defines Mobius-style maps.
+    lean: ["Development/AutomorphicSpectrum/Proofs/MetricProofs/ContDiffAtFrameEntry.lean:27"]
+    mathlib: [ContDiffAt.mul, ContDiffAt.log, Matrix.PosDef.det_pos, Complex.conjCLE]
+    needs: [f-metric-periods--in-flag-domain-one, f-analytic-charts--osgood, complex-analysis, calculus]
+  - id: f-exists-holomorphic-normal-frame
+    title: How the potential and log-sine change under a change of frame
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file proves how two quantities attached to a positive-definite 2 by 2
+      matrix G behave when G is replaced by conjugate transpose of g times G
+      times g for an invertible g. First, the result is still positive definite.
+      Second, the potential at a point a equals the potential of G at the
+      fractional-linear image of a, minus a log correction depending on g.
+      Third, the log-sine quantity for two points is unchanged once the
+      points are moved by the same fractional-linear map. The proof is
+      algebra with logs and absolute values.
+    lean: ["Development/AutomorphicSpectrum/Proofs/MetricProofs/ExistsHolomorphicNormalFrame.lean:9"]
+    mathlib: [Matrix.PosDef.conjTranspose_mul_mul_same, Real.log_mul, Matrix.det_mul]
+    needs: [f-metric-periods--in-flag-domain-one, concept-hermitian-unitary-matrices, trigonometry]
+  - id: f-weighted-polynomial-homogeneous-coeff-bound
+    title: Normal holomorphic frame for 2 by 2 matrices (restatement)
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file restates a theorem under a new name. It says the following. Take
+      a family of Hermitian 2 by 2 matrices depending on d complex parameters,
+      twice differentiable at a base point y0 and positive definite there. Then
+      there is a holomorphic family g of invertible matrices so that, at y0,
+      conjugate transpose of g times G times g is the identity and has zero
+      first derivative. The proof is a one-line citation of the theorem in the
+      projective-line frame file. This is the "normal frame" statement used
+      elsewhere under another name.
+    lean: ["Development/AutomorphicSpectrum/Proofs/MetricProofs/WeightedPolynomialHomogeneousCoeffBound.lean:10"]
+    mathlib: []
+    needs: [f-projective-line-normal-frame, concept-hermitian-unitary-matrices, complex-analysis]
+  - id: f-projective-line-normal-frame
+    title: Constructing a normal holomorphic frame
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file proves that a Hermitian, positive-definite matrix family can be
+      put in a "normal" form at a point by a holomorphic change of frame. Start
+      by taking g0 with g0-star times G times g0 equal to the identity, from a
+      square-root factorisation. Then correct linearly, setting g(y) = g0 - g0
+      L(y - y0), where L is the complex-linear half of the derivative of
+      G sandwiched by g0. A product-rule computation shows the first
+      derivative of the new matrix vanishes at y0. A helper splits a real
+      linear map into a complex-linear part.
+    lean: ["Development/WeilBound/CoreStatements/PluriharmonicCharts/ProjectiveLineNormalFrame.lean:33"]
+    mathlib: [CStarAlgebra.nonneg_iff_eq_star_mul_self, Matrix.PosDef.det_pos, fderiv, HasDerivAt]
+    needs: [f-triple-deriv, concept-hermitian-unitary-matrices, linear-algebra, calculus, complex-analysis]
+  - id: f-triple-deriv
+    title: Product rule for a sandwiched matrix V-star G V
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file proves a product rule for matrices. If G(s) and V(s) are
+      matrices whose entries change with a real number s, then the derivative of
+      conjugate-transpose(V) times G times V is a sum of three terms, one for
+      each factor being differentiated while the other two stay put. This is the
+      usual product rule for three factors, written entry by entry as sums. A
+      second lemma says a differentiable function has a derivative along any
+      straight line through a point, equal to the total derivative applied to
+      the direction.
+    lean: ["Development/WeilBound/CoreStatements/PluriharmonicCharts/TripleDeriv.lean:6"]
+    mathlib: [HasDerivAt.fun_mul, HasDerivAt.fun_sum, DifferentiableAt.hasFDerivAt]
+    needs: [calculus, linear-algebra, complex-numbers]
+  - id: f-local-unitary-normal-frame2x2
+    title: Local unitary normal frame for 2 by 2 matrices
+    kind: step
+    status: explained
+    chunk: c0118
+    orphan: true
+    plain: >
+      This file proves that near a point, a positive-definite 2 by 2 matrix
+      family can be brought to the identity with zero first derivative by a
+      holomorphic change of frame. The family is only assumed twice
+      differentiable, not necessarily Hermitian, so the proof first replaces it
+      by its Hermitian part, which agrees nearby. It then applies the normal
+      frame theorem from the earlier files. It checks the changed matrix stays
+      positive definite near the point (by continuity of the determinant) and is
+      twice differentiable.
+    lean: ["Development/AutomorphicSpectrum/Proofs/MetricProofs/LocalUnitaryNormalFrame2x2.lean:8"]
+    mathlib: [Matrix.PosDef, Filter.Eventually, Matrix.det_fin_two]
+    needs: [f-weighted-polynomial-homogeneous-coeff-bound, f-exists-holomorphic-normal-frame, f-metric-proofs--cont-diff-at-frame-entry, concept-hermitian-unitary-matrices, calculus]
+  - id: f-analytic-charts--osgood
+    title: Osgood's lemma via the Cauchy formula
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file proves Osgood's lemma. A function of several complex variables
+      that is complex differentiable on an open set is analytic there, meaning
+      it equals a power series near each point. The idea is the Cauchy integral
+      formula on a polydisc (a product of discs). It writes f(z) as an integral
+      over a torus of f against a product of 1/(w - z) factors. That kernel is
+      itself analytic in z, and integrating against a fixed function is
+      continuous and linear, so f(z) is analytic. Most of the file builds this
+      machinery with continuous functions on a cube.
+    lean: ["ReciprocityTheory/AnalyticForms/AnalyticCharts/Osgood.lean:137"]
+    mathlib: [AnalyticAt.comp, analyticAt_inverse, LinearMap.mkContinuousOfExistsBound, circleIntegral]
+    needs: [f-analytic-charts--osgood-a, complex-analysis, calculus]
+  - id: f-analytic-charts--osgood-a
+    title: Cauchy's formula on a polydisc
+    kind: step
+    status: explained
+    chunk: c0118
+    plain: >
+      This file proves the Cauchy integral formula for several complex
+      variables on a polydisc (a product of discs). If f is complex
+      differentiable near a closed polydisc, then integrating f(w) divided by the
+      product of (w_i - z_i) over the torus gives (2 pi i) to the n times f(z).
+      The proof is by induction on the number of variables. It does one
+      variable at a time using the one-variable Cauchy formula and
+      the induction hypothesis. The file also proves small facts, such as points
+      on the torus stay at distance r from the centre and the integrand is
+      continuous.
+    lean: ["ReciprocityTheory/AnalyticForms/AnalyticCharts/OsgoodA.lean:92"]
+    mathlib: [torusIntegral_succ, circleIntegral, DifferentiableOn.circleIntegral_sub_inv_smul]
+    needs: [complex-analysis, calculus, complex-numbers]

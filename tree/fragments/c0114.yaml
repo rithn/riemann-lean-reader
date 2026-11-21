@@ -1,0 +1,78 @@
+nodes:
+  - id: f-coarse-lipschitz-exponential-estimate
+    title: Bounding a shifted Eisenstein-type series by a fixed summable series
+    kind: step
+    status: explained
+    chunk: c0114
+    plain: >
+      This file proves a size estimate for series built from exponentials, sums over cosets of a group. A
+      coset is one copy of a subgroup shifted by a group element. The input says three height functions
+      change by at most a fixed amount when you move by a small compact set. Under that, the file finds a
+      neighbourhood of any point g and one summable series that bounds every term at once. The idea is that
+      an exponential of a slightly shifted height is at most a constant times the original. A real exponent
+      lying between two extremes is bounded by the sum of the two extreme exponentials. This is plain
+      inequality bookkeeping.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CoarseLipschitzExponentialEstimate.lean:52"]
+    mathlib: [Real.exp_le_exp, Summable.tsum_le_tsum, Summable.of_nonneg_of_le, Complex.norm_exp]
+    needs: [infinite-series, real-analysis, complex-analysis, concept-point-set-topology, concept-normal-subgroups-quotients, groups]
+  - id: f-coset-series-summable-shifted
+    title: A coset sum with a shifted exponent still converges
+    kind: step
+    status: explained
+    chunk: c0114
+    plain: >
+      This file proves a convergence statement, but only under an assumption, a hypothesis named
+      PiLocalization-two that it takes as given and does not prove here. Under it, a sum of exponentials over
+      cosets (shifted copies of a subgroup) converges when the exponent includes an extra multiple t of a
+      height function. The idea is to rewrite the sum over a small subgroup as an inner sum inside the
+      known convergent sum, using that the height function does not change under the relevant subgroup
+      elements. Then the assumption's summability conclusion gives the claim, after matching terms.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CosetSeriesSummableShifted.lean:9"]
+    mathlib: [tsum_congr, Real.exp_add, tsum_mul_left]
+    needs: [infinite-series, concept-normal-subgroups-quotients, groups, real-analysis]
+  - id: f-holomorphic-series-uniform-tube
+    title: A uniformly dominated sum of holomorphic functions is holomorphic
+    kind: step
+    status: explained
+    chunk: c0114
+    plain: >
+      This file proves a standard fact from complex analysis in a slightly fancy setting. Suppose each term
+      of a series is holomorphic (smooth in the complex sense) in two complex variables and continuous in a
+      group variable. Suppose also that near each point all the terms are bounded by one fixed summable
+      list of numbers. Then the whole sum is holomorphic along every complex line and continuous. It is also
+      locally bounded on compact pieces of the real parameters, and it converges absolutely. This is the
+      Weierstrass M-test idea, uniform domination of terms by a convergent series.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/HolomorphicSeriesUniformTube.lean:7"]
+    mathlib: [Complex.differentiableOn_tsum_of_summable_norm, continuousOn_tsum, tsum_of_norm_bounded]
+    needs: [complex-analysis, infinite-series, concept-point-set-topology, real-analysis]
+  - id: f-section-invariance-coset-sum
+    title: Summing over cosets in two stages gives the same Eisenstein sum
+    kind: step
+    status: explained
+    chunk: c0114
+    plain: >
+      This file proves an identity between two ways of adding up terms over a group, but only under an
+      assumed claim (PiLocalization-two) that it takes as a hypothesis. A function f on the group is
+      unchanged by a subgroup. Adding f over cosets of that subgroup can be done in one go, or in two
+      stages, first inside a smaller group and then across cosets. The file shows both give the same
+      answer, after splitting an exponential of a sum into a product. The hypotheses ensure absolute
+      convergence, so rearranging the sum is allowed.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/SectionInvarianceCosetSum.lean:9"]
+    mathlib: [tsum_congr, Complex.exp_add, tsum_const_smul'']
+    needs: [infinite-series, concept-normal-subgroups-quotients, groups, complex-analysis]
+  - id: f-crossing-of-walls-and-heights
+    title: Eisenstein-type series cross walls with controlled holomorphy
+    kind: step
+    status: explained
+    chunk: c0114
+    orphan: true
+    plain: >
+      This file proves a bundled statement named Cross, but only from four assumed claims that it takes as
+      hypotheses, covering section laws, height Lipschitz bounds, a coset-sum fact and a wall law. Given
+      those, it shows that a series over cosets with two complex parameters is holomorphic and continuous.
+      It also shows it converges absolutely and equals the two expected Eisenstein-type expressions on the
+      two sides of a wall. The proof gathers a uniform bound from the estimate lemma. It then applies the
+      holomorphic-series lemma and the coset-sum lemma.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CrossingOfWallsAndHeights.lean:23"]
+    mathlib: [ContinuousLinearMap.map_tsum, Complex.continuous_exp]
+    needs: [f-coarse-lipschitz-exponential-estimate, f-coset-series-summable-shifted, f-holomorphic-series-uniform-tube, f-section-invariance-coset-sum, complex-analysis, infinite-series, concept-point-set-topology, groups]

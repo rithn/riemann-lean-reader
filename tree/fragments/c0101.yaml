@@ -1,0 +1,73 @@
+nodes:
+  - id: f-global-geometry--eig-lat
+    title: Lattices of eigenvectors in a Lie model (definitions)
+    kind: step
+    status: explained
+    chunk: c0101
+    orphan: true
+    plain: >
+      This file only makes definitions; it proves nothing. Picture a space E of vectors over a field, sitting over a geometric shape X. At each point of X we want an "integral lattice": a chosen set of vectors that behave as whole numbers there, a bit like the integers sitting inside the rationals. The file builds such a lattice from vectors that extend to a tangent direction of a group over X. It also builds the dual lattice (the same idea for linear functions on E). Then it intersects the lattice with one eigenspace, meaning vectors that a ring of maps stretches by a fixed scalar. A last definition takes the fibre, the part of the lattice sitting over one point.
+    lean: ["Development/AutomorphicSpectrum/Definitions/GlobalGeometry/EigLat.lean:26"]
+    mathlib: []
+    needs: [f-global-geometry--lie-model, f-global-geometry--coords-at, concept-schemes-basics, concept-valuation-rings, linear-algebra]
+  - id: f-quadratic-character-prescribed-places
+    title: Integer coordinates can be checked at height-one primes
+    kind: step
+    status: explained
+    chunk: c0101
+    plain: >
+      Despite its file name, this file proves a clean algebra fact. Take a ring A of whole-number-like elements (a Noetherian domain that is integrally closed) with fraction field Ω. Suppose some vectors b are independent over Ω, and another vector b' lies in their Ω-span. Suppose also that at each height-one prime (a "codimension one" prime, the smallest nonzero kind) you can clear denominators not divisible by that prime and get integer coordinates. Then the coordinates of b' were integers all along. The proof writes b' in the basis b and applies a criterion for fraction-field elements to each coordinate.
+    lean: ["Development/AutomorphicSpectrum/Proofs/AlgebraProofs/QuadraticCharacterPrescribedPlaces.lean:8"]
+    mathlib: [Fintype.linearIndependent_iff, Submodule.mem_span_range_iff_exists_fun]
+    needs: [f-toric-varieties--krull-domain, concept-integral-closure-fraction-fields, concept-coordinate-rings-dimension, linear-algebra]
+  - id: f-exists-point-localization-prime
+    title: A prime of a point's ring comes from a nearby point
+    kind: step
+    status: explained
+    chunk: c0101
+    plain: >
+      Take a point p on a scheme (a space glued from rings) whose local ring sits inside a field Ω. Pick any prime ideal I of that local ring. The file proves there is another point q, one step more general than p, whose local ring is exactly the ring p's ring becomes after allowing division by anything outside I. Roughly, "inverting everything outside I" is the same as moving to a nearby point. The proof works in a small affine patch, where such localisations correspond to primes of an ordinary ring, and checks both inclusions between the two subrings of Ω by hand.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/ExistsPointLocalizationPrime.lean:44"]
+    mathlib: [IsLocalization.AtPrime.isUnit_to_map_iff, IsLocalization.surj, AlgebraicGeometry.IsAffineOpen.isLocalization_stalk]
+    needs: [f-global-geometry--is-cpt-gen, f-global-geometry--coords-at, concept-prime-ideals-localization, concept-schemes-basics, concept-local-rings]
+  - id: f-lattice-eq-of-codim-one-eq
+    title: Lattices agreeing in codimension one agree everywhere
+    kind: step
+    status: explained
+    chunk: c0101
+    orphan: true
+    plain: >
+      This file only restates another theorem under a new name; it adds no new argument. The claim is about two lattices (choices of whole-number vectors at each point of a space) that both look locally like a free module. If they agree at all points of height one, the "codimension one" points, and the local rings are integrally closed, then they agree at every point. Think of two fractions-with-denominators rules that match on every single prime and so must be the same. The proof is just a one-line reference to the theorem in the neighbouring file.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/LatticeEqOfCodimOneEq.lean:9"]
+    mathlib: []
+    needs: [f-lattices-agree-of-height-one]
+  - id: f-geometry-proofs--reg-at-fraction-noetherian-closed
+    title: A point's coordinate ring has Ω as fraction field
+    kind: step
+    status: explained
+    chunk: c0101
+    plain: >
+      At a point p of a scheme, the file looks at the subring of the field Ω made of elements that are "regular" at p. It proves three things. First, this subring has Ω as its field of fractions: every element of Ω is a quotient of two regular ones. Second, it is Noetherian whenever the local ring at p is. Third, it is integrally closed (contains every number that is a root of a monic equation over it) whenever the local ring is. The idea is that this subring is a copy of the local ring, so properties carry over, and the fraction claim comes from writing elements as quotients on a small affine patch.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/RegAtFractionNoetherianClosed.lean:59"]
+    mathlib: [IsLocalization.mk'_surjective, IsFractionRing.of_field, IsIntegrallyClosed.of_equiv]
+    needs: [f-global-geometry--is-cpt-gen, f-global-geometry--coords-at, concept-integral-closure-fraction-fields, concept-prime-ideals-localization, concept-noetherian-and-irreducible-components]
+  - id: f-lattices-agree-of-height-one
+    title: Proof that codimension-one agreement forces equality
+    kind: step
+    status: explained
+    chunk: c0101
+    plain: >
+      The file proves that two lattices which are locally free of the same rank, and agree at every height-one point, are equal. The lattice at a point is the set of vectors whose coordinates are "integral" there. Proof idea, one inclusion at a time. Take a basis of one lattice and write it in the other's basis. At each height-one prime, agreement of lattices makes the coordinates integral away from that prime. A general fact (coordinates integral at all height-one primes of an integrally closed Noetherian domain are integral) then gives integer coordinates everywhere. Swapping the two lattices gives the other inclusion.
+    lean: ["Development/WeilBound/CoreStatements/HomogeneousNonvanishing/LatticesAgreeOfHeightOne.lean:75"]
+    mathlib: [Submodule.mem_span_range_iff_exists_fun, IsLocalization.exist_integer_multiples_of_finite]
+    needs: [f-geometry-proofs--reg-at-fraction-noetherian-closed, f-exists-point-localization-prime, f-quadratic-character-prescribed-places, f-global-geometry--is-cpt-gen, f-global-geometry--coords-at, concept-integral-closure-fraction-fields, concept-coordinate-rings-dimension]
+  - id: f-toric-varieties--krull-domain
+    title: Integral at height-one primes means integral
+    kind: step
+    status: explained
+    chunk: c0101
+    plain: >
+      Work in a ring A like the whole numbers: no zero-divisors, Noetherian, and integrally closed. The file proves two facts. First, every "associated prime" of A modulo a nonzero element b has height one. Roughly these are the primes that detect when something is divisible by b, and height one means no prime sits strictly between zero and it. Second, a fraction x that can be written with a denominator outside each height-one prime is already an element of A. The first uses Krull's principal ideal theorem. The second says: if x were not in A, the denominator b would leave a remainder detected at some such prime, a contradiction.
+    lean: ["GroundTheory/ArithmeticGeometry/ToricVarieties/KrullDomain.lean:73"]
+    mathlib: [Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes, exists_le_isAssociatedPrime_of_isNoetherianRing, IsIntegrallyClosed.isIntegral_iff]
+    needs: [concept-integral-closure-fraction-fields, concept-coordinate-rings-dimension, concept-prime-ideals-localization, concept-noetherian-and-irreducible-components]

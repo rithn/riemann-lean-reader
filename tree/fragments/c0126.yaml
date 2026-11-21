@@ -1,0 +1,80 @@
+nodes:
+  - id: f-lattice-generator-invert-constant
+    title: A rank-one lattice generator, spread out by inverting one constant
+    kind: step
+    status: explained
+    chunk: c0126
+    orphan: true
+    plain: >
+      This file states a "spreading out" result for a one-dimensional lattice
+      (a rank-one module of allowed values) over a base ring O, and gets it
+      by handing the work to the line-lattice-spread result. The claim: take a
+      number t that generates the lattice at every point over the generic
+      point (the point standing for the fraction field). Then t already
+      generates it at every point where some single nonzero element n of O is
+      invertible. Think of the integers: a statement true "away from finitely
+      many primes" can be turned into "true wherever one number N is
+      invertible". The proof is a direct citation, so all the real work is
+      in the cited file.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/GeometryProofs/LatticeGeneratorInvertConstant.lean:8
+    mathlib: []
+    needs: [f-line-lattice-spread, f-global-geometry--is-cpt-gen, concept-schemes-basics]
+  - id: f-geometry-proofs--stalk-closed-point-to-germ-top
+    title: A constant from the base ring is invertible exactly off the prime
+    kind: step
+    status: explained
+    chunk: c0126
+    plain: >
+      Take a scheme X (a space glued from rings) with a map to Spec O, the
+      space of prime ideals of a ring O, and a point coming from a field Ω.
+      The main result says an element o of O, viewed as a function on X, is
+      always allowed at each relevant point, and it is invertible there
+      exactly when o is not in the prime ideal that the point sits over.
+      Example: the number 5 is invertible at a point over the prime 3, but
+      not over the prime 5. The proof compares the value of a function at the
+      generic point with its value at a nearby point, using a few
+      commuting-diagram facts from Mathlib about germs (a function's
+      behaviour near a point).
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/GeometryProofs/StalkClosedPointToGermTop.lean:53
+    mathlib: [AlgebraicGeometry.Scheme.stalkClosedPointTo, AlgebraicGeometry.Scheme.germ_stalkClosedPointTo, AlgebraicGeometry.Scheme.ΓSpecIso]
+    needs: [f-geometry-proofs--zmod-torsor-base-change-transport-point, f-global-geometry--is-cpt-gen, concept-schemes-basics, concept-local-rings, concept-prime-ideals-localization]
+  - id: f-geometry-proofs--zmod-torsor-base-change-transport-point
+    title: Invertible at a point means the image of an invertible element
+    kind: step
+    status: explained
+    chunk: c0126
+    plain: >
+      This is a small helper fact. In the setting where the map from the
+      generic point is injective on the relevant rings, a nonzero element a
+      of the field is "invertible at point p" exactly when it is the image of
+      an element u that is invertible in the local ring there. In plain
+      words: a value is invertible at p if and only if it comes from an
+      honestly invertible local function. The proof just unpacks the
+      definition, multiplies by an inverse, and uses injectivity to move the
+      equation "u times v equals 1" back up. The file name does not match
+      its content.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/GeometryProofs/ZmodTorsorBaseChangeTransportPoint.lean:8
+    mathlib: []
+    needs: [f-global-geometry--is-cpt-gen, concept-local-rings, rings-fields]
+  - id: f-line-lattice-spread
+    title: Rank-one lattice generators spread to an open set
+    kind: step
+    status: explained
+    chunk: c0126
+    plain: >
+      Claim: over a nice (Noetherian, finite type) base, if a number t
+      generates a rank-one lattice at every point over the generic point,
+      then there is one nonzero element n of the base ring such that t
+      generates it wherever n is invertible. Proof idea in two parts. First,
+      a closed set made of finitely many irreducible pieces, each having a
+      generic point killed by some nonzero element, is killed by the product
+      of those elements. Second, the set of points where t generates the
+      lattice is open, so the bad set is closed, and the first part applies
+      to it.
+    lean:
+      - Development/WeilBound/CoreStatements/TorusUniformisation/ChowMahlerFamilies/LineLatticeSpread.lean:66
+    mathlib: [TopologicalSpace.NoetherianSpace.exists_finite_set_isClosed_irreducible, QuasiSober.sober, PrimeSpectrum.le_iff_specializes, Ideal.mul_mem_right]
+    needs: [f-geometry-proofs--stalk-closed-point-to-germ-top, f-geometry-proofs--zmod-torsor-base-change-transport-point, f-global-geometry--is-cpt-gen, f-global-geometry--is-line-gen-on, concept-noetherian-and-irreducible-components, concept-schemes-basics, concept-point-set-topology, concept-prime-ideals-localization]

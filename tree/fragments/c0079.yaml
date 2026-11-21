@@ -1,0 +1,110 @@
+nodes:
+  - id: f-foundations--curve-cl
+    title: Definitions - polynomials for flag-variety degree computations
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0079
+    plain: >
+      This file only gives definitions; nothing is proved. It works with real polynomials in
+      variables indexed by pairs (τ, i), where τ labels a block and i runs from 0 to N-1. It
+      defines power sums (add up the k-th powers of the variables of one block), low and high versions
+      that use only variables below or above a cut-off j, and two "functionals" built from sums of
+      partial derivatives. It also defines a Vandermonde-style product, a "wall set" of
+      parameters, and finally a polynomial called curveCl, a power of one linear form times a
+      product of variable powers. I could not tell from the file alone what geometric object curveCl represents.
+    lean: ["Development/AbelianVarietyTheory/Definitions/Foundations/CurveCl.lean:61"]
+    mathlib: [MvPolynomial, MvPolynomial.pderiv, Equiv.swap]
+    needs: [f-degree-formula--flag-deg-formula, polynomials, counting, concept-derivations-smoothness]
+  - id: f-exists-class-degree-one
+    title: A polynomial pairing to exactly one with the low power sum
+    kind: step
+    status: explained
+    chunk: c0079
+    plain: >
+      For a cut-off j between 1 and N-1, there is a homogeneous polynomial Q of degree one less than
+      the top degree, such that the "degree" functional applied to (low power sum times Q) equals
+      exactly 1. The degree functional picks out a signed sum of coefficients at special exponent
+      patterns. The proof takes the staircase monomial, whose degree is plus or minus one, and removes one variable from it
+      to get Q. Every other term of the low power sum then gives a monomial with a repeated exponent,
+      and the functional is zero on those. Two helper facts record the staircase value and that vanishing.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsClassDegreeOne.lean:39"]
+    mathlib: [MvPolynomial.isHomogeneous_monomial, Finsupp.single_le_iff]
+    needs: [f-degree-formula--flag-deg-formula, f-point-degree--perm-exp-inj, f-point-degree--pow-sum, f-foundations--curve-cl, polynomials]
+  - id: f-limits-of-shift-functionals
+    title: Two coefficient sequences converge if their combination does
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0079
+    plain: >
+      Take two sequences of real numbers a(B) and b(B). Suppose that for every homogeneous polynomial
+      F of the right degree (top degree plus one), the combination "a(B) times one functional of F
+      plus b(B) times another" has a limit as B grows. Then a(B) and b(B) each converge on their own.
+      The proof tests with two chosen polynomials. One, the square power sum times Q, isolates a,
+      giving a limit of twice a. The other, built from the first power sum, gives an equation in
+      N times b plus a known multiple of a. Solve for b and use the limits of sums and quotients.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/LimitsOfShiftFunctionals.lean:24"]
+    mathlib: [Filter.Tendsto, Filter.Tendsto.div_const, Filter.Tendsto.mul_const]
+    needs: [f-shift-functional-power-sum, f-exists-class-degree-one, f-foundations--curve-cl, f-degree-formula--flag-deg-formula, calculus, real-analysis]
+  - id: f-shift-functional-power-sum
+    title: How the shift and total functionals act on a power sum times Q
+    kind: step
+    status: explained
+    chunk: c0079
+    plain: >
+      Multiply a polynomial Q by the k-th power sum of one block of variables. The file computes
+      two functionals of the product. The shift functional gives k times the degree of (low power sum
+      of order k-1 times Q) when the blocks match, and zero otherwise. The total functional gives N
+      times the degree of Q only when the blocks match and k = 1, and zero otherwise. The proof
+      uses the product rule for derivatives. The derivative of a power sum is k times a lower power
+      sum, and the other product-rule term has degree zero by the power-sum vanishing rule.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ShiftFunctionalPowerSum.lean:51"]
+    mathlib: [MvPolynomial.pderiv, Derivation.leibniz, Derivation.leibniz_pow]
+    needs: [f-point-degree--pow-sum, f-foundations--curve-cl, f-degree-formula--flag-deg-formula, concept-derivations-smoothness, polynomials]
+  - id: f-degree-formula--flag-deg-formula
+    title: The degree functional, and the flag degree formula (stated, not proved)
+    kind: step
+    status: explained
+    chunk: c0079
+    plain: >
+      This file mostly states claims and proves none of them. It defines the "degree" of a
+      polynomial in variables (τ, i): a signed sum, over all tuples of permutations, of the
+      coefficient at an exponent pattern built from the permutation. It defines linear forms, and "flagDeg" as the degree of a
+      power of such a form. The main claim, FlagDegFormula, says flagDeg equals a factorial times a
+      Weyl-type product of differences divided by gaps. Six more claims are stated as well: sign
+      change under swaps, vanishing on power sums, value on a point, multiplicativity, vanishing on elementary
+      symmetric polynomials, and vanishing off the top degree. Other files prove some of these.
+    lean: ["Formalism/DegreeFormula/FlagDegFormula.lean:27", "Formalism/DegreeFormula/FlagDegFormula.lean:14"]
+    mathlib: [Equiv.Perm.sign, MvPolynomial.coeff, Nat.factorial]
+    needs: [groups, polynomials, counting, linear-algebra]
+  - id: f-point-degree--perm-exp-inj
+    title: The "point" degree equals one, so the staircase is normalized
+    kind: step
+    status: explained
+    chunk: c0079
+    plain: >
+      This file proves one of the claims stated in the flag degree file. The "degree" of the staircase
+      polynomial, the product over all variables of (minus X) raised to (N-1-i), equals 1. The proof
+      has three steps. A helper shows two tuples of permutations with the same exponent pattern
+      are equal, so exponents determine permutations. Another computes that the exponents add up
+      to N(N-1)/2 per block. The main step shows only the identity permutation contributes, with sign
+      plus one, and the two minus-one factors cancel. It also restates the result under a second name.
+    lean: ["Formalism/DegreeFormula/PointDegree/PermExpInj.lean:34", "Formalism/DegreeFormula/PointDegree/PermExpInj.lean:8"]
+    mathlib: [Finset.sum_range_id, Finset.prod_mul_distrib, MvPolynomial.coeff_monomial]
+    needs: [f-degree-formula--flag-deg-formula, groups, polynomials, counting]
+  - id: f-point-degree--pow-sum
+    title: The degree functional kills power sums, and vanishes off the top degree
+    kind: step
+    status: explained
+    chunk: c0079
+    plain: >
+      This file proves three of the claims stated in the flag degree file. First, the degree of a
+      homogeneous polynomial is zero unless its degree is the top one. Second, the degree of (power
+      sum times anything) is zero. The idea: split the signed sum by which variable index is
+      involved, then pair up terms by swapping two positions, which flips the sign, so each slice
+      cancels to zero. Third, the same holds for elementary symmetric polynomials, deduced from the power
+      sums through Newton's identity. Helpers show the degree is additive and pulls out constants.
+    lean: ["Formalism/DegreeFormula/PointDegree/PowSum.lean:141", "Formalism/DegreeFormula/PointDegree/PowSum.lean:168", "Formalism/DegreeFormula/PointDegree/PowSum.lean:46"]
+    mathlib: [Equiv.Perm.sign_swap, Fintype.sum_equiv, MvPolynomial.mul_esymm_eq_sum, MvPolynomial.coeff_monomial_mul']
+    needs: [f-degree-formula--flag-deg-formula, f-point-degree--perm-exp-inj, groups, polynomials, counting]

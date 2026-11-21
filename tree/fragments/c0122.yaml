@@ -1,0 +1,143 @@
+nodes:
+  - id: f-period-integrals--zeros-window
+    title: What "few zeros in a window" means
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This file only gives definitions, with no proofs. For a Dirichlet character chi of modulus N (a periodic pattern of complex
+      numbers used to build an L-function) and a height t, it names the set of zeros of the L-function that lie in the critical
+      strip (real part strictly between 0 and 1) and whose imaginary part is within 1 of t. A "zeros window" bound with constant C
+      then says this set is finite, and the number of zeros in it, counted with multiplicity, is at most C times the logarithm
+      of N times (|t| + 2). It is required for every primitive character. The final definition just says some positive C works.
+    lean: ["Formalism/PeriodIntegrals/ZerosWindow.lean:7", "Formalism/PeriodIntegrals/ZerosWindow.lean:10", "Formalism/PeriodIntegrals/ZerosWindow.lean:16"]
+    mathlib: [DirichletCharacter.LFunction, analyticOrderNatAt]
+    needs: [dirichlet-l-function, primitive-characters, dirichlet-characters, rh-statement, complex-analysis]
+  - id: f-period-integrals--zeros-window-in
+    title: Three size bounds on L-functions, stated as assumptions
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This file only states three claims as definitions and proves none of them. Each is a size bound to the right of the
+      critical strip's left edge. The first says that for a non-trivial character chi, the L-function is at most 1 plus
+      2 times (q + 1) times (1 + |s| over the real part of s). The second says the same kind of bound for the Riemann zeta function
+      away from its pole at 1. The third says that for real part above 1, one over the size of the L-function is at most
+      Re s divided by (Re s - 1). Later files take these as hypotheses, so any conclusion reached from them is conditional here.
+    lean: ["Formalism/PeriodIntegrals/ZerosWindowIn.lean:5", "Formalism/PeriodIntegrals/ZerosWindowIn.lean:9", "Formalism/PeriodIntegrals/ZerosWindowIn.lean:12"]
+    mathlib: [DirichletCharacter.LFunction, riemannZeta]
+    needs: [dirichlet-l-function, zeta-series, analytic-continuation, dirichlet-characters]
+  - id: f-right-half-with
+    title: Definitions for counting zeros in the right half
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This file only states definitions, nothing is proved. It names the zeros in the right half of the window (real part from
+      one half up to 1, imaginary part within 1 of t). It then defines "right-half bound" claims: the number of such zeros is
+      finite and at most a constant times log(N(|t|+2)). There are variants for non-trivial characters and for modulus 1 (the
+      zeta function). It also states two ingredients as claims: Transfer says a zero at rho forces a zero of the conjugate
+      character at 1 - rho, with at least the same multiplicity. JensenCount says a bounded analytic function on a disc has
+      few zeros in a slightly smaller disc.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/RightHalfWith.lean:11", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/RightHalfWith.lean:36", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/RightHalfWith.lean:43"]
+    mathlib: [DirichletCharacter.LFunction, analyticOrderNatAt]
+    needs: [f-period-integrals--zeros-window, f-period-integrals--zeros-window-in, dirichlet-l-function, complex-analysis, primitive-characters]
+  - id: f-jensen
+    title: Few zeros in a disc, from Jensen's formula
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This file proves the "JensenCount" claim stated earlier. Take a function f that is analytic (smoothly differentiable in the
+      complex sense) on a disc of radius 1.9 around c, with f(c) not zero and |f| at most M on the boundary circle. Then the
+      zeros inside the smaller disc of radius 1.85, counted with multiplicity, number at most log(M / |f(c)|) divided by
+      log(38/37). The idea is Jensen's formula: the average of log|f| around the circle equals log|f(c)| plus a sum over zeros,
+      and each zero in the smaller disc contributes at least log(38/37). The average is at most log M, which gives the bound.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/Jensen.lean:26"]
+    mathlib: [AnalyticOnNhd.circleAverage_log_norm, MeromorphicOn.divisor, Real.circleAverage_mono_on_of_le_circle]
+    needs: [f-right-half-with, complex-analysis, real-analysis, calculus]
+  - id: f-right-chi
+    title: Zeros in the right half for non-trivial characters
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This file proves the right-half zero bound for non-trivial characters, assuming the Jensen disc-counting claim as a hypothesis.
+      It also assumes the upper bound and inverse bound on L-functions from the earlier definitions file. The idea is to apply the
+      disc count to the L-function on a disc centred at 2 + it. At that centre the function is not small (its size is at least
+      one half, from the inverse bound), and on the circle it is at most a polynomial in N and |t| (from the upper bound). Taking
+      logs gives a count of at most 9 over log(38/37) times log(N(|t|+2)). Elementary inequalities finish the job.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/RightChi.lean:47"]
+    mathlib: [DirichletCharacter.LFunction_ne_zero_of_one_le_re, DirichletCharacter.differentiable_LFunction, Real.log_le_log]
+    needs: [f-right-half-with, f-period-integrals--zeros-window-in, dirichlet-l-function, complex-analysis, real-analysis]
+  - id: f-right-one
+    title: Zeros in the right half for the zeta function
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This is the same argument as for non-trivial characters, but for the Riemann zeta function (modulus 1). It assumes the
+      disc-counting claim and the two zeta bounds. Zeta has a pole at 1, which would break the disc argument, so the file
+      works with (s - 1) times zeta(s). That is analytic everywhere, has the same zeros away from 1 and the same multiplicities,
+      and equals 1 at s = 1. It is at least one half in size at the disc centre 2 + it and at most 13(|t|+5)^2 on the
+      circle. The disc count then gives at most 11 over log(38/37) times log(|t| + 2).
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/RightOne.lean:41"]
+    mathlib: [riemannZeta_ne_zero_of_one_lt_re, differentiableAt_riemannZeta, analyticOrderAt_mul, DirichletCharacter.differentiable_LFunctionTrivChar₁]
+    needs: [f-right-half-with, f-period-integrals--zeros-window-in, zeta-series, analytic-continuation, complex-analysis]
+  - id: f-zero-window--transfer
+    title: Zeros reflect across the critical line
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This file proves the "Transfer" claim. If a primitive character chi has a zero at rho in the critical strip, then the
+      conjugate character has a zero at 1 - rho, with at least the same multiplicity. The proof uses the functional equation,
+      which relates L(chi, s) to L(conjugate chi, 1 - s) times a product of an N-power, a root number and two Gamma factors.
+      On the strip, the Gamma factors are never zero, nor is the root number or the N-power. So the multiplying factor is analytic and
+      non-vanishing, and the two orders of vanishing agree.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/Transfer.lean:48"]
+    mathlib: [DirichletCharacter.LFunction_eq_completed_div_gammaFactor, analyticOrderAt_comp_of_deriv_ne_zero, Complex.Gammaℝ_ne_zero_of_re_pos]
+    needs: [f-right-half-with, functional-equation-dirichlet, primitive-characters, factors-nonzero, gamma-function, complex-powers, complex-analysis]
+  - id: f-finsum-mem-le-finsum-mem
+    title: From the right half to the whole window
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      The main theorem here takes a right-half zero bound and the Transfer claim as hypotheses, and gives a bound on all zeros in the
+      window, with the constant doubled. Zeros with real part below one half are reflected to 1 - rho, which lands in the right
+      half for the conjugate character, and Transfer says multiplicity does not drop. So the left count is at most the right
+      count for the conjugate character at height -t. Adding the two halves gives twice the bound. Small lemmas on sums over
+      finite sets are included. A second theorem merges the non-trivial and modulus-1 cases by taking the larger constant.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/FinsumMemLeFinsumMem.lean:32", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/FinsumMemLeFinsumMem.lean:81"]
+    mathlib: [finsum_mem_union, finsum_mem_image, Finset.sum_le_sum_of_subset_of_nonneg]
+    needs: [f-right-half-with, f-period-integrals--zeros-window, primitive-characters, dirichlet-l-function, counting]
+  - id: f-zero-window--assemble
+    title: Putting the zero-window bound together
+    kind: step
+    status: explained
+    chunk: c0122
+    plain: >
+      This file proves a conditional result. Assume the Transfer claim. Then the three L-function size bounds from the earlier
+      file together imply the zeros window bound. The bound for right-half non-trivial characters and for zeta are first obtained
+      by feeding in the Jensen disc count. Since the constants may be smaller than 1, they are replaced by their
+      maximum with 1, and the log factor is known to be non-negative. Then the file combines them into one right-half bound
+      and uses the reflection step to cover the full window. The three size bounds themselves are assumed, not proved here.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ZeroWindow/Assemble.lean:11"]
+    mathlib: [Real.log_nonneg]
+    needs: [f-right-chi, f-right-one, f-jensen, f-finsum-mem-le-finsum-mem, f-right-half-with, f-period-integrals--zeros-window, f-period-integrals--zeros-window-in]
+  - id: f-orbital-bounds-conclusion--zeros-window
+    title: The zero-window conclusion
+    kind: step
+    status: explained
+    chunk: c0122
+    orphan: true
+    plain: >
+      This is a one-line conditional statement. It says: if the three size bounds on L-functions hold (the upper bound for
+      non-trivial characters, the upper bound for zeta, and the inverse bound for real part above 1), then the zeros window
+      bound holds, meaning each unit-height window of the critical strip has at most a constant times log(N(|t|+2)) zeros.
+      The three bounds are hypotheses here, not proved by this file. The proof just feeds them, together with the previously proved
+      Transfer reflection claim, into the assembly theorem.
+    lean: ["Formalism/PeriodIntegrals/OrbitalBoundsConclusion/ZerosWindow.lean:7"]
+    mathlib: []
+    needs: [f-zero-window--assemble, f-zero-window--transfer, f-period-integrals--zeros-window, f-period-integrals--zeros-window-in]

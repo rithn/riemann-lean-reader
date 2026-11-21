@@ -1,0 +1,20 @@
+nodes:
+
+- id: f-weighted-orbit-sum-eq-pair-orbit-sum
+  title: "Two ways to total a function over a group action agree"
+  kind: step
+  status: explained
+  chunk: c0012
+  plain: >
+    This file proves a counting identity, using three sibling results. A group acts on
+    a set Y, and F gives a complex number for each pair (y, g), unchanged when y is
+    moved and g is conjugated by the same group element. Total it two ways. Way one is
+    to take one y from each orbit and add 1/(size of its stabilizer, the elements that
+    leave y fixed) times the sum of F over all g. Way two is to take one pair (y, g)
+    from each orbit of pairs and add 1/(its stabilizer size) times F. The claim says the
+    totals agree, if stabilizers are finite and only finitely many terms are nonzero.
+    The proof compares stabilizers, groups pairs by y, then uses orbit counting.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/WeightedOrbitSumEqPairOrbitSum.lean:56]
+  mathlib: [Subgroup.card_map_of_injective, MulAction.stabilizer, MulAction.orbitRel, finsum_congr]
+  needs: [f-stabilizer-eq-centralizer, f-finsum-orbit-rel-fibred-equivariant, f-finsum-orbits-inv-stabilizer-card-mass, f-finite-support-stabilizer-weighted-pair-term, concept-group-actions, groups, counting, complex-numbers]
+  orphan: true

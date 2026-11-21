@@ -1,0 +1,72 @@
+nodes:
+  - id: f-divisor-proofs--div-fractions-bilinear-formula
+    title: Averages over the sphere do not change when the matrix is rotated
+    kind: step
+    status: explained
+    chunk: c0048
+    plain: >
+      This file proves that a certain average is unchanged by a unitary rotation. Take a 2 by 2 complex matrix H. Form a quantity qMat that mixes its four entries according to a point x of the plane (think of the plane as a sphere with one point removed). Then the k-th power of that quantity, averaged with the sphere's standard density, is the same for H and for U times H times U-conjugate-transpose. The proof rests on a change-of-variables formula for Möbius maps x to (c plus d x) over (a plus b x) on the plane, plus algebra identities.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/DivFractionsBilinearFormula.lean:107, Development/AbelianVarietyTheory/Proofs/DivisorProofs/DivFractionsBilinearFormula.lean:26, Development/AbelianVarietyTheory/Proofs/DivisorProofs/DivFractionsBilinearFormula.lean:102]
+    mathlib: [integral_image_eq_integral_abs_det_fderiv_smul, HasDerivAt.div, Matrix.unitaryGroup]
+    needs: [f-divisor-proofs--h-poly-add-two, concept-hermitian-unitary-matrices, complex-numbers, calculus, real-analysis, linear-algebra]
+  - id: f-fibre-cosine-explicit-formula
+    title: Cosine and density in explicit Möbius form
+    kind: step
+    status: explained
+    chunk: c0048
+    plain: >
+      This file proves a formula. Take a positive definite 2 by 2 complex matrix G, a Hermitian matrix with all eigenvalues positive. At each point x of the plane, two numbers are defined, called cos and fs. The file shows both are given by a simple pattern. Substitute a Möbius-style fractional change y equals c times x over (1 plus beta times x). Then cos becomes 1 over (1 plus the size of y squared). And fs becomes a Jacobian factor times the standard sphere density. The proof is direct algebra with squared sizes of complex numbers.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FibreCosineExplicitFormula.lean:10]
+    mathlib: [Matrix.PosDef, Complex.pos_iff, Matrix.det_fin_two]
+    needs: [f-divisor-proofs--fs-one, concept-hermitian-unitary-matrices, complex-numbers, linear-algebra, real-analysis]
+  - id: f-fibre-cosine-pushforward-uniform
+    title: The cosine is uniformly distributed on 0 to 1
+    kind: step
+    status: explained
+    chunk: c0048
+    plain: >
+      This file proves that a random quantity is uniform. Take a positive definite 2 by 2 complex matrix G. At each point x of the plane, cos G x is a number between 0 and 1, and fs G x is a probability density. Integrating the density over all x where cos lands in a set J gives the length of J intersected with the interval 0 to 1. So cos is uniform on that interval, like a fair spinner. The proof combines three earlier results. They are the explicit formula, the Möbius change of variables, and the stereographic measure change.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FibreCosinePushforwardUniform.lean:13]
+    mathlib: [MeasureTheory.lintegral_congr_ae, MeasureTheory.lintegral_indicator_const, Ioo_ae_eq_Icc]
+    orphan: true
+    needs: [f-fibre-cosine-explicit-formula, f-divisor-proofs--mobius-change-of-variables, f-divisor-proofs--stereographic-measure-change, f-divisor-proofs--fs-one, counting, real-analysis, calculus]
+  - id: f-divisor-proofs--fs-one
+    title: Definitions of the norm, cosine and density for a 2 by 2 matrix
+    kind: step
+    status: explained
+    chunk: c0048
+    plain: >
+      This file only gives three definitions and proves nothing. Start with a 2 by 2 complex matrix G and a point x of the plane. The first definition, nrm, evaluates the matrix on the vector (1, x), giving a real number. The second, cos, is the squared size of G's first column combination divided by G's top-left entry times nrm, a number that behaves like a squared cosine of an angle. The third, fs, is the determinant of G divided by pi times nrm squared, a density over the plane.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FsOne.lean:11, Development/AbelianVarietyTheory/Proofs/DivisorProofs/FsOne.lean:14, Development/AbelianVarietyTheory/Proofs/DivisorProofs/FsOne.lean:17]
+    mathlib: []
+    needs: [complex-numbers, linear-algebra, concept-hermitian-unitary-matrices, trigonometry]
+  - id: f-divisor-proofs--h-poly-add-two
+    title: Definitions behind the sphere average, and a three-term recursion
+    kind: step
+    status: explained
+    chunk: c0048
+    plain: >
+      This file gives definitions and three one-line facts about them. The density fsDens is 1 over pi times (1 plus size of x squared) squared, the standard density on the plane for the sphere. The point x gives the vector (1, x), and qMat mixes a matrix's entries by this vector. A family of polynomials hPoly starts as 1 and then X0, and follows hPoly(k+2) equals X0 times hPoly(k+1) minus X1 times hPoly(k). That is the same pattern as Chebyshev polynomials. The three facts hold by unfolding the definitions.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/HPolyAddTwo.lean:34, Development/AbelianVarietyTheory/Proofs/DivisorProofs/HPolyAddTwo.lean:11, Development/AbelianVarietyTheory/Proofs/DivisorProofs/HPolyAddTwo.lean:20]
+    mathlib: [MvPolynomial]
+    needs: [polynomials, complex-numbers, linear-algebra, real-analysis]
+  - id: f-divisor-proofs--mobius-change-of-variables
+    title: A Möbius change of variables on the plane, with the right Jacobian weight
+    kind: step
+    status: explained
+    chunk: c0048
+    plain: >
+      This file proves a change-of-variables rule. Take a nonzero complex number c and a number beta. The map x to c times x over (1 plus beta times x) wraps the plane around itself, like a fractional-linear map. The rule says that integrating a nonnegative function H over the image equals integrating H of the map, weighted by the squared size of the map's complex derivative. The proof shows the map is injective and differentiable away from one bad point, so a general Mathlib change-of-variables result applies. The missing point has measure zero.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/MobiusChangeOfVariables.lean:13]
+    mathlib: [MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul, HasDerivAt.div, HasDerivAt.complexToReal_fderiv]
+    needs: [f-divisor-proofs--div-fractions-bilinear-formula, complex-numbers, calculus, real-analysis]
+  - id: f-divisor-proofs--stereographic-measure-change
+    title: The sphere density pushes forward to a uniform measure on 0 to 1
+    kind: step
+    status: explained
+    chunk: c0048
+    plain: >
+      This file proves a two-dimensional integral can be reduced to one dimension. The density used is 1 over pi times (1 plus r squared) squared at distance r from the origin in the plane. A quantity g is evaluated at 1 over (1 plus r squared). The result says the whole-plane integral equals the plain integral of g over the interval from 0 to 1. The proof switches to polar coordinates, pulls out the angle (a factor of two pi), and then substitutes t equals 1 over (1 plus r squared). That single-variable change makes the density collapse to 1.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/StereographicMeasureChange.lean:12]
+    mathlib: [Complex.lintegral_comp_polarCoord_symm, MeasureTheory.lintegral_image_eq_lintegral_abs_deriv_mul, MeasureTheory.lintegral_prod_mul]
+    needs: [calculus, real-analysis, complex-numbers, trigonometry]

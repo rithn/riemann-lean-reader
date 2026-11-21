@@ -1,0 +1,183 @@
+nodes:
+  - id: concept-adic-completion
+    title: "Adic completion: approximating by ever higher powers of an ideal"
+    kind: concept
+    status: textbook
+    plain: >
+      Take a ring R and an ideal I. Two numbers are "close" if their
+      difference lies in a high power of I, like integers that agree modulo
+      p^100 are close p-adically. The I-adic completion is the ring of
+      infinite approximation sequences: a number mod I, a number mod I², a
+      number mod I³, and so on, each agreeing with the previous one. The
+      p-adic integers are the completion of the integers at the prime p. A ring
+      equal to its own completion is called complete. For a local ring the
+      natural choice of I is the maximal ideal.
+    needs: [concept-local-rings, concept-prime-ideals-localization, p-adic-numbers, rings-fields]
+    learn:
+      - {title: "Atiyah and Macdonald, Introduction to Commutative Algebra", where: "ch. 10"}
+  - id: f-uniformization-proofs--exists-graded-ring-kernel-lift
+    title: "A Noetherian ring in which solutions of matrix equations lift one power of I higher"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      This proves a technical statement and defines the Rees shift ideal. For
+      a Noetherian ring R (every ideal finitely generated) and an ideal I, it
+      builds a Noetherian ring S out of the Rees algebra (polynomials whose
+      n-th coefficient lies in I^n) modulo a shifted ideal. It then proves a
+      lifting property: if a chain of matrices D1·D0 = 0 is exact over S, any
+      solution of D0·v = 0 mod I^(e+1) lifts to a solution mod I^(e+2). The
+      proof places the error terms as degree e+1 monomials in the Rees algebra
+      and reads off the correction.
+    lean: ["Development/AbelianVarietyTheory/Proofs/UniformizationProofs/ExistsGradedRingKernelLift.lean:7", "Development/AbelianVarietyTheory/Proofs/UniformizationProofs/ExistsGradedRingKernelLift.lean:30"]
+    mathlib: ["Polynomial.reesAlgebra", "Ideal.Quotient.mk_surjective"]
+    needs: [concept-adic-completion, concept-noetherian-and-irreducible-components, polynomials, linear-algebra]
+  - id: f-moduli-proofs--is-noetherian-ring-of-is-adic-complete
+    title: "An I-adically complete ring with Noetherian R/I is Noetherian"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      A ring is Noetherian if every ideal has finitely many generators. This
+      proves: if R is complete for the ideal I, I is finitely generated, and
+      R/I is Noetherian, then R is Noetherian. The idea is to take an ideal J
+      and use the Rees algebra, whose graded quotient is Noetherian, to find
+      finitely many "leading generators" of J layer by layer. Each element g
+      of J is then peeled off, one power of I at a time. Completeness lets
+      these infinitely many corrections add up, showing g is a finite
+      combination of the generators.
+    lean: ["Development/AbelianVarietyTheory/Proofs/ModuliProofs/IsNoetherianRingOfIsAdicComplete.lean:152", "Development/AbelianVarietyTheory/Proofs/ModuliProofs/IsNoetherianRingOfIsAdicComplete.lean:34", "Development/AbelianVarietyTheory/Proofs/ModuliProofs/IsNoetherianRingOfIsAdicComplete.lean:82"]
+    mathlib: ["IsAdicComplete", "Algebra.FiniteType.isNoetherianRing", "Polynomial.reesAlgebra"]
+    needs: [f-uniformization-proofs--exists-graded-ring-kernel-lift, concept-adic-completion, concept-noetherian-and-irreducible-components, concept-finitely-generated-algebras]
+  - id: f-iwasawa-decomposition--is-noetherian-ring-adic-completion-of-noetherian
+    title: "The adic completion of a Noetherian ring is Noetherian"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      This proves that if R is Noetherian (every ideal finitely generated),
+      then its completion at any ideal I is also Noetherian. This is a
+      classical fact. The idea: the completion is complete for the extended
+      ideal, and modulo that ideal it looks like R/I, which is Noetherian as a
+      quotient of a Noetherian ring. The previous result, that a complete
+      ring with Noetherian quotient is Noetherian, then finishes the proof.
+      The file mainly checks that these hypotheses hold.
+    lean: ["Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/IsNoetherianRingAdicCompletionOfNoetherian.lean:8"]
+    mathlib: ["AdicCompletion.isAdicComplete_self", "AdicCompletion.ker_evalOneₐ_eq_map"]
+    needs: [f-moduli-proofs--is-noetherian-ring-of-is-adic-complete, concept-adic-completion, concept-noetherian-and-irreducible-components]
+  - id: f-algebra-tools--is-cpl-at-self
+    title: "Definition of 'B is the completion of R at the prime p'"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      This file gives definitions, plus one tiny proof. It lists five
+      properties that a local ring B (with a map from R) must have to count as
+      "the completion of R at the prime p": B is Noetherian, B is complete for
+      its maximal ideal, the maximal ideal pulls back to p, every element of B
+      is approximated to any precision by a fraction a/s of R with s outside
+      p, and powers of the maximal ideal pull back nicely. The proved bit is
+      that p is then prime. A concrete model, the completion of R localized at
+      p, is also defined.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/IsCplAtSelf.lean:7", "Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/IsCplAtSelf.lean:21"]
+    mathlib: ["IsAdicComplete", "AdicCompletion", "Localization.AtPrime"]
+    needs: [concept-adic-completion, concept-local-rings, concept-prime-ideals-localization, concept-noetherian-and-irreducible-components]
+  - id: f-algebra-tools--ca-cpl-ex
+    title: "The concrete completion really satisfies the definition"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      This proves that the concrete model (localize R at the prime p, then
+      complete) satisfies all five properties of "completion of R at p". It
+      uses the fact that the completion of a Noetherian ring is Noetherian
+      for the first property. For approximation, any element of the completion
+      is close to an element of the local ring, which is a fraction of R. For
+      the last property, it clears denominators, passes from an element of the
+      completion to one of the local ring, and then back to R.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/CaCplEx.lean:33"]
+    mathlib: ["AdicCompletion.pow_smul_top_eq_ker_eval", "IsLocalization.mk'_surjective", "IsLocalization.eq_iff_exists"]
+    needs: [f-algebra-tools--is-cpl-at-self, f-iwasawa-decomposition--is-noetherian-ring-adic-completion-of-noetherian, concept-adic-completion, concept-prime-ideals-localization, concept-local-rings]
+  - id: f-algebra-tools--ca-cpl-map
+    title: "Powers of p extend to powers of the maximal ideal of the completion"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      Let B be a completion of R at the prime p. This proves that p^n, pushed
+      into B, generates exactly the n-th power of B's maximal ideal. The
+      first step is the case n = 1: p extends to the maximal ideal. One
+      direction is clear. For the other, it uses Nakayama's lemma (if an ideal
+      of a Noetherian local ring equals itself times the maximal ideal plus
+      something, then the pieces must agree). Every element of the maximal
+      ideal is a unit times a combination of p and an element of the square.
+      Raising to the n-th power finishes the claim.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/CaCplMap.lean:6"]
+    mathlib: ["Submodule.le_of_le_smul_of_le_jacobson_bot", "Ideal.map_pow", "IsLocalRing.jacobson_eq_maximalIdeal"]
+    needs: [f-algebra-tools--is-cpl-at-self, concept-local-rings, concept-noetherian-and-irreducible-components]
+  - id: f-algebra-tools--ca-cpl-lift
+    title: "Maps out of R extend uniquely to the completion, if the target is complete"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      Let B be a completion of R at the prime p, and C a complete local ring
+      with a ring map φ from R that sends exactly p to the maximal ideal. This
+      proves φ extends to a map B to C in exactly one way. The idea: for each
+      precision n, send a/s to φ(a) divided by φ(s) (which makes sense
+      because s is outside p, so φ(s) is a unit). Show it does not depend on
+      the choice of fraction. These maps fit together as n grows, so
+      completeness of C glues them. Uniqueness comes from the same
+      approximations.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/CaCplLift.lean:78"]
+    mathlib: ["IsAdicComplete.liftRingHom", "IsAdicComplete.eq_liftRingHom", "Ideal.Quotient.factorPow"]
+    needs: [f-algebra-tools--ca-cpl-map, f-algebra-tools--is-cpl-at-self, concept-adic-completion, concept-local-rings, concept-hensel-lifting]
+  - id: f-algebra-tools--ca-cpl-uniq
+    title: "Any two completions of R at p are isomorphic"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      If B and B' both satisfy the definition of "completion of R at p", this
+      proves there is a ring isomorphism between them that respects the map
+      from R. The idea is the standard universal-property argument. By the
+      lifting result there is a map B to B' and a map back, each compatible
+      with R. Their composites in either order are maps that agree with the
+      identity on R. By the uniqueness half of the lifting result, each
+      composite is the identity. So the two maps are inverse to each other.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/CaCplUniq.lean:7"]
+    mathlib: ["AlgEquiv.ofRingEquiv", "RingEquiv.ofRingHom"]
+    needs: [f-algebra-tools--ca-cpl-lift, f-algebra-tools--is-cpl-at-self, concept-adic-completion]
+  - id: f-algebra-tools--ca-cpl-flat
+    title: "The completion of R at p is flat over R"
+    kind: step
+    status: explained
+    chunk: c0100
+    plain: >
+      Flat means that tensoring with it keeps injections injective, a good
+      behaviour that makes it "not lose information". This proves any
+      completion B of R at p is flat over R. The idea: the concrete model is
+      flat over the local ring at p, because a completion of a Noetherian ring
+      is flat; and the local ring is flat over R, because localization is. A
+      composite of flat maps is flat. Since any two completions are
+      isomorphic, B inherits flatness from the model.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/CaCplFlat.lean:8"]
+    mathlib: ["AdicCompletion.flat_of_isNoetherian", "Module.Flat.trans", "Module.Flat.of_linearEquiv"]
+    needs: [f-algebra-tools--ca-cpl-uniq, f-algebra-tools--ca-cpl-ex, concept-flat-modules, concept-adic-completion]
+  - id: f-ca-cpl-spec
+    title: "Primes below p lift to the completion, and kernel elements die after clearing denominators"
+    kind: step
+    status: explained
+    chunk: c0100
+    orphan: true
+    plain: >
+      Two properties of a completion B of R at the prime p. First, every
+      prime ideal q of R contained in p is the pullback of a prime ideal of B
+      (the primes of R "below" p all show up in B). Second, if an element a of
+      R becomes zero in B, then some s outside p kills a (s·a = 0). For the
+      first, flatness gives a prime above q inside the maximal ideal. For the
+      second, a lies in every power of the maximal ideal after localizing, and
+      in a Noetherian local ring the intersection of those powers is zero.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/AlgebraTools/CaCplSpec.lean:7"]
+    mathlib: ["Ideal.exists_ideal_le_liesOver_of_le", "Ideal.iInf_pow_eq_bot_of_isLocalRing", "IsLocalization.map_eq_zero_iff"]
+    needs: [f-algebra-tools--ca-cpl-flat, f-algebra-tools--is-cpl-at-self, concept-prime-ideals-localization, concept-local-rings, concept-flat-modules]

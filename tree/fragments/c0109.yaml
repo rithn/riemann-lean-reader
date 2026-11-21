@@ -1,0 +1,194 @@
+nodes:
+  - id: f-exists-derivations-dual-to-family-of-nilpotent-aug
+    title: Correcting approximate derivations into exact dual ones
+    kind: step
+    status: explained
+    chunk: c0109
+    plain: >
+      A derivation is a rule D that obeys the product rule, like differentiation. Suppose ε sends the
+      algebra A to the field k, and its kernel is nilpotent (some power of it is zero). Suppose x_1,
+      ..., x_d are elements and D_1, ..., D_d are derivations that are "dual up to ε", meaning that ε of D_i
+      applied to x_j is 1 if i = j and 0 otherwise. Then you can combine the D_i into new derivations E_i
+      that are dual exactly: E_i of x_j is 1 or 0. The proof forms the matrix M of D_i(x_j). Its
+      determinant is 1 plus something nilpotent, so it is invertible. Then multiply by M inverse.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsDerivationsDualToFamilyOfNilpotentAug.lean:4
+    mathlib:
+      - Matrix.nonsing_inv_mul
+      - RingHom.map_det
+      - IsNilpotent.isUnit_one_add
+    needs:
+      - concept-derivations-smoothness
+      - linear-algebra
+      - rings-fields
+
+  - id: f-exists-generators-dual-point-derivations-augmented
+    title: Generators of a finite algebra with matching point derivations
+    kind: step
+    status: explained
+    chunk: c0109
+    plain: >
+      Let A be an algebra of finite dimension over a field k, with ε a map from A to k whose kernel I is
+      nilpotent. This file builds elements x_1, ..., x_d that generate A as an algebra, together with
+      linear maps l_i that satisfy the product rule at the point ε and send x_j to 1 if i = j, and
+      0 otherwise. The idea is to look at I modulo I squared, a finite-dimensional vector space.
+      Choose a basis, lift it to elements x_j, and let l_i read off coordinates. An
+      induction over powers of I shows the x_j generate everything, since a high enough power of I is zero.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsGeneratorsDualPointDerivationsAugmented.lean:6
+    mathlib:
+      - Module.finBasis
+      - Algebra.adjoin
+      - Submodule.mem_sup
+    needs:
+      - concept-derivations-smoothness
+      - concept-finitely-generated-algebras
+      - linear-algebra
+      - rings-fields
+
+  - id: f-exists-invariant-derivation-of-counital-comul
+    title: A point derivation extends to a full derivation using the coproduct
+    kind: step
+    status: explained
+    chunk: c0109
+    plain: >
+      Suppose the algebra A has a coproduct, a ring map from A to the tensor product of A with itself,
+      with the counit property: applying ε to one side gives A back. This is the kind of
+      structure a group's functions have. Take a linear map l that obeys the product rule only at the point
+      ε. The result says l extends to an honest derivation D with ε of D(a) equal to l(a). The
+      recipe is D(a) = (identity tensor l) applied to the coproduct of a. The check of the
+      product rule is a computation on simple tensors.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsInvariantDerivationOfCounitalComul.lean:6
+    mathlib:
+      - TensorProduct.induction_on
+      - Derivation.mk'
+      - Algebra.TensorProduct.tmul_mul_tmul
+    needs:
+      - concept-tensor-product-of-algebras
+      - concept-derivations-smoothness
+      - rings-fields
+
+  - id: f-exists-square-presentation-of-tower
+    title: Square presentations compose along a tower of algebras
+    kind: step
+    status: explained
+    chunk: c0109
+    plain: >
+      A square presentation of an algebra means writing it as polynomials in s variables, modulo
+      exactly s equations. The same number of equations as unknowns. This file shows these compose.
+      If B has one over k, and A has one over B, then A has one over k. The idea is to stack the
+      two lists. The variables number t + d and so do the equations. A relabelling of the index
+      set then turns the combined count into a single count s, and the kernel claim carries over.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSquarePresentationOfTower.lean:46
+    mathlib:
+      - Algebra.Presentation.comp
+      - MvPolynomial.renameEquiv
+      - finSumFinEquiv
+    needs:
+      - polynomials
+      - concept-finitely-generated-algebras
+      - rings-fields
+
+  - id: f-frobenius-subalgebra-counital-comul
+    title: The subalgebra of p-th powers inherits the coproduct
+    kind: step
+    status: explained
+    chunk: c0109
+    plain: >
+      Work over a perfect field k of prime characteristic p, where p equals 0 and every element has
+      a p-th root. Take A with a counital coproduct. The p-th powers of A form a subalgebra B, because
+      (c + d)^p = c^p + d^p in characteristic p. This file shows B also has a counital coproduct.
+      The idea is that the coproduct of a p-th power is a p-th power of tensors, which comes from
+      pure p-th powers of elements of B. Flatness (the tensor product keeps subspaces as subspaces)
+      lets B tensor B be treated as a subalgebra of A tensor A.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/FrobeniusSubalgebraCounitalComul.lean:6
+    mathlib:
+      - add_pow_char
+      - TensorProduct.map_injective_of_flat_flat
+      - AlgEquiv.ofInjective
+    needs:
+      - concept-tensor-product-of-algebras
+      - concept-flat-modules
+      - rings-fields
+      - modular-arithmetic
+
+  - id: f-ker-aeval-truncated-polynomial-presentation
+    title: Kernel of evaluation is generated by x^n minus a constant
+    kind: step
+    status: explained
+    chunk: c0109
+    plain: >
+      Let A be an algebra over B and x_1, ..., x_d elements with x_i^n equal to some b_i from B.
+      Suppose the monomials in the x_i with every exponent less than n are linearly independent over B.
+      Then the polynomials that evaluate to zero at x are exactly those generated by X_i^n - b_i. The
+      idea is that modulo these relations, every polynomial reduces to one with exponents below n. Such
+      a reduced polynomial vanishes only if all its coefficients do, by the independence assumption.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/KerAevalTruncatedPolynomialPresentation.lean:6
+    mathlib:
+      - MvPolynomial.aeval
+      - Ideal.Quotient.mkₐ
+      - Fintype.linearIndependent_iff
+    needs:
+      - polynomials
+      - linear-algebra
+      - rings-fields
+      - concept-prime-ideals-localization
+
+  - id: f-square-presentation-of-counital-comul
+    title: Finite algebras with a coproduct and nilpotent augmentation have square presentations
+    kind: step
+    status: explained
+    chunk: c0109
+    orphan: true
+    plain: >
+      The result is proved here, using earlier steps. Take a finite-dimensional algebra A over a
+      perfect field of characteristic p, with a counital coproduct and nilpotent augmentation kernel.
+      Then A is polynomials in s variables modulo s equations, the same number of each. The proof
+      is by strong induction on dimension. Pick generators with dual derivations. These all vanish
+      on the subalgebra B of p-th powers, which is smaller. By induction B has such a presentation.
+      A over B is given by x_i^p minus constants, and the two presentations are composed.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SquarePresentationOfCounitalComul.lean:85
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SquarePresentationOfCounitalComul.lean:13
+    mathlib:
+      - Nat.strong_induction_on
+      - Derivation.leibniz_pow
+      - Submodule.finrank_lt
+    needs:
+      - f-exists-generators-dual-point-derivations-augmented
+      - f-exists-invariant-derivation-of-counital-comul
+      - f-exists-derivations-dual-to-family-of-nilpotent-aug
+      - f-frobenius-subalgebra-counital-comul
+      - f-truncated-monomials-linear-independent-over-constants
+      - f-ker-aeval-truncated-polynomial-presentation
+      - f-exists-square-presentation-of-tower
+      - concept-derivations-smoothness
+      - proofs
+
+  - id: f-truncated-monomials-linear-independent-over-constants
+    title: Monomials with exponents below p are independent over the p-th powers
+    kind: step
+    status: explained
+    chunk: c0109
+    plain: >
+      In characteristic p, let x_1, ..., x_d be elements with derivations E_i dual to them, where
+      E_i of x_j is 1 or 0. Let B be a subalgebra killed by every E_i. Then the monomials
+      x_1^a_1 ... x_d^a_d with every exponent less than p are linearly independent over B. The idea is
+      to take a polynomial over B that evaluates to zero, and differentiate it. Differentiation
+      lowers the degree, so induction shows the polynomial is zero. For the leftover constant term,
+      an exponent m_i with 0 < m_i < p is invertible in characteristic p.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/TruncatedMonomialsLinearIndependentOverConstants.lean:101
+    mathlib:
+      - MvPolynomial.pderiv
+      - CharP.cast_eq_zero_iff
+      - Fintype.linearIndependent_iff
+    needs:
+      - concept-derivations-smoothness
+      - polynomials
+      - linear-algebra
+      - modular-arithmetic

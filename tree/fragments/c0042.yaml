@@ -1,0 +1,72 @@
+nodes:
+  - id: f-pow-form
+    title: Definitions for a Gaussian convolution series
+    kind: step
+    status: explained
+    chunk: c0042
+    plain: >
+      This file only sets up definitions, with no theorem. Work in a finite-dimensional real space with a notion of length and angle. A "weight" multiplies a function h at the point a by two bell-shaped Gaussian factors, e to the minus b times length squared, and the same with c. A "power form" is the product of k copies of the pairing with a. A "coefficient" is the integral over all a of the weight times the power form. A "term" multiplies a Gaussian in y by a coefficient evaluated at k copies of y, scaled by a power of 2c over k factorial. These terms are the pieces of a series used later.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/PowForm.lean:11]
+    mathlib: [ContinuousMultilinearMap]
+    needs: [calculus, real-analysis, linear-algebra, complex-numbers]
+  - id: f-divisor-proofs--poly-mul-gaussian-bounded
+    title: A polynomial times a Gaussian is bounded
+    kind: step
+    status: explained
+    chunk: c0042
+    plain: >
+      This file proves a classic fact: the product of (1 plus r) to a fixed power N and e to the minus c r squared stays below some fixed number, for all r at least 0, when c is positive. The Gaussian dies off faster than any polynomial grows. Proof idea: bound 1 plus r by e to the r, so the product is at most e to the (N r minus c r squared). A quadratic with a negative leading coefficient has a maximum, found by completing the square, and that maximum is N squared over 4c. So a valid bound is e to the power N squared over 4c.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/PolyMulGaussianBounded.lean:5]
+    mathlib: [Real.add_one_le_exp, Real.exp_le_exp]
+    needs: [calculus, real-analysis, polynomials]
+  - id: f-gaussian-iterated-f-deriv-weighted-exp-bounded
+    title: Derivatives of a Gaussian, weighted, stay bounded
+    kind: step
+    status: explained
+    chunk: c0042
+    plain: >
+      This file proves a bound on derivatives of a Gaussian e to the minus c times length squared. Fix a power k and a derivative order m, and a number alpha below 1. Then the m-th derivative's size, times length to the k, times e to the c alpha length squared, is bounded by a constant over the whole space. The idea: each derivative of e to the minus c length squared gives the Gaussian times a polynomial in the length, with controlled size. A polynomial times a Gaussian is bounded, and the leftover Gaussian with decay c times (1 minus alpha) absorbs the extra growth factor.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/GaussianIteratedFDerivWeightedExpBounded.lean:63]
+    mathlib: [norm_iteratedFDeriv_comp_le, ContinuousLinearMap.norm_iteratedFDeriv_le_of_bilinear]
+    needs: [f-divisor-proofs--poly-mul-gaussian-bounded, calculus, real-analysis, linear-algebra]
+  - id: f-norm-gaussian-convolution-series-coefficient-le-integr
+    title: A coefficient is at most an absolute-value integral
+    kind: step
+    status: explained
+    chunk: c0042
+    plain: >
+      This file proves that the size of the j-th series coefficient is at most the integral of the weight's size times length to the j. A coefficient is itself an integral. The general rule that the size of an integral is at most the integral of the size does most of the work. Two small checks supply the rest: the power form has size at most length to the j, by the Cauchy-Schwarz inequality, and the weight is no bigger than the original function because the Gaussian factors are at most 1. Integrability follows from the fast decay of the Schwartz function h.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/NormGaussianConvolutionSeriesCoefficientLeIntegr.lean:45]
+    mathlib: [norm_integral_le_integral_norm, abs_real_inner_le_norm, SchwartzMap.integrable_pow_mul]
+    needs: [f-pow-form, fourier-analysis, calculus, real-analysis]
+  - id: f-norm-iterated-f-deriv-multilinear-diagonal-le
+    title: Derivative bound for a polynomial-like form on the diagonal
+    kind: step
+    status: explained
+    chunk: c0042
+    plain: >
+      This file bounds derivatives of y goes to f(y, y, ..., y), where f takes j inputs and is linear in each one (like a degree-j polynomial). The i-th derivative has size at most j(j-1)...(j-i+1), times the size of f, times length of y to the j minus i. For j equals 3 and i equals 1 this reads 3 times the size of f times y squared, matching what differentiating y cubed gives. The proof views y as feeding the same vector into all j slots through a map of size at most 1, and then uses the known derivative bound for such forms.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/NormIteratedFDerivMultilinearDiagonalLe.lean:7]
+    mathlib: [ContinuousMultilinearMap.norm_iteratedFDeriv_le, ContinuousLinearMap.iteratedFDeriv_comp_right]
+    needs: [calculus, linear-algebra, real-analysis]
+  - id: f-gaussian-convolution-series-coefficient-desc-factoria
+    title: Pointwise estimate for coefficient times a factorial ratio
+    kind: step
+    status: explained
+    chunk: c0042
+    plain: >
+      This file proves an estimate that controls how fast the series terms shrink. Take real parameters with c positive, theta at least 1, alpha positive and c theta squared at most alpha (b plus c). It bounds the j-th coefficient integral, times a falling factorial of j, times length of y to the j minus i, by theta inverse to the (j minus i), times a Gaussian e to the c alpha length squared, times a simple integral. The key trick is the inequality x to the m over m factorial at most e to the x, plus completing a square to combine the Gaussian factors. If j is below i the left side is zero.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/GaussianConvolutionSeriesCoefficientDescFactoria.lean:39]
+    mathlib: [Real.pow_div_factorial_le_exp, MeasureTheory.integral_mono_of_nonneg, Nat.descFactorial]
+    needs: [f-pow-form, calculus, real-analysis, infinite-series]
+  - id: f-summable-seminorm-gaussian-convolution-series-term
+    title: The Gaussian convolution series converges in every seminorm
+    kind: step
+    status: explained
+    chunk: c0042
+    plain: >
+      This file proves that the terms of the Gaussian convolution series, each a rapidly-decaying smooth function, can be summed. For any choice of polynomial weight and derivative order, the sizes of the terms (measured by a Schwartz seminorm, a way to measure both decay and smoothness) add up to a finite number. It picks theta slightly above 1 and bounds the j-th term by a constant times theta inverse to the j, a geometric series. The bound comes from the product rule for derivatives, the Gaussian derivative bound, the coefficient bound and the falling factorial estimate, all from sibling files.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/SummableSeminormGaussianConvolutionSeriesTerm.lean:11]
+    mathlib: [SchwartzMap.seminorm_le_bound, norm_iteratedFDeriv_mul_le, summable_geometric_of_lt_one, Summable.of_nonneg_of_le]
+    needs: [f-gaussian-iterated-f-deriv-weighted-exp-bounded, f-norm-gaussian-convolution-series-coefficient-le-integr, f-norm-iterated-f-deriv-multilinear-diagonal-le, f-gaussian-convolution-series-coefficient-desc-factoria, f-pow-form, infinite-series, real-analysis, fourier-analysis]
+    orphan: true

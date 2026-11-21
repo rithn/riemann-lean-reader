@@ -1,0 +1,107 @@
+nodes:
+
+- id: concept-discrete-valuation-ring
+  title: "Discrete valuation rings: numbers with one prime, and reducing mod it"
+  kind: concept
+  status: textbook
+  plain: >
+    A discrete valuation ring O is a number system with exactly one "prime" element, called
+    the uniformizer. Every nonzero element is an invertible element times a power of it.
+    Examples: the p-adic integers, with uniformizer p, or the fractions a/b with b not
+    divisible by p. Allowing every quotient gives its fraction field K, such as the
+    p-adic numbers. Dividing out by the uniformizer gives the residue field, such as the
+    integers mod p. A matrix over O can be reduced entry by entry to a matrix over the
+    residue field. It is invertible over O exactly when its reduction is invertible.
+  needs: [rings-fields, p-adic-numbers, modular-arithmetic, concept-ultrametric-norm, linear-algebra]
+  learn:
+    - title: Atiyah and Macdonald, Introduction to Commutative Algebra
+      where: Chapter 9 (discrete valuation rings and Dedekind domains)
+    - title: Serre, Local Fields
+      where: Chapter I (discrete valuation rings, residue field, uniformizer)
+
+- id: f-dvr-matrix-proj-preimage
+  title: "Integer vectors inside a subspace form a summand, via a projection matrix"
+  kind: step
+  status: explained
+  chunk: c0013
+  plain: >
+    This file proves a result about matrices over a discrete valuation ring O with fraction
+    field K. Take any K-subspace S of K^n. Then there is an n by n matrix P over O that
+    sends every integer vector into S, and leaves every integer vector already in S
+    unchanged. So P is a projection onto the integer part of S. Example: S is the line
+    through (1, 2). Then P(v1, v2) = (v1, 2 v1) works. Proof idea: the quotient of O^n
+    by the integer vectors in S has no torsion, so it is free. A free quotient lets us
+    choose a splitting, and P is "identity minus the splitting".
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/DvrMatrixProjPreimage.lean:7]
+  mathlib: [Module.free_of_finite_type_torsion_free', Module.Projective.of_free, Module.projective_lifting_property, LinearMap.toMatrix']
+  needs: [concept-discrete-valuation-ring, linear-algebra, rings-fields]
+
+- id: f-exists-residue-annihilator-of-not-standard-column-form-a
+  title: "Not in standard form forces a missing direction mod the uniformizer"
+  kind: step
+  status: explained
+  chunk: c0013
+  plain: >
+    This file proves a claim about an (r+t) by r matrix x over a discrete valuation ring
+    O. Its columns span a subspace V of K^(r+t). Suppose V is not in "standard form",
+    meaning no change of basis turns x into the identity on top and zero below, up to
+    multiples of the uniformizer. Then some nonzero vector a over the residue field
+    exists. Every integer vector u in V whose bottom part reduces to zero has a top
+    part that reduces to something perpendicular to a. Proof idea: if no such a existed,
+    those top parts would fill the whole residue space, and we could build the standard
+    form. That contradicts the assumption.
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsResidueAnnihilatorOfNotStandardColumnFormA.lean:7]
+  mathlib: [Submodule.span_induction, Submodule.exists_le_ker_of_lt_top, Matrix.isUnit_iff_isUnit_det, IsDiscreteValuationRing.irreducible_iff_uniformizer]
+  needs: [concept-discrete-valuation-ring, linear-algebra, rings-fields]
+
+- id: f-residue-top-factor-through-bottom
+  title: "Top part is determined by bottom part, after reducing"
+  kind: step
+  status: explained
+  chunk: c0013
+  plain: >
+    This file proves a linear algebra claim over a local ring O, which has one maximal
+    ideal and a residue field k. Take a set U of vectors in O^(r+t), and a nonzero a in
+    k^r such that, whenever the bottom part of u reduces to zero, the top part is
+    perpendicular to a. Take an r by r matrix g over k that fixes every vector
+    perpendicular to a. Then a matrix b exists with g(top) + b(bottom) = top for every u
+    in U. Proof idea: the map "top minus g(top)" vanishes where the bottom vanishes, so
+    it factors through the bottom. A map on a subspace extends to the whole space.
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ResidueTopFactorThroughBottom.lean:7]
+  mathlib: [LinearMap.exists_extend, LinearMap.quotKerEquivRange, Submodule.liftQ, LinearMap.toMatrix']
+  needs: [linear-algebra, rings-fields]
+
+- id: f-gl-factor-from-blocks-mod-uniformizer
+  title: "A matrix equal to a block matrix mod the uniformizer is a unit times it"
+  kind: step
+  status: explained
+  chunk: c0013
+  plain: >
+    This file proves a claim about block matrices over a discrete valuation ring O. Let
+    D be the block matrix with an invertible block L at top left, the identity at
+    bottom right, and zeros off the diagonal. Let q be any matrix that agrees mod the
+    uniformizer with D plus some extra block B at top right. Then q = h D for an
+    invertible matrix h over O. Modulo the uniformizer, h has the identity at top left
+    and zero at bottom left. Proof idea: take h = q D^(-1). Reduce mod the uniformizer
+    and compare blocks.
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/GlFactorFromBlocksModUniformizer.lean:7]
+  mathlib: [Matrix.det_fromBlocks_zero₂₁, Matrix.fromBlocks_multiply, Matrix.isUnit_nonsing_inv_det, IsLocalRing.residue_ne_zero_iff_isUnit]
+  needs: [concept-discrete-valuation-ring, linear-algebra, groups]
+
+- id: f-exists-hyperplane-residue-outside-translates
+  title: "Column-space of a matrix over a DVR is fixed by a block matrix times a unit"
+  kind: step
+  status: explained
+  chunk: c0013
+  plain: >
+    This file proves a matrix claim over a discrete valuation ring, from the four sibling
+    results. The matrix x has r columns and r+t rows, and is not in standard form. Then a
+    nonzero a exists over the residue field. For any invertible g fixing everything
+    perpendicular to a, and any lift L of g, an invertible h exists with h times the
+    block matrix (L, 0; 0, 1) times x equal to x. Proof idea: reduce, find b, lift to a
+    block matrix q0, correct it by a projection so it fixes x, then factor out q0. How
+    this feeds the larger proof is unclear from this file.
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsHyperplaneResidueOutsideTranslates.lean:9]
+  mathlib: [Matrix.fromBlocks_mulVec, Matrix.mul_assoc, IsLocalRing.residue_surjective, Submodule.span]
+  needs: [f-exists-residue-annihilator-of-not-standard-column-form-a, f-residue-top-factor-through-bottom, f-dvr-matrix-proj-preimage, f-gl-factor-from-blocks-mod-uniformizer, concept-discrete-valuation-ring, linear-algebra, groups]
+  orphan: true

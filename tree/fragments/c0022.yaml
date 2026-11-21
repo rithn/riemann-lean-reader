@@ -1,0 +1,84 @@
+nodes:
+
+- id: f-iwasawa-decomposition--exists-basis-in-finite-domain-trace-mem
+  title: A basis from C with trace products in T
+  kind: step
+  status: explained
+  chunk: c0022
+  plain: >
+    Proved in full. Let T be an integrally closed domain, and C a domain that is a finitely
+    generated module over T. Let F and K be their fraction fields. Then K has a basis over F,
+    made of elements of C, such that the trace of every product of two basis elements lies in T
+    itself, not merely in F. Example: T = Z, C = Z[i]. The basis 1, i of Q(i) has traces
+    2, 0, -2, all integers. The proof picks a basis from the finite generating set of C. Products
+    of elements of C are integral over T, so their traces are too, and a normal ring contains them.
+  lean: [Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsBasisInFiniteDomainTraceMem.lean:6]
+  mathlib: [Algebra.isIntegral_trace, IsIntegrallyClosed.isIntegral_iff, exists_linearIndependent, Algebra.adjoin_eq_span]
+  needs: [concept-integral-closure-fraction-fields, linear-algebra, rings-fields, number-fields]
+
+- id: f-iwasawa-decomposition--flat-tensor-embeds-tensor-fraction-fields
+  title: U tensor C sits inside the tensor of fraction fields
+  kind: step
+  status: explained
+  chunk: c0022
+  plain: >
+    Proved in full. Let T map into domains U and C, with U flat over T. Take fraction fields
+    F of T, L of U and K of C. Then U ⊗ C maps one-to-one into L ⊗ K, in a way that sends
+    u ⊗ c to u ⊗ c. Example: T = U = Z and C = Z[i]. Then Z ⊗ Z[i] is Z[i], sitting inside Q(i).
+    The proof goes in two steps, U ⊗ C to U ⊗ K to L ⊗ K. Each step keeps one-to-one maps, using
+    flatness of U and of K. Then it swaps "tensor over T" for "tensor over F", which is allowed
+    because inverting the non-zero elements of T gives F.
+  lean: [Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/FlatTensorEmbedsTensorFractionFields.lean:6]
+  mathlib: [IsLocalization.flat, Module.Flat.trans, IsLocalization.algebraTensorEquiv, Module.Flat.lTensor_preserves_injective_linearMap, Module.Flat.rTensor_preserves_injective_linearMap]
+  needs: [concept-tensor-products-flatness, concept-integral-closure-fraction-fields, rings-fields]
+
+- id: f-iwasawa-decomposition--integral-of-finite-base-change-image
+  title: Roots of monic equations over U tensor C are integral over U
+  kind: step
+  status: explained
+  chunk: c0022
+  plain: >
+    Proved in full. Use the one-to-one map phi from U ⊗ C into L ⊗ K from the neighbouring
+    file. The claim is that if an element omega of L ⊗ K solves a monic equation whose
+    coefficients are images of elements of U ⊗ C, then omega is integral over U. Idea: U ⊗ C is
+    itself integral over U, because C is a finitely generated module over T. Integral over
+    integral is integral, a standard transitivity fact. This is a short file, almost all
+    of it bookkeeping to make the library's integrality lemma apply.
+  lean: [Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/IntegralOfFiniteBaseChangeImage.lean:6]
+  mathlib: [isIntegral_trans, Algebra.IsIntegral]
+  needs: [concept-integral-closure-fraction-fields, concept-tensor-products-flatness, polynomials]
+
+- id: f-iwasawa-decomposition--is-unit-map-of-mem-non-zero-divisors-tensor
+  title: Non-zero-divisors of U tensor C become invertible
+  kind: step
+  status: explained
+  chunk: c0022
+  plain: >
+    Proved in full. With the embedding phi of U ⊗ C into L ⊗ K as before, and C finitely
+    generated over T, phi sends every non-zero-divisor of U ⊗ C to an invertible element of
+    L ⊗ K. Example: with U = Z and C = Z[i], any non-zero Gaussian integer becomes invertible
+    in Q(i). The proof first shows every element of L ⊗ K can be multiplied by something
+    non-zero from U to land in the image of phi. Next, L ⊗ K is finite-dimensional over the
+    field L, so it is a ring where a non-zero-divisor is always invertible. It also shows K is
+    finite-dimensional over F.
+  lean: [Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/IsUnitMapOfMemNonZeroDivisorsTensor.lean:52, Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/IsUnitMapOfMemNonZeroDivisorsTensor.lean:24]
+  mathlib: [IsArtinianRing.isUnit_of_mem_nonZeroDivisors, IsArtinianRing.of_finite, IsFractionRing.div_surjective]
+  needs: [concept-integral-closure-fraction-fields, concept-tensor-products-flatness, linear-algebra, rings-fields]
+
+- id: f-iwasawa-decomposition--discr-mul-mem-of-is-integral
+  title: One denominator d clears all integral elements of the tensor fraction field
+  kind: step
+  status: explained
+  chunk: c0022
+  orphan: true
+  plain: >
+    Proved in full, using the four neighbouring files. Take integrally closed domains T and U,
+    U flat over T, and C finite over T, in characteristic zero. The claim is that there is one
+    non-zero d in T such that d times any integral element of the fraction field of U ⊗ C lies
+    in U ⊗ C. The d is the discriminant of the trace basis. Given an integral element, its
+    traces against the basis lie in U, since U is normal. Cramer's rule, for solving linear
+    equations with a determinant, then writes d times the element as a U-combination of basis
+    elements. The name of the folder, "Iwasawa decomposition", does not match this content.
+  lean: [Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/DiscrMulMemOfIsIntegral.lean:159, Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/DiscrMulMemOfIsIntegral.lean:71, Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/DiscrMulMemOfIsIntegral.lean:11]
+  mathlib: [Algebra.trace_eq_matrix_trace, Matrix.adjugate_mul, Algebra.discr_not_zero_of_basis, IsLocalization.lift, IsIntegrallyClosed.isIntegral_iff]
+  needs: [f-iwasawa-decomposition--exists-basis-in-finite-domain-trace-mem, f-iwasawa-decomposition--flat-tensor-embeds-tensor-fraction-fields, f-iwasawa-decomposition--integral-of-finite-base-change-image, f-iwasawa-decomposition--is-unit-map-of-mem-non-zero-divisors-tensor, concept-integral-closure-fraction-fields, concept-tensor-products-flatness, concept-ideals-and-discriminant, linear-algebra]

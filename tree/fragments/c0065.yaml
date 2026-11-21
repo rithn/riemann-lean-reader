@@ -1,0 +1,63 @@
+nodes:
+- id: f-exists-sq-zero-extend-localization-away-pow
+  title: Lifting a map through a square-zero thickening after inverting one element
+  kind: step
+  status: explained
+  chunk: c0065
+  plain: >
+    Take a ring S with an ideal J whose square is zero (a thickening: elements of J are infinitesimally small). Take a finitely presented algebra A, a map phi from A to S, and a second map psi from A to S with g inverted, which agrees with phi modulo J there. The file shows that for large enough N there is an honest map chi from A to S, agreeing with phi modulo J, whose image in the localization equals phi plus g^N times the difference. The proof lifts the images of the generators, clears the denominators by multiplying with powers of g, and uses that J squared is zero so the interpolation formula respects multiplication.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSqZeroExtendLocalizationAwayPow.lean:137"]
+  mathlib: [Algebra.FinitePresentation, IsLocalization.mem_map_algebraMap_iff, Ideal.Quotient.liftₐ]
+  needs: [concept-finitely-generated-algebras, concept-prime-ideals-localization, concept-tensor-product-of-algebras, rings-fields, polynomials]
+- id: f-exists-square-zero-lift-basic-open-pair-agree
+  title: Lifting a point of a smooth scheme over a thickening, compatibly on two overlapping pieces
+  kind: step
+  status: explained
+  chunk: c0065
+  orphan: true
+  plain: >
+    Picture a smooth family of shapes X over Spec R, and a point of X known only over R0, a thickened quotient where the ideal has square zero. Two basic open pieces, where a and b are invertible, each already have a lift. The file proves that the lift on the a-piece can be adjusted, by moving it a power N of b along the difference, so that on the overlap it agrees with the b-lift up to a controlled combination. The proof turns the geometry into ring maps on an affine chart, applies the algebraic lifting lemma, and glues back. Much of the file is bookkeeping between maps of schemes and maps of rings.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSquareZeroLiftBasicOpenPairAgree.lean:145"]
+  mathlib: [AlgebraicGeometry.IsAffineOpen.fromSpec, Localization.awayMap, IsLocalization.Away.awayToAwayRight]
+  needs: [f-exists-sq-zero-extend-localization-away-pow, f-divisor-proofs--is-affine-combination-in-chart-spec-map-comp, f-divisor-proofs--is-comb-in, f-divisor-proofs--preimage-eq-of-square-zero-thickening, concept-schemes-basics, concept-smooth-morphisms, concept-categorical-pullbacks, concept-prime-ideals-localization]
+- id: f-divisor-proofs--is-affine-combination-in-chart-spec-map-comp
+  title: Chart rings and affine combinations behave well under pullback
+  kind: step
+  status: explained
+  chunk: c0065
+  plain: >
+    A chart ring records how a map from Spec S into a scheme Y landing inside an affine open V looks algebraically: it is a ring map from the functions on V to S. This file proves two compatibility facts. First, precomposing the map with Spec of a ring map g gives a chart ring equal to g applied to the old one. Second, the property "the chart of c is the chart of u plus a weighted sum of differences of other charts" survives such pullback, with coefficients mapped by g. The proofs are naturality checks on the standard identification of global functions on Spec S with S.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsAffineCombinationInChartSpecMapComp.lean:29"]
+  mathlib: [AlgebraicGeometry.Scheme.ΓSpecIso_naturality, Scheme.Hom.appLE_comp_appLE]
+  needs: [f-divisor-proofs--is-comb-in, concept-schemes-basics, concept-categorical-pullbacks]
+- id: f-divisor-proofs--is-comb-in
+  title: Definitions of a chart ring and an affine combination of maps
+  kind: step
+  status: explained
+  chunk: c0065
+  plain: >
+    This file only gives two definitions. The first, the chart ring map, takes a map from Spec S into a scheme Y that lands entirely inside an affine open V, and returns the matching ring map from the functions on V to S. The second says a map c is an affine combination of a base map u and some other maps w_i with weights a_i, as seen inside V. On functions it means c equals u plus the sum of a_i times (w_i minus u), the way a point on a segment is the start plus a fraction of the way to the end. Later files prove facts about these.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsCombIn.lean:14"]
+  mathlib: [AlgebraicGeometry.Scheme.ΓSpecIso, Scheme.Hom.appLE]
+  needs: [concept-schemes-basics, concept-categorical-pullbacks]
+- id: f-divisor-proofs--lift-at
+  title: Definitions of "a lift exists over a basic open piece"
+  kind: step
+  status: explained
+  chunk: c0065
+  orphan: true
+  plain: >
+    This file only gives two definitions. Setting: a ring map pi from R to R0 (a quotient), a scheme X over Spec R, and a map g0 from Spec R0 into X. "Lift at f" says there is a map e from Spec of R with f inverted into X, compatible with the structure map to Spec R and restricting along pi to the given g0. In plain words, g0 can be extended over the basic open piece where f is invertible. The second version, "lift in V", also asks that e lands entirely inside a chosen open set V of X.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/LiftAt.lean:8"]
+  mathlib: [Localization.awayMap]
+  needs: [concept-schemes-basics, concept-categorical-pullbacks, concept-prime-ideals-localization]
+- id: f-divisor-proofs--preimage-eq-of-square-zero-thickening
+  title: Maps agreeing on a square-zero thickening have the same preimages
+  kind: step
+  status: explained
+  chunk: c0065
+  plain: >
+    Let q be a surjective ring map S to T whose kernel squares to zero, so Spec T is a thickening of Spec S with the same points. Suppose two maps u and w from Spec S to a scheme Y agree after precomposing with Spec q. The file proves that u and w have the same preimage of any open set V. The proof shows Spec q is onto on points. Every prime of S contains the kernel, because an element whose square is zero lies in every prime. So each prime of S comes from a prime of T. Maps that agree there send each point to the same place, so preimages of V agree.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/PreimageEqOfSquareZeroThickening.lean:6"]
+  mathlib: [Ideal.map_isPrime_of_surjective, Ideal.comap_map_of_surjective]
+  needs: [concept-schemes-basics, concept-prime-ideals-localization, concept-categorical-pullbacks]

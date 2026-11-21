@@ -1,0 +1,72 @@
+nodes:
+- id: f-commute-image-abelian-by-prime-power-of-normal-central
+  title: Matrices that commute with a big normal piece commute everywhere
+  kind: step
+  status: explained
+  chunk: c0061
+  plain: >
+    Take a group that is "abelian by prime power": it has a normal subgroup whose elements all commute with each other, and every element of the group has prime-power order modulo that subgroup. Map the group into matrices (or any multiplication-friendly set). Suppose every normal subgroup whose images commute among themselves also has images commuting with everything. The file proves that then all images commute. The idea is to look at the set of elements whose image commutes with everything. It is a normal subgroup containing the commuting piece. If it were not the whole group, the quotient would be a nontrivial prime-power group, which has a nonzero central element. Lifting it gives a bigger commuting normal subgroup, a contradiction.
+  lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/CommuteImageAbelianByPrimePowerOfNormalCentral.lean:6"]
+  mathlib: [IsPGroup.center_nontrivial, QuotientGroup.induction_on]
+  needs: [f-ab-by-p-of-comm, groups, concept-normal-subgroups-quotients, concept-sylow-theorems]
+- id: f-exists-character-eigenvector-of-commuting-representat
+  title: Commuting matrices share an eigenvector, giving a character
+  kind: step
+  status: explained
+  chunk: c0061
+  plain: >
+    Over the complex numbers (or any field where every polynomial has a root), a family of matrices that all commute with each other has a common eigenvector: one nonzero vector that each matrix merely stretches. An eigenvector of a matrix is a vector it only rescales, for example the vector (1, 0) under the matrix diag(2, 3). The file first restates this fact, taking it from the proof in the imports file. It then applies it to a group of commuting matrices. The stretch factors form a rule sending each group element to a nonzero number, and this rule respects multiplication. That rule is a character of the group.
+  lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsCharacterEigenvectorOfCommutingRepresentat.lean:18"]
+  mathlib: [smul_left_injective]
+  needs: [f-character-theory--imports, concept-group-representations, linear-algebra, algebraic-closure]
+- id: f-exists-monomial-basis-abelian-by-prime-power
+  title: Abelian-by-prime-power groups act by "monomial" matrices
+  kind: step
+  status: explained
+  chunk: c0061
+  orphan: true
+  plain: >
+    Here G is a finite group that is abelian by prime power, acting linearly on a vector space over an algebraically closed field, where the size of G is not zero in that field. The file proves there is a basis in which every group element sends each basis vector to a multiple of a single basis vector. Such matrices have one nonzero entry per row, called monomial. The proof is an induction on the group size plus the space dimension. If the action splits into two pieces, handle each and join the bases. If it is irreducible (no smaller invariant piece), it is either one-dimensional or built from a smaller subgroup, so induction applies.
+  lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsMonomialBasisAbelianByPrimePower.lean:39"]
+  mathlib: [Module.finBasisOfFinrankEq, Submodule.prodEquivOfIsCompl, Submodule.finrank_lt]
+  needs: [f-exists-monomial-basis-of-imprimitive, f-invariant-eq-top-of-irreducible, f-is-abelian-by-prime-power-group-subgroup, f-ab-by-p-of-comm, concept-group-representations, linear-algebra]
+- id: f-exists-monomial-basis-of-imprimitive
+  title: Monomial basis from a subgroup that shuffles copies of a piece
+  kind: step
+  status: explained
+  chunk: c0061
+  plain: >
+    Suppose a group G acts on a vector space V, and a subgroup T and a subspace W are such that the images of W under coset representatives of T are independent and together fill V. This is called an imprimitive setup: V is a stack of copies of W that G shuffles around. The file shows that if T already acts on W with a monomial basis (each element sends a basis vector to a multiple of one basis vector), then G acts on V with a monomial basis. The basis is made by moving the basis of W along each coset. A group element then just permutes the copies, adjusting by the old T action.
+  lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsMonomialBasisOfImprimitive.lean:8"]
+  mathlib: [DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top, DirectSum.IsInternal.collectedBasis]
+  needs: [concept-group-representations, concept-normal-subgroups-quotients, concept-group-actions, linear-algebra]
+- id: f-character-theory--imports
+  title: Commuting matrices have a common eigenvector
+  kind: step
+  status: explained
+  chunk: c0061
+  plain: >
+    This file proves a standard fact. Over a field where every polynomial has a root (like the complex numbers), any family of pairwise commuting linear maps on a nonzero finite-dimensional space has a common eigenvector. An eigenvector is a nonzero vector the map only rescales. The proof picks a smallest nonzero subspace that every map sends into itself. Take one map and an eigenvalue of it on that subspace. The vectors with that eigenvalue form a smaller invariant subspace, because the maps commute. By minimality it is everything. So every map acts as a plain scalar on the subspace, and any nonzero vector there works. The odd name of the surrounding namespace is not meaningful here.
+  lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/Imports.lean:5"]
+  mathlib: [Module.End.exists_eigenvalue, wellFounded_lt]
+  needs: [linear-algebra, algebraic-closure]
+- id: f-invariant-eq-top-of-irreducible
+  title: Irreducible actions are either one-dimensional or imprimitive
+  kind: step
+  status: explained
+  chunk: c0061
+  plain: >
+    A representation is irreducible if it has no invariant subspace other than zero and everything. This file proves two things for a finite abelian-by-prime-power group over an algebraically closed field. First, an invariant subspace of an irreducible representation containing a nonzero vector is the whole space. Second, an irreducible representation is either one-dimensional, or imprimitive: there is a proper subgroup T and a subspace W stable under T whose translates are independent and span everything. If all matrices commute, they share an eigenvector, which spans the space. Otherwise a normal commuting piece has distinct eigencharacters, and the group shuffles their eigenspaces.
+  lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvariantEqTopOfIrreducible.lean:19"]
+  mathlib: [Module.End.eigenspace, Module.End.independent_iInf_maxGenEigenspace_of_forall_mapsTo]
+  needs: [f-commute-image-abelian-by-prime-power-of-normal-central, f-exists-character-eigenvector-of-commuting-representat, f-ab-by-p-of-comm, concept-group-representations, concept-normal-subgroups-quotients]
+- id: f-is-abelian-by-prime-power-group-subgroup
+  title: Subgroups of abelian-by-prime-power groups are again so
+  kind: step
+  status: explained
+  chunk: c0061
+  plain: >
+    A group is abelian by prime power if it has a normal subgroup A whose elements commute with each other, and every element of the whole group raised to some power of a fixed prime lands in A. This short file shows the property passes to subgroups. Given a subgroup T, take A intersected with T. It is still normal inside T and still commutative, since commuting is inherited. Every element of T still has a prime-power that falls into A, and it also lies in T, so it falls into the intersection. The same prime works throughout. This lets the induction in the monomial basis proof move down to subgroups.
+  lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsAbelianByPrimePowerGroupSubgroup.lean:5"]
+  mathlib: [Subgroup.normal_subgroupOf, Subgroup.mem_subgroupOf]
+  needs: [f-ab-by-p-of-comm, groups, concept-normal-subgroups-quotients]

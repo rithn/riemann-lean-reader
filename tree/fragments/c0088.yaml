@@ -1,0 +1,144 @@
+nodes:
+  - id: f-real-place-analysis--complexify
+    title: Sign matrices, indefinite unitary groups and related claims
+    kind: step
+    status: explained
+    chunk: c0088
+    plain: >
+      This file defines the language for matrices that preserve a signed
+      inner product, and then states a list of claims about them without
+      proving them. The sign matrix J is diagonal with entries plus or
+      minus one. A matrix g "preserves" J if the conjugate transpose of g,
+      times J, times g gives J (ordinary unitary matrices are the case J is
+      the identity). The file also defines the matching Lie algebra pieces
+      and a compact subgroup. The named claims include polar decomposition and
+      that every matrix splits uniquely as one such element plus i times
+      another.
+    lean:
+      - Formalism/RealPlaceAnalysis/Complexify.lean:12
+      - Formalism/RealPlaceAnalysis/Complexify.lean:109
+    mathlib:
+      - Matrix.unitaryGroup
+      - NormedSpace.exp
+    needs:
+      - concept-hermitian-unitary-matrices
+      - linear-algebra
+      - complex-numbers
+  - id: f-pf-d
+    title: Definitions for interlacing partial fractions
+    kind: step
+    status: explained
+    chunk: c0088
+    plain: >
+      This file only gives definitions. Start with two lists of real
+      numbers, a longer one d with m+1 entries and a shorter one d' with m
+      entries. From them it forms a shift number (the sum of d minus the sum
+      of d'), a residue number for each entry of d' (the value of a ratio of
+      products), and a derivative-like number for each entry of d. It also
+      counts how many entries lie above a given point. These quantities show
+      up in the partial fraction expansion of the ratio of the two
+      polynomials whose roots are d and d'.
+    lean:
+      - Development/WeilBound/RepresentationTheoryGL/HolomorphicDiscreteSeries/EmbeddedFrames/PfD.lean:11
+      - Development/WeilBound/RepresentationTheoryGL/HolomorphicDiscreteSeries/EmbeddedFrames/PfD.lean:19
+    mathlib: []
+    needs:
+      - polynomials
+      - counting
+      - real-analysis
+  - id: f-partial-fraction-diagonal-identity
+    title: Partial fraction identity at each root
+    kind: step
+    status: explained
+    chunk: c0088
+    plain: >
+      This file proves that for two lists of distinct reals d (m+1 entries)
+      and d' (m entries), and any entry d_i, a certain sum vanishes. The sum is
+      d_i minus the shift number, plus the sum over j of the residue number
+      divided by d_i minus d'_j. The idea is partial fractions. The product of
+      factors for d, divided by the product for d', splits as a linear term
+      plus a sum of simple fractions. The file checks the two sides agree by
+      showing the difference has low degree but equals zero at m points. Then
+      it evaluates at a root of d.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PartialFractionDiagonalIdentity.lean:89
+    mathlib:
+      - Polynomial.eq_of_degrees_lt_of_eval_index_eq
+      - Polynomial.natDegree_prod_of_monic
+    needs:
+      - f-pf-d
+      - polynomials
+      - rings-fields
+  - id: f-partial-fraction-off-diagonal-identity
+    title: Partial fraction identity for two different roots
+    kind: step
+    status: explained
+    chunk: c0088
+    plain: >
+      This file proves that for two different entries d_i and d_k of the
+      longer list, the sum over j of the residue number divided by
+      (d_i minus d'_j) times (d_k minus d'_j) equals 1. The proof takes the
+      single-root identity at i and at k and subtracts them. The difference
+      of the two simple fractions factors as (d_i minus d_k) times the new
+      sum, so d_i minus d_k times (1 minus the sum) is zero. Because d_i and d_k
+      differ, the second factor must be zero.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PartialFractionOffDiagonalIdentity.lean:10
+    mathlib:
+      - mul_eq_zero
+    needs:
+      - f-partial-fraction-diagonal-identity
+      - f-pf-d
+      - polynomials
+  - id: f-partial-fraction-square-identity
+    title: Partial fraction identity with squared denominators
+    kind: step
+    status: explained
+    chunk: c0088
+    plain: >
+      This file proves that for each entry d_i of the longer list, 1 minus the
+      sum of the residue numbers over (d_i minus d'_j) squared equals the
+      derivative-like number for d_i. The idea is to differentiate. The
+      earlier identity says a function f is zero at d_i. Multiplying f by
+      the product of factors for d' gives the polynomial with roots d. The
+      derivative of a product with f equal to zero at that point is just the
+      first factor times the derivative of f. Comparing the two derivatives,
+      and doing the algebra, gives the claim.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PartialFractionSquareIdentity.lean:85
+    mathlib:
+      - HasDerivAt.unique
+      - Polynomial.derivative_mul
+    needs:
+      - f-partial-fraction-diagonal-identity
+      - f-pf-d
+      - calculus
+      - polynomials
+  - id: f-exists-unitary-interlacing-realization
+    title: Realising interlacing numbers by a matrix that preserves a signed form
+    kind: step
+    status: explained
+    chunk: c0088
+    orphan: true
+    plain: >
+      This file builds a concrete matrix. Given two lists of reals that
+      interlace (the shorter list d' sits between entries of the longer list
+      d) with the right signs, it constructs a matrix g that preserves the
+      signed inner product, and a matrix X with X g = g times the diagonal of
+      d, whose top-left block is the diagonal of d'. The entries of g are
+      explicit formulas using square roots of the residue and derivative-like
+      numbers. The proof checks that g preserves the signed form by the
+      three partial fraction identities, and that X intertwines.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsUnitaryInterlacingRealization.lean:146
+    mathlib:
+      - Matrix.mul_diagonal
+      - Real.mul_self_sqrt
+    needs:
+      - f-partial-fraction-diagonal-identity
+      - f-partial-fraction-off-diagonal-identity
+      - f-partial-fraction-square-identity
+      - f-pf-d
+      - f-real-place-analysis--complexify
+      - concept-hermitian-unitary-matrices
+      - linear-algebra

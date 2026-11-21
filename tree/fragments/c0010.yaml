@@ -1,0 +1,135 @@
+nodes:
+
+- id: concept-group-actions-orbits-stabilizers
+  title: Group actions, orbits and stabilizers
+  kind: concept
+  status: textbook
+  plain: >
+    A group G "acts" on a set X if each group element moves the points of X around, in a way
+    that is compatible with multiplication in G (doing g then h is the same as doing hg).
+    The orbit of a point x is the set of all places G can move x to; the stabilizer of x is the
+    subgroup of elements of G that leave x where it is. The orbit-stabilizer theorem says that
+    for a finite group, |orbit of x| times |stabilizer of x| = |G|. Example: the 6 symmetries of
+    a triangle act on its 3 corners; one orbit (all 3 corners), the stabilizer of a corner has
+    2 elements (do nothing, or flip about that corner), and 3 x 2 = 6. Conjugation
+    (g acts on h by g h g^-1) is an important action of a group on itself; the stabilizer of h is
+    then the centralizer of h, the elements that commute with h.
+  needs: [groups, counting]
+  learn:
+    - title: Dummit and Foote, Abstract Algebra
+      where: Section 1.7 (group actions), 4.1-4.3 (actions, orbits, conjugation)
+    - title: Artin, Algebra
+      where: Chapter 6 (symmetry, orbits and stabilizers)
+
+- id: f-finsum-fiberwise-of-finite-support-complex
+  title: Summing over fibres (finite support)
+  kind: step
+  status: explained
+  plain: >
+    If f assigns a complex number to each element of a set A, and only finitely many elements get
+    a non-zero value, then you can add up f in two stages: first group the elements of A by the
+    value of some labelling function rho (A to B), add within each group, then add the group
+    totals. Example: sum the marks of students by first adding up each class, then adding the
+    class totals. The "finsum" (a sum over a possibly infinite index set where only finitely many
+    terms are non-zero) is turned into an ordinary finite sum over the non-zero terms, and the
+    finite regrouping rule is applied.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinsumFiberwiseOfFiniteSupportComplex.lean:5]
+  mathlib: [finsum_eq_sum_of_support_subset, finsum_subtype_eq_finsum_cond, Finset.sum_fiberwise_of_maps_to, Finset.exists_ne_zero_of_sum_ne_zero]
+  needs: [complex-numbers, counting, infinite-series]
+
+- id: f-finsum-orbits-inv-stabilizer-card-mass
+  title: Sum over orbits weighted by 1/|stabilizer| equals (1/|G|) times the full sum
+  kind: step
+  status: explained
+  plain: >
+    Let a finite group K act on a set Z, and let f be a complex-valued function on Z that is
+    unchanged when you move a point by the action, and non-zero at only finitely many points.
+    Then, adding up f(rep) / |stabilizer of rep| over one chosen representative rep per orbit,
+    gives the same answer as (1/|K|) times the sum of f over all of Z. Idea: an orbit has
+    |K| / |stabilizer| points (orbit-stabilizer), all with the same f-value, so the full sum over
+    an orbit is (|K|/|stab|) f(rep); divide by |K| to get f(rep)/|stab|. The fibre-sum file is
+    used to regroup the sum over Z orbit by orbit. Example: K = triangle symmetries acting on
+    corners, f = 1 everywhere: one orbit with stabilizer size 2 gives 1/2 on the left, and
+    (1/6) x 3 = 1/2 on the right.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinsumOrbitsInvStabilizerCardMass.lean:8]
+  mathlib: [MulAction.index_stabilizer, Subgroup.index_mul_card, finsum_eq_sum_of_fintype, mul_finsum, Nat.card_congr]
+  needs: [f-finsum-fiberwise-of-finite-support-complex, concept-group-actions-orbits-stabilizers, groups, counting, complex-numbers]
+
+- id: f-finsum-orbit-rel-fibred-equivariant
+  title: Summing over orbits fibre by fibre (equivariant fibration)
+  kind: step
+  status: explained
+  plain: >
+    A general bookkeeping lemma about a group H acting on a set X that maps equivariantly onto
+    another H-set B (the map pi commutes with the action), where each fibre over b is a copy of
+    a set E with an action of a subgroup S(b) containing the stabilizer of b. The claim: to sum
+    a function g (finitely supported) over the H-orbits of X, you can first choose one base point
+    b for each H-orbit of B, then sum over the S(b)-orbits of E, evaluating g at the image of a
+    representative in the fibre. In words, an orbit of X is the same as a base orbit plus an
+    orbit inside the fibre over a chosen base point. The proof builds an explicit one-to-one
+    correspondence between S(b)-orbits of E and H-orbits of X that sit over the orbit of b,
+    then applies the fibre-sum lemma to group the sum by base orbit. The hypotheses are many
+    and technical (injectivity and surjectivity of the fibre inclusions j b, equivariance for h in S b).
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinsumOrbitRelFibredEquivariant.lean:8]
+  mathlib: [MulAction.orbitRel, MulAction.mem_orbit_iff, MulAction.mem_stabilizer_iff, finsum_comp_equiv, Equiv.ofBijective, Quotient.sound]
+  needs: [f-finsum-fiberwise-of-finite-support-complex, concept-group-actions-orbits-stabilizers, groups]
+
+- id: f-stabilizer-eq-centralizer
+  title: Conjugation action on a group; stabilizer = centralizer; pair terms
+  kind: step
+  status: explained
+  plain: >
+    Sets up the action of a group Gamma on itself by conjugation (eta sends gamma to
+    eta gamma eta^-1), using a copy of the type called ConjSelf so that this action does not
+    clash with the ordinary multiplication structure. Main fact: the stabilizer of gamma under
+    this action is exactly the centralizer of gamma (the elements that commute with gamma).
+    It then looks at pairs (y, gamma) in Y x ConjSelf, shows the stabilizer of a pair is the
+    overlap of the stabilizer of y and the centralizer of gamma, and defines pairTerm F p =
+    F(y, gamma) / |stabilizer of p| and pairSum F = the sum of pairTerm over one representative
+    per orbit of Gamma on pairs. Helper lemmas show pairTerm is unchanged when you move p by
+    the group (given F is invariant under simultaneous action), so the choice of representative
+    does not matter. Example: if Gamma is the 3-letter permutation group and gamma swaps two
+    letters, its centralizer is {identity, that swap}, of size 2.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/StabilizerEqCentralizer.lean:33]
+  mathlib: [MulAction.mem_stabilizer_iff, Subgroup.mem_centralizer_singleton_iff, MulAction.stabilizer_smul_eq_stabilizer_map_conj, Subgroup.card_map_of_injective, MulAction.orbitRel]
+  needs: [concept-group-actions-orbits-stabilizers, groups, complex-numbers]
+
+- id: f-finite-support-stabilizer-weighted-pair-term
+  title: Only finitely many pair orbits contribute
+  kind: step
+  status: explained
+  plain: >
+    Setting: a group Gamma acts on Y, F(y, gamma) is a complex function invariant under
+    simultaneous action, F(y, .) is non-zero for only finitely many gamma, and only finitely many
+    Gamma-orbits in Y have any non-zero F value. Then the function pairTerm F (the weighted term
+    from the previous file) is non-zero on only finitely many orbits of pairs (y, gamma). Proof
+    idea: any pair orbit with a non-zero term can be moved so its first coordinate is the chosen
+    representative of its Y-orbit; then gamma lies in the finite support of F at that
+    representative. So the non-zero orbits are covered by a finite union of finite images.
+    This finiteness is needed so the later sums can be handled as ordinary finite sums.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteSupportStabilizerWeightedPairTerm.lean:8]
+  mathlib: [Set.Finite.biUnion, Set.Finite.image, Quotient.exact, Quotient.sound, Quotient.out_eq]
+  needs: [f-stabilizer-eq-centralizer, concept-group-actions-orbits-stabilizers, counting]
+
+- id: f-finsum-conj-classes-centralizer-orbits-eq-pair-orbits
+  title: Sum over conjugacy classes and centralizer orbits equals sum over pair orbits
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    A counting identity for a group Gamma acting on a set Y and a function F(y, gamma) that is
+    invariant under simultaneous action and has suitable finiteness. Left side: for each
+    conjugacy class c of Gamma (pick a representative gamma), sum over the orbits of the
+    centralizer of gamma acting on Y, the quantity F(y, gamma) / |Stab(y) intersected with
+    Centralizer(gamma)|. Right side: pairSum F, the sum of F(y, gamma) / |Stab(y, gamma)| over
+    orbits of Gamma acting on pairs (y, gamma) (acting by conjugation on gamma). The two agree
+    because an orbit of pairs is the same as a conjugacy class of gamma plus an orbit of the
+    centralizer inside the fibre over gamma. The proof sets up a bijection between conjugacy
+    classes and orbits of Gamma acting on itself by conjugation (conjClassesEquivOrbits), then
+    applies the fibre-by-fibre orbit lemma with the base set being Gamma-conjugation and the
+    subgroups being centralizers, using the finiteness lemma to supply its finite-support hypothesis.
+    This is a general orbit-counting trick of the kind used in trace formulas; its place in the
+    larger proof is not visible from this file.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FinsumConjClassesCentralizerOrbitsEqPairOrbits.lean:28]
+  mathlib: [ConjClasses, isConj_iff, Quotient.congr, finsum_comp_equiv, MulAction.orbitRel, Subgroup.centralizer]
+  needs: [f-stabilizer-eq-centralizer, f-finsum-orbit-rel-fibred-equivariant, f-finite-support-stabilizer-weighted-pair-term, concept-group-actions-orbits-stabilizers, groups]

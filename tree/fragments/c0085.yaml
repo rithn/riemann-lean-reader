@@ -1,0 +1,129 @@
+nodes:
+  - id: concept-chebyshev-functions
+    title: Chebyshev functions theta and psi
+    kind: concept
+    status: textbook
+    plain: >
+      Chebyshev's theta(x) adds up the natural logs of all primes up to x. His psi(x) adds ln p for every prime power p^k up to x, so ln 2 counts for 2, 4, 8, and so on. Both grow roughly like x, and that is equivalent to the prime number theorem. They are easier to estimate than the prime-counting function pi(x), and one converts between them by partial summation. psi can also be written using the von Mangoldt function and the log of factorials, which are explicit.
+    needs: [primes-divisibility, real-analysis, infinite-series]
+    learn:
+      - {title: "Apostol, Introduction to Analytic Number Theory", where: "ch. 4"}
+      - {title: "Hardy and Wright, An Introduction to the Theory of Numbers", where: "ch. XXII"}
+  - id: f-period-integrals--prime-count
+    title: Statement of a prime-counting upper bound
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This file defines the set of primes up to y, and then only states a claim; it proves nothing. The claim is a prime-count bound. For every y above 1, the number of primes up to y is less than 1.26 times y divided by the natural log of y. Example: y = 100 gives bound 1.26 times 100 over 4.6, about 27.4, and there are 25 primes up to 100. Other files prove it by combining a large-y argument with a check for small y.
+    lean:
+      - "Formalism/PeriodIntegrals/PrimeCount.lean:9"
+    mathlib: []
+    needs: [primes-divisibility, real-analysis]
+  - id: f-chebyshev-prime-bounds--log-factorial-eq-sum-of-le
+    title: Counting prime powers in factorials, and the psi sandwich
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This file proves log of N factorial equals the sum over d of the von Mangoldt weight of d times the integer part of N over d. That is Legendre's idea, that each prime power dividing a factorial gets counted. It then studies the combination D(x) = lf(x) minus lf(x/2) minus lf(x/3) minus lf(x/5) plus lf(x/30), where lf is the log of a floor factorial. D turns out to be a sum of von Mangoldt weights times a number between 0 and 1. That gives the sandwich psi(x) minus psi(x/6) at most D(x) at most psi(x).
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialEqSumOfLe.lean:22"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialEqSumOfLe.lean:82"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialEqSumOfLe.lean:144"
+    mathlib: [ArithmeticFunction.vonMangoldt_sum, Nat.floor_div_natCast, Finset.sum_comm]
+    needs: [f-chebyshev-prime-bounds--prime-count-bound-of, concept-chebyshev-functions, primes-divisibility, infinite-series]
+  - id: f-chebyshev-prime-bounds--log-factorial-le
+    title: Stirling-type bounds on the log factorial and on D(x)
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This file bounds the log of a factorial using Stirling's formula, a known estimate for n factorial. Upper: log n! is at most n ln n minus n plus half of ln n plus 1. A lower bound with similar terms is derived too. With these, it bounds the combination D(x) of five factorial logs from both sides. The main term is a constant A times x, minus a lower-order log term, and the constant comes from logs of 2, 3 and 5. Many small numerical steps use known bounds on e, pi and ln 2. These feed the Chebyshev bounds.
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialLe.lean:65"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialLe.lean:123"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialLe.lean:134"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialLe.lean:166"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/LogFactorialLe.lean:184"
+    mathlib: [Stirling.stirlingSeq'_antitone, Stirling.le_log_factorial_stirling, Real.log_le_sub_one_of_pos]
+    needs: [f-chebyshev-prime-bounds--prime-count-bound-of, calculus, real-analysis, infinite-series]
+  - id: f-chebyshev-prime-bounds--prime-count-bound-of
+    title: Definitions for Chebyshev bounds and the split prime-count bound
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This file mostly defines things. It defines a constant A from logs of 2, 3, 5 and 30, the log factorial function lf, and the combination D(x). It names the target claims as propositions. They are the upper and lower bounds for lf and D, the sandwich, and bounds for psi. It then proves two short results. If the prime-count bound holds for large y beyond some threshold and also for small y below it, it holds for all y. And a lower bound for psi follows from the numeric value of A, the lower bound for D and the sandwich.
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/PrimeCountBoundOf.lean:37"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/PrimeCountBoundOf.lean:43"
+    mathlib: []
+    needs: [f-period-integrals--prime-count, concept-chebyshev-functions, real-analysis]
+  - id: f-chebyshev-prime-bounds--psi-lower-bound-holds
+    title: Chebyshev's psi bounds, assembled
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This short file assembles the two final Chebyshev bounds on psi. The upper bound says psi(x) is at most 1.1056 x plus 0.7 (ln x) squared for x at least 1. The lower bound says psi(x) is at least 0.92129 x minus 2.5 ln x for x at least 30. Each is obtained by feeding earlier proven pieces into general lemmas. Those pieces are the numeric value of the constant, the bounds on D(x) and the sandwich between psi and D. There is no new calculation here.
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/PsiLowerBoundHolds.lean:9"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/PsiLowerBoundHolds.lean:11"
+    mathlib: []
+    needs: [f-chebyshev-prime-bounds--psi-upper-bound-of-lt-thirty-mul-six-pow, f-chebyshev-prime-bounds--log-factorial-le, f-chebyshev-prime-bounds--log-factorial-eq-sum-of-le, f-chebyshev-prime-bounds--prime-count-bound-of, concept-chebyshev-functions]
+  - id: f-chebyshev-prime-bounds--psi-upper-bound-of-lt-thirty-mul-six-pow
+    title: Proving the psi upper bound by induction on scale
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This file proves psi(x) is at most 1.1056 x plus 0.7 (ln x) squared, but assumes some inputs as hypotheses. They are the numeric range of the constant A (which it also proves), the upper bound for D(x), and the sandwich of psi against D. First it checks small x below 30 by comparing with 3 to the n, using that the lcm of 1 to n is at most 3^n there. Then it inducts. If the bound holds below 30 times 6^k, it holds below 30 times 6^(k+1), since psi(x) is at most D(x) plus psi(x/6). Any x lies below some such power.
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/PsiUpperBoundOfLtThirtyMulSixPow.lean:45"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/PsiUpperBoundOfLtThirtyMulSixPow.lean:16"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ChebyshevPrimeBounds/PsiUpperBoundOfLtThirtyMulSixPow.lean:78"
+    mathlib: [Chebyshev.psi_eq_log_lcmUpto, Real.log_two_gt_d9, pow_unbounded_of_one_lt]
+    needs: [f-chebyshev-prime-bounds--prime-count-bound-of, concept-chebyshev-functions, real-analysis, proofs]
+  - id: f-claim-of-two
+    title: Prime counts in (y, 2y], assuming two inputs
+    kind: step
+    status: explained
+    chunk: c0085
+    orphan: true
+    plain: >
+      This file proves two inequalities about Chebyshev functions, then combines results. First, theta(2y) minus theta(y) is at most (the count of primes in (y, 2y]) times ln 2y, since each such prime contributes at most ln 2y. Second, psi(x) minus theta(x) is at most 3 psi(root x). The final theorem proves the dyadic prime-interval claim only by assuming two hypotheses as inputs, a small-range numeric check and a real-number inequality. It feeds them with the two proofs here into the general case argument.
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ClaimOfTwo.lean:8"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ClaimOfTwo.lean:27"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ClaimOfTwo.lean:38"
+    mathlib: [Chebyshev.theta_eq_sum_primesLE, Chebyshev.psi_sub_theta_le_psi_add_psi_add_psi, Nat.primesLE_card_eq_primeCounting]
+    needs: [f-theta-diff, f-floor-half, f-period-integrals--primes-dyadic-r-s, concept-chebyshev-functions]
+  - id: f-floor-half
+    title: Many primes between y and 2y
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This file proves, assuming three hypotheses, that there are more than 3y over 5 ln y primes in (y, 2y], for y at least 20.5. The hypotheses are a finite numeric check for small values, the theta-difference inequality and psi-theta inequality, and a real-number inequality. For y below 65536 it uses the finite check. For larger y it combines the lower Chebyshev bound at 2y, the upper bound at y and at the square root of 2y, and the two inequalities. It also proves the floor of y equals the floor of 2y halved.
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/FloorHalf.lean:56"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/FloorHalf.lean:13"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/FloorHalf.lean:36"
+    mathlib: [Nat.floor_div_natCast, Chebyshev.theta_le_psi]
+    needs: [f-theta-diff, f-chebyshev-prime-bounds--psi-lower-bound-holds, f-period-integrals--primes-dyadic-r-s, concept-chebyshev-functions, real-analysis]
+  - id: f-theta-diff
+    title: Statements for the dyadic prime-interval argument
+    kind: step
+    status: explained
+    chunk: c0085
+    plain: >
+      This file only defines and states things; it proves nothing. It defines the target property "At y", that the number of primes in (y, 2y] exceeds 3y over 5 ln y. It states a numeric check for small whole numbers, the theta-difference inequality, the psi-minus-theta inequality, and a real-number inequality for y at least 65536. These are named claims. Later files prove some and assume the rest, to show the target property for every y.
+    lean:
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ThetaDiff.lean:8"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ThetaDiff.lean:11"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ThetaDiff.lean:15"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ThetaDiff.lean:19"
+      - "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/DyadicPrimeIntervals/ThetaDiff.lean:22"
+    mathlib: []
+    needs: [concept-chebyshev-functions, primes-divisibility, real-analysis]

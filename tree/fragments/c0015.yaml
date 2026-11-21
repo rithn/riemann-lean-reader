@@ -1,0 +1,127 @@
+nodes:
+- id: concept-schemes-basics
+  title: "Schemes, geometric spaces glued from rings"
+  kind: concept
+  status: textbook
+  plain: >
+    A scheme is a geometric space built by gluing together pieces, each of which
+    comes from a ring. Example: the ring of polynomials in x gives a line, and the
+    ring of polynomials in x and y gives a plane. The pieces that come from a single
+    ring are called affine opens. A map of schemes is a map of spaces that respects
+    the rings. A closed immersion is the inclusion of a sub-shape cut out by
+    equations, like a circle inside the plane. A map is finite, flat or surjective
+    when it is, roughly, "fibres are finite-size, vary smoothly in size, and cover
+    everything". These properties can be checked piece by piece over an open cover.
+  needs: [rings-fields, concept-point-set-topology, polynomials]
+  learn:
+  - title: Algebraic Geometry (R. Hartshorne)
+    where: Chapter II, Sections 1 to 3
+  - title: The Rising Sea, Foundations of Algebraic Geometry (R. Vakil)
+    where: Chapters 4 to 8
+  - title: The Geometry of Schemes (D. Eisenbud and J. Harris)
+    where: Chapters I and II
+
+- id: concept-categorical-pullbacks
+  title: Pullbacks (fibre products) and maps that "factor through"
+  kind: concept
+  status: textbook
+  plain: >
+    A pullback is the best way to combine two maps with the same target. Take two
+    sets A and B with maps to C. Their pullback is the set of pairs (a, b) whose
+    images in C agree. Its defining property says that any object with compatible
+    maps to A and to B has exactly one map into the pullback. "Factors through"
+    means a map g can be written as g = z followed by a. If a is injective-like (a
+    "mono"), such z is unique when it exists. A square of maps that has this
+    property is called a pullback square. Squares can be stacked, and then the
+    outer rectangle is a pullback exactly when both parts are.
+  needs: [counting, groups]
+  learn:
+  - title: Category Theory in Context (E. Riehl)
+    where: Chapter 3 (universal properties, limits and pullbacks)
+  - title: Categories for the Working Mathematician (S. Mac Lane)
+    where: Chapter III, Section 3 (pullbacks) and Chapter V, Section 4
+
+- id: f-whisker-left-left-is-pullback-snd
+  title: Product with a fixed object gives a pullback square
+  kind: step
+  status: explained
+  plain: >
+    Work with spaces over a base space S. Let U and T be spaces over S and f a map
+    from T' to T. The file proves that the square formed by U times T', U times T
+    and the maps T' to T and the projection to T is a pullback square. In words, "U
+    times T'" is exactly what you get from "U times T" by restricting along f. Proof.
+    Both U times T' and U times T are themselves pullbacks over S. A standard
+    cancellation rule says that if the big rectangle and its right square are
+    pullbacks then so is the left square. Both are checked from the definition
+    of the product.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/WhiskerLeftLeftIsPullbackSnd.lean:7]
+  mathlib: [CategoryTheory.IsPullback.of_right, CategoryTheory.IsPullback.of_hasPullback]
+  needs: [concept-categorical-pullbacks, concept-schemes-basics]
+
+- id: f-exists-factor-closed-immersion-of-locally-on-source
+  title: A map factoring locally through a closed immersion factors globally
+  kind: step
+  status: explained
+  plain: >
+    Let a be a closed immersion of a space A into Z, and g a map from Y to Z. Suppose
+    each point of Y has an open neighbourhood on which g can be written as some map
+    into A followed by a. Then g factors through A on all of Y. Proof. The
+    neighbourhoods form an open cover of Y. A closed immersion can be cancelled on
+    the right (it is a "mono"), so the local maps agree on every overlap. Local
+    maps that agree on overlaps glue to one map on Y. Following it with a gives
+    g, again checked piece by piece.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsFactorClosedImmersionOfLocallyOnSource.lean:7]
+  mathlib: [AlgebraicGeometry.Scheme.Cover.glueMorphisms, AlgebraicGeometry.Scheme.openCoverOfIsOpenCover]
+  needs: [concept-schemes-basics, concept-categorical-pullbacks, concept-point-set-topology]
+
+- id: f-exists-glue-closed-immersions-open-cover
+  title: Gluing closed subspaces defined on an open cover
+  kind: step
+  status: explained
+  plain: >
+    Take a space X covered by open pieces X_i. On each piece suppose we have a
+    closed sub-shape A_i, and these agree where pieces overlap, in the sense that
+    the same test maps land in both. Then there is a single closed sub-shape B of
+    X that restricts to each A_i. Think of drawing a curve one patch at a time and
+    having the patches match. Proof idea. Enlarge the cover to all open sets inside
+    some X_i, which is closed under intersection. Pull back to get a closed
+    piece on each open set, then use the library's gluing of spaces. Being a closed
+    immersion can be checked on an open cover of the target.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsGlueClosedImmersionsOpenCover.lean:86, Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsGlueClosedImmersionsOpenCover.lean:51]
+  mathlib: [AlgebraicGeometry.Scheme.OpenCover.RelativeGluingData, AlgebraicGeometry.IsZariskiLocalAtTarget.of_openCover, CategoryTheory.Limits.pullback]
+  needs: [concept-schemes-basics, concept-categorical-pullbacks, concept-point-set-topology]
+
+- id: f-finite-flat-surjective-closed-subscheme-of-open-cover
+  title: Finite, flat, surjective can be checked on an open cover
+  kind: step
+  status: explained
+  plain: >
+    Take a closed sub-shape B of X, with X mapping to a base T. Cover T by opens
+    V_i. Suppose B restricted over each V_i matches a closed piece that is finite,
+    flat and surjective over V_i. Then the map from B to T is finite, flat and
+    surjective as a whole. Roughly: the fibres are finite-size, vary smoothly in
+    size, and cover every point. Proof. First, a helper turns the matching condition
+    into a pullback square. Then stack squares to get one over each V_i. Finally,
+    each of the three properties is known to be "local on the target", so
+    checking it over the cover suffices.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteFlatSurjectiveClosedSubschemeOfOpenCover.lean:36]
+  mathlib: [AlgebraicGeometry.IsZariskiLocalAtTarget.iff_of_iSup_eq_top, CategoryTheory.IsPullback.paste_vert, AlgebraicGeometry.isPullback_morphismRestrict]
+  needs: [concept-schemes-basics, concept-categorical-pullbacks, concept-point-set-topology]
+
+- id: f-exists-closed-immersion-represents-of-affine-opens
+  title: Representing a local condition by a closed finite flat subspace
+  kind: step
+  status: explained
+  plain: >
+    This is a proven gluing theorem, with a few hypotheses. Take spaces U and T
+    over S and a condition P on pairs of maps into U and T. Assume P is preserved
+    when we restrict, and that if P holds near every point then it holds. Assume
+    also that over each affine open piece V of T, P is "represented" by a closed
+    sub-shape of U times V that is finite, flat and surjective over V. Then P is
+    represented by one such sub-shape of U times T. Proof. Glue the closed pieces
+    over the cover, then check the three properties piece by piece, and convert
+    local factoring into global factoring, using the nodes below.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsClosedImmersionRepresentsOfAffineOpens.lean:11]
+  mathlib: [AlgebraicGeometry.Scheme.isBasis_affineOpens, AlgebraicGeometry.IsOpenImmersion.lift, CategoryTheory.IsPullback.isoPullback]
+  needs: [f-whisker-left-left-is-pullback-snd, f-exists-factor-closed-immersion-of-locally-on-source, f-exists-glue-closed-immersions-open-cover, f-finite-flat-surjective-closed-subscheme-of-open-cover, concept-schemes-basics, concept-categorical-pullbacks]
+  orphan: true

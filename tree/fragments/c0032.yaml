@@ -1,0 +1,32 @@
+nodes:
+  - id: f-hecke-u-operator-preserves-modular-form-gamma1-inter-gam-statement
+    title: U operator keeps modular forms modular (restated)
+    kind: step
+    status: explained
+    chunk: c0032
+    orphan: true
+    plain: >
+      This file restates a result under a standard name and proves it only by pointing at the real proof elsewhere. The result: take a modular form (a very symmetric function on the upper half plane) for a level group, and a prime q dividing the level. Apply the U operator, which averages the form over q shifted copies of itself. The output is again a modular form for the same level group and weight. The file simply cites the proved theorem in the neighbouring file.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/HeckeUOperatorPreservesModularFormGamma1InterGamStatement.lean:7"]
+    mathlib: []
+    needs: [f-hecke-u-operator-preserves-modular-form-gamma1-inter-gamma0, concept-modular-forms, concept-hecke-operators]
+  - id: f-hecke-u-operator-preserves-modular-form-gamma1-inter-gamma0
+    title: U operator keeps modular forms modular
+    kind: step
+    status: explained
+    chunk: c0032
+    plain: >
+      This file proves that applying the U operator to a modular form of a given level gives another modular form of that level. A modular form must satisfy three tests. It must have the right symmetry, it must be holomorphic (smooth in the complex sense), and it must stay bounded at every cusp (the edge points of the upper half plane). The symmetry and smoothness come from earlier files. For boundedness, U is a sum of q shifted copies of the form. Each copy is bounded at cusps, and a finite sum of bounded things is bounded.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/HeckeUOperatorPreservesModularFormGamma1InterGamma0.lean:24"]
+    mathlib: [Finset.induction_on, Finset.sum_insert]
+    needs: [f-foundation-proofs--hecke-u-operator-explicit-slash-invariant-gamma1-inter-gamma0, f-foundation-proofs--hecke-u-operator-explicit-eq-sum-slash, f-foundation-proofs--mdifferentiable-hecke-operators-explicit, f-slash-rat-is-bounded-at-gamma1-inter-gamma0-level, f-foundations--pet-eq-rel-index-mul-pet-prod, concept-modular-forms, concept-hecke-operators]
+  - id: f-slash-rat-is-bounded-at-gamma1-inter-gamma0-level
+    title: Moving a modular form by a rational matrix keeps it bounded at cusps
+    kind: step
+    status: explained
+    chunk: c0032
+    plain: >
+      This file shows that a modular form stays bounded at every cusp even after it is transformed by a 2 by 2 matrix with rational entries and positive determinant. A cusp is a boundary point of the upper half plane where the form is checked for good behaviour. The idea has two steps. A rational matrix sends a cusp to another cusp, so the transformed point is still a cusp. The form is bounded at all cusps by definition, and boundedness at the moved point is equivalent to boundedness of the transformed form at the original point. A helper shows the level group has finite index.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/SlashRatIsBoundedAtGamma1InterGamma0Level.lean:20"]
+    mathlib: [Subgroup.IsArithmetic.isCusp_iff_isCusp_SL2Z, OnePoint.IsBoundedAt.smul_iff, OnePoint.map_smul]
+    needs: [concept-modular-forms, concept-group-actions, linear-algebra]

@@ -1,0 +1,73 @@
+nodes:
+
+- id: f-finite-projection-pushforward
+  title: An irreducible analytic germ contains a disc cover of the line
+  kind: step
+  status: explained
+  chunk: c0018
+  orphan: true
+  plain: >
+    This file proves its result only assuming four other claims, which are stated
+    elsewhere as named hypotheses (openness of the projection, a primitive-form
+    claim, a sheet-structure claim off the discriminant, and constancy of the
+    count). Setting: a shape Y in complex space, cut out by analytic equations near
+    a point w, that cannot be split into smaller pieces there (irreducible). Project
+    it linearly to the complex line, with w the only point over its own image locally.
+    Conclusion: a smaller piece of Y is an N-sheeted cover of a small disc, with w
+    alone above the centre. The proof picks a small ball so that the piece is compact,
+    avoids the boundary, and counts preimages with the constant-count claim.
+  lean: [Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FiniteProjectionPushforward.lean:76, Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FiniteProjectionPushforward.lean:187]
+  mathlib: [Metric.nhds_basis_closedBall, IsCompact.inter_right, AnalyticAt.eventually_eq_zero_or_eventually_ne_zero]
+  needs: [f-analytic-germ, f-st-finite-germ-projection-open-at, f-st-irreducible-germ-primitive-form, f-st-primitive-form-sheeted-off-discriminant, f-complex-analytic-sets--st-unbranched-proper-count-constant, f-st-centred-disc-cover-curve, concept-complex-analytic-sets, concept-point-set-topology, complex-analysis]
+
+- id: f-st-centred-disc-cover-curve
+  title: Statement only. A disc cover contains a holomorphic curve through its centre
+  kind: step
+  status: explained
+  chunk: c0018
+  plain: >
+    This file states a claim without proving it, and also fixes a definition. A
+    "centred disc cover" is a shape Y in complex space with a linear map p to the
+    complex numbers. The centre w lies in Y and is the only point sent to the centre
+    of the disc. Every other point of the disc has exactly N preimages in Y. Preimages of
+    closed compact sets stay compact. Away from the centre, Y looks like N separate
+    smooth sheets, each the graph of a differentiable function. The claim says that
+    such a Y always contains a small curve through w. This is a one-to-one differentiable map from a
+    little disc into Y, sending 0 to w.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StCentredDiscCoverCurve.lean:8, GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StCentredDiscCoverCurve.lean:16]
+  mathlib: [Metric.ball, Set.InjOn, DifferentiableOn]
+  needs: [concept-complex-analytic-sets, concept-point-set-topology, complex-analysis]
+
+- id: f-st-finite-germ-projection-open-at
+  title: Statement only. Finite-fibre projection of a germ is open at the point
+  kind: step
+  status: explained
+  chunk: c0018
+  plain: >
+    This file states a claim and does not prove it. Take a shape X in complex space,
+    cut out by analytic equations near a point x, and a linear map A to a smaller
+    complex space. Suppose x is isolated in its own fibre, meaning no other nearby
+    point of X maps to the same place. Suppose also the image is not trapped inside
+    a thinner analytic set: any analytic function that vanishes on the image near
+    A(x) vanishes near A(x). Then every neighbourhood of x in X is sent onto a
+    neighbourhood of A(x). In short, the projection is open at x. This is an
+    open-mapping statement for analytic sets.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StFiniteGermProjectionOpenAt.lean:9]
+  needs: [f-analytic-germ, concept-complex-analytic-sets, concept-point-set-topology, complex-analysis]
+
+- id: f-complex-analytic-sets--st-unbranched-proper-count-constant
+  title: Statement only. Unbranched proper covers have a constant number of sheets
+  kind: step
+  status: explained
+  chunk: c0018
+  plain: >
+    This file states a claim and does not prove it. Take a shape Y in complex space
+    and a linear map A sending it into a connected open region D. Suppose A is
+    proper, meaning preimages of compact sets are compact. Suppose delta is an
+    analytic function on D, and that wherever delta is nonzero, Y is locally a
+    union of continuous sheets over D. Then there is one
+    whole number N such that every point y of D with nonzero delta has exactly N
+    preimages in Y. This is like how a covering of a connected space has the same
+    number of sheets everywhere.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StUnbranchedProperCountConstant.lean:8]
+  needs: [concept-complex-analytic-sets, concept-point-set-topology, complex-analysis]

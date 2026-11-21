@@ -1,0 +1,126 @@
+nodes:
+
+- id: concept-group-representations
+  title: Group representations and characters
+  kind: concept
+  status: textbook
+  plain: >
+    A representation of a group G over a field K is a way of letting each element of G
+    act as an invertible matrix (a linear map of a vector space), so that combining two
+    group elements corresponds to multiplying their matrices. The character of a
+    representation is the function g -> trace of the matrix of g (the sum of its diagonal
+    entries). For a finite group over the complex numbers, characters can be added,
+    multiplied, and paired with each other; the pairing counts how many "pieces in common"
+    two representations have. A representation is irreducible if it has no smaller
+    non-zero sub-representation, i.e. it cannot be split into simpler parts.
+  needs: [groups, linear-algebra, complex-numbers]
+  learn:
+    - title: Serre, Linear Representations of Finite Groups
+      where: Chapters 1-2 (representations, characters, orthogonality)
+    - title: Dummit and Foote, Abstract Algebra
+      where: Section 18.1 and 19.1 (representations and characters)
+
+- id: f-ab-by-p-of-comm
+  title: Characters, virtual characters, induction and pairing (definitions)
+  kind: step
+  status: explained
+  plain: >
+    A definition file. A function chi on a group G (with values in a field L) "is a character"
+    if it is the trace function g -> trace(rho(g)) of some representation rho of G over a
+    smaller field K, viewed inside L; it is an "irreducible character" if rho cannot be
+    split into smaller pieces. It also defines virtual characters (integer combinations of
+    characters), induction of a function from a subgroup H up to G (average of the function
+    over conjugates of g, divided by the size of H), the pairing of two functions
+    (1/|G|) times the sum over g of a(g) times b(g inverse), and a property "AbByP" of a
+    group: some prime p and a normal commutative subgroup A such that every element has a
+    p-power that lands in A. The only theorem is that the constant function 1 is a
+    character (take the 1-dimensional trivial representation).
+  lean: [Development/AbelianVarietyTheory/Definitions/CommutativeAlgebra/AbByPOfComm.lean:5]
+  mathlib: [Representation.character, Representation.trivial, Representation.IsIrreducible]
+  needs: [concept-group-representations, groups, rings-fields, linear-algebra]
+
+- id: f-linear-map-short-exact-commute
+  title: Trace is additive over a short exact sequence
+  kind: step
+  status: explained
+  plain: >
+    Suppose a vector space V contains a subspace U (the image of an injective map i) and
+    the quotient V/U is W (via a surjective map p). If a linear map b on V sends U to
+    itself acting as a on U, and acts as c on the quotient W, then trace(b) = trace(a) +
+    trace(c). Example: a 3x3 matrix that is block upper triangular with a 2x2 block A and a
+    1x1 block C has trace = trace(A) + trace(C). The proof picks a splitting of V into U
+    plus a copy of W using one-sided inverses r and s, writes b as the sum of two maps,
+    and uses the fact that trace(XY) = trace(YX) to read off the two traces. The
+    statement is for finite-dimensional spaces over any field.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/LinearMapShortExactCommute.lean:5]
+  mathlib: [LinearMap.trace_comp_comm', LinearMap.exists_leftInverse_of_injective, LinearMap.exists_rightInverse_of_surjective]
+  needs: [linear-algebra, rings-fields]
+
+- id: f-is-character-over-subfield-of-representation
+  title: Every finite-dimensional representation has a character (matrix version)
+  kind: step
+  status: explained
+  plain: >
+    The definitions of "character" use representations on coordinate space (lists of n
+    numbers), but representations in practice live on arbitrary vector spaces. This file
+    shows that any finite-dimensional representation rho gives a character in the defined
+    sense, and if rho is irreducible, an irreducible character. The idea is to choose a
+    basis, which identifies V with coordinate space; the transported representation has
+    the same trace for every group element (trace does not change under a change of basis),
+    and has exactly the same sub-representations, so it is irreducible if and only if rho
+    is. Helpers: transportRep (carry a representation across an isomorphism of vector
+    spaces), its character equality, and a bijection between the sub-representations
+    on each side.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldOfRepresentation.lean:51]
+  mathlib: [LinearMap.trace_conj', Module.finBasis, Basis.equivFun, Representation.IsIrreducible, OrderIso.isSimpleOrder]
+  needs: [f-ab-by-p-of-comm, concept-group-representations, linear-algebra]
+
+- id: f-finite-group-function-pairing-character-eq-finrank-inte
+  title: Character pairing equals dimension of intertwining maps
+  kind: step
+  status: explained
+  plain: >
+    For a finite group G over a field of characteristic zero, take two representations rho
+    and sigma. The pairing (1/|G|) times the sum over g of chi_sigma(g) chi_rho(g inverse)
+    equals the dimension of the space of "intertwining maps" from rho to sigma, meaning
+    linear maps commuting with the action of G. Example: if the two are the same
+    irreducible representation over the complex numbers, the pairing is 1. The file
+    deduces this from Mathlib's version of the same identity, done over K, by pushing it
+    into the larger field L (the map from K to L respects sums, products and inverses).
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/FiniteGroupFunctionPairingCharacterEqFinrankInte.lean:6]
+  mathlib: [Representation.card_inv_mul_sum_char_mul_char_eq_finrank, finsum_eq_sum_of_fintype]
+  needs: [f-ab-by-p-of-comm, concept-group-representations, groups, linear-algebra]
+
+- id: f-exists-character-quotient-of-injective-intertwining
+  title: Injective intertwining map splits off a quotient character
+  kind: step
+  status: explained
+  plain: >
+    Given an injective intertwining map f from a representation sigma into rho, the
+    character of rho equals the character of sigma plus the character of some other
+    representation (the quotient of rho by the image of f). Idea: the image of f is a
+    sub-representation of rho, so the group acts on the quotient; the trace
+    additivity result for short exact sequences then gives
+    trace on rho = trace on sigma + trace on quotient, for each group element. The
+    quotient's character is shown to be a character in the defined sense by the matrix
+    version file.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsCharacterQuotientOfInjectiveIntertwining.lean:8]
+  mathlib: [Submodule.mkQ, Submodule.ker_mkQ, Submodule.mkQ_surjective, Representation.quotient, Representation.IntertwiningMap]
+  needs: [f-is-character-over-subfield-of-representation, f-linear-map-short-exact-commute, f-ab-by-p-of-comm, concept-group-representations]
+
+- id: f-exists-is-char-eq-add-of-pair-ne-zero
+  title: Non-zero pairing with an irreducible character means it is a summand
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    For a finite group over characteristic-zero fields: if phi is an irreducible character
+    and a is any character with pairing(a, phi) not zero, then a = phi + c for some
+    character c. In words, phi occurs inside a. Proof idea: the pairing equals the dimension
+    of the space of intertwining maps from the irreducible representation of phi into that
+    of a, so it is not zero, so there is a non-zero such map; an irreducible
+    representation's non-zero intertwining map is injective, so the previous file
+    splits off a complement, giving a = phi + c.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsIsCharEqAddOfPairNeZero.lean:8]
+  mathlib: [Representation.IsIrreducible.injective_or_eq_zero, Module.finrank_zero_of_subsingleton]
+  needs: [f-finite-group-function-pairing-character-eq-finrank-inte, f-exists-character-quotient-of-injective-intertwining, f-ab-by-p-of-comm, concept-group-representations]

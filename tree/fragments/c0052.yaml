@@ -1,0 +1,194 @@
+nodes:
+  - id: concept-frobenius-perfect-rings
+    title: "Frobenius and perfect rings: raising to the p-th power in characteristic p"
+    kind: concept
+    status: textbook
+    plain: >
+      In a ring where p = 0 (p a prime), the identity (x + y)^p = x^p + y^p holds, because the
+      middle binomial coefficients are all multiples of p.
+      So "raise to the p-th power" respects addition and multiplication; this map is called Frobenius.
+      Example: mod 3, (x + y)^3 = x^3 + y^3.
+      A ring is perfect if Frobenius is a bijection, meaning every element has exactly one p-th root.
+      Any ring of this kind can be enlarged to a perfect one by adding all the missing roots.
+    needs: [rings-fields, modular-arithmetic, primes-divisibility]
+    learn:
+      - {title: "Peter Scholze and Jared Weinstein, Berkeley Lectures on p-adic Geometry", where: "lecture 3"}
+      - {title: "Serge Lang, Algebra", where: "ch. V, sec. 5"}
+  - id: f-witt-exact-sequences--is-compl
+    title: Vocabulary for perfect rings, covers and solvable systems
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      This file only states definitions, nothing is proved.
+      The main ones are Pf (a perfect ring: p = 0 and the p-th power map is a bijection),
+      Cov (a technical condition on a ring saying that something which becomes solvable after
+      extending to the ring was already solvable up to a fixed multiple),
+      Solv (a finite system of linear equations with a solution in a ring B),
+      and PQ (a ring map onto a perfect ring whose kernel and image behave like a "perfect quotient").
+      The file also defines unrelated notions such as adic completeness, colimits and a few others.
+      The name of the file does not match most of its contents.
+    lean: ["Development/WeilBound/CoreStatements/PadicHodgeComparison/EtaleCohomologyComparison/WittExactSequences/IsCompl.lean:11"]
+    mathlib: []
+    needs: [concept-frobenius-perfect-rings, concept-tensor-product-of-algebras, rings-fields]
+  - id: f-cov-of-alg-hom
+    title: The covering property passes along ring maps
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      Cov is the technical condition from the vocabulary file.
+      This file proves two things about it.
+      First, the base ring A itself always has the property.
+      Second, if there is a ring map from B to B1 (compatible with A), and B1 has the property,
+      then so does B.
+      The proofs are bookkeeping with tensor products: an element that lands in the right place
+      over B is pushed across to B1, the hypothesis is applied there, and the answer is pulled back.
+      Everything is checked on pure tensors and extended by addition.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/CovOfAlgHom.lean:22"]
+    mathlib: [TensorProduct.induction_on, LinearMap.rTensor]
+    needs: [f-witt-exact-sequences--is-compl, concept-tensor-product-of-algebras]
+  - id: f-block-decomposition--exists-fg-tmul-eq-zero
+    title: A vanishing in a tensor product involves only finitely many equations
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      Suppose 1 tensor z is zero in B tensor Q, where B is an extension ring of A.
+      The first result: the vanishing already happens inside some finitely generated piece of Q.
+      The idea is that a tensor product commutes with taking a union of submodules, and a zero in the union
+      shows up at some finite stage.
+      The second result: this turns into a finite list of linear equations over A with a solution in B,
+      such that whenever any other extension ring solves the same equations, 1 tensor z is zero there too.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsFgTmulEqZero.lean:7"]
+    mathlib: [Module.DirectLimit.of.zero_exact, TensorProduct.directLimitLeft, lTensor_exact]
+    needs: [concept-tensor-product-of-algebras, concept-flat-modules, linear-algebra]
+  - id: f-block-decomposition--exists-perfect-radical
+    title: Building a perfect ring from a ring of characteristic p
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      Start with a ring S in which p = 0 and an ideal I.
+      The claim: there is a perfect ring T and a ring map from S to T such that
+      every element of T has some p-power-of-p-power equal to an image of S,
+      and an element of S goes to zero exactly when it lies in the radical of I
+      (some power of it is in I).
+      The construction: divide S by the radical of I, which leaves a ring with no nonzero nilpotents,
+      then add all the missing p-th roots (the perfect closure).
+      The case where the radical is everything is handled separately, since then T is the zero ring.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsPerfectRadical.lean:5"]
+    mathlib: [PerfectClosure, Ideal.radical, PerfectRing.bijective_frobenius]
+    needs: [concept-frobenius-perfect-rings, concept-prime-ideals-localization, rings-fields]
+  - id: f-block-decomposition--exists-p-q
+    title: Every characteristic-p ring has a perfect quotient
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      This repackages the previous construction in the form the vocabulary file calls PQ.
+      Given a ring S with p = 0 and an ideal I, there is a perfect ring T and a ring map S to T with three properties.
+      T is perfect, every element of T has some iterated p-th power coming from S,
+      and an element of S dies in T exactly when some p-th power iterate of it lies in I.
+      The only new work is converting "lies in the radical of I" to "some p^k-th power lies in I".
+      That is done in both directions with the fact that n is smaller than p to the n.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsPQ.lean:9"]
+    mathlib: [Ideal.pow_mem_of_pow_mem, Nat.lt_pow_self]
+    needs: [f-block-decomposition--exists-perfect-radical, f-witt-exact-sequences--is-compl, concept-frobenius-perfect-rings]
+  - id: f-block-decomposition--exists-ring-hom-pow-prime-pow
+    title: In characteristic p, raising to the p^k-th power respects sums
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      In a ring where p = 0, the map x to x^(p^k) is a ring homomorphism, for every k.
+      Products and 1 are preserved in any commutative ring.
+      The real content is that sums are preserved: (x + y)^(p^k) equals x^(p^k) + y^(p^k).
+      Example: mod 2, (x + y)^4 = x^4 + y^4.
+      This follows because every middle binomial coefficient is a multiple of p, so it vanishes.
+      The file packages the map as an actual ring homomorphism, which later proofs reuse.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsRingHomPowPrimePow.lean:8"]
+    mathlib: [add_pow_prime_pow_eq]
+    needs: [concept-frobenius-perfect-rings, rings-fields]
+  - id: f-block-decomposition--pf-facts
+    title: Basic facts about perfect rings
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      This file collects consequences of a ring being perfect (p = 0 and the p-th power map is a bijection).
+      The p-th power map is a ring automorphism.
+      No nonzero element has a zero power, so there are no nilpotents.
+      Every element has a p^k-th root, and that root is unique.
+      For a compatible tower of p-th roots r0, r1, r2, ... (each is a p-th root of the last),
+      the k-th term raised to p^k gives back r0,
+      and if r0 to some power kills x then each r_k kills x.
+      Each proof is short: iterate the bijectivity, and use that n is less than p to the n.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PfFacts.lean:9"]
+    mathlib: [exists_add_pow_prime_eq, Nat.lt_pow_self]
+    needs: [f-witt-exact-sequences--is-compl, concept-frobenius-perfect-rings]
+  - id: f-block-decomposition--perfect-frobenius-root-solution
+    title: Solving a system after taking p-power roots of the coefficients
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      Take a finite linear system with coefficients a and right sides c over a ring A,
+      and a perfect ring B containing A.
+      If the system with every coefficient raised to the p^k-th power is solvable in B,
+      then the original system is solvable in B.
+      The idea: take p^k-th roots of the solution entries (they exist because B is perfect),
+      then check the roots satisfy the original equations.
+      The check works because raising to the p^k-th power is injective and respects sums and products.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PerfectFrobeniusRootSolution.lean:10"]
+    mathlib: []
+    needs: [f-block-decomposition--pf-facts, f-block-decomposition--exists-ring-hom-pow-prime-pow, f-witt-exact-sequences--is-compl]
+  - id: f-block-decomposition--frobenius-power-solution-lift
+    title: Lifting a solution from a perfect quotient, up to p-powers
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      Setting: a ring map from S to a perfect quotient B (the vocabulary's PQ), and a finite linear system
+      over A that has a solution in B.
+      The claim: after raising the coefficients to some p^k-th power, the system has a solution in S itself,
+      correct up to an error lying in the ideal I.
+      The proof pulls the solution entries back, since each has a p-power coming from S.
+      The system's error vanishes in B, so some p-power of it lies in I.
+      Raising everything to a further power of p fixes the error, using Frobenius on S and on B.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FrobeniusPowerSolutionLift.lean:16"]
+    mathlib: [iterateFrobenius]
+    needs: [f-witt-exact-sequences--is-compl, concept-frobenius-perfect-rings, concept-hensel-lifting]
+  - id: f-block-decomposition--one-tmul-mem-range-iff
+    title: A criterion for membership in a base-changed image, and a covering criterion
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      First result. For a linear map d, the element 1 tensor z lies in the image of d after base change to B
+      exactly when 1 tensor (z mod the image of d) is zero in B tensor the cokernel.
+      This uses that tensoring keeps sequences exact on the right.
+      Second result: to show a ring B has the covering property, it is enough that every finite
+      system of equations solvable in B is also solvable in some ring B1 that has the property.
+      The proof turns the membership into a vanishing, reduces it to finitely many equations,
+      moves to B1, and moves back.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/OneTmulMemRangeIff.lean:21"]
+    mathlib: [lTensor_exact, LinearMap.exact_map_mkQ_range]
+    needs: [f-block-decomposition--exists-fg-tmul-eq-zero, f-witt-exact-sequences--is-compl, concept-flat-modules, concept-tensor-product-of-algebras]
+  - id: f-exists-retraction
+    title: Adjoining a root of a monic polynomial keeps a perfect, covering extension
+    kind: step
+    status: explained
+    chunk: c0052
+    plain: >
+      Main claim: given a perfect ring A with the covering property and a monic polynomial P of positive degree,
+      there is a bigger perfect ring B with the covering property in which P has a root.
+      First, a small lemma: the ring A[x]/(P) has the basis 1, x, x^2, ..., so reading off the first coordinate
+      gives an A-linear map back to A sending 1 to 1.
+      Then the main proof makes a perfect quotient of A[x]/(P), shows the covering property by
+      pulling solutions back through that retraction and the Frobenius lifting lemmas,
+      and takes the image of x as the root.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsRetraction.lean:23"]
+    mathlib: [AdjoinRoot.powerBasis', Polynomial.aeval_algHom_apply]
+    needs: [f-block-decomposition--exists-p-q, f-block-decomposition--frobenius-power-solution-lift, f-block-decomposition--perfect-frobenius-root-solution, f-cov-of-alg-hom, f-block-decomposition--one-tmul-mem-range-iff, f-witt-exact-sequences--is-compl, concept-field-extensions-transcendence, polynomials]
+    orphan: true

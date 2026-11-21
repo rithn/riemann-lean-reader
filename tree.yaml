@@ -1,0 +1,595 @@
+# Prerequisite tree for the claimed Lean proof of the Riemann hypothesis.
+# A map, not a check: the Lean code has not been compiled or verified.
+#
+# Each node:
+#   id:      short unique name, used in `needs`
+#   title:   short label (shown in the diagram)
+#   kind:    theorem | step | concept | leaf
+#              theorem = a headline result of the project
+#              step    = a step of the proof, found in the Lean code
+#              concept = background maths you must understand
+#              leaf    = school or first-university material (the bottom of the tree)
+#   status:  explained | textbook | research | new | unmapped
+#              explained = plain-English argument written here
+#              textbook  = standard material, see `learn`
+#              research  = in research papers, not textbooks
+#              new       = appears to exist only in this proof
+#              unmapped  = not worked out yet (help wanted)
+#   guess:   true if `plain` is a guess from names, not from reading the file
+#   plain:   what it says, in plain English
+#   lean:    where it is in the project (path relative to lean/src, :line)
+#   mathlib: Mathlib facts used directly (proved by Mathlib, not by this project)
+#   needs:   ids of the nodes you must understand first
+#   learn:   where to learn it (title, where = chapters, url if free online)
+#   orphan:  true if found bottom-up and not yet linked to the proof above
+#   used_in: for orphans, how many project files mention it (text search)
+#   chunk:   for nodes from chunk mapping, the chunk id (see tree/chunks.jsonl)
+#
+# This file is the core only. Also part of the tree: tree/concepts.yaml (background
+# concepts found while mapping chunks) and tree/nodes/part-*.yaml (file nodes from
+# chunk mapping, 500 per file). scripts/treelib.py loads them all together.
+
+roots: [riemann-hypothesis, grh-dirichlet]
+
+nodes:
+
+# ===================== headline theorems =====================
+
+- id: riemann-hypothesis
+  title: The Riemann hypothesis
+  kind: theorem
+  status: explained
+  plain: >
+    Every zero of the zeta function, other than the "trivial" zeros -2, -4, -6, ...,
+    has real part exactly 1/2. The statement used is Mathlib's own `RiemannHypothesis`,
+    not one written by the project.
+  lean: [Main.lean:4, Supplements/Kernels/MainTheorems.lean:9]
+  needs: [rh-statement, step-rh-of-every]
+
+- id: grh-dirichlet
+  title: GRH for Dirichlet L-functions
+  kind: theorem
+  status: explained
+  plain: >
+    The same for Dirichlet L-functions: every zero in the strip 0 < Re s < 1 has
+    real part 1/2. Stated in Statements.lean, which imports only Mathlib.
+  lean: [Main.lean:12, Statements.lean:14, Supplements/Kernels/MainTheorems.lean:11]
+  needs: [step-crit-line]
+
+# ===================== layer 1: the readable end of the proof =====================
+
+- id: step-rh-of-every
+  title: L2 for all characters ⇒ RH
+  kind: step
+  status: explained
+  plain: >
+    Apply L2 to the trivial character mod 1, whose L-function is ζ itself. That gives
+    "ζ has no zeros right of 1/2", and step-rh-of-right finishes.
+  lean: [Formalism/GammaFactorNonvanishing/CritLine.lean:29]
+  mathlib: [DirichletCharacter.LFunction_modOne_eq]
+  needs: [step-rh-of-right, every-character, dirichlet-l-function]
+
+- id: step-rh-of-right
+  title: No zeros right of ½ ⇒ RH
+  kind: step
+  status: explained
+  plain: >
+    A symmetry argument. If s is a zero with Re s < 1/2, the functional equation
+    ζ(s) = 2 (2π)^(s-1) Γ(1-s) cos(π(1-s)/2) ζ(1-s) forces ζ(1-s) = 0, because the
+    other factors are nonzero (the cosine vanishes only at trivial zeros). But
+    Re(1-s) > 1/2, a contradiction. So every non-trivial zero has Re s = 1/2.
+    About 60 lines, mostly edge cases (s = 0, signs of k).
+  lean: [Formalism/GammaFactorNonvanishing/RhOfRight.lean:5]
+  mathlib: [riemannZeta_one_sub, riemannZeta_zero, Complex.Gamma_ne_zero_of_re_pos, Complex.cos_eq_zero_iff]
+  needs: [functional-equation-zeta, factors-nonzero, trivial-zeros, rh-statement]
+
+- id: step-crit-line
+  title: L2 ⇒ GRH (mirror trick for L-functions)
+  kind: step
+  status: explained
+  plain: >
+    The same mirror argument for a primitive character χ. A zero s of L(χ, s) with
+    Re s < 1/2 gives a zero 1-s of L(χ̄, s) with Re > 1/2, which L2 rules out. The mirror
+    swaps χ with its conjugate, so L2 must hold for all characters at once.
+  lean: [Formalism/GammaFactorNonvanishing/CritLine.lean:11, Formalism/GammaFactorNonvanishing/CritLine.lean:6]
+  mathlib: [DirichletCharacter.LFunction_eq_completed_div_gammaFactor, DirichletCharacter.IsPrimitive.completedLFunction_one_sub, DirichletCharacter.conductor_inv]
+  needs: [every-character, functional-equation-dirichlet, primitive-characters, gamma-function]
+
+# ===================== layer 2: the hard part =====================
+
+- id: every-character
+  title: "L2: no zeros right of ½, every Dirichlet L-function"
+  kind: step
+  status: unmapped
+  plain: >
+    For every N, every Dirichlet character χ mod N, and every s with Re s > 1/2:
+    L(χ, s) ≠ 0 (except the pole of ζ at s = 1). This is the real content of the
+    proof; nearly all 175,000 files exist to prove it.
+  lean: [Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:13, Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:10]
+  needs: [dirichlet-l-function, l2-literature-of-vwin, l2-local-langlands, l2-galois-local-global, l2-vwin-of-row]
+
+- id: l2-literature-of-vwin
+  title: L2 from literature + "VWin"
+  kind: step
+  status: unmapped
+  guess: true
+  plain: >
+    Guess from the name: L2 follows from a package of results quoted from the
+    literature, plus a condition the code calls "VWin".
+  lean: [Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean]
+  needs: []
+
+- id: l2-local-langlands
+  title: Local Langlands existence (recTExists)
+  kind: step
+  status: unmapped
+  guess: true
+  plain: >
+    Guess from the name: an existence statement in the local Langlands correspondence.
+  lean: [Development/AutomorphicArithmetic/Foundations/LocalLanglands/LocalCentralUnits/RecTExists.lean]
+  needs: []
+
+- id: l2-galois-local-global
+  title: Galois local–global compatibility
+  kind: step
+  status: unmapped
+  guess: true
+  plain: >
+    Guess from the name: a strong local–global compatibility statement for
+    Galois representations.
+  lean: [Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean]
+  needs: []
+
+- id: l2-vwin-of-row
+  title: '"VWin" from a modularity argument'
+  kind: step
+  status: unmapped
+  guess: true
+  plain: >
+    Guess from the folder name: a modularity argument that supplies "VWin".
+  lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/VwinOfRow.lean]
+  needs: []
+
+# ===================== background concepts =====================
+
+- id: rh-statement
+  title: What RH says
+  kind: concept
+  status: textbook
+  plain: >
+    ζ(s) starts as 1 + 1/2^s + 1/3^s + ..., which converges for Re s > 1, and is
+    extended to all s ≠ 1. RH is a statement about where that extended function is zero.
+  needs: [zeta-series, analytic-continuation, trivial-zeros]
+  learn:
+    - {title: "Derbyshire, Prime Obsession", where: "whole book (popular, no prerequisites)"}
+    - {title: "Edwards, Riemann's Zeta Function", where: "ch. 1"}
+
+- id: zeta-series
+  title: ζ(s) as a series
+  kind: concept
+  status: textbook
+  plain: ζ(s) = Σ 1/n^s for complex s with Re s > 1, where the series converges.
+  needs: [complex-powers, infinite-series]
+  learn:
+    - {title: "Apostol, Introduction to Analytic Number Theory", where: "ch. 11–12"}
+
+- id: analytic-continuation
+  title: Analytic continuation
+  kind: concept
+  status: textbook
+  plain: >
+    A complex-differentiable function on a region has at most one extension to a
+    bigger region. This is how ζ gets a meaning where its series diverges.
+  needs: [complex-analysis]
+  learn:
+    - {title: "Stein & Shakarchi, Complex Analysis", where: "ch. 2.4, 6"}
+
+- id: trivial-zeros
+  title: Trivial zeros −2, −4, …
+  kind: concept
+  status: textbook
+  plain: >
+    ζ is zero at every negative even integer. In the functional equation this comes
+    from the cosine factor; these zeros are "trivial" and excluded from RH.
+  needs: [functional-equation-zeta]
+  learn:
+    - {title: "Edwards, Riemann's Zeta Function", where: "ch. 1"}
+
+- id: functional-equation-zeta
+  title: Functional equation of ζ
+  kind: concept
+  status: textbook
+  plain: >
+    ζ(1-s) = 2 (2π)^(-s) Γ(s) cos(πs/2) ζ(s): values at s and 1-s are tied together,
+    so zeros come in mirror pairs about Re s = 1/2. Proved in Mathlib, not in this
+    project. Using it needs only algebra; proving it needs the theta function and
+    Poisson summation.
+  mathlib: [riemannZeta_one_sub]
+  needs: [gamma-function, fourier-analysis, analytic-continuation]
+  learn:
+    - {title: "Stein & Shakarchi, Complex Analysis", where: "ch. 6"}
+    - {title: "Stein & Shakarchi, Fourier Analysis", where: "ch. 4–5 (Poisson summation, theta)"}
+
+- id: factors-nonzero
+  title: Γ and cos factors are nonzero
+  kind: concept
+  status: textbook
+  plain: >
+    Γ(z) is never zero. cos(z) = 0 exactly at z = π/2 + kπ, also for complex z.
+  mathlib: [Complex.Gamma_ne_zero_of_re_pos, Complex.cos_eq_zero_iff]
+  needs: [gamma-function, complex-powers, trigonometry]
+  learn:
+    - {title: "Stein & Shakarchi, Complex Analysis", where: "ch. 6.1"}
+
+- id: gamma-function
+  title: The Gamma function
+  kind: concept
+  status: textbook
+  plain: >
+    Γ(s) = ∫₀^∞ t^(s-1) e^(-t) dt extends the factorial (Γ(n+1) = n!) to complex s.
+  needs: [complex-analysis, calculus]
+  learn:
+    - {title: "Stein & Shakarchi, Complex Analysis", where: "ch. 6.1"}
+
+- id: fourier-analysis
+  title: Fourier analysis, Poisson summation
+  kind: concept
+  status: textbook
+  plain: >
+    Writing functions as sums of waves. Poisson summation relates the sum of f(n)
+    over integers to the sum of its Fourier transform; it is the engine behind the
+    functional equation.
+  needs: [real-analysis, complex-numbers]
+  learn:
+    - {title: "Stein & Shakarchi, Fourier Analysis", where: "ch. 1–5"}
+
+- id: complex-analysis
+  title: Complex analysis
+  kind: concept
+  status: textbook
+  plain: Calculus for functions of a complex variable; contour integrals, poles, power series.
+  needs: [real-analysis, complex-numbers, infinite-series]
+  learn:
+    - {title: "MIT 18.04 Complex Variables with Applications", url: "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/"}
+    - {title: "Stein & Shakarchi, Complex Analysis", where: "ch. 1–3"}
+
+- id: complex-powers
+  title: Complex powers n^s
+  kind: concept
+  status: textbook
+  plain: n^s = e^(s log n); for s = a + bi this is n^a times a rotation by b log n.
+  needs: [complex-numbers, calculus]
+  learn:
+    - {title: "Stein & Shakarchi, Complex Analysis", where: "ch. 1, 3.6"}
+
+- id: real-analysis
+  title: Real analysis
+  kind: concept
+  status: textbook
+  plain: Calculus done rigorously, with limits, continuity and convergence proved.
+  needs: [calculus, infinite-series, proofs]
+  learn:
+    - {title: "OSSU: MIT 18.100A Real Analysis", url: "https://ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/"}
+
+- id: dirichlet-characters
+  title: Dirichlet characters
+  kind: concept
+  status: textbook
+  plain: >
+    A function χ on whole numbers that repeats every N steps and is multiplicative,
+    χ(ab) = χ(a)χ(b). Formally a homomorphism (ℤ/Nℤ)ˣ → ℂˣ.
+  needs: [groups, modular-arithmetic, complex-numbers]
+  learn:
+    - {title: "Apostol, Introduction to Analytic Number Theory", where: "ch. 6"}
+
+- id: dirichlet-l-function
+  title: Dirichlet L-functions
+  kind: concept
+  status: textbook
+  plain: >
+    L(χ, s) = Σ χ(n)/n^s, ζ twisted by a character. ζ is the case N = 1.
+  mathlib: [DirichletCharacter.LFunction]
+  needs: [dirichlet-characters, zeta-series, analytic-continuation]
+  learn:
+    - {title: "Apostol, Introduction to Analytic Number Theory", where: "ch. 6–7, 12"}
+
+- id: primitive-characters
+  title: Primitive characters, conductor
+  kind: concept
+  status: textbook
+  plain: >
+    χ is primitive if it does not secretly come from a smaller modulus. The conductor
+    is that smallest modulus.
+  mathlib: [DirichletCharacter.IsPrimitive, DirichletCharacter.conductor]
+  needs: [dirichlet-characters]
+  learn:
+    - {title: "Davenport, Multiplicative Number Theory", where: "ch. 5"}
+
+- id: functional-equation-dirichlet
+  title: Functional equation of L(χ, s)
+  kind: concept
+  status: textbook
+  plain: >
+    For primitive χ, the completed function Λ(χ, s) (L times a Gamma factor that
+    depends on whether χ is even or odd) satisfies Λ(χ, 1-s) = ε Λ(χ̄, s). Proved in Mathlib.
+  mathlib: [DirichletCharacter.completedLFunction, DirichletCharacter.IsPrimitive.completedLFunction_one_sub]
+  needs: [dirichlet-l-function, primitive-characters, gamma-function, fourier-analysis]
+  learn:
+    - {title: "Davenport, Multiplicative Number Theory", where: "ch. 9"}
+
+- id: groups
+  title: Groups and homomorphisms
+  kind: concept
+  status: textbook
+  plain: First course in abstract algebra.
+  needs: [proofs, modular-arithmetic]
+  learn:
+    - {title: "OSSU: Introduction to Abstract Group Theory (NPTEL)", url: "https://nptel.ac.in/courses/111106113"}
+    - {title: "Pinter, A Book of Abstract Algebra", where: "ch. 1–14"}
+
+# ===================== bottom-up: the project's smallest files =====================
+# Found by starting at the bottom: project files that import only Mathlib, smallest
+# first. 5,927 such files; the 5 smallest with real content are below.
+# Files with no maths are listed in tree/skip.tsv (made by scripts/skip_list.py) and
+# left out of the tree: 160 files.
+#   empty (3):        just `import Mathlib`. Each is imported by 187-2,242 files, so
+#                     probably emptied in a refactor and kept so imports still work.
+#   import-hub (147): only imports; they bundle other project files together.
+#   config-only (10): build settings, no definitions. BuildAid/D1-D5 put project
+#                     namespaces on a deny-list for Lean's lemma-suggestion tool,
+#                     which can't change what gets proved.
+
+- id: lean-placeholder-conditions
+  title: Placeholder conditions Sw and TrivialCondition
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 3 files (Sw), 8 files (TrivialCondition)
+  plain: >
+    Two named propositions. `Sw` is defined as False and `TrivialCondition` as True.
+    A theorem that assumes `Sw` can never be applied, since nobody can prove False.
+    The two theorems that do (`galHodge_of_cgTrue_g`, `sep_conj_g`) appear only in
+    `example` self-checks, so they look like dead code, not part of the proof.
+    `TrivialCondition` is a no-op hypothesis.
+  lean: [Development/AutomorphicArithmetic/Foundations/UnitarySphericalFixing/SatakeParameters/SwOn.lean:3]
+  needs: [proofs]
+
+- id: lean-polynomial-function
+  title: Polynomial function ℂ → A (IsPF)
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 2 files
+  plain: >
+    A function f from the complex numbers into an algebra A "is polynomial" if some
+    polynomial p with coefficients in A gives f(Y) = p(Y) for every Y.
+  lean: [Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/IsPF.lean:3]
+  needs: [polynomials, complex-numbers]
+
+- id: lean-unipotent-upper-triangular
+  title: Unipotent upper-triangular matrix (UT)
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 2 files
+  plain: >
+    An n×n matrix with zeros below the diagonal and 1s on the diagonal.
+  lean: [Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/UpperTriangular.lean:3]
+  needs: [linear-algebra]
+
+- id: lean-lower-iff
+  title: Downward-closed sets are initial segments
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 2 files
+  plain: >
+    On the numbers 0, ..., n-1: if a property P is downward closed (P(b) and a ≤ b
+    imply P(a)), then P(b) holds exactly when b is less than the number of elements
+    with P. In other words, P holds on 0, 1, ..., k-1 and nowhere else. A one-line
+    proof that reuses a Mathlib lemma.
+  lean: [Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/LowerIff.lean:3]
+  mathlib: [Fin.lt_card_filter_univ_iff_apply_of_imp]
+  needs: [counting, proofs]
+
+- id: lean-padic-norm-p
+  title: "|p| = 1/p in the algebraic closure of ℚ_p"
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 25 files
+  plain: >
+    In the p-adic world, size is measured by divisibility by p, so p itself is
+    "small": |p| = 1/p. This lemma says that stays true after extending the p-adic
+    numbers ℚ_p to their algebraic closure.
+  lean: [Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/NormNatCastPrime.lean:3]
+  mathlib: [PadicAlgCl.norm_extends, Padic.norm_p]
+  needs: [p-adic-numbers, algebraic-closure]
+
+# --- next 5 smallest (batch 2). Also seen: Formalism/LocalToGlobal/IndefiniteReal/
+# HeckeNonvanishing/Imports.lean (8 lines) is not maths and not an import file despite
+# its name. It defines the custom tactic `kexactB` (used in 50 files), which plugs a
+# term into the goal without the usual type check. That is safe in the end only
+# because Lean's kernel re-checks every finished proof; a kernel check is still needed.
+
+- id: lean-algclosure-q
+  title: "Instance: AlgebraicClosure ℚ is an algebraic closure"
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 4 files
+  plain: >
+    Registers a Mathlib fact under a project name, so Lean finds it automatically:
+    the field Mathlib calls `AlgebraicClosure ℚ` really is an algebraic closure of
+    the rationals (every polynomial with rational coefficients has a root in it).
+    No new maths.
+  lean: [Formalism/LocalToGlobal/GaloisLevelStructure/DefsGal.lean:5]
+  mathlib: [AlgebraicClosure.instIsAlgClosure]
+  needs: [algebraic-closure]
+
+- id: lean-common-denominator
+  title: Common denominator in a number field
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 2 files
+  plain: >
+    In a number field K, any finite list of elements can be turned into algebraic
+    integers by multiplying them all by one nonzero whole number d. It is the
+    common-denominator trick: 1/2 and 1/3 both become whole numbers after
+    multiplying by 6. A three-line proof from a Mathlib lemma.
+  lean: [Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/CommonMajorizingLattice.lean:3]
+  mathlib: [exists_integral_multiples]
+  needs: [number-fields]
+
+- id: lean-char-extend
+  title: Characters of a subgroup extend to the group
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 7 files
+  plain: >
+    The statement (only stated in this file): for a commutative group G and a subgroup H,
+    every character of H (a homomorphism into the nonzero complex numbers) is the
+    restriction of a character of all of G. It is proved separately, in
+    UnitsComplexExistsZpow.lean:31. A standard fact; for finite groups it is a
+    textbook exercise.
+  lean: [Formalism/PeriodIntegrals/CharExtend.lean:5, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/CharacterExtension/UnitsComplexExistsZpow.lean:31]
+  needs: [groups, complex-numbers]
+  learn:
+    - {title: "Serre, A Course in Arithmetic", where: "ch. VI §1 (characters of finite abelian groups)"}
+
+- id: lean-sesquilinear-additive
+  title: u·M·conj(v) is additive in v
+  kind: step
+  status: explained
+  orphan: true
+  used_in: 1 file (only itself; looks unused)
+  plain: >
+    For a complex square matrix M and vectors u, v, v', the quantity
+    u · M · conj(v) satisfies f(v + v') = f(v) + f(v'). It is a one-line simp
+    proof. The file name "ImportsFurtherRest" doesn't match its content.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ImportsFurtherRest.lean:5]
+  needs: [linear-algebra, complex-numbers]
+
+- id: number-fields
+  title: Number fields, algebraic integers
+  kind: concept
+  status: textbook
+  plain: >
+    Number systems like ℚ(√2): the rationals with finitely many roots of polynomials
+    added. Algebraic integers are the "whole numbers" inside them (roots of monic
+    polynomials with integer coefficients, like √2).
+  needs: [rings-fields, polynomials]
+  learn:
+    - {title: "Marcus, Number Fields", where: "ch. 1–2"}
+    - {title: "Stewart & Tall, Algebraic Number Theory and Fermat's Last Theorem", where: "ch. 1–2"}
+
+- id: p-adic-numbers
+  title: p-adic numbers
+  kind: concept
+  status: textbook
+  plain: >
+    A different way to measure the size of numbers, using a prime p: a number is
+    small if it is divisible by a high power of p (so |5| = 1/5, |25| = 1/25, |3| = 1
+    for p = 5). Filling in the gaps of ℚ for this size, the way ℝ fills in ℚ for the
+    usual size, gives ℚ_p. Not school maths: the "filling in" step is real analysis.
+  needs: [primes-divisibility, infinite-series, real-analysis]
+  learn:
+    - {title: "Gouvêa, p-adic Numbers: An Introduction", where: "ch. 1–3"}
+
+- id: algebraic-closure
+  title: Algebraic closure
+  kind: concept
+  status: textbook
+  plain: >
+    The smallest bigger field in which every polynomial has a root, as ℂ is for ℝ.
+  needs: [rings-fields, polynomials]
+  learn:
+    - {title: "Dummit & Foote, Abstract Algebra", where: "ch. 13"}
+
+- id: rings-fields
+  title: Rings, fields and algebras
+  kind: concept
+  status: textbook
+  plain: Number systems where you can add and multiply (rings), and also divide (fields).
+  needs: [groups]
+  learn:
+    - {title: "OSSU: Introduction to Rings and Fields (NPTEL)", url: "https://nptel.ac.in/courses/111106131"}
+
+# ===================== leaves =====================
+
+- id: linear-algebra
+  title: Linear algebra
+  kind: leaf
+  status: textbook
+  plain: Matrices, vectors, determinants.
+  learn:
+    - {title: "OSSU: MIT 18.06 Linear Algebra", url: "https://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/"}
+
+- id: polynomials
+  title: Polynomials
+  kind: leaf
+  status: textbook
+  learn:
+    - {title: "OSSU pre-college math", url: "https://ossu.dev/precollege-math"}
+
+- id: counting
+  title: Finite sets and counting
+  kind: leaf
+  status: textbook
+  learn:
+    - {title: "OSSU: MIT 6.042 Mathematics for Computer Science", url: "https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/"}
+
+- id: complex-numbers
+  title: Complex numbers
+  kind: leaf
+  status: textbook
+  plain: a + bi, modulus, argument, e^(iθ) = cos θ + i sin θ.
+  learn:
+    - {title: "OSSU pre-college math", url: "https://ossu.dev/precollege-math"}
+
+- id: trigonometry
+  title: Trigonometry
+  kind: leaf
+  status: textbook
+  learn:
+    - {title: "OSSU pre-college math", url: "https://ossu.dev/precollege-math"}
+
+- id: calculus
+  title: Calculus
+  kind: leaf
+  status: textbook
+  plain: Derivatives and integrals, including improper integrals.
+  learn:
+    - {title: "OSSU: MIT 18.01.1x Calculus 1A", url: "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.1x+2T2019/about"}
+    - {title: "OSSU: MIT 18.01.2x Calculus 1B", url: "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.2x+3T2019/about"}
+
+- id: infinite-series
+  title: Infinite series
+  kind: leaf
+  status: textbook
+  plain: When 1 + 1/2^s + 1/3^s + ... adds up to a finite number.
+  learn:
+    - {title: "OSSU: MIT 18.01.3x Calculus 1C", url: "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.3x+1T2020/about"}
+
+- id: primes-divisibility
+  title: Primes and divisibility
+  kind: leaf
+  status: textbook
+  learn:
+    - {title: "OSSU pre-college math", url: "https://ossu.dev/precollege-math"}
+
+- id: modular-arithmetic
+  title: Modular arithmetic
+  kind: leaf
+  status: textbook
+  learn:
+    - {title: "OSSU: MIT 6.042 Mathematics for Computer Science", url: "https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/"}
+
+- id: proofs
+  title: Reading and writing proofs
+  kind: leaf
+  status: textbook
+  learn:
+    - {title: "OSSU: Introduction to Mathematical Thinking", url: "https://www.coursera.org/learn/mathematical-thinking"}

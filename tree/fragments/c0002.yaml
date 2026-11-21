@@ -1,0 +1,125 @@
+nodes:
+
+- id: concept-group-actions
+  title: Group actions and fixed points
+  kind: concept
+  status: textbook
+  plain: >
+    A group G "acts" on a set X when each group element moves the points of X around
+    (as a permutation) in a way that respects the group multiplication. A point is
+    fixed by g if g leaves it where it is. Example: the 3 rotations of a triangle act on its 3 corners;
+    the identity fixes all 3 corners, a non-trivial rotation fixes none. Counting fixed points
+    is a basic tool, and a key trick is that if a permutation has order a power of a prime p,
+    the number of fixed points is congruent to the total number of points mod p.
+  needs: [groups, counting, modular-arithmetic]
+  learn:
+    - {title: "Dummit and Foote, Abstract Algebra", where: "Section 1.7 (group actions) and Section 4.1-4.3"}
+    - {title: "Artin, Algebra", where: "Chapter on operations of a group"}
+
+- id: concept-sylow-theorems
+  title: Sylow subgroups and p-groups
+  kind: concept
+  status: textbook
+  plain: >
+    A p-group is a group in which every element has order a power of the prime p. If the
+    size of a finite group is p^a times m with p not dividing m, a Sylow p-subgroup is a subgroup
+    of size p^a, the biggest p-power size possible; one always exists. The key consequence used
+    here is that a Sylow p-subgroup has index (number of cosets) not divisible by p.
+    Example: in a group of size 12, a Sylow 2-subgroup has size 4 and index 3.
+  needs: [groups, primes-divisibility, concept-normal-subgroups-quotients]
+  learn:
+    - {title: "Dummit and Foote, Abstract Algebra", where: "Section 4.5 (Sylow theorems)"}
+    - {title: "Artin, Algebra", where: "Chapter on the Sylow theorems"}
+
+- id: concept-normal-subgroups-quotients
+  title: Cosets, normalizers and quotient groups
+  kind: concept
+  status: textbook
+  plain: >
+    A subgroup H of G cuts G into equal-sized pieces called cosets gH; the number of pieces is the
+    index of H. A subgroup is normal when conjugating (g h g^-1) never leaves it, and then the cosets
+    themselves form a group G/H, the quotient. The normalizer of a subgroup C is the set of
+    elements g with g C g^-1 = C; it is the largest subgroup in which C is normal.
+    Example: the even integers inside the integers give the 2-element quotient "even/odd".
+  needs: [groups]
+  learn:
+    - {title: "Dummit and Foote, Abstract Algebra", where: "Sections 3.1-3.3 (quotient groups, cosets), 4.2 (normalizers)"}
+    - {title: "Artin, Algebra", where: "Chapter on quotient groups"}
+
+- id: f-exists-coprime-order-of-pow-prime-pow
+  title: A p-power of x has order prime to p
+  kind: step
+  status: explained
+  plain: >
+    In a finite group, for any element x and prime p, some power x^(p^k) has an order not
+    divisible by p. Proof: write the order of x as p^k times u, with p not dividing u (strip out
+    all factors of p). Then x^(p^k) raised to u is x to the order of x, which is the identity, so the
+    order of x^(p^k) divides u and is therefore prime to p. Example: if x has order 12 and p = 2,
+    then k = 2 and x^4 has order 3.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsCoprimeOrderOfPowPrimePow.lean:5]
+  mathlib: [Nat.exists_eq_pow_mul_and_not_dvd, orderOf_dvd_of_pow_eq_one, pow_orderOf_eq_one, Nat.Coprime.coprime_dvd_left]
+  needs: [groups, primes-divisibility, modular-arithmetic]
+
+- id: f-card-fixed-by-pow-prime-pow-mod-eq
+  title: Fixed points of x^(p^k) vs x, mod p
+  kind: step
+  status: explained
+  plain: >
+    Let a finite group G act on a finite set X, let x be in G and p a prime. Then the number
+    of points fixed by x^(p^k) is congruent mod p to the number of points fixed by x. Proof idea:
+    x permutes the set of points fixed by x^(p^k), and doing this p^k times gives the identity, so this
+    permutation has order a power of p. A Mathlib lemma then says the number of points of the
+    set is congruent mod p to the number of points that permutation fixes, and those are exactly the
+    points fixed by x. Example: for the 4-cycle x on 4 points, with p = 2, k = 1, x^2 fixes 0 points and x fixes 0 points.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/CardFixedByPowPrimePowModEq.lean:5]
+  mathlib: [Equiv.Perm.card_fixedPoints_modEq, MulAction.fixedBy, Nat.card_congr]
+  needs: [concept-group-actions, groups, counting, modular-arithmetic, primes-divisibility]
+
+- id: f-exists-sylow-over-subgroup
+  title: A p-power-closure subgroup over C from a Sylow subgroup
+  kind: step
+  status: explained
+  plain: >
+    Given a subgroup C of a finite group G and a prime p, this builds a subgroup H of G
+    containing C such that (1) H normalizes C, (2) every element of H has some p-power lying in C,
+    and (3) inside the normalizer N of C, the relative index of H (the number of cosets of H
+    intersected with N inside N) is not divisible by p. Proof idea: C is normal in its normalizer N, so
+    take the quotient N/C, pick a Sylow p-subgroup P of N/C (it exists), and let H be the preimage of P in N.
+    Elements of P have p-power order, which gives (2), and the index of P in N/C is prime to p, which gives (3).
+    The file also proves the normalizer (written as a set of g with g C g^-1 inside C) is a subgroup.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsSylowOverSubgroup.lean:5]
+  mathlib: [Sylow, Sylow.not_dvd_index, Sylow.isPGroup', Subgroup.index_comap_of_surjective, Subgroup.comap_map_eq_self_of_injective, QuotientGroup.mk']
+  needs: [concept-sylow-theorems, concept-normal-subgroups-quotients, groups, primes-divisibility]
+
+- id: f-card-fixed-by-quotient-eq-rel-index-of-p-regular
+  title: Fixed cosets of a p-regular element count a relative index
+  kind: step
+  status: explained
+  plain: >
+    Take a finite group G, an element c whose order is prime to p, and subgroups H and N where H
+    contains the cyclic group generated by c, every element of H has a p-power inside that cyclic group,
+    and N is the normalizer of that cyclic group. Then the number of cosets gH that c fixes (c gH = gH)
+    equals the relative index of H in N, that is the size of N divided by the size of H intersected with N.
+    Proof idea: c fixes gH exactly when g^-1 c g is in H, and the helper lemma shows this forces
+    g^-1 c g to be in the cyclic group of c, which means g normalizes it, so g is in N. Then the fixed
+    cosets are in bijection with the cosets of H inside N. The helper uses that an element
+    of order prime to p is a power of any of its p-powers.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/CardFixedByQuotientEqRelIndexOfPRegular.lean:20, Development/AbelianVarietyTheory/Proofs/CharacterTheory/CardFixedByQuotientEqRelIndexOfPRegular.lean:5]
+  mathlib: [exists_pow_eq_self_of_coprime, MulAut.conj, orderOf_eq, QuotientGroup.eq, MulAction.Quotient.smul_mk, Nat.card_eq_of_bijective, Subgroup.relIndex]
+  needs: [concept-group-actions, concept-normal-subgroups-quotients, groups, counting, primes-divisibility, modular-arithmetic]
+
+- id: f-exists-abelian-by-prime-power-not-dvd-card-fixed-by
+  title: Subgroup H, abelian-by-p, with p not dividing fixed cosets
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    For a finite group G, an element x and a prime p, there is a subgroup H of G with the following property. H has a normal
+    abelian subgroup A such that every element of H has a p-power in A (the project calls this "abelian-by-p"), and p does not
+    divide the number of cosets gH fixed by x. Proof idea: pick k so x^(p^k) has order prime to p, and let C be the cyclic
+    group it generates. The Sylow construction gives H containing C, and A is C inside H (abelian since cyclic, normal in H).
+    The coset count for x^(p^k) equals a relative index not divisible by p, and the mod p congruence transfers this
+    to x. This is the top file of its chunk, with no stated user inside this chunk.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsAbelianByPrimePowerNotDvdCardFixedBy.lean:10]
+  mathlib: [Subgroup.mem_normalizer_iff, Subgroup.mem_normalizer_fintype, Commute.zpow_zpow, Subgroup.mem_subgroupOf, Nat.ModEq.dvd_iff]
+  needs: [f-ab-by-p-of-comm, f-exists-coprime-order-of-pow-prime-pow, f-card-fixed-by-pow-prime-pow-mod-eq, f-exists-sylow-over-subgroup, f-card-fixed-by-quotient-eq-rel-index-of-p-regular, concept-group-actions, concept-sylow-theorems, concept-normal-subgroups-quotients, groups, primes-divisibility]

@@ -1,0 +1,57 @@
+nodes:
+  - id: f-dominating-pieces-smooth
+    title: Smoothness of a map can be checked on small pieces
+    kind: step
+    status: explained
+    chunk: c0116
+    orphan: true
+    plain: >
+      This file proves that a map between two geometric spaces built from rings
+      (schemes) is smooth. Smooth means its fibres have no pinches or crossings,
+      like a family of well-behaved curves. Smoothness can be tested locally, on
+      small affine pieces around each point. Here each piece is described as a
+      ring sitting inside a field, and the file shows that if the ring map
+      between two such subrings is smooth, so is the geometric map. The proof
+      matches each piece's ring of functions with the subring (using a fact
+      about generic points proved elsewhere), then composes with two ring
+      isomorphisms, which are always smooth. A helper lemma checks that values
+      agree across the two pieces.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/DominatingPiecesSmooth.lean:44"]
+    mathlib: [AlgebraicGeometry.HasRingHomProperty.iff_exists_appLE, RingHom.Smooth.comp, RingHom.Smooth.of_bijective]
+    needs: [f-gen-map-stalk-map, f-geometry-proofs--germ-gen-pt-injective-range-reg-at, f-global-geometry--is-cpt-gen, concept-smooth-morphisms, concept-schemes-basics, concept-local-rings]
+  - id: f-gen-map-stalk-map
+    title: Maps of schemes respect generic points and stalks
+    kind: step
+    status: explained
+    chunk: c0116
+    plain: >
+      Take a scheme (a space glued from rings) and a map from the spectrum of a
+      field into it. That map picks out a "generic point" and lets us read
+      functions near points as elements of the field. This file considers two
+      such set-ups linked by a map of schemes and a map of fields, and proves
+      three things. The scheme map sends one generic point to the other. Reading
+      a function in the field commutes with passing through the map. And rings of
+      functions regular at a point map into each other, with units staying units
+      when the generic point is compatible. The proofs are careful diagram
+      chases, comparing two composites of maps and showing they are equal.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/GenMapStalkMap.lean:52"]
+    mathlib: [AlgebraicGeometry.Scheme.SpecMap_stalkMap_fromSpecStalk, AlgebraicGeometry.Scheme.stalkClosedPointTo]
+    needs: [f-geometry-proofs--gen-map-stalk-specializes, f-global-geometry--is-cpt-gen, concept-schemes-basics, concept-local-rings, concept-categorical-pullbacks]
+  - id: f-geometry-proofs--gen-map-stalk-specializes
+    title: Functions regular at a special point are regular nearby
+    kind: step
+    status: explained
+    chunk: c0116
+    plain: >
+      Fix a scheme and a map from the spectrum of a field into it. For each
+      point we get a subring of the field, the elements that are "regular" there.
+      This file proves that if one point is a specialization of another (the
+      second lies in the closure of the first, like a point inside a bigger
+      region), then regularity at the more special point implies regularity at
+      the other. It also shows units stay units, and, under a generic-point
+      assumption, that any element regular at the general point can be fixed up
+      by multiplying with a unit there. The proof localises to an affine piece
+      and clears denominators.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/GenMapStalkSpecializes.lean:28"]
+    mathlib: [AlgebraicGeometry.IsAffineOpen.isLocalization_stalk, IsLocalization.surj, TopCat.Presheaf.germ_stalkSpecializes]
+    needs: [f-global-geometry--is-cpt-gen, concept-schemes-basics, concept-local-rings, concept-prime-ideals-localization]

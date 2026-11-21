@@ -1,0 +1,22 @@
+nodes:
+  - id: f-valuation-at-centre-order
+    title: Order of a function at a point gives its valuation power
+    kind: step
+    status: explained
+    chunk: c0057
+    plain: >
+      The main theorem here compares two ways to measure size at a point of a geometric space (a scheme). Suppose a function has "order a" at the point (a measure of how many times a chosen local parameter divides it). Then, mapping into a field C through a local ring V, the M-th power of one valuation equals the a-th power of another times an invertible element of V. The proof shows the ratio is a unit, transports it along the ring map, and uses uniqueness and multiplicativity of values. I only roughly understand the definitions of "order" and "value" here.
+    lean: [Development/WeilBound/CoreStatements/TorusUniformisation/ChowMahlerFamilies/ValuationAtCentreOrder.lean:84]
+    mathlib: [IsLocalRing.closedPoint, Scheme.stalkClosedPointTo]
+    needs: [concept-schemes-basics, concept-local-rings, concept-valuation-rings, f-global-geometry--is-cpt-gen, f-global-geometry--is-line-gen-on, f-global-geometry--coords-at]
+  - id: f-order-valuation-compare
+    title: Order versus valuation (restated)
+    kind: step
+    status: explained
+    chunk: c0057
+    plain: >
+      This file restates a theorem proved elsewhere, in a different part of the project. It says: if a function has a given order at a point of a scheme, then in any field reached through a local ring, the M-th power of one valuation is the a-th power of another, up to an invertible factor. It does no work itself; the one-line proof just points to the original theorem about the valuation at the centre.
+    lean: [Development/AutomorphicSpectrum/Proofs/GeometryProofs/OrderValuationCompare.lean:8]
+    mathlib: []
+    needs: [f-valuation-at-centre-order, concept-schemes-basics, concept-valuation-rings]
+    orphan: true

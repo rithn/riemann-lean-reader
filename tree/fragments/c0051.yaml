@@ -1,0 +1,182 @@
+nodes:
+  - id: concept-group-homology
+    title: "Group homology: measuring how a group acts on a vector space"
+    kind: concept
+    status: textbook
+    plain: >
+      A group can act on a vector space by matrices (a representation).
+      Group homology attaches to each such action a sequence of vector spaces,
+      H0, H1, H2, and so on, that record how "twisted" the action is.
+      H0 is the simplest: it is the space with vectors identified whenever the group
+      moves one to the other. The higher ones come from a chain of spaces built from
+      lists of group elements, and are computed by the usual chain-complex recipe.
+      A "free" or "projective" action is the nicest kind, and has no higher homology at all.
+    needs: [groups, concept-group-representations, concept-chain-complexes-homology, linear-algebra]
+    learn:
+      - {title: "Kenneth Brown, Cohomology of Groups", where: "ch. III"}
+      - {title: "Charles Weibel, An Introduction to Homological Algebra", where: "ch. 6"}
+  - id: f-global-twisting--perm-rep-single
+    title: Spreading a representation over the points of a set
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      This file is mostly definitions. Take a group G acting on a set of points X,
+      and a representation A (G acting on a vector space by matrices).
+      Build a bigger representation with one copy of A sitting at each point of X.
+      A group element moves the copy at x to the copy at the point g sends x to,
+      and also acts on the contents by its own matrix.
+      Example: if X has two points that G swaps, the new space is two copies of A, swapped.
+      The file also defines maps between these spaces, a map that puts A into the copy at one chosen point,
+      and the matching maps on group homology.
+      The only proved fact is the small formula for how a single basis element moves.
+    lean: ["Development/AbelianVarietyTheory/Definitions/GlobalTwisting/PermRepSingle.lean:11"]
+    mathlib: [Finsupp.lmapDomain, Finsupp.mapRange.linearMap, groupHomology.map]
+    needs: [concept-group-actions, concept-group-representations, concept-group-homology]
+  - id: f-exists-free-resolution-short-exact
+    title: Every representation is a quotient of a free one
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      Given any representation A, there is a "free" representation F and a surjection from F onto A.
+      Together with the kernel K of that surjection, this gives a short exact sequence:
+      K sits inside F, and F maps onto A with exactly K as the part sent to zero.
+      A free representation is one built from the group's own multiplication table,
+      the nicest kind to compute with. The proof is direct: take one free generator for each
+      element of A and send it to that element. This is surjective, and the kernel is
+      the K we want.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/ExistsFreeResolutionShortExact.lean:8"]
+    mathlib: [CategoryTheory.kernel, ShortComplex.ShortExact.mk']
+    needs: [concept-group-representations, concept-chain-complexes-homology, concept-group-homology]
+  - id: f-group-homology-dimension-shift-is-iso
+    title: "Dimension shifting: an iso one level down gives an iso one level up"
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      Suppose two short exact sequences of representations, one for a subgroup H and one for the bigger group G,
+      are linked by compatible maps u1, u2, u3. Suppose the middle terms have no group homology in degree n+1,
+      and the maps u1 and u2 are isomorphisms on degree-n homology.
+      Then u3 is an isomorphism on degree n+1.
+      The proof chases elements through the long exact sequence that each short exact sequence produces.
+      The connecting maps of the two long sequences commute with the u's.
+      Injectivity and surjectivity then follow by a diagram chase.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/GroupHomologyDimensionShiftIsIso.lean:8"]
+    mathlib: [HomologicalComplex.HomologySequence.δ_naturality, groupHomology.map_chainsFunctor_shortExact]
+    needs: [concept-group-homology, concept-chain-complexes-homology]
+  - id: f-group-homology-long-exact-maps-natural-of-res
+    title: Group homology maps commute with the long exact sequence
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      A short exact sequence of representations gives a long exact sequence in group homology,
+      with "connecting maps" that link one degree to the next.
+      This file shows that when you compare two such sequences, one for a subgroup and one for the big group,
+      via compatible maps, the comparison commutes with every map in the long sequence,
+      including the connecting maps.
+      That is, going across then down gives the same result as going down then across.
+      The proof reduces to the same fact one level earlier, for the chain complexes, and then takes homology.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/GroupHomologyLongExactMapsNaturalOfRes.lean:20"]
+    mathlib: [HomologicalComplex.HomologySequence.δ_naturality, groupHomology.chainsMap]
+    needs: [f-global-twisting--perm-rep-single, concept-group-homology, concept-chain-complexes-homology]
+    orphan: true
+  - id: f-perm-coef-preserves-short-exact
+    title: Spreading over points keeps exact sequences exact
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      Take a short exact sequence of representations (an inclusion, then a surjection, with the
+      image of the first equal to the kernel of the second).
+      Replace each term by "one copy of it at every point of a set X", as in the earlier construction.
+      This file shows the result is still a short exact sequence.
+      The proof checks the three conditions one by one. Applying an injective map copy by copy stays injective,
+      applying a surjective map copy by copy stays surjective,
+      and the image-equals-kernel condition also holds copy by copy.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/PermCoefPreservesShortExact.lean:8"]
+    mathlib: [Finsupp.mapRange_injective, Finsupp.mapRange_surjective, Finsupp.ker_mapRange]
+    needs: [f-global-twisting--perm-rep-single, concept-chain-complexes-homology, concept-group-representations]
+  - id: f-projective-perm-tensor-free
+    title: A free representation spread over a set is still projective
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      A "projective" representation is one that can always be lifted through a surjection; it is
+      the well-behaved kind, with no higher group homology.
+      This file shows that if you take a free representation and place one copy at each point of a set X,
+      the result is projective.
+      The idea is to show it is actually isomorphic to another free representation,
+      one indexed by pairs (point, generator). The pairing is a relabelling of the basis
+      in which group elements are shuffled between the two coordinates.
+      Free things are projective, and projectivity survives isomorphism.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/ProjectivePermTensorFree.lean:39"]
+    mathlib: [CategoryTheory.Projective.of_iso, Finsupp.curryLinearEquiv, Finsupp.domLCongr]
+    needs: [f-global-twisting--perm-rep-single, concept-group-actions, concept-group-homology]
+  - id: f-projective-rep-group-homology-pos-vanishes
+    title: Projective representations have no higher group homology
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      If a representation P is projective, then all its group homology in degrees 1, 2, 3, and up is zero.
+      The proof compares P with a bigger representation induced up from the trivial subgroup.
+      That bigger one has no higher homology, because the trivial subgroup has none.
+      A projective P is a direct summand of it, since the surjection onto P has a section.
+      Then the identity on the homology of P factors through zero, so the homology itself is zero.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/ProjectiveRepGroupHomologyPosVanishes.lean:8"]
+    mathlib: [CategoryTheory.Projective.factorThru, Rep.indResAdjunction, groupHomology.indIso]
+    needs: [concept-group-homology, concept-group-representations]
+  - id: f-projective-res-free-rep-of-injective
+    title: Restricting a free representation to a subgroup keeps it projective
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      Let H be a copy of a subgroup of G (a one-to-one group map from H into G).
+      Take a free representation of G and view it as a representation of H, forgetting
+      the elements outside H.
+      This file shows the result is still projective.
+      The proof first handles the case where the map from H onto its image is a bijection:
+      then viewing a G-action as an H-action is just a relabelling, an equivalence of categories,
+      which preserves projectivity.
+      Restricting to the image subgroup is handled by a standard fact about restriction.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/ProjectiveResFreeRepOfInjective.lean:19"]
+    mathlib: [CategoryTheory.Functor.projective_obj_of_projective, Rep.resFunctor, Rep.full_res]
+    needs: [groups, concept-group-representations, concept-group-homology]
+  - id: f-shapiro-is-iso-group-homology-zero
+    title: "Shapiro's lemma in degree 0"
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      Setting: G acts transitively on a set X (any point can be reached from any other),
+      and H is exactly the subgroup fixing one chosen point x.
+      The file shows that the natural map from H0 of A (viewed over H) to H0 of the
+      "copy of A at each point" is an isomorphism, for every representation A.
+      H0 means the space where vectors the group moves to each other are identified.
+      The proof builds an explicit inverse. For each point y, pick a group element sending x to y,
+      and pull the copy at y back to the copy at x. The stabiliser property shows the choice does not matter.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/ShapiroIsIsoGroupHomologyZero.lean:27"]
+    mathlib: [Representation.Coinvariants.lift, groupHomology.H0π, groupHomology.H0Iso]
+    needs: [f-global-twisting--perm-rep-single, concept-group-actions, concept-group-homology]
+  - id: f-shapiro-lemma-transitive-group-homology
+    title: "Shapiro's lemma for a transitive action"
+    kind: step
+    status: explained
+    chunk: c0051
+    plain: >
+      The claim: when G acts transitively on X and H is the subgroup fixing a point x,
+      group homology of H with coefficients in A matches group homology of G
+      with coefficients in "A spread over X", in every degree.
+      The map is the obvious one and it is an isomorphism for each n.
+      The proof is by induction on n. Degree 0 is the previous file.
+      For the step up, write A as a quotient of a free representation with kernel K,
+      and use the dimension-shifting lemma: free pieces have no higher homology,
+      so the isomorphism for K at level n passes to A at level n+1.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/ShapiroLemmaTransitiveGroupHomology.lean:15"]
+    mathlib: []
+    needs: [f-shapiro-is-iso-group-homology-zero, f-exists-free-resolution-short-exact, f-group-homology-dimension-shift-is-iso, f-perm-coef-preserves-short-exact, f-projective-perm-tensor-free, f-projective-rep-group-homology-pos-vanishes, f-projective-res-free-rep-of-injective, f-global-twisting--perm-rep-single, concept-group-homology]
+    orphan: true

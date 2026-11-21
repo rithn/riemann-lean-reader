@@ -1,0 +1,63 @@
+nodes:
+  - id: f-adelic-hermitian-forms--mem-pow-sub
+    title: Subgroups of "p-th powers" and "norms" (definitions)
+    kind: step
+    status: explained
+    chunk: c0066
+    plain: >
+      This file mostly makes definitions, and proves only that membership unfolds to the obvious condition. Take a field F and a bigger field L. The numbers of F that become a perfect p-th power in L form a subgroup under multiplication. Another subgroup holds the numbers that arise as a "norm" (a product of conjugates) from a field made by adjoining a p-th root. The file also packages a Kummer situation (a p-th root of a non-power, and a symmetry that multiplies it by a root of unity). It then defines "local norm" conditions at every prime of a number field, and a norm-principle statement, without proving anything about them.
+    lean: ["Development/AbelianVarietyTheory/Definitions/AdelicHermitianForms/MemPowSub.lean:43"]
+    mathlib: []
+    needs: [groups, rings-fields, number-fields, concept-roots-of-unity-kummer, concept-dedekind-domains, p-adic-numbers, concept-normal-subgroups-quotients]
+  - id: f-adelic-hermitian-forms--sq-sub-le-norm-sub
+    title: Squares are norms, and other small definitions
+    kind: step
+    status: explained
+    chunk: c0066
+    plain: >
+      This file defines subgroups of a field's nonzero elements and proves one small fact. Given fields F inside L, one subgroup collects elements that are squares in L. Another collects elements of the form a² − δb² (a "norm" from adjoining the square root of δ). The proved fact is that every square is such a norm, because you can take b = 0. Nothing deep. The file also defines units close to 1 under a valuation (a measure of how divisible by a prime), the notion of an "admitted" finite set of primes, and a quadratic Kummer set-up, and proves that admitted sets stay admitted when enlarged.
+    lean: ["Development/AbelianVarietyTheory/Definitions/AdelicHermitianForms/SqSubLeNormSub.lean:41"]
+    mathlib: []
+    needs: [groups, rings-fields, number-fields, concept-ultrametric-norm, concept-dedekind-domains, concept-valuation-rings]
+    orphan: true
+  - id: f-adelic-lattice-proofs--pow-index-torsion-ker-range-mul
+    title: Counting p-th powers across a group map (index times torsion)
+    kind: step
+    status: explained
+    chunk: c0066
+    plain: >
+      Take a map g between two commutative groups. For a subgroup U, define two counts. The index is how many cosets U has over its subgroup of p-th powers. The torsion is how many elements of U become 1 when raised to the p-th power. This file proves that, when these counts are finite for the kernel and the image of g, they are also finite for the whole group, and the three are tied by one multiplication identity. It resembles the snake lemma, where a long exact sequence forces a numerical relation. The proof is careful bookkeeping of relative indices (how many times one subgroup fits in another).
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/PowIndexTorsionKerRangeMul.lean:15"]
+    mathlib: ["Subgroup.relIndex_mul_relIndex", "Subgroup.relIndex_mul_index", "Subgroup.index_ker"]
+    needs: [f-adelic-hermitian-forms--mem-pow-sub, groups, concept-normal-subgroups-quotients, concept-chain-complexes-homology, counting]
+  - id: f-rel-index-one-units-mul-eq-card-quotient
+    title: Counting units that are 1 modulo t versus 1 modulo st
+    kind: step
+    status: explained
+    chunk: c0066
+    plain: >
+      Work in a ring O with no zero divisors. Call a unit "1 mod t" if it has the form 1 + t·x. This file proves that if s divides t and t lies in the "Jacobson radical" (the elements r for which 1 + r·x is always a unit), then the units that are 1 mod st sit inside those that are 1 mod t with index equal to the size of O modulo s. The idea is to send 1 + t·x to x mod s. That is a group map. It is onto because 1 + t·x is always a unit, and its kernel is exactly the units that are 1 mod st.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/RelIndexOneUnitsMulEqCardQuotient.lean:21"]
+    mathlib: ["Ideal.mem_jacobson_bot", "Subgroup.index_ker"]
+    needs: [f-adelic-hermitian-forms--mem-pow-sub, rings-fields, concept-local-rings, concept-prime-ideals-localization, concept-normal-subgroups-quotients, groups]
+  - id: f-subgroup-pow-image-units-congruent-one-mod-of-is-adic-comp
+    title: In a complete ring, p-th powers of units near 1 fill out units nearer to 1
+    kind: step
+    status: explained
+    chunk: c0066
+    plain: >
+      Let O be a ring where infinite "convergent" sums in powers of π make sense (complete, like the p-adic integers). This file shows that raising units that are 1 mod pπ to the p-th power gives exactly the units that are 1 mod p²π, and that no such unit other than 1 has p-th power equal to 1. The key expansion is (1 + t·x)^p = 1 + p·t·x + terms divisible by t². To solve the equation, it builds a sequence of better and better approximate solutions and takes its limit, a Hensel-style argument, then checks injectivity by cancelling nonzero factors.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/SubgroupPowImageUnitsCongruentOneModOfIsAdicComp.lean:87"]
+    mathlib: ["IsAdicComplete", "IsPrecomplete.prec", "Polynomial.sub_dvd_eval_sub", "Ideal.mem_jacobson_bot"]
+    needs: [f-adelic-hermitian-forms--mem-pow-sub, concept-hensel-lifting, concept-discrete-valuation-ring, concept-local-rings, p-adic-numbers, polynomials, rings-fields]
+  - id: f-subgroup-pow-rel-index-units-of-is-adic-complete
+    title: How many cosets of p-th powers in the units of a complete ring
+    kind: step
+    status: explained
+    chunk: c0066
+    plain: >
+      The final result of this group of files. Let O be a complete ring with no zero divisors, of characteristic zero, where O modulo pπ is finite. It says the cosets of p-th powers in the unit group number |O/p| times the count of p-th roots of unity in O. The proof combines three earlier results. In a finite group, index equals torsion. Units near 1 have p-th powers described exactly. And a general index-times-torsion identity applies to the reduction map from units of O to units of O modulo pπ. It cites those results by their restated names.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/SubgroupPowRelIndexUnitsOfIsAdicComplete.lean:38"]
+    mathlib: ["Subgroup.card_mul_index", "Ideal.Quotient.factor_surjective"]
+    needs: [f-adelic-lattice-proofs--pow-index-torsion-ker-range-mul, f-rel-index-one-units-mul-eq-card-quotient, f-subgroup-pow-image-units-congruent-one-mod-of-is-adic-comp, f-adelic-hermitian-forms--mem-pow-sub, concept-normal-subgroups-quotients, counting]
+    orphan: true

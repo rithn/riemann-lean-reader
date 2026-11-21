@@ -1,0 +1,103 @@
+nodes:
+  - id: concept-gl-infinity-homology-stability
+    title: "GL_n, the limit GL_infinity, and stability of group homology"
+    kind: concept
+    status: textbook
+    plain: >
+      GL_n(R) is the group of invertible n-by-n matrices over a ring R. Pad a matrix with a 1 in the corner and you get an invertible (n+1)-by-(n+1) matrix, so the groups form a chain. Their union is GL_infinity(R). Homology (a way of counting holes and relations using chain complexes) of GL_n(R) often stops changing once n is big enough compared with a "stable range" of R. This is homological stability. Related tools are the plus construction (a space with the same homology but simpler loops) and acyclic spaces (spaces with no homology above degree 0).
+    needs: [groups, linear-algebra, concept-chain-complexes-homology, concept-point-set-topology]
+    learn:
+      - {title: "Weibel, The K-book", where: "ch. IV (K1, plus construction)"}
+      - {title: "Hatcher, Algebraic Topology", where: "ch. 2 (homology), sec. 4.2 (Hurewicz)"}
+  - id: f-global-twisting--mem-split-seq-iff
+    title: Split sequences of vectors, and the group acting on them
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      A "split sequence" is a list of pairs of vectors (x, y), where each y paired with each x gives 1 if they sit at the same position and 0 otherwise. This file proves a clean test for being a split sequence. It then lets invertible matrices act on such lists, by multiplying the first vector and applying the inverse transpose to the second, and checks this keeps pairings unchanged. It defines the sets of length-p split sequences, the "face" maps that delete one entry and commute with the action, and a standard example. The faces combine into a boundary map between free integer representations.
+    lean: ["Development/AbelianVarietyTheory/Definitions/GlobalTwisting/MemSplitSeqIff.lean:23"]
+    mathlib: ["Matrix.dotProduct_mulVec", "List.eraseIdx"]
+    needs: [f-global-twisting--sub-closed, f-global-twisting--perm-rep-single, concept-group-actions, concept-group-representations, concept-chain-complexes-homology, linear-algebra]
+  - id: f-global-twisting--sub-closed
+    title: Chains of lists and a boundary map (definitions)
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      Only definitions here, plus a one-line example. Think of a list of vectors as a "simplex" whose faces come from deleting one entry. A chain is a whole-number combination of such lists of one fixed length. The boundary map sends a list to the alternating sum of its faces, with signs + − + −. The file also defines "exact at degree p" (every cycle is a boundary), closure of a family of lists under taking sublists, and the "link" of a list. Finally it defines the two families used later, unimodular sequences and split sequences, and checks a one-entry example is split.
+    lean: ["Development/AbelianVarietyTheory/Definitions/GlobalTwisting/SubClosed.lean:9"]
+    mathlib: ["Finsupp.linearCombination", "Finsupp.supported"]
+    needs: [concept-chain-complexes-homology, linear-algebra, counting]
+  - id: f-link-exactness-stability--seq-chain-boundary-comp-boundary-apply
+    title: Taking the boundary twice gives zero
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      This proves the basic law for the list-chain boundary map: applying it twice always gives zero, as for any chain complex. Since the map is linear, it is enough to check on a single list. Deleting entries in two different orders gives the same result with opposite signs, so the terms cancel. The proof does this by induction on the list. It relates the boundary of a list with a new first entry to the old list minus that entry added back onto the old boundary. A final wrapper restates the result under the name other files use.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/SeqChainBoundaryCompBoundaryApply.lean:50"]
+    mathlib: ["Finsupp.lhom_ext", "Finsupp.lmapDomain"]
+    needs: [f-global-twisting--sub-closed, concept-chain-complexes-homology, counting]
+  - id: f-split-set-perm-rep-chains-iso-split-seq-chains
+    title: The group-representation chains are the same as the list chains
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      There are two descriptions of the same chain complex. One is free whole-number combinations of the split-sequence sets, with the matrix group acting. The other is combinations of lists inside the family of split sequences. This file proves the identification. The map from the first to the second is injective, its image is exactly the chains of the split-sequence family, and it turns the boundary of the representation complex into the list boundary. The work is matching up the alternating sums term by term.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/SplitSetPermRepChainsIsoSplitSeqChains.lean:27"]
+    mathlib: ["Finsupp.mapDomain_injective", "Finsupp.lmapDomain_supported"]
+    needs: [f-global-twisting--mem-split-seq-iff, f-global-twisting--sub-closed, concept-chain-complexes-homology, concept-group-representations]
+  - id: f-split-sequence-rep-complex-exact
+    title: Exactness of the split-sequence complex follows from the list version
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      This proves three things about the complex of representations built from split sequences. First, two consecutive boundary maps compose to zero. Second, if the list complex is exact in degree 0, the last map is onto. Third, if it is exact in degree p+1, the representation complex is exact there as well. "Exact" means every cycle is a boundary. It assumes the list-level exactness, so it does not prove exactness itself. The proof transports a cycle through the earlier identification, finds the boundary preimage in the list world, and brings it back.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/SplitSequenceRepComplexExact.lean:11"]
+    mathlib: ["Function.Exact", "Finsupp.mapDomain_zero"]
+    needs: [f-split-set-perm-rep-chains-iso-split-seq-chains, f-link-exactness-stability--seq-chain-boundary-comp-boundary-apply, f-global-twisting--mem-split-seq-iff, f-global-twisting--sub-closed, concept-chain-complexes-homology]
+    orphan: true
+  - id: f-published-theorems--k-acyclic-homology
+    title: Five published K-theory claims, stated but not proved
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      This file only states claims, with no proofs. Each is a named proposition meant to record a result from the literature. They are that a plus-construction space exists for every ring, that a map with acyclic fibre induces isomorphisms on homology, that the homology of a simplicial set agrees with that of its realisation, a Hurewicz-type statement saying low homotopy classes are killed by a specific integer, and homological stability of GL_n(R) as n grows. Anything using them takes them as assumptions, so they are not established by this project.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/PublishedTheorems/KAcyclicHomology.lean:11"]
+    mathlib: []
+    needs: [f-tensor-hom-cubes--is-acyclic-space, f-tensor-hom-cubes--simplex-face, f-tensor-hom-cubes--stab-directed-system, concept-gl-infinity-homology-stability, concept-chain-complexes-homology]
+    orphan: true
+  - id: f-tensor-hom-cubes--is-acyclic-space
+    title: Acyclic spaces and the plus construction (definitions)
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      Definitions only. It sets up singular homology of a topological space with whole-number coefficients, using Mathlib's chain complex of a space. A space is "acyclic" when it is path-connected and has no homology in positive degrees. The "homotopy fibre" of a map is the space of paths that start in the source and end at a chosen point. A "connected CW space" is a well-behaved connected space built from cells. A plus construction of a classifying space of the matrix group is a map to such a space whose fibre is acyclic and whose kernel on loops is the commutator subgroup.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/TensorHomCubes/IsAcyclicSpace.lean:22"]
+    mathlib: ["TopCat", "AlgebraicTopology.singularHomologyFunctor", "Topology.CWComplex"]
+    needs: [concept-gl-infinity-homology-stability, f-tensor-hom-cubes--stab-directed-system, concept-point-set-topology, concept-chain-complexes-homology, groups]
+  - id: f-tensor-hom-cubes--simplex-face
+    title: Cubes to simplices, the Hurewicz map and a number table (definitions)
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      Definitions only. A cube can be cut into triangles-of-higher-dimension (simplices), one for each ordering of its coordinates. The file defines that cutting, then the signed sum of the pieces, which turns a map from a cube into a singular chain. It uses this to state when a map from homotopy classes of loops into homology is a Hurewicz map, meaning it agrees with the cube chain on every loop. It also defines a table of whole numbers, built from products over primes that satisfy a condition on a list of exponents. These numbers bound how far such a Hurewicz map fails to be injective.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/TensorHomCubes/SimplexFace.lean:30"]
+    mathlib: ["stdSimplex", "Equiv.Perm.sign"]
+    needs: [f-tensor-hom-cubes--is-acyclic-space, concept-point-set-topology, concept-chain-complexes-homology, counting, primes-divisibility]
+  - id: f-tensor-hom-cubes--stab-directed-system
+    title: Padding matrices, GL_infinity and group homology
+    kind: step
+    status: explained
+    chunk: c0067
+    plain: >
+      This file builds the chain of matrix groups. A matrix of size n is padded to size m by adding 1s on the diagonal, and the file proves this padding respects multiplication, so it is a group map. Padding twice equals padding once, so the groups form a directed system, and GL_infinity is its limit. It then defines a "unimodular" vector (its entries generate the whole ring), a stable-range condition on a ring, and group homology with trivial whole-number coefficients, together with the map it induces on homology.
+    lean: ["Development/AutomorphicArithmetic/AutomorphicVarieties/TensorHomCubes/StabDirectedSystem.lean:50"]
+    mathlib: ["DirectedSystem", "groupHomology", "Matrix.fromBlocks"]
+    needs: [concept-gl-infinity-homology-stability, linear-algebra, groups, rings-fields, concept-chain-complexes-homology]

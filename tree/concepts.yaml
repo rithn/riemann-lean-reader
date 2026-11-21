@@ -1,0 +1,1509 @@
+# Background concepts found while mapping chunks. Schema: see tree.yaml header.
+nodes:
+- id: concept-group-representations
+  title: 'Groups as matrices: representations and characters'
+  kind: concept
+  status: textbook
+  plain: 'A group is a set of symmetries, such as the four rotations of a square. A representation turns
+    each symmetry into an invertible matrix, so that doing two symmetries in a row matches multiplying
+    their matrices. Example: a quarter turn becomes the 2x2 matrix [[0,-1],[1,0]]. The character keeps
+    only the trace (the sum of the diagonal entries) of each matrix; here it is 0. (A field is a number
+    system where you can divide, like the rationals.) For a finite group over the complex numbers, characters
+    can be added, multiplied and paired, and the pairing counts how many "pieces in common" two representations
+    have. A representation is irreducible if it has no smaller non-zero sub-representation (a smaller
+    space of vectors that every matrix maps into itself), so it cannot be split into simpler parts.
+
+    '
+  needs:
+  - groups
+  - linear-algebra
+  - complex-numbers
+  - rings-fields
+  learn:
+  - title: Serre, Linear Representations of Finite Groups
+    where: Chapters 1-2 (representations, characters, orthogonality)
+  - title: Dummit and Foote, Abstract Algebra
+    where: Section 18.1 and 19.1 (representations and characters)
+  chunk: c0001
+- id: concept-group-actions
+  title: 'Group actions: orbits, stabilizers, fixed points'
+  kind: concept
+  status: textbook
+  plain: 'A group G "acts" on a set X when each group element moves the points of X around, as a permutation,
+    and doing two moves in a row matches multiplying the group elements. A point is fixed by g if g leaves
+    it where it is. The orbit of a point is every place it can be moved to; its stabilizer is the set
+    of group elements that fix it. Example: the 3 rotations of a triangle act on its 3 corners. The identity
+    fixes all 3 corners; a non-trivial rotation fixes none. Counting fixed points is a basic tool, with
+    this key trick: if a permutation has order a power of a prime p (repeating it that many times gives
+    the identity), the number of fixed points is congruent to the total number of points mod p.
+
+    '
+  needs:
+  - groups
+  - counting
+  - modular-arithmetic
+  learn:
+  - title: Dummit and Foote, Abstract Algebra
+    where: Section 1.7 (group actions) and Section 4.1-4.3
+  - title: Artin, Algebra
+    where: Chapter on operations of a group
+  chunk: c0002
+- id: concept-sylow-theorems
+  title: 'Sylow subgroups: big subgroups of prime-power size'
+  kind: concept
+  status: textbook
+  plain: 'A p-group is a group in which every element has order a power of the prime p (repeat it that
+    many times and you get the identity). Suppose a finite group has size p^a times m, with p not dividing
+    m. A Sylow p-subgroup is a subgroup of size p^a, the biggest p-power size possible, and one always
+    exists. The key consequence used here is that a Sylow p-subgroup has index (the number of cosets,
+    meaning shifted copies of it that tile the group) not divisible by p. Example: in a group of size
+    12 = 4 x 3, a Sylow 2-subgroup has size 4 and index 3.
+
+    '
+  needs:
+  - groups
+  - primes-divisibility
+  - concept-normal-subgroups-quotients
+  learn:
+  - title: Dummit and Foote, Abstract Algebra
+    where: Section 4.5 (Sylow theorems)
+  - title: Artin, Algebra
+    where: Chapter on the Sylow theorems
+  chunk: c0002
+- id: concept-normal-subgroups-quotients
+  title: Cosets, normalizers and quotient groups
+  kind: concept
+  status: textbook
+  plain: 'A subgroup H of a group G cuts G into equal-sized pieces called cosets gH (shifted copies of
+    H). The number of pieces is the index of H. A subgroup is normal when conjugating its elements (g
+    h g^-1) never takes them outside it. Then the cosets themselves form a group G/H, the quotient. Example:
+    the even integers inside the integers give a 2-element quotient, "even or odd", where odd + odd =
+    even. The normalizer of a subgroup C is the set of elements g with g C g^-1 = C; it is the largest
+    subgroup in which C is normal.
+
+    '
+  needs:
+  - groups
+  learn:
+  - title: Dummit and Foote, Abstract Algebra
+    where: Sections 3.1-3.3 (quotient groups, cosets), 4.2 (normalizers)
+  - title: Artin, Algebra
+    where: Chapter on quotient groups
+  chunk: c0002
+- id: concept-complex-analytic-sets
+  title: Shapes cut out by equations in complex space, and their germs
+  kind: concept
+  status: textbook
+  plain: 'Complex n-dimensional space is the set of lists of n complex numbers. An analytic set is a shape
+    in it that, near each of its points, is cut out by finitely many equations f1 = ... = fk = 0. Each
+    f is given locally by a convergent power series (an infinite polynomial that converges). Examples:
+    the curve y = x^2, or the pair of crossing lines xy = 0. The "germ" of such a set at a point is what
+    it looks like in an arbitrarily small neighbourhood of that point. A germ is irreducible if it cannot
+    be split into two smaller analytic pieces: a single smooth curve is irreducible, while two crossing
+    lines are not.
+
+    '
+  needs:
+  - complex-analysis
+  - polynomials
+  - linear-algebra
+  - concept-point-set-topology
+  - complex-numbers
+  learn:
+  - title: Gunning and Rossi, "Analytic Functions of Several Complex Variables"
+    where: Chapters II and III (local rings, analytic sets, irreducibility)
+  - title: Chirka, "Complex Analytic Sets"
+    where: Chapters 1 and 2
+  chunk: c0003
+- id: concept-point-set-topology
+  title: 'Topology: open sets, closed sets, compact and connected sets'
+  kind: concept
+  status: textbook
+  plain: 'Topology is the vocabulary for "near a point". An open set contains a little ball around each
+    of its points, like the interval (0,1) on a line. A neighbourhood of a point is a set containing such
+    a ball. The closure of a set adds its boundary points, so the closure of (0,1) is [0,1]. A set is
+    connected if it is in one piece, and convex if the straight segment between any two of its points
+    stays inside. A set in ordinary n-dimensional space is compact if it is closed (contains its boundary)
+    and bounded (fits inside a big ball). "Eventually near w" means "true on some neighbourhood of w".
+
+    '
+  needs:
+  - real-analysis
+  learn:
+  - title: Munkres, "Topology"
+    where: Chapters 2 and 3
+  - title: Rudin, "Principles of Mathematical Analysis"
+    where: Chapter 2 (basic topology)
+  - title: Understanding Analysis
+    where: Abbott, chapter 3 (compact sets)
+  chunk: c0003
+- id: concept-lattices-in-the-plane
+  title: Lattices in the complex plane
+  kind: concept
+  status: textbook
+  plain: 'A lattice is the set of all whole-number combinations m*w1 + n*w2 of two complex numbers w1,
+    w2 that do not point along the same line. It looks like the grid of corners of a tiling of the plane
+    by identical parallelograms. Example: w1 = 1 and w2 = i give the points with whole-number coordinates.
+    The area of one tile is |Im(conj(w1) * w2)|, where Im is the imaginary part and conj the complex conjugate.
+    This equals the absolute value of the 2x2 determinant of w1 and w2 read as points of the plane. Switching
+    to another pair of generators of the same grid multiplies this number by a whole-number matrix determinant
+    of +1 or -1, so the area does not depend on the choice.
+
+    '
+  needs:
+  - complex-numbers
+  - linear-algebra
+  - groups
+  learn:
+  - title: Silverman, The Arithmetic of Elliptic Curves (lattices and elliptic functions)
+    where: Chapter VI, section 1
+  - title: Stein and Shakarchi, Complex Analysis
+    where: Chapter 9 (elliptic functions)
+  chunk: c0006
+- id: concept-ideals-and-discriminant
+  title: Ideals, ideal norm and discriminant of a number field
+  kind: concept
+  status: textbook
+  plain: 'A quadratic number field K is the rationals with a square root added, such as Q(i) or Q(sqrt(-5)).
+    Its "integers" O_K form a ring (you can add, subtract and multiply) that, as an additive group, looks
+    like Z x Z: a 2-D grid. For Q(i) these are the Gaussian integers a + bi with a, b whole numbers. An
+    ideal is a subset of O_K closed under addition and under multiplication by any element of O_K. A nonzero
+    ideal is itself a smaller 2-D grid inside O_K. Its norm (its index in O_K) is the number of grid points
+    of O_K per grid point of the ideal: the multiples of 2 in Z[i] have norm 4. The discriminant of K
+    is one integer measuring the shape of O_K: the determinant of the matrix of traces Tr(b_i * b_j) for
+    a basis b_0, b_1 (it is -4 for Q(i)).
+
+    '
+  needs:
+  - number-fields
+  - rings-fields
+  - linear-algebra
+  - groups
+  learn:
+  - title: Marcus, Number Fields
+    where: Chapters 2 and 3 (integers, ideals, norm, discriminant)
+  - title: Neukirch, Algebraic Number Theory
+    where: Chapter I, sections 2 to 4
+  chunk: c0006
+- id: concept-ultrametric-norm
+  title: 'A stranger way to measure size: ultrametric absolute values'
+  kind: concept
+  status: textbook
+  plain: 'An ultrametric absolute value is a way of measuring size where the usual triangle inequality
+    |x + y| <= |x| + |y| is strengthened to |x + y| <= max(|x|, |y|). The standard example is the p-adic
+    absolute value: pick a prime p, and a number is small when it is divisible by a high power of p. For
+    p = 3, |9| = 1/9 is smaller than |3| = 1/3, which is smaller than |1| = 1. Odd consequences: if |x|
+    and |y| differ, then |x + y| equals the larger of the two, and every point in a closed disc is a centre
+    of that disc.
+
+    '
+  needs:
+  - p-adic-numbers
+  - rings-fields
+  learn:
+  - title: 'Gouvea, p-adic Numbers: An Introduction'
+    where: Ch. 2-3 (absolute values, ultrametric inequality)
+  - title: Koblitz, p-adic Numbers, p-adic Analysis, and Zeta-Functions
+    where: Ch. I
+  chunk: c0008
+- id: concept-newton-polygon
+  title: 'Counting roots from coefficient sizes: the Newton polygon'
+  kind: concept
+  status: textbook
+  plain: 'Take a polynomial over a field with an ultrametric absolute value, where every polynomial factors
+    completely (algebraically closed). For each radius rho, look at which term |c_j| rho^j is the biggest.
+    The index of that biggest term (the "dominant index") equals the number of roots of absolute value
+    at most rho, counted with multiplicity. The Newton polygon records this for all rho. Example over
+    the p-adics: f = (X - 1)(X - p^3) = X^2 - (1 + p^3) X + p^3, with rho = 1/p. The three terms have
+    sizes p^-3, 1/p and p^-2, so the middle one wins: dominant index 1, and exactly one root (p^3) has
+    size at most 1/p. This is how one counts roots in p-adic discs without finding them.
+
+    '
+  needs:
+  - concept-ultrametric-norm
+  - polynomials
+  - algebraic-closure
+  learn:
+  - title: Koblitz, p-adic Numbers, p-adic Analysis, and Zeta-Functions
+    where: Ch. IV (Newton polygons)
+  - title: 'Gouvea, p-adic Numbers: An Introduction'
+    where: the chapters on Newton polygons
+  chunk: c0008
+- id: concept-field-extensions-transcendence
+  title: Algebraic and transcendental numbers over a field
+  kind: concept
+  status: textbook
+  plain: 'Given a field k sitting inside a bigger field C, a number in C is "algebraic over k" if it solves
+    a polynomial equation with coefficients in k, and "transcendental" otherwise. Example: sqrt 2 is algebraic
+    over the rationals (it solves x^2 - 2 = 0), while pi is transcendental. Several numbers are "algebraically
+    independent" if no polynomial relation links them. A "transcendence basis" is a maximal independent
+    list; everything else in C is then algebraic over the field it generates. The "primitive element theorem"
+    says that finitely many algebraic numbers (in characteristic 0, where 1+1+...+1 is never 0) can all
+    be built from a single one.
+
+    '
+  needs:
+  - rings-fields
+  - polynomials
+  - linear-algebra
+  - algebraic-closure
+  learn:
+  - title: Dummit & Foote, Abstract Algebra
+    where: Ch. 13 (field extensions), Sec. 14.4 (primitive element); transcendence bases in Lang, Algebra,
+      Ch. VIII
+  - title: Lang, Algebra
+    where: Ch. VIII, Transcendental extensions
+  chunk: c0009
+- id: concept-discrete-valuation-ring
+  title: 'Discrete valuation rings: numbers with one prime, and reducing mod it'
+  kind: concept
+  status: textbook
+  plain: 'A discrete valuation ring O is a number system with exactly one "prime" element, called the
+    uniformizer. Every nonzero element is an invertible element times a power of it. Examples: the p-adic
+    integers, with uniformizer p, or the fractions a/b with b not divisible by p. Allowing every quotient
+    gives its fraction field K, such as the p-adic numbers. Dividing out by the uniformizer gives the
+    residue field, such as the integers mod p. A matrix over O can be reduced entry by entry to a matrix
+    over the residue field. It is invertible over O exactly when its reduction is invertible.
+
+    '
+  needs:
+  - rings-fields
+  - p-adic-numbers
+  - modular-arithmetic
+  - concept-ultrametric-norm
+  - linear-algebra
+  - concept-valuation-rings
+  learn:
+  - title: Atiyah and Macdonald, Introduction to Commutative Algebra
+    where: Chapter 9 (discrete valuation rings and Dedekind domains)
+  - title: Serre, Local Fields
+    where: Chapter I (discrete valuation rings, residue field, uniformizer)
+  chunk: c0013
+- id: concept-finitely-generated-algebras
+  title: Rings built from finitely many generators, and the Nullstellensatz
+  kind: concept
+  status: textbook
+  plain: 'A ring is "finitely generated" over a base ring if every element can be written as a polynomial,
+    with base-ring coefficients, in some fixed finite list of elements. Example: the integers with 1/2
+    attached are generated by the single element 1/2. A maximal ideal is a largest proper "kernel": the
+    ring modulo it is a field. The Nullstellensatz (Hilbert''s zeros theorem) says that if a ring is finitely
+    generated over the rationals and that quotient is a field, the field is a finite-dimensional vector
+    space over the rationals. In plain terms, such a field is a number field. So any such ring maps onto
+    a number field.
+
+    '
+  needs:
+  - rings-fields
+  - polynomials
+  - number-fields
+  - linear-algebra
+  learn:
+  - title: Introduction to Commutative Algebra (M. Atiyah and I. G. Macdonald)
+    where: Chapters 1 and 5 (ideals, integral extensions), Chapter 7 (finiteness conditions)
+  - title: Abstract Algebra (D. Dummit and R. Foote)
+    where: Sections 15.1 to 15.3 (Hilbert's Nullstellensatz)
+  chunk: c0014
+- id: concept-separable-polynomials
+  title: Separable polynomials (no repeated roots) and the derivative test
+  kind: concept
+  status: textbook
+  plain: 'A polynomial is separable if it has no repeated root over the complex numbers. For example x^2
+    - 1 has roots 1 and -1 and is separable; x^2 has the root 0 twice and is not. A neat test uses the
+    derivative (the slope formula from school calculus, applied term by term to x^k). A polynomial f is
+    separable exactly when f and its derivative share no common factor. By the Euclidean algorithm for
+    polynomials, that means we can find polynomials A and B with A times f plus B times the derivative
+    equal to the number 1. Clearing the fractions turns the 1 into some nonzero whole number.
+
+    '
+  needs:
+  - polynomials
+  - calculus
+  - rings-fields
+  learn:
+  - title: Abstract Algebra (D. Dummit and R. Foote)
+    where: Sections 13.5 (separable and inseparable extensions) and 9.5
+  - title: Algebra (S. Lang)
+    where: Chapter V, Section 4 (separable extensions)
+  chunk: c0014
+- id: concept-schemes-basics
+  title: 'Schemes: spaces glued from rings (Spec, Zariski topology)'
+  kind: concept
+  status: textbook
+  plain: 'A scheme is a geometric space built by gluing together pieces, each of which comes from a ring.
+    Example: the ring of polynomials in x gives a line, and the ring of polynomials in x and y gives a
+    plane. The pieces that come from a single ring are called affine opens. A map of schemes is a map
+    of spaces that respects the rings. A closed immersion is the inclusion of a sub-shape cut out by equations,
+    like a circle inside the plane. A map is finite, flat or surjective when it is, roughly, "fibres are
+    finite-size, vary smoothly in size, and cover everything". These properties can be checked piece by
+    piece over an open cover.
+
+    '
+  needs:
+  - rings-fields
+  - concept-point-set-topology
+  - polynomials
+  - concept-prime-ideals-localization
+  learn:
+  - title: Algebraic Geometry (R. Hartshorne)
+    where: Chapter II, Sections 1 to 3
+  - title: The Rising Sea, Foundations of Algebraic Geometry (R. Vakil)
+    where: Chapters 4 to 8
+  - title: The Geometry of Schemes (D. Eisenbud and J. Harris)
+    where: Chapters I and II
+  - title: Introduction to Commutative Algebra (M. Atiyah and I. Macdonald)
+    where: Chapter 1
+  chunk: c0015
+- id: concept-categorical-pullbacks
+  title: Pullbacks (fibre products) and maps that "factor through"
+  kind: concept
+  status: textbook
+  plain: 'A pullback is the best way to combine two maps with the same target. Take two sets A and B with
+    maps to C. Their pullback is the set of pairs (a, b) whose images in C agree. Its defining property
+    says that any object with compatible maps to A and to B has exactly one map into the pullback. "Factors
+    through" means a map g can be written as g = z followed by a. If a is injective-like (a "mono"), such
+    z is unique when it exists. A square of maps that has this property is called a pullback square. Squares
+    can be stacked, and then the outer rectangle is a pullback exactly when both parts are.
+
+    '
+  needs:
+  - counting
+  - groups
+  learn:
+  - title: Category Theory in Context (E. Riehl)
+    where: Chapter 3 (universal properties, limits and pullbacks)
+  - title: Categories for the Working Mathematician (S. Mac Lane)
+    where: Chapter III, Section 3 (pullbacks) and Chapter V, Section 4
+  chunk: c0015
+- id: concept-galois-fixed-fields
+  title: A group acting on a field, and its fixed subfield
+  kind: concept
+  status: textbook
+  plain: 'A group can act on a field by shuffling its elements while keeping the sums and products intact.
+    Example: complex conjugation swaps a + bi with a - bi, and the numbers it leaves alone are exactly
+    the real numbers. The elements a chosen subgroup N leaves alone form a smaller field, the fixed field
+    of N. If N has finite index (finitely many cosets, meaning copies of N sliding around the group) we
+    can add up the images of an element over one representative per coset. This sum is called a trace,
+    and the result is fixed by the whole group when the element was fixed by N.
+
+    '
+  needs:
+  - concept-group-actions
+  - concept-normal-subgroups-quotients
+  - rings-fields
+  - groups
+  learn:
+  - title: Abstract Algebra (D. Dummit and R. Foote)
+    where: Sections 14.1 and 14.2 (Galois groups and fixed fields)
+  - title: Galois Theory (E. Artin)
+    where: Chapter I (linear algebra of fields), Chapter II
+  chunk: c0016
+- id: concept-flat-modules
+  title: Tensor products, base change and flatness
+  kind: concept
+  status: textbook
+  plain: 'A module M over a ring R is flat if tensoring with M keeps exact sequences exact, meaning it
+    does not lose injective maps. In geometry, a flat map is a family whose fibres vary without sudden
+    jumps in size. Free modules, like R squared, are flat. Over a nice ring such as the integers, flat
+    means torsion free: no nonzero element is killed by a nonzero scalar. So Z/2 is not flat over Z, since
+    multiplying by 2 kills 1. Flatness over a valuation ring is also just torsion freeness.
+
+    '
+  needs:
+  - rings-fields
+  - linear-algebra
+  - groups
+  learn:
+  - title: Introduction to Commutative Algebra (Michael Atiyah and Ian Macdonald)
+    where: Chapter 2
+  - title: Commutative Algebra (David Eisenbud)
+    where: Chapter 6
+  - title: Commutative Ring Theory (Hideyuki Matsumura)
+    where: Chapter 3
+  - title: Abstract Algebra
+    where: Dummit and Foote, section 10.4 (tensor products) and 10.5 (exactness, flatness)
+  chunk: c0017
+- id: concept-valuation-rings
+  title: Valuation rings and lattices over them
+  kind: concept
+  status: textbook
+  plain: 'A valuation ring V is an integral domain where, for any two nonzero elements a and b, either
+    a divides b or b divides a. Example: the fractions with odd denominator, inside the rationals, where
+    "size" is the power of 2 in a number. Its fraction field K is where you allow every denominator. Geometrically,
+    V is a tiny path: its closed point is the end of the path, and K is the path with the end removed.
+    The valuative criterion for properness asks whether paths missing an end point can be completed.
+
+    '
+  needs:
+  - rings-fields
+  - concept-ultrametric-norm
+  - primes-divisibility
+  - concept-schemes-basics
+  - p-adic-numbers
+  - concept-lattices-in-the-plane
+  - linear-algebra
+  learn:
+  - title: Introduction to Commutative Algebra (Michael Atiyah and Ian Macdonald)
+    where: Chapter 5
+  - title: Algebraic Geometry (Robin Hartshorne)
+    where: Chapter II, section 4 (valuative criteria)
+  - title: Algebraic Number Theory (Jurgen Neukirch)
+    where: Chapter II, section 3
+  - title: Commutative Ring Theory (H. Matsumura)
+    where: Section 10 (valuation rings)
+  - title: Local Fields (Serre)
+    where: Chapter I, discrete valuation rings
+  chunk: c0017
+- id: concept-local-rings
+  title: 'Local rings and residue fields: one big ideal of small elements'
+  kind: concept
+  status: textbook
+  plain: 'A local ring is a commutative ring with exactly one largest proper ideal, called the maximal
+    ideal. Its elements are exactly the non-invertible ones, so "small" means non-invertible. Example:
+    the integers modulo 8. The even numbers are the small ones, and every odd number is invertible. Dividing
+    by the maximal ideal gives a field, the residue field (here, the two numbers 0 and 1). An element
+    is invertible exactly when its image there is nonzero. A matrix over the ring is invertible exactly
+    when its determinant has a nonzero image in the residue field.
+
+    '
+  needs:
+  - rings-fields
+  - modular-arithmetic
+  learn:
+  - title: Introduction to Commutative Algebra (Michael Atiyah and Ian Macdonald)
+    where: Chapters 1 and 3
+  - title: Abstract Algebra (David Dummit and Richard Foote)
+    where: Chapter 15, section 4
+  - title: Commutative Ring Theory (Hideyuki Matsumura)
+    where: Chapter 1
+  chunk: c0019
+- id: concept-hermitian-unitary-matrices
+  title: Hermitian, skew-Hermitian and unitary matrices; the spectral theorem
+  kind: concept
+  status: textbook
+  plain: 'The conjugate transpose of a matrix flips rows and columns and also conjugates each entry. The
+    conjugate transpose of the matrix with rows (1, i) and (0, 2) has rows (1, 0) and (-i, 2). A matrix
+    equal to its own conjugate transpose is Hermitian. One equal to minus its conjugate transpose is skew-Hermitian.
+    Here "conjugation" can be any self-undoing field flip, not only the complex one. These matrices describe
+    forms and symmetries that preserve lengths and angles, as in unitary groups.
+
+    '
+  needs:
+  - linear-algebra
+  - complex-numbers
+  - calculus
+  learn:
+  - title: Matrix Analysis (Roger Horn and Charles Johnson)
+    where: Chapters 2 and 4
+  - title: Linear Algebra Done Right (Sheldon Axler)
+    where: Chapter 7
+  - title: Introduction to Linear Algebra (Gilbert Strang)
+    where: Chapter 10, section 2
+  chunk: c0019
+- id: concept-chain-complexes-homology
+  title: Chain complexes, homology and exact sequences
+  kind: concept
+  status: textbook
+  plain: 'A complex is a row of abelian groups joined by maps, where doing two steps in a row always gives
+    zero. Example: the integers, then the integers again, joined by "times 2". The homology at a spot
+    is the elements sent to zero by the outgoing map, divided by the elements that arrive from the incoming
+    map. For "times 2" from Z to Z, the homology at the second Z is Z/2Z, the two classes "even" and "odd".
+    A sequence with zero homology everywhere is called exact. A short exact sequence 0 to A to B to C
+    to 0 is a way of saying that B is built from A and C. The key theorem: a short exact sequence of complexes
+    gives a long exact sequence of their homology groups, linked by "connecting maps".
+
+    '
+  needs:
+  - groups
+  - linear-algebra
+  - concept-normal-subgroups-quotients
+  learn:
+  - title: Algebraic Topology
+    where: Hatcher, section 2.1 (chain complexes, long exact sequence)
+  - title: An Introduction to Homological Algebra
+    where: Weibel, chapter 1
+  chunk: c0020
+- id: concept-finitely-generated-abelian-groups
+  title: Finitely generated abelian groups
+  kind: concept
+  status: textbook
+  plain: 'An abelian group is one where the order of adding does not matter. If it is generated by finitely
+    many elements, a classic theorem says it looks like Z^r times a finite group. The number r is the
+    rank, the count of independent "free" directions. The finite part breaks into cyclic pieces Z/q, where
+    q is a power of a prime. Example: Z times Z/4 times Z/3 has rank 1. Multiplying everything by a prime
+    p acts very differently on the two parts. On the free part it is one-to-one but misses most elements.
+    On the finite part, anything killed by p counts as part of the kernel.
+
+    '
+  needs:
+  - groups
+  - modular-arithmetic
+  - primes-divisibility
+  - counting
+  learn:
+  - title: Abstract Algebra
+    where: Dummit and Foote, section 5.2 (structure theorem)
+  - title: Algebra, 2nd edition
+    where: Artin, chapter 14 (modules over the integers)
+  chunk: c0020
+- id: concept-integral-closure-fraction-fields
+  title: Fraction fields, integral elements and integrally closed (normal) rings
+  kind: concept
+  status: textbook
+  plain: 'A ring with no zero-divisors, such as the integers, sits inside its fraction field (the rationals).
+    An element of a bigger field is "integral" over the ring if it solves a monic equation x^n + a_(n-1)
+    x^(n-1) + ... + a_0 = 0 with coefficients in the ring. The square root of 2 is integral over the integers,
+    but 1/2 is not. A ring is "integrally closed", also called "normal", if every element of its fraction
+    field that is integral over it already lies in it. The integers are. The ring Z[√5] is not, since
+    the golden ratio (1 + √5)/2 solves x^2 - x - 1 = 0 but is missing. The trace of an element, the sum
+    of its conjugates, stays in the ring when the ring is normal and the element is integral.
+
+    '
+  needs:
+  - rings-fields
+  - polynomials
+  - number-fields
+  - concept-field-extensions-transcendence
+  - primes-divisibility
+  learn:
+  - title: Introduction to Commutative Algebra
+    where: Atiyah and Macdonald, chapter 5 (integral dependence)
+  - title: Algebraic Number Theory
+    where: Neukirch, chapter I, sections 2 and 2.8 (integrality, trace and norm)
+  chunk: c0021
+- id: concept-coordinate-rings-dimension
+  title: Prime ideals, coordinate rings and dimension of a solution set
+  kind: concept
+  status: textbook
+  plain: 'Take polynomial equations in several complex variables. The polynomials that vanish on their
+    solution set form an ideal I (closed under adding, and under multiplying by anything). The ideal is
+    "prime" if the solution set cannot be split into two smaller solution sets. The cross xy = 0 splits
+    into two lines, but the parabola y = x^2 does not. The ring of polynomials modulo I is the coordinate
+    ring, meaning the functions on the set. Its Krull dimension is the longest chain of prime ideals,
+    and equals the geometric dimension. A point has 0, a curve 1, a surface 2. The set is "normal" if
+    this ring is integrally closed. The line is normal, but the cusp y^2 = x^3 is not.
+
+    '
+  needs:
+  - polynomials
+  - rings-fields
+  - concept-ideals-and-discriminant
+  - concept-integral-closure-fraction-fields
+  - concept-complex-analytic-sets
+  learn:
+  - title: Ideals, Varieties, and Algorithms
+    where: Cox, Little and O'Shea, chapters 4 and 9
+  - title: Basic Algebraic Geometry 1
+    where: Shafarevich, chapter 1 (sections 1-6) and chapter 2, section 5 (normality)
+  chunk: c0021
+- id: concept-prime-ideals-localization
+  title: Prime ideals, localization and quotient rings
+  kind: concept
+  status: textbook
+  plain: 'Two basic ways to build a new ring from an old one. To "invert" an element a, you allow fractions
+    with powers of a underneath, just as the integers become the fractions with 10, 100, 1000 underneath
+    when you allow decimals. This is called localizing. To work "modulo" an element h, you declare every
+    multiple of h to be zero, like clock arithmetic where multiples of 12 vanish. Ideals are the sets
+    of multiples that may be declared zero. Both constructions show up everywhere in algebraic geometry,
+    where they mean "zoom in" and "look at a slice".
+
+    '
+  needs:
+  - rings-fields
+  - modular-arithmetic
+  - polynomials
+  - primes-divisibility
+  - concept-ideals-and-discriminant
+  learn:
+  - title: Introduction to Commutative Algebra (M. Atiyah and I. Macdonald)
+    where: Chapters 1 and 3
+  - title: Abstract Algebra (D. Dummit and R. Foote)
+    where: Sections 7.4 and 15.4
+  chunk: c0023
+- id: concept-etale-ring-maps
+  title: Etale ring maps (extensions without branching)
+  kind: concept
+  status: textbook
+  plain: 'An etale extension of a ring A is a bigger ring built by adjoining a root of a polynomial whose
+    slope at the root is never zero. Example: from the real numbers away from 0, adjoin a square root.
+    Away from 0 the two roots stay apart, so nothing branches or collides. Over the complex numbers the
+    squaring map is a clean two-to-one cover away from 0, which is the picture to keep. Etale extensions
+    are the algebraic analogue of local isomorphisms in calculus, and they can be stacked: one etale extension
+    after another is still etale.
+
+    '
+  needs:
+  - rings-fields
+  - polynomials
+  - calculus
+  - concept-prime-ideals-localization
+  learn:
+  - title: Algebraic Geometry I (U. Goertz and T. Wedhorn)
+    where: Chapter 6 (unramified, smooth and etale morphisms)
+  - title: The Stacks Project (various authors
+    free online): null
+    where: Commutative Algebra, section on etale ring maps
+  chunk: c0023
+- id: concept-dedekind-domains
+  title: Dedekind domains (unique factorisation of ideals)
+  kind: concept
+  status: textbook
+  plain: 'In the whole numbers every number factors uniquely into primes. In many bigger rings of numbers
+    this fails, but a repair works: the sets of multiples (ideals) always factor uniquely into prime ideals.
+    A ring where this holds is a Dedekind domain. Example: the whole numbers, or polynomials in one variable
+    over a field. A key tool is the Chinese remainder theorem, which says that arithmetic modulo a product
+    of pairwise unrelated ideals is the same as doing arithmetic modulo each ideal separately and gluing
+    the answers.
+
+    '
+  needs:
+  - rings-fields
+  - primes-divisibility
+  - concept-prime-ideals-localization
+  learn:
+  - title: Algebraic Number Theory (J. Neukirch)
+    where: Chapter I, section 3
+  - title: Introduction to Commutative Algebra (M. Atiyah and I. Macdonald)
+    where: Chapter 9
+  chunk: c0023
+- id: concept-hensel-lifting
+  title: Hensel lifting (improving an approximate root)
+  kind: concept
+  status: textbook
+  plain: 'Suppose a polynomial equation holds only approximately, in the sense that it holds "modulo a
+    prime p". If the slope of the polynomial there is not zero, you can nudge the guess to make the equation
+    hold modulo p squared, then modulo p to the fourth, and so on, as in Newton''s method for finding
+    roots. Example: 3 squared is 9, which is 2 more than a multiple of 7, so a root of x squared minus
+    2 exists modulo 7 and can be improved to hold modulo 49. Each nudge fixes twice as many digits as
+    the last.
+
+    '
+  needs:
+  - polynomials
+  - calculus
+  - modular-arithmetic
+  - p-adic-numbers
+  learn:
+  - title: p-adic Numbers
+    An Introduction (F. Gouvea): null
+    where: Chapter 3, Hensel's lemma
+  - title: Algebraic Number Theory (J. Neukirch)
+    where: Chapter II, section 4
+  chunk: c0023
+- id: concept-tensor-product-of-algebras
+  title: Tensor products of rings and algebras
+  kind: concept
+  status: textbook
+  plain: 'The tensor product of two rings A and B that both sit over a common ring R is a new ring A times
+    B over R. Its elements are sums of formal products a times b, where an R-multiple can be moved from
+    one side to the other. Example: the integers mod 2 tensored with the integers mod 3 give the zero
+    ring, since the two kinds of arithmetic clash. Tensoring with a fraction field allows fractions. In
+    geometry, it corresponds to taking the part of a shape lying over a chosen point of the base.
+
+    '
+  needs:
+  - rings-fields
+  - linear-algebra
+  learn:
+  - title: Introduction to Commutative Algebra (M. Atiyah and I. Macdonald)
+    where: Chapter 2
+  - title: Abstract Algebra (D. Dummit and R. Foote)
+    where: Section 10.4
+  chunk: c0024
+- id: concept-smooth-morphisms
+  title: Smooth morphisms (families of smooth shapes)
+  kind: concept
+  status: textbook
+  plain: 'A smooth family is a map from one shape to another in which every fibre, meaning the part lying
+    over one point, is a smooth shape with no corners or self-crossings, and the pieces vary without sudden
+    jumps. Example: a circle of fixed radius over each point of a line. In algebra, this is a ring A over
+    a ring R presented by polynomial equations whose slopes are independent. Etale maps are the case where
+    the fibres are finite collections of points.
+
+    '
+  needs:
+  - concept-etale-ring-maps
+  - concept-schemes-basics
+  - calculus
+  learn:
+  - title: Algebraic Geometry (R. Hartshorne)
+    where: Chapter III, section 10
+  - title: Neron Models (S. Bosch
+    W. Luetkebohmert: null
+    M. Raynaud): null
+    where: Chapter 2
+  chunk: c0024
+- id: concept-noetherian-and-irreducible-components
+  title: Noetherian spaces and irreducible components
+  kind: concept
+  status: textbook
+  plain: 'A ring is Noetherian if every set of multiples is generated by finitely many elements. This
+    holds for the integers and for polynomials in several variables. The shape of such a ring is then
+    a Noetherian space, which means it can only be cut into finitely many basic irreducible pieces, where
+    irreducible means "not a union of two smaller closed pieces". Example: two crossing lines form two
+    pieces. This finiteness lets one prove facts about connected pieces of the shape by listing the irreducible
+    ones.
+
+    '
+  needs:
+  - rings-fields
+  - concept-point-set-topology
+  - concept-schemes-basics
+  learn:
+  - title: Introduction to Commutative Algebra (M. Atiyah and I. Macdonald)
+    where: Chapters 6 and 7
+  - title: Algebraic Geometry (R. Hartshorne)
+    where: Chapter I, section 1
+  chunk: c0024
+- id: concept-modular-forms
+  title: Modular forms, level groups and cusps
+  kind: concept
+  status: textbook
+  plain: 'Picture the upper half of the complex plane, the points with positive imaginary part. A 2x2
+    integer matrix with determinant 1 moves each point there to another one, by the rule z goes to (az+b)/(cz+d).
+    A modular form of weight k is a smooth-in-the-complex-sense (holomorphic) function on that half-plane
+    that, when you move its input by such a matrix, only gets multiplied by (cz+d) to the power k. The
+    "level" restricts to matrices with c divisible by some number, so fewer symmetries are demanded. The
+    cusps are the edge points (fractions and infinity) where the function is judged by how it behaves
+    nearby. A cusp form is one that fades to zero at every cusp.
+
+    '
+  needs:
+  - complex-analysis
+  - complex-numbers
+  - groups
+  - linear-algebra
+  - modular-arithmetic
+  - concept-group-actions
+  learn:
+  - title: A First Course in Modular Forms (Diamond and Shurman)
+    where: Chapters 1 to 3
+  - title: A Course in Arithmetic (Serre)
+    where: Chapter VII
+  chunk: c0026
+- id: concept-hecke-operators
+  title: Hecke operators U, V and T
+  kind: concept
+  status: textbook
+  plain: 'Hecke operators are machines that turn one modular form into another of the same kind. For a
+    prime q, the operator U averages the form over q shifted and shrunk copies of the input: add j to
+    the input (j from 0 to q-1), divide by q, evaluate, and take the mean of the q results. The operator
+    V simply feeds in q times the input. A full Hecke operator T adds U to a scaled V. Their main use
+    is that they act on the list of Fourier coefficients in a clean way, which is how number-theoretic
+    information is extracted from modular forms.
+
+    '
+  needs:
+  - concept-modular-forms
+  - infinite-series
+  - complex-numbers
+  learn:
+  - title: A First Course in Modular Forms (Diamond and Shurman)
+    where: Chapter 5
+  - title: A Course in Arithmetic (Serre)
+    where: Chapter VII, section 5
+  chunk: c0026
+- id: concept-petersson-product
+  title: The Petersson inner product
+  kind: concept
+  status: textbook
+  plain: 'Two cusp forms can be "multiplied and averaged" to give a single complex number, much like the
+    dot product of two vectors. You integrate f times the complex conjugate of g, weighted by a power
+    of the height, over one tile (a fundamental domain) of the half-plane that repeats under the symmetry
+    group. For a smaller level group there are several tiles, so you add up the integral over each one.
+    This gives a notion of angle and length for modular forms, and it makes the Hecke operators behave
+    like symmetric matrices.
+
+    '
+  needs:
+  - concept-modular-forms
+  - calculus
+  - complex-numbers
+  - linear-algebra
+  learn:
+  - title: A First Course in Modular Forms (Diamond and Shurman)
+    where: Section 5.4
+  - title: Introduction to Elliptic Curves and Modular Forms (Koblitz)
+    where: Chapter III
+  chunk: c0026
+- id: concept-derivations-smoothness
+  title: Partial derivatives on polynomials, differentials and smoothness
+  kind: concept
+  status: textbook
+  plain: 'On polynomials, taking the partial derivative with respect to a variable x follows the ordinary
+    Leibniz product rule; for example, the derivative of x times y with respect to x is y. Differentials
+    package all such derivatives into one object. The Jacobian criterion says a shape cut out by polynomial
+    equations is smooth at a point when the matrix of partial derivatives of the equations has full rank
+    there, so the point has no sharp corner or self-crossing. Over a perfect field, such as the rationals
+    or a finite field, every function field is smooth in this sense, which is what makes the criterion
+    work.
+
+    '
+  needs:
+  - polynomials
+  - calculus
+  - linear-algebra
+  - concept-prime-ideals-localization
+  - concept-field-extensions-transcendence
+  learn:
+  - title: Algebraic Geometry (Hartshorne)
+    where: Chapter I, section 5; Chapter II, section 8
+  - title: Commutative Algebra with a View Toward Algebraic Geometry (Eisenbud)
+    where: Chapter 16
+  chunk: c0027
+- id: concept-exterior-powers
+  title: Exterior powers and wedge products
+  kind: concept
+  status: textbook
+  plain: 'Given a vector space V, the N-th exterior power is a new vector space built from "wedge products"
+    v1 ^ v2 ^ ... ^ vN of N vectors. The wedge is linear in each slot and becomes zero whenever two slots
+    hold the same vector, or more generally dependent vectors. For two vectors in the plane, the wedge
+    records the signed area of the parallelogram they span, which is the 2x2 determinant. If V has dimension
+    n, the N-th exterior power has dimension n choose N. In particular, the top one, N equal to n, is
+    a single line: determinants live there.
+
+    '
+  needs:
+  - linear-algebra
+  - counting
+  learn:
+  - title: Linear Algebra Done Right (Axler)
+    where: Chapter 9, multilinear forms and determinants
+  - title: Algebra (Lang)
+    where: Chapter XIX, exterior algebra
+  chunk: c0028
+- id: concept-witt-vectors-ainf
+  title: Witt vectors, the tilt and the ring A-inf
+  kind: concept
+  status: textbook
+  plain: 'This is graduate-level p-adic number theory, and I could only sketch it. Witt vectors are a
+    way to build a ring in which p is not zero from a ring in which p is zero. For the whole numbers mod
+    p, they give the p-adic integers. Applied to the "tilt", a char-p ring made from a p-adic ring O,
+    they give a ring called A-inf. It comes with a map theta back down to O. Inside A-inf, the element
+    mu is a Teichmuller lift minus one, and it plays a role like a prime. Matrices over A-inf with such
+    conditions encode p-adic Galois representations.
+
+    '
+  needs:
+  - p-adic-numbers
+  - rings-fields
+  - concept-ultrametric-norm
+  - modular-arithmetic
+  learn:
+  - title: Lectures on Peter Scholze's perfectoid spaces (Bhatt)
+    where: Lecture notes on A-inf and the tilting equivalence
+  - title: Local Fields (Serre)
+    where: Chapter II, section 6, Witt vectors
+  chunk: c0028
+- id: concept-roots-of-unity-kummer
+  title: Roots of unity and Kummer generators
+  kind: concept
+  status: textbook
+  plain: 'A primitive p-th root of unity is a number zeta with zeta^p = 1 whose lower powers are not 1.
+    Over the complex numbers, for p = 3 it is the point a third of the way round the unit circle. A classical
+    identity says (1 - zeta)(1 - zeta^2)...(1 - zeta^(p-1)) = p when p is prime. Kummer theory studies
+    fields that contain such a zeta. Adjoining a p-th root alpha of an element a gives a new field where
+    a symmetry (an automorphism) sends alpha to zeta times alpha. Such an alpha is called a Kummer generator.
+
+    '
+  needs:
+  - complex-numbers
+  - polynomials
+  - groups
+  - primes-divisibility
+  - concept-field-extensions-transcendence
+  learn:
+  - title: Dummit and Foote, Abstract Algebra
+    where: Sections 13.6 (cyclotomic polynomials) and 14.5 (Kummer extensions)
+  - title: Lang, Algebra
+    where: Ch. VI, section 6 (Kummer theory)
+  chunk: c0030
+- id: concept-picard-group
+  title: 'The Picard group: rank-one ''twists'' over a ring'
+  kind: concept
+  status: textbook
+  plain: 'Given a commutative ring, think of a module that looks locally like the ring itself, a "twisted
+    copy" of it. Two such twists can be combined by tensoring, and each has an inverse, so the isomorphism
+    classes form a group, the Picard group. Over the ordinary integers every twist is trivial. Over the
+    ring of integers of a number field this group is the ideal class group, which is always finite. A
+    class "has finite order" if some power of it is the trivial class, as 3 steps around a clock of 3
+    hours bring you back to the start.
+
+    '
+  needs:
+  - groups
+  - rings-fields
+  - concept-dedekind-domains
+  - concept-flat-modules
+  learn:
+  - title: Weibel, The K-book
+    where: ch. I.3 (Picard group)
+  - title: Neukirch, Algebraic Number Theory
+    where: ch. I, section 12 (class group)
+  chunk: c0036
+- id: concept-group-homology
+  title: 'Group homology: measuring how a group acts on a vector space'
+  kind: concept
+  status: textbook
+  plain: 'A group can act on a vector space by matrices (a representation). Group homology attaches to
+    each such action a sequence of vector spaces, H0, H1, H2, and so on, that record how "twisted" the
+    action is. H0 is the simplest: it is the space with vectors identified whenever the group moves one
+    to the other. The higher ones come from a chain of spaces built from lists of group elements, and
+    are computed by the usual chain-complex recipe. A "free" or "projective" action is the nicest kind,
+    and has no higher homology at all.
+
+    '
+  needs:
+  - groups
+  - concept-group-representations
+  - concept-chain-complexes-homology
+  - linear-algebra
+  - concept-group-actions
+  learn:
+  - title: Kenneth Brown, Cohomology of Groups
+    where: ch. III
+  - title: Charles Weibel, An Introduction to Homological Algebra
+    where: ch. 6
+  chunk: c0051
+- id: concept-frobenius-perfect-rings
+  title: 'Frobenius and perfect rings: raising to the p-th power in characteristic p'
+  kind: concept
+  status: textbook
+  plain: 'In a ring where p = 0 (p a prime), the identity (x + y)^p = x^p + y^p holds, because the middle
+    binomial coefficients are all multiples of p. So "raise to the p-th power" respects addition and multiplication;
+    this map is called Frobenius. Example: mod 3, (x + y)^3 = x^3 + y^3. A ring is perfect if Frobenius
+    is a bijection, meaning every element has exactly one p-th root. Any ring of this kind can be enlarged
+    to a perfect one by adding all the missing roots.
+
+    '
+  needs:
+  - rings-fields
+  - modular-arithmetic
+  - primes-divisibility
+  learn:
+  - title: Peter Scholze and Jared Weinstein, Berkeley Lectures on p-adic Geometry
+    where: lecture 3
+  - title: Serge Lang, Algebra
+    where: ch. V, sec. 5
+  chunk: c0052
+- id: concept-gl-infinity-homology-stability
+  title: GL_n, the limit GL_infinity, and stability of group homology
+  kind: concept
+  status: textbook
+  plain: 'GL_n(R) is the group of invertible n-by-n matrices over a ring R. Pad a matrix with a 1 in the
+    corner and you get an invertible (n+1)-by-(n+1) matrix, so the groups form a chain. Their union is
+    GL_infinity(R). Homology (a way of counting holes and relations using chain complexes) of GL_n(R)
+    often stops changing once n is big enough compared with a "stable range" of R. This is homological
+    stability. Related tools are the plus construction (a space with the same homology but simpler loops)
+    and acyclic spaces (spaces with no homology above degree 0).
+
+    '
+  needs:
+  - groups
+  - linear-algebra
+  - concept-chain-complexes-homology
+  - concept-point-set-topology
+  learn:
+  - title: Weibel, The K-book
+    where: ch. IV (K1, plus construction)
+  - title: Hatcher, Algebraic Topology
+    where: ch. 2 (homology), sec. 4.2 (Hurewicz)
+  chunk: c0067
+- id: concept-haar-measure-fundamental-domain
+  title: Integration on a group, Haar measure and fundamental domains
+  kind: concept
+  status: textbook
+  plain: 'A measure assigns sizes to sets, and an integral adds up a function against it. On many groups
+    there is a natural "Haar" measure that does not change when you shift sets by a group element, like
+    length on the real line. If a subgroup S acts on a space G, a fundamental domain is a region F that
+    contains one copy of each orbit, up to sets of size zero. Then integrating a shift-invariant function
+    over G is the same as integrating it over F, in the way a function periodic mod 1 is integrated over
+    [0,1). Integrals here may be infinite and are valued in [0, ∞].
+
+    '
+  needs:
+  - real-analysis
+  - groups
+  - concept-point-set-topology
+  - concept-normal-subgroups-quotients
+  - concept-group-actions
+  - infinite-series
+  learn:
+  - title: Folland, A Course in Abstract Harmonic Analysis
+    where: ch. 2 (Haar measure)
+  - title: Folland, Real Analysis
+    where: ch. 2 (integration)
+  - title: Terence Tao, An Introduction to Measure Theory
+    where: ch. 1 (Lebesgue measure and invariance)
+  chunk: c0070
+- id: concept-lattice-point-counting
+  title: Lattices in n dimensions, covolume and counting points
+  kind: concept
+  status: textbook
+  plain: 'A lattice in n-dimensional space is the set of all whole-number combinations of n independent
+    vectors, like the grid points of graph paper. Its covolume is the volume of one grid cell, the tile
+    that repeats to cover space. If a smaller lattice sits inside a bigger one, the smaller one''s cell
+    is as many times bigger as the index, the number of copies of the small lattice needed to fill the
+    big one. To count grid points in a region, compare the region''s volume with the cell volume. Number
+    theorists use this to count algebraic numbers of bounded size.
+
+    '
+  needs:
+  - concept-lattices-in-the-plane
+  - linear-algebra
+  - real-analysis
+  learn:
+  - title: Neukirch, Algebraic Number Theory
+    where: ch. I, sec. 5
+  - title: Cassels, An Introduction to the Geometry of Numbers
+    where: ch. I
+  chunk: c0083
+- id: concept-chebyshev-functions
+  title: Chebyshev functions theta and psi
+  kind: concept
+  status: textbook
+  plain: 'Chebyshev''s theta(x) adds up the natural logs of all primes up to x. His psi(x) adds ln p for
+    every prime power p^k up to x, so ln 2 counts for 2, 4, 8, and so on. Both grow roughly like x, and
+    that is equivalent to the prime number theorem. They are easier to estimate than the prime-counting
+    function pi(x), and one converts between them by partial summation. psi can also be written using
+    the von Mangoldt function and the log of factorials, which are explicit.
+
+    '
+  needs:
+  - primes-divisibility
+  - real-analysis
+  - infinite-series
+  learn:
+  - title: Apostol, Introduction to Analytic Number Theory
+    where: ch. 4
+  - title: Hardy and Wright, An Introduction to the Theory of Numbers
+    where: ch. XXII
+  chunk: c0085
+- id: concept-dual-numbers
+  title: 'Dual numbers: a number with a tiny part that squares to zero'
+  kind: concept
+  status: textbook
+  plain: 'Dual numbers are numbers of the form a + bε, where ε is a made-up symbol with ε times ε equal
+    to zero. Think of ε as "so small that its square vanishes". Because of this, (x + ε)² = x² + 2xε:
+    the ε-part of a calculation records the derivative. Algebraic geometers use this to define tangent
+    vectors without calculus. A tangent vector to a shape at a point is a way of squeezing a tiny arrow-shaped
+    piece of the line with coordinate ε into the shape, starting at that point. The same trick works over
+    any ring of numbers, even one where ordinary limits make no sense.
+
+    '
+  needs:
+  - rings-fields
+  - calculus
+  - concept-schemes-basics
+  learn:
+  - title: Eisenbud and Harris, The Geometry of Schemes
+    where: ch. II, tangent spaces
+  chunk: c0096
+- id: concept-group-schemes
+  title: 'Group schemes: tori, abelian varieties and torsion points'
+  kind: concept
+  status: textbook
+  plain: 'A group scheme is a shape defined by equations that also has a group law (multiplying two points
+    gives a point) given by equations. Two basic families matter here. A torus is the shape of nonzero
+    numbers under multiplication, or a product of several copies. An abelian variety (or abelian scheme,
+    when it varies in a family) is a smooth, closed, connected shape with a commutative group law, like
+    an elliptic curve. Torsion points are the points that return to the identity after multiplying by
+    some whole number N, such as the N-th roots of unity in a torus.
+
+    '
+  needs:
+  - concept-schemes-basics
+  - groups
+  - concept-categorical-pullbacks
+  - concept-smooth-morphisms
+  learn:
+  - title: Milne, Algebraic Groups
+    where: ch. 1
+  - title: Mumford, Abelian Varieties
+    where: ch. I-II
+  chunk: c0096
+- id: concept-adic-completion
+  title: 'Adic completion: approximating by ever higher powers of an ideal'
+  kind: concept
+  status: textbook
+  plain: 'Take a ring R and an ideal I. Two numbers are "close" if their difference lies in a high power
+    of I, like integers that agree modulo p^100 are close p-adically. The I-adic completion is the ring
+    of infinite approximation sequences: a number mod I, a number mod I², a number mod I³, and so on,
+    each agreeing with the previous one. The p-adic integers are the completion of the integers at the
+    prime p. A ring equal to its own completion is called complete. For a local ring the natural choice
+    of I is the maximal ideal.
+
+    '
+  needs:
+  - concept-local-rings
+  - concept-prime-ideals-localization
+  - p-adic-numbers
+  - rings-fields
+  learn:
+  - title: Atiyah and Macdonald, Introduction to Commutative Algebra
+    where: ch. 10
+  chunk: c0100
+- id: concept-schwartz-functions
+  title: Schwartz functions and their seminorms
+  kind: concept
+  status: textbook
+  plain: 'A Schwartz function is a smooth function on real space (it can be differentiated as often as
+    you like) which, together with all its derivatives, shrinks faster than any power of the distance
+    from the origin. The bell curve e to the minus x squared is the standard example. Size is measured
+    by a whole family of numbers, called seminorms, one for each pair (how many derivatives, which power
+    of distance); each is the largest value of "distance to a power times derivative size". Saying functions
+    converge in this space means all these numbers shrink together. These functions are the natural home
+    of the Fourier transform.
+
+    '
+  needs:
+  - calculus
+  - real-analysis
+  - fourier-analysis
+  learn:
+  - title: 'Folland, Real Analysis: Modern Techniques and Their Applications'
+    where: ch. 8 (Fourier analysis, Schwartz space)
+  - title: Stein and Shakarchi, Functional Analysis
+    where: ch. 3 (Distributions)
+  chunk: c0127
+- id: concept-semisimple-algebras-radical
+  title: Semisimple algebras and the Jacobson radical
+  kind: concept
+  status: textbook
+  plain: 'A set of matrices, or an algebra they span, is called semisimple if every invariant subspace
+    has an invariant complement, so the space splits cleanly into irreducible pieces. Example: all diagonal
+    matrices. Upper-triangular matrices fail: the first coordinate axis is invariant but has no invariant
+    complement. The obstruction is measured by the Jacobson radical, the set of elements that act as "nilpotent
+    noise" (some power of the radical is zero for a finite-dimensional algebra). An algebra is semisimple
+    exactly when this radical is zero.
+
+    '
+  needs:
+  - linear-algebra
+  - rings-fields
+  - concept-group-representations
+  learn:
+  - title: Lang, Algebra
+    where: ch. XVII (Semisimplicity)
+  - title: Etingof et al., Introduction to Representation Theory
+    where: ch. 3 (General results)
+  chunk: c0130
+- id: concept-filtered-colimits
+  title: 'Filtered colimits: a ring that is the union of an ever-growing chain of rings'
+  kind: concept
+  status: textbook
+  plain: 'Sometimes a ring is built from a family of rings R_1, R_2, ... linked by maps, where any two
+    members can be pushed into a common later member. The result is a "filtered colimit", like a union
+    of an increasing chain. Example: the rational numbers are the union of the rings of fractions with
+    denominator dividing n!. A key principle is that finitely many facts about elements of the limit already
+    show up at some finite stage. A finite set of elements comes from one stage, and a finite set of equations
+    that hold in the limit hold at a later stage.
+
+    '
+  needs:
+  - rings-fields
+  - concept-categorical-pullbacks
+  learn:
+  - title: Mac Lane, Categories for the Working Mathematician
+    where: ch. IX, section 1
+  chunk: c0194
+- id: concept-projective-modules
+  title: Projective modules and finite presentation
+  kind: concept
+  status: textbook
+  plain: 'A module is like a vector space over a ring. A free module has a basis. A projective module
+    is a "direct summand of a free module", meaning it is a piece that fits with a complement to make
+    a free one. Over a field every module is free. Over general rings projective modules are well behaved
+    but may need a twist. A module is finitely presented if it has finitely many generators and finitely
+    many relations among them, like a table of a few rows and columns of numbers.
+
+    '
+  needs:
+  - concept-flat-modules
+  - linear-algebra
+  - rings-fields
+  learn:
+  - title: Lang, Algebra
+    where: ch. III, sections 3-4
+  chunk: c0194
+- id: concept-ample-nef-line-bundles
+  title: Ample and nef line bundles, and intersection numbers
+  kind: concept
+  status: textbook
+  plain: 'A line bundle is a "twist" attached to a geometric shape, a way of attaching a one-dimensional
+    space to every point. It is ample if powers of it have enough sections to describe the shape inside
+    projective space. Intersection numbers count how a curve meets the zero set of sections of the bundle,
+    with multiplicity. A line bundle is nef ("numerically effective") if its degree on every curve is
+    at least 0. Kleiman''s theorem says that nef is the right limit of ample: add a small multiple of
+    an ample bundle and you get ample again.
+
+    '
+  needs:
+  - concept-picard-group
+  - concept-schemes-basics
+  - concept-coordinate-rings-dimension
+  learn:
+  - title: Hartshorne, Algebraic Geometry
+    where: ch. II section 7; ch. V section 1
+  chunk: c0195
+- id: concept-symmetric-polynomials
+  title: Symmetric polynomials and elementary symmetric functions
+  kind: concept
+  status: textbook
+  plain: 'A polynomial in several variables is symmetric if swapping or reordering the variables never
+    changes it. For two variables, x+y and xy are symmetric. The elementary symmetric polynomials are
+    these building blocks: the sum of the variables, the sum of all pairwise products, and so on up to
+    the full product. The fundamental theorem says every symmetric polynomial is a polynomial in these.
+    Example: x²+y² = (x+y)² − 2xy. They also appear as the coefficients of a polynomial written through
+    its roots, which is Vieta''s formulas.
+
+    '
+  needs:
+  - polynomials
+  - rings-fields
+  learn:
+  - title: Cox, Little, O'Shea, Ideals, Varieties, and Algorithms
+    where: ch. 7, section 1
+  - title: Lang, Algebra
+    where: ch. IV, section 6
+  chunk: c0202
+- id: concept-regular-local-rings
+  title: Regular local rings
+  kind: concept
+  status: textbook
+  plain: 'A local ring has one biggest ideal m, the "small" elements. Its dimension is roughly how many
+    independent directions the space has near that point. m can always be generated by some number of
+    elements; the least number can''t be smaller than the dimension. If the two numbers are equal, the
+    ring is "regular". This is the algebraic version of a smooth point: a polynomial ring localised at
+    a maximal ideal is regular. Regular local rings are integral domains, and stay regular after cutting
+    by a suitable element or localising at a prime.
+
+    '
+  needs:
+  - concept-local-rings
+  - concept-coordinate-rings-dimension
+  - concept-prime-ideals-localization
+  learn:
+  - title: Atiyah and Macdonald, Introduction to Commutative Algebra
+    where: ch. 11 (dimension theory)
+  - title: Matsumura, Commutative Ring Theory
+    where: ch. 7, section 14
+  chunk: c0238
+- id: concept-weierstrass-elliptic-functions
+  title: 'Elliptic functions: the Weierstrass functions on a lattice'
+  kind: concept
+  status: textbook
+  plain: 'Take a lattice in the complex plane (all whole-number combinations of two complex numbers that
+    do not lie on one line). A function repeating its values under every lattice shift is "elliptic".
+    Weierstrass built these from sums over the lattice: the function p (a sum of 1 over (z minus a lattice
+    point) squared, suitably corrected), its negative antiderivative zeta, and sigma, an everywhere-defined
+    function that is zero exactly at lattice points. Zeta and sigma are not periodic, but shift by simple
+    known factors, called quasi-periods. A relation of Legendre ties these quasi-periods to the number
+    2 pi i.
+
+    '
+  needs:
+  - concept-lattices-in-the-plane
+  - complex-analysis
+  - infinite-series
+  learn:
+  - title: Silverman, The Arithmetic of Elliptic Curves
+    where: ch. VI, sections 3-4
+  - title: Ahlfors, Complex Analysis
+    where: ch. 7, sections 3.1-3.2
+  chunk: c0290
+- id: concept-highest-weight-casimir
+  title: Weights, highest-weight vectors and the Casimir operator
+  kind: concept
+  status: textbook
+  plain: 'A group of matrices can act on a vector space. Its "Lie algebra" consists of operators E(a,b),
+    one for each pair of positions, with fixed commutation rules. The diagonal ones E(a,a) commute, so
+    they can be diagonalised together. A vector with E(a,a) v = μ_a v for every a has "weight" μ. A "highest-weight
+    vector" is a weight vector killed by all the "raising" operators E(a,b) with a below b. The Casimir
+    operator is the sum of all products E(a,b)E(b,a). It commutes with everything, and on a highest-weight
+    vector it is just a number computed from the weight.
+
+    '
+  needs:
+  - concept-group-representations
+  - linear-algebra
+  learn:
+  - title: Humphreys, Introduction to Lie Algebras and Representation Theory
+    where: §6.2 (Casimir element), §20 (weights and maximal vectors)
+  chunk: c0297
+- id: concept-nilpotent-jordan-chains
+  title: Nilpotent operators and chain bases (Jordan form)
+  kind: concept
+  status: textbook
+  plain: 'An operator N on a vector space is nilpotent if applying it enough times gives zero everywhere.
+    Example: on three-dimensional space, N sends e3 to e2, e2 to e1 and e1 to zero. Such an N always has
+    a "chain basis". Pick some starting vectors y; the basis consists of y, N y, N² y, … up to just before
+    the chain dies. Each chain is one Jordan block. This is the Jordan normal form for nilpotent operators.
+    It tells you completely how N acts, and is the starting point for understanding all matrices that
+    commute with N.
+
+    '
+  needs:
+  - linear-algebra
+  learn:
+  - title: Axler, Linear Algebra Done Right
+    where: ch. 8 (operators on complex vector spaces; nilpotent operators)
+  chunk: c0299
+- id: concept-class-group
+  title: The ideal class group of a number field
+  kind: concept
+  status: textbook
+  plain: 'In a number field, numbers do not always factor uniquely into primes, but ideals (certain sets
+    of multiples) do. The ideal class group measures how badly unique factorisation of numbers fails.
+    Two ideals count as the same class if one is the other times a single number. The classes multiply
+    and form a finite group. Its size is the class number h. A neat consequence: raise any ideal to the
+    power h and you get a class equal to the identity, which means the result is generated by a single
+    number, a "principal" ideal. When h is 1, every ideal is already principal.
+
+    '
+  needs:
+  - concept-ideals-and-discriminant
+  - concept-dedekind-domains
+  - number-fields
+  - groups
+  learn:
+  - title: Neukirch, Algebraic Number Theory
+    where: ch. I, section 6
+  - title: Marcus, Number Fields
+    where: ch. 5
+  chunk: c0310
+- id: concept-hausdorff-measure
+  title: Measuring curved shapes of any dimension (Hausdorff measure)
+  kind: concept
+  status: textbook
+  plain: 'Length measures curves, area measures surfaces, volume measures solids. Hausdorff measure is
+    one recipe that does all of these. For a dimension d, cover the shape with tiny balls, add up their
+    diameters raised to the power d, and shrink the balls. In ordinary space, d = 1 gives length, d =
+    2 gives area. A complex line is 2 real dimensions, so complex d-dimensional shapes are measured with
+    real dimension 2d. A shape can have infinite measure or zero measure in a given dimension.
+
+    '
+  needs:
+  - real-analysis
+  - linear-algebra
+  - calculus
+  learn:
+  - title: Evans and Gariepy, Measure Theory and Fine Properties of Functions
+    where: ch. 2
+  chunk: c0347
+- id: concept-permutations-inversions
+  title: Permutations, sign and inversions
+  kind: concept
+  status: textbook
+  plain: 'A permutation of n items is a reshuffling, such as swapping items 2 and 3 of (1, 2, 3). An inversion
+    is a pair of positions whose order the shuffle reverses; the reversal of a list has the most inversions,
+    and the identity has none. A swap of two neighbours changes the number of inversions by exactly one,
+    and every shuffle can be built from neighbour swaps. The sign of a permutation is plus or minus one,
+    according to whether it uses an even or odd number of swaps. Example: for (3, 1, 2) the inversions
+    are the pairs (3,1) and (3,2), so there are two, and the sign is plus.
+
+    '
+  needs:
+  - groups
+  - counting
+  learn:
+  - title: Stanley, Enumerative Combinatorics, Vol. 1
+    where: ch. 1 (permutations and inversions)
+  - title: Artin, Algebra
+    where: ch. 1 (permutation matrices and sign)
+  chunk: c0386
+- id: concept-iwahori-hecke-algebra
+  title: 'Hecke algebras: a deformation of the group of shuffles'
+  kind: concept
+  status: textbook
+  plain: 'The group of shuffles of n items is generated by neighbour swaps s, each satisfying s times
+    s equals 1. A Hecke algebra keeps the same "braid" rules but bends this one: its generators T satisfy
+    T times T equals (q - 1) T plus q, where q is a parameter. Setting q to 1 gives back the ordinary
+    shuffles. Basis elements T_w are indexed by shuffles w, and a product of T''s behaves like the product
+    of the shuffles whenever the swap adds an inversion. In some versions (the Bernstein presentation)
+    the algebra also contains polynomials, which relate to the T''s through a rule like a twisted product
+    rule.
+
+    '
+  needs:
+  - groups
+  - polynomials
+  - concept-symmetric-polynomials
+  - concept-permutations-inversions
+  - rings-fields
+  learn:
+  - title: Humphreys, Reflection Groups and Coxeter Groups
+    where: ch. 7 (Hecke algebras)
+  - title: Macdonald, Symmetric Functions and Hall Polynomials
+    where: ch. III-VI (Hecke algebra and Hall-Littlewood functions)
+  chunk: c0386
+- id: concept-formal-power-series
+  title: 'Formal power series: infinite polynomials with no convergence'
+  kind: concept
+  status: textbook
+  plain: 'A formal power series is an infinite sum a₀ + a₁x + a₂x² + … treated purely as a list of coefficients,
+    with no question of whether it converges. You add and multiply them like polynomials: the x² coefficient
+    of a product is a₀b₂ + a₁b₁ + a₂b₀, a finite sum. Series in several variables work the same way. You
+    may substitute one series into another provided the inserted series has constant term 0, because then
+    each coefficient of the result needs only finitely many terms. Series with constant term 1 can be
+    inverted. Derivatives act term by term.
+
+    '
+  needs:
+  - polynomials
+  - infinite-series
+  - rings-fields
+  learn:
+  - title: Wilf, generatingfunctionology
+    where: ch. 1
+  - title: Lang, Algebra
+    where: ch. IV, sect. 9 (power series)
+  chunk: c0505
+- id: concept-hilbert-space-operators
+  title: Hilbert spaces, bounded operators, and trace-class operators
+  kind: concept
+  status: textbook
+  plain: 'A Hilbert space is a vector space with an inner product (a way to measure angles and lengths)
+    that is also complete, so limits of Cauchy sequences stay inside. The plane and 3-space are examples,
+    and so is the space of square-integrable functions. A bounded operator is a linear map that cannot
+    stretch lengths without limit. Its adjoint is the generalised conjugate-transpose. An operator is
+    Hilbert-Schmidt if the squared lengths of its outputs on an orthonormal basis add up to a finite number.
+    It is trace-class if a slightly stronger sum is finite. For trace-class operators the trace, the sum
+    of diagonal entries, makes sense and does not depend on the basis chosen.
+
+    '
+  needs:
+  - linear-algebra
+  - real-analysis
+  - infinite-series
+  - concept-hermitian-unitary-matrices
+  learn:
+  - title: Reed and Simon, Methods of Modern Mathematical Physics I
+    where: ch. II (Hilbert spaces) and ch. VI (bounded operators, trace class)
+  - title: Axler, Measure, Integration and Real Analysis
+    where: ch. 8 (Hilbert spaces)
+  chunk: c0608
+- id: concept-elliptic-curve-group-law
+  title: 'Elliptic curves: the cubic y² = 4x³ − g₂x − g₃ and its chord-and-tangent addition'
+  kind: concept
+  status: textbook
+  plain: 'An elliptic curve here is the set of points (x, y) solving y² = 4x³ − g₂x − g₃, plus one extra
+    "point at infinity". The constants g₂, g₃ must be chosen so the cubic has no repeated root (the discriminant
+    g₂³ − 27g₃² is not zero). The points can be added. To add P and Q, draw the line through them, find
+    its third crossing with the curve, and reflect that over the x-axis. The point at infinity plays the
+    role of 0. This addition makes the curve a group. Over the complex numbers, the Weierstrass functions
+    ℘ and ℘'' of a lattice give a way to match up the complex plane modulo the lattice with the points
+    of such a curve.
+
+    '
+  needs:
+  - complex-numbers
+  - groups
+  - polynomials
+  - concept-weierstrass-elliptic-functions
+  - concept-lattices-in-the-plane
+  learn:
+  - title: Silverman, The Arithmetic of Elliptic Curves
+    where: ch. III, sections 1-3
+  - title: 'Washington, Elliptic Curves: Number Theory and Cryptography'
+    where: ch. 2
+  chunk: c0626

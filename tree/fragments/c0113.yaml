@@ -1,0 +1,64 @@
+nodes:
+  - id: f-foundations--alt-coeff-rho
+    title: Definitions for reading off flag degrees from polynomial coefficients
+    kind: step
+    status: explained
+    chunk: c0113
+    plain: >
+      This file is mostly a set of definitions, with one short fact at the end. A flag variety is a space of
+      nested subspaces, and its degree counts intersection points. The file defines a signed sum of
+      polynomial coefficients (an alternating coefficient), the staircase list of exponents N-1, N-2, down
+      to 0, and some polynomials built from determinants of such exponents. It also defines power sums and
+      a hook-shaped variant. The one theorem says that the alternating coefficient taken at the staircase
+      exponents is, by definition, the degree functional already defined elsewhere. It is a direct
+      unfolding with no real computation.
+    lean: ["Development/AbelianVarietyTheory/Definitions/Foundations/AltCoeffRho.lean:9", "Development/AbelianVarietyTheory/Definitions/Foundations/AltCoeffRho.lean:41"]
+    mathlib: []
+    needs: [f-degree-formula--flag-deg-formula, polynomials, counting, linear-algebra]
+  - id: f-flag-degree-formula
+    title: The degree of a flag variety is a product of differences
+    kind: step
+    status: explained
+    chunk: c0113
+    plain: >
+      This file proves the statement named as the flag degree formula, which other files only stated. A flag
+      variety is a space of nested subspaces, and its degree is a count of intersection points. The formula
+      writes that degree as a product of differences of the input numbers, like a Weyl dimension formula.
+      The proof expands a power of a linear form, pulls out one coefficient, and uses the multinomial count
+      of ways to split an exponent. It then identifies a signed sum over permutations as a Vandermonde
+      determinant, which is a classical product of pairwise differences.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlagDegreeFormula.lean:89"]
+    mathlib: [Matrix.det_vandermonde, Matrix.det_projVandermonde, Finset.sum_pow_eq_sum_piAntidiag, Nat.multinomial_spec]
+    needs: [f-degree-formula--flag-deg-formula, f-point-degree--pow-sum, f-point-degree--perm-exp-inj, polynomials, linear-algebra, counting]
+  - id: f-flag-degree-eq-discriminant-multiple
+    title: The flag degree is a positive multiple of a Vandermonde-type product
+    kind: step
+    status: explained
+    chunk: c0113
+    orphan: true
+    plain: >
+      This file shows that the degree of a flag variety equals a positive constant times a fixed polynomial,
+      the "discriminant" style product of differences, evaluated at the inputs. It relies on the flag degree
+      formula proved in another file. First it rewrites the Weyl-style product as a constant times that
+      polynomial. Then it checks the constant is positive. The constant is a factorial times a product of
+      reciprocals of positive differences, so each factor is plainly greater than zero. The result is an
+      identity between real-valued functions, with a positivity check.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlagDegreeEqDiscriminantMultiple.lean:22"]
+    mathlib: [Finset.prod_pos, Nat.factorial_pos]
+    needs: [f-flag-degree-formula, polynomials, counting]
+  - id: f-divisor-proofs--flag-degree-vandermonde
+    title: A second proof of the flag degree as a Vandermonde product
+    kind: step
+    status: explained
+    chunk: c0113
+    orphan: true
+    plain: >
+      This file gives a determinant-based way to compute the flag degree. A Vandermonde determinant is a
+      table whose rows are powers of numbers v1, v2, and so on, and it equals the product of all
+      differences vi minus vj. The file shows that a signed sum over permutations of products of powers is
+      that product of differences. It then evaluates a determinant polynomial built from factorial-scaled
+      powers. Finally it shows the degree is a factorial times a product of those evaluations. It also
+      checks the multinomial coefficient. I could not tell from this file alone where it is used.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlagDegreeVandermonde.lean:68", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlagDegreeVandermonde.lean:92"]
+    mathlib: [Matrix.det_projVandermonde, Finsupp.multinomial_eq_of_support_subset, Finset.sum_range_id]
+    needs: [f-foundations--alt-coeff-rho, f-degree-formula--flag-deg-formula, polynomials, linear-algebra, counting]

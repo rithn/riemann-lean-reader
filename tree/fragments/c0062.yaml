@@ -1,0 +1,72 @@
+nodes:
+- id: f-complex-analytic-sets--p-manifold-zeros-complement-connected
+  title: Proof that removing zeros of an analytic function keeps a smooth shape in one piece
+  kind: step
+  status: explained
+  chunk: c0062
+  plain: >
+    This file proves the claim stated elsewhere: take a smooth complex shape that is in one piece, and a function on it that is analytic (given by convergent power series). Throw away the points where the function is zero, assuming it is not zero everywhere. What remains is still in one piece. The proof has a topological lemma: if a set is dense in a connected one and connected near every point, it is connected. Locally the shape looks like a ball in complex space. There, deleting the zero set cannot disconnect it, because a nonzero analytic function vanishes only on a thin set. Charts then transfer this to the whole shape.
+  lean: ["GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PManifoldZerosComplementConnected.lean:125"]
+  mathlib: [AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero, IsPreconnected, isPreconnected_of_forall_pair]
+  needs: [f-st-manifold-zeros-complement-connected, f-regular-locus, concept-point-set-topology, concept-complex-analytic-sets, complex-analysis]
+- id: f-p-proper-open-projection-local-cover
+  title: Proof of the local cover for proper open projections
+  kind: step
+  status: explained
+  chunk: c0062
+  orphan: true
+  plain: >
+    This file proves the local cover statement, but only by assuming the "locally unbranched" statement as a hypothesis (that one is not proved here). Setting: a complex analytic shape is projected linearly to a smaller space, with proper maps (preimages of compact sets stay compact) and open maps. Near a chosen point the file finds a small ball and an analytic function g, nonzero on a dense set, such that wherever g is nonzero the fibre has exactly n points, and never more than n anywhere. The count is constant by the earlier results. The bound follows by separating any n+1 fibre points and using openness.
+  lean: ["GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PProperOpenProjectionLocalCover.lean:13"]
+  mathlib: [Set.encard, Metric.isOpen_iff, Set.Finite.t2_separation]
+  needs: [f-st-proper-open-projection-local-cover, f-st-proper-open-projection-local-unbranched, f-p-unbranched-proper-count-constant, f-p-unbranched-proper-count-locally-constant, f-complex-analytic-sets--p-manifold-zeros-complement-connected, concept-complex-analytic-sets, concept-point-set-topology]
+- id: f-p-unbranched-proper-count-constant
+  title: Proof that the number of sheets is constant over a connected base
+  kind: step
+  status: explained
+  chunk: c0062
+  plain: >
+    This file proves that the number of preimage points is the same everywhere off the bad set, but it assumes two other claims as hypotheses: that the count is locally constant, and that deleting zeros of an analytic function leaves a connected set. Given those, the argument is short. The base space with the zeros of the function removed is connected. The count of fibre points is locally constant on it, so it is a continuous whole-number valued function on a connected set. Such a function cannot change value. So one number n works for every good point.
+  lean: ["GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PUnbranchedProperCountConstant.lean:11"]
+  mathlib: [IsPreconnected.constant, Set.ncard]
+  needs: [f-complex-analytic-sets--st-unbranched-proper-count-constant, f-st-unbranched-proper-count-locally-constant, f-st-manifold-zeros-complement-connected, f-regular-locus, concept-point-set-topology]
+- id: f-p-unbranched-proper-count-locally-constant
+  title: Proof that the fibre count is locally constant
+  kind: step
+  status: explained
+  chunk: c0062
+  plain: >
+    This file proves, with no extra assumptions, that the number of points above a base point changes only after moving away from it. Setting: a map that is proper (compact sets pull back to compact sets) and has local sections near every good point, meaning near each preimage the map looks like a one-to-one slice. Over a good point the fibre is compact and covered by finitely many such slices, so it is finite. Nearby base points also have all their preimages inside those slices, since a proper map leaves no room elsewhere. The slices stay disjoint nearby, so the count is unchanged.
+  lean: ["GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PUnbranchedProperCountLocallyConstant.lean:9"]
+  mathlib: [IsCompact.elim_nhds_subcover, eventually_all_finite, Set.InjOn.encard_image]
+  needs: [f-st-unbranched-proper-count-locally-constant, concept-point-set-topology]
+- id: f-st-proper-open-projection-local-cover
+  title: Statement of the local cover for proper open projections
+  kind: step
+  status: explained
+  chunk: c0062
+  plain: >
+    This file only states a claim and proves nothing. It says: take a shape cut out by analytic equations inside an open region, project it linearly onto a smaller complex space with a proper map (compact sets pull back to compact sets) that is also open. Then around any point of the target there is a small open set U and an analytic function g, nonzero somewhere in every open piece of U, and a number n. Every point of U has at most n preimages, and exactly n where g is nonzero, and there the shape locally looks like analytic sheets over the base.
+  lean: ["GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StProperOpenProjectionLocalCover.lean:8"]
+  mathlib: []
+  needs: [concept-complex-analytic-sets, concept-point-set-topology, complex-analysis]
+- id: f-st-proper-open-projection-local-unbranched
+  title: Statement of the locally unbranched version
+  kind: step
+  status: explained
+  chunk: c0062
+  plain: >
+    This file only states a claim and proves nothing. It is the weaker sibling of the local cover statement. With the same setup (a shape cut out by analytic equations, projected linearly by a proper and open map), it says that near any target point there is a small open set U and an analytic function g, not identically zero on any open piece of U, such that over every point of U where g is nonzero the map is unbranched. That means near each preimage the shape is a graph of an analytic section over the base. It says nothing yet about counting preimages.
+  lean: ["GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StProperOpenProjectionLocalUnbranched.lean:8"]
+  mathlib: []
+  needs: [concept-complex-analytic-sets, concept-point-set-topology, complex-analysis]
+- id: f-st-unbranched-proper-count-locally-constant
+  title: Statement that the fibre count is locally constant
+  kind: step
+  status: explained
+  chunk: c0062
+  plain: >
+    This file only states a claim and proves nothing. Take a set Y mapped linearly and properly (compact sets pull back to compact sets) to an open region, with local sections near every point where a chosen function delta is nonzero, meaning there the map looks like one-to-one analytic slices. The claim is that over any base point where delta is nonzero, the fibre (the set of preimages) is finite, and for all base points close enough to it the fibre has exactly the same number of points. In other words the sheet count does not jump locally off the bad set.
+  lean: ["GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StUnbranchedProperCountLocallyConstant.lean:8"]
+  mathlib: []
+  needs: [concept-point-set-topology, concept-complex-analytic-sets]

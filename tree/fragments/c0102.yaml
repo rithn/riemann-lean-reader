@@ -1,0 +1,115 @@
+nodes:
+  - id: f-class-number-bounds--totally-real-roots
+    title: Smallest power of p dividing u^t minus 1
+    kind: step
+    status: explained
+    chunk: c0102
+    plain: >
+      Fix a prime p and a set U of numbers. For each u in U look at u^t minus 1, and ask how many times p divides it (for p = 2 and u = 3, t = 1: 3 minus 1 is 2, divisible once). The file defines the minimum of this count over all of U, which may be infinite, and proves basic facts. The count is at least n exactly when p^n divides u^t minus 1 for every u. The minimum is attained by some u. And if every u is already one more than a multiple of p and t is not divisible by p, the exponent t changes nothing. It ends with a worked check: p = 2, U = {3}.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots.lean:9"]
+    mathlib: [emultiplicity_pow_sub_pow_of_prime, pow_dvd_iff_le_emultiplicity]
+    needs: [primes-divisibility, modular-arithmetic]
+  - id: f-gal-abelian
+    title: Galois image on p-power roots of unity matches a level group
+    kind: step
+    status: explained
+    chunk: c0102
+    orphan: true
+    plain: >
+      Start with a number field K cut out by the N-th roots of unity, and a smaller field E inside it. Galois symmetries of E act on all l-power roots of unity through a group of l-adic units, called the Galois image. The file proves this image equals a "level group" computed purely from modular arithmetic: the residues mod N fixing E, combined with the freedom l-power roots give. One inclusion pushes a symmetry down to residues mod N. The other builds, level by level, symmetries that realise a given residue, then uses that the image is closed to pass to the limit.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/GalAbelian.lean:91"]
+    mathlib: [IsCyclotomicExtension.Rat.galEquivZMod, cyclotomicCharacter.spec, IsAlgClosed.lift]
+    needs: [f-totally-real-roots--gal-aut, f-totally-real-roots--gal-defs, f-gal-roots, f-level-lift, f-princ-top, f-totally-real-roots--le-nu-iff-pow-mem-princ, concept-roots-of-unity-kummer, concept-galois-fixed-fields, p-adic-numbers]
+  - id: f-totally-real-roots--gal-aut
+    title: Symmetries of roots of unity are power maps
+    kind: step
+    status: explained
+    chunk: c0102
+    plain: >
+      Roots of unity are numbers whose M-th power is 1. Any symmetry of the algebraic numbers sends such a root to some power of itself, with the exponent a unit mod M. This file proves three facts. Every unit a mod M really is realised by some symmetry of the algebraic closure of the rationals, built from the known Galois group of the cyclotomic field. A symmetry that raises M-th roots to the a-th power, restricted to a cyclotomic field, matches the Galois element for a. And conversely every symmetry of the algebraic closure acts on M-th roots by some unit power.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/GalAut.lean:5"]
+    mathlib: [IsCyclotomicExtension.Rat.galEquivZMod, AlgEquiv.liftNormal, modularCyclotomicCharacter]
+    needs: [concept-roots-of-unity-kummer, concept-galois-fixed-fields, algebraic-closure, number-fields, modular-arithmetic]
+  - id: f-totally-real-roots--gal-defs
+    title: Galois image and valuation of u^t minus 1 (definitions)
+    kind: step
+    status: explained
+    chunk: c0102
+    plain: >
+      Mostly definitions, plus one small proved identity. For a field E and a prime l, each symmetry of the algebraic closure acts on l-power roots of unity by an l-adic unit, giving the "cyclotomic character". The file names this map, its image (the Galois image) and the smallest l-divisibility of the t-th power of those units minus one. The one lemma shows that this Galois version equals the generic version defined for any set of units. Further definitions package roots-of-unity fields, a subgroup of residues fixing a subfield, and integer-valued versions of the valuation for later counting.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/GalDefs.lean:5"]
+    mathlib: [cyclotomicCharacter, IntermediateField.adjoin, IsCyclotomicExtension.Rat.galEquivZMod]
+    needs: [f-class-number-bounds--totally-real-roots, f-totally-real-roots--le-nu-iff-pow-mem-princ, concept-roots-of-unity-kummer, concept-galois-fixed-fields, p-adic-numbers]
+  - id: f-gal-roots
+    title: Trivial on roots of unity, and the Galois image is closed
+    kind: step
+    status: explained
+    chunk: c0102
+    plain: >
+      Two proved facts about the Galois action on l-power roots of unity. First, a symmetry's l-adic unit is congruent to 1 modulo l^n exactly when the symmetry fixes every l^n-th root of unity. So "acts as the identity on those roots" is the same as "unit is close to 1". Second, the set of all such units, the Galois image, is a closed set in the l-adic units. The reason is that the symmetry group is compact and the map sending a symmetry to its unit is continuous, so its image is compact, hence closed.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/GalRoots.lean:15"]
+    mathlib: [cyclotomicCharacter.spec, modularCyclotomicCharacter.unique, isCompact_range]
+    needs: [f-totally-real-roots--gal-defs, f-totally-real-roots--le-nu-iff-pow-mem-princ, concept-roots-of-unity-kummer, p-adic-numbers, concept-point-set-topology]
+  - id: f-totally-real-roots--le-nu-iff-pow-mem-princ
+    title: l-adic units, principal subgroups and level groups (definitions)
+    kind: step
+    status: explained
+    chunk: c0102
+    plain: >
+      This file sets up vocabulary for l-adic units, the invertible l-adic integers. The principal subgroup of level a is the set of units that are one more than a multiple of l^a, i.e. units that vanish after reduction mod l^a. The file also defines the valuation of u^t minus 1 over a subgroup, the reduction maps, a "level group" built from residues mod N, and a twisted invariant part of a module. It proves small facts. A unit is in the principal subgroup iff l^a divides u minus 1. And the valuation is at least n exactly when every u^t lies in the level-n principal subgroup.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/LeNuIffPowMemPrinc.lean:59"]
+    mathlib: [PadicInt.toZModPow, PadicInt.ker_toZModPow, Units.map]
+    needs: [f-class-number-bounds--totally-real-roots, p-adic-numbers, modular-arithmetic, groups]
+  - id: f-level-group-sup-level-inertia
+    title: Level groups are open and sometimes everything
+    kind: step
+    status: explained
+    chunk: c0102
+    orphan: true
+    plain: >
+      Take the level group attached to a modulus N: the l-adic units whose reduction mod the l-part of N matches a chosen subgroup of residues. The file proves two things. First, it always contains the principal subgroup of the matching level and is an open set in the l-adic topology. Second, if l does not divide N, it is the entire group of l-adic units, and the image after reducing mod l has exactly l minus 1 elements, which is every nonzero residue. The second part uses that every residue mod l lifts to an l-adic unit.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/LevelGroupSupLevelInertia.lean:28"]
+    mathlib: [PadicInt.ker_toZMod, ZMod.card_units, Subgroup.isOpen_mono]
+    needs: [f-totally-real-roots--le-nu-iff-pow-mem-princ, f-princ-top, p-adic-numbers, modular-arithmetic]
+  - id: f-level-lift
+    title: Lifting a residue class to a higher level
+    kind: step
+    status: explained
+    chunk: c0102
+    plain: >
+      Given a unit h mod N and an l-adic unit u that agree on the l-part of N, the file shows there is a single unit a mod N times l^b which reduces to h mod N and to the reduction of u mod l^b. This is a form of the Chinese remainder theorem: two compatible residue conditions can be met together. Example: if you want a number that is 3 mod 4 and 5 mod 9 you need the two to agree on the shared divisor, and then one exists. The proof checks compatibility, builds a candidate using the Chinese remainder theorem, and then adjusts it to be a unit.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/LevelLift.lean:63"]
+    mathlib: [Nat.chineseRemainder', ZMod.unitsMap_surjective, ZMod.isUnit_iff_coprime]
+    needs: [f-totally-real-roots--le-nu-iff-pow-mem-princ, modular-arithmetic, primes-divisibility]
+  - id: f-nu-basic
+    title: When is u^t minus 1 divisible by l, and the case l=2
+    kind: step
+    status: explained
+    chunk: c0102
+    orphan: true
+    plain: >
+      Take a group U of l-adic units and look at the smallest l-divisibility of u^t minus 1. The file proves that this is positive exactly when the order of U's reduction mod l divides t. In other words, every u^t is 1 mod l precisely when t is a multiple of that order. For l = 2 every unit is already 1 mod 2, so the answer is simpler. If t is odd, the valuation equals the one for t = 1 and is at least 1. The proofs translate between divisibility by l and the reduction map having kernel one.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/NuBasic.lean:12"]
+    mathlib: [IsCyclic.exponent_eq_card, Monoid.exponent_dvd_iff_forall_pow_eq_one, PadicInt.maximalIdeal_eq_span_p]
+    needs: [f-totally-real-roots--le-nu-iff-pow-mem-princ, f-class-number-bounds--totally-real-roots, p-adic-numbers, groups, modular-arithmetic]
+  - id: f-princ-top
+    title: Principal subgroups are open and neighbourhoods of 1 contain one
+    kind: step
+    status: explained
+    chunk: c0102
+    plain: >
+      The l-adic units carry a notion of closeness: numbers are close when their difference is divisible by a high power of l. This file proves four facts about it. Each principal subgroup (units congruent to 1 mod l^a) is an open set. Every neighbourhood of 1 contains such a subgroup. A subgroup is open exactly when it contains a principal subgroup, and exactly when it is closed with finite index. Finally, a closed subgroup contains x as soon as it matches x modulo every l^b. The key tool is that balls in this strange distance are both open and closed.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/PrincTop.lean:27"]
+    mathlib: [IsUltrametricDist.isOpen_closedBall, PadicInt.norm_le_pow_iff_mem_span_pow, Subgroup.isOpen_of_isClosed_of_finiteIndex]
+    needs: [f-totally-real-roots--le-nu-iff-pow-mem-princ, concept-ultrametric-norm, concept-point-set-topology, p-adic-numbers, groups]
+  - id: f-units-map-surj-of-zmod
+    title: Reduction of l-adic units is onto
+    kind: step
+    status: explained
+    chunk: c0102
+    orphan: true
+    plain: >
+      Reducing an l-adic integer modulo l^n sends invertible ones to invertible residues. The file proves that this reduction on units is onto: every invertible residue is the shadow of some l-adic unit. The reason is that a surjective ring map into a finite ring sends units onto units when the source is a local ring (one with a single maximal ideal). It also proves that the principal subgroups shrink as the level grows, and that level 1 equals the kernel of reduction mod l.
+    lean: ["Development/AutomorphicArithmetic/CyclotomicBounds/ClassNumberBounds/TotallyRealRoots/UnitsMapSurjOfZmod.lean:32"]
+    mathlib: [IsLocalRing.surjective_units_map_of_local_ringHom, PadicInt.ker_toZMod]
+    needs: [f-totally-real-roots--le-nu-iff-pow-mem-princ, concept-local-rings, p-adic-numbers, modular-arithmetic]

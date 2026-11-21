@@ -1,0 +1,99 @@
+nodes:
+  - id: f-toroidal-compactification--is-completed-strict-hens
+    title: Vocabulary for schemes over a ring, and the "completed strict henselisation" bundle
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      This file only makes definitions and proves nothing. It names the space cut out by a ring R (written Sp R) and the map between such spaces from a ring map. It defines projective space over R, and what it means for a space to be "projective" or "quasi-projective" over R: it fits into projective space as a closed piece, or as a nicer open-in-closed piece. It defines a normal space, one whose local rings are integrally closed domains. Last, it bundles five properties of a local ring R over a local ring A: Noetherian, complete, flat, unbranched, and with separably closed residue field.
+    lean: ["ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/IsCompletedStrictHens.lean:31"]
+    mathlib: [AlgebraicGeometry.Proj, IsAdicComplete, Module.Flat, IsSepClosure]
+    needs: [concept-schemes-basics, concept-local-rings, concept-flat-modules, concept-integral-closure-fraction-fields, concept-hensel-lifting, concept-etale-ring-maps]
+  - id: f-represents-kill-ideal
+    title: "Properties of ring maps that are 'exactly killing an ideal'"
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      This file sets up the vocabulary. Given a yes/no property Q of ring maps out of a ring A, the "kill ideal" is the set of elements that every ring map with property Q sends to zero. Q "is represented" by an ideal J when Q holds exactly for the ring maps that kill J. Two small facts are proved. If Q is represented by J, then J equals the kill ideal. And if it is represented on a big affine piece, restricting to a smaller piece keeps it represented by the pushed-forward ideal. It also defines the version of Q coming from a property of points of a scheme.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/RepresentsKillIdeal.lean:10"]
+    mathlib: [Ideal.Quotient.mk, RingHom.ker, Ideal.map_le_iff_le_comap]
+    needs: [f-toroidal-compactification--is-completed-strict-hens, concept-schemes-basics, concept-prime-ideals-localization, concept-categorical-pullbacks]
+  - id: f-ideal-represents-of-away-cover
+    title: Glue "represented by an ideal" from a cover by basic pieces
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      Suppose a property of ring maps out of A is stable under change of target ring, and is "local": it holds if it holds after inverting each element of a set that generates the unit ideal. If it is represented by an ideal after inverting each of finitely many elements a that together generate the unit ideal, then it is represented by one ideal on A. The ideal is the intersection of the pulled-back pieces. The checking uses the trick that an element killed locally everywhere is killed after multiplying by a large power of a, then those powers are combined.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IdealRepresentsOfAwayCover.lean:29"]
+    mathlib: [IsLocalization.Away, Submodule.mem_of_span_eq_top_of_smul_pow_mem, IsLocalization.map_eq_zero_iff]
+    needs: [f-represents-kill-ideal, concept-prime-ideals-localization, concept-local-rings]
+  - id: f-ideal-represents-of-away-cover-statement
+    title: Restatement of gluing "represented by an ideal" (cover by basic pieces)
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      This file only restates the previous gluing result under the project's standard name. It carries no new argument. Its proof just tries a few ways of applying the earlier theorem and uses whichever fits. The claim: for a ring A and a property of ring maps out of A that is stable under base change and local on covers by inverting elements, if the property is represented by an ideal after inverting each of finitely many elements generating the unit ideal, then it is represented by a single ideal on A itself.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IdealRepresentsOfAwayCoverStatement.lean:8"]
+    needs: [f-ideal-represents-of-away-cover]
+  - id: f-exists-basic-open-cover-ideal-represents
+    title: Locally represented properties are represented on a cover by basic opens
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      Take a scheme S and a property P of points. Assume each point of S has an affine neighbourhood on which P is cut out by an ideal. The file shows that on any affine open V one can find finitely many elements that generate the unit ideal, such that after inverting each, P is again cut out by an ideal. Idea: on the overlap of V with the given neighbourhood, find a small basic piece. Restricting the ideal to it, and re-reading it as a localisation of V, shows the elements. A compactness argument keeps just finitely many.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsBasicOpenCoverIdealRepresents.lean:44"]
+    mathlib: [IsAffineOpen.isLocalization_basicOpen, Ideal.span_eq_top_iff_finite, IsLocalization.algEquiv]
+    needs: [f-represents-kill-ideal, concept-schemes-basics, concept-prime-ideals-localization, concept-point-set-topology]
+  - id: f-exists-basic-open-cover-ideal-represents-statement
+    title: Restatement of the basic-open cover result
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      This file only restates the result that locally represented properties are represented on a cover by basic opens, under the project's standard name. It contains no new argument. Its proof just applies the earlier theorem, trying a few ways of matching the hypotheses. The claim: if each point of a scheme has an affine neighbourhood where a property of points is cut out by an ideal, then on any affine open there are finitely many elements generating the unit ideal such that the property is cut out by an ideal after inverting each of them.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsBasicOpenCoverIdealRepresentsStatement.lean:8"]
+    needs: [f-exists-basic-open-cover-ideal-represents]
+  - id: f-ideal-killed-by-ring-maps-with-property-le-ker-app
+    title: A point with the property is killed by the kill ideals
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      Let P be a property of points of a scheme S, valid for any point built from a ring R' and stable under change of ring. If a point x of S has property P, then for every affine open V, every function in the kill ideal of P on V is sent to zero by x. The idea is to check this locally: around each point of R' pick a small affine open W. Then the pieces of x over W give ring maps with property P, and the kill ideal kills them by definition, so the function vanishes on a cover and hence everywhere.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IdealKilledByRingMapsWithPropertyLeKerApp.lean:16"]
+    mathlib: [TopologicalSpace.Opens.isBasis_iff_nbhd, IsAffineOpen.SpecMap_appLE_fromSpec]
+    needs: [f-represents-kill-ideal, concept-schemes-basics, concept-point-set-topology]
+  - id: f-ideal-killed-by-ring-maps-with-property-le-ker-app-statement
+    title: Restatement of "points with the property are killed by the kill ideals"
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      This file only restates the previous result under the project's standard name and contains no new argument. Its proof just applies the earlier theorem, trying a few ways of matching the hypotheses. The claim: if a property of points of a scheme is stable under change of ring, and a point x has the property, then on every affine open the kill ideal of the property lies inside the kernel of the map that x induces on functions.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IdealKilledByRingMapsWithPropertyLeKerAppStatement.lean:8"]
+    needs: [f-ideal-killed-by-ring-maps-with-property-le-ker-app]
+  - id: f-affine-point-property-of-le-ker-app
+    title: Killing the ideals is enough to have the property
+    kind: step
+    status: explained
+    chunk: c0037
+    plain: >
+      This file proves a converse, but only by assuming two things: the property P is local (holds if it holds after inverting each element of a set generating the unit ideal) and is represented by its kill ideal on every affine open. Then a point x of S has P as soon as the kill ideal on each affine open lies in the kernel of x. The proof covers the spectrum of the ring by small basic pieces, each landing inside one affine open of S, shows P on each piece, and then glues by locality. A maximality argument shows these pieces generate the unit ideal.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/AffinePointPropertyOfLeKerApp.lean:8"]
+    mathlib: [Ideal.exists_le_maximal, Ideal.span_eq_top_iff_finite, PrimeSpectrum.isBasis_basic_opens]
+    needs: [f-represents-kill-ideal, concept-schemes-basics, concept-point-set-topology, concept-prime-ideals-localization]
+  - id: f-is-closed-of-local-ideal-point-property
+    title: A local, ideal-cut-out property of points is represented by a closed subscheme
+    kind: step
+    status: explained
+    chunk: c0037
+    orphan: true
+    plain: >
+      Take a scheme S and a property P of its points that is stable under change of ring, local, and on a neighbourhood of every point cut out by an ideal. The file shows there is a closed subscheme Z of S such that a point of S lies in Z exactly when it has property P. Idea: use the gluing results to see P is represented by the kill ideal on every affine open. These ideals fit together into an ideal sheaf, which defines Z. Points killing the ideals are precisely those factoring through Z. It cites the other files in this chunk.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsClosedOfLocalIdealPointProperty.lean:13"]
+    mathlib: [AlgebraicGeometry.Scheme.IdealSheafData, AlgebraicGeometry.IsClosedImmersion.lift]
+    needs: [f-ideal-represents-of-away-cover-statement, f-exists-basic-open-cover-ideal-represents-statement, f-ideal-killed-by-ring-maps-with-property-le-ker-app-statement, f-affine-point-property-of-le-ker-app, f-represents-kill-ideal, concept-schemes-basics, concept-categorical-pullbacks]

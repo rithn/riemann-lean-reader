@@ -1,0 +1,165 @@
+nodes:
+  - id: f-c-m-moduli--projective-space-over-spec
+    title: Projective space over a ring, and the real-to-complex example
+    kind: step
+    status: explained
+    chunk: c0076
+    plain: >
+      This file sets up vocabulary and proves one small fact. Projective space over a ring is the
+      space of "directions", meaning lines through the origin, built from polynomials in N+1
+      variables. A map is "projective" if the space sits inside such a projective space as a closed
+      piece. The file also defines a normal scheme (every local ring is a domain and integrally
+      closed), an ind-etale map (a limit of branch-free extensions), and a strict henselisation (a
+      local ring where approximate roots can be improved and the residue field has all roots). The
+      one proof shows that the complex numbers are a strict henselisation of the real numbers:
+      the complex numbers are algebraically closed, and the extension from reals is finite and separable, hence etale.
+    lean: ["Development/AbelianVarietyTheory/BlockTheory/CMModuli/ProjectiveSpaceOverSpec.lean:15"]
+    mathlib: [AlgebraicGeometry.Proj, Algebra.FormallyEtale.of_isSeparable, RingHom.etale_algebraMap]
+    needs: [concept-schemes-basics, concept-etale-ring-maps, concept-hensel-lifting, concept-local-rings, concept-integral-closure-fraction-fields, algebraic-closure, complex-numbers, polynomials]
+  - id: f-divisor-proofs--closure-finite-etale
+    title: Definitions - the integral closure being finite etale, and "Good"
+    kind: step
+    status: explained
+    chunk: c0076
+    plain: >
+      This file only gives definitions; nothing is proved. Given a ring R and a bigger ring D, the
+      "closure" is the set of elements of D that satisfy a monic polynomial (leading coefficient 1)
+      with coefficients from R. The statement "closure is finite etale" says this set is a finite
+      module over R, is an extension without branching, and is not the zero ring. A pair is called
+      "Good" if two things hold. First, at every prime of R whose preimage has height at most one
+      (a prime sitting at most one step above the bottom), the closure becomes etale after localizing. Second, the closure maps into a
+      fraction field in a way compatible with a given map. The file ends with a tiny check that
+      elements of R do lie in the closure.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ClosureFiniteEtale.lean:27", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ClosureFiniteEtale.lean:32"]
+    mathlib: [integralClosure, Algebra.Etale, Module.Finite]
+    needs: [concept-integral-closure-fraction-fields, concept-etale-ring-maps, concept-tensor-product-of-algebras, concept-prime-ideals-localization, f-divisor-proofs--torsors-trivial]
+  - id: f-etale-away-of-is-etale-at-off-submonoid
+    title: Etale away from a set implies etale after inverting one element
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0076
+    plain: >
+      Suppose C is a finitely presented algebra over R, and M is a set of elements of R closed under
+      multiplication. Suppose C is etale (branch-free) at every prime of C that avoids M. Then one
+      element m of M exists such that, after inverting m, the whole algebra is etale. The idea is
+      geometric. The bad locus, where branching happens, is a closed set cut out by some ideal I.
+      If I missed M entirely, we could find a prime containing I but avoiding M, and at that prime
+      the algebra would be etale, a contradiction. So I contains the image of some m, which means
+      the bad locus disappears once m is inverted.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/EtaleAwayOfIsEtaleAtOffSubmonoid.lean:14"]
+    mathlib: [Algebra.isOpen_etaleLocus, Ideal.exists_le_prime_disjoint, Algebra.basicOpen_subset_etaleLocus_iff_etale]
+    needs: [concept-etale-ring-maps, concept-prime-ideals-localization, concept-schemes-basics]
+  - id: f-divisor-proofs--etale-localization-at-prime-is-domain-is-integrally-clos
+    title: Etale over a normal domain gives normal domain local rings
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0076
+    plain: >
+      If R is a domain that is integrally closed (a "normal" domain, meaning a fraction that solves a
+      monic polynomial over R already lies in R), and A is etale over R (an extension with no
+      branching), then A localized at any prime is again a normal domain. Localizing at a prime
+      means allowing division by everything outside that prime. The proof here is a single line: it
+      just applies a longer result proved in the homogeneous-ideals file, which does the real work
+      with smoothness and reduced fibres.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/EtaleLocalizationAtPrimeIsDomainIsIntegrallyClos.lean:7"]
+    mathlib: []
+    needs: [f-homogeneous-ideals--is-domain-and-is-integrally-closed-at-prime-of-smooth-of-co, concept-etale-ring-maps, concept-integral-closure-fraction-fields, concept-prime-ideals-localization]
+  - id: f-divisor-proofs--good-iff-etale-at
+    title: Good unpacked as etale at each prime plus a point at zero
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0076
+    plain: >
+      This file restates the earlier "Good" condition in two named pieces, and proves they are the
+      same thing. It first defines "the closure is etale at a prime P": after localizing at P, the
+      closure is a branch-free extension. The theorem then says "Good" holds exactly when (1) the
+      closure is etale at every prime whose preimage has height at most one, and (2) a "point at
+      zero" exists. The proof is trivial: both sides unfold to literally the same definition, so
+      Lean accepts it by rfl, meaning "equal by definition".
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/GoodIffEtaleAt.lean:19"]
+    mathlib: []
+    needs: [f-divisor-proofs--closure-finite-etale, f-divisor-proofs--point-at-zero, concept-etale-ring-maps]
+  - id: f-divisor-proofs--origin-ideal
+    title: Definitions - a cyclic-group torsor, and the origin ideal
+    kind: step
+    status: explained
+    chunk: c0076
+    plain: >
+      Two definitions, no proofs. A "Z/q torsor" over a ring B is an extension D of B carrying an
+      action of the cyclic group of integers mod q, such that D is finite, projective and faithfully
+      flat over B (a well-behaved, never-collapsing extension), and a certain map from D tensor D to
+      q copies of D is a bijection. Intuitively this is a cover with q sheets, like the q-th roots
+      of a number. The second definition, the "origin ideal", lives in polynomials over a local
+      ring T. It is generated by the small elements of T together with the variable X, and so
+      names the single point "X = 0, all small things zero".
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/OriginIdeal.lean:11", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/OriginIdeal.lean:18"]
+    mathlib: [Module.FaithfullyFlat, Algebra.TensorProduct.productMap, IsLocalRing.maximalIdeal]
+    needs: [concept-group-actions, concept-flat-modules, concept-tensor-product-of-algebras, concept-local-rings, concept-prime-ideals-localization, modular-arithmetic, polynomials]
+  - id: f-divisor-proofs--point-at-zero
+    title: Definitions - "Fits", "Retracts" and "PointAtZero"
+    kind: step
+    status: explained
+    chunk: c0076
+    plain: >
+      Only definitions appear here; nothing is proved. "Fits" is a long list of compatibility
+      requirements: a ring map is injective and local, q is invertible, the prime sits over the
+      origin ideal, several square diagrams commute, and a cyclic-group torsor is present. Think of
+      it as bookkeeping that says all the rings and maps involved line up. "Retracts" says
+      there is a map back from a localization to A that sends the variable X to zero and agrees
+      with the inclusion to first order. "PointAtZero" asks for a ring map from the closure into the
+      fraction field of A that is compatible with a given map, a point of the closure over zero.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/PointAtZero.lean:12", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/PointAtZero.lean:28", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/PointAtZero.lean:38"]
+    mathlib: [Localization.AtPrime, FractionRing]
+    needs: [f-divisor-proofs--origin-ideal, f-divisor-proofs--closure-finite-etale, f-divisor-proofs--torsors-trivial, concept-prime-ideals-localization, concept-local-rings, polynomials]
+  - id: f-divisor-proofs--torsors-trivial
+    title: Claims - every cyclic torsor is trivial (stated, not proved)
+    kind: step
+    status: explained
+    chunk: c0076
+    plain: >
+      This file states claims as named propositions and proves none of them. A cover with q sheets
+      over B is "trivial" if it has a section, meaning a ring map back from D to B. "TorsorsTrivial B
+      q" says every such cover is trivial. The file also defines "absolutely integrally closed"
+      (every monic polynomial has a root) and the generic fibre, then several claims named KeyAll,
+      KeyLocal, KeyGeneric, KeyClosedPts and KeyOrigin. They assert that torsors become trivial in
+      various settings, such as over a strict henselisation, at the generic point, at closed points
+      or at the origin. They are hypotheses for later arguments, not results.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/TorsorsTrivial.lean:14", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/TorsorsTrivial.lean:26", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/TorsorsTrivial.lean:51"]
+    mathlib: [Localization, Module.FaithfullyFlat, IsLocalRing]
+    needs: [f-c-m-moduli--projective-space-over-spec, concept-group-actions, concept-flat-modules, concept-local-rings, concept-hensel-lifting, concept-prime-ideals-localization, algebraic-closure, polynomials]
+  - id: f-divisor-proofs--zmod-torsor-exists-point-finite-separable
+    title: A cyclic torsor has a point over a finite separable field extension
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0076
+    plain: >
+      Take a q-sheeted cyclic cover D of a ring B, and a map from B to a field K. Then there is a
+      finite separable extension L of K (an extension where every element has a root polynomial with
+      no repeated roots) and a map from D to L compatible with the given map. The proof has two
+      steps. First, the covering condition makes D tensor D look like q copies of D, which shows D
+      is formally unramified (no infinitesimal branching). Second, because D is faithfully flat, K
+      tensor D is not zero, so it has a maximal ideal. Quotienting gives a field that is finite
+      over K, and unramified implies separable.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ZmodTorsorExistsPointFiniteSeparable.lean:17", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ZmodTorsorExistsPointFiniteSeparable.lean:43"]
+    mathlib: [Algebra.FormallyUnramified.isSeparable, Algebra.FormallyUnramified.of_formallyUnramified_tensorProduct_of_faithfullyFlat, Module.FaithfullyFlat.rTensor_nontrivial, Ideal.exists_maximal]
+    needs: [f-divisor-proofs--origin-ideal, concept-separable-polynomials, concept-flat-modules, concept-tensor-product-of-algebras, concept-field-extensions-transcendence, concept-prime-ideals-localization]
+  - id: f-homogeneous-ideals--is-domain-and-is-integrally-closed-at-prime-of-smooth-of-co
+    title: Smooth over a normal base gives normal local rings
+    kind: step
+    status: explained
+    chunk: c0076
+    plain: >
+      The main result: if B is smooth over A (a family of smooth shapes) and the local ring of A at
+      the prime under p is a normal domain (a domain where fractions solving monic polynomials are
+      already in it), then the local ring of B at p is also a normal domain. The file builds this in
+      layers. A localization lemma transfers the property. The etale case (no branching) uses the
+      fibre over the fraction field, which is a finite product of fields. Polynomial rings over
+      a normal domain are normal, by induction on the number of variables. Smooth means locally etale over
+      such a polynomial ring. A version for schemes, on local rings of points, ends the file.
+    lean: ["Development/AbelianVarietyTheory/Proofs/HomogeneousIdeals/IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo.lean:160", "Development/AbelianVarietyTheory/Proofs/HomogeneousIdeals/IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo.lean:128"]
+    mathlib: [Algebra.IsSmoothAt.exists_isStandardEtale_mvPolynomial, IsLocalization.tensorRight, Algebra.FormallyUnramified.isReduced_of_field, IsArtinianRing.equivPi, MvPolynomial.finSuccEquiv]
+    needs: [concept-smooth-morphisms, concept-etale-ring-maps, concept-integral-closure-fraction-fields, concept-prime-ideals-localization, concept-tensor-product-of-algebras, concept-local-rings, concept-schemes-basics, polynomials]

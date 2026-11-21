@@ -1,0 +1,118 @@
+nodes:
+  - id: f-divisor-proofs--loc-hom-algebra-map
+    title: Two maps into the normalisation of a tensor product
+    kind: step
+    status: explained
+    chunk: c0121
+    plain: >
+      This file sets up two maps used by the neighbouring files. Start with a ring S, a field L over it, and another ring D over S.
+      The integral closure of S in L is the set of elements of L that satisfy a monic polynomial equation with coefficients in S
+      (for example the square root of 2 over the whole numbers). The first map sends such an element x to the pair "1 and x" inside
+      the tensor product of D and L, which is a way of combining the two rings. It lands in the integral closure of D there.
+      The second map is the induced map on localizations, meaning rings where everything outside one prime ideal is made invertible.
+      A short lemma checks the two maps agree. All of it is bookkeeping from definitions.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/LocHomAlgebraMap.lean:8"]
+    mathlib: [IsLocalization.lift, RingHom.codRestrict]
+    needs: [concept-integral-closure-fraction-fields, concept-tensor-product-of-algebras, concept-prime-ideals-localization]
+  - id: f-algebra-map-integral-closure-tensor-eq
+    title: The structure map is that same map
+    kind: step
+    status: explained
+    chunk: c0121
+    orphan: true
+    plain: >
+      This file turns the "1 tensor x" map from the previous file into an official ring structure. In plain words, it tells the
+      system to regard the integral closure on the S side as an algebra over the integral closure on the D side, using that map.
+      It also records that S acts the same way whether you go directly or through the intermediate ring. The one theorem then says
+      that the structure map of this new algebra is exactly the map we started with. The proof is just "true by definition",
+      so nothing deep happens here. It is plumbing that lets later arguments talk about these rings without repeating the map.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/AlgebraMapIntegralClosureTensorEq.lean:28"]
+    mathlib: []
+    needs: [f-divisor-proofs--loc-hom-algebra-map, concept-integral-closure-fraction-fields, concept-tensor-product-of-algebras]
+  - id: f-etale-adjoin-root-x-pow-sub-c
+    title: Adjoining an n-th root of a unit gives an etale extension
+    kind: step
+    status: explained
+    chunk: c0121
+    plain: >
+      Take a ring R, a whole number n that is invertible in R, and a unit u (an element with an inverse). Adjoin a new number r
+      with r to the power n equal to u. The theorem says the result is etale over R, which roughly means there is no branching:
+      the n roots stay distinct, like the three different cube roots of 2 over the rationals. The idea is that the derivative of
+      x^n - u is n times x^(n-1). Both n and r are invertible, so the derivative is invertible, and a monic polynomial with
+      invertible derivative gives an etale extension. The degenerate case n = 0 is handled separately, where the ring collapses to zero.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/EtaleAdjoinRootXPowSubC.lean:6"]
+    mathlib: [Algebra.Etale, AdjoinRoot, StandardEtalePair, Polynomial.monic_X_pow_sub_C]
+    needs: [concept-etale-ring-maps, concept-separable-polynomials, polynomials, concept-roots-of-unity-kummer]
+  - id: f-finite-integral-closure-of-formally-unramified
+    title: Finiteness of integral closures for unramified extensions
+    kind: step
+    status: explained
+    chunk: c0121
+    plain: >
+      Two theorems. The first says: let R be a Noetherian integrally closed domain with fraction field K, and let C be a finite-
+      dimensional K-algebra with no branching (formally unramified). Then the integral closure of R in C is a finite R-module,
+      meaning finitely many elements generate it. The proof splits C into its fields, shows each piece is finite because it is a
+      separable field extension, and embeds the whole thing into their product. The second theorem uses it for the Kummer case:
+      with x^e = pi adjoined, the integral closure of that ring inside a tensor product with L is finite. It compares this tensor
+      product to one built from x^e - pi over K, using matching bases.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteIntegralClosureOfFormallyUnramified.lean:10", "Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteIntegralClosureOfFormallyUnramified.lean:39"]
+    mathlib: [IsIntegralClosure.finite, Algebra.FormallyUnramified.isReduced_of_field, IsArtinianRing.equivPi, Module.Finite.of_injective]
+    needs: [f-etale-adjoin-root-x-pow-sub-c, concept-etale-ring-maps, concept-integral-closure-fraction-fields, concept-tensor-product-of-algebras, concept-discrete-valuation-ring, concept-separable-polynomials, linear-algebra]
+  - id: f-kummer-uniformiser-adjoin-root-tensor-is-reduced
+    title: The Kummer tensor product has no nonzero nilpotents
+    kind: step
+    status: explained
+    chunk: c0121
+    plain: >
+      Setting: S is a discrete valuation ring (numbers with one prime, like the integers localised at 5), K its fraction field,
+      L a finite separable extension of K, and pi a uniformiser (a generator of the one prime). Let D be S with an e-th root of
+      pi adjoined, where e is invertible. The theorem says the tensor product of D with L is reduced, meaning no nonzero element
+      has a power equal to zero. The idea is that this tensor product is the same as L[x] modulo (x^e - pi), and that polynomial has
+      no repeated roots over L because e and pi are nonzero. A quotient by a repeat-free polynomial has no nilpotents.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/KummerUniformiserAdjoinRootTensorIsReduced.lean:67"]
+    mathlib: [AdjoinRoot.liftAlgHom, Polynomial.separable_X_pow_sub_C, Algebra.TensorProduct.lift, isReduced_of_injective]
+    needs: [concept-discrete-valuation-ring, concept-roots-of-unity-kummer, concept-separable-polynomials, concept-tensor-product-of-algebras, polynomials]
+  - id: f-localization-integral-closure-artinian-reduced-domain
+    title: Localizing the normalisation of a reduced Artinian ring gives a nice domain
+    kind: step
+    status: explained
+    chunk: c0121
+    plain: >
+      Let A be an Artinian ring (one where chains of ideals must stop descending, such as a finite-dimensional algebra over a field)
+      with no nonzero nilpotents. Let Q be a prime ideal of the integral closure of R in A. The theorem says the localization
+      at Q is an integral domain and is integrally closed. The key trick: in such a ring every a has some y with a times a times y
+      equal to a, so a times y is an idempotent (equal to its own square). Idempotents are integral. Using them, the kernel of
+      the map into the localization is a prime, so the localization sits inside a field.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/LocalizationIntegralClosureArtinianReducedDomain.lean:35"]
+    mathlib: [IsArtinianRing.isMaximal_of_isPrime, IsLocalization.lift, IsIntegral.exists_multiple_integral_of_isLocalization]
+    needs: [concept-integral-closure-fraction-fields, concept-prime-ideals-localization, concept-local-rings, concept-coordinate-rings-dimension]
+  - id: f-normalisation-dvr-tensor-separable-finite
+    title: The normalisation over a DVR is a finite module
+    kind: step
+    status: explained
+    chunk: c0121
+    plain: >
+      Let S and D be discrete valuation rings with D finite over S and S sitting inside D. Let L be a finite separable extension
+      of the fraction field K of S. The theorem says the integral closure of D inside the tensor product of D and L is a finite
+      D-module, meaning finitely many elements generate it. The proof passes to the fraction field of D. There, tensoring L up
+      gives a finite algebra with no branching, so the earlier finiteness theorem applies. Flatness (tensoring keeps injective maps
+      injective) shows the original tensor product embeds in it, and a submodule of a finite module over a Noetherian ring is finite.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/NormalisationDvrTensorSeparableFinite.lean:10"]
+    mathlib: [Module.Flat.rTensor_preserves_injective_linearMap, IsLocalization.algebraTensorEquiv, Module.Finite.of_injective, Algebra.FormallyUnramified.of_isSeparable]
+    needs: [f-finite-integral-closure-of-formally-unramified, concept-discrete-valuation-ring, concept-flat-modules, concept-tensor-product-of-algebras, concept-integral-closure-fraction-fields]
+  - id: f-localization-normalization-root-adjoin-is-d-v-r
+    title: Local rings of the Kummer normalisation are discrete valuation rings
+    kind: step
+    status: explained
+    chunk: c0121
+    orphan: true
+    plain: >
+      Setting: a discrete valuation ring S, a finite separable extension L of its fraction field, and D equal to S with an
+      e-th root of a uniformiser adjoined, which is itself a DVR. The theorem says that at every maximal ideal Q of the integral
+      closure of D in the tensor product D with L, the localization is a discrete valuation ring. The proof assembles earlier
+      files: the tensor product is Artinian and reduced, the normalisation is finite, so the localization is a Noetherian integrally
+      closed domain. It is not a field, and it has only one nonzero prime (extra primes would break the going-up property of integral
+      extensions), which characterises a DVR.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/LocalizationNormalizationRootAdjoinIsDVR.lean:17"]
+    mathlib: [IsDiscreteValuationRing.TFAE, Ideal.IsIntegral.comap_lt_comap, IsLocalization.isNoetherianRing, Module.Flat.trans]
+    needs: [f-normalisation-dvr-tensor-separable-finite, f-kummer-uniformiser-adjoin-root-tensor-is-reduced, f-localization-integral-closure-artinian-reduced-domain, concept-discrete-valuation-ring, concept-flat-modules, concept-local-rings, concept-prime-ideals-localization]

@@ -1,0 +1,99 @@
+nodes:
+
+- id: concept-roots-of-unity-kummer
+  title: Roots of unity and Kummer generators
+  kind: concept
+  status: textbook
+  plain: >
+    A primitive p-th root of unity is a number zeta with zeta^p = 1 whose lower powers are not 1.
+    Over the complex numbers, for p = 3 it is the point a third of the way round the unit circle.
+    A classical identity says (1 - zeta)(1 - zeta^2)...(1 - zeta^(p-1)) = p when p is prime.
+    Kummer theory studies fields that contain such a zeta. Adjoining a p-th root alpha of
+    an element a gives a new field where a symmetry (an automorphism) sends alpha to zeta times
+    alpha. Such an alpha is called a Kummer generator.
+  needs: [complex-numbers, polynomials, groups, primes-divisibility, concept-field-extensions-transcendence]
+  learn:
+    - {title: "Dummit and Foote, Abstract Algebra", where: "Sections 13.6 (cyclotomic polynomials) and 14.5 (Kummer extensions)"}
+    - {title: "Lang, Algebra", where: "Ch. VI, section 6 (Kummer theory)"}
+
+- id: f-valuation-add-pow-sub-le
+  title: (y + b)^p minus y^p minus b^p is small when p is small
+  kind: step
+  status: explained
+  plain: >
+    In a field with an ultrametric size function v (a way of measuring size where v(x + y) is
+    at most the larger of v(x) and v(y)), take a prime p. The file proves that
+    (y + b)^p - y^p - b^p has size at most v(p) times v(b) times the larger of v(y), v(b),
+    raised to p - 1. For p = 3 the difference is 3y^2 b + 3y b^2, visibly a multiple of 3.
+    Proof: expand with the binomial theorem. Every middle binomial coefficient is divisible
+    by p when p is prime. Whole numbers have size at most 1, so each middle term is at most
+    as claimed. The proof appears complete.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/ValuationAddPowSubLe.lean:16]
+  mathlib: [add_pow, Nat.Prime.dvd_choose_self, Valuation.map_sum_le]
+  needs: [concept-ultrametric-norm, counting, primes-divisibility, rings-fields]
+
+- id: f-valuation-sub-one-pow-eq-prime
+  title: Size of zeta minus 1, to the power p - 1, equals size of p
+  kind: step
+  status: explained
+  plain: >
+    Take a field with an ultrametric size function v (v(x + y) is at most the larger of v(x)
+    and v(y)), a prime p, and a primitive p-th root of unity zeta (a number whose p-th power
+    is 1 but whose smaller powers are not). The file proves v(zeta - 1) to the power p - 1
+    equals v(p). Idea: the product of (1 - zeta^k) for k from 1 to p - 1 is exactly p. For
+    p = 3 this is (1 - zeta)(1 - zeta^2) = 3. Each factor has the same size as 1 - zeta,
+    because 1 - w^n is a multiple of 1 - w, and zeta^k is again a generator. The proof appears
+    complete.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/ValuationSubOnePowEqPrime.lean:19]
+  mathlib: [IsPrimitiveRoot.prod_one_sub_pow_eq_order, mul_neg_geom_sum, Nat.coprime_of_lt_prime, IsPrimitiveRoot.pow_of_coprime]
+  needs: [concept-ultrametric-norm, concept-roots-of-unity-kummer, primes-divisibility, complex-numbers]
+
+- id: f-exists-improved-approx-kummer-generator
+  title: One step improves an approximation to a Kummer generator
+  kind: step
+  status: explained
+  plain: >
+    Setting: a field L with an ultrametric size function v, a prime p, and a subfield F in
+    which every element u is close to a p-th power w^p of an element of F (the error is at most
+    theta times the size of u, with theta at most 1). Let alpha be an element whose p-th power
+    lies in F, and y an element of F with v(alpha - y) at most v(alpha). The file proves there is
+    a better y' in F, with v(alpha - y')^p bounded by a shrunken multiple of the old error.
+    Proof: apply the approximation to u = alpha^p - y^p, set y' = y + w, and compare using the
+    (y + b)^p lemma. The proof appears complete.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/ExistsImprovedApproxKummerGenerator.lean:15]
+  mathlib: [Valuation.map_add, Valuation.map_sub, Valuation.map_pow]
+  needs: [f-valuation-add-pow-sub-le, concept-ultrametric-norm, concept-roots-of-unity-kummer, rings-fields]
+
+- id: f-kummer-generator-approx-critical-radius
+  title: A Kummer generator can be approximated down to a critical radius
+  kind: step
+  status: explained
+  plain: >
+    Same kind of setting: a field with an ultrametric size function v, a prime p with
+    0 < v(p) < 1, and a subfield F where every element is approximately a p-th power
+    (defined in the linked coset-trace file). For alpha with alpha^p in F, and any s above 1,
+    the file proves some y in F has v(alpha - y)^(p-1) at most s times v(p) times
+    v(alpha)^(p-1). Proof by contradiction: if no y is that good, the one-step improvement
+    lemma shrinks the error by a fixed factor below 1 each time. Repeating it enough times
+    pushes the error under the supposed lower bound, which is impossible. The proof appears
+    complete.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/KummerGeneratorApproxCriticalRadius.lean:9]
+  mathlib: [exists_pow_lt_of_lt_one, pow_lt_pow_left₀, Valuation.pos_iff]
+  needs: [f-exists-improved-approx-kummer-generator, f-foundations--coset-trace, concept-ultrametric-norm, concept-roots-of-unity-kummer]
+
+- id: f-kummer-automorphism-moves-integers-almost-unit
+  title: A Kummer symmetry moves some small element by almost a full unit
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    Setting: a field L with ultrametric size v, a prime p with 0 < v(p) < 1, a subfield F where
+    every element is approximately a p-th power, and a symmetry sigma of L fixing F. Suppose
+    alpha is nonzero, alpha^p lies in F, and sigma sends alpha to zeta times alpha for a
+    primitive p-th root of unity zeta. The file proves that for every r below 1, some x
+    of size at most 1 has v(sigma x - x) above r, meaning sigma moves it almost a whole unit.
+    Proof: approximate alpha by y in F to the critical radius. For beta = alpha - y,
+    sigma beta - beta is (zeta - 1) alpha. Then rescale by a p-th power. The proof appears complete.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/KummerAutomorphismMovesIntegersAlmostUnit.lean:12]
+  mathlib: [IsPrimitiveRoot.ne_one, exists_between, lt_of_mul_lt_mul_left]
+  needs: [f-kummer-generator-approx-critical-radius, f-valuation-sub-one-pow-eq-prime, f-foundation-proofs--exists-pth-power-scale-thin-shell, f-foundations--coset-trace, concept-group-actions, concept-ultrametric-norm, concept-roots-of-unity-kummer]

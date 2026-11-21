@@ -1,0 +1,112 @@
+nodes:
+  - id: concept-haar-measure-fundamental-domain
+    title: Integration on a group, Haar measure and fundamental domains
+    kind: concept
+    status: textbook
+    plain: >
+      A measure assigns sizes to sets, and an integral adds up a function against it. On many groups there is a natural "Haar" measure that does not change when you shift sets by a group element, like length on the real line. If a subgroup S acts on a space G, a fundamental domain is a region F that contains one copy of each orbit, up to sets of size zero. Then integrating a shift-invariant function over G is the same as integrating it over F, in the way a function periodic mod 1 is integrated over [0,1). Integrals here may be infinite and are valued in [0, ∞].
+    needs: [real-analysis, groups, concept-point-set-topology, concept-normal-subgroups-quotients, concept-group-actions, infinite-series]
+    learn:
+      - {title: "Folland, A Course in Abstract Harmonic Analysis", where: "ch. 2 (Haar measure)"}
+      - {title: "Folland, Real Analysis", where: "ch. 2 (integration)"}
+  - id: f-haar-transversals--fold-bound
+    title: A pointwise bound on sums over a transversal
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This proves a bound used for Poincaré series, which are sums of a function over a family of shifts. Let Γ be a discrete subgroup of a group G with Haar measure, S a subgroup of Γ, and D a set of representatives for the cosets of S in Γ. If a function Ph is S-invariant and each value is controlled by its average over a set Ω, then the sum of |Ph(δx)| over δ in D is at most a·mult·(integral of |Ph| over a fundamental domain of S). Here mult counts how often Ω overlaps shifts by Γ. The proof swaps sums and integrals and reorganises the double sum over D and S into a sum over Γ.
+    lean: ["Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/FoldBound.lean:65"]
+    mathlib: ["MeasureTheory.lintegral_tsum", "MeasureTheory.IsFundamentalDomain.lintegral_eq_tsum''", "ENNReal.tsum_comm"]
+    needs: [concept-haar-measure-fundamental-domain, concept-normal-subgroups-quotients, infinite-series, real-analysis]
+  - id: f-haar-transversals--poincare-series-square-integrable
+    title: Square-integrability of Poincare series (statements only)
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This file only states claims, proving none of them. It defines a "fold datum" (a measurable S-invariant function controlled by its averages over a set Ω), the Poincaré series (a sum of the function over shifts by a transversal), and a "double transversal" of representatives for double cosets. It then states three properties and bundles them as one. First, the series converges absolutely when a multiplicity integral is finite. Second, it is square-integrable with an explicit bound on its squared size. Third, an inner-product formula expresses the integral of one series times another's conjugate as a sum over double cosets.
+    lean: ["Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/PoincareSeriesSquareIntegrable.lean:83"]
+    mathlib: ["MeasureTheory.MemLp", "MeasureTheory.IsFundamentalDomain"]
+    needs: [f-haar-transversals--fold-bound, concept-haar-measure-fundamental-domain, concept-normal-subgroups-quotients, complex-numbers]
+  - id: f-period-integrals--fold-mult
+    title: Properties of the overlap-count function (statement)
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This file only states a claim. Let Γ be a discrete subgroup of a group G and Ω a compact set containing the identity. The function mult(x) is the largest number of elements of Γ whose shifts all land a point in Ω, in the sense used by the bound above. The claim is that mult is at least 1 everywhere, always finite, unchanged when x is multiplied by an element of Γ, and measurable (so it can be integrated). Another file supplies the proof.
+    lean: ["Formalism/PeriodIntegrals/FoldMult.lean:10"]
+    mathlib: []
+    needs: [f-haar-transversals--fold-bound, concept-haar-measure-fundamental-domain, concept-point-set-topology]
+  - id: f-period-integrals--fold-unfold
+    title: The unfolding identity (statement)
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This file only states a claim. Take a group G with a shift-invariant measure, a subgroup Γ, a subgroup S inside it, fundamental domains F for S and FΓ for Γ, and D a set of representatives of the cosets of S in Γ. For a nonnegative measurable function f that S does not change, the claim is that integrating the sum of f over shifts by D, over FΓ, gives the same value as integrating f over F. This "unfolding" trick turns a sum over cosets into a larger domain.
+    lean: ["Formalism/PeriodIntegrals/FoldUnfold.lean:10"]
+    mathlib: []
+    needs: [f-haar-transversals--fold-bound, concept-haar-measure-fundamental-domain]
+  - id: f-orbital-bounds-conclusion--fold-mult
+    title: The overlap-count claim, proved
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This proves the overlap-count claim from the previous statement file. It is a short assembly of four facts proved elsewhere. The count is at least 1 because the identity lies in Ω. It is finite because Ω is compact and Γ is discrete, so only finitely many group elements can bring a compact set back into itself. It is unchanged by shifts in Γ, and it is measurable. The file just packages those four results into the single statement.
+    lean: ["Formalism/PeriodIntegrals/OrbitalBoundsConclusion/FoldMult.lean:7"]
+    mathlib: []
+    needs: [f-period-integrals--fold-mult, f-measurable-mult]
+  - id: f-orbital-bounds-conclusion--fold-unfold
+    title: The unfolding identity, proved
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This proves the unfolding identity stated earlier. It is a one-line citation of the main proof in another file, which checks the identity by showing that, for almost every point, the S-shifts hit the fundamental domain exactly once. So the claim is established there, and this file just gives it the name other files use.
+    lean: ["Formalism/PeriodIntegrals/OrbitalBoundsConclusion/FoldUnfold.lean:5"]
+    mathlib: []
+    needs: [f-period-integrals--fold-unfold, f-unfolding-identity--fold-unfold-main]
+  - id: f-poincare-series-mem-lp
+    title: Poincare series are square-integrable, proved
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This proves the square-integrability claim from the statements file, in a single line. It cites the main proof of the double-coset bound, where the Poincaré series (a sum over a transversal of shifted values of a function) is shown to be measurable and to have a finite integral of its squared size, bounded by an explicit multiple of the multiplicity integral squared. So the claim is established, and this file only gives it the form other files use.
+    lean: ["Formalism/PeriodIntegrals/OrbitalBoundsConclusion/PoincareSeriesMemLp.lean:6"]
+    mathlib: []
+    needs: [f-fold-l2-double-coset, f-haar-transversals--poincare-series-square-integrable]
+    orphan: true
+  - id: f-measurable-mult
+    title: The overlap count is at least 1, finite, invariant and measurable
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This proves the four properties of the overlap count mult(x), the largest number of elements of a discrete subgroup Γ that carry a point back into a compact set Ω after shifting. At least 1 because the identity counts. Finite because a compact set and a discrete subgroup meet in finitely many group elements. Unchanged when x is shifted by an element of Γ, by relabelling those elements. Measurable, because the count is a supremum, over finite subsets A of Γ, of constant values on closed sets of points where every element of A works at once. That is a countable supremum of measurable functions.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MultiplicityMeasurability/MeasurableMult.lean:118"]
+    mathlib: ["Measurable.iSup", "isClosedMap_fst_of_compactSpace", "Subgroup.isClosed_of_discrete", "Set.encard"]
+    needs: [f-haar-transversals--fold-bound, concept-point-set-topology, concept-haar-measure-fundamental-domain, counting]
+  - id: f-fold-l2-double-coset
+    title: Proof that the Poincare series is square-integrable
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This proves the square-integrability claim. A Poincaré series is a sum, over a set D of coset representatives, of a function shifted by each element of D. First the file shows that this series is measurable. Next it bounds its absolute value by the sum of absolute values and then squares, which gives at most (a · integral of |Ph| over F) times a sum of mult-weighted terms. Integrating over a fundamental domain and using the unfolding identity turns that sum into the multiplicity integral. So the squared size has integral at most a·(quotient integral)·(multiplicity integral), which is finite.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/PoincareSeriesMeasurability/FoldL2DoubleCoset.lean:34"]
+    mathlib: ["MeasureTheory.lintegral_mono", "MeasureTheory.lintegral_const_mul'", "Measurable.aestronglyMeasurable", "ENNReal.tsum_coe_ne_top_iff_summable"]
+    needs: [f-haar-transversals--fold-bound, f-haar-transversals--poincare-series-square-integrable, f-orbital-bounds-conclusion--fold-mult, f-orbital-bounds-conclusion--fold-unfold, concept-haar-measure-fundamental-domain, infinite-series, complex-numbers]
+  - id: f-unfolding-identity--fold-unfold-main
+    title: Proof of the unfolding identity
+    kind: step
+    status: explained
+    chunk: c0070
+    plain: >
+      This proves that integrating a coset-summed function over a fundamental domain of Γ equals integrating the function over a fundamental domain of S. The idea has two parts. A fundamental domain for S is hit by exactly one S-shift of almost every point, which the file proves first. Then every element of Γ factors uniquely as an S-element times a transversal element, so a sum over Γ splits into a double sum. Using that f does not change under S, the sum over S collapses to a single copy of f, which leaves a sum over the transversal D. Integrating gives the identity.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/UnfoldingIdentity/FoldUnfoldMain.lean:39"]
+    mathlib: ["MeasureTheory.IsFundamentalDomain.lintegral_eq_tsum''", "MeasureTheory.measurePreserving_mul_left", "ENNReal.tsum_prod'"]
+    needs: [f-period-integrals--fold-unfold, f-haar-transversals--fold-bound, concept-haar-measure-fundamental-domain, concept-normal-subgroups-quotients, infinite-series]

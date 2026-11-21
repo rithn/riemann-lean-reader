@@ -1,0 +1,217 @@
+nodes:
+
+- id: concept-analytic-sets-several-variables
+  title: Analytic sets and germs (several complex variables)
+  kind: concept
+  status: textbook
+  plain: >
+    An analytic set is a shape in complex n-dimensional space cut out, near each of its points,
+    by finitely many equations f1 = ... = fk = 0 where each f is given locally by a convergent
+    power series. The "germ" of such a set at a point is what it looks like in an arbitrarily
+    small neighbourhood of that point. A germ is irreducible if it cannot be split into two
+    smaller analytic pieces, like a single smooth curve as opposed to two crossing lines.
+  needs: [complex-analysis, polynomials, linear-algebra, concept-point-set-topology]
+  learn:
+    - title: Gunning and Rossi, "Analytic Functions of Several Complex Variables"
+      where: Chapters II and III (local rings, analytic sets, irreducibility)
+    - title: Chirka, "Complex Analytic Sets"
+      where: Chapters 1 and 2
+
+- id: concept-point-set-topology
+  title: Open sets, neighbourhoods, closures, connectedness
+  kind: concept
+  status: textbook
+  plain: >
+    The vocabulary for "near a point": an open set contains a little ball around each of its
+    points, a neighbourhood of a point is a set containing such a ball, and the closure of a set
+    adds its boundary points. A set is connected if it is in one piece, and convex if the straight
+    segment between any two of its points stays inside. "Eventually near w" means "true on some
+    neighbourhood of w".
+  needs: [real-analysis]
+  learn:
+    - title: Munkres, "Topology"
+      where: Chapters 2 and 3
+    - title: Rudin, "Principles of Mathematical Analysis"
+      where: Chapter 2 (basic topology)
+
+- id: f-analytic-germ
+  title: "Definitions: analytic near a point, irreducible germ"
+  kind: step
+  status: explained
+  plain: >
+    Two definitions about a set X of complex tuples. "X is analytic near w" means that in some
+    small open ball around w, X is exactly the set where finitely many analytic functions all
+    vanish at once. "The germ of X at w is irreducible" means w is in X and, whenever a product
+    f*g of two analytic functions vanishes on X near w, then already f vanishes on X near w or g
+    does. This is the analogue of "a prime ideal": e.g. the curve y = x^2 is irreducible, but the
+    two crossing lines xy = 0 are not (take f = x, g = y).
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/AnalyticGerm.lean:8]
+  mathlib: [AnalyticOnNhd, AnalyticAt, IsOpen, nhds filter]
+  needs: [concept-analytic-sets-several-variables, complex-analysis, concept-point-set-topology]
+
+- id: f-st-analytic-root-branch
+  title: "Roots of a polynomial with analytic coefficients move analytically"
+  kind: step
+  status: explained
+  plain: >
+    This file only states a claim (it is stored as a named Prop, not proved here). Take a monic
+    polynomial T^N + a_{N-1}(t) T^{N-1} + ... + a_0(t) whose coefficients depend analytically on
+    a parameter t. If at t0 the polynomial has no repeated roots and tau0 is a root, then there is
+    an analytic function r defined near t0 with r(t0) = tau0 that remains a root for every nearby
+    t. Example: T^2 - t at t0 = 1 and tau0 = 1 gives r(t) = sqrt(t), analytic near t = 1. This is
+    the implicit function theorem applied to the root equation.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StAnalyticRootBranch.lean:6]
+  mathlib: [Polynomial.Separable, AnalyticAt, AnalyticOnNhd]
+  needs: [polynomials, complex-analysis, concept-analytic-sets-several-variables]
+
+- id: f-st-irreducible-germ-projection-image-near
+  title: "Irreducible germ: projection image stays 'full' at nearby points"
+  kind: step
+  status: explained
+  plain: >
+    A stated claim (not proved in this file). Setup: X is analytic near w with irreducible germ, A
+    is a linear map from the big space down to d dimensions, and w is isolated in its own fibre
+    (nearby points of X with the same image as w equal w). Assume the image of X under A is not
+    squeezed into a smaller analytic subset near A(w): any analytic h on the target vanishing on
+    the image vanishes identically near A(w). The claim is that the same property holds at every
+    point x of X close enough to w, i.e. the "image fills out d dimensions" property is stable
+    under moving the base point slightly.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StIrreducibleGermProjectionImageNear.lean:9]
+  needs: [f-analytic-germ, concept-analytic-sets-several-variables, linear-algebra, concept-point-set-topology]
+
+- id: f-st-finite-projection-sheets-dense
+  title: "Points where X is a clean sheet over the target are dense"
+  kind: step
+  status: explained
+  plain: >
+    A stated claim (not proved here), under the same hypotheses as the previous node (irreducible
+    germ, linear projection A with w isolated in its fibre, image not contained in a proper
+    analytic subset). It says that near w, X lies in the closure of the set of points y where X is
+    locally a "sheet": a single analytic section g over an open set O of the target that A maps
+    back to the identity, with X near y equal to the image of g. Think of the graph of an analytic
+    function; the claim is that such graph-like points are dense, so the bad branching points
+    cannot fill an open part of X.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StFiniteProjectionSheetsDense.lean:9]
+  needs: [f-st-irreducible-germ-projection-image-near, f-analytic-germ, concept-analytic-sets-several-variables, concept-point-set-topology]
+
+- id: f-st-primitive-form-sheeted-off-discriminant
+  title: "Off the discriminant, every point of X is a clean sheet"
+  kind: step
+  status: explained
+  plain: >
+    A stated claim (not proved here). Same setting as before, now also with a "primitive form":
+    a linear function ell on the big space satisfies a monic polynomial equation of degree N whose
+    coefficients a_j are analytic functions of A(z), and each coordinate z_i can be recovered as a
+    polynomial in ell(z) with analytic coefficients divided by an analytic denominator delta(A(z)).
+    The polynomial is assumed to have distinct roots wherever delta is nonzero. The claim is that
+    in a neighbourhood M of w, every point y of X with delta(A(y)) nonzero is a clean sheet point
+    (X near y is the image of an analytic section over the target).
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPrimitiveFormSheetedOffDiscriminant.lean:9]
+  needs: [f-st-finite-projection-sheets-dense, f-analytic-germ, polynomials, linear-algebra, concept-analytic-sets-several-variables]
+
+- id: f-st-primitive-form-sheeted-locus-cut-out
+  title: "The sheeted locus is cut out by an analytic equation c = 0"
+  kind: step
+  status: explained
+  plain: >
+    A stated claim (not proved here). In the primitive-form setting (no irreducibility assumed,
+    but delta is not identically zero near A(w)), there are analytic functions c and e near w with
+    c*e = 0 on X. At points z of X where delta(A(z)) is nonzero, X is a clean sheet at z exactly
+    when c(z) = 0, and clean-sheet points always have e(z) nonzero. So "being a clean sheet" is a
+    zero-set condition, which is what lets it be analysed with analytic tools.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPrimitiveFormSheetedLocusCutOut.lean:9]
+  needs: [f-st-primitive-form-sheeted-off-discriminant, f-analytic-germ, polynomials, concept-analytic-sets-several-variables]
+
+- id: f-st-primitive-form-sheeted-iff-root-full
+  title: "Clean sheet iff a full analytic root branch exists (defines PrimitiveFormRootFull)"
+  kind: step
+  status: explained
+  plain: >
+    Defines PrimitiveFormRootFull: a pair (t, tau) qualifies if there is an analytic root branch r
+    near t with r(t) = tau such that, for every nearby s, the point whose i-th coordinate is
+    (sum_j q_ij(s) r(s)^j) / delta(s) lies in X and in the window W, maps to s under A, and has
+    ell-value r(s). In other words, the root tau can be lifted to an analytic family of actual
+    points of X. The statement (not proved in this file) is that for points z of X near w with
+    delta(A z) nonzero, z is a clean sheet point iff PrimitiveFormRootFull holds at (A z, ell z).
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPrimitiveFormSheetedIffRootFull.lean:9]
+  needs: [f-st-primitive-form-sheeted-locus-cut-out, polynomials, complex-analysis, concept-analytic-sets-several-variables]
+
+- id: f-st-primitive-form-full-branch-constant
+  title: "Lifting a root branch is all-or-nothing on a connected region"
+  kind: step
+  status: explained
+  plain: >
+    A stated claim (not proved here). Fix a connected open region O in the target where delta is
+    nonzero, the polynomial has distinct roots, and r is an analytic root branch over O. Then the
+    property PrimitiveFormRootFull is either true at every point (s, r(s)) with s in O, or false at
+    all of them; it cannot switch on and off. This is a connectedness argument: the set where it
+    holds is both open and closed inside O. The statement also carries the window assumptions
+    (open sets W and N', closure of W inside N', etc.) that keep X under control.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPrimitiveFormFullBranchConstant.lean:7]
+  needs: [f-st-primitive-form-sheeted-iff-root-full, concept-point-set-topology, concept-analytic-sets-several-variables]
+
+- id: f-st-polynomial-root-predicate-factor
+  title: "Splitting a polynomial into two analytic factors by a root property"
+  kind: step
+  status: explained
+  plain: >
+    A stated claim (not proved here), purely about polynomials with analytic coefficients. On a
+    convex open set B of parameters, take a monic polynomial in T with analytic coefficients that
+    has distinct roots wherever delta is nonzero. Suppose P is a yes/no property of (t, root) that
+    is locally constant along analytic root branches. Then the polynomial factors as C*E where C
+    and E are analytic in (t, T) jointly, C vanishes at exactly the roots with P true and E at
+    exactly those with P false. Example: for T^2 - t the property "root is the positive branch"
+    cannot be locally constant, so no such split exists; for T^2 - 1 it splits as (T-1)(T+1).
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPolynomialRootPredicateFactor.lean:6]
+  mathlib: [Polynomial.Separable, Convex, AnalyticOnNhd]
+  needs: [polynomials, complex-analysis, concept-point-set-topology, concept-analytic-sets-several-variables]
+
+- id: f-st-primitive-form-window
+  title: "Shrinking to a clean window around w"
+  kind: step
+  status: explained
+  plain: >
+    A stated claim (not proved here), in the primitive-form setting. After shrinking around w one
+    can pick an open set W containing w, a convex open set B around A(w), and a bigger open set N'
+    containing the closure of W on which X is cut out by finitely many analytic functions. The
+    window is chosen so that all the earlier assumptions (the polynomial equation for ell, the
+    formula for the coordinates, analyticity of a_j, delta and q_ij, distinct roots off delta = 0)
+    hold on the whole of W or B, not just eventually near w, and so that points of X in the
+    closure of W that project into B are already in W. This is a bookkeeping step that makes later
+    arguments uniform.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPrimitiveFormWindow.lean:9]
+  needs: [f-st-primitive-form-sheeted-locus-cut-out, f-analytic-germ, concept-point-set-topology, concept-analytic-sets-several-variables]
+
+- id: f-st-primitive-form-full-root-factor
+  title: "Statement: the polynomial splits into factors C and E by root lifting"
+  kind: step
+  status: explained
+  plain: >
+    The target statement (stated, not proved in this file). In the primitive-form setting with
+    delta not identically zero, there are a window W around w, a neighbourhood B of A(w), and
+    analytic functions C and E of (t, T) with C*E equal to the defining polynomial. For t in B with
+    delta nonzero and every root tau, C(t, tau) = 0 exactly when the root lifts to an analytic
+    family of points of X (PrimitiveFormRootFull), and E(t, tau) = 0 exactly when it does not. So
+    the roots that come from genuine sheets of X are carved out by an analytic factor of the
+    polynomial.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPrimitiveFormFullRootFactor.lean:9]
+  needs: [f-st-primitive-form-sheeted-iff-root-full, polynomials, concept-analytic-sets-several-variables, concept-point-set-topology]
+
+- id: f-p-primitive-form-full-root-factor
+  title: "Proof: full root factor follows from window, branch, constancy and factoring claims"
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    A proof of the full-root-factor statement from four other stated claims (the window claim,
+    the analytic root branch claim, the branch-constancy claim and the polynomial factoring
+    claim). The proof first shrinks to a clean window with the window claim. It then shows that the
+    property of lifting a root to X is locally constant along analytic root branches, by taking a
+    small ball around the base point where the branch exists, delta is nonzero and everything
+    stays in B, and applying the constancy claim on that ball (a ball is convex, hence in one
+    piece). Finally the factoring claim applied to this locally constant property yields the
+    factors C and E. Note it is a conditional proof: it only works if the four hypotheses are
+    themselves established elsewhere.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PPrimitiveFormFullRootFactor.lean:13]
+  mathlib: [Metric.isOpen_iff, convex_ball, Convex.isPreconnected, ContinuousOn.isOpen_inter_preimage, Filter.mem_of_superset, isOpen_compl_singleton]
+  needs: [f-st-primitive-form-full-root-factor, f-st-primitive-form-window, f-st-analytic-root-branch, f-st-primitive-form-full-branch-constant, f-st-polynomial-root-predicate-factor, concept-point-set-topology]

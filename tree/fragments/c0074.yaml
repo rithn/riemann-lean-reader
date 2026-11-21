@@ -1,0 +1,53 @@
+nodes:
+  - id: f-geometry-proofs--coord-tie-comp-equiv
+    title: Reordering the coordinates keeps a coordinate system valid
+    kind: step
+    status: explained
+    chunk: c0074
+    plain: >
+      The file first sets up the machinery for flag-style coordinates: matrices of formal variables, expressions built from them, and determinants of selected rows. Its theorem is simple. A list of numbers x is called a "tie" for a geometric setup when its ratios cut out good affine charts and fit with the given ring. The theorem says that if x has that property, then relabelling the coordinates by a one-to-one correspondence also has it. The proof checks that charts and sets of ratios are the same after relabelling, since ratios only depend on which values appear.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/CoordTieCompEquiv.lean:43"]
+    mathlib: ["Equiv.symm", "Matrix.det"]
+    needs: [f-global-geometry--coords-at, concept-schemes-basics, linear-algebra]
+    orphan: true
+  - id: f-geometry-proofs--germ-gen-pt-injective-range-reg-at
+    title: Sections on an open set are exactly the common regular values at its points
+    kind: step
+    status: explained
+    chunk: c0074
+    plain: >
+      Take a geometric space X with a map from a field's spectrum hitting a generic point, the point whose closure is everything. Take an open set U in which every point is a specialisation of the generic one. Evaluating sections at the generic point is one-to-one. A field element a lies in the image exactly when it is "regular" at every point of U, meaning it comes from a function defined near that point. The one-to-one part uses that sections agreeing at all stalks are equal. The range part glues local choices together using the sheaf gluing property.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/GermGenPtInjectiveRangeRegAt.lean:91"]
+    mathlib: ["TopCat.Presheaf.section_ext", "TopCat.Sheaf.existsUnique_gluing'"]
+    needs: [f-global-geometry--is-cpt-gen, concept-schemes-basics, concept-local-rings, concept-point-set-topology]
+  - id: f-piece-localization-at-element
+    title: Inverting an element of a piece gives another piece
+    kind: step
+    status: explained
+    chunk: c0074
+    plain: >
+      A "piece" is an affine open set U whose ring of functions R sits inside a field as exactly the elements regular at all points of U. Given a nonzero element a of R, the file shows that inverting a gives another piece. It is the open set where a is invertible, and its ring is R with a allowed in denominators. The proof takes the section whose value at the generic point is a, uses its basic open set, and checks both inclusions of rings. If the generic point is not in U, the sets are empty and the claim is trivial.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/PieceLocalizationAtElement.lean:9"]
+    mathlib: ["IsLocalization.Away.surj", "Scheme.mem_basicOpen", "IsAffineOpen.isLocalization_basicOpen"]
+    needs: [f-geometry-proofs--germ-gen-pt-injective-range-reg-at, f-reg-at-is-local-ring-is-fraction-ring-stalk, f-geometry-proofs--prod-update-div, f-global-geometry--is-cpt-gen, concept-schemes-basics, concept-prime-ideals-localization]
+    orphan: true
+  - id: f-geometry-proofs--prod-update-div
+    title: Pieces, adjoining an inverse, and a product-ratio identity
+    kind: step
+    status: explained
+    chunk: c0074
+    plain: >
+      This file collects several definitions and small facts. One is the subring of a field obtained by adding the inverse of an element a to a ring R. It consists of b with a power of a times b lying in R. Another is the definition of a piece, an affine open set matching a ring. Others cover minors (determinants of selected rows and columns) and how they scale. The named theorem says that for a product over several indices, changing one factor and dividing by the original product gives just the ratio of the changed factor to the original one. This needs all the original factors to be nonzero.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/ProdUpdateDiv.lean:111"]
+    mathlib: ["Subring.closure_induction", "Finset.mul_prod_erase", "Matrix.det_smul"]
+    needs: [rings-fields, linear-algebra, concept-schemes-basics, f-global-geometry--coords-at]
+  - id: f-reg-at-is-local-ring-is-fraction-ring-stalk
+    title: The regular elements at a point form a local ring with the field as its fractions
+    kind: step
+    status: explained
+    chunk: c0074
+    plain: >
+      Fix a geometric space X and a field point mapping into it, where the generic point's stalk corresponds one-to-one to the field. For any point p, consider the ring of field elements regular at p. The file proves it is a local ring (one maximal ideal), that the whole field is its fraction field, and that it is isomorphic to the stalk of X at p. The ring is the image of a surjective ring map from the stalk, so it is local. Fractions come from writing a germ at the generic point as a quotient of two sections on an affine open set.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/RegAtIsLocalRingIsFractionRingStalk.lean:28"]
+    mathlib: ["IsLocalRing.of_surjective'", "IsFractionRing.of_field", "IsLocalization.surj"]
+    needs: [f-global-geometry--is-cpt-gen, concept-local-rings, concept-integral-closure-fraction-fields, concept-schemes-basics, concept-prime-ideals-localization]

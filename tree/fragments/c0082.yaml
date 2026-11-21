@@ -1,0 +1,47 @@
+nodes:
+  - id: f-character-theory--character-coset-sum-eq-zero-of-subgroup-sum
+    title: A character summing to zero on a subgroup sums to zero on every coset
+    kind: step
+    status: explained
+    chunk: c0082
+    plain: >
+      Take a finite group G and a character chi, meaning the trace (sum of diagonal entries) of a matrix representation. Suppose chi adds up to zero over a subgroup H. The file proves that chi also adds up to zero over every coset gH (the translate of H by g). The idea is to add up the matrices of H into one matrix S. Then S times S is the size of H times S, so S divided by that size is a projection. A projection with trace zero is zero. So S is zero, and the coset sum is the trace of a matrix times S.
+    lean:
+      - "Development/AbelianVarietyTheory/Proofs/CharacterTheory/CharacterCosetSumEqZeroOfSubgroupSum.lean:10"
+    mathlib: [LinearMap.IsIdempotentElem.trace_eq_zero_iff, Finset.sum_mul, Fintype.sum_equiv]
+    needs: [concept-group-representations, concept-normal-subgroups-quotients, groups, linear-algebra]
+  - id: f-exists-standard-unipotent-radical-bij-on-nilradical
+    title: A standard block-triangular subgroup matching the nilradical
+    kind: step
+    status: explained
+    chunk: c0082
+    plain: >
+      Work over a finite field F with d-by-d matrices. For each a up to d, the file builds a subspace A of dimension a and a subgroup H of invertible matrices. The matrices in H are the identity plus a block in the upper-right corner. The "nilradical" of A is the set of maps that send everything into A and kill A. The file shows that subtracting 1 pairs the matrices in H one-to-one with that set. Such a map N squares to zero, so 1+N is invertible with inverse 1-N. That gives the pairing in both directions.
+    lean:
+      - "Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsStandardUnipotentRadicalBijOnNilradical.lean:124"
+    mathlib: [Matrix.toLin', LinearMap.finrank_range_add_finrank_ker, LinearMap.toMatrix']
+    needs: [linear-algebra, groups, rings-fields]
+  - id: f-general-linear-function-extend-zero-end-properties
+    title: Extending a function on invertible matrices by zero
+    kind: step
+    status: explained
+    chunk: c0082
+    plain: >
+      Take a function chi defined only on invertible d-by-d matrices over a finite field. Extend it to all matrices by giving it value zero on non-invertible ones. This file proves four things. The extension agrees with chi on invertible matrices. It is zero on the rest. Its inner product with another function, defined by summing products over all matrices, reduces to a sum over invertible matrices only. And if chi is a class function (unchanged when you swap g for x^-1 g x), the extension is too. Each is a short unfolding of definitions.
+    lean:
+      - "Development/AbelianVarietyTheory/Proofs/CharacterTheory/GeneralLinearFunctionExtendZeroEndProperties.lean:87"
+    mathlib: [Matrix.toLin', LinearMap.isUnit_toMatrix'_iff, finsum_mem_range]
+    needs: [linear-algebra, groups, rings-fields]
+  - id: f-is-primitive-extend-zero-of-sum-unipotent-radical
+    title: Vanishing sums on unipotent subgroups make the extended character primitive
+    kind: step
+    status: explained
+    chunk: c0082
+    orphan: true
+    plain: >
+      Let chi be a character of the group of invertible matrices over a finite field. The file shows that if chi sums to zero over each standard block-triangular subgroup, then chi extended by zero is "primitive". I read primitive from the proof as follows. For every proper nonzero subspace A and map g preserving A, summing the extension over g plus the nilradical of A gives zero. The proof moves A to a standard subspace, then uses coset-sum vanishing and the bijection between the subgroup and the nilradical.
+    lean:
+      - "Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:72"
+      - "Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsPrimitiveExtendZeroOfSumUnipotentRadical.lean:33"
+    mathlib: [LinearMap.det_eq_sign_charpoly_coeff, Submodule.exists_isCompl, finsum_mem_eq_of_bijOn]
+    needs: [f-character-theory--character-coset-sum-eq-zero-of-subgroup-sum, f-exists-standard-unipotent-radical-bij-on-nilradical, f-general-linear-function-extend-zero-end-properties, f-character-theory--charpoly-block-and-invariant-under-stabilizer-nilradic, f-is-character-over-subfield-restrict-class-function-one, concept-group-representations, linear-algebra]

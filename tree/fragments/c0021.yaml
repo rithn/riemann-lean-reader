@@ -1,0 +1,228 @@
+nodes:
+
+- id: concept-integral-closure-fraction-fields
+  title: Fraction fields, integral elements and integrally closed (normal) rings
+  kind: concept
+  status: textbook
+  plain: >
+    A ring with no zero-divisors, such as the integers, sits inside its fraction field (the
+    rationals). An element of a bigger field is "integral" over the ring if it solves a monic
+    equation x^n + a_(n-1) x^(n-1) + ... + a_0 = 0 with coefficients in the ring. The square
+    root of 2 is integral over the integers, but 1/2 is not. A ring is "integrally closed", also
+    called "normal", if every element of its fraction field that is integral over it already
+    lies in it. The integers are. The ring Z[√5] is not, since the golden ratio (1 + √5)/2
+    solves x^2 - x - 1 = 0 but is missing. The trace of an element, the sum of its conjugates,
+    stays in the ring when the ring is normal and the element is integral.
+  needs: [rings-fields, polynomials, number-fields, concept-field-extensions-transcendence, primes-divisibility]
+  learn:
+    - {title: "Introduction to Commutative Algebra", where: "Atiyah and Macdonald, chapter 5 (integral dependence)"}
+    - {title: "Algebraic Number Theory", where: "Neukirch, chapter I, sections 2 and 2.8 (integrality, trace and norm)"}
+
+- id: concept-coordinate-rings-dimension
+  title: Prime ideals, coordinate rings and dimension of a solution set
+  kind: concept
+  status: textbook
+  plain: >
+    Take polynomial equations in several complex variables. The polynomials that vanish on
+    their solution set form an ideal I (closed under adding, and under multiplying by anything).
+    The ideal is "prime" if the solution set cannot be split into two smaller solution sets.
+    The cross xy = 0 splits into two lines, but the parabola y = x^2 does not. The ring of
+    polynomials modulo I is the coordinate ring, meaning the functions on the set. Its Krull
+    dimension is the longest chain of prime ideals, and equals the geometric dimension. A point
+    has 0, a curve 1, a surface 2. The set is "normal" if this ring is integrally closed.
+    The line is normal, but the cusp y^2 = x^3 is not.
+  needs: [polynomials, rings-fields, concept-ideals-and-discriminant, concept-integral-closure-fraction-fields, concept-complex-analytic-sets]
+  learn:
+    - {title: "Ideals, Varieties, and Algorithms", where: "Cox, Little and O'Shea, chapters 4 and 9"}
+    - {title: "Basic Algebraic Geometry 1", where: "Shafarevich, chapter 1 (sections 1-6) and chapter 2, section 5 (normality)"}
+
+- id: f-complex-analytic-sets--st-holomorphic-on-subset
+  title: Definition of "holomorphic on a subset"
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    A definition only, nothing is claimed. A function f on complex space is called holomorphic
+    on a subset S if, near each point z of S, it agrees on S with a genuinely complex-
+    differentiable function F defined on a whole open neighbourhood of z. The function F may
+    change from point to point. Example: on the parabola y = x^2, the function that returns y
+    is holomorphic. It agrees on the parabola with the plain function (x, y) goes to x^2, or
+    with (x, y) goes to y. So the idea is a function of the set that looks locally like
+    a smooth function of the surrounding space.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StHolomorphicOnSubset.lean:6]
+  needs: [complex-analysis, concept-point-set-topology, concept-complex-analytic-sets]
+
+- id: f-complex-analytic-sets--st-normal-model
+  title: Zero sets of ideals, and a normal model of a space
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Mostly definitions, with a few small proved facts and nothing left unproved. It defines the
+    zero set of an ideal of polynomials, meaning the points where every polynomial in the ideal
+    is zero. It also defines a "normal model" of a solution set: a bigger space, with extra
+    variables, cut out by a prime ideal whose ring is integrally closed. Each extra variable must
+    solve a monic equation over the old ones, and be a ratio of old polynomials. This is like
+    "unpinching" a pinched shape. The file builds one explicit example, the diagonal line y = x
+    in the plane as a model of the line, and checks its ideal is prime and integrally closed.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StNormalModel.lean:16, GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StNormalModel.lean:10]
+  mathlib: [IsIntegrallyClosed.of_equiv, RingHom.quotientKerEquivOfSurjective, RingHom.ker_isPrime]
+  needs: [concept-complex-analytic-sets, concept-coordinate-rings-dimension, concept-integral-closure-fraction-fields, polynomials]
+
+- id: f-st-normal-riemann-extension
+  title: Riemann extension on a normal set (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. Take the zero set of a prime ideal whose ring
+    is integrally closed. Suppose a bounded function is holomorphic on that set, away from a
+    thin bad set where one polynomial h vanishes. The claim is that the function extends to a
+    holomorphic function on the whole set. In one variable this is the classic fact that a
+    bounded function holomorphic on a disc with a point removed extends over the point. Example:
+    sin(z)/z, bounded near 0, extends by the value 1. The claim is that this still holds on
+    normal higher-dimensional sets.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StNormalRiemannExtension.lean:10]
+  needs: [f-complex-analytic-sets--st-holomorphic-on-subset, f-complex-analytic-sets--st-normal-model, concept-coordinate-rings-dimension, complex-analysis]
+
+- id: f-st-normal-maximum-principle
+  title: Maximum principle on a normal set (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. Take a point w on the zero set of a prime ideal
+    with integrally closed ring. Let g be holomorphic on the set near w, and suppose the absolute
+    value of g never exceeds its value at w. The claim is that g is then constant near w, on
+    the set. In one variable this is the maximum principle: a holomorphic function whose size
+    peaks at an interior point is constant. The claim is that the principle survives on normal
+    higher-dimensional sets.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StNormalMaximumPrinciple.lean:10]
+  needs: [f-complex-analytic-sets--st-holomorphic-on-subset, f-complex-analytic-sets--st-normal-model, concept-coordinate-rings-dimension, complex-analysis]
+
+- id: f-complex-analytic-sets--st-normal-locally-irreducible
+  title: Normal sets stay in one piece near each point (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. Take the zero set of a prime ideal with
+    integrally closed ring, a point w on it, and a polynomial h outside the ideal. The claim is
+    that w has arbitrarily small open neighbourhoods B such that the set inside B, with the
+    points where h is zero removed, is connected (all one piece). Also, all of the set inside B
+    is a limit of those remaining points. A pinched curve like the node y^2 = x^2(x+1) fails
+    this at the origin, since two branches cross there. Removing the origin leaves two pieces.
+    Normality is what rules this out.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StNormalLocallyIrreducible.lean:9]
+  needs: [f-complex-analytic-sets--st-normal-model, concept-coordinate-rings-dimension, concept-point-set-topology, concept-complex-analytic-sets]
+
+- id: f-st-normal-open-mapping
+  title: One-to-one holomorphic images are open in a normal set (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. Take a normal prime zero set of dimension k.
+    Take an open piece U of k-dimensional complex space, and a one-to-one holomorphic map phi
+    from U into the zero set. The claim is that the image of U is open inside the zero set, so
+    it equals the zero set intersected with some open region of the surrounding space. Example:
+    a one-to-one holomorphic map from a disc into a curve covers a genuine open stretch of the
+    curve. It cannot land on a single boundary arc. This is an "open mapping" statement.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StNormalOpenMapping.lean:10]
+  needs: [f-complex-analytic-sets--st-normal-model, concept-coordinate-rings-dimension, concept-point-set-topology, complex-analysis]
+
+- id: f-st-branch-fill-dimension
+  title: A parametrisation that fills the set forces its dimension (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. Take a prime zero set, a point w on it, and a
+    polynomial h outside the ideal. Take a one-to-one holomorphic map phi from a ball in k-
+    dimensional complex space into the set. Suppose its image covers all the set near w, except
+    for points where h is zero. The claim is that the dimension of the coordinate ring is
+    exactly k. Example: a disc mapping onto a patch of a curve has k = 1, and the curve has
+    dimension 1. This matches the count of parameters with the algebraic dimension.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StBranchFillDimension.lean:10]
+  needs: [f-complex-analytic-sets--st-normal-model, concept-coordinate-rings-dimension, complex-analysis]
+
+- id: f-st-branch-inverse-off-hypersurface
+  title: Inverse of a parametrisation is holomorphic off a bad set (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. Take a prime zero set of dimension k. The
+    claim is that there is a polynomial h' outside the ideal with this property. Any one-to-one
+    holomorphic map phi from an open piece of k-space into the set, with a left inverse psi,
+    has psi holomorphic on the image once the points where h' vanishes are removed. This is an
+    inverse function theorem. Example: on the parabola y = x^2 the inverse of x goes to (x, x^2)
+    is just (x, y) goes to x, smooth everywhere. In general the bad set handles singular points.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StBranchInverseOffHypersurface.lean:11]
+  needs: [f-complex-analytic-sets--st-holomorphic-on-subset, f-complex-analytic-sets--st-normal-model, f-st-normal-open-mapping, concept-coordinate-rings-dimension, complex-analysis]
+
+- id: f-st-branch-contains-normal-point
+  title: A branch that fills a neighbourhood contains the point (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. Take a normal prime zero set, a point w on it,
+    a polynomial h outside the ideal, and a one-to-one holomorphic map phi from a ball in
+    k-space into the set. Suppose the image covers everything near w except possibly where h
+    vanishes. The claim is that w itself is in the image. Example: for a smooth curve, a
+    one-to-one image of a disc that covers a whole neighbourhood of w except w itself cannot
+    leave out w. The centre point must be covered too.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StBranchContainsNormalPoint.lean:9]
+  needs: [f-complex-analytic-sets--st-normal-model, concept-coordinate-rings-dimension, complex-analysis]
+
+- id: f-st-branch-inverse-holomorphic
+  title: The inverse of a filling parametrisation is holomorphic (claim only)
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    Only states a claim, without proving it here. The set-up is the same as in the previous
+    claim. A normal prime zero set, a point w, a polynomial h outside the ideal, and a one-to-one
+    holomorphic map phi from a ball in k-space into the set, whose image covers all points near
+    w except where h vanishes. The claim is that phi has an inverse psi on its image which is
+    itself holomorphic, in the sense of a function holomorphic on a subset. Example: for a disc
+    mapped into a line, the inverse just reads off the coordinate.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StBranchInverseHolomorphic.lean:11]
+  needs: [f-complex-analytic-sets--st-holomorphic-on-subset, f-complex-analytic-sets--st-normal-model, concept-coordinate-rings-dimension, complex-analysis]
+
+- id: f-p-branch-contains-normal-point
+  title: Proof that a filling branch contains the point
+  kind: step
+  status: explained
+  chunk: c0021
+  plain: >
+    A proof, but only conditional. It proves the "branch contains the point" claim assuming four
+    other claims: local irreducibility, holomorphic inverse, Riemann extension and the maximum
+    principle. Idea: pick a small neighbourhood where the set minus the bad polynomial is one
+    connected piece and dense. There, the inverse of phi is bounded by r in each coordinate.
+    Extend each coordinate across the bad set, with the extension at most r everywhere. If one
+    reached r at w, the maximum principle would make it constant, contradicting values below r
+    nearby. So the extended point lies inside the ball, and phi sends it to w. A small lemma shows
+    holomorphic-on-subset functions are continuous.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PBranchContainsNormalPoint.lean:24]
+  mathlib: [Metric.isBounded_closedBall, closure_minimal, tendsto_nhds_unique]
+  needs: [f-st-branch-contains-normal-point, f-complex-analytic-sets--st-normal-locally-irreducible, f-st-branch-inverse-holomorphic, f-st-normal-riemann-extension, f-st-normal-maximum-principle, f-complex-analytic-sets--st-holomorphic-on-subset, f-complex-analytic-sets--st-normal-model, concept-point-set-topology, complex-analysis]
+
+- id: f-p-branch-inverse-holomorphic
+  title: Proof that the inverse of a filling parametrisation is holomorphic
+  kind: step
+  status: explained
+  chunk: c0021
+  orphan: true
+  plain: >
+    A proof, but only conditional. It proves the "inverse is holomorphic" claim assuming five
+    other claims: fill dimension, open mapping, inverse off a bad set, Riemann extension and
+    local irreducibility. Idea: the fill-dimension claim gives dimension k. Take any left
+    inverse psi of phi. The open mapping claim shows psi is continuous on the image. The
+    off-a-bad-set claim makes psi holomorphic away from h' = 0. Each coordinate of psi is
+    bounded by r, so Riemann extension extends it across h' = 0. Both versions are continuous
+    and agree on a dense set, so they agree everywhere. Hence psi is holomorphic.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PBranchInverseHolomorphic.lean:15]
+  mathlib: [Function.invFunOn, isOpen_iInter_of_finite, tendsto_nhds_unique]
+  needs: [f-st-branch-inverse-holomorphic, f-st-branch-fill-dimension, f-st-normal-open-mapping, f-st-branch-inverse-off-hypersurface, f-st-normal-riemann-extension, f-complex-analytic-sets--st-normal-locally-irreducible, f-p-branch-contains-normal-point, f-complex-analytic-sets--st-holomorphic-on-subset, f-complex-analytic-sets--st-normal-model, concept-point-set-topology, complex-analysis]

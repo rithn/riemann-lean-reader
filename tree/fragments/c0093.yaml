@@ -1,0 +1,65 @@
+nodes:
+  - id: f-character-theory--virtual-characters-mul-comap-conj-ind-linear
+    title: Virtual characters are closed under the usual operations
+    kind: step
+    status: explained
+    chunk: c0093
+    plain: >
+      A character of a finite group records the trace (sum of diagonal entries) of each group element in a matrix representation. A virtual character is a whole-number combination of characters, with minus signs allowed. This file proves five closure facts for complex virtual characters on a finite group. Products of them stay virtual characters. Composing with a group homomorphism gives a virtual character of the source. They are unchanged by conjugation. Induction from a subgroup keeps them virtual characters. A one-dimensional character is one. Each is checked first for genuine characters, then extended through sums and differences.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/CharacterTheory/VirtualCharactersMulComapConjIndLinear.lean:62
+    mathlib:
+      - AddSubgroup.closure_induction
+      - Representation.char_tensor
+    needs:
+      - f-is-character-over-subfield-restrict-class-function-one
+      - f-is-character-over-subfield-induced-class-function
+      - f-is-character-over-subfield-of-representation
+      - f-induced-class-function-from-subgroup-eq-finsum-cosets
+      - concept-group-representations
+      - groups
+      - complex-numbers
+  - id: f-exists-lt-commutator-mem-of-ne-top
+    title: A proper subgroup of a nilpotent group has a bigger commuting-mod-K subgroup
+    kind: step
+    status: explained
+    chunk: c0093
+    plain: >
+      Let G be a finite nilpotent group (one built from a chain of central layers) and K a proper subgroup. The claim is that there is a strictly larger subgroup A containing K, in which every commutator a·b·a⁻¹·b⁻¹ lands inside K. In nilpotent groups a proper subgroup is always strictly smaller than its normalizer, the elements that conjugate it to itself. Pick x in the normalizer but outside K. Let A be everything of the form k·xⁱ. Conjugating by powers of x keeps K inside K, so A is a subgroup, and a short calculation puts all commutators in K.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsLtCommutatorMemOfNeTop.lean:7
+    mathlib:
+      - Group.normalizerCondition_of_isNilpotent
+      - Subgroup.mem_normalizer_iff
+    needs: [concept-normal-subgroups-quotients, groups]
+    orphan: true
+  - id: f-inertia-eigenvalues--ind-apply-one
+    title: Basic facts about induced characters
+    kind: step
+    status: explained
+    chunk: c0093
+    plain: >
+      Given a subgroup T of a finite group G, one can induce a complex function on T up to G by averaging conjugates. This file gathers small computations. Induction is additive, so it respects differences. Inducing a constant c gives c times inducing the constant 1. The value at the identity is the index of T in G (the number of cosets) times the value of the original at the identity. Inducing from the whole group changes nothing for conjugation-invariant functions. It also defines a set of differences of induced characters and matches the published induction formula with this one.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IndApplyOne.lean:28
+    mathlib:
+      - Subgroup.card_mul_index
+      - finsum_eq_sum_of_fintype
+    needs:
+      - f-character-theory--virtual-characters-mul-comap-conj-ind-linear
+      - f-galois-cohomology₂--brauer-degree-zero
+      - f-induced-class-function-from-subgroup-eq-finsum-cosets
+      - concept-group-representations
+      - concept-normal-subgroups-quotients
+    orphan: true
+  - id: f-galois-cohomology₂--brauer-degree-zero
+    title: Statement of a Brauer-style character identity
+    kind: step
+    status: explained
+    chunk: c0093
+    plain: >
+      This file only states a claim and does not prove it. It defines induction of a function from a subgroup H to a finite group G, by averaging over conjugates. It then names a statement, called a Brauer degree-zero statement. For any finite group and any finite-dimensional complex representation, the character minus the dimension should be a whole-number combination of differences, each being a one-dimensional character induced from some subgroup minus the trivial character induced from it. It is a degree-zero form of a classical theorem of Brauer on induced characters. The reader should treat it as an assumption.
+    lean:
+      - Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BrauerDegreeZero.lean:12
+    mathlib: []
+    needs: [concept-group-representations, groups, complex-numbers, linear-algebra]

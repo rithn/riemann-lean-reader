@@ -1,0 +1,82 @@
+nodes:
+  - id: f-subsingleton-of-adic-completion-tensor
+    title: A torsion module with vanishing completed tensor is zero
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      Take a ring A and an element f. Suppose every element of a module N is killed by some power of f. Form the completion of A at f: sequences of approximations modulo f, f^2, f^3 and so on, as p-adic integers do for p. This file proves that if tensoring N with the completion gives a trivial module, then N itself is trivial. Idea: because every element is killed by a power of f, the completion acts on N through a finite stage. Under this action, 1 tensor n goes to n, so n = 0.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/SubsingletonOfAdicCompletionTensor.lean:86]
+    mathlib: [AdicCompletion, TensorProduct.lift, LinearMap.mk₂]
+    needs: [concept-flat-modules, concept-tensor-product-of-algebras, concept-prime-ideals-localization, p-adic-numbers]
+  - id: f-torsion-of-localization-flat
+    title: Flatness after inverting f makes kernels f-power torsion
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      Let f be an element of a ring A and M a module over A. Suppose M with f inverted is flat (well-behaved under tensoring) over A with f inverted. This file proves that for any ideal I, an element of the tensor of I with M that dies when mapped to A tensor M is killed by some power of f. Idea: the inverted module is flat over A, so the map stays injective after tensoring with it. So the element vanishes after inverting f, and vanishing in a localisation means being killed by a power of f.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/TorsionOfLocalizationFlat.lean:6]
+    mathlib: [Module.Flat.trans, IsLocalizedModule.eq_zero_iff, LocalizedModule.mkLinearMap]
+    needs: [concept-flat-modules, concept-prime-ideals-localization, concept-tensor-product-of-algebras]
+  - id: f-quotient-flat-of-completion-flat
+    title: Flat after completion implies flat modulo f
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      Let A be a ring, f an element, and M a module. Suppose M tensored up to the f-adic completion of A is flat over that completion. This file proves that M tensored with the quotient A/(f) is flat over A/(f). Idea: the quotient A/(f) is itself obtained from the completion by dropping to the first approximation stage. So tensoring in two steps (first to the completion, then to the quotient) gives the same thing, and flatness passes along the base change.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/QuotientFlatOfCompletionFlat.lean:4]
+    mathlib: [AdicCompletion.evalₐ, TensorProduct.AlgebraTensorModule.cancelBaseChange, Module.Flat.of_linearEquiv]
+    needs: [concept-flat-modules, concept-tensor-product-of-algebras, concept-prime-ideals-localization]
+  - id: f-smul-regular-tensor-of-quotient-flat
+    title: Non-zero-divisors survive tensoring when flat mod f
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      Say f is a "non-zero-divisor" on a module when multiplying by f never sends a nonzero element to zero. Suppose f is a non-zero-divisor on M and N, and M tensored with A/(f) is flat over A/(f). This file proves f is also a non-zero-divisor on the tensor of N and M. The proof is a diagram chase: take a free module mapping onto M with kernel K, show tensoring with the quotient keeps the kernel sequence exact, then follow a hypothetical killed element through the resulting exact sequences.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/SmulRegularTensorOfQuotientFlat.lean:20]
+    mathlib: [lTensor_exact, rTensor_exact, LinearMap.lTensor_injective_of_exact_of_flat]
+    needs: [concept-flat-modules, concept-chain-complexes-homology, concept-tensor-product-of-algebras]
+  - id: f-localization-projective-kernel-finite
+    title: Kernel of a cover has finite localisation, if the localisation is projective
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      Let M be a module with f inverted that is projective (a direct summand of a free module) over A with f inverted. Take a surjection from A^n onto M. This file proves the kernel, with f inverted, is finitely generated. Idea: a projective module is finitely presented, so the kernel of the inverted surjection is finitely generated. Inverting f keeps exact sequences exact, so the inverted kernel equals that kernel.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/LocalizationProjectiveKernelFinite.lean:6]
+    mathlib: [LocalizedModule.map_exact, Module.finitePresentation_of_projective, Module.FinitePresentation.fg_ker]
+    needs: [concept-prime-ideals-localization, concept-flat-modules, concept-chain-complexes-homology]
+  - id: f-completion-flat-kernel-finite
+    title: Kernel of a cover is finite after completion, if projective
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      Let M be flat over A, with the completion of A at f tensored with M projective over the completion. Take a surjection from A^n onto M with kernel K. This file proves K tensored up to the completion is finitely generated. Idea: tensoring stays exact since M is flat. Projectivity lets the surjection split, so the kernel becomes the image of a projection from a finite module, hence finitely generated.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/CompletionFlatKernelFinite.lean:6]
+    mathlib: [Module.projective_lifting_property, lTensor_exact, Module.Finite.of_surjective]
+    needs: [concept-flat-modules, concept-chain-complexes-homology, concept-tensor-product-of-algebras]
+  - id: f-finite-of-localization-and-completion
+    title: Finite after localising and completing implies finite
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      This file proves a module N over A is finitely generated, assuming a claim handed in as a hypothesis: any module whose elements are all killed by powers of f, and whose completed tensor is trivial, is trivial. Given that, N is finitely generated if both N with f inverted, and N tensored with the f-adic completion, are. Idea: collect finitely many elements of N that generate each; the quotient by the span is f-power torsion with trivial completed tensor, so it is zero.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteOfLocalizationAndCompletion.lean:17]
+    mathlib: [LocalizedModule.induction_on, TensorProduct.induction_on, LocalizedModule.map_mk]
+    needs: [f-subsingleton-of-adic-completion-tensor, concept-prime-ideals-localization, concept-tensor-product-of-algebras]
+  - id: f-finite-projective
+    title: Finite projective modules descend from localisation and completion
+    kind: step
+    status: explained
+    chunk: c0060
+    plain: >
+      Take a ring A and an element f that does not zero out anything in A or in a module M. This file proves M is finitely generated and projective over A, if M with f inverted and M tensored with the f-adic completion are both finitely generated and projective over their rings. Idea: finite generation follows from earlier results. Flatness comes from the torsion, quotient and non-zero-divisor results. Then the kernel of a surjection from A^n is finitely generated, so M is finitely presented, and flat plus finitely presented gives projective.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteProjective.lean:14]
+    mathlib: [Module.Flat.projective_of_finitePresentation, Module.finitePresentation_of_surjective, Module.Finite.exists_fin']
+    needs: [f-finite-of-localization-and-completion, f-subsingleton-of-adic-completion-tensor, f-quotient-flat-of-completion-flat, f-torsion-of-localization-flat, f-smul-regular-tensor-of-quotient-flat, f-localization-projective-kernel-finite, f-completion-flat-kernel-finite, concept-flat-modules, concept-prime-ideals-localization]
+    orphan: true

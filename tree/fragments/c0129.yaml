@@ -1,0 +1,91 @@
+nodes:
+  - id: f-fourier-modulated-schwartz-bounds
+    title: Multiplying by a wave keeps a Schwartz function Schwartz, with controlled growth
+    kind: step
+    status: explained
+    chunk: c0129
+    plain: >
+      Fix a Schwartz function g. For each real-linear map xi, multiply g by
+      the wave e to the i times xi(x). The claim: this product is again a
+      Schwartz function, and every weighted derivative size is at most a
+      constant (not depending on xi) times (1 plus the size of xi) to the
+      number of derivatives. Idea: the wave has all derivatives of size at
+      most the size of xi to the j-th power. The product rule for several
+      derivatives then bounds everything in terms of g's own seminorms.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/FourierModulatedSchwartzBounds.lean:82
+    mathlib: [norm_iteratedFDeriv_mul_le, ContinuousLinearMap.iteratedFDeriv_comp_right, SchwartzMap.le_seminorm]
+    needs: [concept-schwartz-functions, calculus, complex-numbers, trigonometry]
+  - id: f-iterated-f-deriv-weighted-integral
+    title: Differentiating under the integral sign, any number of times
+    kind: step
+    status: explained
+    chunk: c0129
+    plain: >
+      Consider a family of Schwartz functions Phi(w) and weights phi(w),
+      and the function y going to the integral over w of phi(w) times
+      Phi(w)(y). The claim: its n-th derivative is the integral of phi(w)
+      times the n-th derivative of Phi(w), provided each derivative size is
+      dominated by one integrable function of w. Idea: induct on n. The
+      step uses the standard theorem that, with such a dominating bound, one
+      may differentiate under the integral sign.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/IteratedFDerivWeightedIntegral.lean:13
+    mathlib: [hasFDerivAt_integral_of_dominated_of_fderiv_le, ContinuousMultilinearMap.integral_apply]
+    needs: [concept-schwartz-functions, calculus, real-analysis]
+  - id: f-schwartz-family-pairing-integral-commute
+    title: A continuous linear functional commutes with integrals of Schwartz families
+    kind: step
+    status: explained
+    chunk: c0129
+    plain: >
+      Let T be a continuous linear functional on Schwartz functions (a
+      "tempered distribution"). Suppose h is an integral of weighted
+      Schwartz functions phi(w) times Phi(w), with polynomial growth control
+      on the Phi(w). The claim: T of h equals the integral of phi(w) times
+      T of Phi(w); T can be moved inside the integral. Idea: T only sees
+      finitely many seminorms, so it factors through a space of bounded
+      functions of finitely many derivatives. T is extended to that space by
+      Hahn-Banach, where moving a continuous linear map past an integral is
+      standard.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SchwartzFamilyPairingIntegralCommute.lean:128
+    mathlib: [exists_extension_norm_eq, ContinuousLinearMap.integral_comp_comm, Seminorm.bound_of_continuous, BoundedContinuousFunction.ofNormedAddCommGroup]
+    needs: [concept-schwartz-functions, real-analysis, linear-algebra]
+  - id: f-schwartz-fourier-superposition
+    title: Every Schwartz function is an integral of waves with fast-decaying weights
+    kind: step
+    status: explained
+    chunk: c0129
+    plain: >
+      The claim: any Schwartz function psi on a finite-dimensional real
+      space can be written as an integral over w of phi(w) times e to the i
+      times (a linear form A(w) applied to x). The weights phi are
+      continuous and decay faster than any power. In other words, psi is a
+      superposition of pure waves. This is Fourier inversion. Idea: identify
+      the space with ordinary Euclidean space, take phi to be the Fourier
+      transform, and use Mathlib's Fourier inversion theorem. The remaining
+      work is to show the weights have the needed decay.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SchwartzFourierSuperposition.lean:21
+    mathlib: [FourierTransform.fourierInv_fourier_eq, SchwartzMap.compCLMOfContinuousLinearEquiv, Real.fourierInv_eq']
+    needs: [fourier-analysis, concept-schwartz-functions, complex-numbers]
+  - id: f-tempered-functional-vanish-mul
+    title: A functional killing all waves times g kills g times any Schwartz function
+    kind: step
+    status: explained
+    chunk: c0129
+    orphan: true
+    plain: >
+      The claim: let T be a continuous linear functional on Schwartz
+      functions and g a fixed Schwartz function. If T gives zero on g
+      multiplied by every wave e to the i times xi(x), then T gives zero on
+      g times any Schwartz function psi. Idea: write psi as a superposition
+      of waves by Fourier inversion. Then g times psi is an integral of
+      waves times g, so T can be moved inside the integral, and each term
+      is zero. The file also proves the needed continuity of the wave family
+      and the swap of T with an integral.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/TemperedFunctionalVanishMul.lean:45
+    mathlib: [integral_const_mul, Metric.ball_mem_nhds]
+    needs: [f-fourier-modulated-schwartz-bounds, f-iterated-f-deriv-weighted-integral, f-schwartz-family-pairing-integral-commute, f-schwartz-fourier-superposition, f-divisor-proofs--schwartz-continuous-at-of-pointwise-of-bounded, concept-schwartz-functions, fourier-analysis]

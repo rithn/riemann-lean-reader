@@ -1,0 +1,12 @@
+nodes:
+  - id: f-induced-class-function-from-subgroup-trans
+    title: Inducing in two steps equals inducing in one
+    kind: step
+    status: explained
+    chunk: c0105
+    orphan: true
+    plain: >
+      Take a finite group G with subgroups K inside A. Given a complex-valued function on K that is unchanged by conjugation, induction spreads it over a bigger group: average its extension by zero over all conjugates. The file proves transitivity. Induce from K up to A, then from A up to G, and you get exactly what inducing from K to G directly gives. Proof idea: write both sides as sums over group elements, check the zero-extension agrees under conjugation by elements of A, shift the summation variable by an element of A, and count that each term appears the same number of times.
+    lean: ["Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/InducedClassFunctionFromSubgroupTrans.lean:7"]
+    mathlib: [Fintype.sum_equiv, Finset.sum_comm, Subgroup.subgroupOfEquivOfLe]
+    needs: [f-induced-class-function-from-subgroup-eq-finsum-cosets, concept-group-representations, concept-normal-subgroups-quotients, groups]

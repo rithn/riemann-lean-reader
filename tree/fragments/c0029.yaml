@@ -1,0 +1,119 @@
+nodes:
+
+- id: concept-local-rings
+  title: Local rings, units and the Jacobson radical
+  kind: concept
+  status: textbook
+  plain: >
+    A ring is a number system where you can add, subtract and multiply but not always divide.
+    A unit is an element with a multiplicative inverse (in the whole numbers mod 9, the number 2
+    is a unit because 2 times 5 is 1). In a local ring, a sum of two non-units is never a unit;
+    equivalently, the non-units form one ideal (a set closed under addition and under
+    multiplying by anything), called the maximal ideal. The whole numbers mod 9 are local:
+    the non-units are the multiples of 3. The Jacobson radical is the set of elements x for
+    which 1 + xy is a unit for every y. It is the "tiny" elements, like multiples of p in the
+    p-adic integers.
+  needs: [rings-fields, modular-arithmetic]
+  learn:
+    - {title: "Atiyah and Macdonald, Introduction to Commutative Algebra", where: "Ch. 1 (rings, ideals, local rings, Jacobson radical)"}
+    - {title: "Dummit and Foote, Abstract Algebra", where: "Ch. 7 (rings, ideals, quotient rings)"}
+
+- id: f-splits
+  title: Definitions of the ring conditions used by the block-decomposition lemmas
+  kind: step
+  status: explained
+  plain: >
+    This file proves nothing. It only defines vocabulary, about a ring S (a system where you
+    can add and multiply) and a chosen "small" element, written varpi. "Aic" says every monic
+    polynomial of positive degree has a root in S (a polynomial is monic when its leading
+    coefficient is 1; x^2 - 2 is monic). "Dich" says that if two elements generate an ideal
+    containing a power of varpi, then one divides the other. "Roots" says every divisor of
+    a power of varpi is a unit times an i-th power. "Step" says a root can be improved by one
+    power of varpi. The file also holds unrelated definitions (idempotents, divided powers,
+    a splitting property for geometric spaces) that these lemmas never use.
+  lean: [Development/WeilBound/CoreStatements/PadicHodgeComparison/EtaleCohomologyComparison/AcrisKummerUnits/Splits.lean:13]
+  mathlib: []
+  needs: [rings-fields, polynomials, concept-local-rings, concept-ideals-and-discriminant]
+
+- id: f-absolutely-closed-polynomial-splits
+  title: If every monic polynomial has a root, every monic polynomial splits fully
+  kind: step
+  status: explained
+  plain: >
+    Suppose a ring has the property that every monic polynomial of positive degree has a root
+    in it. The file proves that then every monic polynomial is a product of linear factors
+    (x - b). So x^3 - 2x^2 - x + 2 would become (x - 1)(x - 2)(x + 1). The proof is the
+    schoolbook argument by induction on degree. Pick a root, divide the polynomial by (x - root),
+    which leaves a monic polynomial of one degree less, and repeat. Degree zero gives the
+    polynomial 1, the empty product. The proof appears complete; it uses only standard
+    polynomial division facts.
+  lean: [Development/AutomorphicSpectrum/Proofs/BlockDecomposition/AbsolutelyClosedPolynomialSplits.lean:35]
+  mathlib: [Polynomial.mul_divByMonic_eq_iff_isRoot, Polynomial.Monic.natDegree_mul, Polynomial.eq_one_of_monic_natDegree_zero]
+  needs: [f-splits, polynomials, algebraic-closure, rings-fields]
+
+- id: f-absolutely-closed-unit-coefficient-root
+  title: Polynomial with constant term 1 and one unit coefficient has a root
+  kind: step
+  status: explained
+  plain: >
+    Work in a local ring (a sum of two non-units is never a unit) where every monic polynomial
+    has a root. Take a polynomial Q whose constant coefficient is 1 and whose coefficient at
+    some position i above 0 is a unit. The file proves Q has a root. The idea is to flip Q
+    end to end (reverse its coefficients) so it becomes monic, then split it into linear factors
+    using the previous lemma. If one factor has a unit root b, then 1/b is a root of Q. If
+    none do, all the roots are non-units, which forces the coefficient at position i to be a
+    non-unit, a contradiction. The proof appears complete.
+  lean: [Development/AutomorphicSpectrum/Proofs/BlockDecomposition/AbsolutelyClosedUnitCoefficientRoot.lean:29]
+  mathlib: [IsLocalRing.of_isUnit_or_isUnit_of_isUnit_add, Polynomial.reverse, Polynomial.eval₂_reverse_mul_pow, Multiset.dvd_prod]
+  needs: [f-absolutely-closed-polynomial-splits, f-splits, concept-local-rings, polynomials]
+
+- id: f-polynomial-roots-of-closed-quotient
+  title: Divisors of powers of varpi are units times i-th powers
+  kind: step
+  status: explained
+  plain: >
+    Setting: a ring S with a "tiny" element varpi (1 plus any multiple of it is a unit, and it
+    is not a zero divisor), where any two elements are comparable by divisibility whenever
+    a power of varpi lies in the ideal they generate, and where the quotient S/varpi^2
+    (S with multiples of varpi^2 treated as zero) has roots for monic polynomials. The file
+    proves every divisor of a power of varpi can be written as a unit times an i-th power,
+    for any i. Idea: any element is either divisible by a high power of varpi or equals
+    varpi^j times a divisor of varpi. For a divisor g of varpi, solve x^i = g modulo varpi^2,
+    lift the solution, and fix the error with a unit.
+  lean: [Development/AutomorphicSpectrum/Proofs/BlockDecomposition/PolynomialRootsOfClosedQuotient.lean:55]
+  mathlib: [Ideal.mem_jacobson_bot, Ideal.Quotient.mk_surjective, Polynomial.monic_X_pow_sub_C, Ideal.mem_span_singleton]
+  needs: [f-splits, concept-local-rings, concept-ideals-and-discriminant, polynomials]
+
+- id: f-newton-polygon-slope-existence
+  title: A first Newton-polygon slope exists in a divisibility-chain ring
+  kind: step
+  status: explained
+  plain: >
+    Take coefficients q_0, ..., q_d with q_d = 1 and q_0 dividing a power of varpi, in a ring
+    where divisors of varpi-powers are unit times i-th powers. The file proves there is a
+    scale c such that q_0 divides every q_i c^i, and for at least one i, q_i c^i divides
+    q_0. In other words the terms q_i c^i are all at most as big as q_0 in the divisibility
+    order, and one of them matches it. This is the first Newton-polygon slope. Proof: for each i with q_i dividing
+    q_0, write q_0 as q_i times a unit times s_i^i, then pick the i whose s_i is divisible by
+    all the others, and take c equal to that s_i. Complete.
+  lean: [Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NewtonPolygonSlopeExistence.lean:46]
+  mathlib: [Finset.induction_on, dvd_pow_self, Units.mul_left_dvd]
+  needs: [f-splits, concept-newton-polygon, concept-ultrametric-norm, rings-fields, primes-divisibility]
+
+- id: f-newton-approximation-of-dichotomy
+  title: One Newton step improves an approximate root by a power of varpi
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    Setting: the ring with a tiny element varpi from the previous lemmas. The file proves the
+    "Step" property. Given a monic polynomial Q and a point where Q is divisible by varpi^n,
+    there is a nearby point z with Q(z) divisible by varpi^(n+1). This is Newton's method for
+    finding roots, which improves a guess a little each round, as in p-adic root finding.
+    Proof: if Q(0) is already divisible by varpi^(n+1) take z = 0. Otherwise use the first
+    slope to rescale so Q becomes Q(0) times a polynomial R with constant term 1 and a unit
+    coefficient. Solve R = 0 modulo varpi^2 using the unit-coefficient lemma, then lift. The
+    proof appears complete.
+  lean: [Development/AutomorphicSpectrum/Proofs/BlockDecomposition/NewtonApproximationOfDichotomy.lean:41]
+  mathlib: [Ideal.Quotient.mk_surjective, Ideal.mem_jacobson_bot, nonZeroDivisors, Polynomial.eval_eq_sum_range]
+  needs: [f-polynomial-roots-of-closed-quotient, f-absolutely-closed-unit-coefficient-root, f-newton-polygon-slope-existence, f-splits, concept-newton-polygon, concept-local-rings, polynomials]

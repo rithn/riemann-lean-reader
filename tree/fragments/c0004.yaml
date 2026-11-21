@@ -1,0 +1,151 @@
+nodes:
+
+- id: concept-complex-analytic-sets
+  title: Complex analytic sets and germs
+  kind: concept
+  status: textbook
+  plain: >
+    A complex analytic set is a shape in n-dimensional complex space cut out by finitely many
+    equations f1 = 0, ..., fk = 0, where each f is "analytic" (given locally by a convergent
+    power series, like a polynomial but allowed to be infinite). Example: the curve y^2 = x^3
+    in the plane. A "germ" is what the set looks like in an arbitrarily small neighbourhood of
+    one chosen point; two sets with the same germ agree near that point. A germ is irreducible
+    if it cannot be split into two smaller analytic pieces (the cross xy = 0 splits into the two
+    lines x = 0 and y = 0 at the origin, so it is reducible there). A point is "regular" if the
+    set is a smooth sheet there.
+  needs: [complex-analysis, complex-numbers, linear-algebra, polynomials]
+  learn:
+    - {title: "Several Complex Variables and Analytic Spaces (Local Analytic Geometry)", where: "Grauert and Remmert, Coherent Analytic Sheaves, chapters 1-2"}
+    - {title: "Principles of Algebraic Geometry", where: "Griffiths and Harris, chapter 0, section 1 and chapter 5"}
+
+- id: concept-compactness-connectedness
+  title: Compactness and connectedness
+  kind: concept
+  status: textbook
+  plain: >
+    Two basic properties of sets of points. A set is compact if (in ordinary n-dimensional
+    space) it is closed and bounded, such as a closed disc; a continuous function takes a
+    compact set to a compact set, which is then closed. A set is connected if it is in one
+    piece and cannot be split into two separate open parts, such as a disc, but not two
+    separate discs. A standard trick, used in these files, is to show a set is open, closed
+    inside a connected set, and non-empty, which forces it to be the whole connected set.
+  needs: [real-analysis]
+  learn:
+    - {title: "Topology", where: "Munkres, chapters 2-3"}
+    - {title: "Understanding Analysis", where: "Abbott, chapter 3 (compact sets)"}
+
+- id: f-regular-locus
+  title: Regular points of a complex shape
+  kind: step
+  status: explained
+  plain: >
+    Defines what it means for a point x of a set Y in complex n-space to be "regular", meaning
+    Y looks like a smooth complex-analytic sheet there. Concretely, a linear map A squashes
+    space onto d coordinates, and near x the set Y is exactly the image of an analytic
+    function g from an open piece O of d-space back up into Y, with A(g(y)) = y (so Y is the
+    graph of g over d-space). Example: the curve y = x^2 is regular everywhere, as a graph over
+    the x-axis. It also defines the regular locus (all regular points of Y), proves it lies
+    in Y and that every regular point of Y is also regular in the regular locus itself, and
+    defines a small helper set, the point 0 together with the numbers 1/1, 1/2, 1/3, ...
+    (a sequence plus its limit).
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/RegularLocus.lean:9]
+  needs: [f-analytic-germ, concept-complex-analytic-sets, linear-algebra, complex-analysis]
+
+- id: f-st-irreducible-finite-germ-projection-open-at
+  title: Statement - finite projection of an irreducible germ is open
+  kind: step
+  status: explained
+  plain: >
+    Only states a claim (as a named true-or-false statement); it does not prove it here. Take
+    an analytic set X with an irreducible germ at x, and a linear map A down to d complex
+    coordinates. Suppose (1) near x, no other point of X has the same image as x (the
+    projection is "finite" there) and (2) no non-zero analytic function on d-space vanishes on
+    the image of X (the image is not squeezed into a thinner set). Then A maps every
+    neighbourhood of x in X onto a full neighbourhood of A(x): the projection is an open
+    mapping. Example: projecting the curve y^2 = x onto the y-axis hits all of a neighbourhood
+    of 0.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StIrreducibleFiniteGermProjectionOpenAt.lean:9]
+  needs: [f-analytic-germ, concept-complex-analytic-sets, linear-algebra]
+
+- id: f-st-irreducible-germ-points-off-discriminant
+  title: Statement - projection hits every point off a thin set
+  kind: step
+  status: explained
+  plain: >
+    Only states a claim; it does not prove it. Same setting as the open-mapping statement
+    (irreducible germ at x, projection A with x isolated in its fibre, image not contained in a
+    thinner set). The conclusion is weaker: there is an analytic function delta, not
+    identically zero near A(x), such that every point y near A(x) with delta(y) not zero is the
+    image of some point of X inside any given neighbourhood of x. The zero set of delta is the
+    "discriminant", a thin exceptional set where the projection may fail to hit. Example: for
+    the curve y^2 = x projected to x, every x near 0 is hit, so delta can be the constant 1.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StIrreducibleGermPointsOffDiscriminant.lean:10]
+  needs: [f-analytic-germ, f-st-irreducible-finite-germ-projection-open-at, concept-complex-analytic-sets]
+
+- id: f-st-irreducible-germ-primitive-form
+  title: Statement - a primitive-element equation for the germ
+  kind: step
+  status: explained
+  plain: >
+    Only states a claim; it does not prove it. In the same setting (irreducible germ at x,
+    projection A with x isolated in its fibre, image not in a thinner set), it says one linear
+    function ell of the coordinates, and analytic coefficients a_j depending only on A(z), can
+    be chosen so that ell satisfies a monic polynomial equation of degree N on X: ell^N + sum
+    of a_j(A z) * ell^j = 0. It also gives a non-zero analytic delta such that this polynomial
+    has distinct roots whenever delta is not zero, and such that delta(A z) times each
+    coordinate z_i equals a polynomial in ell with coefficients depending only on A(z). This is
+    the analogue of the primitive element theorem from field theory: one function ell
+    generates all the coordinates, up to the factor delta.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StIrreducibleGermPrimitiveForm.lean:10]
+  needs: [f-analytic-germ, f-st-irreducible-finite-germ-projection-open-at, concept-complex-analytic-sets, polynomials, linear-algebra, rings-fields]
+  mathlib: [Polynomial.Separable]
+
+- id: f-st-manifold-zeros-complement-connected
+  title: Statement - removing zeros of an analytic function keeps a smooth shape connected
+  kind: step
+  status: explained
+  plain: >
+    Only states a claim; it does not prove it. Let R be a connected set of complex n-space
+    that is smooth (every point regular) and h an analytic function on R that is not zero
+    everywhere on R. Then R with the zeros of h removed is still connected (in one piece).
+    This is a complex phenomenon: the zeros of an analytic function have real codimension 2,
+    like a point removed from a plane, so they cannot cut the shape into pieces. The real
+    analogue fails, since removing the point 0 from the real line splits it in two.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StManifoldZerosComplementConnected.lean:9]
+  needs: [f-regular-locus, concept-complex-analytic-sets, concept-compactness-connectedness, complex-analysis]
+
+- id: f-st-primitive-form-sheeted-points-near
+  title: Statement - smooth sheet points exist arbitrarily close to the base point
+  kind: step
+  status: explained
+  plain: >
+    Only states a claim; it does not prove it. Given the primitive-element equation data
+    (ell, the coefficients a_j, delta and the q_ij), as in the primitive-form statement, then
+    every neighbourhood U of the base point w contains a point z of X where delta(A z) is not
+    zero and X is a smooth analytic sheet over the target space, that is, X near z is the image
+    of an analytic g with A(g(t)) = t. In other words, good points where the projection is
+    locally an analytic graph are close to w. It is a companion of the statement that this
+    holds at all such points near w.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StPrimitiveFormSheetedPointsNear.lean:9]
+  needs: [f-st-primitive-form-sheeted-off-discriminant, f-analytic-germ, f-regular-locus, concept-complex-analytic-sets]
+
+- id: f-p-irreducible-germ-points-off-discriminant
+  title: Proof that the projection hits all points off the discriminant
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    Proves the "projection hits every point off a thin set" statement from four other
+    statements taken as assumptions: the primitive-element equation, the sheeted structure off
+    the discriminant, sheeted points near the base point, and connectedness of a smooth shape
+    minus the zeros of an analytic function. Idea: choose a small closed ball around x. Since x
+    is isolated in its fibre, the image of the ball's boundary sphere (a compact set) misses
+    A(x), so some ball D around A(x) also misses it. Remove the zeros of delta from D to get a
+    connected set T. Let u be the part of T that is the image of X inside the ball. u is open
+    (by the sheet structure, where X is locally a graph), non-empty (by the points-near
+    statement), and closed inside T (compactness, and the boundary never maps there). By
+    connectedness u is all of T. A helper lemma shows a ball is a smooth set in the sense of
+    regular points.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PIrreducibleGermPointsOffDiscriminant.lean:18]
+  mathlib: [Metric.isOpen_iff, IsCompact.image, IsPreconnected.subset_of_closure_inter_subset, convex_ball, Convex.isPreconnected, isCompact_closedBall, Metric.mem_nhds_iff]
+  needs: [f-st-irreducible-germ-points-off-discriminant, f-st-irreducible-germ-primitive-form, f-st-primitive-form-sheeted-off-discriminant, f-st-primitive-form-sheeted-points-near, f-st-manifold-zeros-complement-connected, f-regular-locus, f-analytic-germ, concept-complex-analytic-sets, concept-compactness-connectedness]

@@ -1,0 +1,35 @@
+nodes:
+  - id: f-eval-complex-poly-eq-zero-on-rat-zariski-closure
+    title: Complex equations vanishing on a Galois-stable set vanish on its rational closure
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0077
+    plain: >
+      Take a set Γ of complex square matrices that is stable under every field automorphism of the
+      complex numbers (apply the automorphism to each entry and you stay in Γ). If a polynomial f
+      with complex coefficients vanishes at every point of Γ, then f also vanishes at every point of
+      the "rational closure" of Γ, meaning the matrices on which every rational-coefficient
+      polynomial vanishing on Γ vanishes. The idea is Galois descent: the space of polynomials
+      vanishing on Γ is stable under the automorphisms, so it is spanned by polynomials with rational
+      coefficients. Each of those vanishes on the closure, and so does any combination of them.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/EvalComplexPolyEqZeroOnRatZariskiClosure.lean:71"]
+    mathlib: [MvPolynomial.mem_range_map_iff_coeffs_subset, Submodule.span_induction, MvPolynomial.basisMonomials]
+    needs: [concept-galois-fixed-fields, concept-field-extensions-transcendence, linear-algebra, polynomials, complex-numbers, f-adelic-lattice-proofs--galois-stable-submodule-le-span-rational]
+  - id: f-adelic-lattice-proofs--mem-span-rat-polys-vanishing-of-aut-stable
+    title: A vanishing complex polynomial is a combination of rational ones
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0077
+    plain: >
+      Let Γ be a set of complex matrices that is stable under every field automorphism of the complex
+      numbers. If a polynomial f with complex coefficients vanishes on all of Γ, then f is a
+      complex-linear combination of polynomials with rational coefficients that also vanish on Γ.
+      The proof applies Galois descent: the set of vanishing polynomials is a complex vector space
+      that is carried to itself by every automorphism, so it is spanned by its rational
+      members. Two small helpers record how an automorphism acts on evaluation, and that rational
+      polynomials evaluate the same in the complex numbers. This overlaps the neighbouring file, which proves a similar statement.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/MemSpanRatPolysVanishingOfAutStable.lean:22"]
+    mathlib: [MvPolynomial.mem_range_map_iff_coeffs_subset, Submodule.span_mono, MvPolynomial.basisMonomials]
+    needs: [f-adelic-lattice-proofs--galois-stable-submodule-le-span-rational, concept-galois-fixed-fields, concept-field-extensions-transcendence, linear-algebra, polynomials, complex-numbers]

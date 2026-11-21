@@ -1,0 +1,12 @@
+nodes:
+  - id: f-unit-eq-mul-pow-on-etale-excision-nbhd-zero-locus
+    title: Fixing a unit to be a q-th power times a given unit, near a zero locus
+    kind: step
+    status: explained
+    chunk: c0033
+    orphan: true
+    plain: >
+      This is an algebra step in a geometry argument. Setup: a coordinate ring B of a curve-like shape over an algebraically closed field, a function f cutting out a zero set, and a neighbourhood of that zero set built from a ring A2 (an "excision neighbourhood", a ring where f's zero set looks the same). A unit c is given as a known expression. The result: after enlarging A2 to a bigger neighbourhood A3, c equals another given unit u times a q-th power of a new unit v. The proof clears denominators, takes a q-th root of a nearby unit using earlier root-finding results, and checks the equation by algebra.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/UnitEqMulPowOnEtaleExcisionNbhdZeroLocus.lean:11"]
+    mathlib: [IsLocalization.Away.algebraMap_isUnit, Ideal.mem_span_singleton, IsScalarTower.algebraMap_apply]
+    needs: [f-divisor-proofs--is-excision-nbhd-self, f-divisor-proofs--is-excision-nbhd-away, f-divisor-proofs--is-excision-nbhd-trans, f-divisor-proofs--exists-pow-sub-mem-span-of-is-unit-mod-of-is-alg-closed, f-divisor-proofs--exists-excision-nbhd-adjoin-root, concept-prime-ideals-localization, concept-etale-ring-maps, concept-hensel-lifting, concept-dedekind-domains, concept-finitely-generated-algebras, algebraic-closure]

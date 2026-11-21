@@ -1,0 +1,112 @@
+nodes:
+  - id: f-period-integrals--add-int-g
+    title: Integrality of the addition law for formal groups of elliptic curves (statement)
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file only states claims and definitions; it proves nothing. It sets up p-adic power series attached to an elliptic curve in Weierstrass form (a cubic y-squared equation). It defines the formal logarithm, a power series that straightens the curve's group law near the origin into ordinary addition. It writes the group law as "exp of (log a plus log b)". Then it states a target. If the curve's coefficients are p-adically integral, so are the coefficients of that addition series. A glue claim says a key hypothesis KeyF implies the target. Neither is proved here.
+    lean: [Formalism/PeriodIntegrals/AddIntG.lean:9, Formalism/PeriodIntegrals/AddIntG.lean:35, Formalism/PeriodIntegrals/AddIntG.lean:51, Formalism/PeriodIntegrals/AddIntG.lean:59]
+    mathlib: [WeierstrassCurve, PowerSeries.subst, MvPowerSeries]
+    needs: [f-period-integrals--exp-int-w, p-adic-numbers, concept-ultrametric-norm, concept-roots-of-unity-kummer, concept-witt-vectors-ainf, infinite-series, polynomials]
+  - id: f-period-integrals--exp-int-w
+    title: Exponentials of integral series stay integral (statement)
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file only states a claim; it proves nothing. It defines the exponential of a power series, using division by factorials, and a notion of "integral" for p-adic series, meaning every coefficient has p-adic size at most 1. It also defines a smaller ring Wp, the closure of roots of unity whose order is not divisible by p, a model of the integers of the maximal unramified extension. The statement ExpIntW says that if the exponential of a series is integral and the series has no constant term, then the exponential's coefficients lie in Wp. Proofs are in other files.
+    lean: [Formalism/PeriodIntegrals/ExpIntW.lean:33]
+    mathlib: [MvPowerSeries, Subring.topologicalClosure]
+    needs: [p-adic-numbers, concept-ultrametric-norm, concept-roots-of-unity-kummer, concept-witt-vectors-ainf, infinite-series, calculus]
+  - id: f-period-integrals--inv-ser-sub
+    title: Substitution and inversion keep coefficients in a ring (statements)
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file only states three claims; it proves none. The first says that if a power series l has coefficients in a subring S, starts as x plus higher terms, and ex is its compositional inverse, then ex also has coefficients in S. The other two, WfLogL and WfLog, say the formal logarithm of an elliptic curve with coefficients in Wp (roots of unity of order prime to p) has coefficients in a slightly larger ring, where finitely many p-denominators are allowed. The inverse series is claimed to behave the same.
+    lean: [Formalism/PeriodIntegrals/InvSerSub.lean:6, Formalism/PeriodIntegrals/InvSerSub.lean:11, Formalism/PeriodIntegrals/InvSerSub.lean:16]
+    mathlib: [PowerSeries.subst]
+    needs: [f-period-integrals--add-int-g, f-period-integrals--exp-int-w, polynomials, rings-fields, p-adic-numbers]
+  - id: f-exponential-integrality--development
+    title: Exponential integrality follows from two steps
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file states two named claims, StepI and StepIII, and a third, KeyW, without proving them here. It does prove one thing, but only by assuming the first two. StepI says the exponential of a series whose coefficients have bounded p-denominators again has such coefficients. StepIII says an element with bounded denominators and size at most 1 lies in the ring Wp. KeyW says that dividing a small element of Wp by p stays in Wp. From StepI and StepIII, the file derives the exponential-integrality claim, by applying the two in turn.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/Development.lean:18]
+    mathlib: []
+    needs: [f-period-integrals--exp-int-w, p-adic-numbers, concept-ultrametric-norm, concept-roots-of-unity-kummer]
+  - id: f-exponential-integrality--inv-nat-cast-mem-witt-integers
+    title: The inverse of a number prime to p lies in the Witt-type ring
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file proves that for a whole number u not divisible by p, the p-adic number 1/u lies in the ring Wp. For example, with p equal to 3, 1/2 is in Wp. First it shows the p-adic size of p is 1/p. It then shows that if x is in Wp and 1 minus x is small, then 1/x is in Wp, using the geometric series 1 plus y plus y squared and so on. Finally it writes 1 as u times a plus p times b (Bezout), so u times a is close to 1, and inverts that.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/InvNatCastMemWittIntegers.lean:30, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/InvNatCastMemWittIntegers.lean:22]
+    mathlib: [hasSum_geometric_of_norm_lt_one, Nat.gcd_eq_gcd_ab, Subring.isClosed_topologicalClosure, IsUltrametricDist.norm_intCast_le_one]
+    needs: [f-period-integrals--exp-int-w, p-adic-numbers, concept-ultrametric-norm, infinite-series, primes-divisibility, modular-arithmetic]
+  - id: f-roots-of-unity-ring-le-witt-integers
+    title: Dividing a small element of the Witt-type ring by p stays inside it
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file proves the claim KeyW. If x lies in Wp (the closure of roots of unity of order prime to p) and has p-adic size below 1, then x divided by p still lies in Wp. The idea is to work first with finite sums of roots of unity. Modulo p, raising to a high power of p fixes such an element, so y to the p-to-the-f minus y is p times something in the ring. From that, y divided by p is rewritten using a geometric series. A limit argument extends the result to the closure.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/RootsOfUnityRingLeWittIntegers.lean:139, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/RootsOfUnityRingLeWittIntegers.lean:60, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/RootsOfUnityRingLeWittIntegers.lean:106]
+    mathlib: [Nat.ModEq.pow_totient, add_pow_char_pow, Subring.closure_induction, hasSum_geometric_of_norm_lt_one]
+    needs: [f-exponential-integrality--development, f-period-integrals--exp-int-w, concept-roots-of-unity-kummer, concept-ultrametric-norm, p-adic-numbers, modular-arithmetic, infinite-series]
+  - id: f-step-i-i-i
+    title: Bounded denominators plus size at most 1 puts a number in Wp
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file proves the claim StepIII, but only assuming KeyW. KeyW says that dividing a small element of Wp by p stays in Wp. The goal is that if some power of p times x lies in Wp, and x has size at most 1, then x itself lies in Wp. The proof divides by p one factor at a time, k times, keeping the size bound each time. A short induction on k does it. The file then combines this with StepI to give exponential integrality, again conditional on KeyW and StepI.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/StepIII.lean:27, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/StepIII.lean:9, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExponentialIntegrality/StepIII.lean:37]
+    mathlib: [pow_lt_one₀, mul_div_cancel_left₀]
+    needs: [f-exponential-integrality--development, f-exponential-integrality--inv-nat-cast-mem-witt-integers, f-period-integrals--exp-int-w, p-adic-numbers, concept-ultrametric-norm, proofs]
+  - id: f-flog-constant-coeff
+    title: Multiplying by an integer-like constant preserves integrality (conditional)
+    kind: step
+    status: explained
+    chunk: c0047
+    orphan: true
+    plain: >
+      This file proves the main result, but only by assuming three other claims as hypotheses. Those are WfRing, WfSubst and WfLog, which say that sums, products, substitutions and logarithms of these series keep coefficients in the ring with bounded p-denominators. Given them, multiplying an elliptic curve's formal group by a constant c with bounded denominators, and assuming the result is p-adically integral, gives coefficients in Wp. The proof chains the three claims with the earlier step and KeyW. The file also shows the formal log has no constant term, and that a pair of roots of unity lies in Wp.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/WittEndomorphism/FlogConstantCoeff.lean:27, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/WittEndomorphism/FlogConstantCoeff.lean:52, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/WittEndomorphism/FlogConstantCoeff.lean:14]
+    mathlib: [PowerSeries.constantCoeff_subst_eq_zero, Subring.closure_le, closure_minimal]
+    needs: [f-wf-ring, f-wf-subst, f-period-integrals--inv-ser-sub, f-w2pair, f-period-integrals--add-int-g, f-step-i-i-i, f-roots-of-unity-ring-le-witt-integers, p-adic-numbers]
+  - id: f-w2pair
+    title: Multiplication by a constant on a formal group, and the pair-of-Frobenius ring (statements)
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file only gives definitions and two statements; it proves nothing. It defines "multiplying by c" on the formal group of an elliptic curve, a series operation built from the formal logarithm. It defines W2pair, the closure of pairs (z, z to the p) where z is a root of unity of order dividing p-squared minus 1. The statement PairW says the first entry of any such pair lies in Wp. The statement WfEnd says that if multiplying by c gives p-adically integral coefficients, then those coefficients lie in Wp.
+    lean: [Formalism/PeriodIntegrals/W2pair.lean:16, Formalism/PeriodIntegrals/W2pair.lean:19, Formalism/PeriodIntegrals/W2pair.lean:12]
+    mathlib: [PowerSeries.subst, WeierstrassCurve]
+    needs: [f-period-integrals--add-int-g, f-period-integrals--exp-int-w, p-adic-numbers, concept-roots-of-unity-kummer]
+  - id: f-wf-ring
+    title: Series with bounded p-denominators form a ring (statement)
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file only states a claim; it proves nothing here. Call a p-adic number "bounded-denominator" if some power of p times it lies in Wp. Call a power series that way if all its coefficients are. The statement WfRing says these series are closed under sums, differences, products and multiplication by a bounded-denominator constant. For example, adding two such series gives another one. It sounds routine, but the statement is for series in any number of variables, and it is stated, not shown.
+    lean: [Formalism/PeriodIntegrals/WfRing.lean:5]
+    mathlib: [MvPowerSeries]
+    needs: [f-period-integrals--exp-int-w, p-adic-numbers, rings-fields, polynomials]
+  - id: f-wf-subst
+    title: Substituting one series into another keeps coefficients in the ring (statements)
+    kind: step
+    status: explained
+    chunk: c0047
+    plain: >
+      This file only states two claims; it proves none. The first, SubstSub, is general. If a series f has coefficients in a subring S, and a has coefficients in S and zero constant term, then plugging a into f gives coefficients in S. The second, WfSubst, is the same statement for the ring of bounded-denominator p-adic numbers. Plugging in a series is like computing f(a(x)). With zero constant term, each output coefficient needs only finitely many terms, so it makes sense.
+    lean: [Formalism/PeriodIntegrals/WfSubst.lean:5, Formalism/PeriodIntegrals/WfSubst.lean:10]
+    mathlib: [PowerSeries.subst, MvPowerSeries]
+    needs: [f-period-integrals--exp-int-w, p-adic-numbers, rings-fields, polynomials, infinite-series]

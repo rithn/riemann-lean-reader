@@ -1,0 +1,84 @@
+nodes:
+  - id: f-commutative-algebra--dual-order
+    title: Restricting, quotienting and dualising orders in function algebras (definitions)
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file only gives definitions; it proves nothing. Take a commutative group T and a ring R. An "order" here is a sub-algebra of the algebra of all functions from T to R, closed under adding and multiplying functions. The file defines how an order on T gives orders on a subgroup (restriction) and a quotient group (pull-back). It defines the order spanned by all group characters, the maps from T to the units of R that respect multiplication. And it defines a dual order on the set of characters, built from linear maps on the original order.
+    lean: [Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/DualOrder.lean:11, Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/DualOrder.lean:15, Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/DualOrder.lean:18]
+    mathlib: [Subalgebra, Algebra.adjoin, Pi.algHom]
+    orphan: true
+    needs: [groups, rings-fields, linear-algebra, concept-group-representations]
+  - id: f-commutative-algebra--models
+    title: A finite flat group scheme models a function algebra (definition)
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file only gives definitions; it proves nothing. It takes a finite flat group scheme G over a ring R and an order A, a sub-algebra of functions from a group T to R, with an algebra isomorphism e between G's coordinate algebra and A. Each element t of T gives a point of G by evaluating functions at t. The definition Models says these points multiply the way T does: the point for s times t is the product of the points for s and t. So G reproduces the group T inside it.
+    lean: [Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/Models.lean:15, Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/Models.lean:11]
+    mathlib: [WithConv, Subalgebra]
+    orphan: true
+    needs: [f-p-adic-hodge--finite-flat, f-commutative-algebra--translate-mem-ind-order, groups, rings-fields, concept-schemes-basics]
+  - id: f-commutative-algebra--translate-mem-ind-order
+    title: Orders in function algebras, and operations on them (definitions)
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file mostly gives definitions, plus a few one-line facts proved by unfolding them. For a commutative group T and a ring R, an order is a sub-algebra of functions from T to R. A "Hopf order" must be finite and projective over R, contain a multiple of any function, be closed under inverting the argument, and respect the group law. It defines induced orders (shift by a coset), extension of the base ring, and the augmentation ideal of functions vanishing at the identity. It also gives an explicit example order, the functions f on plus and minus one where 2 divides f(1) minus f(-1).
+    lean: [Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/TranslateMemIndOrder.lean:10, Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/TranslateMemIndOrder.lean:22, Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/TranslateMemIndOrder.lean:34]
+    mathlib: [Subalgebra, Module.Projective, Ideal.Cotangent, Algebra.adjoin]
+    needs: [groups, rings-fields, concept-flat-modules, linear-algebra, concept-normal-subgroups-quotients]
+  - id: f-global-geometry--exists-unit-form-localization-etale-nbhd
+    title: Quasi-finite flat group schemes with marked points, and regular functions (definitions)
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file only gives definitions; it proves nothing. It defines a quasi-finite flat group over a domain R, a commutative group scheme G over Spec R that is flat, locally finitely presented, separated and has finite fibres. It comes with a group T of points over the fraction field that hit every generic point of G exactly once. It defines what it means for a function f on T to be "regular at" a point g of G, meaning it comes from a section over some open set around g. It also defines base change, torsion, embeddings and covers.
+    lean: [Development/AutomorphicSpectrum/Definitions/GlobalGeometry/ExistsUnitFormLocalizationEtaleNbhd.lean:12, Development/AutomorphicSpectrum/Definitions/GlobalGeometry/ExistsUnitFormLocalizationEtaleNbhd.lean:36, Development/AutomorphicSpectrum/Definitions/GlobalGeometry/ExistsUnitFormLocalizationEtaleNbhd.lean:53]
+    mathlib: [AlgebraicGeometry.Scheme.ΓSpecIso, IsPullback, Flat, LocallyQuasiFinite]
+    needs: [concept-schemes-basics, concept-flat-modules, concept-categorical-pullbacks, concept-integral-closure-fraction-fields, concept-local-rings, groups]
+  - id: f-base-change-points-compat
+    title: Base change respects the marked points at the generic point
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file proves a compatibility fact in the geometry of group schemes. Two quasi-finite flat groups over domains R and R' are related by base change from R to R'. Each carries marked points over the fraction field. The file shows that the marked point of the base-changed group, followed by the base change map, equals the original marked point followed by the map induced on fraction fields. The proof compares two ring maps into the fraction field by clearing denominators, writing each element as r over s. Equal ring maps give equal maps of spectra.
+    lean: [Development/AutomorphicSpectrum/Proofs/GeometryProofs/BaseChangePointsCompat.lean:40, Development/AutomorphicSpectrum/Proofs/GeometryProofs/BaseChangePointsCompat.lean:11]
+    mathlib: [IsFractionRing.div_surjective, Spec.map_comp, mul_left_cancel₀]
+    needs: [f-global-geometry--exists-unit-form-localization-etale-nbhd, concept-schemes-basics, concept-categorical-pullbacks, concept-integral-closure-fraction-fields, rings-fields]
+  - id: f-regular-at-base-change
+    title: Regular functions stay regular under base change
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file states and proves that regularity survives base change, by citing a result in another file. Let a group scheme over R' be the base change of one over R. Suppose a function f on the marked points is regular at the image of a point g' in the original group. Then f, pushed to the new fraction field, is regular at g' in the new group. A function being regular at a point means it comes from a section on some open neighbourhood. The proof here is a single call to the main result, called reg_pull, proved elsewhere.
+    lean: [Development/AutomorphicSpectrum/Proofs/GeometryProofs/RegularAtBaseChange.lean:10]
+    mathlib: []
+    orphan: true
+    needs: [f-htat-bc-pull, f-global-geometry--exists-unit-form-localization-etale-nbhd, concept-schemes-basics]
+  - id: f-htat-bc-pull
+    title: Pulling a regular section back along base change
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file proves that regularity passes through base change. Suppose f is regular at the image of g' under the base change map F. It comes from a section s over an open set U. Then the pulled-back section, defined on the preimage of U, restricts correctly to the new marked points. The proof uses the file's earlier compatibility of marked points. It also uses three helper lemmas that tell how evaluation of a section at a point behaves under composition and under maps of rings, and then rewrites step by step.
+    lean: [Development/WeilBound/CoreStatements/HodgeTatePoints/HtatBcPull.lean:43, Development/WeilBound/CoreStatements/HodgeTatePoints/HtatBcPull.lean:19, Development/WeilBound/CoreStatements/HodgeTatePoints/HtatBcPull.lean:24]
+    mathlib: [AlgebraicGeometry.Scheme.Hom.appLE_comp_appLE, AlgebraicGeometry.Scheme.ΓSpecIso_naturality]
+    needs: [f-base-change-points-compat, f-global-geometry--exists-unit-form-localization-etale-nbhd, concept-schemes-basics, concept-categorical-pullbacks, concept-local-rings]
+  - id: f-p-adic-hodge--finite-flat
+    title: Finite flat group schemes as Hopf algebras
+    kind: step
+    status: explained
+    chunk: c0050
+    plain: >
+      This file sets up finite flat commutative group schemes over a ring R. Such an object is a commutative algebra H over R with a Hopf algebra structure (a multiplication on functions that encodes a group law, with an inverse), and H is finite and projective as an R-module. The file proves that points of H with values in any algebra A form a commutative group. It shows that these objects form a category, with maps being Hopf-algebra maps in the opposite direction. It also shows points transport along maps of algebras. And it defines the order, the rank of H at each prime.
+    lean: [GroundTheory/PAdicHodge/FiniteFlat.lean:42, GroundTheory/PAdicHodge/FiniteFlat.lean:22, GroundTheory/PAdicHodge/FiniteFlat.lean:63]
+    mathlib: [HopfAlgebra, Module.Projective, Module.rankAtStalk, CategoryTheory.Category]
+    needs: [concept-flat-modules, concept-tensor-product-of-algebras, groups, rings-fields, linear-algebra, concept-schemes-basics]

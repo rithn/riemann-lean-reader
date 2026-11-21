@@ -1,0 +1,32 @@
+nodes:
+  - id: f-finite-open-le-closed-fibre
+    title: An open piece that is finite over a local ring is decided by its closed fibre
+    kind: step
+    status: explained
+    chunk: c0073
+    plain: >
+      This file only restates a result proved in another file, under a second name. Take a space X mapping to the spectrum of a local ring R, a space with one closed point. Let U be an open part of X that is "finite" over R, loosely meaning it is built from finitely many R-pieces. If U' is another open part containing every point of X sitting over the closed point, then U lies inside U'. The idea is that any point of U can be moved, by specialising, to a point over the closed point, and open sets are closed under that move backwards.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/FiniteOpenLeClosedFibre.lean:7"]
+    mathlib: []
+    needs: [f-hodge-tate-points--val-at-restrict, concept-schemes-basics, concept-local-rings, concept-point-set-topology]
+  - id: f-is-fin-open-sub-of-finite
+    title: A finite open part of a group scheme containing the closed fibre is a finite open subgroup-like piece
+    kind: step
+    status: explained
+    chunk: c0073
+    plain: >
+      Over a local ring R, consider a group built from a finite flat group scheme. Take an open part U that is finite over R and contains every point over the closed point. The file proves that U is closed under the group operations, so it is a "finite open sub" of the group, meaning a finite open piece that is also closed under multiplication, inverses, and containing the identity. The proof uses the earlier result that any finite piece mapping into the group lands inside U, applied to products and inverses of maps into U.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/IsFinOpenSubOfFinite.lean:47"]
+    mathlib: ["AlgebraicGeometry.IsOpenImmersion.lift"]
+    needs: [f-finite-open-le-closed-fibre, f-p-adic-hodge--finite-flat, concept-schemes-basics, concept-categorical-pullbacks, concept-local-rings, groups]
+    orphan: true
+  - id: f-hodge-tate-points--val-at-restrict
+    title: Evaluating sections at points, and the finite-over-local-ring lemma
+    kind: step
+    status: explained
+    chunk: c0073
+    plain: >
+      This file proves several small facts about functions on a geometric space (a scheme) and evaluating them at points of a field. Evaluating a function on a bigger open set and then restricting gives the same answer. A function on a group scheme that vanishes at every point is zero, when the group is flat and generically reduced. A family of values at points is the evaluation of one function exactly when it agrees locally, by gluing. Finally, an open part finite over a local ring that contains the closed fibre points contains everything over the ring, via closed maps and specialisation.
+    lean: ["Development/WeilBound/CoreStatements/HodgeTatePoints/ValAtRestrict.lean:102"]
+    mathlib: ["TopCat.Sheaf.existsUnique_gluing'", "Scheme.ΓSpecIso"]
+    needs: [concept-schemes-basics, concept-local-rings, concept-point-set-topology, f-p-adic-hodge--finite-flat]

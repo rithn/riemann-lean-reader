@@ -1,0 +1,168 @@
+nodes:
+
+- id: concept-modular-forms
+  title: Modular forms, level groups and cusps
+  kind: concept
+  status: textbook
+  plain: >
+    Picture the upper half of the complex plane, the points with positive imaginary part.
+    A 2x2 integer matrix with determinant 1 moves each point there to another one, by the
+    rule z goes to (az+b)/(cz+d). A modular form of weight k is a smooth-in-the-complex-sense
+    (holomorphic) function on that half-plane that, when you move its input by such a matrix,
+    only gets multiplied by (cz+d) to the power k. The "level" restricts to matrices with
+    c divisible by some number, so fewer symmetries are demanded. The cusps are the edge
+    points (fractions and infinity) where the function is judged by how it behaves nearby.
+    A cusp form is one that fades to zero at every cusp.
+  needs: [complex-analysis, complex-numbers, groups, linear-algebra, modular-arithmetic, concept-group-actions]
+  learn:
+    - {title: "A First Course in Modular Forms (Diamond and Shurman)", where: "Chapters 1 to 3"}
+    - {title: "A Course in Arithmetic (Serre)", where: "Chapter VII"}
+
+- id: concept-hecke-operators
+  title: Hecke operators U, V and T
+  kind: concept
+  status: textbook
+  plain: >
+    Hecke operators are machines that turn one modular form into another of the same kind.
+    For a prime q, the operator U averages the form over q shifted and shrunk copies of the
+    input: add j to the input (j from 0 to q-1), divide by q, evaluate, and take the mean of
+    the q results. The operator V simply feeds in q times the input. A full Hecke operator T
+    adds U to a scaled V. Their main use is that they act on the list of Fourier coefficients
+    in a clean way, which is how number-theoretic information is extracted from modular forms.
+  needs: [concept-modular-forms, infinite-series, complex-numbers]
+  learn:
+    - {title: "A First Course in Modular Forms (Diamond and Shurman)", where: "Chapter 5"}
+    - {title: "A Course in Arithmetic (Serre)", where: "Chapter VII, section 5"}
+
+- id: concept-petersson-product
+  title: The Petersson inner product
+  kind: concept
+  status: textbook
+  plain: >
+    Two cusp forms can be "multiplied and averaged" to give a single complex number, much like
+    the dot product of two vectors. You integrate f times the complex conjugate of g, weighted
+    by a power of the height, over one tile (a fundamental domain) of the half-plane that
+    repeats under the symmetry group. For a smaller level group there are several tiles, so
+    you add up the integral over each one. This gives a notion of angle and length for modular
+    forms, and it makes the Hecke operators behave like symmetric matrices.
+  needs: [concept-modular-forms, calculus, complex-numbers, linear-algebra]
+  learn:
+    - {title: "A First Course in Modular Forms (Diamond and Shurman)", where: "Section 5.4"}
+    - {title: "Introduction to Elliptic Curves and Modular Forms (Koblitz)", where: "Chapter III"}
+
+- id: f-foundations--pet-eq-rel-index-mul-pet-prod
+  title: Level group, Hecke operators and Petersson sum (definitions)
+  kind: step
+  status: explained
+  chunk: c0026
+  plain: >
+    This file mostly defines things. The level group is the set of integer matrices with
+    determinant 1 that are 1 mod N in two entries and have lower-left entry divisible by
+    l. It defines the operator U (average of q shifted copies), the operator V (feed in q times
+    the input), their combination, and a Petersson-style sum over tiles. It then proves small
+    facts. Scaling a form scales the sum, and conjugate-scales for the second slot. If both
+    forms have full symmetry, the sum equals the number of tiles times one integral. The
+    matrix minus-the-identity is not in the level group once N is at least 3. A few concrete
+    examples are checked too.
+  lean: [Development/AbelianVarietyTheory/Definitions/Foundations/PetEqRelIndexMulPetProd.lean:10]
+  mathlib: [Subgroup.relIndex, Subgroup.index_eq_two_iff, Gamma1_mem, finsum_eq_sum_of_fintype]
+  needs: [concept-modular-forms, concept-hecke-operators, concept-petersson-product, groups, modular-arithmetic]
+
+- id: f-cusp-form-gamma1-inter-gamma0-slash-rat-is-zero-at
+  title: Moved cusp forms still vanish at cusps
+  kind: step
+  status: explained
+  chunk: c0026
+  plain: >
+    This file proves a claim. Take a cusp form for the level group, a form that fades to zero
+    at every cusp. Move its input by any 2x2 matrix with rational entries and positive
+    determinant, with the usual weight factor. The result still fades to zero at every cusp.
+    The idea is that a cusp is a rational point or infinity, and such a matrix sends rational
+    points to rational points. So the moved form looks, at each cusp, like the original at
+    some other cusp. Since the level group has finite index in the full group, all rational
+    points count as cusps for it, which finishes the proof.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/CuspFormGamma1InterGamma0SlashRatIsZeroAt.lean:21]
+  mathlib: [Subgroup.IsArithmetic.isCusp_iff_isCusp_SL2Z, OnePoint.IsZeroAt.smul_iff, isCusp_SL2Z_iff]
+  needs: [f-foundations--pet-eq-rel-index-mul-pet-prod, concept-modular-forms]
+
+- id: f-foundation-proofs--hecke-u-operator-explicit-eq-sum-slash
+  title: The U operator is a sum of q matrix moves
+  kind: step
+  status: explained
+  chunk: c0026
+  plain: >
+    This file proves a formula. The operator U (average over q shifted copies) equals the sum,
+    for j from 0 to q-1, of the form moved by the matrix with rows (1, j) and (0, q). That
+    matrix has rational entries and determinant q. The proof is a direct computation. The
+    moving rule contributes a factor q to the power k minus 1 from the determinant and a factor
+    q to the power minus k from the bottom-right entry. These multiply to one over q, which is
+    exactly the averaging factor in the definition of U.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/HeckeUOperatorExplicitEqSumSlash.lean:7]
+  mathlib: [slash_apply, zpow_sub_one₀, coe_smul_of_det_pos]
+  needs: [f-foundations--pet-eq-rel-index-mul-pet-prod, concept-hecke-operators, concept-modular-forms]
+
+- id: f-foundation-proofs--hecke-u-operator-explicit-slash-invariant-gamma1-inter-g-statement
+  title: U keeps level symmetry (restated)
+  kind: step
+  status: explained
+  chunk: c0026
+  plain: >
+    This file adds no new mathematics. It restates a claim under a new name and proves it by
+    pointing at the theorem in the neighbouring proof file. The claim is that if a function is
+    unchanged by every matrix in the level group, and q is a prime dividing N times l, then
+    the function obtained by applying U with this prime q is also unchanged by every matrix in
+    the level group. The actual argument is in the proof file it depends on. This file is just
+    the interface that other files import.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/HeckeUOperatorExplicitSlashInvariantGamma1InterGStatement.lean:7]
+  needs: [f-foundation-proofs--hecke-u-operator-explicit-slash-invariant-gamma1-inter-gamma0, f-foundations--pet-eq-rel-index-mul-pet-prod]
+
+- id: f-foundation-proofs--hecke-u-operator-explicit-slash-invariant-gamma1-inter-gamma0
+  title: U preserves level-group symmetry
+  kind: step
+  status: explained
+  chunk: c0026
+  plain: >
+    This file proves a claim. Say f is unchanged by every matrix in the level group, and q is
+    a prime dividing N times l. Then the averaged function U f is unchanged too. The idea is
+    this. Moving the input of U f by a matrix turns each shifted copy of f into f at another
+    shifted point, using a related level-group matrix. This works because q divides the
+    lower-left entry. The shift index j becomes a new index mod q, and since the bottom-right
+    entry is invertible mod q, this is just a reshuffle of 0 to q-1. A shift by q does not
+    change f, so the sum is unchanged.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/HeckeUOperatorExplicitSlashInvariantGamma1InterGamma0.lean:77]
+  mathlib: [Gamma1_mem, Gamma0_mem, Finset.sum_bij', ZMod.val_intCast, Function.Periodic]
+  needs: [f-foundations--pet-eq-rel-index-mul-pet-prod, concept-hecke-operators, concept-modular-forms, modular-arithmetic, primes-divisibility, counting]
+
+- id: f-is-zero-at-finset-sum
+  title: U sends cusp forms to cusp forms
+  kind: step
+  status: explained
+  chunk: c0026
+  orphan: true
+  plain: >
+    This file proves a claim, using only the neighbouring files of this group and Mathlib.
+    It shows that the operator U with a prime q dividing N times l turns a cusp form of the level group into
+    another cusp form of the same level. A cusp form must satisfy three things. It is unchanged
+    by the level group, which comes from the symmetry file. It is holomorphic, which comes from
+    the smoothness file. It fades to zero at every cusp. For the last one, U is a sum of q moved
+    copies, each fading by the moved-form file, and a finite sum of fading things fades, proved
+    here by induction on the number of terms.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/IsZeroAtFinsetSum.lean:24]
+  mathlib: [Finset.induction_on, SlashInvariantFormClass.slash_action_eq, Finset.sum_insert]
+  needs: [f-foundation-proofs--hecke-u-operator-explicit-slash-invariant-gamma1-inter-g-statement, f-foundation-proofs--hecke-u-operator-explicit-eq-sum-slash, f-cusp-form-gamma1-inter-gamma0-slash-rat-is-zero-at, f-foundation-proofs--mdifferentiable-hecke-operators-explicit, f-foundations--pet-eq-rel-index-mul-pet-prod, concept-modular-forms, concept-hecke-operators]
+
+- id: f-foundation-proofs--mdifferentiable-hecke-operators-explicit
+  title: Hecke operators keep functions holomorphic
+  kind: step
+  status: explained
+  chunk: c0026
+  plain: >
+    This file proves a claim. If a function on the upper half-plane is holomorphic, meaning
+    smooth in the complex sense with a complex derivative, then so are the results of U, V
+    and the full Hecke operator. The idea is that each is built from simple pieces. Adding a
+    constant, dividing by q, or multiplying by q all keep a point in the upper half-plane. A
+    holomorphic function composed with such a map is holomorphic. A finite sum or constant
+    multiple is too. Moving by a full-group matrix also keeps holomorphy, which Mathlib supplies.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/MdifferentiableHeckeOperatorsExplicit.lean:34]
+  mathlib: [UpperHalfPlane.mdifferentiable_iff, MDifferentiable.slash, DifferentiableOn.const_mul, DifferentiableOn.fun_sum]
+  needs: [f-foundations--pet-eq-rel-index-mul-pet-prod, concept-hecke-operators, concept-modular-forms, complex-analysis]

@@ -1,0 +1,18 @@
+nodes:
+  - id: f-lu-decomposition-of-minors
+    title: A matrix with non-zero corner determinants splits into triangular pieces
+    kind: step
+    status: explained
+    chunk: c0111
+    orphan: true
+    plain: >
+      This file proves a fact about square tables of numbers (matrices) over a field. Suppose every top-left
+      corner block of the matrix Y (the 1 by 1 corner, the 2 by 2 corner, and so on up to the whole thing)
+      has a non-zero determinant. Then there is an upper triangular matrix C (zeros below the diagonal) such
+      that Y times C is lower triangular with ones on its diagonal. In other words, Y splits as a lower
+      triangular piece times an upper triangular piece, the classical "LU" split. The idea of the proof is to
+      build C one column at a time. For column k, solve a small linear system using the (k+1) by (k+1) corner
+      block, which is invertible, so that the product has a 1 in row k and zeros above it. Then pad with zeros.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/LuDecompositionOfMinors.lean:8"]
+    mathlib: [Matrix.mul_nonsing_inv, Matrix.mulVec_mulVec]
+    needs: [linear-algebra, rings-fields]

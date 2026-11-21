@@ -1,0 +1,42 @@
+nodes:
+  - id: f-line-lattice-generic-sections
+    title: Elements of a line lattice are fractions of one generator
+    kind: step
+    status: explained
+    chunk: c0103
+    orphan: true
+    plain: >
+      Take a lattice of rank one: a rule that assigns to each point a set of field elements, all multiples of one generator t. The file proves that an element u lies in the lattice at every generic point exactly when u times some nonzero whole number y equals another whole number x times t. In short, u is a fraction x/y times t with whole-number x and y. One direction uses a theorem from a neighbouring file saying an element regular everywhere is integral over the base ring. The other direction is a direct computation.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/LineLatticeGenericSections.lean:24"]
+    mathlib: [Submodule.mem_span_singleton]
+    needs: [f-regular-everywhere-is-integral, f-global-geometry--is-cpt-gen, f-global-geometry--is-line-gen-on, concept-integral-closure-fraction-fields]
+  - id: f-regular-everywhere-is-integral
+    title: Regular at every point implies integral over the base
+    kind: step
+    status: explained
+    chunk: c0103
+    plain: >
+      Let a scheme X be proper over a ring O (no points escape to infinity), with a field Ω attached. The file proves that if an element a of Ω is regular, meaning defined as a function, at every point, then a satisfies a monic equation over O. If it is only regular at the generic points over O, it is at least algebraic. The proof uses the fact that an element lying in every valuation ring containing O is integral over O. For each valuation ring, a proper-ness result finds a point where a is regular, which puts a in that ring.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/RegularEverywhereIsIntegral.lean:61"]
+    mathlib: [iInf_valuationSubring_superset, IsFractionRing.isAlgebraic_iff, IsIntegral.map_of_comp_eq]
+    needs: [f-valuation-centre-regular-unit, f-global-geometry--is-cpt-gen, concept-valuation-rings, concept-integral-closure-fraction-fields, concept-schemes-basics]
+  - id: f-valuation-centre-regular-unit
+    title: Centre of a valuation ring (restated)
+    kind: step
+    status: explained
+    chunk: c0103
+    plain: >
+      This file only restates a theorem proved elsewhere; the proof is a one-line citation. Over a proper scheme X with function field Ω, take a valuation ring V inside Ω containing the base ring. There is a point p of X, the "centre" of V, such that every function regular at p lies in V. Moreover, any function a regular at p with a-inverse in V comes from a unit in the local ring at p. Think of a ring where "size" is measured by a prime, and the centre is the place where that prime lives.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/ValuationCentreRegularUnit.lean:8"]
+    mathlib: []
+    needs: [f-valuation-centre-exists, concept-valuation-rings, concept-schemes-basics, concept-local-rings]
+  - id: f-valuation-centre-exists
+    title: Every valuation ring has a centre on a proper scheme
+    kind: step
+    status: explained
+    chunk: c0103
+    plain: >
+      The file proves that on a proper scheme X over O, with function field Ω, any valuation ring V in Ω containing O has a centre: a point p of X whose regular functions all lie in V, and whose units account for every function a that is regular at p with its inverse in V. The proof uses the valuative criterion of properness: a map from the generic point extends to a map from Spec V. The extension's closed point is the centre. Comparing local rings at that point then gives the two properties.
+    lean: ["Development/WeilBound/CoreStatements/TorusUniformisation/ChowMahlerFamilies/ValuationCentreExists.lean:5"]
+    mathlib: [AlgebraicGeometry.ValuativeCriterion.Existence, AlgebraicGeometry.UniversallyClosed.eq_valuativeCriterion, AlgebraicGeometry.Scheme.stalkClosedPointTo]
+    needs: [f-global-geometry--is-cpt-gen, f-global-geometry--coords-at, concept-valuation-rings, concept-schemes-basics, concept-local-rings]

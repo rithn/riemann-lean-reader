@@ -1,0 +1,75 @@
+nodes:
+  - id: concept-semisimple-algebras-radical
+    title: Semisimple algebras and the Jacobson radical
+    kind: concept
+    status: textbook
+    plain: >
+      A set of matrices, or an algebra they span, is called semisimple if
+      every invariant subspace has an invariant complement, so the space
+      splits cleanly into irreducible pieces. Example: all diagonal
+      matrices. Upper-triangular matrices fail: the first coordinate axis is
+      invariant but has no invariant complement. The obstruction is measured
+      by the Jacobson radical, the set of elements that act as "nilpotent
+      noise" (some power of the radical is zero for a finite-dimensional
+      algebra). An algebra is semisimple exactly when this radical is zero.
+    needs: [linear-algebra, rings-fields, concept-group-representations]
+    learn:
+      - {title: "Lang, Algebra", where: "ch. XVII (Semisimplicity)"}
+      - {title: "Etingof et al., Introduction to Representation Theory", where: "ch. 3 (General results)"}
+  - id: f-exists-rat-idempotent-block-diag-part-kills-span
+    title: A non-semisimple set of matrices has a rational projection with a nonzero block-free element
+    kind: step
+    status: explained
+    chunk: c0130
+    orphan: true
+    plain: >
+      The claim: take a set Gamma of complex matrices that contains the
+      identity and is closed under products and under field automorphisms
+      of the complex numbers, and suppose it is not semisimple. Then there is
+      a rational matrix e with e times e equal to e (a projection) such that
+      the image of e is preserved by every matrix of Gamma. Moreover some
+      nonzero element a of the complex span of Gamma has zero
+      block-diagonal part with respect to e. The proof combines two other
+      files: one finds an invariant, automorphism-stable subspace W, the
+      other turns W into a rational projection. Then it checks identities
+      one vector at a time.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRatIdempotentBlockDiagPartKillsSpan.lean:10
+    mathlib: [Matrix.mulVec_mulVec, Matrix.ext_iff_mulVec]
+    needs: [f-invariant-subspace-not-semisimple, f-exists-rat-idempotent-of-aut-stable-subspace, f-adelic-hermitian-forms--adelic-pair, concept-semisimple-algebras-radical, linear-algebra]
+  - id: f-exists-rat-idempotent-of-aut-stable-subspace
+    title: A subspace stable under all field automorphisms comes from a rational projection
+    kind: step
+    status: explained
+    chunk: c0130
+    plain: >
+      The claim: let W be a complex subspace of n-dimensional complex space
+      that stays inside itself when any field automorphism of the complex
+      numbers is applied to all coordinates. Then there is a matrix e with
+      rational entries and e times e equal to e (a projection) such that W
+      is exactly the set of vectors that e leaves fixed. Idea: the rational
+      vectors in W form a rational subspace; pick a complement and project
+      onto it. A cited Galois-style result shows W is spanned by its rational
+      vectors, so the two descriptions agree.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRatIdempotentOfAutStableSubspace.lean:9
+    mathlib: [Submodule.exists_isCompl, Submodule.projectionOnto, LinearMap.toMatrix', Submodule.span_induction]
+    needs: [f-adelic-lattice-proofs--galois-stable-submodule-le-span-rational, concept-galois-fixed-fields, linear-algebra]
+  - id: f-invariant-subspace-not-semisimple
+    title: Failing semisimplicity gives an invariant subspace and an element crossing it
+    kind: step
+    status: explained
+    chunk: c0130
+    plain: >
+      The claim: for a set Gamma of complex matrices (with identity, closed
+      under products and field automorphisms) that is not semisimple, there
+      is a subspace W preserved by Gamma and by field automorphisms, plus a
+      nonzero element a in the span of Gamma that sends everything into W
+      and sends W to zero. Idea: the span is a finite-dimensional algebra,
+      and not being semisimple means its Jacobson radical is nonzero.
+      That radical is nilpotent, so it has a nonzero element killed by the
+      rest. W is the set of vectors killed by the radical.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/InvariantSubspaceNotSemisimple.lean:108
+    mathlib: [Ring.jacobson, IsArtinianRing.isSemisimpleRing_iff_jacobson, IsSemiprimaryRing.isNilpotent, Submodule.exists_isCompl]
+    needs: [concept-semisimple-algebras-radical, f-adelic-hermitian-forms--adelic-pair, linear-algebra, rings-fields, concept-galois-fixed-fields]

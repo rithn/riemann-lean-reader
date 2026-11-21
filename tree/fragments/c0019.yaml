@@ -1,0 +1,146 @@
+nodes:
+
+- id: f-exists-isotropic-graph-unitary-is-unit-lower-block
+  title: Over a local ring, a form-preserving matrix has an invertible lower combination
+  kind: step
+  status: explained
+  chunk: c0019
+  orphan: true
+  plain: >
+    This is a full proof, resting on two neighbouring files. Work over a local ring
+    O: a ring with one largest "small" ideal, such as integers modulo 8, where the
+    small elements are the even ones. It carries a flip c that undoes itself, like
+    complex conjugation. A big invertible matrix g of size 2n preserves a standard
+    form built from a flip-symmetric matrix J. The claim is that there is a matrix Z
+    that is skew with respect to J and whose combination of g's lower blocks is
+    invertible. The proof reduces everything modulo the small ideal to a field,
+    solves it there, then lifts the answer back.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsIsotropicGraphUnitaryIsUnitLowerBlock.lean:8]
+  mathlib: [IsLocalRing.residue, IsLocalRing.ResidueField.map, IsLocalRing.residue_ne_zero_iff_isUnit]
+  needs: [f-exists-isotropic-graph-det-lower-row-ne-zero-field, f-lift-mod-maximal-skew, concept-local-rings, concept-skew-hermitian-matrices, linear-algebra]
+
+- id: f-exists-isotropic-graph-det-lower-row-ne-zero-field
+  title: Over a field, a form-preserving matrix has an invertible lower combination
+  kind: step
+  status: explained
+  chunk: c0019
+  plain: >
+    Work over a field k with a flip sigma that undoes itself, like complex
+    conjugation, and a nonzero element that the flip negates (like i). Take an
+    invertible flip-symmetric matrix J and a big invertible matrix g of size 2n that
+    preserves the standard form with J in the corner blocks. The file proves there is
+    a matrix Z, skew with respect to J, such that the lower-left block times Z plus
+    the lower-right block has nonzero determinant. The proof checks the blocks of g
+    satisfy a pair condition, then applies the paired-matrices claim, using the
+    inverse of J to change variables.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsIsotropicGraphDetLowerRowNeZeroField.lean:7]
+  mathlib: [Matrix.fromBlocks_multiply, Matrix.mul_nonsing_inv, Matrix.eq_zero_of_vecMul_eq_zero]
+  needs: [f-exists-skew-hermitian-mul-add-det-ne-zero-of-pair, concept-skew-hermitian-matrices, linear-algebra]
+
+- id: f-exists-skew-hermitian-mul-add-det-ne-zero-of-pair
+  title: A pair of matrices can be made invertible by a skew correction
+  kind: step
+  status: explained
+  chunk: c0019
+  plain: >
+    Over a field with a self-undoing flip (like complex conjugation) and a nonzero
+    element negated by it, take two square matrices C and D. Suppose a certain
+    symmetric combination of C and D vanishes, and no nonzero row vector is killed
+    by both. The file proves there is a skew-Hermitian V (one whose conjugate
+    transpose is minus itself) such that C times V plus D is invertible. The proof
+    first simplifies C to a 0/1 diagonal matrix, using the rank normal form, and moves
+    D along with it. Then the special case where C is a projection finishes it,
+    and the answer is carried back.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSkewHermitianMulAddDetNeZeroOfPair.lean:8]
+  mathlib: [Matrix.nonsing_inv_mul, Matrix.det_mul, Matrix.vecMul_vecMul]
+  needs: [f-exists-rank-normal-form-matrix-field, f-skew-hermitian-perturb-idempotent-det-ne-zero, concept-skew-hermitian-matrices, linear-algebra]
+
+- id: f-skew-hermitian-perturb-idempotent-det-ne-zero
+  title: The projection case of the skew correction
+  kind: step
+  status: explained
+  chunk: c0019
+  plain: >
+    Over a field with a self-undoing flip (like complex conjugation), take a matrix
+    E that is a projection (applying it twice changes nothing) and equals its own
+    conjugate transpose. Take D with E times D-star plus D times E equal to zero,
+    and suppose no nonzero row vector is killed by both E and D. The file proves
+    there is a skew-Hermitian V with E times V plus D invertible. The proof gives V
+    outright: it is E times (eps times the identity minus D) times E, with eps a
+    nonzero element the flip negates. A short computation checks it is skew. If its
+    determinant were zero, some row vector would be killed by both E and D, which
+    contradicts the assumption.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/SkewHermitianPerturbIdempotentDetNeZero.lean:6]
+  mathlib: [Matrix.exists_vecMul_eq_zero_iff, Matrix.vecMul_smul]
+  needs: [concept-skew-hermitian-matrices, linear-algebra]
+
+- id: f-exists-rank-normal-form-matrix-field
+  title: Any square matrix over a field reduces to a 0/1 diagonal matrix
+  kind: step
+  status: explained
+  chunk: c0019
+  plain: >
+    For any square matrix C over a field, there are invertible matrices U and P such
+    that U times C times P is diagonal with only 0 and 1 on the diagonal. This is
+    the rank normal form. A matrix of rank one, such as the 2 by 2 matrix with rows
+    (2, 4) and (1, 2), becomes the diagonal matrix with entries 1 and 0. The proof
+    uses the library's result that row and column operations turn any matrix into a
+    diagonal one, then rescales each nonzero diagonal entry to 1 and leaves the
+    zeros alone.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsRankNormalFormMatrixField.lean:6]
+  mathlib: [Matrix.Pivot.exists_list_transvec_mul_mul_list_transvec_eq_diagonal, Matrix.TransvectionStruct.det_toMatrix_prod]
+  needs: [linear-algebra, rings-fields]
+
+- id: f-lift-mod-maximal-skew
+  title: A skew equation solved approximately over a local ring is solved exactly
+  kind: step
+  status: explained
+  chunk: c0019
+  plain: >
+    Work over a local ring O where 2 is invertible, with a self-undoing flip c, and a
+    flip-symmetric matrix J with invertible determinant. Suppose Z0 satisfies the
+    skew equation, Z0-transpose times J plus J times the flipped Z0, only up to
+    "small" entries. Small means in the one largest ideal, the elements that are not
+    invertible. The file proves an exact solution Z exists that differs from Z0 only
+    by small entries. The proof makes one correction. It subtracts half of the error,
+    transported by the inverse of J. This is exact because the equation is linear,
+    so no repeated improvement is needed.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/LiftModMaximalSkew.lean:6]
+  mathlib: [Matrix.nonsing_inv_mul, Matrix.transpose_mul, Ideal.mul_mem_left, Ideal.sum_mem]
+  needs: [concept-local-rings, concept-skew-hermitian-matrices, linear-algebra]
+
+- id: concept-local-rings
+  title: "Local rings and residue fields: one big ideal of small elements"
+  kind: concept
+  status: textbook
+  plain: >
+    A local ring is a commutative ring with exactly one largest proper ideal, called
+    the maximal ideal. Its elements are exactly the non-invertible ones, so "small"
+    means non-invertible. Example: the integers modulo 8. The even numbers are the
+    small ones, and every odd number is invertible. Dividing by the maximal ideal
+    gives a field, the residue field (here, the two numbers 0 and 1). An element
+    is invertible exactly when its image there is nonzero. A matrix over the ring is
+    invertible exactly when its determinant has a nonzero image in the residue field.
+  needs: [rings-fields, modular-arithmetic]
+  learn:
+    - {title: "Introduction to Commutative Algebra (Michael Atiyah and Ian Macdonald)", where: "Chapters 1 and 3"}
+    - {title: "Abstract Algebra (David Dummit and Richard Foote)", where: "Chapter 15, section 4"}
+    - {title: "Commutative Ring Theory (Hideyuki Matsumura)", where: "Chapter 1"}
+
+- id: concept-skew-hermitian-matrices
+  title: "Conjugate transpose, Hermitian and skew-Hermitian matrices"
+  kind: concept
+  status: textbook
+  plain: >
+    The conjugate transpose of a matrix flips rows and columns and also conjugates
+    each entry. The conjugate transpose of the matrix with rows (1, i) and (0, 2) has
+    rows (1, 0) and (-i, 2). A matrix equal to its own conjugate transpose is
+    Hermitian. One equal to minus its conjugate transpose is skew-Hermitian. Here
+    "conjugation" can be any self-undoing field flip, not only the complex one. These
+    matrices describe forms and symmetries that preserve lengths and angles, as in
+    unitary groups.
+  needs: [linear-algebra, complex-numbers]
+  learn:
+    - {title: "Matrix Analysis (Roger Horn and Charles Johnson)", where: "Chapters 2 and 4"}
+    - {title: "Linear Algebra Done Right (Sheldon Axler)", where: "Chapter 7"}
+    - {title: "Introduction to Linear Algebra (Gilbert Strang)", where: "Chapter 10, section 2"}

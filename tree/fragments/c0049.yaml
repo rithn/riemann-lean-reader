@@ -1,0 +1,112 @@
+nodes:
+  - id: f-period-integrals--primes-dyadic-r-s
+    title: Many primes between y and 2y (statement)
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file only states a claim about primes; it proves nothing. The claim says that for every real number y at least 20.5, the number of primes in the range from y up to 2y is more than 3y divided by 5 times the natural log of y. For example, for y around 1000 this predicts over 86 primes between 1000 and 2000. This is a bound of the type proved by Rosser and Schoenfeld using explicit prime-counting estimates. Later files use it as an unproved assumption.
+    lean: [Formalism/PeriodIntegrals/PrimesDyadicRS.lean:5]
+    mathlib: [Nat.primeCounting]
+    needs: [primes-divisibility, real-analysis, counting]
+  - id: f-period-integrals--sqf-lab
+    title: Labelled polynomials over a finite field and their bad-case conditions (definitions)
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file only gives definitions; nothing is proved. Work with polynomials over the integers mod a prime g. A "labelled" polynomial of degree r is monic (leading coefficient 1) with nonzero constant term. The file defines five conditions on such polynomials with no repeated factors, called Eii, Eiii, Eiv and Ev. One of them, Ev, says there is no irreducible factor of prime degree q with r less than 2q and q plus 3 at most r. A factor is irreducible if it cannot be split into smaller polynomials. Eii and Eiii concern roots in the closure.
+    lean: [Formalism/PeriodIntegrals/SqfLab.lean:23, Formalism/PeriodIntegrals/SqfLab.lean:37]
+    mathlib: [AlgebraicClosure, Polynomial.roots, Squarefree]
+    needs: [polynomials, modular-arithmetic, primes-divisibility, algebraic-closure, rings-fields, groups]
+  - id: f-sqf-prime-factor
+    title: Most polynomials have a big prime-degree factor (statement)
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file only states a claim; it proves nothing. Take a prime g at least 4096 and a degree r at least 100. Look at monic polynomials of degree r over the integers mod g. Take any collection T of them that all have no irreducible factor of prime degree q with r less than 2q and q plus 3 at most r. The claim is that T has at most (1 minus 1 over 5 log r) times g to the r members. So a fixed positive fraction, about one over 5 log r, of all such polynomials have such a factor.
+    lean: [Formalism/PeriodIntegrals/SqfPrimeFactor.lean:11]
+    mathlib: []
+    needs: [f-period-integrals--sqf-lab, polynomials, primes-divisibility, counting]
+  - id: f-ana-core
+    title: The numerical inequality that closes the counting argument
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file proves a pure inequality, assuming the claim about primes between y and 2y. Given r at least 100 and g at least 4096, let S be the primes p with r less than 2p and p plus 3 at most r. The file shows g to the r minus the sum over S of (g to the p minus g) over p times g to the (r minus p) is at most (1 minus 1 over 5 log r) times g to the r. It bounds how many primes S contains from below. Then it bounds each term from below, using estimates of the log.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/AnaCore.lean:73, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/AnaCore.lean:10, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/AnaCore.lean:53]
+    mathlib: [Real.log_two_lt_d9, Real.exp_one_lt_d9, Real.log_div_self_antitoneOn, Nat.primeCounting]
+    needs: [f-period-integrals--primes-dyadic-r-s, real-analysis, calculus, primes-divisibility, counting]
+  - id: f-squarefree-prime-factor--analytic
+    title: The numerical inequality holds, given the prime-gap claim
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file proves the named analytic inequality, but only assuming the claim about many primes between y and 2y. The inequality compares g to the r minus a sum over "big primes" of (g to the p minus g) over p times g to the (r minus p), against (1 minus 1 over 5 log r) times g to the r. The work is already done in the neighbouring file for an arbitrary set of primes. Here it is applied to the concrete set of big primes, after checking that the membership conditions match.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/Analytic.lean:8]
+    mathlib: [Finset.mem_filter, Finset.mem_range]
+    needs: [f-ana-core, f-big-primes, f-period-integrals--primes-dyadic-r-s]
+  - id: f-big-primes
+    title: Counting definitions for degree-d polynomials over a finite field
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file gives definitions and states three claims, proving none. The definitions are the finite set of monic degree-d polynomials mod g, the subset of irreducible ones, and the set of "big primes" p up to r with r less than 2p and p plus 3 at most r. The three claims are named CountA, IrrLower and Analytic. CountA bounds a family of polynomials by g to the r minus a sum of counts. IrrLower says there are at least (g to the p minus g) over p irreducible polynomials of prime degree p. Analytic is a numerical inequality.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/BigPrimes.lean:12, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/BigPrimes.lean:20, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/BigPrimes.lean:23]
+    mathlib: [Polynomial.Monic, Irreducible, Finset.filter]
+    needs: [f-period-integrals--sqf-lab, polynomials, counting, primes-divisibility, modular-arithmetic]
+  - id: f-squarefree-prime-factor--claim-of
+    title: Three counting claims together give the prime-factor claim
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file proves the main prime-factor claim, but only assuming three other claims. They are CountA (a counting bound), IrrLower (many irreducible polynomials) and Analytic (a numerical inequality). The argument is a chain of inequalities. CountA bounds the size of the family T by g to the r minus a sum involving the number of irreducible polynomials. IrrLower replaces each count by the smaller (g to the p minus g) over p. Analytic bounds the result by (1 minus 1 over 5 log r) times g to the r.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/ClaimOf.lean:11]
+    mathlib: [Finset.sum_le_sum, div_le_iff₀]
+    needs: [f-big-primes, f-sqf-prime-factor, f-period-integrals--sqf-lab, real-analysis, counting]
+  - id: f-irreducible-count-lower-bound
+    title: Many irreducible polynomials of prime degree over a finite field
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file proves a counting fact. Take a prime g and a prime p. The number of monic irreducible polynomials of degree p over the integers mod g is at least (g to the p minus g) over p. For example, with g equal to 2 and p equal to 3, the bound gives 2, and the true count is 2. The proof uses the field with g to the p elements. Of its elements, at most g lie in the base field. Each other one has a minimal polynomial of degree exactly p, and each such polynomial has at most p roots.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/IrreducibleCountLowerBound.lean:18]
+    mathlib: [GaloisField.card, GaloisField.finrank, minpoly.degree_dvd, Finset.card_le_mul_card_image]
+    needs: [f-big-primes, rings-fields, polynomials, counting, primes-divisibility, concept-field-extensions-transcendence, concept-galois-fixed-fields]
+  - id: f-monic-deg-fn-nat-degree
+    title: Facts about monic polynomials of fixed degree over a finite field
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file proves basic facts used for counting. A monic polynomial of degree d over the integers mod g can be written as X to the d plus a sum of terms c_i times X to the i, with i below d. The file shows this is monic and has degree d, and its coefficients are exactly the c_i. So it shows that a polynomial is monic of degree d exactly when it has this form, and that the number of such polynomials is g to the d. It also does the same for the irreducible ones.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/MonicDegFnNatDegree.lean:33, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/MonicDegFnNatDegree.lean:47, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/MonicDegFnNatDegree.lean:11]
+    mathlib: [Polynomial.monic_X_pow_add, Polynomial.Monic.as_sum, Finset.card_image_of_injective]
+    needs: [f-big-primes, polynomials, counting, modular-arithmetic]
+  - id: f-sqf-prime-factor-of
+    title: The prime-factor claim, given the prime-gap claim
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file proves the prime-factor claim, but only assuming one claim, that there are many primes between y and 2y. Everything else is already proved. The claim says that polynomials over a finite field with no big prime-degree factor form at most a fraction of all, namely (1 minus 1 over 5 log r). The proof is a single line that plugs three earlier pieces into a combining result. Those are the counting estimate, the lower bound on irreducible polynomials, and the numerical inequality.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/SqfPrimeFactorOf.lean:8]
+    mathlib: []
+    orphan: true
+    needs: [f-squarefree-prime-factor--claim-of, f-squarefree-count-estimate, f-irreducible-count-lower-bound, f-squarefree-prime-factor--analytic, f-period-integrals--primes-dyadic-r-s, f-sqf-prime-factor]
+  - id: f-squarefree-count-estimate
+    title: Counting polynomials with a big irreducible factor
+    kind: step
+    status: explained
+    chunk: c0049
+    plain: >
+      This file proves the counting bound CountA. Fix a prime g and degree r. Take a set T of monic degree-r polynomials with no irreducible factor of degree p in the big-prime range. For each big prime p, the polynomials of the form (irreducible of degree p) times (monic of degree r minus p) form a "bad" set. These bad sets for different p do not overlap, and none meets T. Counting them gives g to the r minus the sum over p of the number of irreducibles times g to the (r minus p). That is an upper bound on the size of T.
+    lean: [Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/SquarefreeCountEstimate.lean:76, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/SquarefreeCountEstimate.lean:38, Formalism/PeriodIntegrals/UnitaryGroupMassFormula/SquarefreePrimeFactor/SquarefreeCountEstimate.lean:24]
+    mathlib: [Finset.card_biUnion, Finset.card_image_of_injOn, Polynomial.natDegree_le_of_dvd, Irreducible.prime]
+    needs: [f-big-primes, f-monic-deg-fn-nat-degree, f-period-integrals--sqf-lab, polynomials, counting, primes-divisibility]

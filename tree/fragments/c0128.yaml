@@ -1,0 +1,58 @@
+nodes:
+  - id: f-aeval-sum-elim-eq-zero-of-mem-pts
+    title: Polynomial identities on pairs of matrices pass to all rational algebras
+    kind: step
+    status: explained
+    chunk: c0128
+    orphan: true
+    plain: >
+      Take a set of complex matrices closed under applying any field
+      automorphism of the complex numbers to the entries. Suppose a
+      polynomial with rational coefficients, in two sets of matrix entries,
+      vanishes on every pair of matrices from that set. The claim: it also
+      vanishes on every pair of "points" of the set with values in any
+      rational algebra R. (From the proof, a point seems to mean a matrix
+      over R that is killed by all rational polynomials vanishing on the set.)
+      Idea: pack the polynomial into a tensor of two one-variable
+      polynomial rings, then peel off one factor at a time using
+      contractions and the one-matrix version.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/AevalSumElimEqZeroOfMemPts.lean:91
+    mathlib: [Algebra.TensorProduct.productMap, MvPolynomial.aeval, TensorProduct.induction_on, Module.forall_dual_apply_eq_zero_iff]
+    needs: [f-eq-zero-of-contractions, f-rat-component-mem-rat-polys-vanishing-on-matrix-set, f-adelic-hermitian-forms--adelic-pair, concept-tensor-product-of-algebras, polynomials, linear-algebra]
+  - id: f-eq-zero-of-contractions
+    title: A tensor is zero if all its contractions are zero
+    kind: step
+    status: explained
+    chunk: c0128
+    plain: >
+      Work with rational vector spaces V and W and a tensor t in their tensor
+      product (think of t as a "matrix" with rows in V and columns indexed
+      by a basis of W). A contraction means feeding the W side to a linear
+      functional m, which leaves a vector in V. The claim: if every such
+      contraction gives zero, then t itself is zero. Idea: choose a basis of
+      W; the coordinates of t are exactly the contractions with the basis
+      coordinate functionals, so all coordinates vanish.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/EqZeroOfContractions.lean:15
+    mathlib: [TensorProduct.equivFinsuppOfBasisRight, Module.Basis.ofVectorSpace]
+    needs: [linear-algebra, concept-tensor-product-of-algebras]
+  - id: f-rat-component-mem-rat-polys-vanishing-on-matrix-set
+    title: Rational components of a complex vanishing polynomial still vanish
+    kind: step
+    status: explained
+    chunk: c0128
+    plain: >
+      Take a set of complex matrices closed under applying field
+      automorphisms of the complex numbers. Suppose a complex-coefficient
+      polynomial f vanishes on every matrix in the set. Choose any
+      rational-linear map l from the complex numbers to the rationals and
+      build a rational polynomial whose coefficients are l applied to the
+      coefficients of f. The claim: this new polynomial also vanishes on the
+      whole set. Idea: a cited result says f is a complex combination of
+      rational vanishing polynomials. Taking components then works term by
+      term, and the sums and scalings keep vanishing.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/RatComponentMemRatPolysVanishingOnMatrixSet.lean:52
+    mathlib: [Submodule.span_induction, MvPolynomial.coeff_map, MvPolynomial.coeff_smul]
+    needs: [f-adelic-lattice-proofs--mem-span-rat-polys-vanishing-of-aut-stable, f-adelic-hermitian-forms--adelic-pair, polynomials, linear-algebra, concept-galois-fixed-fields]

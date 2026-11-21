@@ -1,0 +1,181 @@
+nodes:
+  - id: concept-group-homology
+    title: Group homology and the long exact sequence
+    kind: concept
+    status: textbook
+    plain: >
+      Group homology gives each group G acting on an abelian group M a list of new abelian groups H_0, H_1, H_2 and so on. They measure how the action fails to be simple. For the trivial action on the integers they carry information about G itself. A key tool is the long exact sequence. A short exact sequence 0 to A to B to C to 0 of such modules yields a chain of maps between their homology groups, where at each spot "what comes in" equals "what goes out". Shapiro's lemma identifies the homology of a permutation module with homology of a stabilizer subgroup.
+    needs: [groups, concept-chain-complexes-homology, concept-group-representations, concept-group-actions]
+    learn:
+      - {title: "Brown, Cohomology of Groups", where: "ch. III"}
+      - {title: "Weibel, An Introduction to Homological Algebra", where: "ch. 6"}
+  - id: f-card-step
+    title: Sizes multiply along an exact sequence
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Suppose A to B to C is exact for abelian groups, meaning what f hits in B is exactly what g sends to zero. If A has at most a elements and C at most c, then B has at most a times c. Example: the sequence 0 to Z/2 to Z/6 to Z/3 gives 6 at most 2 times 3. The proof splits B into the kernel of g, which is the image of A and so no bigger than A, and the quotient, which embeds into C. The size of B is the product of the two pieces.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/CardStep.lean:5"
+    mathlib: [AddSubgroup.card_mul_index, AddSubgroup.index_ker]
+    needs: [f-torsion-bounds-chains--face-d-single, groups, concept-normal-subgroups-quotients, counting]
+  - id: f-torsion-bounds-chains--face-d-single
+    title: Vocabulary for homology size bounds
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      This file is mostly definitions, with a few small checks, and has no main theorem. It defines "at most B elements" and "torsion part at most B" for abelian groups. It defines the homology of a group with integer coefficients. It defines the permutation module of a group action, the free abelian group on a set X with G shuffling the basis. It defines bounds on orbit counts and stabilizer sizes, and a bound formula. It also defines complexes of such modules built from face maps, with chains of increasing elements of an ordered set as the main example.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FaceDSingle.lean:10"
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FaceDSingle.lean:15"
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FaceDSingle.lean:27"
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FaceDSingle.lean:31"
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FaceDSingle.lean:107"
+    mathlib: []
+    needs: [concept-group-homology, concept-group-actions, concept-chain-complexes-homology, concept-finitely-generated-abelian-groups]
+  - id: f-fin-group
+    title: Size bound for homology of a finite group
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      For a finite group S and any degree j+1 above zero, the integer homology group H_{j+1}(S) is finite. It has at most |S| to the power |S|^(j+1) elements. The proof combines two facts. Every element of this group is killed by multiplying by |S|. And the group is a quotient of a subgroup of a free abelian group whose size is governed by the number of (j+1)-tuples in S, namely |S|^(j+1). A general counting lemma then gives the bound.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FinGroup.lean:7"
+    mathlib: []
+    needs: [f-torsion-bounds-chains--imports-alt, f-subquot, f-torsion-bounds-chains--face-d-single, concept-group-homology]
+  - id: f-group-homology-long-exact
+    title: The long exact sequence for group homology
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Take a short exact sequence 0 to A to B to C to 0 of integer representations of a group G, meaning A injects into B, C is the quotient, and the middle is exact. The file states that the homology groups H_j fit into an exact sequence. It gives the exactness of H_j(A) to H_j(B) to H_j(C) and of H_{j+1}(B) to H_{j+1}(C) to H_j(A). There is little new here. It repackages the library's long exact sequence into plain function-exactness, by checking exactness is detected by forgetting structure.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/GroupHomologyLongExact.lean:34"
+    mathlib: [groupHomology.mapShortComplex₂_exact, groupHomology.mapShortComplex₃_exact, ShortComplex.ShortExact.moduleCat_exact_iff_function_exact]
+    needs: [concept-group-homology, concept-group-representations, f-torsion-bounds-chains--face-d-single]
+  - id: f-torsion-bounds-chains--imports-alt
+    title: Higher homology of a finite group is killed by its order
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      This file proves that for a finite group S, every element of H_{j+1}(S) with integer coefficients becomes zero when multiplied by the group order |S|. The idea is to factor multiplication by |S| as two maps. The first sends the integers to the permutation module on S by n goes to n times the sum of all group elements. The second adds up all coefficients. In between sits a module whose higher homology vanishes by Shapiro's lemma (the stabilizer is trivial). Then a general lemma applies.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/ImportsAlt.lean:7"
+    mathlib: [groupHomology.isZero_groupHomology_succ_of_subsingleton]
+    needs: [f-map-nsmul, f-torsion-bounds-chains--shapiro, f-torsion-bounds-chains--face-d-single, concept-group-homology]
+  - id: f-ind-perm
+    title: Induced module from the stabilizer is the permutation module
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Let a group G act transitively on a set X (any point can be moved to any other), and pick a point x with stabilizer subgroup (the elements that fix x). Inducing the trivial integer representation of that stabilizer up to G gives a representation isomorphic to the permutation module, the free abelian group on X. The proof builds maps both ways. Send a coset class to the basis point it moves x to. Send a basis point back using a chosen group element carrying x to it. It checks these are inverse and respect the group action.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/IndPerm.lean:67"
+    mathlib: [Representation.ind, MulAction.exists_smul_eq]
+    needs: [concept-group-actions, concept-group-representations, concept-normal-subgroups-quotients, f-torsion-bounds-chains--face-d-single]
+  - id: f-map-nsmul
+    title: A factorisation through zero homology forces n times zero
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Suppose maps f from A to B and g from B to A compose to multiplication by n, and the degree-j homology of B is trivial. Then n times every element of the degree-j homology of A is zero. The idea is that homology is functorial. The composite acts on homology as multiplication by n. But it also factors through the homology of B, which has only the zero element. So multiplication by n sends everything to zero. This is the technical step behind the order-kills-homology result.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/MapNsmul.lean:5"
+    mathlib: [groupHomology.map_id_comp, Functor.map_nsmul]
+    needs: [concept-group-homology, concept-chain-complexes-homology, f-torsion-bounds-chains--face-d-single]
+  - id: f-orb-step
+    title: Splitting off one orbit
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Take a group acting on a set X, with at most A+1 orbits (an orbit is everything reachable from a point by the action) and every stabilizer of size at most s. The file proves X splits into two pieces. The first is U, a single orbit on which the group acts transitively. The second is its complement V. Both keep the stabilizer bound, and V has at most A orbits. Pick a point, take its orbit as U, and take everything else as V. The work is checking the orbit count of V drops by at least one.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/OrbStep.lean:11"
+    mathlib: [MulAction.orbit, SubMulAction.stabilizer_of_subMul]
+    needs: [concept-group-actions, f-torsion-bounds-chains--face-d-single, counting]
+  - id: f-perm-card
+    title: Size bound for homology of a permutation module
+    kind: step
+    status: explained
+    chunk: c0084
+    orphan: true
+    plain: >
+      Let a group act on a set X with at most A orbits and every stabilizer of size at most s. The file proves the integer homology of the permutation module in degree j+1 is finite, with at most s to the power A times s^(j+1) elements. It goes by induction on A. For zero orbits the set is empty and homology is trivial. Otherwise split off one orbit, getting a short exact sequence of permutation modules. The long exact sequence gives a middle-sized group, whose size is bounded by multiplying the bounds for the one orbit and for the rest.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/PermCard.lean:12"
+    mathlib: []
+    needs: [f-orb-step, f-perm-split, f-group-homology-long-exact, f-perm-trans, f-card-step, f-perm-empty, f-torsion-bounds-chains--face-d-single]
+  - id: f-perm-empty
+    title: Empty permutation module has trivial homology
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      If the set X is empty, the free abelian group on X has only the zero element. This file proves that the integer homology of that permutation module has at most one element in every degree. The reason is immediate. Every chain group of the standard complex is built from sequences of group elements with values in the permutation module, and so has one element only. The cycles inside it, and the quotient that forms homology, are then one-element groups too. It is the base case for the induction on the number of orbits.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/PermEmpty.lean:5"
+    mathlib: [Finite.card_le_one_iff_subsingleton]
+    needs: [concept-group-homology, f-torsion-bounds-chains--face-d-single]
+  - id: f-perm-split
+    title: Short exact sequence from splitting a set into two pieces
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Say X is split into two pieces U and V, each preserved by the group action. The file proves there is a short exact sequence of permutation modules, 0 to Z[U] to Z[X] to Z[V] to 0, where each map respects the group action. The first map just regards a combination of points of U as one of points of X. The second forgets all coefficients on points of U, keeping those on V. Injectivity, exactness in the middle and surjectivity are checked on basis points. This feeds the long exact sequence.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/PermSplit.lean:5"
+    mathlib: [Finsupp.mapDomain_injective, Finsupp.lsubtypeDomain]
+    needs: [concept-group-actions, concept-group-representations, f-torsion-bounds-chains--face-d-single]
+  - id: f-perm-trans
+    title: Size bound for homology of a transitive permutation module
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      If a group acts transitively on a nonempty set X and the stabilizers have at most s elements, the degree j+1 integer homology of the permutation module has at most s to the power s^(j+1) elements. The proof uses Shapiro's lemma to replace it by homology of the stabilizer of one point, a finite group of at most s elements. Then it applies the finite-group size bound and compares the numbers. Size bounds are transferred along the identification of the two groups.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/PermTrans.lean:8"
+    mathlib: [Nat.pow_le_pow_left, Nat.pow_le_pow_right]
+    needs: [f-torsion-bounds-chains--shapiro, f-fin-group, f-torsion-bounds-chains--transport, f-torsion-bounds-chains--face-d-single, concept-group-actions]
+  - id: f-torsion-bounds-chains--shapiro
+    title: Shapiro's lemma for a transitive action
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      For a group acting transitively on a set X, with x a point, the homology of the permutation module is isomorphic to the homology of the stabilizer of x with trivial integer coefficients. This is a form of Shapiro's lemma. The proof first replaces the permutation module by the module induced from the stabilizer, using the earlier identification. Then it applies the library's statement that homology of an induced module equals homology of the subgroup. In everyday terms, a symmetric set looks the same from each of its points.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/Shapiro.lean:6"
+    mathlib: [groupHomology.indIso, groupHomology.functor]
+    needs: [f-ind-perm, concept-group-homology, concept-group-actions, f-torsion-bounds-chains--face-d-single]
+  - id: f-subquot
+    title: A quotient of a lattice subgroup killed by n is small
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Take a subgroup Z of a free abelian group on a finite set iota, and a surjection from Z onto a group H in which n times every element is zero. Then H has at most n to the power |iota| elements. Example: H = Z/3 squared, n = 3, and |iota| at least 2 gives 9 at most 3^2. The proof picks a basis of Z, whose size is at most |iota|, and writes each element of H as a combination of images of basis vectors with coefficients reduced mod n. That gives a surjection from at most n^rank choices.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/Subquot.lean:5"
+    mathlib: [Module.finBasis, Module.finrank_finsupp_self, Nat.card_le_card_of_surjective]
+    needs: [f-torsion-bounds-chains--face-d-single, concept-finitely-generated-abelian-groups, linear-algebra, modular-arithmetic]
+  - id: f-torsion-bounds-chains--transport
+    title: Size bounds are preserved by isomorphism and weakening
+    kind: step
+    status: explained
+    chunk: c0084
+    plain: >
+      Four small bookkeeping facts about size bounds. If two abelian groups are isomorphic and one has a torsion part (elements of finite order) of size at most B, so does the other. If two sets are in bijection and one has at most B elements, so does the other. A bound B can be replaced by any larger bound B'. The proofs just transport finiteness and counts across the matching, or chain inequalities. They let the main proofs swap equal-looking groups.
+    lean:
+      - "Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/Transport.lean:5"
+    mathlib: [Nat.card_congr, Finite.of_equiv]
+    needs: [f-torsion-bounds-chains--face-d-single, concept-finitely-generated-abelian-groups, counting]

@@ -1,0 +1,17 @@
+nodes:
+  - id: f-etale-localization-at-prime-tensor-of-etale-away
+    title: Etale after inverting b gives etale after localizing at a prime missing b
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0080
+    plain: >
+      Let C be an algebra over R, and b an element of R. Suppose C with b inverted is etale over R
+      (an extension with no branching). Then for any prime P of R that does not contain b, the
+      localization of R at P, tensored with C, is etale over that localization. The idea has two
+      steps. Etale-ness survives base change, so R_P tensor C_b is etale over R_P. Since b is not
+      in P, b is already invertible in R_P, so tensoring with C automatically inverts b. Hence R_P
+      tensor C and R_P tensor C_b are the same algebra.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/EtaleLocalizationAtPrimeTensorOfEtaleAway.lean:14"]
+    mathlib: [Algebra.Etale.baseChange, IsLocalization.Away.lift, Algebra.Etale.of_equiv]
+    needs: [concept-etale-ring-maps, concept-tensor-product-of-algebras, concept-prime-ideals-localization, concept-flat-modules]

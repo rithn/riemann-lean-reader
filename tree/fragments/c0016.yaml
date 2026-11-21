@@ -1,0 +1,125 @@
+nodes:
+- id: concept-galois-fixed-fields
+  title: A group acting on a field, and its fixed subfield
+  kind: concept
+  status: textbook
+  plain: >
+    A group can act on a field by shuffling its elements while keeping the sums
+    and products intact. Example: complex conjugation swaps a + bi with a - bi, and
+    the numbers it leaves alone are exactly the real numbers. The elements a
+    chosen subgroup N leaves alone form a smaller field, the fixed field of N.
+    If N has finite index (finitely many cosets, meaning copies of N sliding around
+    the group) we can add up the images of an element over one representative
+    per coset. This sum is called a trace, and the result is fixed by the whole
+    group when the element was fixed by N.
+  needs: [concept-group-actions, concept-normal-subgroups-quotients, rings-fields, groups]
+  learn:
+  - title: Abstract Algebra (D. Dummit and R. Foote)
+    where: Sections 14.1 and 14.2 (Galois groups and fixed fields)
+  - title: Galois Theory (E. Artin)
+    where: Chapter I (linear algebra of fields), Chapter II
+
+- id: f-foundations--coset-trace
+  title: Definitions for approximate p-th roots and almost separating families
+  kind: step
+  status: explained
+  plain: >
+    This file only states definitions. It has no theorems and proves nothing.
+    The setting is a field L with a size function v obeying the ultrametric rule,
+    where a sum is no bigger than its largest term, and a group G acting on L.
+    "Approximate p-th roots" for a subfield F means every u in F is close to a
+    p-th power w^p from F, with error at most theta times the size of u, for a fixed
+    theta below 1. Also defined: the subfield fixed by a subgroup; a "separating"
+    family a_i, b_i with sum a_i times g(b_i) equal to c for g in N and 0 outside;
+    "almost" separating, meaning the size of c can get as close to 1 as wanted;
+    and the trace over cosets.
+  lean: [Development/AbelianVarietyTheory/Definitions/Foundations/CosetTrace.lean:11, Development/AbelianVarietyTheory/Definitions/Foundations/CosetTrace.lean:32, Development/AbelianVarietyTheory/Definitions/Foundations/CosetTrace.lean:35]
+  mathlib: [Valuation, FixedPoints.subfield, QuotientGroup.out]
+  needs: [concept-ultrametric-norm, concept-galois-fixed-fields, concept-group-actions, concept-normal-subgroups-quotients]
+
+- id: f-valuation-frobenius-sum-sub-le-nat-cast-prime
+  title: A sum to the p-th power is close to the sum of p-th powers
+  kind: step
+  status: explained
+  plain: >
+    Take a field with an ultrametric size function v (a sum is never bigger than
+    its biggest term) and a prime p. Take finitely many elements, each of size at
+    most 1. Then the p-th power of their sum differs from the sum of their p-th
+    powers by something of size at most the size of p. For two elements and
+    p = 3, (a + b)^3 = a^3 + b^3 + 3ab(a + b), so the error is 3 times something
+    small. Proof. Induct on the number of terms. Peel off one term. The middle
+    binomial coefficients are all multiples of p. Their extra factor has size at
+    most 1, and the induction hypothesis handles the rest.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/ValuationFrobeniusSumSubLeNatCastPrime.lean:9]
+  mathlib: [exists_add_pow_prime_eq, Valuation.map_add, Valuation.integer]
+  needs: [concept-ultrametric-norm, primes-divisibility, rings-fields, f-foundations--coset-trace]
+
+- id: f-coset-representative-trace-fixed-properties
+  title: Properties of the coset trace
+  kind: step
+  status: explained
+  plain: >
+    Let a group G act on a field L while keeping the size function v unchanged,
+    and let N be a finite-index subgroup. Take z fixed by N. The file proves three
+    facts about the trace of z, which is the sum of the images of z over one
+    representative from each coset of N. First, the trace is fixed by all of G.
+    Second, if z has size at most 1 then so does the trace. Third, scaling z
+    by something G fixes just scales the trace. Proofs. Moving a representative by
+    a group element only permutes the cosets, so the sum is unchanged. The size
+    bound is the ultrametric rule. The scaling fact is distributing the product
+    over the sum.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/CosetRepresentativeTraceFixedProperties.lean:7]
+  mathlib: [Finset.smul_sum, Equiv.sum_comp, Valuation.map_sum_le, QuotientGroup.out_eq']
+  needs: [f-foundations--coset-trace, concept-galois-fixed-fields, concept-ultrametric-norm, concept-normal-subgroups-quotients]
+
+- id: f-exists-pth-power-scale-thin-shell
+  title: Rescale any element by a p-th power to land in a thin shell
+  kind: step
+  status: explained
+  plain: >
+    Take a field with an ultrametric size function v, a prime p with v(p) strictly
+    between 0 and 1, and a subfield F where every element has an approximate p-th
+    root. Then for any nonzero x and any r below 1, some nonzero d in F makes
+    the size of x times d^p land in the window above r, up to 1. Proof idea. Starting
+    from p itself, repeated approximate roots give an element pi in F whose size
+    is tiny but nonzero. Multiplying by powers of pi^p shrinks size by a fixed
+    factor below 1 per step. So some power lands the size in the window, like
+    stepping down a staircase with small steps.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/ExistsPthPowerScaleThinShell.lean:38, Development/AbelianVarietyTheory/Proofs/FoundationProofs/ExistsPthPowerScaleThinShell.lean:86]
+  mathlib: [exists_pow_lt_of_lt_one, exists_mem_Ioc_zpow, Valuation.map_eq_of_sub_lt]
+  needs: [f-foundations--coset-trace, concept-ultrametric-norm, primes-divisibility, rings-fields]
+
+- id: f-pow-mul-approx-pow-of-almost-etale-separating-family
+  title: A separating family gives approximate p-th roots on the fixed field of N
+  kind: step
+  status: explained
+  plain: >
+    The setting is a field with ultrametric size function v, a prime p, and a group
+    G acting without changing sizes. Suppose the G-fixed elements have approximate
+    p-th roots, with error factor theta. Take a separating family a_i, b_i, c for the
+    subgroup N, as defined in the definitions file. For any x fixed by N with size
+    at most 1, there is w fixed by N such that c^p times x differs from w^p by
+    size at most the larger of theta and v(p). Proof. Take traces of b_i^p times
+    x, which are G-fixed. Approximate their p-th roots, then recombine using
+    the a_i. Three error terms arise, each bounded using the sum-of-powers fact.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/PowMulApproxPowOfAlmostEtaleSeparatingFamily.lean:11]
+  mathlib: [Valuation.map_sum_le, Valuation.map_add_le, Finset.sum_eq_single, Finset.sum_comm]
+  needs: [f-foundations--coset-trace, f-valuation-frobenius-sum-sub-le-nat-cast-prime, f-coset-representative-trace-fixed-properties, concept-galois-fixed-fields, concept-ultrametric-norm, primes-divisibility]
+
+- id: f-approx-pth-root-fixed-subfield-of-almost-etale
+  title: Approximate p-th roots pass from the full fixed field to the fixed field of N
+  kind: step
+  status: explained
+  plain: >
+    The setting is a field L with ultrametric size function v, a prime p with v(p)
+    strictly between 0 and 1, and a group G acting without changing sizes. Let N be
+    a finite-index subgroup that is almost separating. If the elements fixed by all
+    of G have approximate p-th roots, so do the elements fixed by N. Proof.
+    Given x, first rescale it by a p-th power d^p so its size lies in a
+    thin window below 1. Then use the separating-family result to get w with
+    c^p times x d^p close to w^p. Divide by c d, which are fixed by N, to get an
+    approximate root of x. The error factor is a fixed ratio below 1.
+  lean: [Development/AbelianVarietyTheory/Proofs/FoundationProofs/ApproxPthRootFixedSubfieldOfAlmostEtale.lean:11]
+  mathlib: [NNReal.rpow_inv_natCast_pow, Valuation.pos_iff, exists_between, Subgroup.finite_quotient_of_finiteIndex]
+  needs: [f-exists-pth-power-scale-thin-shell, f-pow-mul-approx-pow-of-almost-etale-separating-family, f-foundations--coset-trace, concept-galois-fixed-fields, concept-ultrametric-norm]
+  orphan: true

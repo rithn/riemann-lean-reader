@@ -1,0 +1,98 @@
+nodes:
+  - id: f-dixmier-schur-of-rank-le-aleph0
+    title: Schur's lemma for countable-size complex spaces
+    kind: step
+    status: explained
+    chunk: c0091
+    plain: >
+      This file proves a version of Schur's lemma. Take a complex vector space with a countable list of basis vectors, and a family of linear maps on it that has no smaller invisible-to-the-family subspace (only 0 and everything are kept inside themselves). Then any linear map commuting with the whole family is just multiplication by one complex number. The idea is a counting trick. If it were not a number, every number c would give an invertible map T minus c. Then the vectors you get by undoing these maps on one fixed vector would be independent, one for each complex number. But the complex numbers are uncountably many, while the space only has countably many independent directions. Contradiction.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/DixmierSchurOfRankLeAleph0.lean:57
+    mathlib:
+      - spectrum.map_polynomial_aeval_of_degree_pos
+      - Cardinal.mk_complex
+      - Cardinal.aleph0_lt_continuum
+    needs: [linear-algebra, polynomials, complex-numbers, concept-group-representations, counting]
+  - id: f-operator-stable-pi-tensor-pure-kernel-span
+    title: Product of stable pieces stays stable
+    kind: step
+    status: explained
+    chunk: c0091
+    plain: >
+      A tensor product of several vector spaces is a space built from "pure" products of one vector from each factor. Suppose in each factor you have a subspace that a set of operators sends back into itself. Form the subspace of the big product spanned by pure products where at least one entry lies in its own subspace. This file shows that operators acting on one slot at a time still keep that big subspace inside itself. The proof checks it on the spanning pure products. Acting on one slot either keeps an entry in its subspace, or leaves the already special slot untouched. Linearity then covers everything else.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/TwistedOperators/OperatorStablePiTensorPureKernelSpan.lean:10
+    mathlib:
+      - PiTensorProduct.tprod
+      - Submodule.span_le
+    needs: [f-simple-over, concept-flat-modules, linear-algebra]
+  - id: f-simple-over
+    title: Definitions for operators on tensor products
+    kind: step
+    status: explained
+    chunk: c0091
+    plain: >
+      This file only gives definitions, no proofs. A subspace is "stable" under a set of operators if the operators never push its vectors outside it. A subspace K is "simple over" the operators if, among stable subspaces containing K, the only ones are K itself and the whole space. Think of K as a floor that nothing sits strictly between you and the ceiling. The file then defines how to let one operator act on a single slot of a many-fold tensor product, the set of all such operators, the same for two factors, and the subspace spanned by pure products having at least one entry in a chosen subspace.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/TwistedOperators/SimpleOver.lean:11
+    mathlib:
+      - PiTensorProduct.map
+      - TensorProduct.map
+    needs: [linear-algebra, concept-flat-modules]
+    orphan: false
+  - id: f-simple-over-stable-submodule-pi-tensor
+    title: Simplicity survives a finite tensor product
+    kind: step
+    status: explained
+    chunk: c0091
+    plain: >
+      This proves that "simple over" passes to a tensor product of finitely many spaces, each of countable size. If every factor has a stable subspace K that is simple over its operators, then the spanned subspace of the big product is simple over the single-slot operators. The proof is an induction on how many factors there are. Zero factors and one factor are checked directly. To add one more factor, the tensor product of the old part with the new factor is rewritten as a two-fold product, and the two-factor result from the neighbouring file is applied. Relabelling the factors lets it work for any finite index set.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/TwistedOperators/SimpleOverStableSubmodulePiTensor.lean:220
+    mathlib:
+      - PiTensorProduct.tmulEquivDep
+      - PiTensorProduct.reindex
+      - Finite.induction_empty_option
+    needs:
+      - f-simple-over
+      - f-simple-over-stable-submodule-tensor-pure-kernel-span
+      - f-operator-stable-pi-tensor-pure-kernel-span
+      - linear-algebra
+      - counting
+    orphan: true
+  - id: f-simple-over-stable-submodule-tensor-pure-kernel-span
+    title: Simplicity survives a two-fold tensor product
+    kind: step
+    status: explained
+    chunk: c0091
+    plain: >
+      This proves the two-factor case. Given two spaces with stable subspaces K0 and K1 that are each simple over their operators, and the first space of countable size, the subspace of the tensor product spanned by pure products with an entry in K0 or K1 is simple over the combined operators. The idea is to pass to quotients. Dividing out K0 and K1 gives spaces with no proper stable subspaces at all. The neighbouring file then says the tensor product of such spaces has none either. Pulling that back through the quotient map gives the claim.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/TwistedOperators/SimpleOverStableSubmoduleTensorPureKernelSpan.lean:49
+    mathlib:
+      - TensorProduct.map_ker
+      - Submodule.mapQ
+    needs:
+      - f-simple-over
+      - f-simple-tensor-product-operator-stable-countable
+      - concept-normal-subgroups-quotients
+      - linear-algebra
+  - id: f-simple-tensor-product-operator-stable-countable
+    title: Tensor product of irreducible pieces is irreducible
+    kind: step
+    status: explained
+    chunk: c0091
+    plain: >
+      Suppose two complex spaces each have no proper subspace kept stable by their operator sets, and the first has countable size. Then the tensor product, with operators acting on either side, also has no proper stable subspace. The proof uses a density theorem of Jacobson. It lets the algebra generated by the operators imitate any linear map on finitely many vectors, because Schur's lemma makes the commuting maps just numbers. Applying a suitable operator to a nonzero tensor isolates one pure product. Stability on the second factor then spreads it to everything.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/TwistedOperators/SimpleTensorProductOperatorStableCountable.lean:40
+    mathlib:
+      - jacobson_density
+      - Algebra.adjoin
+      - TensorProduct.equivFinsuppOfBasisLeft
+    needs:
+      - f-dixmier-schur-of-rank-le-aleph0
+      - f-simple-over
+      - concept-group-representations
+      - concept-tensor-product-of-algebras
+      - linear-algebra

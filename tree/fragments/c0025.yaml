@@ -1,0 +1,121 @@
+nodes:
+
+# ---- new concept first needed by this chunk ----
+
+- id: concept-hermitian-unitary-matrices
+  title: Hermitian, unitary and positive definite matrices; the spectral theorem
+  kind: concept
+  status: textbook
+  plain: >
+    For a complex square matrix M, write M* for its conjugate transpose, which flips it over the diagonal and conjugates
+    each entry. M is Hermitian if M* equals M. M is unitary if M times M* is the identity, like a rotation. The spectral
+    theorem says every Hermitian matrix is a rotation of a diagonal matrix with real entries, its eigenvalues. A matrix
+    of the form M* times M with M invertible is positive definite, meaning all its eigenvalues are positive. Positive
+    entries can be fed into the logarithm and exponential, which gives a matrix log and exp.
+  needs: [linear-algebra, complex-numbers, calculus]
+  learn:
+    - {title: Linear Algebra Done Right (S. Axler), where: "Chapter 7 (operators on inner product spaces)"}
+    - {title: Matrix Analysis (R. Horn and C. Johnson), where: "Chapters 2 and 4"}
+
+# ---- the chunk ----
+
+- id: f-adelic-hermitian-forms--adelic-pair
+  title: Vocabulary file for the adelic and Hermitian-form arguments
+  kind: step
+  status: explained
+  chunk: c0025
+  plain: >
+    This file only defines words and proves nothing. Most definitions are about groups of matrices cut out by
+    polynomial equations. They include their rational points, a condition that every invariant subspace has an
+    invariant complement, and finiteness of double cosets. Others set up an adelic pair, meaning a ring with a
+    subring of integer-like elements where any element is a rational number plus a multiple of an integer-like one.
+    The rest cover invariant polynomials, an averaging operator, Siegel sets, and a "Hermitian log" of a matrix, meaning
+    a Hermitian matrix H whose exponential is a given positive matrix A. The other files here use the last of these.
+  lean:
+    - Development/AbelianVarietyTheory/Definitions/AdelicHermitianForms/AdelicPair.lean:34
+    - Development/AbelianVarietyTheory/Definitions/AdelicHermitianForms/AdelicPair.lean:50
+  mathlib: [Matrix.adjugate, MvPolynomial.aeval, Algebra.leftMulMatrix, Matrix.fromBlocks]
+  needs: [concept-hermitian-unitary-matrices, concept-group-representations, groups, polynomials, p-adic-numbers, linear-algebra]
+
+- id: f-exists-is-hermitian-log-of-pos-def-gram
+  title: Every invertible matrix x has a Hermitian log for x-star times x
+  kind: step
+  status: explained
+  chunk: c0025
+  plain: >
+    For any invertible complex square matrix x, the matrix x* times x (x with entries flipped over the diagonal and
+    conjugated) has a Hermitian log. That means there is a Hermitian matrix H with the property that H is
+    U D U* and x* x is U exp(D) U*, for a rotation U and real diagonal D. The proof is short. Invertibility makes x* x
+    positive definite. The spectral theorem writes it as U E U* with positive real eigenvalues E, and taking D equal
+    to the logarithm of E works because exp undoes log on positive numbers.
+  lean: [Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsIsHermitianLogOfPosDefGram.lean:8]
+  mathlib: [Matrix.PosDef.conjTranspose_mul_self, Matrix.IsHermitian.spectral_theorem, Real.exp_log]
+  needs: [f-adelic-hermitian-forms--adelic-pair, concept-hermitian-unitary-matrices]
+
+- id: f-is-closed-is-hermitian-log-of-pos-def
+  title: The set of pairs (H, A) with H a Hermitian log of A is closed
+  kind: step
+  status: explained
+  chunk: c0025
+  plain: >
+    Take all pairs of complex square matrices (H, A) where H is a Hermitian log of A. The file proves this set is
+    closed, meaning that a limit of such pairs is again such a pair. The difficulty is that the rotation U in the
+    definition is not unique. The proof restricts U to rotations, whose entries all have size at most 1, so they form a
+    compact set. Reading the diagonal D off from H and U makes the set a projection of a closed set along a compact
+    set. A standard fact says projecting along a compact factor keeps closed sets closed.
+  lean: [Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/IsClosedIsHermitianLogOfPosDef.lean:8]
+  mathlib: [isClosedMap_snd_of_compactSpace, isCompact_univ_pi, Matrix.mem_unitaryGroup_iff, entry_norm_bound_of_unitary]
+  needs: [f-adelic-hermitian-forms--adelic-pair, concept-hermitian-unitary-matrices, concept-point-set-topology]
+
+- id: f-matrix-entries-bounded-of-hermitian-log-trace-sq-le
+  title: A small energy forces the entries of x and its log to be small
+  kind: step
+  status: explained
+  chunk: c0025
+  plain: >
+    Say H is a Hermitian log of x* times x, and the "energy" of H, the sum of squares of its eigenvalues (the trace of H
+    times H), is at most some number E. Then every entry of x and of H has size at most a constant C. This depends only
+    on E and the matrix size. The proof: since the squares of the eigenvalues add up to at most E, each eigenvalue is at
+    most root E. An entry of x squared is at most the sum of the squared entries of x, which equals the trace of x* x,
+    the sum of exp of the eigenvalues. It is at most n times exp of root E. The H entries are bounded in the same way.
+  lean: [Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/MatrixEntriesBoundedOfHermitianLogTraceSqLe.lean:28]
+  mathlib: [Matrix.trace_mul_cycle, Real.le_sqrt_of_sq_le, Finset.single_le_sum]
+  needs: [f-adelic-hermitian-forms--adelic-pair, concept-hermitian-unitary-matrices]
+
+- id: f-entries-bounded-of-conj-spanning-bounded
+  title: If all conjugates of a spanning family stay small, the conjugating matrix is bounded
+  kind: step
+  status: explained
+  chunk: c0025
+  plain: >
+    Take finitely many square matrices g_s that together span the space of all matrices of that size. Pick a number C. Then
+    there is a constant C' with the following property. If P has determinant 1 and every conjugate P g_s P-inverse has all
+    entries of size at most C, then all entries of P have size at most C'. The proof writes each matrix with a single 1 as
+    a combination of the g_s, so each product of an entry of P with an entry of P-inverse is bounded. Then
+    the determinant of the entry times P-inverse, which is the entry to the n-th power, is bounded.
+  lean: [Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/EntriesBoundedOfConjSpanningBounded.lean:8]
+  mathlib: [Matrix.det_le, Matrix.det_nonsing_inv, Submodule.mem_span_range_iff_exists_fun]
+  needs: [f-adelic-hermitian-forms--adelic-pair, linear-algebra]
+
+- id: f-exists-energy-min
+  title: A best basis exists that minimises the Hermitian-log energy
+  kind: step
+  status: explained
+  chunk: c0025
+  orphan: true
+  plain: >
+    Take finitely many invertible complex matrices g_s that together span all matrices of their size. The file proves
+    there is an invertible P minimising an "energy": for each s form (P g_s P-inverse)* times (P g_s P-inverse), take a
+    Hermitian log H_s, and add up the traces of H_s squared. The proof is by compactness. Rescale P to determinant 1.
+    Consider the pairs (P, H) whose energy is at most the energy of the starting choice P equal to the identity. This set
+    is closed, and bounded by the two bound files, so compact. A continuous energy on a compact set attains its minimum.
+  lean: [Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsEnergyMin.lean:63]
+  mathlib: [IsCompact.exists_isMinOn, isCompact_univ_pi, IsAlgClosed.exists_pow_nat_eq, Matrix.det_smul]
+  needs:
+    - f-adelic-hermitian-forms--adelic-pair
+    - f-exists-is-hermitian-log-of-pos-def-gram
+    - f-is-closed-is-hermitian-log-of-pos-def
+    - f-matrix-entries-bounded-of-hermitian-log-trace-sq-le
+    - f-entries-bounded-of-conj-spanning-bounded
+    - concept-point-set-topology
+    - algebraic-closure

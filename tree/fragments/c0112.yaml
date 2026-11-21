@@ -1,0 +1,64 @@
+nodes:
+  - id: f-finite-point-extends-section
+    title: A point over the fraction field extends to a section over the base ring
+    kind: step
+    status: explained
+    chunk: c0112
+    plain: >
+      This file shows that, for a nice ring R, a finite map of schemes onto the spectrum of R has a special
+      lifting property. A scheme is a space glued from rings, and the spectrum of R is the space attached to R.
+      Suppose you have a point over the fraction field of R (the field of all fractions a over b) that sits
+      above the generic point. Then it extends to a full section over all of R, meaning a way to choose one
+      point above each point of the base. The proof turns everything into rings. Elements of the finite
+      algebra are integral over R, and R is integrally closed, so they already lie in R. The file then uses
+      this to get such a section for a group scheme, landing in a chosen open piece.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/FinitePointExtendsSection.lean:15", "Development/AutomorphicSpectrum/Proofs/GeometryProofs/FinitePointExtendsSection.lean:77"]
+    mathlib: [IsIntegrallyClosed.algebraMap_eq_of_integral, AlgebraicGeometry.IsOpenImmersion.lift, AlgebraicGeometry.Scheme.ΓSpecIso]
+    needs: [concept-schemes-basics, concept-integral-closure-fraction-fields, concept-categorical-pullbacks, rings-fields]
+  - id: f-regular-at-translate
+    title: Regularity at a point survives translating by a group element
+    kind: step
+    status: explained
+    chunk: c0112
+    plain: >
+      This file proves a bookkeeping fact about functions on a finite group scheme. A function is called
+      regular at a point if it comes from a genuine algebraic function on some open neighbourhood. The claim
+      is that if a function f is regular at the image of a point g under a shift, then the shifted function
+      (the one that sends h to f of t times h) is regular at g itself. Here t is a group element and the
+      shift is the map given by a section that agrees with t on the generic point. The proof pulls the
+      algebraic function back along the shift. It then checks that the values at each finite-group point
+      match, using the group law.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/RegularAtTranslate.lean:25"]
+    mathlib: []
+    needs: [concept-schemes-basics, groups, concept-categorical-pullbacks]
+  - id: f-translate-into-smaller-open
+    title: Any point can be translated into a smaller open piece
+    kind: step
+    status: explained
+    chunk: c0112
+    plain: >
+      This file works with a group scheme over a ring R, which is a family of groups varying with the prime
+      ideals of R. Take two open pieces U' inside U, both finite and open. The claim is that for any point g
+      in U there is a shift that moves g into the smaller piece U'. The shift comes from a section that
+      agrees with a finite-group element t on the generic point. The proof uses flatness, which lets us lift
+      a specialization of points to a generalization, and a closedness argument. It also uses the earlier
+      lifting result that sections exist. I am not fully sure of the exact role of the finite-flat setup.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/TranslateIntoSmallerOpen.lean:12"]
+    mathlib: [AlgebraicGeometry.Flat.generalizingMap, specializes_iff_mem_closure, closure_minimal]
+    needs: [f-finite-point-extends-section, f-p-adic-hodge--finite-flat, concept-schemes-basics, concept-flat-modules, concept-point-set-topology, groups]
+  - id: f-bt-order-eq-of-le
+    title: The order of the finite group does not change when the open piece shrinks
+    kind: step
+    status: explained
+    chunk: c0112
+    orphan: true
+    plain: >
+      This file proves a statement about a finite group scheme Γ over a ring R. Take two finite open pieces,
+      U' contained in U. The theorem says the "order" attached to U equals the one attached to U'. That order
+      is defined by counting a set of functions on the group that are regular at every point of the piece.
+      One direction is trivial, since a smaller piece has fewer points to check. For the other, move any point
+      of U into U' with a shift (using the translate lemma), and carry regularity back along the shift. The
+      two sets are then equal, so their sizes agree.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/BtOrderEqOfLe.lean:14", "Development/AutomorphicSpectrum/Proofs/GeometryProofs/BtOrderEqOfLe.lean:33"]
+    mathlib: []
+    needs: [f-translate-into-smaller-open, f-regular-at-translate, concept-schemes-basics, counting, groups]

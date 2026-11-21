@@ -1,0 +1,103 @@
+nodes:
+  - id: f-real-place-analysis--statement-a
+    title: Claims about Casimir operators of gl(n) (statements only)
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      This file states claims without proving any. It defines the commutation rule of the Lie algebra gl(n): the matrix-unit operators E_ab satisfy a commutator formula. It then sets up unitary actions, weights, highest weight vectors, the Casimir operator, and a long list of statements (named Props) about norm bounds, Casimir eigenvalues, tensor products, and a volume constant. Each is a bare claim to be proved or assumed elsewhere. Readers can treat it as a dictionary of definitions and targets.
+    lean: [Formalism/RealPlaceAnalysis/StatementA.lean:10]
+    mathlib: []
+    needs: [concept-hermitian-unitary-matrices, concept-group-representations, linear-algebra, concept-tensor-product-of-algebras, complex-numbers]
+  - id: f-real-place-analysis--statement-b
+    title: Claims about trace powers on highest-weight vectors (statements only)
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      This file only states claims; it proves nothing. It defines matrix powers of an array of operators, their traces, and highest weight vectors, which are vectors killed by the upper-triangular operators. It then lists claims: powers commute appropriately with the Lie algebra, a trace is central, how powers act on highest-weight vectors, and some identities about sums of rational functions and Vandermonde products. These are targets for other files.
+    lean: [Formalism/RealPlaceAnalysis/StatementB.lean:9]
+    mathlib: []
+    needs: [f-real-place-analysis--statement-a, linear-algebra, polynomials, complex-numbers]
+    orphan: true
+  - id: f-real-place-analysis--statement-e
+    title: Quantum determinant and RTT relation (statements only)
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      This file defines a "quantum determinant" and states claims about it without proving them. A quantum determinant is a determinant of a shifted array of operators, where the shift changes down the columns to cope with non-commuting entries. The claims include the RTT relation (a commutation rule), sign flips when rows or columns are swapped, that the quantum determinant commutes with everything, that it acts by a product on highest weight vectors, and a comatrix identity.
+    lean: [Formalism/RealPlaceAnalysis/StatementE.lean:17]
+    mathlib: []
+    needs: [f-real-place-analysis--statement-a, f-real-place-analysis--statement-b, concept-exterior-powers, linear-algebra, rings-fields]
+  - id: f-is-top
+    title: Polynomial representations of matrices and their Lie action
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      This file only gives definitions, no theorems. A "pre-representation" is a multiplication-preserving way to turn each n-by-n complex matrix into a d-by-d matrix whose entries are polynomials in the original entries. From it the file defines the derivative at the identity, giving a linear action of matrices, and the operators E_ab obtained from unit matrices. It also defines weights, "top" vectors, the standard example, and a couple of polynomial-ring helpers.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/WeylAlgebraQuantumDet/IsTop.lean:10]
+    mathlib: [MvPolynomial, fderiv]
+    needs: [f-real-place-analysis--statement-e, concept-group-representations, polynomials, calculus, linear-algebra]
+  - id: f-coef-diff
+    title: Entries of such a representation are smooth
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      Each entry of the d-by-d matrix in a polynomial representation is, by definition, a polynomial in the entries of the input matrix. This file proves every such entry is differentiable (in the complex sense). The proof writes the entry as an evaluated polynomial, then shows that evaluating any polynomial is differentiable by induction: constants are, sums are, and multiplying by a variable is. This lets later files take derivatives at the identity.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/WeylAlgebraQuantumDet/CoefDiff.lean:13]
+    mathlib: [MvPolynomial.induction_on, Differentiable.mul]
+    needs: [f-is-top, polynomials, complex-analysis, calculus]
+  - id: f-curve
+    title: Derivative along a curve through the identity
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      Take a curve of matrices c(t) that equals the identity at t = 0 and has velocity X there. This file proves that applying a polynomial representation to the curve gives a curve of matrices with velocity "D of X", the derivative of the representation at the identity. It is the chain rule: the representation's entries are differentiable (previous file), and composing with the curve multiplies the derivative at the identity by the curve's velocity.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/WeylAlgebraQuantumDet/Curve.lean:6]
+    mathlib: [HasFDerivAt.comp_hasDerivAt, hasDerivAt_pi]
+    needs: [f-coef-diff, f-is-top, calculus, complex-analysis]
+  - id: f-inv-curve
+    title: Explicit curves with velocity equal to a unit matrix
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      For each matrix unit (a single 1 at row a, column b, zeros elsewhere), this file produces two curves of matrices P(t) and Q(t) with P(0) = Q(0) = identity, Q(t) times P(t) equal to the identity, velocity of P equal to the unit and velocity of Q equal to its negative. When a differs from b, take P = 1 + t E and Q = 1 - t E, since E squared is zero. When a equals b, use exponentials: 1 + (e^t - 1) E and 1 + (e^-t - 1) E.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/WeylAlgebraQuantumDet/InvCurve.lean:5]
+    mathlib: [Complex.hasDerivAt_exp, hasDerivAt_neg, Matrix.single_mul_single_same]
+    needs: [calculus, complex-numbers, linear-algebra]
+  - id: f-line-deriv
+    title: Intertwining survives differentiation
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      In a polynomial representation, suppose matrices satisfy P Z = W P. This file proves the representation's Lie action then satisfies the matching rule: the image of P times D of Z equals D of W times the image of P. Idea: P commutes the lines 1 + tZ and 1 + tW in the same way (P(1 + tZ) = (1 + tW)P). Apply the representation, which respects multiplication, then take the derivative at t = 0 of both sides. They are equal functions, so their derivatives are equal.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/WeylAlgebraQuantumDet/LineDeriv.lean:25]
+    mathlib: [HasDerivAt.unique, HasDerivAt.fun_sum, AnalyticAt.aeval_mvPolynomial]
+    needs: [f-is-top, calculus, complex-analysis, linear-algebra]
+  - id: f-bracket
+    title: The Lie action respects commutators
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      This file proves that the derivative D of a polynomial representation turns commutators into commutators. Commutator here means X Y minus Y X. The statement: the operator for a unit matrix E_ab, composed with D of Y, minus the reverse, equals D of the commutator of E_ab and Y. Proof idea: conjugate Y by the curve P(t) = 1 + t E_ab to get a curve through Y, differentiate the identity "image of P times D Y equals D of conjugate times image of P" at t = 0, and read off the product rule.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/WeylAlgebraQuantumDet/Bracket.lean:36]
+    mathlib: [HasDerivAt.unique, HasDerivAt.fun_sum, Matrix.matrix_eq_sum_single]
+    needs: [f-inv-curve, f-curve, f-line-deriv, f-is-top, calculus]
+  - id: f-gl-rel
+    title: The matrix-unit operators obey the gl(n) rules
+    kind: step
+    status: explained
+    chunk: c0059
+    plain: >
+      This file proves the operators E_ab coming from any polynomial representation obey the commutation rules of gl(n): the commutator of E_ab and E_cd equals E_ad if b = c (else zero) minus E_cb if d = a (else zero). It is the previous bracket result applied to two matrix units, together with the multiplication rule for unit matrices (E_ab times E_cd is E_ad when b = c, else zero). It matches the abstract statement of those rules defined in the real-place files.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/WeylAlgebraQuantumDet/GlRel.lean:5]
+    mathlib: [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+    needs: [f-bracket, f-real-place-analysis--statement-a, f-is-top, linear-algebra]
+    orphan: true

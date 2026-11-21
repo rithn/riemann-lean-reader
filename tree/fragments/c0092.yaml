@@ -1,0 +1,167 @@
+nodes:
+  - id: f-coker-tors
+    title: Torsion of a quotient by short vectors is small
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      Take integer vectors indexed by a finite set with at most A entries, and a collection L of them, each with "size" (sum of absolute values of entries) at most b. Divide the whole lattice by everything L generates. The leftover group's torsion part, the elements that become zero after multiplying by some nonzero whole number, has at most b to the power A elements. The proof picks a maximal independent subfamily, extends it to a basis-like family, shows its quotient is small by a determinant estimate, and then transfers the bound to the torsion of the L-quotient.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/CokerTors.lean:10
+    mathlib:
+      - Nat.pow_le_pow_right
+    needs:
+      - f-torsion-bounds-chains--max-indep
+      - f-full-enum
+      - f-index-le
+      - f-tors-sat
+      - concept-finitely-generated-abelian-groups
+      - counting
+  - id: f-det-nat-abs-le-prod-l1-norms
+    title: Hadamard-style bound on integer determinants
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      For a square grid of whole numbers, the size of its determinant is at most the product, over rows, of the sum of absolute values in each row. A determinant is a signed sum over all ways to pick one entry per column with no two in the same row. Taking absolute values can only make the total larger. Each term is then at most a product of absolute values. All these products also appear when you multiply out the row sums (which allows repeated choices as well), so the bound follows. This is an elementary estimate used for counting.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/DetNatAbsLeProdL1Norms.lean:5
+    mathlib:
+      - Matrix.det_apply
+      - Finset.abs_sum_le_sum_abs
+      - Fintype.prod_sum
+    needs: [linear-algebra, counting]
+  - id: f-full-enum
+    title: Independent vectors with enough reach can be listed
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      Say a finite set b of integer vectors is independent, and some nonzero multiple of each unit vector lies in its span. This file shows b can be listed as exactly one vector per coordinate. The idea is a count. Independence gives at most as many vectors as coordinates. The multiples of unit vectors give as many independent vectors inside the span of b, so there are at least as many. The two counts agree, so a matching between coordinates and members of b exists.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FullEnum.lean:5
+    mathlib:
+      - LinearIndependent.fintype_card_le_finrank
+      - finrank_span_set_eq_card
+      - Fintype.equivOfCardEq
+    needs: [linear-algebra, counting, concept-finitely-generated-abelian-groups]
+  - id: f-torsion-bounds-chains--imports
+    title: Bound on the degree-zero homology of a group action
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      This is the final step of the torsion-bound chain. A group G acts on a set X, with at most A orbits (groups of points the action moves around). A representation M of G on whole numbers receives a surjective map from the permutation representation on X, and the kernel is spanned by images of single points, each of small size at most b. Then the group homology in degree zero of M, the "coinvariants" where G acts trivially, has torsion of size at most b to the power A. The proof identifies that homology with a quotient on orbit-labelled vectors and applies the quotient-torsion bound.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/Imports.lean:9
+    mathlib:
+      - groupHomology
+      - Finsupp.basisSingleOne
+    needs:
+      - f-quotients-equiv-of-ker-eq
+      - f-l1-map-domain-le-and-l1-face-d-single-le
+      - f-coker-tors
+      - f-torsion-bounds-chains--transport
+      - concept-group-actions
+      - concept-chain-complexes-homology
+    orphan: true
+  - id: f-index-le
+    title: A lattice spanned by short vectors has small index
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      Take independent integer vectors, as many as there are coordinates, each of size at most b. The subgroup they span has finite index in the full lattice, and that index is at most b to the number of coordinates. Index means how many cosets, or copies, of the subgroup fit in the whole. The index equals the size of a determinant. The determinant bound from the neighbouring file says this is at most the product of the row sizes. Each row size is at most b, so the product is at most b to the power of the dimension.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/IndexLe.lean:6
+    mathlib:
+      - Submodule.natAbs_det_basis_change
+      - Submodule.finiteQuotientOfFreeOfRankEq
+    needs:
+      - f-det-nat-abs-le-prod-l1-norms
+      - concept-finitely-generated-abelian-groups
+      - linear-algebra
+  - id: f-ker-orb
+    title: Collapsing a set onto its orbits, in vectors
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      A group acts on a set X. Consider whole-number combinations of points of X. One can send each point to its orbit (the set of places the group moves it to). The claim is that the vectors sent to zero are exactly those killed by "coinvariants", meaning they lie in the span of g·v minus v. One direction is easy, because moving by g does not change the orbit. For the other, every point is replaced by a fixed representative of its orbit, and each replacement changes the vector by something of the form g·v minus v.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/KerOrb.lean:5
+    mathlib:
+      - Finsupp.mapDomain
+      - Representation.Coinvariants.ker
+    needs: [concept-group-actions, concept-group-representations, linear-algebra]
+  - id: f-l1-map-domain-le-and-l1-face-d-single-le
+    title: Moving points around never grows vector size
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      The "size" of an integer vector is the sum of absolute values of its entries. This file has two small facts. First, relabelling the points of a vector by any function (merging some points together) never increases the size. Two entries that land on the same point can partly cancel, but never grow. Second, applying the boundary-style operator built from k face maps to a single point gives a vector of size at most k. Both follow from the triangle inequality, size of a sum is at most the sum of sizes, applied to sums of single points.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/L1MapDomainLeAndL1FaceDSingleLe.lean:31
+    mathlib:
+      - Finsupp.mapDomain
+      - Int.natAbs_add_le
+    needs: [f-torsion-bounds-chains--face-d-single, infinite-series, counting]
+  - id: f-torsion-bounds-chains--max-indep
+    title: Maximal independent families span up to multiples
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      In a group where no nonzero element is killed by a whole number, take an independent set s inside a bigger set t. Then there is an independent set b between them such that every element of t has a nonzero multiple lying in the span of b. The proof uses Zorn's lemma, a standard tool saying that a chain-closed family of sets has a maximal member. Independent sets are closed under unions of chains. Take a maximal one. If some element x of t were missing a multiple, adding x would still be independent, contradicting maximality.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/MaxIndep.lean:5
+    mathlib:
+      - zorn_subset_nonempty
+      - linearIndepOn_sUnion_of_directed
+    needs: [linear-algebra, concept-finitely-generated-abelian-groups]
+  - id: f-quotients-equiv-of-ker-eq
+    title: Degree-zero homology as an orbit quotient
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      This file proves one main result about a group G acting on a set X. A surjective map from the permutation vectors on X onto a representation M has a kernel spanned by some set S. Then the degree-zero group homology of M is isomorphic, as an additive group, to the vectors on the set of orbits modulo the span of the images of S. In words, collapsing to orbits and dividing by S gives exactly the coinvariants of M. The proof builds two surjections from the permutation vectors with the same kernel, and two quotients with the same kernel are isomorphic.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/QuotientsEquivOfKerEq.lean:60
+    mathlib:
+      - QuotientAddGroup.quotientKerEquivOfSurjective
+      - groupHomology.H0Iso
+    needs:
+      - f-ker-orb
+      - concept-group-actions
+      - concept-chain-complexes-homology
+      - concept-normal-subgroups-quotients
+  - id: f-tors-sat
+    title: Torsion of a quotient is controlled by a sub-lattice
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      Suppose L is a set in a torsion-free group, and v is an independent family such that every element of L has a nonzero multiple in the span of the part of v that lies in L. If the quotient by span(v) has at most B elements, then the torsion of the quotient by span(L) has at most B elements. The idea is to map each torsion element to its class modulo span(v) and show this is one-to-one. If two torsion elements agree there, their difference has a multiple inside span(L), and independence lets one divide the multiple out again.
+    lean:
+      - Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/TorsSat.lean:41
+    mathlib:
+      - Finsupp.mem_span_image_iff_linearCombination
+      - Nat.card_le_card_of_injective
+    needs:
+      - f-tors-sat-mult
+      - concept-finitely-generated-abelian-groups
+      - concept-normal-subgroups-quotients
+  - id: f-tors-sat-mult
+    title: Multiples that land in a subgroup are closed under combining
+    kind: step
+    status: explained
+    chunk: c0092
+    plain: >
+      Let N be a subgroup and L a set of elements, each of which has some nonzero whole-number multiple inside N. Then every element in the span of L (whole-number combinations of L) also has a nonzero multiple inside N. The proof builds up the span step by step. For zero, use the multiplier 1. For a sum of two elements with multipliers a and b, use a times b, which clears both. For a scalar multiple, keep the same multiplier. A small and elementary induction.
+    lean:
+      - Development/AutomorphicArithmetic/IntegralCasts/CapelliIdentities/TorsSatMult.lean:3
+    mathlib:
+      - Submodule.span_induction
+    needs: [concept-finitely-generated-abelian-groups, groups]

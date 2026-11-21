@@ -1,0 +1,92 @@
+nodes:
+- id: f-divisor-proofs--etale-localization-at-prime-tensor-of-low-height
+  title: Etale-ness survives passing to a bigger ring's localization
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    An etale extension of rings is one with no branching, like adjoining a square root of a unit in a ring where 2 is invertible. Here a condition called "etale in low height" says that for every prime ideal of R whose pull back to A has height at most 1 (height counts steps in a chain of primes), the extension C stays etale after localizing at that prime. The file shows this carries over to a prime Q of a bigger R-algebra O. The proof uses that etale-ness is preserved under changing the base ring, and that the two ways of tensoring agree.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/EtaleLocalizationAtPrimeTensorOfLowHeight.lean:9"]
+  mathlib: [Algebra.Etale.baseChange, Algebra.TensorProduct.cancelBaseChange, Algebra.Etale.of_equiv]
+  needs: [f-divisor-proofs--torsion-free-over, concept-etale-ring-maps, concept-prime-ideals-localization, concept-tensor-product-of-algebras]
+- id: f-exists-smul-dvd-of-localization-at-prime-tensor
+  title: Divisibility after localizing can be cleared by a unit outside the prime
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    Suppose an element m of a tensor product is, after localizing at a prime Q, a multiple of some element b. The file shows that before localizing, there is an element s outside Q such that s times m is a multiple of b. This is the usual "clearing denominators" trick: a statement true after inverting everything outside Q is true up to multiplying by one such element. Localizing a module just means allowing such denominators, so equality there means equality up to a factor from outside Q. The proof writes the localized element as a fraction and compares numerators.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSmulDvdOfLocalizationAtPrimeTensor.lean:9"]
+  mathlib: [IsLocalizedModule.mk'_surjective, IsLocalizedModule.exists_of_eq]
+  needs: [concept-prime-ideals-localization, concept-tensor-product-of-algebras, concept-flat-modules]
+- id: f-finite-etale-of-galois-descent-hartogs
+  title: Descent argument that a Galois-type extension is finite etale
+  kind: step
+  status: explained
+  chunk: c0063
+  orphan: true
+  plain: >
+    The file proves that a ring extension C of R, acted on by a finite group with a trace relation, is finite and etale, assuming three side conditions on it: C has no torsion over A, a Hartogs-style division property holds, and C is etale at low-height primes. Finiteness comes from the trace relation. For etale-ness it passes to a faithfully flat extension O where C has a point. Divisibility checks at low-height primes (using Hartogs) show the Galois comparison map is onto. So O tensor C equals products of copies of O, which is etale, and descent gives that C is etale.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteEtaleOfGaloisDescentHartogs.lean:74"]
+  mathlib: [Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat, Ideal.exists_le_prime_disjoint, Module.FaithfullyFlat]
+  needs: [f-finite-of-galois-trace-relation, f-hart-tensor-of-flat, f-divisor-proofs--etale-localization-at-prime-tensor-of-low-height, f-galois-comparison-map-injective-of-flat, f-galois-element-dvd-of-formally-unramified, f-exists-smul-dvd-of-localization-at-prime-tensor, f-gal-map-gal-elt, f-divisor-proofs--torsion-free-over, concept-etale-ring-maps, concept-galois-fixed-fields, concept-flat-modules, concept-prime-ideals-localization]
+- id: f-finite-of-galois-trace-relation
+  title: A trace relation forces the extension to be finitely generated
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    Setting: a ring C over R, a finite group G acting on C, and a trace map T that adds up all the group images of an element. Suppose some finite lists x and y satisfy a relation saying the sums of x times the G-images of y equal a nonzero element b at the identity and zero elsewhere. The file proves C is a finitely generated R-module if C has no torsion for b. The key identity says b times c equals a combination of the x's with coefficients T of y times c. So b times C sits inside the span of the x's, and being torsion free C embeds in a finitely generated module over a Noetherian ring.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteOfGaloisTraceRelation.lean:8"]
+  mathlib: [Module.Finite.of_injective, Module.Finite.span_of_finite, isNoetherian_of_isNoetherianRing_of_finite]
+  needs: [f-divisor-proofs--torsion-free-over, concept-galois-fixed-fields, rings-fields, linear-algebra]
+- id: f-gal-map-gal-elt
+  title: The Galois comparison map and a special element
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    This file sets up two definitions and one small identity. The comparison map takes O tensor C, where a group G acts on C, to the product of copies of O, one per group element. It sends o tensor c to the list of o times the image of c under each group element. The file also builds a special element for each group element h from two lists x and y. Its comparison image is a "delta" vector, zero except at position h, provided the lists satisfy the trace-style relation. A later file uses this to show the comparison map is onto, as in classical Galois theory.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/GalMapGalElt.lean:11"]
+  mathlib: [Pi.algHom, Algebra.TensorProduct.lift]
+  needs: [concept-tensor-product-of-algebras, concept-galois-fixed-fields, groups]
+- id: f-galois-comparison-map-injective-of-flat
+  title: The Galois comparison map is injective over a flat base
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    The comparison map sends O tensor C to a product of copies of O, one per group element (see the file that defines it). This file proves it is injective when O is flat over R (tensoring with O keeps one-to-one maps one-to-one), given a trace relation and that C has no torsion for a nonzero a. The proof builds a map going back, from the product to O tensor C, whose composite with the comparison map is multiplication by a. Since C is torsion free and O is flat, multiplication by a is injective after tensoring. A map with an injective composite is itself injective.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/GaloisComparisonMapInjectiveOfFlat.lean:6"]
+  mathlib: [Module.Flat.lTensor_preserves_injective_linearMap, TensorProduct.induction_on]
+  needs: [f-gal-map-gal-elt, f-divisor-proofs--torsion-free-over, concept-flat-modules, concept-tensor-product-of-algebras, concept-galois-fixed-fields]
+- id: f-galois-element-dvd-of-formally-unramified
+  title: Formally unramified forces the special element to be divisible
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    Formally unramified means a ring extension has no infinitesimal branching: its module of differentials is zero. Equivalently, there is an idempotent-like element in the doubled tensor product that acts as a diagonal. The file assumes the comparison map is injective, and shows each special element is b times another element, where b is the scalar in the trace relation. The idea is to build the diagonal element e from formal unramifiedness and check that the special element is fixed by multiplication by e. Injectivity of the comparison map reduces this to a computation, and expanding gives b times something.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/GaloisElementDvdOfFormallyUnramified.lean:8"]
+  mathlib: [Algebra.FormallyUnramified.iff_exists_tensorProduct]
+  needs: [f-gal-map-gal-elt, concept-etale-ring-maps, concept-tensor-product-of-algebras, concept-derivations-smoothness]
+- id: f-hart-tensor-of-flat
+  title: The Hartogs-style division property survives flat base change
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    Call a module "Hartogs-like" if an element divisible by a nonzero a at every height-one prime (the primes just above zero) is divisible by a outright. The file shows this property transfers to O tensor M when O is flat over R and A is Noetherian. The idea uses an exact sequence: M maps by a to M, and by the finitely many generators of a certain ideal into quotients. Flatness keeps the sequence exact after tensoring with O. The image of our element is killed by the quotient map because of the local divisibility data, so by exactness it is divisible by a. The ideal used is finitely generated because A is Noetherian.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/HartTensorOfFlat.lean:31"]
+  mathlib: [Module.Flat.lTensor_exact, IsNoetherian.noetherian]
+  needs: [f-divisor-proofs--torsion-free-over, concept-flat-modules, concept-tensor-product-of-algebras, concept-noetherian-and-irreducible-components, concept-chain-complexes-homology]
+- id: f-divisor-proofs--torsion-free-over
+  title: Definitions of the Hartogs property, torsion-free and etale-in-low-height
+  kind: step
+  status: explained
+  chunk: c0063
+  plain: >
+    This file only gives three definitions, plus two tiny sanity examples. "Hart" says a module has the Hartogs property: an element that is divisible by a nonzero a at every prime of height at most 1 is divisible by a. "Torsion free over A" says that no nonzero a in A kills a nonzero element of the module, like integers acting on the rationals. "Etale in low height" says the algebra is etale (branch-free) after localizing at every prime whose pull back to A has height at most 1. The examples check that a field satisfies the Hartogs property, and that the zero module is torsion free.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/TorsionFreeOver.lean:9"]
+  mathlib: []
+  needs: [concept-etale-ring-maps, concept-prime-ideals-localization, concept-coordinate-rings-dimension, concept-integral-closure-fraction-fields]

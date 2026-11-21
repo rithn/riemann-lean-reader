@@ -1,0 +1,62 @@
+nodes:
+  - id: concept-picard-group
+    title: "The Picard group: rank-one 'twists' over a ring"
+    kind: concept
+    status: textbook
+    plain: >
+      Given a commutative ring, think of a module that looks locally like the ring itself, a "twisted copy" of it. Two such twists can be combined by tensoring, and each has an inverse, so the isomorphism classes form a group, the Picard group. Over the ordinary integers every twist is trivial. Over the ring of integers of a number field this group is the ideal class group, which is always finite. A class "has finite order" if some power of it is the trivial class, as 3 steps around a clock of 3 hours bring you back to the start.
+    needs: [groups, rings-fields, concept-dedekind-domains, concept-flat-modules]
+    learn:
+      - {title: "Weibel, The K-book", where: "ch. I.3 (Picard group)"}
+      - {title: "Neukirch, Algebraic Number Theory", where: "ch. I, section 12 (class group)"}
+  - id: f-exists-nat-mul-mem-range-pi-quotient-minimal-primes
+    title: One whole number clears all mixed-up residues at the minimal primes
+    kind: step
+    status: explained
+    chunk: c0036
+    plain: >
+      Take a ring B that is finitely generated as an additive group (like the integers with some extra roots adjoined). Its minimal primes are the smallest prime ideals, one for each "branch". The file shows there is a single non-zero whole number n such that n times any choice of one value per branch comes from one genuine element of B. First step, for two different minimal primes, some non-zero whole number lies in their combined ideal, because integral elements have non-zero integer multiples. Second step, a Chinese-remainder style gluing using the product of those numbers, raised to a power, finishes the job.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsNatMulMemRangePiQuotientMinimalPrimes.lean:64"]
+    mathlib: [Ideal.comap_ne_bot_of_integral_mem, minimalPrimes.finite_of_isNoetherianRing, Ideal.Quotient.mk]
+    needs: [concept-prime-ideals-localization, concept-noetherian-and-irreducible-components, concept-integral-closure-fraction-fields, modular-arithmetic]
+  - id: f-is-of-fin-order-of-is-of-fin-order-map-ring-hom
+    title: Finite order descends along an injective ring map with bounded denominators
+    kind: step
+    status: explained
+    chunk: c0036
+    plain: >
+      Suppose a ring B sits inside a bigger ring B' that is finitely generated as an additive group, and some non-zero whole number n pushes every element of B' back into B. Then a class in the Picard group of B has finite order whenever its image in the Picard group of B' does. The idea has two parts. First, the classes that become trivial in B' form a finite set, because each corresponds to a sub-lattice trapped between n times B' and B'. Second, a finite group-like set means a power of the class lands in it, so some further power is trivial.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsOfFinOrderOfIsOfFinOrderMapRingHom.lean:52"]
+    mathlib: [Submodule.finite_quotient_smul, Submodule.unitsToPic, CommRing.Pic.mapRingHom]
+    needs: [concept-picard-group, concept-finitely-generated-abelian-groups, concept-flat-modules, groups]
+  - id: f-pic-is-of-fin-order-of-finite-int
+    title: Picard classes of an integral domain finite over the integers have finite order
+    kind: step
+    status: explained
+    chunk: c0036
+    plain: >
+      Let B be an integral domain (no zero-divisors) that is finitely generated as an additive group. The file shows every class in its Picard group has finite order. Case one, the ring has prime characteristic: then it is a finite set and the group is finite. Case two, characteristic zero: its fraction field is a number field, whose ring of integers has a finite class group. A common denominator, found by clearing denominators over a finite generating set, lets the earlier lemma move the finiteness back down to B.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/PicIsOfFinOrderOfFiniteInt.lean:131"]
+    mathlib: [ClassGroup.equivPic, IsFractionRing.div_surjective, Module.finite_of_fg_torsion]
+    needs: [f-is-of-fin-order-of-is-of-fin-order-map-ring-hom, concept-picard-group, number-fields, concept-integral-closure-fraction-fields, concept-ideals-and-discriminant]
+  - id: f-pic-pi-is-of-fin-order
+    title: Picard classes of a finite product of rings are of finite order if each factor's are
+    kind: step
+    status: explained
+    chunk: c0036
+    plain: >
+      Take finitely many rings and form their product, where an element is one value from each ring. The file shows that if every class in each factor's Picard group has finite order, then so does every class of the product. The proof first shows a twist over the product is trivial as soon as its restriction to each factor is trivial: it picks a generator in each factor and glues them with the indicator elements that are 1 in one slot and 0 elsewhere. Then it raises a class to the product of the orders found for the factors.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/PicPiIsOfFinOrder.lean:103"]
+    mathlib: [TensorProduct.induction_on, Module.Invertible.bijective_of_surjective, Pi.single]
+    needs: [concept-picard-group, concept-tensor-product-of-algebras, concept-flat-modules, groups]
+  - id: f-is-of-fin-order-pic-of-is-reduced-finite-int
+    title: Picard classes of a reduced ring finite over the integers have finite order
+    kind: step
+    status: explained
+    chunk: c0036
+    orphan: true
+    plain: >
+      A ring is reduced if no non-zero element has a power equal to zero. The file shows that for a reduced ring B, finitely generated as an additive group, every Picard class has finite order. It proves this by assuming the three lemmas it cites. Map B into the product of its quotients by the minimal primes. Reducedness makes this map injective. A single whole number moves the product back into B. Each factor is a domain, so its classes have finite order, and so do those of the product. Finally the descent lemma brings finiteness back to B.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsOfFinOrderPicOfIsReducedFiniteInt.lean:9"]
+    mathlib: [Ideal.sInf_minimalPrimes, IsReduced, Pi.ringHom]
+    needs: [f-exists-nat-mul-mem-range-pi-quotient-minimal-primes, f-is-of-fin-order-of-is-of-fin-order-map-ring-hom, f-pic-is-of-fin-order-of-finite-int, f-pic-pi-is-of-fin-order, concept-picard-group, concept-prime-ideals-localization]

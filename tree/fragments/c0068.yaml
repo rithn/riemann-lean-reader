@@ -1,0 +1,102 @@
+nodes:
+  - id: f-period-integrals--minkowski
+    title: Minkowski's bound on finite matrix groups (statement)
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This file only states a claim, and proves nothing. First it defines a number M(N), a product over primes p of p raised to a sum of terms N divided by p^i·(p−1), rounded down. The claim is that every finite group of invertible N-by-N integer matrices has a size that divides M(N). For N = 2, M = 2³·3 = 24, so such a group has at most a divisor of 24 elements. This is a classical bound of Minkowski. Other files prove it.
+    lean: ["Formalism/PeriodIntegrals/Minkowski.lean:9"]
+    mathlib: []
+    needs: [groups, linear-algebra, primes-divisibility, counting]
+  - id: f-period-integrals--minkowski-q
+    title: Minkowski bound over the rationals (statements)
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      Only statements, no proofs. One says that every finite group of invertible rational matrices can be turned into integer matrices by a single change of basis. The other says the same Minkowski divisibility as for integer matrices (the group size divides M(N)) holds for finite groups of rational matrices. The second does follow from the first together with the integer case, but this file just names the claim. The proof is elsewhere.
+    lean: ["Formalism/PeriodIntegrals/MinkowskiQ.lean:11"]
+    mathlib: []
+    needs: [f-period-integrals--minkowski, groups, linear-algebra]
+  - id: f-orbital-bounds-conclusion--minkowski
+    title: Minkowski's bound proved, by plugging in two steps
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This proves Minkowski's divisibility claim for integer matrix groups. It is a one-line assembly. The argument has two ingredients, a statement about traces of matrices of prime-power order, and a statement that the group size divides every power sum of traces. Both are proved in other files, and handing them to a general result gives the bound. So the claim is established from earlier proofs, with nothing assumed beyond Lean's standard library and Mathlib.
+    lean: ["Formalism/PeriodIntegrals/OrbitalBoundsConclusion/Minkowski.lean:7"]
+    mathlib: []
+    needs: [f-period-integrals--minkowski, f-minkowski-bound-of-steps, f-charpoly-dvd-of-pow-eq-one, f-power-sum]
+  - id: f-orbital-bounds-conclusion--minkowski-q
+    title: Minkowski's bound over the rationals, proved
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This proves the rational version of Minkowski's bound, that the size of any finite group of invertible rational matrices divides M(N). It is a one-line citation. The argument is in the lattice file, which turns such a group into a group of integer matrices of the same size, then applies the integer version. So the claim here rests on those two earlier proofs.
+    lean: ["Formalism/PeriodIntegrals/OrbitalBoundsConclusion/MinkowskiQ.lean:6"]
+    mathlib: []
+    needs: [f-period-integrals--minkowski-q, f-minkowski-torsion-free--lattice]
+    orphan: true
+  - id: f-minkowski-bound--assemble
+    title: From prime-power subgroups to the full Minkowski bound
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This proves Minkowski's bound, but only by assuming a weaker claim, which we call the prime-power step. That claim says that a finite group of integer matrices whose size is a power of a prime ℓ has size dividing ℓ^m·m!, where m = N/(ℓ−1) rounded down. The idea is that a number divides M(N) if each prime power dividing it does. Sylow's theorem gives a subgroup of exactly that prime-power size. Applying the step to it bounds the exponent. The file checks that the exponent of ℓ in ℓ^m·m! equals the exponent in M(N), using a formula for how often a prime divides a factorial.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MinkowskiBound/Assemble.lean:41"]
+    mathlib: ["Sylow.exists_subgroup_card_pow_prime", "padicValNat_factorial", "Nat.dvd_iff_prime_pow_dvd_dvd"]
+    needs: [f-power-sum-step, f-period-integrals--minkowski, concept-sylow-theorems, primes-divisibility, groups]
+  - id: f-charpoly-dvd-of-pow-eq-one
+    title: Traces of matrices of prime-power order
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This proves the trace step. If an integer matrix A satisfies A^(ℓ^a) = 1 for a prime ℓ, then its trace equals N − ℓ·y for some whole number y at most N/(ℓ−1), and y = 0 forces A to be the identity. The proof first shows the characteristic polynomial divides (X^n − 1)^N. Its irreducible factors are cyclotomic polynomials, whose roots are roots of unity. Each factor of ℓ-power degree has a controlled second coefficient, which is minus the trace. Multiplying such factors keeps the shape. If y = 0, the matrix minus 1 is nilpotent, and an order-n nilpotent shift of the identity must be the identity.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MinkowskiBound/CharpolyDvdOfPowEqOne.lean:156"]
+    mathlib: ["Matrix.aeval_self_charpoly", "Polynomial.cyclotomic", "Polynomial.prod_cyclotomic_eq_X_pow_sub_one", "Polynomial.cyclotomic.irreducible_rat"]
+    needs: [f-power-sum-step, polynomials, linear-algebra, concept-roots-of-unity-kummer, concept-field-extensions-transcendence, primes-divisibility]
+  - id: f-minkowski-bound-of-steps
+    title: Trace step plus power-sum step gives the prime-power step
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This proves the prime-power step from two other steps, on the assumption they hold. Let P have size a power of ℓ. Build a polynomial that is zero at every trace value N − ℓ·y (for y from 1 up to m) and equals ℓ^m·m! at N. Summing it over the group, the total is divisible by |P| by the power-sum step. Only the identity has trace N, since non-identity elements have y > 0 by the trace step, so the sum is just ℓ^m·m!. Hence |P| divides ℓ^m·m!. The file then feeds this into the earlier assembly to get Minkowski's bound.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MinkowskiBound/MinkowskiBoundOfSteps.lean:71"]
+    mathlib: ["Polynomial.eval_prod", "Finset.prod_range_add_one_eq_factorial"]
+    needs: [f-minkowski-bound--assemble, f-power-sum-step, polynomials, counting, groups]
+  - id: f-power-sum
+    title: The group size divides every power sum of traces
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This proves that, for a finite group of integer matrices, the group size divides the sum over the group of the k-th powers of the traces. First it shows that the sum of the group's matrices, divided by the group size, is a projection (squares to itself). A projection's trace is a whole number, the dimension of its image. That gives divisibility for k = 1. For general k, it replaces each matrix with its k-fold "Kronecker power", which is still a group action and whose trace is the k-th power of the trace.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MinkowskiBound/PowerSum.lean:66"]
+    mathlib: ["LinearMap.IsIdempotentElem.isProj_range", "Matrix.trace_sum", "Finset.prod_univ_sum"]
+    needs: [f-power-sum-step, linear-algebra, concept-group-representations, groups, counting]
+  - id: f-power-sum-step
+    title: The three steps of Minkowski's argument (statements)
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This file only states three claims, and proves none. The trace step says an integer matrix of prime-power order has trace N − ℓ·y with y small, and y = 0 only for the identity. The power-sum step says the size of a finite integer matrix group divides the sum of the k-th powers of traces. The prime-power step says a finite group of ℓ-power size has size dividing ℓ^m·m!. Other files prove the first two and combine them into the third.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MinkowskiBound/PowerSumStep.lean:8"]
+    mathlib: []
+    needs: [linear-algebra, groups, primes-divisibility, counting]
+  - id: f-minkowski-torsion-free--lattice
+    title: Making a finite rational matrix group integral
+    kind: step
+    status: explained
+    chunk: c0068
+    plain: >
+      This proves Minkowski's bound over the rationals, using the integer version. Take a finite group G of invertible rational matrices. Let the lattice L be all whole-number combinations of the vectors g·e_i (the images of the standard basis). L is preserved by G, since multiplying by a group element permutes the generators. Being finitely generated and torsion free, L is free, and it has rank N because it spans the same space. In a basis of L each group element becomes an integer matrix, and distinct elements stay distinct. So G is isomorphic to an integer matrix group and its size divides M(N).
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MinkowskiTorsionFree/Lattice.lean:124"]
+    mathlib: ["Module.free_of_finite_type_torsion_free'", "LinearMap.toMatrixAlgEquiv", "Submodule.span"]
+    needs: [f-orbital-bounds-conclusion--minkowski, f-period-integrals--minkowski-q, linear-algebra, concept-finitely-generated-abelian-groups, concept-lattices-in-the-plane, groups]

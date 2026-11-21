@@ -1,0 +1,61 @@
+nodes:
+  - id: f-homogeneous-ideals--exists-ring-equiv-of-is-transcendence-basis
+    title: Symmetries of polynomial rings extend to symmetries of algebraically closed fields
+    kind: step
+    status: explained
+    chunk: c0040
+    plain: >
+      A transcendence basis of a field is a set of elements that behave like free variables, with everything else algebraic over them. If two algebraically closed fields have transcendence bases, any ring isomorphism between the two polynomial rings in those variables extends to an isomorphism of the big fields. This is because an algebraically closed field is the algebraic closure of that polynomial ring, and algebraic closures are unique. From this the file derives several consequences, such as extending automorphisms, shifting a transcendental x to x + 1, and that elements of the complex numbers fixed by every symmetry over K lie in K.
+    lean: ["Development/AbelianVarietyTheory/Proofs/HomogeneousIdeals/ExistsRingEquivOfIsTranscendenceBasis.lean:9"]
+    mathlib: [IsAlgClosure.equivOfEquiv, exists_isTranscendenceBasis, IsAlgClosed.cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt', InfiniteGalois.mem_range_algebraMap_iff_fixed]
+    needs: [concept-field-extensions-transcendence, algebraic-closure, polynomials, concept-galois-fixed-fields]
+  - id: f-adelic-lattice-proofs--exists-ring-equiv-apply-ne-of-is-algebraic
+    title: An irrational algebraic complex number is moved by some symmetry of the complex numbers
+    kind: step
+    status: explained
+    chunk: c0040
+    plain: >
+      Take a complex number z that is algebraic (a root of a polynomial with rational coefficients) but not rational. The file shows that some ring symmetry of the complex numbers moves z. Idea, by contradiction. If every symmetry fixed z, then in particular every symmetry that keeps the rationals fixed would, and the Galois-descent result from another file says a complex number fixed by all of those is rational. That contradicts z not being rational. For example, the square root of 2 is moved to its negative.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRingEquivApplyNeOfIsAlgebraic.lean:9"]
+    mathlib: [IsAlgebraic, RingEquiv.toRingEquiv]
+    needs: [f-homogeneous-ideals--exists-ring-equiv-of-is-transcendence-basis, concept-galois-fixed-fields, concept-field-extensions-transcendence, complex-numbers]
+  - id: f-adelic-lattice-proofs--exists-ring-equiv-ne-of-transcendental
+    title: A transcendental complex number is moved by some symmetry of the complex numbers
+    kind: step
+    status: explained
+    chunk: c0040
+    plain: >
+      A complex number z is transcendental if it is not a root of any non-zero rational polynomial, like pi. The file shows some ring symmetry of the complex numbers moves it. Idea: z alone is "free", so it extends to a transcendence basis. Define a symmetry of the polynomial ring in those variables that flips the sign of the variable for z and fixes the others. Extend it to the whole complex field by the uniqueness of algebraic closure. Then it sends z to minus z, which differs from z because z is not 0.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRingEquivNeOfTranscendental.lean:8"]
+    mathlib: [exists_isTranscendenceBasis_superset, IsAlgClosure.equivOfEquiv, AlgebraicIndependent.aevalEquiv]
+    needs: [concept-field-extensions-transcendence, algebraic-closure, polynomials, complex-numbers]
+  - id: f-adelic-lattice-proofs--exists-rat-of-forall-complex-ring-equiv-fixed
+    title: A complex number fixed by every ring symmetry of the complex numbers is rational
+    kind: step
+    status: explained
+    chunk: c0040
+    plain: >
+      If a complex number z is left unchanged by every ring symmetry of the complex numbers, then z is a rational number. The proof is a case split by contradiction. Suppose z is not rational. If z is algebraic, one file provides a symmetry that moves it. If z is transcendental, another file provides one. Either way the assumption that every symmetry fixes z is contradicted. The file itself is only this combination step. The two cited cases hold the real work.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRatOfForallComplexRingEquivFixed.lean:13"]
+    needs: [f-adelic-lattice-proofs--exists-ring-equiv-apply-ne-of-is-algebraic, f-adelic-lattice-proofs--exists-ring-equiv-ne-of-transcendental, concept-field-extensions-transcendence, concept-galois-fixed-fields]
+  - id: f-adelic-lattice-proofs--galois-stable-submodule-le-span-rational
+    title: A symmetry-stable subspace is spanned by its rational-coordinate vectors
+    kind: step
+    status: explained
+    chunk: c0040
+    plain: >
+      Work in a complex vector space with a chosen basis. Let W be a subspace that is stable when any ring symmetry of the complex numbers is applied to the coordinates. The file shows W is spanned by the vectors of W with all-rational coordinates. For example, a plane in 3-space cut out by equations with rational coefficients. Idea, by induction on the number of non-zero coordinates. Scale a vector so one coordinate is 1. If all coordinates are fixed by every symmetry, they are rational. Otherwise subtract the vector's symmetry-image to get a shorter non-zero vector.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/GaloisStableSubmoduleLeSpanRational.lean:117"]
+    mathlib: [Module.Basis.repr, Submodule.span_induction, Finsupp.support]
+    needs: [f-adelic-lattice-proofs--exists-rat-of-forall-complex-ring-equiv-fixed, linear-algebra, concept-galois-fixed-fields, proofs]
+  - id: f-mem-span-rational-kronecker-invariants
+    title: Invariant tensors under a symmetric set of matrices have a rational spanning set
+    kind: step
+    status: explained
+    chunk: c0040
+    orphan: true
+    plain: >
+      Let Gamma be a set of complex matrices that is closed under applying any ring symmetry of the complex numbers to the entries. Let l be a vector in the n-fold tensor power space that every matrix of Gamma fixes (the matrices act through their Kronecker power). The file shows l is a complex combination of invariant vectors with rational entries. Idea: the invariant vectors form a subspace. Closure of Gamma under symmetries makes that subspace stable under symmetries on coordinates, so the previous theorem applies.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/MemSpanRationalKroneckerInvariants.lean:22"]
+    mathlib: [Matrix.vecMul, Pi.basisFun, Submodule.span]
+    needs: [f-adelic-lattice-proofs--galois-stable-submodule-le-span-rational, linear-algebra, concept-group-actions, concept-galois-fixed-fields]

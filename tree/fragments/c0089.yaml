@@ -1,0 +1,235 @@
+nodes:
+  - id: f-smith-zp
+    title: Smith normal form over the p-adic integers
+    kind: step
+    status: explained
+    chunk: c0089
+    orphan: true
+    plain: >
+      Every square matrix with p-adic integer entries can be written as U times
+      a diagonal matrix times V, where U and V are invertible. This is the
+      Smith normal form, the matrix version of "choose bases so the map is just
+      scaling each axis". The proof views the matrix as a linear map, takes
+      the existence of a Smith basis pair from the general result on free
+      modules (the Smith-exists file), and converts the two bases into change-of-basis
+      matrices. Those are invertible because they have inverses, and the
+      matrix identity follows by multiplying out.
+    lean:
+      - Formalism/MahlerMeasure/MahlerMeasureProofs/SmithZp.lean:8
+    mathlib:
+      - Module.Basis.toMatrix_mul_toMatrix_flip
+      - Matrix.toLin'
+    needs:
+      - f-smith-exists
+      - f-mahler-measure--statement-d
+      - p-adic-numbers
+      - concept-discrete-valuation-ring
+      - linear-algebra
+  - id: f-mahler-measure--statement
+    title: Mahler measure toolkit, part 1 (statements only)
+    kind: step
+    status: explained
+    chunk: c0089
+    plain: >
+      This file only states claims without proving them. It lists a toolkit of
+      named facts used for bounding Mahler measures, a way of sizing up a
+      polynomial. Examples are rules for generalised binomial coefficients
+      (like "x choose k" for any rational x), how the degree and leading
+      coefficient of a determinant of polynomial matrices behave, a bound on
+      p-adic digits of factorials, and counting results for how many integers
+      sit near a root p-adically. Each is a self-contained claim, and a later
+      proof can assume the ones it needs. The window-mean and
+      slack inequalities are numeric estimates.
+    lean:
+      - Formalism/MahlerMeasure/Statement.lean:12
+    mathlib:
+      - descPochhammer
+    needs:
+      - polynomials
+      - p-adic-numbers
+      - concept-ultrametric-norm
+      - counting
+  - id: f-mahler-measure--statement-b
+    title: Mahler measure toolkit, part 2 (statements only)
+    kind: step
+    status: explained
+    chunk: c0089
+    orphan: true
+    plain: >
+      This file only states claims without proving them. Three facts are
+      listed. First, a scaled binomial-coefficient polynomial has p-adically
+      small coefficients when the scale is a power of p. Second, if some rows
+      of a matrix have all entries in an ideal I, the determinant lies in a
+      power of I, one factor per such row. Third, a polynomial taking values
+      in a subring at consecutive integers can be written with coefficients in
+      that subring using binomial-coefficient polynomials, which is
+      Newton's interpolation idea.
+    lean:
+      - Formalism/MahlerMeasure/StatementB.lean:10
+    mathlib:
+      - descPochhammer
+    needs:
+      - polynomials
+      - p-adic-numbers
+      - concept-prime-ideals-localization
+      - linear-algebra
+  - id: f-mahler-measure--statement-d
+    title: Mahler measure toolkit, part 3 (statements only)
+    kind: step
+    status: explained
+    chunk: c0089
+    plain: >
+      This file only states claims without proving them. It defines a "Gauss
+      radius" of a polynomial (the largest term size once you weight the
+      power x^k by r^k) and claims it multiplies across products over an
+      ultrametric field. It states that binomial polynomials stay p-adically
+      integral, and the Smith normal form claim for matrices over the
+      p-adic integers. Its last two statements say that a matrix of binomial
+      polynomials has few small diagonal entries at an integer, and that this
+      bound holds on average over a window of integers. These feed the
+      Mahler measure estimates.
+    lean:
+      - Formalism/MahlerMeasure/StatementD.lean:21
+    mathlib:
+      - descPochhammer
+    needs:
+      - f-mahler-measure--statement
+      - polynomials
+      - p-adic-numbers
+      - concept-ultrametric-norm
+      - concept-discrete-valuation-ring
+  - id: f-defs-d-v-r
+    title: Chaining the discrete-valuation-ring size bounds
+    kind: step
+    status: explained
+    chunk: c0089
+    orphan: true
+    plain: >
+      This file only states claims, as implications between other claims, and
+      proves none of them. Each says "if these named statements hold, then that
+      one follows". For example, one says that a statement about powers of a
+      map's range together imply a bound on a quotient's length. Another
+      combines a Smith generator count, that length bound and a determinant
+      bound to get a final determinant statement. A third says a saturated
+      chain statement gives a graded bound. They record how the
+      pieces on discrete valuation rings (rings with a single prime to divide by) fit together.
+    lean:
+      - Formalism/SmithDeterminants/DefsDVR.lean:5
+    mathlib: []
+    needs:
+      - f-statement-d-v-r
+      - concept-discrete-valuation-ring
+  - id: f-defs-gram
+    title: Gram determinant bounds, how the pieces assemble
+    kind: step
+    status: explained
+    chunk: c0089
+    orphan: true
+    plain: >
+      This file only states claims, and proves none of them. It lists the small
+      ingredients for a determinant bound on Gram matrices (tables of inner
+      products) built from polynomials with integer or Gaussian integer
+      coefficients. The ingredients are: rows are divisible by a factorial
+      factor, the matrix is positive definite, Hadamard's inequality (a
+      determinant is at most the product of the diagonal), a bound on the
+      diagonal, and integrality of the determinant. Two final claims say that
+      if all the ingredients hold, then the full Gram statements follow.
+    lean:
+      - Formalism/SmithDeterminants/DefsGram.lean:54
+    mathlib:
+      - Matrix.PosDef
+    needs:
+      - f-smith-determinants--statement-gram
+      - linear-algebra
+      - polynomials
+      - concept-hermitian-unitary-matrices
+  - id: f-smith-exists
+    title: Smith normal form for a map on a free module
+    kind: step
+    status: explained
+    chunk: c0089
+    plain: >
+      This file proves that a linear map from a finite free module to itself
+      has a Smith form: one can choose two bases so the map sends each basis
+      vector to a scalar times a basis vector, with zeros for the kernel
+      part. Over the integers it is the familiar diagonalisation of an
+      integer matrix by row and column operations. The proof splits the
+      module into the kernel and a complement mapping onto the image. It
+      applies Mathlib's normal form theorem to the image, then reindexes
+      so the two bases line up and the kernel directions carry scalar zero.
+    lean:
+      - Formalism/SmithDeterminants/DivisibilityChains/SmithExists.lean:7
+    mathlib:
+      - Submodule.smithNormalForm
+      - Submodule.basisOfPid
+    needs:
+      - f-statement-d-v-r
+      - concept-discrete-valuation-ring
+      - concept-finitely-generated-abelian-groups
+      - linear-algebra
+  - id: f-statement-d-v-r
+    title: Smith data and size bounds over a DVR (statements only)
+    kind: step
+    status: explained
+    chunk: c0089
+    plain: >
+      This file mostly states claims without proving them, plus some
+      definitions. The definition is "Smith data" for a linear map, meaning
+      two bases and scalars so the map scales each basis vector. It also
+      counts how many scalars are not divisible by a power of the prime
+      element. The claims, over a discrete valuation ring (a ring with a
+      single prime to divide by), bound how large quotient modules can be, the
+      truncated determinants, and chains of lattices. They are stated as named
+      claims that other files may assume.
+    lean:
+      - Formalism/SmithDeterminants/StatementDVR.lean:13
+    mathlib:
+      - Module.length
+    needs:
+      - concept-discrete-valuation-ring
+      - concept-valuation-rings
+      - linear-algebra
+      - concept-finitely-generated-abelian-groups
+  - id: f-smith-determinants--statement-gram
+    title: Gram determinants of factorial-weighted polynomials (statements)
+    kind: step
+    status: explained
+    chunk: c0089
+    plain: >
+      This file defines things and states two big claims without proving them.
+      The definitions are a "Fock" inner product on polynomials (multiply
+      matching coefficients and weight each monomial by the product of
+      factorials of its exponents) and the Gram matrix of a family, which is the
+      table of inner products. The claims, over the integers and over Gaussian
+      integers, say such a matrix is positive definite, its determinant is
+      positive, bounded by the diagonal product, divisible by factorials, and
+      has controlled p-adic size.
+    lean:
+      - Formalism/SmithDeterminants/StatementGram.lean:37
+    mathlib:
+      - Matrix.PosDef
+      - padicValNat
+    needs:
+      - polynomials
+      - linear-algebra
+      - primes-divisibility
+      - rings-fields
+  - id: f-truncation-chain-bound-nonneg-exponents
+    title: Smith form existence (alias)
+    kind: step
+    status: explained
+    chunk: c0089
+    orphan: true
+    plain: >
+      This file adds no new mathematics. It gives the existence of Smith normal
+      form for a map on a free module over a discrete valuation ring (a ring
+      with a single prime to divide by) a second name, so other modules can
+      refer to it from this spot. The proof is a single reference to the
+      theorem in the Smith-exists file, which does the real work of choosing
+      two bases in which the map just scales each vector.
+    lean:
+      - Formalism/SmithDeterminants/TruncationChainBoundNonnegExponents.lean:6
+    mathlib: []
+    needs:
+      - f-smith-exists
+      - concept-discrete-valuation-ring

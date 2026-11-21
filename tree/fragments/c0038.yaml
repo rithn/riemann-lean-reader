@@ -1,0 +1,62 @@
+nodes:
+  - id: f-diamond-operator-of-matrix-modular-form-gamma1-inter-gam
+    title: The diamond operator keeps modular forms at the same level
+    kind: step
+    status: explained
+    chunk: c0038
+    plain: >
+      A modular form for a "level group" (matrices with whole-number entries and determinant 1, with conditions modulo N and l) is a function on the upper half-plane that stays the same under the group's actions. The diamond operator replaces a form by its transform under one chosen matrix. The file shows the result is again a modular form for the same group. The key step is that conjugating a group element by the chosen matrix lands back in the group, checked entry by entry. Holomorphy and boundedness at the cusps then carry over.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/DiamondOperatorOfMatrixModularFormGamma1InterGam.lean:55"]
+    mathlib: [ModularForm.translate, CongruenceSubgroup.Gamma1_mem, CongruenceSubgroup.Gamma0_mem]
+    needs: [f-foundations--pet-eq-rel-index-mul-pet-prod, concept-modular-forms, concept-hecke-operators, concept-normal-subgroups-quotients, modular-arithmetic]
+  - id: f-gamma1-inter-gamma0-modular-form-has-sum-q-expansion
+    title: A modular form of this level equals its q-series
+    kind: step
+    status: explained
+    chunk: c0038
+    plain: >
+      Every modular form f of the level group is a sum of powers of q, where q is e to the power 2 pi i times tau. The series has coefficients a_0, a_1, a_2 and converges at every point of the upper half-plane. This holds because shifting tau by 1 is allowed in this group, so f repeats with period 1. The file checks that the shift matrix lies in both congruence conditions, then calls the general Mathlib theorem on q-expansions. Only the case with a positive level is covered.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/Gamma1InterGamma0ModularFormHasSumQExpansion.lean:19"]
+    mathlib: [ModularForm.hasSum_qExpansion, Subgroup.strictPeriods_eq_zmultiples_one_of_T_mem]
+    needs: [concept-modular-forms, infinite-series, fourier-analysis, complex-numbers]
+  - id: f-has-sum-hecke-u-operator-explicit
+    title: The U operator keeps every q-th coefficient
+    kind: step
+    status: explained
+    chunk: c0038
+    plain: >
+      Say f has the q-series with coefficients a_m. The U operator averages f over q shifted copies, f at (tau + b)/q for b from 0 to q minus 1. The file shows the result has the series whose m-th coefficient is a at q times m. In other words it keeps every q-th coefficient and drops the others. Each shifted copy gives roots of unity as factors, and summing a root of unity's powers over a full cycle gives q if q divides the exponent and 0 otherwise. That filters out the unwanted terms.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/HasSumHeckeUOperatorExplicit.lean:28"]
+    mathlib: [Complex.isPrimitiveRoot_exp, geom_sum_eq, HasSum.mul_left]
+    needs: [concept-hecke-operators, concept-roots-of-unity-kummer, infinite-series, complex-numbers]
+  - id: f-has-sum-hecke-v-operator-explicit
+    title: The V operator spreads the coefficients out by a factor q
+    kind: step
+    status: explained
+    chunk: c0038
+    plain: >
+      The V operator evaluates a form at q times tau instead of tau. The file shows that if f has the q-series with coefficients a_m, the new function has coefficients that are a at m divided by q when q divides m, and 0 otherwise. The reason is that replacing tau by q times tau turns the variable q into its q-th power, so the term with exponent m becomes the term with exponent q times m. The gaps are filled with zeros, and the sum is checked to be unchanged by that reindexing.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/HasSumHeckeVOperatorExplicit.lean:7"]
+    mathlib: [Function.Injective.hasSum_iff, Function.Periodic.qParam]
+    needs: [concept-hecke-operators, infinite-series, complex-numbers]
+  - id: f-q-expansion-coeff-period-one-eq-of-has-sum
+    title: A convergent q-series gives the true Fourier coefficients
+    kind: step
+    status: explained
+    chunk: c0038
+    plain: >
+      Suppose a function f on the upper half-plane is, at every point, the sum of a power series in q with some coefficients a_m. The file shows those a_m are exactly the official q-expansion coefficients of f, the ones defined through derivatives. First, the series converges for every q of size below 1, so it defines a function that is analytic at 0. Then power series are unique: two series for the same function near 0 have the same coefficients. This lets later files read coefficients off any explicit series.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/QExpansionCoeffPeriodOneEqOfHasSum.lean:65"]
+    mathlib: [FormalMultilinearSeries.ofScalars, HasFPowerSeriesAt.eq_formalMultilinearSeries, Function.Periodic.cuspFunction]
+    needs: [complex-analysis, infinite-series, concept-modular-forms, real-analysis]
+  - id: f-q-expansion-coeff-hecke-t-operator-gamma1-inter-gamma0
+    title: The coefficients of the Hecke operator T
+    kind: step
+    status: explained
+    chunk: c0038
+    orphan: true
+    plain: >
+      For a prime q not dividing the level, the Hecke operator T combines the U operator on f with a multiple of the V operator on the diamond-transform of f. The file computes its coefficients. The n-th coefficient of T applied to f equals the (q times n)-th coefficient of f, plus q to the power k minus 1 times the (n divided by q)-th coefficient of the diamond-transform, the last term present only when q divides n. The proof adds the series of U and V given by the earlier files and reads off coefficients by uniqueness.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/QExpansionCoeffHeckeTOperatorGamma1InterGamma0.lean:14"]
+    mathlib: [HasSum.add, HasSum.mul_left]
+    needs: [f-diamond-operator-of-matrix-modular-form-gamma1-inter-gam, f-gamma1-inter-gamma0-modular-form-has-sum-q-expansion, f-has-sum-hecke-u-operator-explicit, f-has-sum-hecke-v-operator-explicit, f-q-expansion-coeff-period-one-eq-of-has-sum, f-foundations--pet-eq-rel-index-mul-pet-prod, concept-hecke-operators, concept-modular-forms, primes-divisibility]

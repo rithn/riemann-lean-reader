@@ -1,0 +1,177 @@
+nodes:
+
+# ---- new concepts first needed by this chunk ----
+
+- id: concept-localization-quotient-rings
+  title: Inverting an element and working modulo an ideal
+  kind: concept
+  status: textbook
+  plain: >
+    Two basic ways to build a new ring from an old one. To "invert" an element a, you allow fractions with powers of a
+    underneath, just as the integers become the fractions with 10, 100, 1000 underneath when you allow decimals. This is
+    called localizing. To work "modulo" an element h, you declare every multiple of h to be zero, like clock arithmetic
+    where multiples of 12 vanish. Ideals are the sets of multiples that may be declared zero. Both constructions show up
+    everywhere in algebraic geometry, where they mean "zoom in" and "look at a slice".
+  needs: [rings-fields, modular-arithmetic]
+  learn:
+    - {title: Introduction to Commutative Algebra (M. Atiyah and I. Macdonald), where: "Chapters 1 and 3"}
+    - {title: Abstract Algebra (D. Dummit and R. Foote), where: "Sections 7.4 and 15.4"}
+
+- id: concept-etale-ring-maps
+  title: Etale ring maps (extensions without branching)
+  kind: concept
+  status: textbook
+  plain: >
+    An etale extension of a ring A is a bigger ring built by adjoining a root of a polynomial whose slope at the root is
+    never zero. Example: from the real numbers away from 0, adjoin a square root. Away from 0 the two roots stay apart,
+    so nothing branches or collides. Over the complex numbers the squaring map is a clean two-to-one cover away from 0,
+    which is the picture to keep. Etale extensions are the algebraic analogue of local isomorphisms in calculus, and they
+    can be stacked: one etale extension after another is still etale.
+  needs: [rings-fields, polynomials, calculus, concept-localization-quotient-rings]
+  learn:
+    - {title: Algebraic Geometry I (U. Goertz and T. Wedhorn), where: "Chapter 6 (unramified, smooth and etale morphisms)"}
+    - {title: The Stacks Project (various authors, free online), where: "Commutative Algebra, section on etale ring maps"}
+
+- id: concept-dedekind-domains
+  title: Dedekind domains (unique factorisation of ideals)
+  kind: concept
+  status: textbook
+  plain: >
+    In the whole numbers every number factors uniquely into primes. In many bigger rings of numbers this fails, but a
+    repair works: the sets of multiples (ideals) always factor uniquely into prime ideals. A ring where this holds is a
+    Dedekind domain. Example: the whole numbers, or polynomials in one variable over a field. A key tool is the Chinese
+    remainder theorem, which says that arithmetic modulo a product of pairwise unrelated ideals is the same as doing
+    arithmetic modulo each ideal separately and gluing the answers.
+  needs: [rings-fields, primes-divisibility, concept-localization-quotient-rings]
+  learn:
+    - {title: Algebraic Number Theory (J. Neukirch), where: "Chapter I, section 3"}
+    - {title: Introduction to Commutative Algebra (M. Atiyah and I. Macdonald), where: "Chapter 9"}
+
+- id: concept-hensel-lifting
+  title: Hensel lifting (improving an approximate root)
+  kind: concept
+  status: textbook
+  plain: >
+    Suppose a polynomial equation holds only approximately, in the sense that it holds "modulo a prime p". If the slope
+    of the polynomial there is not zero, you can nudge the guess to make the equation hold modulo p squared, then modulo
+    p to the fourth, and so on, as in Newton's method for finding roots. Example: 3 squared is 9, which is 2 more than a
+    multiple of 7, so a root of x squared minus 2 exists modulo 7 and can be improved to hold modulo 49. Each nudge fixes
+    twice as many digits as the last.
+  needs: [polynomials, calculus, modular-arithmetic, p-adic-numbers]
+  learn:
+    - {title: p-adic Numbers, An Introduction (F. Gouvea), where: "Chapter 3, Hensel's lemma"}
+    - {title: Algebraic Number Theory (J. Neukirch), where: "Chapter II, section 4"}
+
+# ---- the chunk ----
+
+- id: f-divisor-proofs--is-excision-nbhd-self
+  title: "Excision neighbourhood: the definition, and the trivial case"
+  kind: step
+  status: explained
+  chunk: c0023
+  plain: >
+    This file defines a condition and proves its easiest case. Take a ring A and an element h. A bigger ring A' built
+    from A is called an excision neighbourhood of h if three things hold. First, A' is an etale extension of A, meaning
+    one with no branching. Second, every element of A' differs from an element of A by a multiple of h. Third, an
+    element of A that is a multiple of h inside A' was already a multiple of h in A. Together the last two say that
+    A and A' look identical when multiples of h are treated as zero. The proof shows A itself qualifies, and every
+    check is immediate.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsExcisionNbhdSelf.lean:5]
+  mathlib: [Algebra.Etale]
+  needs: [concept-etale-ring-maps, concept-localization-quotient-rings, rings-fields]
+
+- id: f-divisor-proofs--is-excision-nbhd-trans
+  title: Excision neighbourhoods can be stacked
+  kind: step
+  status: explained
+  chunk: c0023
+  plain: >
+    This file proves a closure property of the definition in the previous file. If A' is an excision neighbourhood of h
+    over A, and A'' is an excision neighbourhood of the image of h over A', then A'' is an excision neighbourhood of h
+    over A. The proof checks the three conditions one by one. Stacking etale extensions gives an etale extension
+    (a Mathlib fact). For the other two, you move an element of A'' down to A' modulo h, and then down to A modulo h,
+    and the two small errors that remain are both multiples of h.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsExcisionNbhdTrans.lean:8]
+  mathlib: [Algebra.Etale.comp, IsScalarTower.algebraMap_apply]
+  needs: [f-divisor-proofs--is-excision-nbhd-self, concept-etale-ring-maps]
+
+- id: f-divisor-proofs--is-excision-nbhd-away
+  title: Inverting an element that is already invertible mod h keeps an excision neighbourhood
+  kind: step
+  status: explained
+  chunk: c0023
+  plain: >
+    Suppose A' is an excision neighbourhood of h, and a is an element of A' that has an inverse b once multiples of h are
+    ignored, so that a times b is 1 plus a multiple of h. Then the ring obtained by allowing fractions with powers of a
+    underneath is still an excision neighbourhood of h over A. The proof checks the three conditions. Allowing
+    fractions is itself an etale step. Every fraction y over a^n is matched to something in A by multiplying through by
+    b^n, which equals the inverse of a^n modulo h. The last condition is an equation chase using the same trick.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsExcisionNbhdAway.lean:6]
+  mathlib: [Algebra.Etale.comp, IsLocalization.mk'_surjective, sub_dvd_pow_sub_pow]
+  needs: [f-divisor-proofs--is-excision-nbhd-self, concept-localization-quotient-rings, concept-etale-ring-maps]
+
+- id: f-divisor-proofs--exists-excision-nbhd-adjoin-root
+  title: A unit that is a q-th power mod h gets an exact q-th root in an excision neighbourhood
+  kind: step
+  status: explained
+  chunk: c0023
+  plain: >
+    Take a ring A, an element h, and a number q that is invertible in A. Say a unit eps (an element with an inverse)
+    is a q-th power only approximately, meaning eps minus r to the q is a multiple of h. The file builds a bigger ring
+    A' that is an excision neighbourhood of h and contains an exact q-th root of eps. The construction is to adjoin a
+    root of x to the q minus eps. Because q and eps are invertible, the slope of this polynomial never vanishes at a
+    root, so the extension is etale. The guess r gives a matching map modulo h, which yields the other two conditions.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsExcisionNbhdAdjoinRoot.lean:7]
+  mathlib: [Ideal.Quotient.liftₐ, geom_sum₂_mul, geom_sum₂_self, monic_X_pow_sub_C]
+  needs: [f-divisor-proofs--is-excision-nbhd-self, concept-etale-ring-maps, concept-hensel-lifting, polynomials]
+
+- id: f-divisor-proofs--exists-pow-sub-mem-span-of-is-unit-mod-of-is-alg-closed
+  title: Over an algebraically closed field, a unit mod f is a q-th power mod f
+  kind: step
+  status: explained
+  chunk: c0023
+  plain: >
+    The setting is a ring B of functions on a curve-like shape over an algebraically closed field k, such that ideals
+    factor uniquely into primes. Suppose q is not zero in k, and b has an inverse c modulo a nonzero f. Then b equals
+    some r to the q modulo f. The proof works one prime factor at a time. Modulo each prime, b looks like a constant in
+    k, which has a q-th root since k is algebraically closed. Newton-style steps (Hensel lifting) improve this root to
+    higher powers of the prime. The Chinese remainder theorem then glues the roots for all primes into one r.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsPowSubMemSpanOfIsUnitModOfIsAlgClosed.lean:67]
+  mathlib: [IsAlgClosed.lift, IsAlgClosed.exists_pow_nat_eq, finite_of_finite_type_of_isJacobsonRing, IsDedekindDomain.quotientEquivPiFactors, UniqueFactorizationMonoid.factors]
+  needs: [f-divisor-proofs--is-excision-nbhd-self, concept-dedekind-domains, concept-hensel-lifting, algebraic-closure]
+
+- id: f-unit-power-on-excision-neighbourhood
+  title: A unit with a coprime numerator and denominator becomes a q-th power on an excision neighbourhood
+  kind: step
+  status: explained
+  chunk: c0023
+  plain: >
+    The statement. Let B be the ring of functions on a curve-like shape over an algebraically closed field, q a number
+    nonzero in that field, and u an invertible function after allowing fractions with f times g underneath. Suppose u
+    times t to the q times d' equals n', where n' and d' share no factor with g. Then there is an excision
+    neighbourhood C of g in which u becomes an exact q-th power. The proof allows fractions with n' times d' underneath,
+    uses the file on q-th powers modulo g to get an approximate root, adjoins an exact one, and stacks the steps.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/UnitPowerOnExcisionNeighbourhood.lean:10]
+  mathlib: [IsLocalization.Away.algebraMap_isUnit, Localization.awayMap, isUnit_pow_iff]
+  needs:
+    - f-divisor-proofs--is-excision-nbhd-self
+    - f-divisor-proofs--is-excision-nbhd-away
+    - f-divisor-proofs--is-excision-nbhd-trans
+    - f-divisor-proofs--exists-excision-nbhd-adjoin-root
+    - f-divisor-proofs--exists-pow-sub-mem-span-of-is-unit-mod-of-is-alg-closed
+    - concept-localization-quotient-rings
+
+- id: f-coprime-unit-etale-extension
+  title: "Restatement: the unit-power result on an excision neighbourhood"
+  kind: step
+  status: explained
+  chunk: c0023
+  orphan: true
+  plain: >
+    This short file proves nothing new. It restates the result of the previous file, that a suitable unit becomes a
+    q-th power on an excision neighbourhood, under a different public name, and closes the goal by applying that
+    earlier theorem directly. Its only content is the full statement, which is long because every ring-theory
+    assumption is written out: an algebraically closed field, a Dedekind ring of finite type over it, a number q that is
+    nonzero in the field, and coprimality conditions. Everything rests on the earlier file and the files it relies on.
+  lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/CoprimeUnitEtaleExtension.lean:10]
+  needs: [f-unit-power-on-excision-neighbourhood, f-divisor-proofs--is-excision-nbhd-self]

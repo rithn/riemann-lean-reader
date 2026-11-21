@@ -1,0 +1,140 @@
+nodes:
+  - id: f-contour-shift-gaussian-decay
+    title: Shifting a vertical-line integral when the function decays like a Gaussian
+    kind: step
+    status: explained
+    chunk: c0108
+    plain: >
+      Suppose f is complex-differentiable on a vertical strip, and shrinks at least like a bell curve
+      exp(-y^2) as you go up or down. Then the integral of f along the vertical line at real part a
+      equals the integral along the line at real part b. The idea is Cauchy's theorem. The integral
+      around a tall rectangle is zero. The two horizontal edges shrink to nothing as the
+      rectangle grows, because of the bell-curve decay. Only the two vertical sides remain, and they
+      must cancel. The file proves this and restates it.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ContourShiftGaussianDecay.lean:7
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ContourShiftGaussianDecay.lean:74
+    mathlib:
+      - Complex.integral_boundary_rect_eq_zero_of_differentiableOn
+      - intervalIntegral_tendsto_integral
+      - squeeze_zero_norm
+    needs:
+      - complex-analysis
+      - calculus
+      - real-analysis
+
+  - id: f-gauss-tube-of-tube-good
+    title: Multiplying by a Gaussian turns a bounded function into one that decays
+    kind: step
+    status: explained
+    chunk: c0108
+    plain: >
+      A tube is the set of pairs of complex numbers whose real parts lie in a chosen region of the
+      plane. The file defines the Fourier-type transform phi of a function on the tube, which integrates
+      over the imaginary directions. It also defines a "Gaussian decay" condition. The result: if a
+      function is locally bounded on the tube, then multiplying it by exp(z1^2 + z2^2) gives a
+      function that decays like exp(-(y1^2 + y2^2)) in the imaginary directions. The idea is that
+      exp(z^2) has size exp(x^2 - y^2), and x stays bounded on a compact piece.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/GaussTubeOfTubeGood.lean:58
+    mathlib:
+      - Complex.norm_exp
+      - IsCompact.bddAbove
+    needs:
+      - f-siegel-eisenstein-continuation--strip-entire
+      - complex-analysis
+      - real-analysis
+
+  - id: f-tube-transform-horizontal-invariance
+    title: The tube transform does not change when the base point slides horizontally
+    kind: step
+    status: explained
+    chunk: c0108
+    plain: >
+      The transform phi integrates a Gaussian-decaying function G over the two imaginary directions,
+      starting from a base point (x1, x2) in the real plane. This file shows that if you slide the
+      first coordinate from a to b along a segment staying inside the allowed region, phi does not
+      change. The idea is to write the integral in two steps, one direction at a time. For the
+      first step, the earlier contour-shifting result says moving the line from a to b leaves the
+      integral unchanged. A bound shows the integrals converge and may be swapped.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TubeTransformHorizontalInvariance.lean:100
+    mathlib:
+      - MeasureTheory.integral_prod_symm
+      - MeasureTheory.integral_congr_ae
+    needs:
+      - f-contour-shift-gaussian-decay
+      - f-gauss-tube-of-tube-good
+      - f-siegel-eisenstein-continuation--strip-entire
+      - complex-analysis
+
+  - id: f-tube-transform-vertical-invariance
+    title: The tube transform does not change when the base point slides vertically
+    kind: step
+    status: explained
+    chunk: c0108
+    plain: >
+      This is the twin of the horizontal sliding result. Fix the first coordinate c and slide the
+      second coordinate of the base point from a to b, staying inside the allowed region. The
+      transform phi does not change. The proof bounds the function by a Gaussian, so the double integral
+      can be split into two single integrals, one direction after the other. For each fixed value in
+      the first direction, the contour-shifting result then moves the line from a to b without
+      changing the integral.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TubeTransformVerticalInvariance.lean:34
+    mathlib:
+      - MeasureTheory.integral_prod
+      - MeasureTheory.integral_congr_ae
+    needs:
+      - f-contour-shift-gaussian-decay
+      - f-gauss-tube-of-tube-good
+      - f-siegel-eisenstein-continuation--strip-entire
+      - complex-analysis
+
+  - id: f-tube-transform-independent-of-base
+    title: The tube transform is the same at every base point of a convex region
+    kind: step
+    status: explained
+    chunk: c0108
+    orphan: true
+    plain: >
+      Let the allowed region in the plane be open and convex, meaning it has no holes and contains
+      the straight segment between any two of its points. Then the transform phi gives the same
+      value at every base point of the region. The idea is to show phi is locally constant, which
+      means it does not change in some small disc around any point. Within a disc you can reach a
+      nearby point by one horizontal slide and one vertical slide, and both leave phi alone. A
+      locally constant function on a connected set is constant.
+    lean:
+      - Development/AutomorphicSpectrum/Proofs/BlockDecomposition/TubeTransformIndependentOfBase.lean:11
+    mathlib:
+      - IsLocallyConstant.apply_eq_of_isPreconnected
+      - Convex.isPreconnected
+      - Metric.isOpen_iff
+    needs:
+      - f-tube-transform-horizontal-invariance
+      - f-tube-transform-vertical-invariance
+      - concept-point-set-topology
+      - real-analysis
+
+  - id: f-siegel-eisenstein-continuation--strip-entire
+    title: Definitions for tubes and for continuing Eisenstein series
+    kind: step
+    status: explained
+    chunk: c0108
+    plain: >
+      This file states definitions and no theorems. A tube is the set of pairs of complex numbers
+      whose real parts lie in a region. Several conditions follow, such as "holomorphic along every
+      line", and "entire and bounded on every vertical strip". It then sets up a large family of
+      conditions about Eisenstein series for groups, such as a Wall, HasFirst, and Gallery. The
+      later ones are named claims (statements of Lean type Prop) that are neither proved
+      nor assumed in this file. They describe how such series continue analytically past where they
+      converge.
+    lean:
+      - Development/WeilBound/RepresentationTheoryGL/EisensteinSeries/SiegelEisensteinContinuation/StripEntire.lean:13
+      - Development/WeilBound/RepresentationTheoryGL/EisensteinSeries/SiegelEisensteinContinuation/StripEntire.lean:26
+    mathlib: []
+    needs:
+      - analytic-continuation
+      - complex-analysis
+      - concept-group-representations
+      - concept-point-set-topology

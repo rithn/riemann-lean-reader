@@ -1,0 +1,149 @@
+nodes:
+  - id: concept-schwartz-functions
+    title: Schwartz functions and their seminorms
+    kind: concept
+    status: textbook
+    plain: >
+      A Schwartz function is a smooth function on real space (it can be
+      differentiated as often as you like) which, together with all its
+      derivatives, shrinks faster than any power of the distance from the
+      origin. The bell curve e to the minus x squared is the standard
+      example. Size is measured by a whole family of numbers, called
+      seminorms, one for each pair (how many derivatives, which power of
+      distance); each is the largest value of "distance to a power times
+      derivative size". Saying functions converge in this space means all
+      these numbers shrink together. These functions are the natural home of
+      the Fourier transform.
+    needs: [calculus, real-analysis, fourier-analysis]
+    learn:
+      - {title: "Folland, Real Analysis: Modern Techniques and Their Applications", where: "ch. 8 (Fourier analysis, Schwartz space)"}
+      - {title: "Stein and Shakarchi, Functional Analysis", where: "ch. 3 (Distributions)"}
+  - id: f-gaussian-polynomial-density
+    title: Polynomial times Gaussian is dense, given the right Taylor control
+    kind: step
+    status: explained
+    chunk: c0127
+    orphan: true
+    plain: >
+      The main result: take a bell-shaped function g (a Gaussian) and a
+      complex-linear family N of Schwartz functions that contains "polynomial
+      times g" for every polynomial piece. Then any smooth function psi whose
+      derivatives grow at most like A times rho to the j-th power has
+      psi times g in the closure of N, meaning it can be approximated as
+      closely as you wish by members of N. The idea: the Taylor
+      polynomials of psi, multiplied by g, lie in N, and the other files
+      show they converge to psi times g in the Schwartz sense.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/GaussianPolynomialDensity.lean:11
+    mathlib: [norm_iteratedFDeriv_mul_le, mem_closure_of_tendsto]
+    needs: [f-schwartz-tendsto-of-pointwise-uniform-bounds, f-schwartz-taylor-series-converges, f-schwartz-taylor-partial-sum-deriv-bound, f-gaussian-quadratic-form-schwartz-bounds, concept-schwartz-functions, concept-point-set-topology, infinite-series]
+  - id: f-gaussian-quadratic-form-schwartz-bounds
+    title: A Gaussian with a quadratic exponent is tamed by polynomial and exponential weights
+    kind: step
+    status: explained
+    chunk: c0127
+    plain: >
+      The claim: let g(x) be e to the minus Q(x,x), where Q is a quadratic
+      expression whose real part stays at least c times the squared length.
+      Then for any number of derivatives b, any power k and any exponential
+      weight e to the B times length, the quantity "length to the k, times
+      the weight, times the size of the b-th derivative of g" stays below
+      some fixed constant. So g and all its derivatives beat any polynomial
+      or exponential weight. It follows from a derivative bound for Gaussians
+      plus completing the square to absorb the exponential weight.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/GaussianQuadraticFormSchwartzBounds.lean:8
+    mathlib: [Real.exp_le_exp, Real.exp_add]
+    needs: [f-norm-iterated-f-deriv-trunc-exp-i-comp-le, f-divisor-proofs--poly-mul-gaussian-bounded, concept-schwartz-functions, calculus]
+  - id: f-norm-iterated-f-deriv-trunc-exp-i-comp-le
+    title: Size of the derivatives of a Gaussian
+    kind: step
+    status: explained
+    chunk: c0127
+    plain: >
+      The main result bounds the n-th derivative of e to the B(y,y), where
+      B is a bilinear expression whose real part is at most minus epsilon
+      times squared length. The bound is n factorial, times e to the minus
+      epsilon times squared length, times a polynomial factor to the n-th
+      power. The idea is the chain rule for higher derivatives: the outer
+      exponential has every derivative of the same size as itself, and the
+      inner quadratic has size at most about (1 plus length) squared. The
+      file also contains a polynomial-times-Gaussian bound that it takes from
+      another file. Despite the file name, the truncated-exponential
+      definition in it is not used.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/NormIteratedFDerivTruncExpICompLe.lean:57
+    mathlib: [norm_iteratedFDeriv_comp_le, ContinuousLinearMap.norm_iteratedFDeriv_le_of_bilinear, Nat.sum_range_choose]
+    needs: [f-divisor-proofs--poly-mul-gaussian-bounded, calculus, real-analysis]
+  - id: f-divisor-proofs--schwartz-continuous-at-of-pointwise-of-bounded
+    title: Pointwise convergence plus uniform bounds gives Schwartz continuity
+    kind: step
+    status: explained
+    chunk: c0127
+    plain: >
+      The claim: a family of Schwartz functions F(x), depending on a
+      parameter x, is continuous at x0 in the Schwartz topology if (a) each
+      value F(x)(v) is continuous in x, and (b) near x0 all the weighted
+      derivative sizes are bounded by constants. Idea: the difference
+      F(x) minus F(x0) tends to zero pointwise and is uniformly bounded. An
+      interpolation argument turns that into smallness of every derivative
+      (cover a big ball by finitely many small balls; far away the decay
+      weight wins; derivatives of derivatives are controlled by Lipschitz
+      bounds). Then the weighted seminorms are small.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SchwartzContinuousAtOfPointwiseOfBounded.lean:157
+    mathlib: [schwartz_withSeminorms, SchwartzMap.seminorm_le_bound, Convex.norm_image_sub_le_of_norm_fderiv_le, finite_cover_balls_of_compact]
+    needs: [concept-schwartz-functions, concept-point-set-topology, real-analysis, calculus]
+  - id: f-schwartz-taylor-partial-sum-deriv-bound
+    title: Derivatives of Taylor partial sums are controlled by an exponential
+    kind: step
+    status: explained
+    chunk: c0127
+    plain: >
+      Suppose a smooth function psi has j-th derivatives at most A times
+      rho to the j. Form its Taylor polynomial of any degree m at the
+      origin. The claim: the a-th derivative of that polynomial, at a point x,
+      is at most A times rho to the a, times e to the rho times length of x,
+      no matter how large m is. Idea: differentiating a degree-j term a
+      times produces a factor that cancels most of the factorial, leaving
+      terms of the form t to the (j minus a) over (j minus a) factorial.
+      Summing them is at most the exponential series.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SchwartzTaylorPartialSumDerivBound.lean:31
+    mathlib: [ContinuousMultilinearMap.norm_iteratedFDeriv_le, Real.sum_le_exp_of_nonneg, Nat.factorial_mul_descFactorial, iteratedFDeriv_sum]
+    needs: [concept-schwartz-functions, calculus, infinite-series, counting]
+  - id: f-schwartz-taylor-series-converges
+    title: The Taylor series of a Schwartz function with exponential-type derivatives converges to it
+    kind: step
+    status: explained
+    chunk: c0127
+    plain: >
+      The claim: if all j-th derivatives of a Schwartz function psi are at
+      most A times rho to the j, then its Taylor polynomials at the origin,
+      evaluated at any point x, converge to psi of x as the degree grows. So
+      psi equals its Taylor series everywhere. Idea: restrict psi to the line
+      through 0 and x, so it becomes a one-variable function. Taylor's
+      remainder bound then says the error after m terms is at most about
+      (rho times length)^m over m factorial, and that tends to zero.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SchwartzTaylorSeriesConverges.lean:31
+    mathlib: [taylor_mean_remainder_bound, taylor_within_apply, FloorSemiring.tendsto_pow_div_factorial_atTop, squeeze_zero]
+    needs: [concept-schwartz-functions, calculus, infinite-series]
+  - id: f-schwartz-tendsto-of-pointwise-uniform-bounds
+    title: A sequence of Schwartz functions converges if it does so pointwise with uniform bounds
+    kind: step
+    status: explained
+    chunk: c0127
+    plain: >
+      The claim: a sequence of Schwartz functions F(m) converges to F0 in the
+      Schwartz topology if (a) it converges at every single point, and (b)
+      for each pair (power, number of derivatives) the weighted derivative
+      sizes are bounded by one constant for all m. Idea: the differences
+      tend to zero pointwise and stay bounded. The earlier file turns that
+      into small derivatives everywhere. Close to the origin that is enough,
+      and far away one extra power of distance is traded against the bound
+      to win smallness.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/SchwartzTendstoOfPointwiseUniformBounds.lean:9
+    mathlib: [schwartz_withSeminorms, SchwartzMap.seminorm_le_bound, SchwartzMap.le_seminorm]
+    needs: [f-divisor-proofs--schwartz-continuous-at-of-pointwise-of-bounded, concept-schwartz-functions, concept-point-set-topology]

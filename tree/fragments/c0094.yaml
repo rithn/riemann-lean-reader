@@ -1,0 +1,112 @@
+nodes:
+  - id: f-analytic-forms--ma-int-empty
+    title: The Levi form and the Monge-Ampere integral
+    kind: step
+    status: explained
+    chunk: c0094
+    plain: >
+      This file only gives definitions, plus one tiny proof. The Levi form of a real function on complex space measures how bowl-shaped it is in complex directions. It averages the second derivative along a direction w and along i times w, then divides by four. Next come a complex Hessian matrix, a mixed determinant of such matrices, and a density built from them. Integrating a test function against that density gives the Monge-Ampere integral. The one proved fact is that the mixed determinant of zero matrices of size zero is 1.
+    lean:
+      - ReciprocityTheory/AnalyticForms/MaIntEmpty.lean:13
+    mathlib:
+      - fderiv
+      - Matrix.det
+    needs: [calculus, complex-analysis, complex-numbers, linear-algebra]
+  - id: f-potential-theory--is-potential-of-fun
+    title: Local potentials on a complex space
+    kind: step
+    status: explained
+    chunk: c0094
+    plain: >
+      This file sets up vocabulary, plus one small lemma. An atlas is a finite set of charts (maps to complex coordinates) whose overlaps are complex-differentiable. A local potential assigns each point a smooth real function on a neighbourhood, with differences between two such functions being the real part of a complex-differentiable function. The file defines smooth and holomorphic functions on the atlas, sections, a measure from potentials, and conditions like positivity. The single theorem says that a globally smooth real function gives a valid potential. Differences are then zero, hence the real part of the constant zero.
+    lean:
+      - ReciprocityTheory/AnalyticForms/PotentialTheory/IsPotentialOfFun.lean:178
+    mathlib:
+      - OpenPartialHomeomorph
+      - AnalyticOnNhd
+      - ContDiffOn
+    needs: [f-analytic-forms--ma-int-empty, complex-analysis, concept-point-set-topology, calculus]
+  - id: f-divisor-base--model-ddc-forms
+    title: Definitions and statement for the Poincare-type form
+    kind: step
+    status: explained
+    chunk: c0094
+    plain: >
+      This file mostly gives definitions, and it states a claim without proving it. The definitions describe a potential K on a compact complex space and boundary data L along divisors (curves cut out by equations). From these one builds a modified potential by adding a multiple of log terms, which blows up near the divisors, and measures it with the Levi form. The named claim, a Poincare form statement, asserts two-sided comparisons, growth bounds, finite total mass, and near each divisor a model in which the form looks like a standard cusp-shaped metric. The proofs are elsewhere. Only two trivial lemmas are proved here.
+    lean:
+      - Development/AbelianVarietyTheory/BlockTheory/DivisorBase/ModelDdcForms.lean:92
+    mathlib: []
+    needs:
+      - f-potential-theory--is-potential-of-fun
+      - f-analytic-forms--ma-int-empty
+      - complex-analysis
+      - real-analysis
+  - id: f-divisor-proofs--boundary-potential-smooth-off-divisor
+    title: Boundary potentials are smooth away from the divisor
+    kind: step
+    status: explained
+    chunk: c0094
+    plain: >
+      Away from the divisor, the function built from a boundary potential and its section is infinitely differentiable. Here a section is a complex-valued function whose size, adjusted by the potential, is well defined. First the section is shown to be nonzero off the divisor. This uses the local normal form, where it equals a nonvanishing unit times coordinates to powers. Then the logarithm of the squared adjusted size is expressed in a chart. A smooth potential, a complex-differentiable section, and a log of something positive are all smooth, and smoothness passes through sums and compositions. The theorem proved here is the chart version.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/BoundaryPotentialSmoothOffDivisor.lean:30
+    mathlib:
+      - ContDiffAt.log
+      - ContDiffAt.congr_of_eventuallyEq
+    needs:
+      - f-divisor-proofs--potential-smooth-in-chart
+      - f-divisor-base--model-ddc-forms
+      - complex-analysis
+      - calculus
+  - id: f-divisor-proofs--levi-form-log-potential-formula
+    title: Levi form of a potential plus log terms
+    kind: step
+    status: explained
+    chunk: c0094
+    plain: >
+      This file derives a formula for the Levi form of a sum k plus minus half c times a sum of logarithms of positive functions r. The Levi form is additive and respects constant multiples, so the problem reduces to the Levi form of a single log. A chain-rule calculation gives that the Levi form of log r equals the Levi form of r over r, minus a squared-gradient term over r squared. Putting these together gives the full formula, with a squared-gradient part and a part involving the Levi form of each r. The proof is a calculus identity, checked mechanically.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/LeviFormLogPotentialFormula.lean:76
+    mathlib:
+      - fderiv_fun_add
+      - HasFDerivAt.log
+    needs:
+      - f-analytic-forms--ma-int-empty
+      - f-divisor-base--model-ddc-forms
+      - calculus
+      - complex-analysis
+  - id: f-divisor-proofs--potential-smooth-in-chart
+    title: A potential stays smooth in a compatible chart
+    kind: step
+    status: explained
+    chunk: c0094
+    plain: >
+      A potential is smooth in the charts of its atlas. This file shows it is also smooth in any other compatible chart, meaning one that is complex-differentiable in both directions with respect to the atlas. The proof composes two smooth maps. Go from the new chart back into the space, then into an atlas chart. That composition is complex-differentiable, hence smooth in the real sense. The potential is smooth in the atlas chart. The composition of smooth maps is smooth, and a short check shows it agrees with the required function near the point.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/PotentialSmoothInChart.lean:9
+    mathlib:
+      - ContDiffAt.comp
+      - AnalyticAt.contDiffAt
+    needs:
+      - f-potential-theory--is-potential-of-fun
+      - complex-analysis
+      - calculus
+  - id: f-poincare-form-bound-of-ddc
+    title: Two-sided bound for the Poincare-type form
+    kind: step
+    status: explained
+    chunk: c0094
+    plain: >
+      This proves the two-sided comparison part of the Poincare form statement, assuming extra hypotheses. Assume the Levi form of each boundary function r is bounded by a constant Kc times the base form, the base form is nonnegative, and c is a small positive number with 2 c m Kc at most e. Then the modified form sits between half the base form plus c times the gradient terms, and twice the base form plus those terms. The proof uses the earlier log formula. Each correction term is at most Kc times the base form over e, and the small c makes their total at most half.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/PoincareFormBoundOfDdc.lean:21
+    mathlib:
+      - Finset.abs_sum_le_sum_abs
+      - div_le_div_iff₀
+    needs:
+      - f-divisor-base--model-ddc-forms
+      - f-divisor-proofs--boundary-potential-smooth-off-divisor
+      - f-divisor-proofs--levi-form-log-potential-formula
+      - f-divisor-proofs--potential-smooth-in-chart
+      - real-analysis
+    orphan: true

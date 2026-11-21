@@ -1,0 +1,174 @@
+nodes:
+  - id: concept-lattice-point-counting
+    title: Lattices in n dimensions, covolume and counting points
+    kind: concept
+    status: textbook
+    plain: >
+      A lattice in n-dimensional space is the set of all whole-number combinations of n independent vectors, like the grid points of graph paper. Its covolume is the volume of one grid cell, the tile that repeats to cover space. If a smaller lattice sits inside a bigger one, the smaller one's cell is as many times bigger as the index, the number of copies of the small lattice needed to fill the big one. To count grid points in a region, compare the region's volume with the cell volume. Number theorists use this to count algebraic numbers of bounded size.
+    needs: [concept-lattices-in-the-plane, linear-algebra, real-analysis]
+    learn:
+      - {title: "Neukirch, Algebraic Number Theory", where: "ch. I, sec. 5"}
+      - {title: "Cassels, An Introduction to the Geometry of Numbers", where: "ch. I"}
+  - id: f-p-number-field-box-count-x
+    title: Closing the proof of the number-field box count
+    kind: step
+    status: explained
+    chunk: c0083
+    orphan: true
+    plain: >
+      This short file assembles the final proof of the number-field box count. That claim lower-bounds how many elements of a lattice-like additive group in a number field have all their complex embeddings inside given sizes. The proof just plugs five already-proved pieces into the proof that takes them as assumptions. The pieces are the lattice-image fact, the covolume and index relation, the embedding-sum identity, the mixed-space box count and the lattice-volume count. So no new mathematics appears here, only wiring.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/ElementarySymmetric/PNumberFieldBoxCountX.lean:12"
+    mathlib: []
+    needs: [f-p-number-field-box-count, f-p-lattice-image-z-lattice, f-p-covolume-rel-index, f-p-embedding-sum-places, f-p-mixed-box-count, f-p-lattice-count-volume]
+  - id: f-heights--kernels-lattice
+    title: Hermitian lattices over number fields, degree and slope
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file sets up vocabulary and states two claims, proving neither. A Hermitian lattice is a finitely generated group of vectors over a number field's integers. It spans the whole space and has a positive-definite complex inner product at each embedding. The file defines the generalized index of two subgroups (a ratio of indices), a "degree" using a log of an index minus half the log of Gram determinants, and a slope. The two unproved claims concern orthogonal lines and finding a line of large degree. Small sanity examples check the definitions.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/KernelsLattice.lean:11"
+      - "GroundTheory/HeightsAndTheta/Heights/KernelsLattice.lean:24"
+      - "GroundTheory/HeightsAndTheta/Heights/KernelsLattice.lean:75"
+      - "GroundTheory/HeightsAndTheta/Heights/KernelsLattice.lean:85"
+    mathlib: []
+    needs: [number-fields, concept-hermitian-unitary-matrices, concept-lattice-point-counting, linear-algebra]
+  - id: f-p-covolume-rel-index
+    title: Covolume of a sublattice equals index times covolume
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file proves the claim that if a lattice L1 lies inside a lattice L2, then covolume(L1) equals the index of L1 in L2 times covolume(L2). For example, the even integers inside the integers have index 2, and a grid cell for them is twice as long. The measure of volume may be any translation-invariant one. The proof moves everything to ordinary coordinates by a linear equivalence. There any such measure is a constant multiple of standard volume, so the constant cancels. It then applies an existing library result for the standard case.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PCovolumeRelIndex.lean:11"
+    mathlib: [ZLattice.covolume_div_covolume_eq_relIndex, ZLattice.covolume_eq_measure_fundamentalDomain, Measure.isAddLeftInvariant_eq_smul]
+    needs: [f-statements-covolume-rel-index, concept-lattice-point-counting, real-analysis]
+  - id: f-p-embedding-sum-places
+    title: Summing over embeddings equals summing over places with multiplicity
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      A number field F has several embeddings into the complex numbers. Real ones stand alone, while non-real ones come in conjugate pairs and give one "place" each. This file proves that if a function g takes equal values on conjugate embeddings, summing g over all embeddings equals summing over places, with each place counted by its multiplicity (1 for real, 2 for complex). The proof groups embeddings by their place. Each group has the right number of members, all with the same value of g.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PEmbeddingSumPlaces.lean:11"
+    mathlib: [Finset.sum_fiberwise, NumberField.InfinitePlace.card_filter_mk_eq]
+    needs: [f-statements-embedding-sum-places, number-fields, complex-numbers, counting]
+  - id: f-p-lattice-count-volume
+    title: Volume of a set is at most lattice points in a difference set times covolume
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file proves a counting-by-volume bound. Take a lattice and a measurable set S whose pairwise differences all lie in a set T. Then the volume of S is at most the number of lattice points in T times the covolume (the volume of one grid cell). The idea is to tile space by translates of one cell. Chop S into pieces by cell. Moving each piece into the base cell, a point of the cell lies in the image of at most that many pieces, because the translates involved differ by lattice points in T. Integrate to finish.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PLatticeCountVolume.lean:57"
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PLatticeCountVolume.lean:14"
+    mathlib: [ZLattice.covolume_eq_measure_fundamentalDomain, MeasureTheory.IsAddFundamentalDomain.lintegral_eq_tsum'', MeasureTheory.lintegral_tsum]
+    needs: [f-statements-lattice-count-volume, concept-lattice-point-counting, real-analysis]
+  - id: f-p-lattice-image-z-lattice
+    title: A full additive subgroup of a number field becomes a lattice
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      Take a finitely generated additive subgroup L of a number field F, big enough that every element of F has a whole-number multiple in L. The file proves that, sent to the "mixed space" (real coordinates for real embeddings, complex ones for complex pairs), L becomes a true lattice. That means it is discrete and spans the whole space. Discreteness comes from scaling by one integer so all elements become algebraic integers, which form a known lattice. Spanning comes from the integral basis, whose multiples lie in L.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PLatticeImageZLattice.lean:29"
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PLatticeImageZLattice.lean:9"
+    mathlib: [IsAlgebraic.exists_integral_multiple, ZLattice.comap_discreteTopology, AddSubgroup.closure_induction]
+    needs: [f-statements-lattice-image-z-lattice, number-fields, concept-lattice-point-counting, concept-integral-closure-fraction-fields]
+  - id: f-p-mixed-box-count
+    title: Counting lattice points in a box in the mixed space
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file proves a lower bound for how many lattice points fit in a box, in the mixed real-and-complex space of a number field. The box limits the size of the coordinate at each place by a number f(w). The count is finite, and its logarithm is at least a main term built from the logs of the f(w), minus the log of the covolume and a degree-times-log-2 correction. The proof takes a convex body of half the size. Any two of its points differ by a point of the box. It applies the lattice-volume count, assumed as a hypothesis, then takes logs.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PMixedBoxCount.lean:46"
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PMixedBoxCount.lean:15"
+    mathlib: [NumberField.mixedEmbedding.convexBodyLT_volume, ZLattice.covolume_pos, Real.log_prod]
+    needs: [f-statements-mixed-box-count, f-statements-lattice-count-volume, number-fields, concept-lattice-point-counting]
+  - id: f-p-number-field-box-count
+    title: Number-field box count, assuming four earlier claims
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file proves the number-field box-count claim only by assuming four other claims as hypotheses. They are the lattice-image, covolume-index, embedding-sum and mixed-box-count statements. The claim lower-bounds the number of elements of a group L in a number field whose embeddings are all small. The proof turns L into a lattice, compares it with a fixed group B through the index, translates the box condition between embeddings and places, and applies the mixed-space count. Some helper lemmas check that sizes and indices transfer.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PNumberFieldBoxCount.lean:68"
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/PNumberFieldBoxCount.lean:47"
+    mathlib: [AddSubgroup.relIndex_map_map_of_injective, AddSubgroup.inf_relIndex_left, ZLattice.covolume_pos]
+    needs: [f-statements-number-field-box-count, f-statements-lattice-image-z-lattice, f-statements-covolume-rel-index, f-statements-embedding-sum-places, f-statements-mixed-box-count, f-heights--kernels-lattice, number-fields]
+  - id: f-statements-covolume-rel-index
+    title: Statement that covolume scales with index
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file only states a claim and proves nothing. The claim is that for a lattice L1 sitting inside a lattice L2 in a finite-dimensional real space, with any translation-invariant volume measure, the covolume of L1 is the index of L1 in L2 times the covolume of L2. Covolume means the volume of one repeating grid cell. The file also fixes a small example lattice, the integers inside the real line. The proof lives in a separate file.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/StatementsCovolumeRelIndex.lean:8"
+    mathlib: []
+    needs: [concept-lattice-point-counting, real-analysis]
+  - id: f-statements-embedding-sum-places
+    title: Statement about summing over embeddings and places
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file only states a claim and proves nothing. For a number field F, take a real-valued function g on its embeddings into the complex numbers, with the same value on conjugate embeddings. The claim is that the sum of g over all embeddings equals the sum over places w of the multiplicity of w times g at w's embedding. Real places count once, complex places twice. The proof is in a separate file.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/StatementsEmbeddingSumPlaces.lean:8"
+    mathlib: []
+    needs: [number-fields, complex-numbers]
+  - id: f-statements-lattice-count-volume
+    title: Statement that volume is bounded by lattice points times covolume
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file only states a claim and proves nothing. In a finite-dimensional real space with a translation-invariant measure and a lattice, take a measurable set S whose differences x minus y all lie in a set T. The claim is that the volume of S is at most the number of lattice points in T times the lattice's covolume (volume of one grid cell). It also fixes a tiny example lattice. The proof is in a separate file.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/StatementsLatticeCountVolume.lean:9"
+    mathlib: []
+    needs: [concept-lattice-point-counting, real-analysis]
+  - id: f-statements-lattice-image-z-lattice
+    title: Statement that a number-field subgroup maps to a lattice
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file defines the image of an additive subgroup of a number field inside the mixed space (real coordinates for real embeddings, complex coordinates for complex pairs), and proves the simple fact that membership means "comes from some element". Then it only states a claim. If the subgroup is finitely generated and every element of the field has a whole-number multiple inside it, its image is a true lattice: discrete and spanning. The main proof is in a separate file.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/StatementsLatticeImageZLattice.lean:9"
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/StatementsLatticeImageZLattice.lean:19"
+    mathlib: [NumberField.mixedEmbedding]
+    needs: [number-fields, concept-lattice-point-counting]
+  - id: f-statements-mixed-box-count
+    title: Statement of the mixed-space box count
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file only states a claim and proves nothing. Take a lattice in the mixed space of a number field, and positive size limits f(w) at each place. The claim says that the set of lattice points whose coordinate at every place is within its limit is finite. It also says the log of the count is at least the log of a constant factor plus the sum of multiplicity times log f(w), minus the degree times log 2, minus the log of the covolume. The proof is in a separate file.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/StatementsMixedBoxCount.lean:10"
+    mathlib: []
+    needs: [number-fields, concept-lattice-point-counting]
+  - id: f-statements-number-field-box-count
+    title: Statement of the number-field box count
+    kind: step
+    status: explained
+    chunk: c0083
+    plain: >
+      This file only states a claim and proves nothing. Fix a finitely generated group B in a number field F that is big enough to span it. The claim is that some constant C works for every similar group L and every positive size limits rho on the embeddings (equal on conjugates). The count of elements of L with every embedding size within its limit has log at least the sum of log rho, plus the log of a generalised index of L and B, minus C. The proof is in a separate file.
+    lean:
+      - "GroundTheory/HeightsAndTheta/Heights/OrbitLimits/StatementsNumberFieldBoxCount.lean:9"
+    mathlib: []
+    needs: [number-fields, f-heights--kernels-lattice]

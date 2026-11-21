@@ -1,0 +1,62 @@
+nodes:
+  - id: f-exists-integral-hecke-eigensystem-deligne-serre
+    title: Deligne-Serre lifting, an integral eigensystem for Hecke operators
+    kind: step
+    status: explained
+    chunk: c0072
+    plain: >
+      Hecke operators are commuting maps on a space of modular forms. Take a lattice (a finitely generated integral piece, without torsion) stable under them and a maximal ideal m of the algebra they generate. The file shows there is a common eigenvector over the p-adic algebraic closure whose eigenvalues are all of size at most 1 and reduce to m. This is the Deligne-Serre lifting lemma. The proof turns the action into integer matrices, lists the finitely many joint eigensystems, and shows by an ideal-avoidance argument that one of them lands on m, since otherwise some element of m would be invertible.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsIntegralHeckeEigensystemDeligneSerre.lean:202"]
+    mathlib: ["Ideal.subset_union_prime_finite", "Matrix.det_eq_prod_roots_charpoly"]
+    needs: [f-exists-matrices-intertwining-of-semilinear, f-finite-joint-eigensystems, f-matrix-exists-common-eigenvector-mem, f-norm-eigenvalue-le-one-of-entries, concept-discrete-valuation-ring, concept-ultrametric-norm, concept-hecke-operators, p-adic-numbers, concept-prime-ideals-localization, linear-algebra]
+    orphan: true
+  - id: f-exists-matrices-intertwining-of-semilinear
+    title: Turning a lattice action into integer matrices
+    kind: step
+    status: explained
+    chunk: c0072
+    plain: >
+      Start with a finitely generated lattice M over a discrete valuation ring O (a ring with one prime, like the integers localised at p) with no torsion, and commuting operators acting on it. The file chooses a basis of M, so each operator becomes a matrix with entries in O. It then maps the coordinate space over the bigger field into the larger vector space by sending basis vectors to their images. That map is one-to-one when independent lattice vectors stay independent, and it carries the operators to the matrices with entries viewed in the bigger field. This is bookkeeping to make later eigenvalue arguments concrete.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsMatricesIntertwiningOfSemilinear.lean:6"]
+    mathlib: ["Module.Free.free_of_finite_type_torsion_free'", "LinearMap.toMatrixAlgEquiv"]
+    needs: [concept-discrete-valuation-ring, concept-valuation-rings, linear-algebra]
+  - id: f-finite-joint-eigensystems
+    title: Commuting matrices have only finitely many joint eigenvalue lists
+    kind: step
+    status: explained
+    chunk: c0072
+    plain: >
+      Take any family of commuting square matrices over a field. A joint eigensystem is a list of numbers, one per matrix, such that a single nonzero vector is scaled by each matrix by the matching number. The file proves that only finitely many such lists exist. The idea is that vectors with different joint eigenvalue lists live in generalised eigenspaces, which are independent subspaces, and a finite-dimensional space can only hold finitely many nonzero independent subspaces. Each joint eigensystem gives a nonzero one, so there are finitely many.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteJointEigensystems.lean:6"]
+    mathlib: ["Module.End.independent_iInf_maxGenEigenspace_of_forall_mapsTo", "WellFoundedGT.finite_ne_bot_of_iSupIndep"]
+    needs: [linear-algebra]
+  - id: f-matrix-exists-common-eigenvector-mem
+    title: Commuting matrices share an eigenvector inside any stable subspace
+    kind: step
+    status: explained
+    chunk: c0072
+    plain: >
+      Over an algebraically closed field (one where every polynomial has a root, like the complex numbers), any set of commuting matrices has a common eigenvector. The file states this matrix form, with the extra requirement that the eigenvector can be found inside a given nonzero subspace that all the matrices keep in place. It is a repackaging of the operator version, which is proved in another file, by converting each matrix into the linear map it represents. The operator version picks a smallest stable subspace and uses one eigenvector at a time.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/MatrixExistsCommonEigenvectorMem.lean:8"]
+    mathlib: ["Matrix.toLin'"]
+    needs: [f-dvd-trace-of-balanced-tensor, linear-algebra, algebraic-closure]
+  - id: f-norm-eigenvalue-le-one-of-entries
+    title: Eigenvalues of a matrix with small entries are small
+    kind: step
+    status: explained
+    chunk: c0072
+    plain: >
+      Work in the p-adic numbers, where size is measured by the strange ultrametric rule that a sum is never larger than its largest term. If every entry of a square matrix has size at most 1, the file shows that every eigenvalue has size at most 1 too. The idea is to look at the eigenvector coordinate of largest size. In the equation matrix times vector equals eigenvalue times vector, that coordinate's row is a sum of terms each no larger than it. So the eigenvalue times that coordinate is no larger than the coordinate, which forces the eigenvalue to be at most 1.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/NormEigenvalueLeOneOfEntries.lean:5"]
+    mathlib: ["IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg"]
+    needs: [concept-ultrametric-norm, p-adic-numbers, linear-algebra]
+  - id: f-dvd-trace-of-balanced-tensor
+    title: A balanced tensor forces the trace to be a multiple of c
+    kind: step
+    status: explained
+    chunk: c0072
+    plain: >
+      Let H be a finite free algebra over a local ring O (a ring with a single maximal ideal). Suppose a tensor Θ in H tensor H is "balanced", meaning multiplying on the left or right by any element gives the same result, and that it multiplies out to c in H. The file shows that c divides the trace of every element of H, given that Θ stays nonzero under every map to an algebraically closed field. The same file proves that commuting operators have a common eigenvector, by choosing a smallest stable subspace. A determinant argument modulo the maximal ideal then shows a certain map is invertible.
+    lean: ["Development/AbelianVarietyTheory/Proofs/ModuliProofs/DvdTraceOfBalancedTensor.lean:157"]
+    mathlib: ["Module.End.exists_eigenvalue", "Algebra.trace_eq_matrix_trace", "TensorProduct.induction_on"]
+    needs: [concept-tensor-product-of-algebras, concept-local-rings, algebraic-closure, linear-algebra]

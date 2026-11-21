@@ -1,0 +1,62 @@
+nodes:
+  - id: f-character-theory--eq-zero-of-not-primary
+    title: A class function that is "primitive" vanishes on non-prime-power matrices
+    kind: step
+    status: explained
+    chunk: c0071
+    plain: >
+      Take square matrices over a finite field. A class function gives the same value on matrices that are "the same up to a change of viewpoint" (conjugate). The file shows that if such a function is also "primitive" (its sums over certain family members cancel), then it is zero on any matrix whose characteristic polynomial, the polynomial recording its eigenvalues, is not a power of a single irreducible polynomial. The idea is to split the space into two parts where the polynomial factors with no common root. Then adding a nilpotent piece (one that collapses to zero when repeated) gives a conjugate matrix, so the primitive sum is a count times the value, and the count is not zero.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/EqZeroOfNotPrimary.lean:33"]
+    mathlib: ["LinearMap.aeval_self_charpoly", "Polynomial.sup_ker_aeval_eq_ker_aeval_mul_of_coprime", "WfDvdMonoid.max_power_factor"]
+    needs: [f-character-theory--exists-conj-eq-add-of-is-coprime, concept-group-representations, linear-algebra, polynomials]
+  - id: f-character-theory--exists-conj-eq-add-of-is-coprime
+    title: Adding a small nilpotent piece to a matrix gives a conjugate matrix
+    kind: step
+    status: explained
+    chunk: c0071
+    plain: >
+      Fix a matrix g that keeps a subspace A in place. Suppose the characteristic polynomials (the polynomials recording eigenvalues) of g on A and on the leftover quotient space share no common factor. The file proves that adding any "nilpotent" matrix h that maps everything into A and kills A gives a matrix g + h that is conjugate to g, meaning it is g viewed in a different basis. The proof builds the map u that sends h to the commutator with g, shows it is one-to-one using the coprimality, and so onto by counting on a finite field. Then 1 + u is the needed change of basis.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsConjEqAddOfIsCoprime.lean:46"]
+    mathlib: ["LinearMap.surjective_of_injective", "LinearMap.aeval_self_charpoly"]
+    needs: [linear-algebra, polynomials]
+  - id: f-finite-monic-nat-degree
+    title: Sums over polynomials equal sums over roots of unity
+    kind: step
+    status: explained
+    chunk: c0071
+    plain: >
+      Over a finite field with q elements, there are only finitely many monic polynomials (leading coefficient 1) of a given degree n and nonzero constant term. The file turns a sum over these polynomials into a sum over numbers in the algebraic closure (the field containing all roots) satisfying a^(q^n - 1) = 1. Each such number a has a minimal polynomial, and the polynomials counted are powers of these. A polynomial that is a power of an irreducible f has one root each from f, and these roots are all distinct, so the terms match up one for one. Terms from other polynomials are assumed to vanish.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/FiniteMonicNatDegree.lean:35"]
+    mathlib: ["Polynomial.nthRootsFinset", "minpoly.irreducible", "PerfectField.separable_of_irreducible", "Finset.sum_fiberwise_of_maps_to"]
+    needs: [polynomials, algebraic-closure, rings-fields, counting, complex-numbers]
+  - id: f-is-unit-iff-charpoly-coeff-zero-ne
+    title: A matrix inner product becomes a sum over characteristic polynomials
+    kind: step
+    status: explained
+    chunk: c0071
+    plain: >
+      Over a finite field, a matrix is invertible exactly when the constant term of its characteristic polynomial is not zero, because that term is the determinant up to sign. Using this, the file rewrites an inner product of two functions on matrices (an average of one times the conjugate of the other) as a sum over polynomials. Matrices are grouped by their characteristic polynomial, and each group gets a total weight called its mass. The proof is a careful regrouping of a finite sum, setting aside polynomials that no matrix actually has since their mass is zero.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsUnitIffCharpolyCoeffZeroNe.lean:11"]
+    mathlib: ["LinearMap.det_eq_sign_charpoly_coeff", "finsum_mem_biUnion"]
+    needs: [linear-algebra, polynomials, concept-group-representations, counting]
+  - id: f-invertible-end-inner-product-root-power-sum-eq-torus-sum
+    title: Inner product with a root power sum equals a sum over roots of unity
+    kind: step
+    status: explained
+    chunk: c0071
+    plain: >
+      For a primitive class function on matrices over a finite field, take the inner product with the function "sum of the l-th powers of the eigenvalues". The file shows this equals a sum over the roots of unity a with a^(q^n - 1) = 1, each weighted by a count and by a mass. It combines two earlier results. One regroups matrices by characteristic polynomial. The other converts polynomial sums into root sums. It also uses that the primitive function vanishes on polynomials that are not prime powers, so those terms drop out.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/InvertibleEndInnerProductRootPowerSumEqTorusSum.lean:12"]
+    mathlib: []
+    needs: [f-finite-monic-nat-degree, f-is-unit-iff-charpoly-coeff-zero-ne, f-character-theory--eq-zero-of-not-primary, polynomials, complex-numbers]
+  - id: f-inner-product-root-power-sum-eq-of-frobenius-mod-eq
+    title: Root power sums agree when the exponents match up to Frobenius
+    kind: step
+    status: explained
+    chunk: c0071
+    plain: >
+      On matrices over a finite field with q elements, the file compares two inner products with sums of k-th and l-th powers of eigenvalues. It shows they are equal whenever k times q^i is congruent to l modulo q^n - 1, where n is the matrix size. The idea is the Frobenius map, which raises each number in the algebraic closure to the q-th power and fixes the field. Applying it i times permutes the roots of unity in the earlier sum and keeps minimal polynomials the same, so the sum is unchanged while the exponent k becomes k q^i.
+    lean: ["Development/AbelianVarietyTheory/Proofs/CharacterTheory/InnerProductRootPowerSumEqOfFrobeniusModEq.lean:21"]
+    mathlib: ["FiniteField.frobeniusAlgEquivOfAlgebraic", "minpoly.algEquiv_eq", "finsum_mem_eq_of_bijOn"]
+    needs: [f-invertible-end-inner-product-root-power-sum-eq-torus-sum, algebraic-closure, modular-arithmetic, concept-galois-fixed-fields]
+    orphan: true

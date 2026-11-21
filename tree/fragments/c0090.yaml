@@ -1,0 +1,48 @@
+nodes:
+  - id: f-closure-prime-regular-height
+    title: Etale at primes avoiding nonzero base elements (restated)
+    kind: step
+    status: explained
+    chunk: c0090
+    orphan: true
+    plain: >
+      This file restates a result proved in the counting-bound file, and its
+      proof just invokes it. Start with a domain A, an A-algebra R, and a ring
+      D that is finite and etale (no branching) over the "generic fibre" of R,
+      meaning R after inverting all nonzero elements of A. Let C be the
+      associated closure ring between R and D. The statement is that at any
+      prime ideal Q of C containing the image of no nonzero element of A,
+      the map from R to C is etale. Nothing new is shown here.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/ClosurePrimeRegularHeight.lean:14
+    mathlib: []
+    needs:
+      - f-counting-bound
+      - concept-etale-ring-maps
+      - concept-prime-ideals-localization
+      - concept-integral-closure-fraction-fields
+  - id: f-counting-bound
+    title: The closure is etale at primes away from the base
+    kind: step
+    status: explained
+    chunk: c0090
+    plain: >
+      This file proves the real result. A is a domain, R an algebra over A,
+      and D is finite and etale over the generic fibre of R (R with
+      all nonzero elements of A inverted). Let C be a ring in between. Take a
+      prime Q of C that contains no nonzero element of A. Then R to C is
+      etale at Q. The proof first shows D is C with those elements inverted. Since Q
+      misses them, the localisation of C at Q is also a localisation of D.
+      Localisations are etale, composition of etale maps is etale, and the
+      generic fibre is a localisation of R, so the chain works.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/CountingBound.lean:14
+    mathlib:
+      - Algebra.FormallyEtale.of_isLocalization
+      - Algebra.FormallyEtale.comp
+      - IsLocalization.localizationAlgebraOfSubmonoidLe
+    needs:
+      - concept-etale-ring-maps
+      - concept-prime-ideals-localization
+      - concept-tensor-product-of-algebras
+      - concept-integral-closure-fraction-fields

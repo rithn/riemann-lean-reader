@@ -1,0 +1,72 @@
+nodes:
+  - id: f-divisors--has-q-iff
+    title: Definitions for q-expansions, plus an equivalent form
+    kind: step
+    status: explained
+    chunk: c0044
+    plain: >
+      This file mostly defines vocabulary and proves one small equivalence. A function on the upper half-plane "has a q-expansion" with coefficients a_n at level N if it equals the sum of a_n times e to the (2 pi i n tau over N), for every tau. The file also defines families of such functions acted on by the modular group, convolution of coefficient lists, and a pair of periods used to build the Weierstrass elliptic function. The one proved equivalence rewrites e to the (2 pi i n tau over N) as the n-th power of e to the (2 pi i tau over N), the usual form of a power series in q.
+    lean: [Development/AbelianVarietyTheory/Definitions/Divisors/HasQIff.lean:55]
+    mathlib: [Complex.exp_nat_mul]
+    needs: [concept-modular-forms, infinite-series, complex-numbers, concept-lattices-in-the-plane]
+  - id: f-divisors--zeta-act-refl
+    title: Definitions for torsion-point series and their coefficients
+    kind: step
+    status: explained
+    chunk: c0044
+    plain: >
+      This file is mostly definitions, with two tiny proved identities. It sets notation for Weierstrass functions at torsion points: points of an elliptic curve whose N-th multiple is zero, given by a pair of residues mod N. Define the root of unity "ch(j)" as e to the (2 pi i j over N). The file also defines coefficient formulas built from sums over divisors m of k, weighted by m to a power, which will turn out to be the q-expansion coefficients, and a notion of an automorphism acting on roots of unity. The proved parts only unfold definitions.
+    lean: [Development/AbelianVarietyTheory/Definitions/Divisors/ZetaActRefl.lean:50, Development/AbelianVarietyTheory/Definitions/Divisors/ZetaActRefl.lean:75]
+    mathlib: [ArithmeticFunction.sigma]
+    needs: [f-divisors--has-q-iff, concept-modular-forms, concept-roots-of-unity-kummer, modular-arithmetic, primes-divisibility, concept-lattices-in-the-plane]
+  - id: f-root-of-unity-exp-z-mod-additive-character-properties
+    title: Roots of unity form a character of the integers mod N
+    kind: step
+    status: explained
+    chunk: c0044
+    plain: >
+      This file proves the basic rules for the root of unity e to the (2 pi i j over N), viewed as a function of j mod N. Adding residues multiplies the values, zero goes to 1, and the value is 1 only when j is 0 mod N. A multiple m times j gives the m-th power. Negation gives the inverse. Every value has absolute value 1, and every value is an algebraic integer, since its N-th power is 1. Most are read off from Mathlib's standard additive character of the integers mod N, which this file shows is the same function.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/RootOfUnityExpZModAdditiveCharacterProperties.lean:13]
+    mathlib: [ZMod.stdAddChar, AddChar.map_add_eq_mul, IsIntegral.of_pow]
+    needs: [f-divisors--zeta-act-refl, concept-roots-of-unity-kummer, modular-arithmetic, groups, complex-numbers]
+  - id: f-tsum-residue-class-split-by-sign
+    title: Splitting a sum over one residue class into signs
+    kind: step
+    status: explained
+    chunk: c0044
+    plain: >
+      This file proves a rearrangement of sums. Sum a function R over all integers congruent to r mod N, written r plus nN, assuming the sum converges. The result is the sum of three pieces: the term at 0 if r is 0 mod N, the sum over positive integers d congruent to r, and the sum over d where minus d is congruent to r. For example, with N equal to 3 and r equal to 1, the integers 1, 4, 7, ... are the positive ones and minus 2, minus 5, ... come from the negative ones. The proof sums over all integers with zeros elsewhere, then splits at zero.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/TsumResidueClassSplitBySign.lean:8]
+    mathlib: [tsum_int_eq_zero_add_tsum_pnat, Function.Injective.hasSum_iff]
+    needs: [infinite-series, modular-arithmetic, counting]
+  - id: f-has-sum-lambert-double-series-divisors
+    title: Lambert-type double series equals a divisor-sum series
+    kind: step
+    status: explained
+    chunk: c0044
+    plain: >
+      This file proves a Lambert-series identity. Take a number Q with absolute value below 1, and coefficients c(d, m) of size at most 1. The double sum over positive d and m of m to the e, times c(d,m), times Q to the d times m, converges. Regrouping by k equal to d times m gives a series in powers Q to the k, whose k-th coefficient is the sum over divisors m of k of m to the e times c(k over m, m). The classic case c equal to 1 gives the divisor-sum series for sigma. The proof bounds the terms by a geometric series, then regroups using the divisor pairs of each k.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/HasSumLambertDoubleSeriesDivisors.lean:21]
+    mathlib: [HasSum.sigma, sigmaAntidiagonalEquivProd, Nat.sum_divisorsAntidiagonal']
+    needs: [infinite-series, primes-divisibility, counting]
+  - id: f-torsion-point-row-sum-eq-q-expansion-series
+    title: One row of a lattice sum equals a q-series
+    kind: step
+    status: explained
+    chunk: c0044
+    plain: >
+      This file proves a formula for a sum over integers m of 1 over (a point plus m) to the power e plus 1, where the point is (d tau plus b) over N and e is at least 1. The sum equals a constant, minus 2 pi i to the e plus 1 over e factorial, times a series in powers of q equal to e to the (2 pi i tau over N). The series has terms j to the e times a root of unity of j b times q to the d j. A second formula covers the negative-d row. This comes from a known identity expressing sums of reciprocal powers via exponentials, applied with a shifted argument.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/TorsionPointRowSumEqQExpansionSeries.lean:49]
+    mathlib: [EisensteinSeries.qExpansion_identity_pnat]
+    needs: [f-root-of-unity-exp-z-mod-additive-character-properties, f-divisors--zeta-act-refl, concept-modular-forms, infinite-series, complex-analysis]
+  - id: f-torsion-point-rows-sum-eq-divisor-series
+    title: Summing all rows gives a divisor-sum q-series
+    kind: step
+    status: explained
+    chunk: c0044
+    plain: >
+      This file proves how a lattice sum at a torsion point becomes a q-expansion. Start with a double sum over a shifted lattice, summed row by row, and assume the sum over rows converges, with exponent e at least 1. Then it equals a possible leftover term (from row 0, when the first residue is 0) plus a constant times a q-series whose k-th coefficient is a sum over divisors m of k, weighted by m to the e and by roots of unity. The proof splits the rows by residue class and sign, applies the row formula, and regroups with the Lambert identity.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/TorsionPointRowsSumEqDivisorSeries.lean:30]
+    mathlib: [HasSum.add, tsum_mul_left]
+    needs: [f-torsion-point-row-sum-eq-q-expansion-series, f-tsum-residue-class-split-by-sign, f-has-sum-lambert-double-series-divisors, f-divisors--zeta-act-refl, concept-modular-forms, infinite-series, primes-divisibility]
+    orphan: true

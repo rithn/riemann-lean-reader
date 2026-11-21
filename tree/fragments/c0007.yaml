@@ -1,0 +1,87 @@
+nodes:
+
+- id: concept-group-representations
+  title: Group representations and characters
+  kind: concept
+  status: textbook
+  plain: >
+    A representation of a finite group G lets each group element act as an invertible matrix,
+    so that multiplying group elements matches multiplying matrices. The character of a
+    representation is the function that sends each group element to the trace (sum of the
+    diagonal entries) of its matrix. For example, the cyclic group of order 3 can act on the
+    plane by rotating 120 degrees; the character records the trace of each rotation. Characters
+    are constant on "conjugate" elements (g and x^-1 g x), and they are the main tool for
+    studying finite groups with linear algebra.
+  needs: [groups, linear-algebra, complex-numbers]
+  learn:
+    - title: Serre, Linear Representations of Finite Groups
+      where: Chapters 1-3 (representations, characters, induced representations)
+    - title: Dummit and Foote, Abstract Algebra
+      where: Section 18.1 (representations and characters)
+
+- id: f-induced-class-function-from-subgroup-eq-finsum-cosets
+  title: Induced function as a sum over cosets
+  kind: step
+  status: explained
+  plain: >
+    Take a subgroup H of a finite group G and a function psi on H that is unchanged when you
+    conjugate (replace h by x^-1 h x for x in H). The "induced" function is defined by summing
+    psi over all conjugates x^-1 g x for x in the whole of G (psi is read as 0 outside H),
+    then dividing by the size of H. This file shows the same value can be computed by summing
+    over just one representative of each coset (each "slice" gH of G), with no division. The
+    idea: every element of G is uniquely a coset representative times an element of H, and
+    conjugating by the H-part does not change the term, so each coset contributes |H| equal
+    terms and the division by |H| cancels them. Helper results: conjugation by H preserves the
+    extended-by-zero function, and the map (coset, h) to representative times h is a bijection.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/InducedClassFunctionFromSubgroupEqFinsumCosets.lean:42]
+  mathlib: [QuotientGroup.mk_out_eq_mul, QuotientGroup.out_eq', Function.Bijective.sum_comp, Fintype.sum_prod_type, finsum_eq_sum_of_fintype]
+  needs: [f-ab-by-p-of-comm, groups, counting, rings-fields]
+
+- id: f-is-character-finsum-conj-subgroup-function-extend-by-zer
+  title: Coset-sum of a character of H is a character of G
+  kind: step
+  status: explained
+  plain: >
+    If psi is a character of a subgroup H (the trace function of some matrix representation of
+    H), then the coset-sum function g maps to the sum over cosets of psi(q^-1 g q), with psi
+    read as 0 outside H, is a character of the whole group G. The proof builds the induced
+    representation explicitly: G acts on tuples indexed by the cosets of H, each g shuffling
+    the cosets and applying H's matrices to the entries (a "monomial" block matrix). The trace
+    of such a block matrix only counts the blocks sitting on the diagonal, i.e. the cosets
+    fixed by g, and those are exactly the terms where q^-1 g q lies in H. Helpers: a "cocycle"
+    that records which element of H appears when g moves a coset, its multiplication rule
+    (needed to show the construction really is a representation), and a trace formula for
+    block matrices with a permutation of blocks.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterFinsumConjSubgroupFunctionExtendByZer.lean:81]
+  mathlib: [LinearMap.trace_comp_comm', LinearMap.pi, LinearMap.single, LinearMap.proj, QuotientGroup.eq, MulAction.Quotient.smul_mk]
+  needs: [f-ab-by-p-of-comm, f-is-character-over-subfield-of-representation, concept-group-representations, groups, linear-algebra]
+
+- id: f-is-character-over-subfield-restrict-class-function-one
+  title: Basic properties of characters
+  kind: step
+  status: explained
+  plain: >
+    Three facts about a character chi of a group G (a trace function of a matrix representation
+    over a subfield K, with values read in a bigger field L). First, restricting chi to any
+    subgroup (or along any group homomorphism into G) gives again a character, because you can
+    just restrict the matrices. Second, chi is constant on conjugates, chi(x^-1 g x) = chi(g),
+    because trace does not change under conjugating a matrix. Third, chi(1) is a natural number
+    n (the dimension of the matrices, since the identity matrix has trace n), and if n = 0 the
+    character is the zero function.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldRestrictClassFunctionOne.lean:7]
+  mathlib: [Representation.char_conj, Representation.char_one, Representation.character]
+  needs: [f-ab-by-p-of-comm, concept-group-representations, groups, linear-algebra]
+
+- id: f-is-character-over-subfield-induced-class-function
+  title: Induction of a character is a character
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    If psi is a character of a subgroup H of a finite group G (over fields of characteristic
+    zero, like the rational or complex numbers), then the induced function of psi on G is a
+    character of G. The proof is short glue: character values are constant on conjugates in H
+    (from the basic-properties file), so the induced function equals the sum over cosets (from
+    the coset-sum file), and that sum is a character of G (from the block-matrix file).
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldInducedClassFunction.lean:9]
+  needs: [f-induced-class-function-from-subgroup-eq-finsum-cosets, f-is-character-finsum-conj-subgroup-function-extend-by-zer, f-is-character-over-subfield-restrict-class-function-one, f-ab-by-p-of-comm, concept-group-representations]

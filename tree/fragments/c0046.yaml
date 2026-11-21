@@ -1,0 +1,72 @@
+nodes:
+  - id: f-commuting-semisimple-eigenspaces-span
+    title: Commuting diagonalisable maps share a basis of eigenvectors
+    kind: step
+    status: explained
+    chunk: c0046
+    plain: >
+      This file proves a linear algebra fact. Take a finite-dimensional space over the complex-like field C (one where every polynomial has a root). Take any family of maps on it that all commute with each other, and where each map is killed by some polynomial with no repeated roots. Then the "joint eigenspaces" together span the whole space. A joint eigenspace is the set of vectors that every map in the family merely stretches by a fixed number. A tiny example is two diagonal matrices, which share the standard basis. The proof turns "no repeated roots" into "generalised eigenspaces equal eigenspaces", then applies a Mathlib theorem about commuting maps.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/CommutingSemisimpleEigenspacesSpan.lean:7]
+    mathlib: [Module.End.isSemisimple_of_squarefree_aeval_eq_zero, Module.End.iSup_iInf_maxGenEigenspace_eq_top_of_iSup_maxGenEigenspace_eq_top_of_commute]
+    needs: [linear-algebra, algebraic-closure, polynomials, concept-separable-polynomials]
+  - id: f-dvr-rep-eigenspaces-span-top
+    title: A p-adic ring acting by matrices has eigenvectors spanning everything
+    kind: step
+    status: explained
+    chunk: c0046
+    orphan: true
+    plain: >
+      This file proves that a certain family of matrices has joint eigenvectors that span the whole space. The setting is a ring Λ that is finite over the p-adic integers and has one prime (a discrete valuation ring). It acts by matrices with entries in a p-adically complete ring O. Over a big field C containing O, the claim is that the joint eigenspaces, one for each ring map from Λ to O, span everything. The proof strings together five neighbouring files. The p-adic scalars act as plain numbers. The remaining maps commute and are killed by separable polynomials. Each nonzero joint eigenspace then comes from a genuine ring map.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/DvrRepEigenspacesSpanTop.lean:12]
+    mathlib: []
+    needs: [f-commuting-semisimple-eigenspaces-span, f-exists-ring-hom-of-joint-eigenvalue, f-exists-separable-annihilating-poly, f-padic-ring-hom-unique-adic-complete, f-scalar-rep-commute-and-annihilate, f-divisor-base--sandwich-maps, concept-discrete-valuation-ring, concept-valuation-rings, p-adic-numbers, concept-group-representations]
+  - id: f-exists-ring-hom-of-joint-eigenvalue
+    title: A shared eigenvalue pattern is really a ring map into the integers
+    kind: step
+    status: explained
+    chunk: c0046
+    plain: >
+      This file shows that a joint eigenvalue pattern comes from a ring homomorphism. Suppose a ring Λ acts by matrices with entries in a ring O of integers (elements of absolute value at most 1 for some size measure v). Suppose a nonzero vector is stretched by a number χ(a) under every a. Then χ already lands in O and respects addition, multiplication, 0 and 1. The proof looks at the vector entry of largest size. Reading one row of the matrix equation shows χ(a) has size at most 1. Cancelling the nonzero vector then gives the ring rules.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsRingHomOfJointEigenvalue.lean:9]
+    mathlib: [Valuation.map_sum_le, Valuation.Integers.exists_of_le_one, Finset.exists_max_image]
+    needs: [linear-algebra, concept-valuation-rings, concept-ultrametric-norm, rings-fields]
+  - id: f-exists-separable-annihilating-poly
+    title: Every element is killed by a polynomial with no repeated roots
+    kind: step
+    status: explained
+    chunk: c0046
+    plain: >
+      This file proves a small algebra fact. Let Λ be an integral domain that is finitely generated as a module over the p-adic integers. Then each element a is a root of some polynomial f with p-adic integer coefficients, and f stays free of repeated roots after sending its coefficients into any field C of characteristic zero by a ring map. The proof takes the minimal polynomial of a, meaning the smallest such polynomial. It is irreducible over the p-adic numbers, and in characteristic zero irreducible polynomials never have repeated roots. The ring map extends to the p-adic numbers.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSeparableAnnihilatingPoly.lean:7]
+    mathlib: [minpoly.irreducible, Irreducible.separable, IsFractionRing.lift, Polynomial.Separable.map]
+    needs: [p-adic-numbers, polynomials, concept-separable-polynomials, concept-integral-closure-fraction-fields, concept-field-extensions-transcendence]
+  - id: f-padic-ring-hom-unique-adic-complete
+    title: Only one ring map from the p-adic integers into a p-adically complete ring
+    kind: step
+    status: explained
+    chunk: c0046
+    plain: >
+      This file shows that a ring map out of the p-adic integers is forced. Take a ring O in which p is not invertible and which is p-adically complete, meaning sequences that settle down in the p-adic sense converge. Then there is at most one ring map from the p-adic integers into O. The same holds for maps into matrices over O, where each p-adic number must act as a scalar multiple of the identity. The key step is that an element divisible by every power of p must be zero. That is then fed into the uniqueness result from the neighbouring file.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/PadicRingHomUniqueAdicComplete.lean:17, Development/AbelianVarietyTheory/Proofs/DivisorProofs/PadicRingHomUniqueAdicComplete.lean:8]
+    mathlib: [IsAdicComplete, IsHausdorff.haus, Ideal.span_singleton_pow]
+    needs: [f-ring-hom-from-padic-unique-of-sep, p-adic-numbers, rings-fields, linear-algebra]
+  - id: f-ring-hom-from-padic-unique-of-sep
+    title: Ring maps from the p-adic integers agree when p-power divisibility separates points
+    kind: step
+    status: explained
+    chunk: c0046
+    plain: >
+      This file proves a uniqueness statement. Say a ring R has the property that only 0 is divisible by every power of p. Then any two ring maps f and g from the p-adic integers into R are equal. The idea is that every p-adic integer c is, for each n, an ordinary integer plus a multiple of p to the n. Both maps agree on ordinary integers. So f(c) minus g(c) is divisible by p to the n for every n. By the assumption on R, the difference is 0.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/RingHomFromPadicUniqueOfSep.lean:7]
+    mathlib: [PadicInt.appr_spec, Ideal.mem_span_singleton']
+    needs: [p-adic-numbers, rings-fields, modular-arithmetic]
+  - id: f-scalar-rep-commute-and-annihilate
+    title: A matrix action that is scalar on a subring gives commuting maps killed by polynomials
+    kind: step
+    status: explained
+    chunk: c0046
+    plain: >
+      This file proves a bookkeeping fact. A commutative ring Λ acts on a space by matrices over O. A smaller ring R sits inside Λ, and each element of R acts as a plain scalar. Then the matrices for different elements of Λ commute, which is automatic because Λ is commutative. Also, if a polynomial with coefficients in R kills an element a, then the same polynomial, with its coefficients sent into C, kills the matrix of a. The proof packages the action as one ring homomorphism into maps on C-to-the-h. Ring homomorphisms carry polynomial identities along.
+    lean: [Development/AbelianVarietyTheory/Proofs/DivisorProofs/ScalarRepCommuteAndAnnihilate.lean:8]
+    mathlib: [Polynomial.aeval_def, Polynomial.hom_eval₂, Matrix.toLinAlgEquiv']
+    needs: [linear-algebra, polynomials, rings-fields, concept-group-representations]

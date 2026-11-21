@@ -1,0 +1,149 @@
+nodes:
+  - id: f-divisors--orth-subrepresentation
+    title: Orthogonality passes to sub-representations, plus a shared toolbox of definitions
+    kind: step
+    status: explained
+    chunk: c0106
+    plain: >
+      This file is mostly a toolbox of definitions, with a few small proofs. The main proof is about
+      representations, which are ways for a finite group to act on a vector space by matrices. A
+      character is the list of traces (sums of diagonal entries) of those matrices. The result says:
+      if a character is "orthogonal" to the whole space, meaning a certain weighted sum of traces is zero,
+      then it is also orthogonal to every invariant piece (sub-representation). The file also shows that
+      it is enough to test irreducible pieces, the ones with no smaller invariant piece. The rest
+      defines bookkeeping for lists of number pairs, called Reg, liftL and liftAll, which later files use.
+    lean:
+      - Development/AbelianVarietyTheory/Definitions/Divisors/OrthSubrepresentation.lean:45
+    mathlib:
+      - Representation.card_inv_mul_sum_char_eq_finrank
+      - Representation.char_dual
+    needs:
+      - concept-group-representations
+      - linear-algebra
+      - groups
+      - modular-arithmetic
+
+  - id: f-alpha-kernel-derivative-vanishes
+    title: Lifting a regular pair to a bigger field keeps it regular
+    kind: step
+    status: explained
+    chunk: c0106
+    plain: >
+      Call a pair of whole numbers (m, k) "regular" for q if multiplying k by q, q squared, and so on
+      up to q to the power m minus 1 never lands back on k when you work modulo q^m - 1. This file
+      proves that regularity survives a change of base. If l is a prime that does not divide m, replace
+      q by q^l and k by k times a geometric sum 1 + q^m + q^(2m) + ... . The new pair is still regular
+      for q^l, and multiplying by q matches multiplying by some power of q^l. The proof cancels the
+      factor in the sum, using a geometric-sum identity, then reduces exponents modulo m.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/AlphaKernelDerivativeVanishes.lean:50
+    mathlib:
+      - Nat.ModEq
+      - Nat.exists_mul_mod_eq_one_of_coprime
+      - mul_geom_sum
+    needs:
+      - f-divisors--orth-subrepresentation
+      - modular-arithmetic
+      - primes-divisibility
+      - infinite-series
+
+  - id: f-exists-formal-germ-open-affine
+    title: Lifting a whole list of pairs keeps total size and regularity
+    kind: step
+    status: explained
+    chunk: c0106
+    plain: >
+      Take a list of number pairs (m, k), each regular for q, and a prime l. The lifting operation turns
+      each pair into pairs regular for q^l. If l divides m, the pair is cut into l smaller ones. If
+      not, it becomes one pair with a modified second entry. This file proves that the total of the
+      first entries is unchanged and that every output pair is still regular. The proof goes
+      through the list one pair at a time, using the two earlier lemmas, one for each case. The file
+      name suggests something else, but the content is purely this counting statement.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsFormalGermOpenAffine.lean:10
+    mathlib: []
+    needs:
+      - f-lift-l-deg-reg
+      - f-regular-pair-lift-to-prime-power-field
+      - f-divisors--orth-subrepresentation
+      - counting
+      - primes-divisibility
+
+  - id: f-lift-all-preserves-degree-and-regularity
+    title: Lifting a list keeps total degree and regularity (restated claim)
+    kind: step
+    status: explained
+    chunk: c0106
+    orphan: true
+    plain: >
+      This file adds no new mathematics. It restates, under a public name, the result proved in the
+      neighbouring file. For a list of regular number pairs and a prime l, lifting the list to
+      q^l keeps the total of the first entries and keeps every pair regular. Its only step is to
+      point at that earlier proof, trying a few ways of applying it. So the claim is proved, but
+      only by quoting the other file.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/LiftAllPreservesDegreeAndRegularity.lean:7
+    mathlib: []
+    needs:
+      - f-exists-formal-germ-open-affine
+
+  - id: f-lift-l-deg-reg
+    title: Splitting a pair into l copies keeps total size and regularity
+    kind: step
+    status: explained
+    chunk: c0106
+    plain: >
+      Take a list of number pairs (m, k), regular for q, where l divides each m. Splitting turns every
+      pair into l new pairs (m / l, k times q^i), for i from 0 to l - 1. The file proves two things.
+      The first entries still add up to the same total, since l pieces of size m / l make m. And each
+      new pair is regular for q^l. The proof goes through the list by induction. For each pair it
+      counts the pieces and then uses a separate lemma that shows regularity for the pieces.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/LiftLDegReg.lean:9
+    mathlib:
+      - List.flatMap
+    needs:
+      - f-not-mod-eq-of-lt
+      - f-divisors--orth-subrepresentation
+      - counting
+      - primes-divisibility
+
+  - id: f-not-mod-eq-of-lt
+    title: Regular pairs never repeat within a window of length m
+    kind: step
+    status: explained
+    chunk: c0106
+    plain: >
+      Regular for q means k times q^i differs from k modulo q^m - 1 for 0 < i < m. This file shows the
+      stronger, shifted version. Pick exponents u < v with v less than u + m. Then k times q^v is
+      never congruent to k times q^u. The idea is that q is coprime to q^m - 1, so you can cancel the
+      common factor q^u, which turns the claim back into the original definition. It also derives
+      facts about regularity for q^l when m is replaced by l times m. In particular, distinct
+      choices of i and a give distinct residues.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/NotModEqOfLt.lean:9
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/NotModEqOfLt.lean:29
+    mathlib:
+      - Nat.ModEq.cancel_right_of_coprime
+      - Nat.Coprime
+    needs:
+      - f-divisors--orth-subrepresentation
+      - modular-arithmetic
+      - primes-divisibility
+
+  - id: f-regular-pair-lift-to-prime-power-field
+    title: Regular pair lifts to the prime-power field (restated claim)
+    kind: step
+    status: explained
+    chunk: c0106
+    plain: >
+      This file adds no new mathematics. It restates the result proved in the file on lifting a
+      regular pair. For prime l not dividing m, the pair (m, k) regular for q becomes a regular
+      pair for q^l, with k replaced by k times a geometric sum. It also records that multiplying by
+      q acts like multiplying by some power of q^l. The proof is one line pointing at the earlier
+      file, so the claim is proved only by quoting it.
+    lean:
+      - Development/AbelianVarietyTheory/Proofs/DivisorProofs/RegularPairLiftToPrimePowerField.lean:7
+    mathlib: []
+    needs:
+      - f-alpha-kernel-derivative-vanishes

@@ -1,0 +1,124 @@
+nodes:
+
+- id: concept-ultrametric-norm
+  title: Ultrametric (non-archimedean) absolute value
+  kind: concept
+  status: textbook
+  plain: >
+    A way of measuring size where the "triangle inequality" is strengthened to
+    |x + y| <= max(|x|, |y|). The p-adic absolute values are the standard example:
+    a number is small when it is divisible by a high power of p. Odd consequences:
+    if |x| and |y| differ, then |x + y| equals the larger of the two, and every
+    point in a closed disc is a centre of that disc.
+  needs: [p-adic-numbers, rings-fields]
+  learn:
+    - {title: "Gouvea, p-adic Numbers: An Introduction", where: "Ch. 2-3 (absolute values, ultrametric inequality)"}
+    - {title: "Koblitz, p-adic Numbers, p-adic Analysis, and Zeta-Functions", where: "Ch. I"}
+
+- id: concept-newton-polygon
+  title: Newton polygon and dominant coefficient
+  kind: concept
+  status: textbook
+  plain: >
+    For a polynomial over a field with an ultrametric absolute value, the Newton
+    polygon records, for each size of radius rho, which coefficient c_j rho^j is
+    the biggest. The index of that biggest term (the "dominant index") equals the
+    number of roots of absolute value at most rho, counted with multiplicity. This
+    is how one counts roots in p-adic discs without finding them.
+  needs: [concept-ultrametric-norm, polynomials, algebraic-closure]
+  learn:
+    - {title: "Koblitz, p-adic Numbers, p-adic Analysis, and Zeta-Functions", where: "Ch. IV (Newton polygons)"}
+    - {title: "Gouvea, p-adic Numbers: An Introduction", where: "the chapters on Newton polygons"}
+
+- id: f-newton-polygon-dominant-index-x-sub-c-mul
+  title: Multiplying by (X - a) with a outside the disc keeps the dominant index
+  kind: step
+  status: explained
+  plain: >
+    Take a polynomial g over an ultrametric field, a radius rho > 0, and suppose
+    one coefficient term |g_d| rho^d is strictly the largest among the higher
+    terms and at least as large as all the lower ones (so d is the dominant index
+    at radius rho). If a is a number with |a| > rho (a root outside the disc), then
+    (X - a) * g has the same dominant index d. Proof idea: the new coefficient is
+    g_k - a g_(k+1); using the ultrametric rule that |x - y| is at most max(|x|, |y|),
+    every new term is bounded by |a| times the old maximum, and at position d the
+    a * g_d part is strictly bigger than the g_(d-1) part, so the bound is attained
+    there. The file proves this as `newton_step_root_outside_disc`, plus three small
+    helper lemmas (the formula for the coefficients of (X - a) * g and the
+    ultrametric rule for subtraction).
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NewtonPolygonDominantIndexXSubCMul.lean:19]
+  mathlib: [Polynomial.coeff_mul_X_sub_C, Polynomial.mul_coeff_zero, IsUltrametricDist.norm_add_le_max, max_mul_of_nonneg]
+  needs: [concept-newton-polygon, concept-ultrametric-norm, polynomials]
+
+- id: f-newton-polygon-last-dominant-index-mul-x-sub-c
+  title: Multiplying by (X - a) with a inside the disc raises the dominant index by one
+  kind: step
+  status: explained
+  plain: >
+    Same setup as the neighbouring file, but now |a| <= rho (a root inside the
+    closed disc of radius rho). Then (X - a) * g has dominant index d + 1: its
+    coefficient term at index d + 1 is the strict maximum of everything above it and
+    the maximum of everything below. Proof idea: the new top coefficient g_d - a g_(d+1)
+    has the same size as g_d, because |a g_(d+1)| is strictly smaller (by the strict
+    inequality on terms above d), and ultrametric addition of numbers of different
+    size just takes the larger. All other new terms are bounded by rho times the
+    old maximum. The main result is `newton_step_root_in_disc`; the helpers are the
+    coefficient formulas and the subtraction version of the ultrametric rule.
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/NewtonPolygonLastDominantIndexMulXSubC.lean:6]
+  mathlib: [Polynomial.coeff_mul_X_sub_C, Polynomial.mul_coeff_zero, IsUltrametricDist.norm_add_le_max, IsUltrametricDist.norm_add_eq_max_of_norm_ne_norm, max_mul_of_nonneg]
+  needs: [concept-newton-polygon, concept-ultrametric-norm, polynomials]
+
+- id: f-card-roots-closed-ball-eq-dominant-index
+  title: Number of roots in a disc equals the dominant index
+  kind: step
+  status: explained
+  plain: >
+    Over an algebraically closed field with an ultrametric absolute value, take a
+    nonzero polynomial f and a radius rho > 0. Let e be the number of roots of f
+    (with multiplicity) of absolute value at most rho. Then the coefficient term
+    |f_e| rho^e is the largest of all terms |f_j| rho^j, and strictly larger than
+    every term after it. Example: f = (X - 1)(X - p^3) over the p-adics with rho = 1/p. Here |1| = 1 is outside the disc and |p^3| = p^-3 is inside, so e = 1, and indeed the term of X^1 (size 1/p) beats the terms of X^0 (p^-3) and X^2 (p^-2). Proof idea: factor f into (leading coeff) times
+    a product of (X - root); start from the constant polynomial and multiply in the
+    factors one at a time, using the two Newton-step files (root inside the disc
+    raises the dominant index by one, root outside leaves it unchanged). The
+    result is the helper `dominantIndex_prod_X_sub_C` (induction over a list of
+    roots), and the headline theorem rewrites f as such a product.
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CardRootsClosedBallEqDominantIndex.lean:42]
+  mathlib: [Polynomial.C_leadingCoeff_mul_prod_multiset_X_sub_C, IsAlgClosed.card_roots_eq_natDegree, Multiset.induction_on]
+  needs: [f-newton-polygon-dominant-index-x-sub-c-mul, f-newton-polygon-last-dominant-index-mul-x-sub-c, concept-newton-polygon, concept-ultrametric-norm, algebraic-closure, polynomials]
+
+- id: f-card-roots-closed-ball-bounds-ultrametric
+  title: Root count in a disc is pinned down by any dominant coefficient
+  kind: step
+  status: explained
+  plain: >
+    A usable form of the previous result. Take a nonzero polynomial f over an
+    algebraically closed ultrametric field, rho > 0, and an index d with f_d nonzero.
+    (1) If the term |f_d| rho^d is at least as big as every other term |f_j| rho^j, then
+    f has at least d roots of absolute value at most rho. (2) If it is strictly bigger
+    than all the terms after it, then f has at most d such roots. So when both hold the
+    count is exactly d. Proof idea: the previous file says the true count e is a
+    dominant index; compare terms at d and at e and the two inequalities give
+    contradictions if d > e (case 1) or e > d (case 2).
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CardRootsClosedBallBoundsUltrametric.lean:8]
+  mathlib: [Multiset.card, Polynomial.roots]
+  needs: [f-card-roots-closed-ball-eq-dominant-index, concept-newton-polygon, concept-ultrametric-norm, algebraic-closure, polynomials]
+
+- id: f-onto-o-c-additive-poly
+  title: Additive polynomials with a unit coefficient are onto the unit ball of C_l
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    Let l be a prime and C_l the complex l-adic numbers (the algebraic closure of
+    the l-adic numbers, completed). Take coefficients a_0, ..., a_E of absolute
+    value at most 1 with at least one, a_N, of absolute value exactly 1. Then
+    for every b of absolute value at most 1, the equation
+    a_0 W + a_1 W^l + a_2 W^(l^2) + ... + a_E W^(l^E) = b has a solution W of absolute
+    value at most 1. Proof idea: form the polynomial f(X) = (sum of a_k X^(l^k)) - b.
+    All its coefficients have absolute value at most 1 and the one at X^(l^N) has
+    absolute value exactly 1, so by the root-counting result at radius 1 it has at
+    least l^N >= 1 roots in the closed unit disc. Any such root is the desired W.
+  lean: [Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/OntoOCAdditivePoly.lean:5]
+  mathlib: [IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg, IsUltrametricDist.norm_add_le_max, Polynomial.coeff_monomial, Polynomial.mem_roots', Multiset.card_pos_iff_exists_mem, Nat.pow_right_injective]
+  needs: [f-card-roots-closed-ball-bounds-ultrametric, concept-ultrametric-norm, p-adic-numbers, algebraic-closure, polynomials]

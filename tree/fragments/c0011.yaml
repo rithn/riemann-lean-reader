@@ -1,0 +1,68 @@
+nodes:
+
+- id: f-st-irreducible-germ-meet-over-hypersurface
+  title: "Statement only: two shapes overlap over a thin set"
+  kind: step
+  status: explained
+  chunk: c0011
+  plain: >
+    This file only states a claim. It proves nothing. Picture a shape Y cut out by
+    equations near a point w, which cannot be split into two smaller such shapes there
+    (it is "irreducible"). A flattening map A, such as (x, y, z) to (x, y), is given.
+    Among nearby points of Y, w is the only one that A sends to A(w). A second shape Z does not contain all
+    of Y near w. The claim says the overlap of Y and Z lands, after flattening, inside
+    the zero set of one function e that is not identically zero. Example: Y is the
+    plane z = 0, Z is the plane z = x, the overlap is the line x = 0, and e = x works.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StIrreducibleGermMeetOverHypersurface.lean:9]
+  needs: [f-analytic-germ, concept-complex-analytic-sets, complex-analysis, linear-algebra]
+
+- id: f-st-isolated-fibre-local-unbranched
+  title: "Statement only: a branched cover is unbranched off one thin set"
+  kind: step
+  status: explained
+  chunk: c0011
+  plain: >
+    This file only states a claim. It proves nothing. Take a shape X cut out by analytic
+    equations, and a flattening map A that is "open" on X, meaning it sends every small
+    patch of X onto a patch of the target. Fix a point w where w is the only point of X
+    nearby that maps to A(w). The claim says there is one function g, not identically
+    zero near A(w), such that wherever g is nonzero, X looks like one clean sheet. The
+    sheet is the image of an analytic section, a smooth choice of point above each
+    target point. Example: y squared = x, flattened to x. Only x = 0 is bad.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StIsolatedFibreLocalUnbranched.lean:8]
+  needs: [concept-complex-analytic-sets, concept-point-set-topology, complex-analysis, linear-algebra]
+
+- id: f-st-open-projection-dominant-components
+  title: "Statement only: a shape splits into irreducible pieces that cover the target"
+  kind: step
+  status: explained
+  chunk: c0011
+  plain: >
+    This file only states a claim. It proves nothing. Take a shape X cut out by analytic
+    equations, with a flattening map A that is open on X (small patches go onto
+    patches). The claim says that near any point w, X is a finite union of pieces
+    Y_1, ..., Y_n. Each piece is irreducible (cannot be split further) and none sits
+    inside another. Each also covers the target thickly: no function other than zero
+    vanishes on all of its image. Example: X is the two crossing lines xy = 0, with A
+    sending (x, y) to x + y. Each line maps onto the whole line of values.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/StOpenProjectionDominantComponents.lean:9]
+  needs: [f-analytic-germ, concept-complex-analytic-sets, complex-analysis, linear-algebra]
+
+- id: f-p-isolated-fibre-local-unbranched
+  title: "Unbranched off a thin set, assuming four unproved claims"
+  kind: step
+  status: explained
+  chunk: c0011
+  plain: >
+    This file proves the "unbranched off one thin set" claim, but only on the
+    assumption that four other claims hold. They are the component splitting, the
+    overlap claim, and two sheet claims. Here they are just hypotheses. Idea of the
+    proof. Near w, split the shape into irreducible pieces. Each piece has its own
+    function, nonzero, outside whose zero set it is one clean sheet. Each pair of pieces
+    has an overlap function too. Multiply all these together. A product of nonzero
+    analytic functions is nonzero, which needs a small identity-theorem argument. Where
+    the product is nonzero, the point lies on exactly one piece, which is a sheet.
+  lean: [GroundTheory/HeightsAndTheta/Heights/ComplexAnalyticSets/PIsolatedFibreLocalUnbranched.lean:73]
+  mathlib: [AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero, Finset.analyticAt_fun_prod, AnalyticAt.mul]
+  needs: [f-st-isolated-fibre-local-unbranched, f-st-open-projection-dominant-components, f-st-irreducible-germ-meet-over-hypersurface, f-st-irreducible-germ-primitive-form, f-st-primitive-form-sheeted-off-discriminant, f-analytic-germ, concept-complex-analytic-sets, concept-point-set-topology, complex-analysis]
+  orphan: true

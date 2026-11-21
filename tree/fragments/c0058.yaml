@@ -1,0 +1,52 @@
+nodes:
+  - id: f-character-theory--card-subspaces-of-finrank-mul-card-bases
+    title: Counting subspaces by counting bases
+    kind: step
+    status: explained
+    chunk: c0058
+    plain: >
+      Over a finite field with q elements, count the a-dimensional subspaces of an n-dimensional space. This file proves: the number of such subspaces times the product of (q^a - q^i) for i below a equals the product of (q^n - q^i) over the same range. Idea: count lists of a independent vectors in two ways. Directly, there are the right-hand product. Alternatively, sort each list by the subspace it spans; each subspace holds exactly the left-hand product of lists. A helper shows that lists spanning W match lists inside W.
+    lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/CardSubspacesOfFinrankMulCardBases.lean:32]
+    mathlib: [finrank_span_eq_card, card_linearIndependent, Nat.card_sigma]
+    needs: [linear-algebra, counting]
+  - id: f-card-subspaces-mul-general-linear-group-card
+    title: Subspaces times invertible matrices count
+    kind: step
+    status: explained
+    chunk: c0058
+    plain: >
+      Over a finite field with q elements, let GL_n be the invertible n-by-n matrices. This file proves that the number of a-dimensional subspaces of an n-dimensional space, times q^(a(n-a)), times the sizes of GL_a and GL_(n-a), equals the size of GL_n. It first writes the size of GL_n as a product (q^n - q^i), then splits the product for n = a + b into the first a factors and the last b, which pulls out q^(ab). Finally it feeds in the basis-counting result.
+    lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/CardSubspacesMulGeneralLinearGroupCard.lean:16]
+    mathlib: [Matrix.card_GL_field, Finset.prod_range_add]
+    needs: [f-character-theory--card-subspaces-of-finrank-mul-card-bases, linear-algebra, counting, groups]
+  - id: f-endomorphism-mass-eq-of-linear-equiv-invariant
+    title: Mass depends only on the dimension, if the weight is basis-free
+    kind: step
+    status: explained
+    chunk: c0058
+    plain: >
+      Fix a finite field. The "mass" of a weight function on linear maps of a space is the sum of the weight over all maps with a given characteristic polynomial. If the weight does not change when you change basis, this file shows the mass over any space of dimension d equals the mass over the standard space of d coordinates. Idea: pick an isomorphism between the two spaces. Conjugating by it is a one-to-one match between maps on each side, keeps the characteristic polynomial, and keeps the weight.
+    lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/EndomorphismMassEqOfLinearEquivInvariant.lean:8]
+    mathlib: [finsum_mem_eq_of_bijOn, LinearEquiv.ofFinrankEq]
+    needs: [linear-algebra, polynomials, concept-group-representations]
+  - id: f-finsum-subspace-stabilizer-mul-block-functions
+    title: Summing over maps that preserve a subspace
+    kind: step
+    status: explained
+    chunk: c0058
+    plain: >
+      Over a finite field, take a subspace W of V. Consider all linear maps of V sending W into itself. Each such map gives a restriction to W and an induced map on the quotient V/W. This file proves that summing a product of one function of the restriction and another of the quotient map equals q^(dim W times dim V/W) times the product of the two plain sums. Idea: in block form, such a map is a block triangular matrix, and the corner block is free, giving the power of q.
+    lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/FinsumSubspaceStabilizerMulBlockFunctions.lean:7]
+    mathlib: [Module.natCard_eq_pow_finrank, Module.finrank_linearMap, finsum_comp_equiv, Submodule.mapQ]
+    needs: [linear-algebra, counting, concept-normal-subgroups-quotients]
+  - id: f-endomorphism-mass-mul-parabolic-induction-trivial
+    title: Mass of maps preserving a subspace splits over factorisations
+    kind: step
+    status: explained
+    chunk: c0058
+    plain: >
+      Over a finite field, take a basis-independent weight on linear maps. Sum it over every subspace-preserving map, restricting to that subspace, with the characteristic polynomial fixed as P, then divide by the size of the matching GL. This file proves the result is a convolution over ways of writing P as D times E of masses on the pieces. Idea: sort maps by subspace, split the characteristic polynomial into its sub and quotient factors, and apply the block, mass-invariance and subspace-counting results.
+    lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/EndomorphismMassMulParabolicInductionTrivial.lean:109]
+    mathlib: [Polynomial.fintypeSubtypeMonicDvd, LinearMap.charpoly_natDegree, Submodule.finrank_quotient_add_finrank]
+    needs: [f-card-subspaces-mul-general-linear-group-card, f-endomorphism-mass-eq-of-linear-equiv-invariant, f-finsum-subspace-stabilizer-mul-block-functions, f-character-theory--charpoly-block-and-invariant-under-stabilizer-nilradic, f-commutative-algebra--invariant-subspace-mobius-inverse-rec-eq-of-finrank-lt, linear-algebra, polynomials, counting]
+    orphan: true

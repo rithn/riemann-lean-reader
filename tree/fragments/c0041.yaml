@@ -1,0 +1,102 @@
+nodes:
+  - id: f-convex-nerve-complexes--nerve-face-closed
+    title: Definitions - tuples, boundary map, "no holes", the nerve
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file mostly sets up vocabulary, with one small proved fact. Take a list of index labels. A "chain" is a whole-number combination of label tuples, like 2 times (a,b) minus 1 times (b,c). The "boundary" of a tuple is the alternating sum of the tuples you get by deleting one entry at a time. A family of tuples is "acyclic" if every chain with zero boundary is itself a boundary, which roughly means no holes. The "nerve" of sets A_i inside a space X is the collection of tuples whose sets share a common point of X. The proved fact is that deleting an entry from a tuple in the nerve stays in the nerve. Some extra definitions about polyhedra follow.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/NerveFaceClosed.lean:24]
+    mathlib: []
+    needs: [concept-chain-complexes-homology, counting, concept-point-set-topology]
+  - id: f-alt-double-sum
+    title: Boundary of a boundary is zero
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves the basic rule of chain complexes: taking the boundary twice always gives zero. Think of a triangle. Its boundary is three edges, and the boundary of those edges cancels, because each corner is counted once with a plus and once with a minus. In general the boundary deletes entries one at a time with alternating signs. Deleting entry i then entry j gives the same result as deleting j then i, but with opposite signs. So the terms pair off and the total is twice itself with a minus sign, which forces zero. A small helper tracks how positions shift after a deletion.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/AltDoubleSum.lean:65]
+    mathlib: []
+    needs: [f-convex-nerve-complexes--nerve-face-closed, concept-chain-complexes-homology, counting]
+  - id: f-bd-mem
+    title: Boundaries stay inside a face-closed family
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file shows a simple closure property. Say a family of tuples is closed under deleting entries (every sub-tuple of a member is a member). Then the boundary of any chain built only from family members is again built only from family members. The proof is direct: the boundary of one tuple is a signed sum of tuples with one entry deleted, each of which is in the family by assumption, and a sum of such things stays in the family. Later files use this to keep all the bookkeeping inside one sub-family.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/BdMem.lean:5]
+    mathlib: []
+    needs: [f-convex-nerve-complexes--nerve-face-closed, concept-chain-complexes-homology]
+  - id: f-acyc-cone
+    title: A cone point makes a family hole-free
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves a "cone" rule for the no-holes property. Suppose there is a label a such that putting a in front of any tuple of the family gives another tuple of the family. Then the family is acyclic. Picture a tent: every loop on the ground can be filled in by joining it to the apex. Concretely, define a "join with a" operation on chains. A short calculation shows that taking the boundary of the joined chain gives back the original chain minus the join of its boundary. So a chain with zero boundary is the boundary of its join with a.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/AcycCone.lean:70]
+    mathlib: []
+    needs: [f-convex-nerve-complexes--nerve-face-closed, f-bd-mem, concept-chain-complexes-homology]
+  - id: f-acyc-directed
+    title: Hole-free on every finite piece means hole-free
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves a limit argument. Suppose that for every finite set of tuples in a family, we can find a smaller hole-free family that contains them. Then the whole family is hole-free. The reason is that a chain uses only finitely many tuples. Take a chain with zero boundary. Its finitely many tuples sit inside some hole-free sub-family, so the chain is a boundary there. A boundary in the sub-family is also a boundary in the big family, because the sub-family is contained in it.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/AcycDirected.lean:5]
+    mathlib: []
+    needs: [f-convex-nerve-complexes--nerve-face-closed, concept-chain-complexes-homology]
+  - id: f-acyc-union
+    title: Gluing two hole-free pieces along a hole-free overlap
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves a gluing rule, like the Mayer-Vietoris idea from topology. Take two face-closed families A and B. If A, B and their overlap are all hole-free, then the union of A and B is hole-free. The idea is to split a zero-boundary chain into an A-part and a B-part. The boundary of the A-part lies in the overlap, where it is a boundary of some overlap chain. Subtracting that chain from the A-part and adding it to the B-part gives two honest cycles, one in A and one in B, which are each boundaries. Adding the fillings finishes it.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/AcycUnion.lean:7]
+    mathlib: []
+    needs: [f-convex-nerve-complexes--nerve-face-closed, f-bd-mem, f-alt-double-sum, concept-chain-complexes-homology]
+  - id: f-nerve-cut
+    title: Cutting a convex set by a hyperplane splits its nerve
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves a bookkeeping fact about cutting. Take a convex region X (any two points can be joined by a straight segment inside) and convex sets A_i. Choose a linear measuring function f and a level u. Cut X into the half where f is at most u and the half where f is at least u. Then the nerve of X is the union of the nerves of the two halves, and the nerve of the flat slice where f equals u is their overlap. The overlap part is the interesting one: if a point on each side lies in all the sets, slide along the straight segment between them to land exactly on the slice.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/NerveCut.lean:5]
+    mathlib: []
+    needs: [f-convex-nerve-complexes--nerve-face-closed, linear-algebra, concept-point-set-topology]
+  - id: f-nerve-sep
+    title: Finding a separating cut when no common point exists
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves a separation step. Take a compact convex region X and finitely many relevant closed convex sets A_i. Suppose no single point of X lies in every A_i that touches X. Then there is a linear function f and a level u that separates two things: some set A_i has f below u on all of its points in X, while every point of X lying in a certain collection of sets has f above u. The proof picks a largest collection of sets with a common point, then applies a geometric Hahn-Banach theorem, which says two disjoint compact convex sets can be separated by a hyperplane.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/NerveSep.lean:6]
+    mathlib: [geometric_hahn_banach_compact_closed]
+    needs: [f-convex-nerve-complexes--nerve-face-closed, linear-algebra, concept-point-set-topology, counting]
+  - id: f-nerve-compact
+    title: Nerve of a compact convex set is hole-free
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves the nerve of finitely many closed convex sets, covering a compact convex region, has no holes. The proof is an induction on how many tuples the nerve has. If some point lies in every set that touches the region, the cone rule finishes it. Otherwise the separation step gives a cutting hyperplane. Cutting the region gives two halves and a slice, each a smaller compact convex region with fewer nerve tuples, so each is hole-free by the induction hypothesis. The gluing rule then puts the two halves back together along the slice.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/NerveCompact.lean:29]
+    mathlib: [IsPreconnected.intermediate_value, Set.ncard_lt_ncard]
+    needs: [f-acyc-cone, f-acyc-union, f-nerve-sep, f-nerve-cut, f-convex-nerve-complexes--nerve-face-closed, concept-point-set-topology, counting]
+  - id: f-nerve-convex
+    title: Nerve of a convex cover is hole-free (nerve lemma)
+    kind: step
+    status: explained
+    chunk: c0041
+    plain: >
+      This file proves a convex nerve lemma. Take a convex region X, covered by closed convex sets A_i, where any finite piece of X meets only finitely many of them. Then the nerve of the cover, the record of which sets overlap, has no holes in the chain sense. The proof reduces to the compact case: any finite set of nerve tuples comes from finitely many points, and the convex hull of those points is a compact convex region that carries all of them. The previous file handles each such hull, and the limit rule passes to the whole nerve.
+    lean: [Development/AutomorphicArithmetic/AutomorphicVarieties/ConvexNerveComplexes/NerveConvex.lean:7]
+    mathlib: [convexHull_min, Set.Finite.isCompact_convexHull]
+    needs: [f-acyc-directed, f-nerve-compact, f-convex-nerve-complexes--nerve-face-closed, concept-point-set-topology, linear-algebra]
+    orphan: true

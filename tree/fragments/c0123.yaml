@@ -1,0 +1,45 @@
+nodes:
+  - id: f-is-h-t-form-over
+    title: Definition of "HT form" linear functions on a Lie model
+    kind: step
+    status: explained
+    chunk: c0123
+    plain: >
+      This file only gives definitions and proves nothing. The setting is a group object G over a base scheme X (a family of groups
+      such as a line or a torus) and a "Lie model", which is a vector space E standing in for the tangent space of G. A linear function w
+      on E counts as being "of HT form" at level N over a ring R if it can be rebuilt from data over R. That data is a finite
+      group scheme, a smaller model over R, and a linear function there, subject to an N-torsion condition and compatibility. A
+      second definition applies this at a point, and a third takes the span of all such functions to get a lattice at each point.
+    lean: ["Development/AutomorphicSpectrum/Definitions/GlobalGeometry/IsHTFormOver.lean:14", "Development/AutomorphicSpectrum/Definitions/GlobalGeometry/IsHTFormOver.lean:25"]
+    mathlib: [Submodule.span]
+    needs: [f-global-geometry--lie-model, concept-schemes-basics, linear-algebra, concept-categorical-pullbacks]
+  - id: f-geometry-proofs--std-smooth-mv-polynomial
+    title: The additive line is a smooth group with a Lie model
+    kind: step
+    status: explained
+    chunk: c0123
+    plain: >
+      This file proves that polynomial rings in n variables over any ring R are standard smooth of dimension n, meaning they are cut out
+      with no equations and with an invertible (empty) Jacobian. From this it deduces that affine n-space is smooth of relative
+      dimension n over any base scheme. It then builds the additive group of the line as a group object over any base, where
+      a point is an element of the coordinate ring and the group law is addition. It builds its Lie model using dual numbers
+      (numbers a + b*eps with eps squared zero). The final theorem says a smooth one-dimensional commutative group with a Lie model
+      over every base exists over the integers.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/StdSmoothMvPolynomial.lean:12", "Development/AutomorphicSpectrum/Proofs/GeometryProofs/StdSmoothMvPolynomial.lean:29", "Development/AutomorphicSpectrum/Proofs/GeometryProofs/StdSmoothMvPolynomial.lean:173", "Development/AutomorphicSpectrum/Proofs/GeometryProofs/StdSmoothMvPolynomial.lean:197"]
+    mathlib: [Algebra.IsStandardSmoothOfRelativeDimension, Algebra.SubmersivePresentation, AffineSpace.SpecIso, MorphismProperty.of_isPullback]
+    needs: [f-global-geometry--lie-model, concept-smooth-morphisms, concept-derivations-smoothness, concept-schemes-basics, concept-categorical-pullbacks, polynomials]
+  - id: f-ga-is-h-t-form-over
+    title: The identity function on the additive line is of HT form
+    kind: step
+    status: explained
+    chunk: c0123
+    orphan: true
+    plain: >
+      This file checks the "HT form" definition in the simplest case, the additive group of the line. It first shows the lattice of HT
+      forms sits inside a larger lattice (the span of values from the model). It builds a trivial one-point group scheme. It proves
+      that when N is invertible, the additive group has no N-torsion: if N times x is zero then x is zero. The main theorem says
+      the identity linear function is of HT form at level N. A consequence is that the HT lattice at such a point is not zero. I
+      could not tell from the code alone what the letters HT stand for.
+    lean: ["Development/AutomorphicSpectrum/Definitions/GlobalGeometry/GaIsHTFormOver.lean:99", "Development/AutomorphicSpectrum/Definitions/GlobalGeometry/GaIsHTFormOver.lean:130"]
+    mathlib: [Submodule.span_induction, IsUnit.mul_right_eq_zero, Ideal.Quotient.subsingleton_iff]
+    needs: [f-is-h-t-form-over, f-geometry-proofs--std-smooth-mv-polynomial, f-global-geometry--lie-model, concept-schemes-basics, concept-local-rings]

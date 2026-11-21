@@ -1,0 +1,113 @@
+nodes:
+  - id: f-coords-left-mul-matrix-const-base-change
+    title: Coordinates and multiplication matrices are unchanged by base change
+    kind: step
+    status: explained
+    chunk: c0078
+    plain: >
+      Let F be a number field with a basis ω over the rationals, and let A be a bigger ring with a
+      basis b (over some ring R) made of the images of the ω's. Then for any x in F, two things
+      hold. The coordinates of x inside A are just the rational coordinates of x, mapped into R. And
+      the matrix of "multiply by x" in the new basis is the same rational matrix, mapped into R.
+      Example: for F = the rationals with i adjoined and x = 2+3i, the coordinates are (2, 3) and the
+      multiplication matrix has rows (2, -3) and (3, 2), whatever ring we work in. The proof expands x in the basis and uses
+      that rational numbers map uniquely into any ring.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/CoordsLeftMulMatrixConstBaseChange.lean:24"]
+    mathlib: [Algebra.leftMulMatrix_eq_repr_mul, Module.Basis.repr_sum_self, RingHom.ext_rat]
+    needs: [number-fields, linear-algebra, rings-fields]
+  - id: f-exists-is-q-group-weil-restriction
+    title: Weil restriction of a matrix group is a group defined over the rationals
+    kind: step
+    status: explained
+    orphan: true
+    chunk: c0078
+    plain: >
+      Take a number field F of degree d over the rationals, and a family of equations S over F that
+      cut out a subgroup of n-by-n invertible matrices (it contains the identity and is closed under
+      products and inverses, over every F-algebra). The statement is that a group Γ of complex
+      matrices of size nd+1 exists, defined by rational equations and stable under automorphisms of
+      the complex numbers, whose points in any ring are exactly the images of the F-group's points.
+      This trick, called Weil restriction, trades a group over F for a bigger one over the rationals. The proof takes the rational equations
+      from a neighbouring file, checks the group laws using the matrix embedding, and gets stability from rationality.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsIsQGroupWeilRestriction.lean:20"]
+    mathlib: [MvPolynomial.comp_aeval, Matrix.fromBlocks]
+    needs: [f-exists-rational-equations-weil-restriction, f-gl-free-algebra-to-special-linear-emb-injective-hom, f-mem-rat-zariski-closure-points-iff-of-is-reduced, f-adelic-hermitian-forms--adelic-pair, number-fields, groups, linear-algebra, polynomials, complex-numbers]
+  - id: f-exists-rational-coord-polynomial-base-change
+    title: Coordinates of a polynomial value are rational polynomials in the coordinates
+    kind: step
+    status: explained
+    chunk: c0078
+    plain: >
+      Let F be a number field with a rational basis. Given any polynomial P over F, there are
+      polynomials with rational coefficients, one for each basis element, such that the coordinates
+      of P's value are given by them. Concretely, the k-th coordinate of P(x) is a rational
+      polynomial in the coordinates of the inputs. Example: for F with basis 1 and i, P = X squared
+      gives (a+bi) squared = (a squared minus b squared) + 2ab i. The proof is by induction on the
+      polynomial: constants, sums, and multiplying by a variable, where the rational "structure
+      constants" of multiplication are used.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRationalCoordPolynomialBaseChange.lean:37"]
+    mathlib: [MvPolynomial.induction_on, Module.Basis.sum_repr, RingHom.ext_rat]
+    needs: [number-fields, polynomials, linear-algebra, rings-fields]
+  - id: f-exists-rational-equations-weil-restriction
+    title: Rational equations describing the Weil restriction
+    kind: step
+    status: explained
+    chunk: c0078
+    plain: >
+      This builds the rational equations behind Weil restriction. Given equations S over a number field
+      F of degree d, it produces a set of rational-coefficient polynomial equations on matrices of
+      size nd+1. A matrix satisfies them exactly when it is the embedded image of an invertible n-by-n matrix
+      over A that satisfies S. The equations say: certain off-block entries are zero, the big block
+      equals the multiplication-matrix expansion of the coordinates, the determinant times the
+      corner entry is 1, and the coordinate polynomials of S vanish. Both directions are checked
+      by substituting and comparing entries.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRationalEquationsWeilRestriction.lean:58"]
+    mathlib: [Algebra.leftMulMatrix_mulVec_repr, Matrix.toBlocks₁₁, AlgHom.map_det]
+    needs: [f-exists-rational-coord-polynomial-base-change, f-coords-left-mul-matrix-const-base-change, f-restrict-scalars-matrix-of-basis-hom-injective-is-unit, linear-algebra, polynomials, number-fields]
+  - id: f-gl-free-algebra-to-special-linear-emb-injective-hom
+    title: Embedding invertible matrices into determinant-one matrices
+    kind: step
+    status: explained
+    chunk: c0078
+    plain: >
+      Replace each entry of an n-by-n matrix by the matrix of "multiply by that entry" in a chosen
+      basis, giving a bigger block matrix, then add a one-by-one corner holding the inverse of the
+      determinant. This file proves that map from invertible matrices has five properties: it sends
+      the identity to the identity, sends products to products, always lands on determinant one,
+      sends the adjugate to the inverse's image, and is injective (different inputs give
+      different outputs). So it is a faithful copy of the general linear group inside the special
+      linear group. The proofs compute with block matrices.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/GlFreeAlgebraToSpecialLinearEmbInjectiveHom.lean:63"]
+    mathlib: [Matrix.fromBlocks_multiply, Matrix.det_fromBlocks_zero₂₁, Matrix.adjugate_mul, Algebra.leftMulMatrix_injective]
+    needs: [linear-algebra, groups, rings-fields]
+  - id: f-mem-rat-zariski-closure-points-iff-of-is-reduced
+    title: Points of the rational closure are solutions, in a reduced ring
+    kind: step
+    status: explained
+    chunk: c0078
+    plain: >
+      Take rational polynomials S' and the set of complex matrices they cut out. A matrix y over a
+      ring R lies in the "rational closure points" exactly when y satisfies all the equations in S'. One
+      direction always works. The other needs R to be reduced, meaning no nonzero element has a power
+      equal to zero. The proof uses Hilbert's Nullstellensatz: any polynomial vanishing on all
+      complex solutions has some power in the ideal generated by S'. Evaluating at y gives zero
+      for that power, and reducedness removes the power.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/MemRatZariskiClosurePointsIffOfIsReduced.lean:9"]
+    mathlib: [MvPolynomial.vanishingIdeal_zeroLocus_eq_radical, IsReduced.eq_zero, Ideal.span_le]
+    needs: [concept-finitely-generated-algebras, concept-coordinate-rings-dimension, rings-fields, polynomials, complex-numbers]
+  - id: f-restrict-scalars-matrix-of-basis-hom-injective-is-unit
+    title: Replacing matrix entries by multiplication matrices keeps the algebra
+    kind: step
+    status: explained
+    chunk: c0078
+    plain: >
+      Given a ring A that has a basis of size d over R, replace each entry of an n-by-n matrix over A
+      by its d-by-d multiplication matrix, giving an nd-by-nd matrix over R. The file proves four
+      facts. The identity goes to the identity, products go to products, different matrices give
+      different results, and if the big matrix has a unit determinant then the original matrix is
+      invertible. The last uses that a matrix with unit determinant is onto: solve for coordinates
+      in the big system and rebuild the preimage in A. A helper shows the big matrix acts
+      on coordinate vectors the way the original acts on vectors.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/RestrictScalarsMatrixOfBasisHomInjectiveIsUnit.lean:18"]
+    mathlib: [Algebra.leftMulMatrix_mulVec_repr, Matrix.mulVec_surjective_iff_isUnit, Algebra.leftMulMatrix_injective]
+    needs: [linear-algebra, rings-fields]

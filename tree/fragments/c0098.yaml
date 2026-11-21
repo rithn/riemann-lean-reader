@@ -1,0 +1,119 @@
+nodes:
+  - id: f-foundation-proofs--finite-index-of-gamma-le
+    title: "Toolkit for modular forms of any level, plus finite index"
+    kind: step
+    status: explained
+    chunk: c0098
+    plain: >
+      Mostly a toolkit. It defines, for a level group Γ (a subgroup of
+      integer 2x2 matrices of determinant 1), what it is to be a modular form
+      or a cusp form: a function on the upper half-plane that is unchanged by
+      Γ after a weight-k twist (the "slash" action), is smooth, and stays
+      bounded (or tends to zero) at every cusp. It also defines coset
+      representatives, a matrix of values, and a "reduces" condition. It then
+      proves many routine rules, such as sums, products and sign flips. The
+      one headline result: any group containing the principal congruence
+      subgroup of level M has finite index in the full group.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/FiniteIndexOfGammaLe.lean:10", "Development/AbelianVarietyTheory/Proofs/FoundationProofs/FiniteIndexOfGammaLe.lean:177"]
+    mathlib: ["Subgroup.finiteIndex_of_le", "ModularForm", "CuspForm"]
+    needs: [concept-modular-forms, concept-normal-subgroups-quotients, linear-algebra, complex-analysis]
+  - id: f-slash-q-expansion-coeff-width-transform
+    title: "How q-expansion coefficients change under the group action"
+    kind: step
+    status: explained
+    chunk: c0098
+    plain: >
+      A modular form can be written as a power series in q, a variable that
+      depends on the height in the upper half-plane. This file looks at the
+      series of the twisted form f slashed by a matrix x, at width M (a level
+      group containing the congruence subgroup of level M). It proves three
+      rules for the coefficients. Shifting x by one step multiplies the n-th
+      coefficient by a root of unity to the power n. Replacing x by γx for γ
+      in the level group changes nothing. For odd weight, replacing x by -x
+      flips the sign. A uniqueness lemma for power series does the work.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/SlashQExpansionCoeffWidthTransform.lean:67"]
+    mathlib: ["hasSum_qExpansion", "analyticAt_cuspFunction_zero", "Complex.exp"]
+    needs: [f-foundation-proofs--finite-index-of-gamma-le, concept-modular-forms, concept-roots-of-unity-kummer, infinite-series, complex-analysis]
+  - id: f-slash-sub-q-expansion-partial-sum-is-big-o
+    title: "A modular form minus its first M terms decays like e^(-2π·height)"
+    kind: step
+    status: explained
+    chunk: c0098
+    plain: >
+      Write the form as a power series in q, where q has size about
+      e^(-2π·height/M). Chop the series after the first M terms. The leftover
+      is of size q^M, which is exactly about e^(-2π·height), so it decays at
+      least that fast as we go up the upper half-plane. This file proves that
+      statement for every twisted copy of the form. The proof uses that the
+      power-series expansion at the cusp exists and converges, and that a
+      power series minus its partial sum is of order q^M near zero.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/SlashSubQExpansionPartialSumIsBigO.lean:9"]
+    mathlib: ["HasFPowerSeriesAt.isBigO_sub_partialSum_pow", "hasSum_qExpansion"]
+    needs: [f-foundation-proofs--finite-index-of-gamma-le, concept-modular-forms, infinite-series, complex-analysis]
+  - id: f-coeff-eq-zero-of-sum-plus-minus-reps-eq-zero
+    title: "If coefficient sums vanish on coset representatives, all low coefficients vanish"
+    kind: step
+    status: explained
+    chunk: c0098
+    plain: >
+      Think of a table b(x, n) of numbers indexed by matrices x and positions
+      n, with three symmetries: shifting x multiplies column n by a root of
+      unity to the power n, group elements on the left change nothing, and
+      negating x flips the sign. The claim: if, for each coset representative,
+      the first M entries add up to zero, then all of the first M entries are
+      zero for every x. The proof shows the sum is zero for every x, applies
+      it to shifted copies, and gets a system of equations with distinct roots
+      of unity (a Vandermonde system), which only has the zero solution.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/CoeffEqZeroOfSumPlusMinusRepsEqZero.lean:9"]
+    mathlib: ["Matrix.eq_zero_of_forall_pow_sum_mul_pow_eq_zero", "Complex.isPrimitiveRoot_exp"]
+    needs: [f-foundation-proofs--finite-index-of-gamma-le, concept-roots-of-unity-kummer, linear-algebra, complex-numbers]
+  - id: f-exists-level-one-form-one-add-exp-decay
+    title: "Level-one forms that are 1 plus something exponentially small"
+    kind: step
+    status: explained
+    chunk: c0098
+    plain: >
+      For every even weight d of at least 4, there is a modular form for the
+      full group whose difference from the constant 1 decays like
+      e^(-2π·height) as you go up. The proof takes the Eisenstein series of
+      that weight, a classical modular form whose power series in q starts
+      with the constant 1. Subtracting the constant term leaves only terms of
+      size q, which is the required decay. The file just assembles this from
+      library facts about Eisenstein series and expansions.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/ExistsLevelOneFormOneAddExpDecay.lean:9"]
+    mathlib: ["ModularForm.E", "EisensteinSeries.E_qExpansion_coeff_zero", "SlashInvariantFormClass.periodic_comp_ofComplex"]
+    needs: [f-foundation-proofs--finite-index-of-gamma-le, concept-modular-forms, infinite-series]
+  - id: f-exists-eq-discriminant-mul-of-exp-decay-cusps
+    title: "A form that decays at every cusp is the discriminant times a lower-weight form"
+    kind: step
+    status: explained
+    chunk: c0098
+    plain: >
+      The discriminant Δ is a famous weight-12 modular form that never
+      vanishes in the upper half-plane and decays like e^(-2π·height) at the
+      cusp. This proves: if a form H of weight K has every twisted copy
+      decaying that fast, then H equals Δ times a form G of weight K minus
+      12. The idea is to define G as H divided by Δ. Since Δ never vanishes
+      and is unchanged by the full group, G has the right symmetry and is
+      smooth. The decay of H against that of Δ makes G bounded at the cusps.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/ExistsEqDiscriminantMulOfExpDecayCusps.lean:13"]
+    mathlib: ["ModularForm.discriminant", "ModularForm.div_slash_SL2", "ModularForm.exp_isBigO_discriminant"]
+    needs: [f-foundation-proofs--finite-index-of-gamma-le, concept-modular-forms, complex-analysis]
+  - id: f-reduces-to-smaller-odd-weight-of-leading-coeff-matrix-det
+    title: "A vanishing determinant of leading coefficients gives a smaller-weight form"
+    kind: step
+    status: explained
+    chunk: c0098
+    orphan: true
+    plain: >
+      Take several odd-weight modular forms F_j and a matrix of their leading
+      q-coefficients, evaluated at coset representatives. If its determinant
+      is zero, some combination of the F_j has all leading coefficients zero,
+      so it decays exponentially. The proof picks the F_j of top weight with
+      nonzero coefficient, multiplies each F_j by a level-one form close to
+      its coefficient (to match weights), and gets a form of weight w + 4
+      that decays at every cusp. Dividing by the discriminant gives a
+      nonzero form of weight lower by 8. This is the "reduces" conclusion.
+    lean: ["Development/AbelianVarietyTheory/Proofs/FoundationProofs/ReducesToSmallerOddWeightOfLeadingCoeffMatrixDet.lean:28"]
+    mathlib: ["Matrix.exists_mulVec_eq_zero_iff", "Asymptotics.IsBigO.sum"]
+    needs: [f-slash-q-expansion-coeff-width-transform, f-slash-sub-q-expansion-partial-sum-is-big-o, f-coeff-eq-zero-of-sum-plus-minus-reps-eq-zero, f-exists-level-one-form-one-add-exp-decay, f-exists-eq-discriminant-mul-of-exp-decay-cusps, f-foundation-proofs--finite-index-of-gamma-le, linear-algebra, concept-modular-forms]

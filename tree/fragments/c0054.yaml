@@ -1,0 +1,63 @@
+nodes:
+  - id: f-additive-poly-taylor-coeff-sub-norm-le
+    title: Shifting an additive polynomial barely changes its coefficients
+    kind: step
+    status: explained
+    chunk: c0054
+    plain: >
+      Work with l-adic complex numbers, where a number is small when it is divisible by a high power of the prime l.
+      Take a polynomial whose only terms are a_k x^(l^k), that is, powers of l, with every a_k of size at most 1.
+      Substitute x plus W, with W of size at most 1.
+      The claim: every coefficient except the constant one changes by at most the size of l.
+      The reason: expanding (x + W)^(l^k) gives binomial coefficients that are divisible by l,
+      except at the ends. The strong triangle inequality on l-adic sizes then bounds the total change.
+    lean: ["Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdditivePolyTaylorCoeffSubNormLe.lean:6"]
+    mathlib: [Polynomial.taylor_monomial, Nat.Prime.dvd_choose_pow, IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg]
+    needs: [concept-ultrametric-norm, p-adic-numbers, polynomials]
+  - id: f-few-roots-small-disc
+    title: An additive polynomial has few roots in a small disc
+    kind: step
+    status: explained
+    chunk: c0054
+    plain: >
+      Same polynomial shape as before, sum of a_k x^(l^k).
+      Suppose the term k = M is the dominant one at radius rho, meaning its size times rho^(l^M) equals the size of l,
+      while later terms are strictly smaller at that radius.
+      The claim: at most l^M of the roots lie within distance rho of any point W of size at most 1.
+      The proof shifts the polynomial so W becomes the origin, uses the previous file to show the shift changes coefficients too little to matter,
+      then applies the Newton-polygon bound that a dominant coefficient pins down the number of roots in a disc.
+    lean: ["Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FewRootsSmallDisc.lean:50"]
+    mathlib: [Polynomial.taylor, Polynomial.roots_comp_C_mul_X_add_C, IsUltrametricDist.norm_add_eq_max_of_norm_ne_norm]
+    needs: [f-additive-poly-taylor-coeff-sub-norm-le, f-card-roots-closed-ball-bounds-ultrametric, concept-newton-polygon, concept-ultrametric-norm, p-adic-numbers]
+  - id: f-multiset-many-separated-points
+    title: A crowded list contains many well-separated points
+    kind: step
+    status: explained
+    chunk: c0054
+    plain: >
+      A counting fact. Take a list of points, repeats allowed, in a space with a distance.
+      Suppose no disc of radius rho around a point of the list contains more than B entries,
+      and the list has at least A times B entries.
+      Then you can choose at least A of the points that are pairwise more than rho apart.
+      Proof: pick a largest possible set of pairwise-separated points.
+      By maximality every list entry is within rho of one of them.
+      So the list has at most (size of set) times B entries, which forces the set to have at least A points.
+    lean: ["Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/MultisetManySeparatedPoints.lean:7"]
+    mathlib: [Finset.exists_max_image, Multiset.le_iff_count]
+    needs: [counting, proofs]
+  - id: f-separated-roots-additive-poly
+    title: An additive polynomial has many well-separated roots in the unit disc
+    kind: step
+    status: explained
+    chunk: c0054
+    plain: >
+      The claim: for the polynomial sum of a_k x^(l^k) over l-adic complex numbers, suppose the dominant term at radius rho
+      is at index M, and a later coefficient at index M + h has size exactly 1.
+      Then there are at least l^h roots of size at most 1 that are pairwise farther apart than rho.
+      Proof outline. A dominant-coefficient argument shows the unit disc contains at least l^(M+h) roots, counted with multiplicity.
+      The previous file shows any disc of radius rho holds at most l^M of them.
+      The separated-points lemma then extracts l^h roots that are pairwise separated.
+    lean: ["Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/SeparatedRootsAdditivePoly.lean:10"]
+    mathlib: [Polynomial.mem_roots, Polynomial.eval_finsetSum]
+    needs: [f-few-roots-small-disc, f-multiset-many-separated-points, f-card-roots-closed-ball-bounds-ultrametric, concept-newton-polygon, p-adic-numbers]
+    orphan: true

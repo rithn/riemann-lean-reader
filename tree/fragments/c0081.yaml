@@ -1,0 +1,175 @@
+nodes:
+  - id: f-corank-share--statement-f-r
+    title: Statements about averages and families of subspaces
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file only states claims and proves none. It first defines a "size" of a linear map (the trace of the map times its adjoint, a sum of squared entries) and two helper maps built from families of matrices. Then it writes down four named claims. One says that if a list of numbers has average at least s and none exceeds s+u, then only a small fraction of them can lie far below s. A second, the layer-cake claim, turns such fraction bounds into a bound on the average. The other two are matching claims about families of subspaces. Later files take these claims as assumptions.
+    lean:
+      - "Formalism/CorankShare/StatementFR.lean:24"
+      - "Formalism/CorankShare/StatementFR.lean:29"
+      - "Formalism/CorankShare/StatementFR.lean:47"
+      - "Formalism/CorankShare/StatementFR.lean:54"
+    mathlib: []
+    needs: [linear-algebra, concept-hermitian-unitary-matrices, counting]
+  - id: f-eichler-equivalence-holds
+    title: Eichler transformations are reversible and preserve the form
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file proves five identities about "Eichler transformations", a way of shuffling a vector v using two special vectors x and u and a number s. The identities say the shuffle keeps a Hermitian form (a complex-style dot product) unchanged, can be undone by a partner shuffle, combines two shuffles into one, rearranges when two similar shuffles are applied, and keeps integer-valued vectors integer-valued. Each proof is routine algebra. Unfold the definition, expand everything, use the given side conditions to cancel terms, and let the algebra tools finish.
+    lean:
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/EichlerEquivalenceHolds.lean:9"
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/EichlerEquivalenceHolds.lean:21"
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/EichlerEquivalenceHolds.lean:28"
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/EichlerEquivalenceHolds.lean:34"
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/EichlerEquivalenceHolds.lean:50"
+    mathlib: []
+    needs: [f-statement-e-i, linear-algebra, concept-hermitian-unitary-matrices, rings-fields]
+  - id: f-has-deriv-at-sphere-chart-last
+    title: Splitting sums over subsets by the last coordinate
+    kind: step
+    status: explained
+    chunk: c0081
+    orphan: true
+    plain: >
+      This file supplies small tools for derivative bookkeeping in n+1 dimensions. It defines a way to glue one extra last coordinate onto an n-coordinate point. It also defines a sum, over every subset of the coordinates, of squared mixed derivatives weighted by a power of a small number delta. The one real result says that a sum over all subsets of n+1 positions equals the sum over subsets avoiding the last position plus the sum over subsets containing it. That is a bijection argument, the same as splitting all subsets of {1,2,3} by whether they contain 3. Nothing in this bundle uses it.
+    lean:
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/HasDerivAtSphereChartLast.lean:14"
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/HasDerivAtSphereChartLast.lean:24"
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/HasDerivAtSphereChartLast.lean:63"
+    mathlib: [Finset.sum_powerset_insert, Finset.sum_nbij']
+    needs: [f-statement-s-b, counting, calculus]
+  - id: f-lf-prod
+    title: A prime sits under at most degree-many prime ideals
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file proves one of the claims stated in the Sobolev-kernel statement file. Take a number field K (a finite extension of the rationals) and an ordinary prime p. Then the prime ideals of K's ring of integers that contain p form a finite set with at most as many members as the degree of K over the rationals. For example, 5 is split into two prime ideals in the Gaussian integers, which has degree 2. The proof identifies these ideals with the ones lying over p's ideal in the integers, then uses an existing library bound.
+    lean:
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/LfProd.lean:9"
+    mathlib: [Ideal.card_primesOverFinset_le_finrank, Ideal.primesOver, PrincipalIdealRing.isMaximal_of_irreducible]
+    needs: [f-statement-l-f, number-fields, concept-dedekind-domains, concept-ideals-and-discriminant, primes-divisibility]
+  - id: f-neighbourhood-hilbert-schmidt-holds
+    title: Trace formulas for sums of frame operators
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file proves the "frame Gram" claim. Take several linear maps B_i into one complex inner-product space H, with positive weights c_i. Build Q as the weighted sum of B_i times its adjoint. The file shows that the trace (sum of diagonal entries) of Q squared equals a double sum of c_i c_j times the squared size of the product of the adjoint of B_i with B_j, and that the trace of Q is a weighted sum of simple traces. The proof expands the sums and uses the rule that trace of AB equals trace of BA.
+    lean:
+      - "Formalism/SobolevGaussianKernels/GaussianKernelBounds/NeighbourhoodHilbertSchmidtHolds.lean:32"
+    mathlib: [LinearMap.trace_comp_comm', LinearMap.adjoint_comp]
+    needs: [f-statement-f-u, f-corank-share--statement-f-r, linear-algebra, concept-hermitian-unitary-matrices]
+  - id: f-kernel-bound-rel
+    title: Collecting the six proven kernel-bound ingredients
+    kind: step
+    status: explained
+    chunk: c0081
+    orphan: true
+    plain: >
+      This short file adds no new mathematics. It gives final names to six results proved in other files. They are the isometry, inverse, move and integrality properties of Eichler transformations, the bound on how many prime ideals lie over a prime, and the frame Gram trace formulas. Each theorem here is just the earlier proof under a tidier name, so later parts of the project can cite them in one place. Despite its filename, it does not prove the kernel-bound statement itself, which is only stated in another file.
+    lean:
+      - "Formalism/SobolevGaussianKernels/KernelBoundRel.lean:12"
+    mathlib: []
+    needs: [f-eichler-equivalence-holds, f-lf-prod, f-neighbourhood-hilbert-schmidt-holds, f-statement-e-i, f-statement-l-f, f-statement-f-u]
+  - id: f-statement-c-s
+    title: Statements about kernel bounds and character sums
+    kind: step
+    status: explained
+    chunk: c0081
+    orphan: true
+    plain: >
+      This file only states claims; it proves none. The main one, "kernel bound", says this. Take a symmetric table P of nonnegative-style weights whose rows each sum to nearly 1, and a list w of complex numbers of size at most 1. If P applied to w stays small, then the total of w is small. The file also states several related claims. They cover sums of a character over a group orbit vanishing, sums of roots of unity vanishing, a character expansion for counting zeros, and square-sum bounds. A relative version of the kernel bound is included too.
+    lean:
+      - "Formalism/SobolevGaussianKernels/StatementCS.lean:7"
+      - "Formalism/SobolevGaussianKernels/StatementCS.lean:14"
+      - "Formalism/SobolevGaussianKernels/StatementCS.lean:47"
+    mathlib: []
+    needs: [concept-group-representations, concept-group-actions, complex-numbers, modular-arithmetic, linear-algebra]
+  - id: f-statement-e-i
+    title: Statements about Eichler transformations
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file only states claims and proves none. It defines what a Hermitian form is (a pairing with h(w,v) equal to the conjugate of h(v,w)). It then defines the Eichler transformation, which sends v to v + h(v,u)x minus h(v,x)(u + s x). Next it states a list of properties as named claims. The transformation preserves the form, has an inverse of the same kind, composes by adding parameters, commutes with symmetries of the form, and preserves integrality. These are proved in a separate file.
+    lean:
+      - "Formalism/SobolevGaussianKernels/StatementEI.lean:7"
+      - "Formalism/SobolevGaussianKernels/StatementEI.lean:9"
+      - "Formalism/SobolevGaussianKernels/StatementEI.lean:12"
+      - "Formalism/SobolevGaussianKernels/StatementEI.lean:60"
+    mathlib: []
+    needs: [linear-algebra, concept-hermitian-unitary-matrices, rings-fields]
+  - id: f-statement-f-u
+    title: Statements about frames, projections and compression
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file only states claims and proves none. It collects linear-algebra facts to be used later with a "squared size" of a matrix (its Hilbert-Schmidt norm). The first claim gives the Gram trace formulas for sums of maps B_i. The next says square roots of such sizes add up under splitting. A third group concerns projections built from a finite abelian group acting on a space, which split the space into pieces by character. A last claim says that squeezing a matrix between a projection on both sides cannot increase its size.
+    lean:
+      - "Formalism/SobolevGaussianKernels/StatementFU.lean:10"
+      - "Formalism/SobolevGaussianKernels/StatementFU.lean:20"
+      - "Formalism/SobolevGaussianKernels/StatementFU.lean:36"
+      - "Formalism/SobolevGaussianKernels/StatementFU.lean:47"
+      - "Formalism/SobolevGaussianKernels/StatementFU.lean:57"
+    mathlib: []
+    needs: [f-corank-share--statement-f-r, linear-algebra, concept-hermitian-unitary-matrices, concept-group-representations]
+  - id: f-statement-l-f
+    title: Statements about products over places, box counts and prime ideals
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file only states claims and proves none. They are a grab-bag of estimates. Several bound products over the "places" of a number field (its absolute values, which come from complex embeddings) in terms of the height H and the degree of the field. Another bounds how many integer points fit in a box, using that distinct points are far apart. There is also a one-variable Sobolev inequality bounding a function's value by an integral of itself and its derivative. A binary-code distance claim is included, and one saying a prime lies under at most degree-many prime ideals.
+    lean:
+      - "Formalism/SobolevGaussianKernels/StatementLF.lean:8"
+      - "Formalism/SobolevGaussianKernels/StatementLF.lean:36"
+      - "Formalism/SobolevGaussianKernels/StatementLF.lean:49"
+      - "Formalism/SobolevGaussianKernels/StatementLF.lean:64"
+    mathlib: []
+    needs: [number-fields, concept-ideals-and-discriminant, calculus, real-analysis, counting]
+  - id: f-statement-m-v
+    title: Statements about a kernel built from moves
+    kind: step
+    status: explained
+    chunk: c0081
+    orphan: true
+    plain: >
+      This file only states claims and proves none. Picture a finite set of positions and a finite set of "moves", each going from a source position to a target position with a weight. The kernel at (i, j) is the total weight of moves from i to j. The first claim says that if every move has a reverse move of equal weight, the kernel is symmetric. The second claim bounds the sum of numbers attached to positions, when weights per position add to nearly 1 and the twist along moves averages out to nearly 0.
+    lean:
+      - "Formalism/SobolevGaussianKernels/StatementMV.lean:7"
+      - "Formalism/SobolevGaussianKernels/StatementMV.lean:10"
+      - "Formalism/SobolevGaussianKernels/StatementMV.lean:15"
+    mathlib: []
+    needs: [counting, complex-numbers, linear-algebra]
+  - id: f-statement-n-c
+    title: Statements about counting solutions of norm equations
+    kind: step
+    status: explained
+    chunk: c0081
+    orphan: true
+    plain: >
+      This file only states claims and proves none. Work over a finite field K and a degree-2 extension field L, where the "norm" sends an element of L to an element of K. The first claim says the number of n-tuples in L whose norms add up to a given value c is close to the total count of tuples divided by the size of K, with an explicit error. The second bounds a character sum (a sum of complex roots of unity) over tuples whose norms add to zero.
+    lean:
+      - "Formalism/SobolevGaussianKernels/StatementNC.lean:7"
+      - "Formalism/SobolevGaussianKernels/StatementNC.lean:15"
+    mathlib: []
+    needs: [rings-fields, counting, modular-arithmetic, concept-group-representations]
+  - id: f-statement-s-b
+    title: Statement of an n-dimensional Sobolev inequality
+    kind: step
+    status: explained
+    chunk: c0081
+    plain: >
+      This file defines partial derivatives, mixed derivatives (take several derivatives in different coordinate directions, one after another) and a cube. It then states, without proof, a Sobolev inequality. For a smooth complex-valued function on n-dimensional space, the squared size at any point of a cube of side delta is at most 2^n over delta^n times the integral over the cube. The integrand adds up all mixed derivatives squared, weighted by delta to the power twice the number of derivatives. In short, a function's value is controlled by averages of its derivatives.
+    lean:
+      - "Formalism/SobolevGaussianKernels/StatementSB.lean:8"
+      - "Formalism/SobolevGaussianKernels/StatementSB.lean:11"
+      - "Formalism/SobolevGaussianKernels/StatementSB.lean:17"
+    mathlib: []
+    needs: [calculus, real-analysis, complex-numbers]

@@ -1,0 +1,54 @@
+nodes:
+  - id: f-one-add-smul-mem-of-sq-zero
+    title: "If 1 + ε is in a polynomial matrix group and ε² = 0, then so is 1 + tε for every t"
+    kind: step
+    status: explained
+    chunk: c0099
+    plain: >
+      Take a set Γ of complex matrices cut out by polynomial equations with
+      rational coefficients and closed under multiplication (this is my
+      reading of the "Q-group" assumption, which is defined elsewhere).
+      Suppose a matrix ε satisfies ε·ε = 0 and 1 + ε lies in Γ. Then 1 + tε
+      lies in Γ for every complex t. The idea: (1 + ε)^n = 1 + nε, so every
+      whole-number multiple works. Any defining polynomial, restricted to the
+      line 1 + tε, is a one-variable polynomial with infinitely many roots, so
+      it is zero everywhere.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/OneAddSmulMemOfSqZero.lean:25"]
+    mathlib: ["Polynomial.eq_zero_of_infinite_isRoot", "MvPolynomial.induction_on"]
+    needs: [polynomials, linear-algebra, groups]
+  - id: f-exists-rat-projector-of-aut-stable-matrices
+    title: "A subspace of matrices stable under field automorphisms has a rational projector"
+    kind: step
+    status: explained
+    chunk: c0099
+    plain: >
+      Take a complex-linear subspace E of n by n complex matrices that is sent
+      into itself by every field automorphism of the complex numbers applied
+      entry by entry. This proves there is a linear map with rational
+      coefficients that lands in E and leaves every element of E unchanged (a
+      projector onto E). The idea: E is spanned by its rational points (an
+      earlier fact about automorphism-stable subspaces). Choose a projection
+      onto the rational part using plain linear algebra over the rationals.
+      Extend it to complex matrices, and check it is the identity on E.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRatProjectorOfAutStableMatrices.lean:53"]
+    mathlib: ["LinearMap.exists_leftInverse_of_injective", "LinearMap.eqOn_span"]
+    needs: [f-adelic-lattice-proofs--galois-stable-submodule-le-span-rational, concept-galois-fixed-fields, linear-algebra]
+  - id: f-exists-rat-linear-param-block-diag-kernel
+    title: "Rational linear parametrisation of the off-diagonal block of a matrix group"
+    kind: step
+    status: explained
+    chunk: c0099
+    orphan: true
+    plain: >
+      Take a polynomial matrix group Γ defined over the rationals (its
+      precise definition is in another file) and a rational idempotent
+      matrix e. Matrices of the form E·ε·(1 − E) form a "corner" block. The
+      claim: there is a rational-coefficient linear map whose output lies in
+      that corner and in Γ after adding 1, and which fixes every such corner
+      matrix already in Γ. The proof shows the set of such corner matrices is
+      a complex subspace (using the square-zero lemma, since corner matrices
+      multiply to zero) stable under field automorphisms. Then the rational
+      projector result applies.
+    lean: ["Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/ExistsRatLinearParamBlockDiagKernel.lean:17"]
+    mathlib: []
+    needs: [f-exists-rat-projector-of-aut-stable-matrices, f-one-add-smul-mem-of-sq-zero, linear-algebra, concept-galois-fixed-fields]

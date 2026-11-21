@@ -1,0 +1,178 @@
+nodes:
+  - id: f-expansion-coeff-valuation-ge
+    title: Definitions comparing two ways to bound coefficients of a derived polynomial
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file only states definitions and one claim, called KW, and proves nothing. A p-adic size is a way
+      to measure numbers where being divisible by a high power of l makes a number small. The file builds
+      polynomials from determinants of small corner blocks (minors) indexed by Young diagrams, which are
+      staircase shapes of boxes. It then defines two properties of a power series. One says all coefficients
+      of a derived polynomial are small. The other says that polynomial is a combination of fixed
+      determinant products with small weights. The claim KW says the two properties are equivalent.
+    lean: ["Formalism/PeriodIntegrals/NablaSpans/ExpansionCoeffValuationGe.lean:50"]
+    mathlib: [Matrix.det, MvPolynomial, MvPowerSeries.coeff]
+    needs: [p-adic-numbers, concept-ultrametric-norm, polynomials, linear-algebra, concept-exterior-powers]
+  - id: f-minor-prod-span-has-compl
+    title: Statement that the span of minor products has a complement
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file states a claim as a named property, without proving it. The claim is that, over any
+      commutative ring, the set of polynomials spanned by products of determinants of corner blocks
+      (minors), one product per choice of columns for a Young diagram, has a complement. A complement is a
+      second module that together with the first splits the whole space into two independent pieces. It
+      also defines the two spans and a conditional statement, that if this complement claim holds then the
+      earlier KW claim holds. The proof of that conditional is in other files.
+    lean: ["Formalism/PeriodIntegrals/NablaSpans/MinorProdSpanHasCompl.lean:18", "Formalism/PeriodIntegrals/NablaSpans/MinorProdSpanHasCompl.lean:22"]
+    mathlib: [IsCompl, Submodule.span]
+    needs: [f-expansion-coeff-valuation-ge, polynomials, linear-algebra, rings-fields, concept-exterior-powers]
+  - id: f-nabla-span-c
+    title: Definitions of the three steps used to prove the coefficient equivalence
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file only gives definitions, with no proofs. It defines the span over the l-adic complex numbers
+      of the determinant-product polynomials. It then defines three claims. The "step back" claim says the
+      combination form implies the small coefficients form. The "step span" claim says the derived
+      polynomial lies in that span. The "step saturation" claim says a polynomial in the span with small
+      coefficients is a combination with small weights, assuming the complement property. Later files
+      prove these claims and combine them.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/NablaSpanC.lean:12", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/NablaSpanC.lean:17", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/NablaSpanC.lean:22", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/NablaSpanC.lean:28"]
+    mathlib: [Submodule.span]
+    needs: [f-expansion-coeff-valuation-ge, f-minor-prod-span-has-compl, p-adic-numbers, polynomials, linear-algebra]
+  - id: f-step-back
+    title: Small weights on determinant products give small coefficients
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file proves one easy direction. If a polynomial is a combination of determinant-product
+      polynomials with weights of p-adic size at most a bound, then each of its coefficients also has size
+      at most that bound. The reason is that the coefficients of the determinant products are whole numbers,
+      and in the l-adic world whole numbers have size at most 1. Also, in this ultrametric setting the size
+      of a sum is at most the largest size of its terms. So each coefficient is a sum of terms, each at most
+      the bound times 1.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/StepBack.lean:12"]
+    mathlib: [IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg, IsUltrametricDist.norm_intCast_le_one]
+    needs: [f-nabla-span-c, f-expansion-coeff-valuation-ge, concept-ultrametric-norm, p-adic-numbers]
+  - id: f-monomial-frame-span--det-submatrix-fun
+    title: Two facts about determinants of chosen column blocks
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file proves two facts about determinants. First, a Cauchy-Binet style formula. The determinant
+      of a product of a k by n matrix and an n by k matrix equals a sum over all ways f of choosing k
+      columns, possibly repeated, of a product of entries times a k by k determinant of those columns.
+      Second, if you pick k columns of a matrix, either two coincide and the determinant is 0, or the
+      choice is a reordering of increasing columns. Then the determinant is plus or minus the determinant
+      of the sorted choice.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/DetSubmatrixFun.lean:9", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/DetSubmatrixFun.lean:19"]
+    mathlib: [Matrix.det_apply, Matrix.det_permute', Matrix.det_zero_of_column_eq, Finset.orderEmbOfFin]
+    needs: [linear-algebra, counting]
+  - id: f-basis-monomials-apply
+    title: The derived polynomial lies in the span of determinant products
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file proves the "step span" claim. Given a power series Th, it takes a product of 2-variable
+      determinants and expands it, using the Cauchy-Binet formula, into a sum of pieces. Each piece is a
+      product of a determinant in one set of variables times a product in another. A linear map that reads
+      off power-series coefficients sends each piece to a number times a determinant-product polynomial.
+      Pieces with a repeated column vanish, and others are whole-number multiples of sorted ones. So the
+      whole derived polynomial lies in the span. Most of the file is careful coefficient bookkeeping.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/BasisMonomialsApply.lean:159", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/BasisMonomialsApply.lean:130"]
+    mathlib: [MvPolynomial.basisMonomials, Module.Basis.constr_basis, Submodule.sum_mem]
+    needs: [f-monomial-frame-span--det-submatrix-fun, f-nabla-span-c, f-expansion-coeff-valuation-ge, polynomials, linear-algebra]
+  - id: f-sat-defs
+    title: Statement that a projection onto the determinant-product span exists
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file only states a claim, named ProjZ, and proves nothing. Assuming the complement property
+      for minor-product spans, the claim is that there is a whole-number linear map on polynomials. Its
+      outputs always lie in the span of determinant-product polynomials, and it leaves each such
+      determinant product unchanged. That is a projection, a map that squashes everything onto a subspace
+      and fixes that subspace pointwise. The next files prove this claim and use it.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/SatDefs.lean:12"]
+    mathlib: [Submodule.span]
+    needs: [f-minor-prod-span-has-compl, f-nabla-span-c, polynomials, linear-algebra]
+  - id: f-sat-proj
+    title: Building the projection from per-block projections
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file proves the projection claim ProjZ, but only assuming the complement property for minor
+      spans. For each block it uses a complement to get a projection onto that block's span. It then glues
+      these per-block projections into one linear map on polynomials in all the variables, defined on
+      monomials and extended linearly. It shows the glued map sends a product of per-block polynomials to
+      the product of their projections. It then shows its outputs stay in the span of determinant products
+      and it fixes each such product. Much of the work is induction over a finite set of blocks.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/SatProj.lean:194"]
+    mathlib: [Submodule.projectionOnto, Module.Basis.constr_basis, MvPolynomial.basisMonomials, Finset.induction_on]
+    needs: [f-sat-defs, f-minor-prod-span-has-compl, f-expansion-coeff-valuation-ge, polynomials, linear-algebra]
+  - id: f-sat-fin
+    title: A projection lets us pass from integer to p-adic weights of small size
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file proves the "saturation" claim, but only assuming the projection claim ProjZ. The aim is
+      that a polynomial in the span, with coefficients of size at most a bound, can be written as a
+      combination of determinant products with weights also of size at most the bound. The proof extends the
+      whole-number projection to a linear map over the l-adic complex numbers. This map fixes the
+      polynomial. Expanding it in monomials gives weights built from whole numbers times the original
+      coefficients. In the ultrametric world whole numbers have size at most 1, so the weights stay small.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/SatFin.lean:12"]
+    mathlib: [IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg, IsUltrametricDist.norm_intCast_le_one, Module.Basis.constr_basis, Finsupp.linearCombination_apply]
+    needs: [f-sat-defs, f-nabla-span-c, concept-ultrametric-norm, p-adic-numbers, polynomials, linear-algebra]
+  - id: f-gen-frame-s-b-of
+    title: Three steps combine to give the coefficient equivalence
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file proves a short combination theorem. It assumes three claims as hypotheses, the step back,
+      the step span and the step saturation. From them it proves the conditional statement that, if the
+      minor-product span has a complement, the two coefficient properties are equivalent. In one direction,
+      take small coefficients, use the span step to see the derived polynomial is in the span, and the
+      saturation step to rewrite it with small weights. The other direction is the step back claim.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/GenFrameSBOf.lean:7"]
+    mathlib: []
+    needs: [f-nabla-span-c, f-expansion-coeff-valuation-ge, f-minor-prod-span-has-compl]
+  - id: f-gen-frame-s-b-of-span
+    title: Plugging in the proven steps, only the span step remains
+    kind: step
+    status: explained
+    chunk: c0115
+    plain: >
+      This file fills in two of the three steps from the combination theorem. It proves the saturation step
+      from the projection construction, and it uses the proven step back. What is left as an assumption is
+      the span step. The result says that if the span step holds, then the conditional equivalence between
+      the two coefficient properties holds, given a complement for minor products. It is only glue between
+      other files.
+    lean: ["Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/GenFrameSBOfSpan.lean:8", "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/MonomialFrameSpan/GenFrameSBOfSpan.lean:10"]
+    mathlib: []
+    needs: [f-gen-frame-s-b-of, f-step-back, f-sat-fin, f-sat-proj]
+  - id: f-gen-frame-s-b
+    title: The conditional equivalence of the two coefficient properties
+    kind: step
+    status: explained
+    chunk: c0115
+    orphan: true
+    plain: >
+      This file is a one-line conclusion. It proves the claim that, if the minor-product span has a
+      complement, then the two coefficient properties (small coefficients of the derived polynomial, and
+      being a combination of determinant products with small weights) are equivalent. It proves nothing new.
+      It combines the earlier glue theorem with the span step proved in another file. The claim is still
+      conditional on the complement property, which is only stated, not proved, in these files.
+    lean: ["Formalism/PeriodIntegrals/OrbitalBoundsConclusion/GenFrameSB.lean:6"]
+    mathlib: []
+    needs: [f-gen-frame-s-b-of-span, f-basis-monomials-apply, f-minor-prod-span-has-compl]

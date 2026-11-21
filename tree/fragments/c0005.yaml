@@ -1,0 +1,52 @@
+nodes:
+
+- id: concept-group-representations
+  title: Group representations and characters
+  kind: concept
+  status: textbook
+  plain: >
+    A representation of a group G over a field K lets each group element act as an invertible
+    matrix, in a way that respects multiplication in G. Its character sends each group element
+    to the trace (sum of diagonal entries) of its matrix. A representation is irreducible if it
+    has no smaller non-zero piece (a subspace sent to itself by every group element) other than
+    the whole space.
+  needs: [groups, linear-algebra, rings-fields]
+  learn:
+    - {title: "Linear Representations of Finite Groups", where: "J.-P. Serre, chapters 1-2"}
+    - {title: "Abstract Algebra", where: "Dummit and Foote, chapter 18"}
+
+- id: f-exists-irr-char-add
+  title: Every non-zero character contains an irreducible one
+  kind: step
+  status: explained
+  plain: >
+    Call a function on a group G a "character" if it is the trace function of some
+    representation, and an "irreducible character" if the representation can be taken
+    irreducible. The main result says that any non-zero character a can be written as a sum
+    a = phi + c, where phi is an irreducible character and c is again a character. The proof
+    picks a smallest non-zero invariant subspace S of the representation (smallest by
+    dimension, so it must be irreducible, which is the helper result in the same file),
+    takes phi to be the character of S, and gets c from a separate result about the
+    quotient (whole space modulo S). A non-zero character forces the space to be non-zero,
+    otherwise all traces would be 0.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/ExistsIrrCharAdd.lean:47]
+  mathlib: [Submodule.finrank_map_subtype_eq, Submodule.eq_top_of_finrank_eq, Nat.find_spec, Nat.find_min']
+  needs: [f-ab-by-p-of-comm, f-exists-character-quotient-of-injective-intertwining, f-is-character-over-subfield-of-representation, concept-group-representations, linear-algebra, groups]
+
+- id: f-is-character-over-subfield-induction-irreducible
+  title: Induction principle for characters via irreducible pieces
+  kind: step
+  status: explained
+  orphan: true
+  plain: >
+    Take a finite group G and fields K inside L, both of characteristic zero (so that
+    1+1+...+1 is never 0). A property Q of functions G -> L is proved for every character if
+    (1) it holds for the zero function and (2) whenever it holds for a character c, it also
+    holds for phi + c with phi an irreducible character. The proof is strong induction on
+    the value a(1) of the character at the identity, which equals the dimension of the
+    representation. A non-zero character splits as phi + c by the previous file. Here phi(1)
+    is at least 1 (an irreducible representation is not the zero space) and so c(1) is smaller
+    than a(1), and the induction hypothesis applies to c.
+  lean: [Development/AbelianVarietyTheory/Proofs/CharacterTheory/IsCharacterOverSubfieldInductionIrreducible.lean:7]
+  mathlib: [Nat.strong_induction_on, Representation.char_one, Module.finrank_fin_fun, map_natCast]
+  needs: [f-exists-irr-char-add, f-ab-by-p-of-comm, concept-group-representations, proofs, groups, rings-fields]

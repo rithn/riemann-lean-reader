@@ -1,0 +1,104 @@
+nodes:
+- id: f-algebra-trace-map-of-cokernel-killed-by-scalar
+  title: Traces agree when the cokernel is killed by a nonzero scalar
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    Take a ring map from A into B, both free of finite size over a domain S, and one-to-one. Suppose some nonzero scalar s pushes every element of B into the image of A. The trace of an element is the sum of the diagonal entries of the matrix of "multiply by it", like 1+1 for the number 1 inside a two-dimensional space. The file proves the trace of x computed in A equals the trace of its image computed in B. The idea is to build a map back from B to A that, composed either way, is multiplication by s. Trace is unchanged by swapping the order of a composition, so s times each trace agrees, and s can be cancelled.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/AlgebraTraceMapOfCokernelKilledByScalar.lean:6"]
+  mathlib: [LinearMap.trace_comp_comm', Algebra.trace_apply]
+  needs: [linear-algebra, rings-fields, concept-tensor-product-of-algebras]
+- id: f-discr-is-unit
+  title: Etale over a local ring means the discriminant is a unit
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    The discriminant of a finite free algebra is a determinant built from traces of products of basis elements, and it measures whether the algebra is degenerate. Over a local ring (one with a single largest ideal, whose quotient is the residue field), the file proves that an etale algebra has a discriminant that is a unit, meaning it is invertible. The proof reduces modulo the largest ideal. Over the residue field the discriminant of an etale algebra is nonzero, and discriminants commute with change of base. A nonzero image in the residue field means the element lies outside the largest ideal, so it is a unit.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/DiscrIsUnit.lean:10"]
+  mathlib: [Algebra.discr, IsLocalRing.residue_eq_zero_iff]
+  needs: [f-etale-of-etale-at-height-one-primes, concept-local-rings, concept-etale-ring-maps, concept-ideals-and-discriminant]
+- id: f-etale-of-etale-at-height-one-primes
+  title: A finite free algebra etale at all height-one primes is etale
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    Let R be a Noetherian integrally closed domain, not a field, and A a finite free R-algebra. The file proves that if A is etale (free of branching) after localizing at every height-one prime, then A is etale over R. The key is the discriminant, a determinant of traces. Etale over a field means nonzero discriminant. Over each height-one prime the discriminant is therefore a unit, so it lies in no height-one prime. A nonzero non-unit would lie in some height-one prime, and zero lies in all of them, so the discriminant must be a unit. A unit discriminant gives a dual basis, hence etale.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/EtaleOfEtaleAtHeightOnePrimes.lean:167"]
+  mathlib: [Algebra.discr, Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes, Algebra.Etale.of_formallyUnramified_of_flat]
+  needs: [concept-etale-ring-maps, concept-ideals-and-discriminant, concept-integral-closure-fraction-fields, concept-coordinate-rings-dimension, concept-prime-ideals-localization, concept-separable-polynomials]
+- id: f-exists-smul-mem-range-of-surjective-localized-map
+  title: Surjective after localizing means surjective up to one denominator each
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    Take a ring map from A to B. Localize at a prime p, meaning allow division by everything outside p, and suppose the localized map is onto. The file proves that every element b of B has a multiple t times b, with t outside p, lying in the image of A. The idea is to look at the cokernel, the part of B not hit by A. Localizing at p turns the class of b into zero. Localized modules are fractions, so zero after localizing means zero after multiplying by some t outside p. That t pushes b into the image. This is the usual clearing of denominators step.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsSmulMemRangeOfSurjectiveLocalizedMap.lean:6"]
+  mathlib: [IsLocalizedModule.eq_zero_iff, TensorProduct.isBaseChange]
+  needs: [concept-prime-ideals-localization, concept-tensor-product-of-algebras, concept-flat-modules]
+- id: f-finite-length-coker-of-etale-punctured-spectrum
+  title: Cokernel of an etale-away-from-the-point map is killed by a power of the maximal ideal
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    Take a local Noetherian domain R and two finite R-algebras A and B that are etale at every prime except the closed point (the single maximal ideal). Let A map one-to-one into B, with some nonzero scalar pushing B into the image of A. The file proves that some power of the maximal ideal pushes all of B into the image. So the cokernel has finite length: it is killed by a power of the maximal ideal. The proof checks, at each other prime, that the map is onto after localizing. That uses equal traces and discriminant units. Then a general lemma converts local surjectivity into a power of the maximal ideal.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/FiniteLengthCokerOfEtalePuncturedSpectrum.lean:12"]
+  mathlib: [Module.free_of_flat_of_isLocalRing]
+  needs: [f-smul-mem-of-maximal-ideal-pow-of-locally-surjective, f-localization-tensor-map-injective-coker-killed, f-algebra-trace-map-of-cokernel-killed-by-scalar, f-surjective-of-trace-of-smul-mem-range, f-exists-smul-mem-range-of-surjective-localized-map, concept-etale-ring-maps, concept-local-rings, concept-prime-ideals-localization]
+  orphan: true
+- id: f-localization-tensor-map-injective-coker-killed
+  title: Injectivity and scalar-killed cokernel survive localization
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    Start with a one-to-one ring map from A to B over a domain R, such that a nonzero scalar s pushes every element of B into the image of A. Localize at a prime p, which means adjoining fractions with denominators outside p. The file proves three facts about the localized map. It is still one-to-one, since localizing is flat and keeps injective maps injective. The image of s in the localization is still nonzero, because a domain embeds in its localization. And s still pushes everything in the localized B into the image. The last one is checked on simple tensors and then extended by addition.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/LocalizationTensorMapInjectiveCokerKilled.lean:6"]
+  mathlib: [Module.Flat.lTensor_preserves_injective_linearMap, IsLocalization.injective]
+  needs: [concept-flat-modules, concept-tensor-product-of-algebras, concept-prime-ideals-localization]
+- id: f-smul-mem-of-maximal-ideal-pow-of-locally-surjective
+  title: Locally clearable denominators give a power of the maximal ideal
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    Let R be a local Noetherian ring, B a finitely generated module and N a submodule. Suppose that for every prime other than the maximal ideal, each element of B can be moved into N by multiplying with something outside that prime. The file proves that some power of the maximal ideal moves all of B into N. The set of scalars that move everything into N is an ideal. Every prime other than the maximal one fails to contain a needed product of denominators, so the maximal ideal lies in its radical. In a Noetherian ring, some power of an ideal then lies inside it.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/SmulMemOfMaximalIdealPowOfLocallySurjective.lean:6"]
+  mathlib: [Ideal.exists_pow_le_of_le_radical_of_fg, Ideal.radical_eq_sInf]
+  needs: [concept-local-rings, concept-prime-ideals-localization, concept-noetherian-and-irreducible-components]
+- id: f-surjective-of-trace-of-smul-mem-range
+  title: Equal traces and a scalar-killed cokernel force surjectivity
+  kind: step
+  status: explained
+  chunk: c0064
+  plain: >
+    Take a one-to-one ring map from A to B, both etale and free of finite size over a local domain S, such that a nonzero scalar s pushes B into the image, and such that traces agree. The file proves the map is onto. First the two sizes match: A injects into B, and B injects back into A by multiplying with s then undoing, so dimensions are equal. Then the images of a basis of A have the same discriminant as that basis, which is a unit. Comparing with a basis of B, the change of basis matrix has unit determinant, so the images span all of B.
+  lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/SurjectiveOfTraceOfSmulMemRange.lean:7"]
+  mathlib: [Algebra.discr_of_matrix_vecMul, Module.Basis.is_basis_iff_det, LinearMap.finrank_le_finrank_of_injective]
+  needs: [f-discr-is-unit, concept-ideals-and-discriminant, concept-etale-ring-maps, concept-local-rings, linear-algebra]
+- id: f-commutative-algebra--chain-conn-in-dim
+  title: Definitions for connectedness in each dimension, and depth
+  kind: step
+  status: explained
+  chunk: c0064
+  orphan: true
+  plain: >
+    This file only gives definitions. "Connected in dimension k" says removing any closed set cut out by an ideal of dimension below k leaves the space of primes connected. "Chain connected in dimension k" says the minimal primes, the top-level pieces of the space, can be linked in a chain where neighbours overlap in dimension at least k. It also defines the punctured spectrum (everything except the closed point), a smallest dimension, "ara at most r" (an ideal generated up to radical by r elements), depth at least n via a regular sequence, and Cohen-Macaulay rings, where depth equals dimension.
+  lean: ["ReciprocityTheory/CommutativeAlgebra/ChainConnInDim.lean:14"]
+  mathlib: [ringKrullDim, minimalPrimes, RingTheory.Sequence.IsRegular]
+  needs: [concept-coordinate-rings-dimension, concept-point-set-topology, concept-noetherian-and-irreducible-components, concept-local-rings, concept-prime-ideals-localization]
+- id: f-cohen-macaulay--mod-depth-g-e
+  title: Definitions of depth and Cohen-Macaulay for modules
+  kind: step
+  status: explained
+  chunk: c0064
+  orphan: true
+  plain: >
+    This file only gives two definitions, for a module M over a local ring R. "Depth at least n" means there is a list of n elements from the maximal ideal that form a regular sequence on M. A regular sequence is one where each element is a nonzerodivisor on what remains after killing the earlier ones, like x then y in a polynomial ring. A module is Cohen-Macaulay if the ring is Noetherian, the module is finitely generated, and its depth equals its dimension. Cohen-Macaulay modules are the well-behaved ones in commutative algebra, with depth as large as it can possibly be.
+  lean: ["ReciprocityTheory/CommutativeAlgebra/CohenMacaulay/ModDepthGE.lean:7"]
+  mathlib: [RingTheory.Sequence.IsRegular, Module.supportDim]
+  needs: [concept-local-rings, concept-coordinate-rings-dimension, concept-noetherian-and-irreducible-components]

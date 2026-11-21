@@ -1,0 +1,167 @@
+nodes:
+  - id: f-formalism--statement-o-c
+    title: Statement-only definitions for the prime-sum error term
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file only gives definitions and states claims, with no proofs. It
+      defines a weighted sum of the von Mangoldt function (which is log p on
+      prime powers and 0 otherwise), a smoothed error term built from it, and a
+      character-twisted version. It then writes several claims as named
+      propositions: that one-sided lower bounds on these error terms force
+      equal zero orders for zeta and an L-function, an averaged version, upper
+      bound versions, and a final claim giving the Riemann hypothesis from
+      lower bounds. None is proved here.
+    lean: ["Formalism/StatementOC.lean:23"]
+    mathlib: [ArithmeticFunction.vonMangoldt, DirichletCharacter.LFunction, analyticOrderAt]
+    needs: [rh-statement, dirichlet-l-function, dirichlet-characters, primes-divisibility, zeta-series]
+  - id: f-formalism--statement
+    title: Landau-style claims linking zeros to a sign condition
+    kind: step
+    status: explained
+    chunk: c0119
+    orphan: true
+    plain: >
+      This file only gives definitions and states claims, with no proofs. It
+      defines a weighted prime-power sum S for a Dirichlet character, an error
+      term G, and three quadratic characters (mod 3, 4 and 7). It then writes
+      claims as named propositions. In a Landau-style step, a one-sided
+      lower bound on G, plus no zeros on a stretch of the real axis, rules out
+      zeros of zeta and the L-function to the right. A final claim says a
+      lower bound with exponent 1/2 plus a small amount gives the Riemann
+      hypothesis. None is proved.
+    lean: ["Formalism/Statement.lean:32"]
+    mathlib: [DirichletCharacter.LFunction, ArithmeticFunction.vonMangoldt, riemannZeta]
+    needs: [rh-statement, dirichlet-l-function, dirichlet-characters, zeta-series]
+  - id: f-zero-free-region--statement
+    title: Statements of the zero-free region and its consequences
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file only states three claims as named propositions, without proofs.
+      The first is a zero-free region for zeta, a region just left of the line
+      Re(s) = 1, shaped like 1 - c / log(|Im s| + 2), where zeta has no zeros.
+      The second bounds the log-derivative of zeta, apart from its pole at 1,
+      by a power of log in that region. The third bounds a smoothed prime-sum
+      error by a constant times y times exp(-c times the square root of log y),
+      the prime number theorem with error.
+    lean: ["Formalism/ZeroFreeRegion/Statement.lean:9"]
+    mathlib: [riemannZeta]
+    needs: [f-formalism--statement-o-c, rh-statement, zeta-series, complex-analysis]
+  - id: f-zero-free-region--small-height-log-deriv
+    title: Definitions and claims for the zero-free region argument
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file states many claims as named propositions and proves none of them.
+      It lists the ingredients of the classical proof of the zero-free region
+      for zeta. They include the 3-4-1 positivity inequality, a bound on the
+      log-derivative to the right of Re(s) = 1, growth and inverse bounds for
+      zeta, a version near small heights, factoring out zeros of a function on
+      a disc, a Landau local statement, Perron's formula, and a contour
+      shift past the pole at 1. Implications between these claims are recorded
+      as named implications. It also defines a rectangle contour integral.
+    lean: ["Formalism/ZeroFreeRegion/SmallHeightLogDeriv.lean:38"]
+    mathlib: [riemannZeta, intervalIntegral, deriv]
+    needs: [f-zero-free-region--statement, f-formalism--statement-o-c, zeta-series, complex-analysis, analytic-continuation]
+  - id: f-norm-log-deriv-le-lam-f
+    title: Log-derivative of zeta is bounded by the prime-power series
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file proves that for Re(s) greater than 1, the absolute value of the
+      logarithmic derivative of zeta (its derivative divided by itself) is at
+      most the same quantity at the real part, lamF(sigma), the sum of
+      Lambda(n) / n^sigma. The proof writes minus zeta'/zeta as the series of
+      Lambda(n) / n^s, then uses the triangle inequality: the absolute value
+      of a sum is at most the sum of absolute values, and these only depend on
+      Re(s). It also shows this real sum is positive-termed and decreases as
+      sigma grows.
+    lean: ["Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/NormLogDerivLeLamF.lean:12"]
+    mathlib: [ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div, norm_tsum_le_tsum_norm, Summable.tsum_le_tsum]
+    needs: [zeta-series, infinite-series, complex-powers, primes-divisibility]
+  - id: f-log-deriv-right
+    title: Log-derivative of zeta is at most 1/(Re s - 1) plus a constant
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file proves that to the right of the line Re(s) = 1, the log-derivative
+      of zeta is bounded by 1 / (Re(s) - 1) plus a constant. Near s = 1, zeta
+      looks like 1/(s - 1), so its log-derivative differs from -1/(s - 1) by a
+      bounded amount (a fact taken from earlier). The proof splits at a small
+      distance. Close to the line, it compares to the real-axis value and uses
+      the triangle inequality. Further away it uses that the prime-power series
+      is decreasing, so it is bounded by its value at a fixed point.
+    lean: ["Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/LogDerivRight.lean:11"]
+    mathlib: [norm_sub_le, Metric.eventually_nhds_iff, ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div]
+    needs: [f-norm-log-deriv-le-lam-f, f-zero-free-region--small-height-log-deriv, zeta-series, analytic-continuation, complex-analysis]
+  - id: f-zeta-inv-bound
+    title: 1/zeta is bounded by s/(s - 1) to the right of Re s = 1
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file proves that for Re(s) greater than 1, the size of 1/zeta(s) is
+      at most Re(s) / (Re(s) - 1). The idea is that 1/zeta(s) equals the series
+      of mu(n) / n^s, where the Moebius function mu(n) is -1, 0 or 1. Each term
+      is at most 1 / n^s in size, so the series is at most the sum of 1/n^sigma.
+      That sum is at most 1 + 1/(sigma - 1), by comparing it to an integral.
+      Helper lemmas prove the comparison step by step.
+    lean: ["Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/ZetaInvBound.lean:86"]
+    mathlib: [LSeries_one_mul_Lseries_moebius, Real.summable_nat_rpow, norm_tsum_le_tsum_norm, Real.tsum_le_of_sum_range_le]
+    needs: [f-zero-free-region--small-height-log-deriv, zeta-series, infinite-series, primes-divisibility, complex-powers]
+  - id: f-landau-zero-free-bounds--statement
+    title: Zero-free region for Dirichlet L-functions (stated)
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file only gives definitions and states one claim, with no proof. It
+      defines a region of the complex plane for modulus q: the points with real
+      part at least 1 - c / log(q (|Im s| + 2)). It defines what it means to be
+      a zero of the L-function of a Dirichlet character (excluding the trivial
+      character's pole). The claim says that, for some c, any zero in the region
+      belongs to a real non-trivial character, is a simple real zero, and is
+      the only zero in the region across all characters.
+    lean: ["Formalism/LandauZeroFreeBounds/Statement.lean:15"]
+    mathlib: [DirichletCharacter.LFunction]
+    needs: [dirichlet-l-function, dirichlet-characters, primitive-characters, zeta-series]
+  - id: f-landau-zero-free-bounds--no-zero-complex-of
+    title: Statement-only claims for Landau's zero-free region
+    kind: step
+    status: explained
+    chunk: c0119
+    plain: >
+      This file only states claims and defines implications between them,
+      proving none. It defines the negated log-derivative of an L-function and
+      lists the pieces of Landau's argument for Dirichlet L-functions, among them
+      a local zero count on a disc, growth, an inverse bound, a log-derivative
+      bound, a positivity inequality, a bound for small heights, and the
+      conclusions (no complex zeros near the line, real zeros only at small
+      height, at most one exceptional real zero). Each implication, such as
+      "these pieces give no complex zeros", is recorded as a named claim.
+    lean: ["Formalism/LandauZeroFreeBounds/NoZeroComplexOf.lean:96"]
+    mathlib: [DirichletCharacter.LFunction, deriv]
+    needs: [f-landau-zero-free-bounds--statement, f-zero-free-region--statement, dirichlet-l-function, dirichlet-characters, functional-equation-dirichlet]
+  - id: f-l-right
+    title: Bounds for Dirichlet L-functions to the right of Re s = 1
+    kind: step
+    status: explained
+    chunk: c0119
+    orphan: true
+    plain: >
+      This file proves two bounds for a Dirichlet L-function L(chi, s) when
+      Re(s) is greater than 1. First, 1/L has size at most Re(s)/(Re(s) - 1).
+      The proof writes 1/L as the series of chi(n) mu(n) / n^s, bounds it
+      by the same series for zeta, and sums it. Second, the log-derivative of L
+      has size at most 1/(Re(s) - 1) plus a constant. The proof writes minus
+      L'/L as a series with Lambda(n) times chi(n), bounds it by the zeta
+      series, and reuses the bound for zeta's log-derivative.
+    lean: ["Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/LRight.lean:23"]
+    mathlib: [DirichletCharacter.LFunction_eq_LSeries, DirichletCharacter.LSeries.mul_mu_eq_one, DirichletCharacter.LSeries_twist_vonMangoldt_eq, norm_tsum_le_tsum_norm]
+    needs: [f-landau-zero-free-bounds--no-zero-complex-of, f-zeta-inv-bound, f-norm-log-deriv-le-lam-f, f-log-deriv-right, dirichlet-l-function, dirichlet-characters, infinite-series, primes-divisibility]

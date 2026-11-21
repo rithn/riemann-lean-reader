@@ -1,0 +1,71 @@
+nodes:
+  - id: f-divisor-proofs--exists-mul-mem-integral-closure-over-generic-fibre
+    title: One common multiplier makes finitely many elements integral
+    kind: step
+    status: explained
+    chunk: c0120
+    plain: >
+      This file proves a clearing-denominators lemma. Take a domain A, an
+      A-algebra R, and an algebra D that is finite over the "generic fibre"
+      (R with every nonzero element of A inverted). Then for finitely many
+      elements of D there is one nonzero element a of A so that a times each of
+      them is integral over R. Integral means it satisfies a monic polynomial
+      with coefficients in R. For one element, this comes from a library fact
+      about localization. The finite case is by induction, multiplying the
+      multipliers together.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsMulMemIntegralClosureOverGenericFibre.lean:11"]
+    mathlib: [IsIntegral.exists_multiple_integral_of_isLocalization, Finset.induction_on, isIntegral_algebraMap]
+    needs: [concept-integral-closure-fraction-fields, concept-prime-ideals-localization, rings-fields]
+  - id: f-injective-trace-galois-data
+    title: A cyclic Galois-style action gives trace and dual bases
+    kind: step
+    status: explained
+    chunk: c0120
+    plain: >
+      This file proves facts about a "torsor" for a cyclic group Z/q, an
+      extension D of a ring F with a group acting on D, in a strong Galois-like
+      way. Three conclusions follow. F maps injectively into D. The sum of all
+      group translates of any element lies in F, giving a linear "trace" map
+      from D to F. And there are finitely many elements x_i and y_i of D
+      such that the sum of x_i times the g-translate of y_i is 1 for the
+      identity group element and 0 otherwise. The trace part uses descent: an
+      element fixed by the group comes from F.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/InjectiveTraceGaloisData.lean:11"]
+    mathlib: [Algebra.IsEffective.of_faithfullyFlat, TensorProduct.exists_sum_tmul_eq, FaithfulSMul.algebraMap_injective]
+    needs: [concept-galois-fixed-fields, concept-group-actions, concept-flat-modules, concept-tensor-product-of-algebras]
+  - id: f-integral-closure-over-generic-fibre-hartogs
+    title: Hartogs-type property passes to the integral closure
+    kind: step
+    status: explained
+    chunk: c0120
+    plain: >
+      This file proves a transfer result. Suppose R is Noetherian and has a
+      Hartogs-type property, roughly that an element locally divisible by a at
+      the relevant primes is divisible by a outright. Given a trace map and
+      dual-basis data on an algebra D, the file shows the integral closure of R
+      in D has the same property. The idea is to take an element m, build a
+      candidate xi = m / (unit), and show powers of xi lie in a finitely
+      generated module over a Noetherian ring. Hence xi is integral, so it lies
+      in the closure and gives the required quotient. The precise meaning of the
+      property is defined in files not shown here.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IntegralClosureOverGenericFibreHartogs.lean:11"]
+    mathlib: [isNoetherian_of_fg_of_noetherian, IsIntegral.of_mem_of_fg, Algebra.adjoin_eq_span, Submodule.span_le]
+    needs: [concept-integral-closure-fraction-fields, concept-prime-ideals-localization, concept-dedekind-domains, concept-noetherian-and-irreducible-components]
+  - id: f-integral-closure-zmod-torsor-generic-fibre-data
+    title: The integral closure inherits the cyclic-torsor data
+    kind: step
+    status: explained
+    chunk: c0120
+    orphan: true
+    plain: >
+      This file proves that a cyclic-group torsor over the generic fibre
+      descends to its integral closure over R. Start with an algebra D with a
+      Z/q action over the generic fibre. Let C be the elements of D integral
+      over R. Then C inherits the action, has a trace map into R, and has dual
+      bases up to a common nonzero multiplier a squared. It is torsion-free over
+      A, has the Hartogs-type property, is integral over R, and is not the zero
+      ring. The proof multiplies the dual bases by a multiplier from the
+      common-denominator lemma and applies the transfer result.
+    lean: ["Development/AbelianVarietyTheory/Proofs/DivisorProofs/IntegralClosureZmodTorsorGenericFibreData.lean:96"]
+    mathlib: [IsIntegral.map, isIntegral_algHom_iff, IsLocalization.map_units, Module.Flat.isSMulRegular_of_nonZeroDivisors]
+    needs: [f-divisor-proofs--exists-mul-mem-integral-closure-over-generic-fibre, f-injective-trace-galois-data, f-integral-closure-over-generic-fibre-hartogs, f-divisor-proofs--torsion-free-over, concept-integral-closure-fraction-fields, concept-flat-modules, concept-galois-fixed-fields]

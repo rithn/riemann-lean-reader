@@ -1,0 +1,174 @@
+nodes:
+  - id: concept-dual-numbers
+    title: "Dual numbers: a number with a tiny part that squares to zero"
+    kind: concept
+    status: textbook
+    plain: >
+      Dual numbers are numbers of the form a + bε, where ε is a made-up symbol
+      with ε times ε equal to zero. Think of ε as "so small that its square
+      vanishes". Because of this, (x + ε)² = x² + 2xε: the ε-part of a
+      calculation records the derivative. Algebraic geometers use this to
+      define tangent vectors without calculus. A tangent vector to a shape at a
+      point is a way of squeezing a tiny arrow-shaped piece of the line with
+      coordinate ε into the shape, starting at that point. The same trick works
+      over any ring of numbers, even one where ordinary limits make no sense.
+    needs: [rings-fields, calculus, concept-schemes-basics]
+    learn:
+      - {title: "Eisenbud and Harris, The Geometry of Schemes", where: "ch. II, tangent spaces"}
+  - id: concept-group-schemes
+    title: "Group schemes: tori, abelian varieties and torsion points"
+    kind: concept
+    status: textbook
+    plain: >
+      A group scheme is a shape defined by equations that also has a group law
+      (multiplying two points gives a point) given by equations. Two basic
+      families matter here. A torus is the shape of nonzero numbers under
+      multiplication, or a product of several copies. An abelian variety (or
+      abelian scheme, when it varies in a family) is a smooth, closed,
+      connected shape with a commutative group law, like an elliptic curve.
+      Torsion points are the points that return to the identity after
+      multiplying by some whole number N, such as the N-th roots of unity in a
+      torus.
+    needs: [concept-schemes-basics, groups, concept-categorical-pullbacks, concept-smooth-morphisms]
+    learn:
+      - {title: "Milne, Algebraic Groups", where: "ch. 1"}
+      - {title: "Mumford, Abelian Varieties", where: "ch. I-II"}
+  - id: f-global-geometry--has-values
+    title: "What it means for a function to take prescribed values on a finite set of points"
+    kind: step
+    status: explained
+    chunk: c0096
+    plain: >
+      This file only gives definitions, with nothing to prove. The setting is a
+      finite group T of special points sitting inside a shape over a ring of
+      numbers R. The first definition says a single function s on the shape
+      takes, at each point t, the prescribed value f(t). The second packages a
+      "Hodge-Tate"-style condition (I am reading the letters HT that way, which
+      is a guess). It asks for such an s whose values follow a character χ of
+      T (a rule sending group elements to nonzero numbers), and for every
+      tangent direction e, a point over the dual numbers mod N that lies over
+      e and where s equals 1 plus ε times w(e).
+    lean: ["Development/AutomorphicSpectrum/Definitions/GlobalGeometry/HasValues.lean:13", "Development/AutomorphicSpectrum/Definitions/GlobalGeometry/HasValues.lean:16"]
+    mathlib: []
+    needs: [f-global-geometry--lie-model, concept-dual-numbers, concept-group-schemes, concept-integral-closure-fraction-fields, groups]
+  - id: f-global-geometry--lie-model
+    title: "A module of numbers that matches the tangent vectors of a group shape"
+    kind: step
+    status: explained
+    chunk: c0096
+    plain: >
+      This file only gives definitions. Take a group shape G sitting over a
+      base, and a point x of the base. A tangent vector at the identity is a
+      map from the dual-number line (a line with a tiny ε, where ε² = 0) into G
+      that starts at the identity. A "Lie model" is a module E, meaning a
+      collection of things you can add and scale, that matches these tangent
+      vectors exactly. Adding elements of E corresponds to multiplying the
+      points in G, and scaling by c corresponds to stretching ε by c. The file
+      also defines what it means for a map of G to act on E as a linear map.
+    lean: ["Development/AutomorphicSpectrum/Definitions/GlobalGeometry/LieModel.lean:27"]
+    mathlib: []
+    needs: [concept-dual-numbers, concept-group-schemes, linear-algebra]
+  - id: f-geometry-proofs--exists-unique-tangent-dual-number
+    title: "Each tangent vector lifts uniquely into the torsion points over the dual numbers mod N"
+    kind: step
+    status: explained
+    chunk: c0096
+    plain: >
+      This proves a statement, assuming a hypothesis called "torsion along":
+      that a given finite group of points maps in as exactly the N-torsion
+      points (points that return to the identity after N steps). The claim is
+      that every tangent vector e then has exactly one lift to the dual numbers
+      mod N inside that finite group. The idea is that N times e is zero mod N,
+      so the point obtained from e has trivial N-th power. Being N-torsion, it
+      therefore comes from the finite group. Uniqueness follows because the
+      embedding of the finite group is injective.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/ExistsUniqueTangentDualNumber.lean:56"]
+    mathlib: []
+    needs: [f-global-geometry--lie-model, f-global-geometry--has-values, concept-dual-numbers, concept-group-schemes, concept-categorical-pullbacks]
+  - id: f-torsion-embedding-base-change
+    title: "Torsion points embedded in a group shape behave well under change of base ring"
+    kind: step
+    status: explained
+    chunk: c0096
+    orphan: true
+    plain: >
+      This file states a claim and proves it with a single line: it quotes the
+      result from another file. The claim concerns a finite group of
+      N-torsion points embedded in a group shape over a ring R, and a second
+      embedding over a bigger ring R'. If the two embeddings agree on a common
+      generic point, there is a map between the two finite groups that is
+      compatible with the embeddings, and the second group is the base change
+      of the first (a pullback square). The real argument sits in the file
+      that is cited.
+    lean: ["Development/AutomorphicSpectrum/Proofs/GeometryProofs/TorsionEmbeddingBaseChange.lean:8"]
+    mathlib: []
+    needs: [f-htat-bc-tors, concept-group-schemes, concept-categorical-pullbacks]
+  - id: f-htat-bc-tors
+    title: "Proof that torsion embeddings are compatible with base change"
+    kind: step
+    status: explained
+    chunk: c0096
+    plain: >
+      This is the proof behind the torsion-embedding base-change claim. The
+      idea is to build the map F from the second finite group of points to the
+      first. A point of the second group is N-torsion in G, so by the "torsion
+      along" hypothesis it comes from a point of the first group; that gives F.
+      Then it checks that the square is a pullback by repeating the same
+      argument for any test point. Finally, to show everything agrees on the
+      generic point, it uses that G is separated, which means two maps that
+      agree on a dense set must be equal.
+    lean: ["Development/WeilBound/CoreStatements/HodgeTatePoints/HtatBcTors.lean:49"]
+    mathlib: ["PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical"]
+    needs: [f-htat-ht, concept-group-schemes, concept-categorical-pullbacks, concept-schemes-basics]
+  - id: f-htat-ht
+    title: "The Hodge-Tate condition survives products and compatible maps"
+    kind: step
+    status: explained
+    chunk: c0096
+    plain: >
+      This proves two closure properties of the Hodge-Tate-style condition
+      defined earlier (reading HT as Hodge-Tate is my guess). First, if the
+      condition holds for characters χ and χ' with linear maps w and w', it
+      holds for the product character χχ' with w + w'; the key is that
+      (1 + εa)(1 + εb) = 1 + ε(a + b). Second, it is preserved by pulling back
+      along a group map that acts on tangent vectors as a linear map A,
+      giving χ composed with α and w composed with A. A helper shows that two
+      points of the finite group with the same image are equal.
+    lean: ["Development/WeilBound/CoreStatements/HodgeTatePoints/HtatHt.lean:25", "Development/WeilBound/CoreStatements/HodgeTatePoints/HtatHt.lean:38"]
+    mathlib: []
+    needs: [f-global-geometry--has-values, f-global-geometry--lie-model, f-geometry-proofs--exists-unique-tangent-dual-number, concept-dual-numbers]
+  - id: f-abelian-scheme-quotients--is-abelian-scheme
+    title: "Definitions of abelian schemes and semiabelian schemes"
+    kind: step
+    status: explained
+    chunk: c0096
+    plain: >
+      This file only gives definitions. An abelian scheme is a group shape over
+      a base that is commutative, smooth (no sharp points), proper (closed and
+      compact-like) and has connected fibres. A torus extension is a group G
+      with a map onto an abelian scheme B whose kernel is a split torus, that
+      is, a product of copies of the nonzero numbers under multiplication. A
+      semiabelian scheme is a smooth commutative group whose fibres over
+      every algebraically closed field are such torus extensions. Elliptic
+      curves with a pinched point (multiplicative reduction) are the usual
+      example.
+    lean: ["ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SemiabelianSchemes/AbelianSchemeQuotients/IsAbelianScheme.lean:13", "ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SemiabelianSchemes/AbelianSchemeQuotients/IsAbelianScheme.lean:19", "ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SemiabelianSchemes/AbelianSchemeQuotients/IsAbelianScheme.lean:41"]
+    mathlib: []
+    needs: [f-split-tori--split-torus-aff, concept-group-schemes, concept-smooth-morphisms, concept-schemes-basics]
+  - id: f-split-tori--split-torus-aff
+    title: "Definitions of split tori, characters and N-torsion subgroups"
+    kind: step
+    status: explained
+    chunk: c0096
+    plain: >
+      This file only gives definitions. A split torus over a ring R, built
+      from a free group X of exponents, is the shape whose coordinate ring is
+      the group algebra of X: Laurent polynomials such as x^a y^b with
+      negative exponents allowed. Over the integers with X = Z this is the
+      "nonzero numbers" group, written Gm. A character of a group shape is a
+      group-respecting map to Gm. Multiplication by N is defined by repeated
+      use of the group law, and the N-torsion subgroup is the kernel of that
+      map, built as a pullback along the identity.
+    lean: ["ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SemiabelianSchemes/SplitTori/SplitTorusAff.lean:27", "ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SemiabelianSchemes/SplitTori/SplitTorusAff.lean:53"]
+    mathlib: ["AddMonoidAlgebra", "HopfAlgebra"]
+    needs: [concept-group-schemes, rings-fields, groups, concept-categorical-pullbacks, concept-finitely-generated-abelian-groups]

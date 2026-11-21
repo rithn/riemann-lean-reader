@@ -1,0 +1,12 @@
+nodes:
+  - id: f-exists-kill
+    title: Killing finitely many equations at once in a ring that is p-power-friendly
+    kind: step
+    status: explained
+    chunk: c0075
+    plain: >
+      This file also contains the big step of a construction, but the named result is a smaller one. Take a ring A and a family of sets of polynomials in three variables, where each finite subfamily has a common solution in some extension ring B. The result says that for any finite list of polynomials that are renamed copies of members of the family, one extension B makes all of them vanish together, using separate sets of variables for each set. The proof picks B for the finitely many sets involved and then substitutes the solutions. The big step then builds one ring where all the sets have solutions, using perfect-closure tools from other files.
+    lean: ["Development/AutomorphicSpectrum/Proofs/BlockDecomposition/ExistsKill.lean:19"]
+    mathlib: ["MvPolynomial.aeval_rename", "Ideal.span_le"]
+    needs: [f-block-decomposition--exists-p-q, f-block-decomposition--pq-lift, rings-fields, polynomials, concept-finitely-generated-algebras, concept-prime-ideals-localization]
+    orphan: true
