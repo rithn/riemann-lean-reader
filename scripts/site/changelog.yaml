@@ -10,6 +10,8 @@
     - "New list view at /list/: every cluster as text, ordered by distance from the main theorem, by theme or by size, with a filter."
     - "Lean file pages link to the file on GitHub (the public mirror, pinned to one commit) and can show its source on request."
     - "A small route glyph shows how many import steps lead from a cluster or theme to the main theorem."
+    - "Cluster panels show why a cluster is in the proof (its import route up to the main theorem), what it builds on and what needs it, grouped by theme; file pages show how far each file is from Main."
+    - "New page /route/: how the proof is structured, from the main theorem down."
     - "Calmer panels: fewer stat tiles, a proof-at-a-glance row on the home panel, plain theme cards."
     - "Smaller first download for the map, and long caching for versioned data."
     - "Every page has a Markdown copy (add index.md to its path); new /api/ with JSON for the proof status, clusters and themes; llms.txt."

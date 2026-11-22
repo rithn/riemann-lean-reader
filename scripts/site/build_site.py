@@ -113,9 +113,17 @@ def dehedge(text):
             continue
         out.append(s)
     return ' '.join(out)
+# the namers also left notes about their own confidence ("so confidence is low", "; low confidence from folders only.");
+# they are internal and were showing up in search snippets, so drop them from every blurb and description
+CONF_TAIL = re.compile(r'(?i)\s*[;,:—–-]\s*(?:with\s+)?(?:low|medium|high|moderate)[- ]confidence\b[^.]*\.?\s*$')
+def deconf(text):
+    if not text:
+        return text
+    text = CONF_TAIL.sub('.', text.strip())
+    return ' '.join(x for x in re.split(r'(?<=[.!?])\s+', text) if not re.search(r'(?i)confidence', x)).strip()
 for c in NAMES.values():
     if c.get('plain'):
-        c['plain'] = dehedge(c['plain'])
+        c['plain'] = deconf(dehedge(c['plain']))
 HINTS = json.load(open(os.path.join(D, 'hints.json'))) if os.path.exists(os.path.join(D, 'hints.json')) else {}
 
 # ---------- tree (core proof outline + concepts + mapped file nodes)
@@ -180,13 +188,83 @@ for k, us in uses.items():
     for u in us:
         used_by[u].append(k)
 main = mod_cl.get('Main')
-dist = {main: 0}
+dist, par = {main: 0}, {main: None}   # par: the BFS parent, the same tree the app draws (PARENT in app.js)
 q = collections.deque([main])
 while q:
     k = q.popleft()
     for u in uses[k]:
         if u not in dist:
-            dist[u] = dist[k] + 1; q.append(u)
+            dist[u] = dist[k] + 1; par[u] = k; q.append(u)
+def uproute(k):   # [k, …, main]: the route read upward, from the cluster to the main theorem
+    r = []
+    while k is not None and k in par:
+        r.append(k); k = par[k]
+    return r
+nroutes = {main: 1}   # shortest routes from the main theorem's cluster (BFS order: parents are counted first)
+for k in sorted(dist, key=dist.get):
+    for u in uses[k]:
+        if dist.get(u) == dist[k] + 1:
+            nroutes[u] = nroutes.get(u, 0) + nroutes[k]
+def reach(k, nbr):
+    seen, q = {k}, [k]
+    while q:
+        for x in nbr[q.pop()]:
+            if x not in seen:
+                seen.add(x); q.append(x)
+    return len(seen) - 1
+builds = {main: reach(main, uses)}                    # for the main theorem: everything it rests on
+# feeds[k]: clusters whose files import a file of k, directly or through other files. Counted on the file graph, which
+# has no loops; on the cluster graph (which has loops) almost every cluster reaches almost every other one.
+_cbit = {k: 1 << i for i, k in enumerate(CL)}
+_imp_by = collections.defaultdict(list)
+for m, xs in imports.items():
+    for x in xs:
+        if x in imports:
+            _imp_by[x].append(m)
+_left = {m: len(_imp_by[m]) for m in imports}
+_todo = collections.deque(m for m, n in _left.items() if n == 0)
+_up = {}                                              # file -> bitset of clusters that depend on it
+while _todo:
+    m = _todo.popleft()
+    b = 0
+    for i in _imp_by[m]:
+        b |= _up[i] | _cbit.get(mod_cl.get(i), 0)
+    _up[m] = b
+    for x in imports[m]:
+        if x in _left:
+            _left[x] -= 1
+            if _left[x] == 0:
+                _todo.append(x)
+assert len(_up) == len(imports), 'file graph has a loop'
+_feedbits = collections.defaultdict(int)
+for m, k in mod_cl.items():
+    _feedbits[k] |= _up.get(m, 0)
+feeds = {k: bin(_feedbits[k] & ~_cbit[k]).count('1') for k in CL}
+del _up
+# file level: import steps from the module Main (the file graph has no loops)
+fdist = {'Main': 0}
+_q = collections.deque(['Main'])
+while _q:
+    m = _q.popleft()
+    for x in imports.get(m, []):
+        if x in imports and x not in fdist:
+            fdist[x] = fdist[m] + 1; _q.append(x)
+_chain = {}
+for m in sorted(imports, key=lambda m: -fdist.get(m, 0)):   # longest import chain, in files (memoised DFS)
+    st = [m]
+    while st:
+        x = st[-1]
+        if x in _chain:
+            st.pop(); continue
+        todo = [y for y in imports.get(x, []) if y in imports and y not in _chain]
+        if todo:
+            st += todo
+        else:
+            _chain[x] = 1 + max((_chain[y] for y in imports.get(x, []) if y in imports), default=0); st.pop()
+import statistics
+FSTATS = {'median': int(statistics.median(fdist.values())), 'max': max(fdist.values()), 'chain': max(_chain.values()),
+          'reached': len(fdist)}
+print('file routes:', FSTATS)
 core_cl = collections.defaultdict(list)
 for n in core['nodes']:
     for ref in n.get('lean') or []:
@@ -265,6 +343,9 @@ def slug(s, n=60):
 TNAME = {t: theme_name(th)[0] for t, th in TH.items()}
 TN_FILE = os.path.join(D, 'theme-naming', 'theme_names.yaml')
 TNAMED = {x['id']: x for x in yaml.safe_load(open(TN_FILE))['themes']} if os.path.exists(TN_FILE) else {}
+for x in TNAMED.values():
+    if x.get('blurb'):
+        x['blurb'] = deconf(x['blurb'])
 _dup = collections.Counter(TNAME.values())
 for t in TH:
     if t in TNAMED:
@@ -284,7 +365,7 @@ overview = {
     'updated': datetime.date.today().isoformat(),
     'counts': {'clusters': len(CL), 'themes': len(TH), 'named': named,
                'files': len(mod_cl), 'total': TOTAL_FILES, 'units': len(unit_cl), 'lines': TOTAL_LINES},
-    'main': main,
+    'main': main, 'builds': builds[main],
     'themes': [{'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'conf': TNAMED.get(t, {}).get('confidence'),
                 'fl': theme_name(th)[0], 'n': len(th['clusters']), 's': TSLUG[t],
                 'files': size[t], 'words': th['words'][:8], 'x': r2(P[t][0]), 'y': r2(P[t][1]), 'r': r2(R[t])}
@@ -297,7 +378,8 @@ for k, c in CL.items():
     overview['clusters'].append({
         'id': k, 't': c['theme'], 'title': n.get('title'), 's': CSLUG[k],
         **({} if n.get('title') else {'fl': folder_label(c['folders'])}),
-        'n': len(c['files']), 'uses': [int(u[1:]) for u in uses[k]], 'd': dist.get(k),
+        'n': len(c['files']), 'uses': [int(u[1:]) for u in uses[k]], 'd': dist.get(k), 'fi': feeds[k],
+        **({'r': min(nroutes[k], 100)} if nroutes.get(k, 1) > 1 else {}),
         'x': r2(pos_c[k][0]), 'y': r2(pos_c[k][1]),
     })
 WORDS = {'w': {k: c['words'][:6] for k, c in CL.items()}, 'fl': {k: folder_label(c['folders']) for k in CL}}
@@ -316,7 +398,7 @@ for k, c in CL.items():
         imp = imports.get(m, [])
         ext = sorted({mod_cl[x] for x in imp if x in mod_cl and mod_cl[x] != k})
         files.append({
-            'm': m, 'k': 'unit' if m in unit_cl else kind.get(m, 'merged'),
+            'm': m, 'k': 'unit' if m in unit_cl else kind.get(m, 'merged'), 'dm': fdist.get(m),
             'imp': imp, 'by': len(importers.get(m, [])), 'ext': ext,
             'node': [{'id': x['id'], 'title': x['title'], 'plain': dehedge(x.get('plain', '')), 'status': x.get('status'),
                       'guess': bool(x.get('guess'))} for x in NODE_OF.get(m, [])][:2] or None,
@@ -475,14 +557,16 @@ class _MD(HTMLParser):
                 s.lines.append('')
         elif tag == 'a':
             href = a.get('href') or ''
-            s.links.append(SITE + href if href.startswith('/') else href); s.buf += '['
+            s.links.append([SITE + href if href.startswith('/') else href, False]); s.buf += '['
         elif tag in ('b', 'strong'):
             s.buf += '**'
         elif tag in ('em', 'i'):
             s.buf += '*'
         elif tag == 'code':
             s.buf += '`'
-        elif tag == 'small':
+        elif tag == 'small':   # a link's subtitle goes after the link: [Title](url) — subtitle
+            if s.links and not s.links[-1][1]:
+                s.buf = s.buf.rstrip() + f']({s.links[-1][0]})'; s.links[-1][1] = True
             s.buf += ' — '
         elif tag == 'br':
             s.flush()
@@ -490,7 +574,9 @@ class _MD(HTMLParser):
         if tag in ('script', 'style', 'svg'):
             s.skip -= 1
         if tag == 'a' and s.links:
-            s.buf = s.buf.rstrip() + f']({s.links.pop()})'
+            u, done = s.links.pop()
+            if not done:
+                s.buf = s.buf.rstrip() + f']({u})'
         elif tag in ('b', 'strong'):
             s.buf = s.buf.rstrip() + '** '
         elif tag in ('em', 'i'):
@@ -567,12 +653,36 @@ def fit(name, n=60):
     return name
 
 # ---------- shared bits
-for sub in ('theme', 'cluster', 'changelog', 'api'):
+for sub in ('theme', 'cluster', 'changelog', 'api', 'route'):
     shutil.rmtree(os.path.join(OUT, sub), ignore_errors=True)
-def clink(k, end=''):
-    title = NAMES[k]['title'] if k in NAMES else folder_label(CL[k]['folders'])
-    return (f'<li><a href="{CPATH[k]}"><span class="t">{H(title)}<small>{H(TNAME[CL[k]["theme"]])}</small></span>'
+def ctitle(k):
+    return NAMES[k]['title'] if k in NAMES else folder_label(CL[k]['folders'])
+def oneline(k, n=170):   # a cluster's description cut to its first sentence
+    t = (NAMES.get(k) or {}).get('plain') or ''
+    m = re.match(r'^(.{30,}?[.!?])\s+(?=[A-Z"(])', t)
+    return clip(m.group(1) if m else t, n)
+def clink(k, end='', sub=None):
+    sub = TNAME[CL[k]['theme']] if sub is None else sub
+    return (f'<li><a href="{CPATH[k]}"><span class="t">{H(ctitle(k))}' + (f'<small>{H(sub)}</small>' if sub else '') + '</span>'
             + (f'<span class="end">{H(end)}</span>' if end else '') + '</a></li>')
+def pct(n):
+    p = 100 * n / len(CL)
+    return f'{p:.0f}%' if p >= 1 else ('under 1%' if n else '0%')
+def feeds_txt(k):
+    if k == main:
+        return f'The whole proof feeds into it: it builds on all {builds[main]:,} other clusters.'
+    n = feeds[k]
+    return f'Feeds into {n:,} cluster{"" if n == 1 else "s"} · {pct(n)} of the map.'
+def neighbours(title, ids, on_route):
+    """'Builds on' / 'Needed by' as plain HTML: themes with counts, key neighbours, then the full list."""
+    if not ids:
+        return f'<h2>{title} 0 clusters</h2><p class="meta">None outside this cluster.</p>'
+    tc = collections.Counter(CL[x]['theme'] for x in ids)
+    key = sorted(ids, key=lambda x: (x not in on_route, -fcount[x], x))[:3]
+    return (f'<h2>{title} {len(ids):,} cluster{"" if len(ids) == 1 else "s"}</h2>'
+            f'<p class="meta">By theme: ' + ', '.join(f'<a href="{TPATH[t]}">{H(TNAME[t])}</a> ({n})' for t, n in tc.most_common()) + '</p>'
+            f'<p class="meta">Key: ' + ', '.join(f'<a href="{CPATH[x]}">{H(ctitle(x))}</a>' + (' (on the route to the main theorem)' if x in on_route else '') for x in key) + '</p>'
+            f'<ul class="rows">{"".join(clink(x) for x in sorted(ids, key=lambda x: (dist.get(x, 99), -fcount[x])))}</ul>')
 MAIN = CPATH[main]
 # route glyph: the import route to the main theorem, as inline SVG (keep in step with routeGlyph() in app.js).
 # 1-3 steps: one dot per step, then the gold star; 4 or more: two dots, an ellipsis, the count in a ring, the star.
@@ -606,11 +716,13 @@ STATUS = (f'<p class="meta">Proof status: on 21 Nov 2026 the <a href="{STMT}">Le
           'of the code and may be wrong.</p>')
 FEEDBACK = f'<p class="feedback">Feedback or corrections? <a href="{X_FEEDBACK}" target="_blank" rel="noopener">@SomTheBuilder on X</a></p>'
 ABOUT_T = 'Has the Riemann hypothesis been solved? How it was checked'
+ROUTE_T = 'How the Lean proof of the Riemann hypothesis is structured: the route to the main theorem'
+ROUTE_NAV = 'How the proof is structured: the route to the main theorem'
 LEARN_T = 'The Riemann hypothesis proof, step by step: learning path'
 HOME_T = 'Lean proof of the Riemann hypothesis: an interactive map'
 def explore(*extra, main_link=True):
     """'Where next' list on map pages: links the map to the explainers and back."""
-    items = list(extra) + [(MAIN if main_link else None, "Start at the main theorem's cluster"), ('/about/', ABOUT_T),
+    items = list(extra) + [(MAIN if main_link else None, "Start at the main theorem's cluster"), ('/route/', ROUTE_NAV), ('/about/', ABOUT_T),
                            ('/learn/', 'Learning path: the proof step by step, down to school maths')]
     return '<h2>Explore</h2><ul class="rows">' + ''.join(f'<li><a href="{p}">{H(t)}</a></li>' for p, t in items if p) + '</ul>'
 TT = {x['id']: tnode(x) for x in core['nodes'] + concepts}
@@ -625,13 +737,13 @@ for (a, b), x in w.items():
     REL[a].append((x, b)); REL[b].append((x, a))
 for t, th in TH.items():
     tn = TNAMED.get(t, {})
-    cs = sorted(th['clusters'], key=lambda k: (k not in NAMES, dist.get(k, 99)))
+    cs = sorted(th['clusters'], key=lambda k: (dist.get(k, 99), -fcount[k]))
     desc = clip(f"{tn.get('blurb') or ''} {len(cs)} clusters of Lean files in the Lean proof of the Riemann hypothesis.")
     rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Theme</div>'
             f'<div class="eyebrow">Theme · Lean proof of the Riemann hypothesis</div>'
             f'<h1>{H(TNAME[t])}</h1>' + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
-            f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k) for k in cs)}</ul>'
+            f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k, sub=oneline(k)) for k in cs)}</ul>'
             + (f'<h2>Related themes</h2><ul class="rows">' + ''.join(
                 f'<li><a href="{TPATH[o]}"><span class="t">{H(TNAME[o])}<small>{x} import links between their clusters</small></span></a></li>'
                 for x, o in rel) + '</ul>' if rel else '')
@@ -656,16 +768,25 @@ for k, p in CPATH.items():
         route = f'<p class="meta">{route_glyph(0, "#f5c46b")} This cluster holds the main theorem.</p>'
     th = c['theme']
     lp = LEARN_OF.get(k, [])
+    up = uproute(k)
+    why = ''
+    if k != main and len(up) > 1:   # the route read upward: this cluster, each cluster that imports the last, the main theorem
+        nr = nroutes.get(k, 1)
+        why = ('<h2>Why it\'s in the proof</h2><ol class="rows steps">'
+               + ''.join(f'<li><span class="t">This cluster: {H(ctitle(x))}</span></li>' if i == 0 else
+                         f'<li><a href="{CPATH[x]}"><span class="t">★ Main theorem: {H(ctitle(x))}</span></a></li>' if x == main else
+                         clink(x) for i, x in enumerate(up))
+               + f'</ol><p class="meta">Each step is an import.' + (f' This is 1 of {"99+" if nr > 99 else nr} shortest routes.' if nr > 1 else '') + '</p>')
+    on_route = set(up)
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
             f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k} · Lean proof of the Riemann hypothesis</div><h1>{H(title)}</h1>'
-            f'<p>{H(n.get("plain") or "")}</p>{route}{STATUS}'
+            f'<p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>{STATUS}{why}'
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
             + (f'<h2>In the learning path</h2><ul class="rows">' + ''.join(
                 f'<li><a href="/learn/#{H(x["id"])}"><span class="t">{H(x["title"])}<small>{H(x["kind"])}</small></span></a></li>' for x in lp)
                + '</ul>' if lp else '')
             + (f'<h2>References</h2>{refs}' if refs else '')
-            + f'<h2>Uses</h2><ul class="rows">{"".join(clink(u) for u in uses[k][:30])}</ul>'
-            + f'<h2>Used by</h2><ul class="rows">{"".join(clink(u) for u in sorted(used_by[k])[:30])}</ul>'
+            + neighbours('Builds on', uses[k], on_route) + neighbours('Needed by', sorted(used_by[k]), on_route)
             + f'<p class="meta">{len(members[k])} Lean files, main folder {H(c["folders"][0][0] if c["folders"] else "")}.</p>'
             + explore((TPATH[th], f'Theme: {TNAME[th]}'), main_link=k != main))
     page(p, fit(title), clip(n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
@@ -731,6 +852,37 @@ learn = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Learn
 page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
      [article_ld('/learn/', 'The Riemann hypothesis proof, step by step: a learning path', LEARN_D, '2026-11-21'),
       crumbs_ld(('Map', '/'), ('Learning path', '/learn/')), ORG], .8)
+
+# ---------- /route/: how the proof is structured, from the main theorem down (keep numbers in step with the data)
+DEPTHS = collections.Counter(dist.values())
+def _plural(n, w):
+    return f'{n:,} {w}{"" if n == 1 else "s"}'
+STEP_W = {1: 'One step', 2: 'Two steps'}
+route_body = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Route</div><div class="eyebrow">Route · Lean proof of the Riemann hypothesis</div>'
+              f'<h1>{H(ROUTE_T)}</h1>'
+              f'<p class="lede">The Lean proof of the Riemann hypothesis is a library of {FILES_TXT}. Its top file, <code>Main</code>, states the '
+              'theorem and imports the files it rests on; those import others, and so on down. On this map the files are grouped into '
+              f'{len(CL):,} clusters, and a cluster\'s depth is the number of import steps from the main theorem\'s cluster to it.</p>'
+              f'{STATUS}'
+              '<h2>The main theorem</h2><ul class="rows">' + clink(main, sub=oneline(main)) + '</ul>'
+              + ''.join(f'<h2>{STEP_W[d]} from the main theorem <small>{_plural(DEPTHS[d], "cluster")}</small></h2><ul class="rows">'
+                        + ''.join(clink(k, sub=oneline(k)) for k in sorted((k for k in CL if dist.get(k) == d), key=lambda k: -fcount[k])) + '</ul>'
+                        for d in (1, 2))
+              + '<h2>How deep the proof goes</h2><p>Clusters by import steps from the main theorem:</p><ul>'
+              + ''.join(f'<li>{"Depth " + str(d) if d else "Depth 0 (the main theorem)"}: {_plural(DEPTHS[d], "cluster")}</li>' for d in sorted(DEPTHS))
+              + (f'<li>Not reached from the main theorem: {_plural(len(CL) - len(dist), "cluster")}</li>' if len(dist) < len(CL) else '') + '</ul>'
+              f'<p>Most clusters sit {max(DEPTHS, key=DEPTHS.get)} steps down: {DEPTHS[max(DEPTHS, key=DEPTHS.get)]:,} of {len(CL):,}. '
+              f'Every cluster is reached; the deepest are {max(DEPTHS)} steps down.</p>'
+              '<h2>File by file</h2><ul>'
+              f'<li>All {FSTATS["reached"]:,} Lean files are reached from <code>Main</code> by imports.</li>'
+              f'<li>The median file is {FSTATS["median"]} imports from <code>Main</code>; the farthest is {FSTATS["max"]}.</li>'
+              f'<li>The longest chain of imports, each file importing the next, runs through {FSTATS["chain"]} files.</li></ul>'
+              '<p class="meta">Distances are shortest import chains; the cluster graph has loops, the file graph does not.</p>'
+              f'<p><a href="/">Open the map</a> · <a href="{MAIN}">start at the main theorem</a> · <a href="/list/">every cluster as a list, by distance</a></p>' + FEEDBACK)
+ROUTE_D = clip(f'How the Lean proof of the Riemann hypothesis is structured: from the main theorem through {len(CL):,} clusters of '
+               f'{TOTAL_FILES:,} Lean files, by import steps. The deepest cluster is {max(DEPTHS)} steps down; the longest import chain is {FSTATS["chain"]} files.')
+page('/route/', ROUTE_T, ROUTE_D, 'page', route_body,
+     [article_ld('/route/', ROUTE_T, ROUTE_D, '2026-11-22'), crumbs_ld(('Map', '/'), ('Route', '/route/')), ORG], .8)
 
 # ---------- changelog (scripts/site/changelog.yaml) and its RSS feed
 CHANGES = sorted(yaml.safe_load(open(os.path.join(HERE, 'changelog.yaml'))), key=lambda e: str(e['date']), reverse=True)
@@ -824,31 +976,29 @@ open(os.path.join(OUT, 'api', 'index.html'), 'w').write(
     '<link rel="canonical" href="' + SITE + '/api/index.json"><pre>' + H(json.dumps(API_INDEX, indent=2, ensure_ascii=False)) + '</pre>')
 
 # ---------- llms.txt and llms-full.txt
+STATUS_SHORT = {'2026-11-20': f'Levent Alpöge released a Lean proof of the Riemann hypothesis (and GRH for Dirichlet L-functions): {TOTAL_FILES:,} Lean files, {LINES_TXT}.',
+                '2026-11-21': 'The Lean FRO and the Mathlib Initiative certified the Lean statement and proof (latest check).'}
 llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
-        f'This site is an interactive map of the Lean code of the proof of the Riemann hypothesis: {FILES_TXT}, grouped by their '
-        f'words and imports into {len(CL):,} clusters in {len(TH)} themes. Cluster and theme names and descriptions are written by '
-        'Claude from samples of the code and may be wrong. No Lean source text is hosted here.\n\n'
-        f'Licence: the site\'s own data (cluster and theme names, descriptions, map layout, JSON) is CC BY 4.0 ({LICENSE}); '
-        'the Lean source keeps its own licence.\n\n'
+        f'An interactive map of the Lean proof of the Riemann hypothesis: {FILES_TXT} in {len(CL):,} clusters and {len(TH)} themes. '
+        'Names and descriptions are written by Claude from samples of the code and may be wrong. Every page has a Markdown copy at <page>index.md.\n\n'
         f'## Status (updated {API_STATUS["updated"]})\n\n'
-        + ''.join(f'- {e["date"]}: {e["event"]} Source: {e["source"]}\n' for e in STATUS_FACTS)
+        + ''.join(f'- {e["date"]}: {STATUS_SHORT.get(e["date"], e["event"])} Source: {e["source"]}\n' for e in STATUS_FACTS)
         + f'- Details of the checks: {DREW}\n\n'
-        f'## Key pages\n\n- [Has the Riemann hypothesis been solved? How it was checked]({SITE}/about/): status, what was checked, sources\n'
-        f'- [Learning path]({SITE}/learn/): the proof step by step, from the headline theorems down to school maths\n'
-        f'- [Main theorem cluster]({SITE}{MAIN})\n- [Interactive map]({SITE}/): {len(TH)} theme pages and {len(CPATH):,} cluster pages, all in the sitemap\n'
-        f'- [Changelog]({SITE}/changelog/) and [RSS]({SITE}/changelog/feed.xml)\n\n'
-        f'## Data and API\n\n- Markdown copy of every page: add `index.md` to the page path, e.g. {SITE}/about/index.md\n'
-        f'- [{SITE}/api/status.json]({SITE}/api/status.json): dated status facts with primary sources\n'
-        f'- [{SITE}/api/clusters.json]({SITE}/api/clusters.json): every cluster (id, title, theme, page, files, distance from the main theorem)\n'
-        f'- [{SITE}/api/themes.json]({SITE}/api/themes.json): every theme (id, name, blurb, page, clusters, files)\n'
-        f'- [Sitemap]({SITE}/sitemap.xml)\n- [Full text of the main pages]({SITE}/llms-full.txt)\n- [Data and scripts]({GH})\n\n'
-        f'## Contact\n\n- Site on X: {X_SITE}\n- Feedback and corrections: {X_FEEDBACK}\n')
+        f'## Start here\n\n- [Has the Riemann hypothesis been solved? How it was checked]({SITE}/about/index.md)\n'
+        f'- [Learning path: the proof step by step]({SITE}/learn/index.md)\n'
+        f'- [How the proof is structured: the route to the main theorem]({SITE}/route/index.md)\n\n'
+        f'## The map, by theme\n\n'
+        + ''.join(f'- [{TNAME[t]}]({SITE}{TPATH[t]}index.md)\n' for t in sorted(TH, key=lambda t: TNAME[t]))
+        + f'\n## Data\n\n- [API index]({SITE}/api/index.json): the JSON endpoints\n'
+        f'- [Clusters]({SITE}/api/clusters.json): every cluster with its page and distance from the main theorem\n'
+        f'- Licence: CC BY 4.0 ({LICENSE}) for the site\'s own data (names, descriptions, map layout, JSON); the Lean source keeps its own licence.\n\n'
+        f'## Updates\n\n- [Changelog]({SITE}/changelog/index.md) · [RSS]({SITE}/changelog/feed.xml)\n'
+        f'- Full text of the key pages: {SITE}/llms-full.txt\n')
 open(os.path.join(OUT, 'llms.txt'), 'w').write(llms)
+# llms-full.txt: About, Learn, /route/, and every cluster within two steps of the main theorem, in full
 full = [llms, '\n---\n']
-for pth in ('/about/', '/learn/', '/changelog/'):
+for pth in ['/about/', '/learn/', '/route/'] + [CPATH[k] for k in sorted((k for k in CL if dist.get(k, 99) <= 2), key=lambda k: (dist[k], -fcount[k]))]:
     full += [open(os.path.join(OUT, pth.strip('/'), 'index.md')).read(), '\n---\n']
-full.append('# Themes\n\n' + ''.join(f'- [{TNAME[t]}]({SITE}{TPATH[t]}): {TNAMED.get(t, {}).get("blurb") or ""} '
-                                    f'({len(TH[t]["clusters"])} clusters)\n' for t in TH))
 open(os.path.join(OUT, 'llms-full.txt'), 'w').write('\n'.join(full))
 
 # ---------- sitemap (clean URLs, lastmod from the content state), robots, IndexNow key
