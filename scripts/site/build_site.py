@@ -213,8 +213,8 @@ ST_ONGOING = (f'More independent checks, some still running on {AS_OF_TXT}, are 
 ST_SCOPE = ('The proof covers Mathlib\'s <code>RiemannHypothesis</code> and GRH for Dirichlet L-functions (all moduli and all '
             'characters), and nothing broader: Dedekind zeta functions, Hecke L-functions and automorphic L-functions in general '
             'are not among the statements that were checked.')
-ST_NOT_YET = ('There is no human-readable proof yet: Alpöge\'s note says he decided “to only present Lean”. The work has not been '
-              f'peer reviewed. No Clay Millennium Prize is in play: <a href="{CLAY_RULES}">Clay\'s rules</a> require publication, '
+ST_NOT_YET = ('There is no human-readable proof yet: Alpöge\'s note says he decided “to only present Lean”. The joint statement does not '
+              f'claim peer review, and no refereed paper has been announced. No Clay Millennium Prize is in play: <a href="{CLAY_RULES}">Clay\'s rules</a> require publication, '
               'a two-year wait and general acceptance in the mathematics community.')
 ST_ARCHIVE = (f'The source viewer shows the original archive as released: commit <code>{LEAN_SHA[:8]}</code> of the '
               f'<a href="{LEAN_REPO}">community mirror</a>, an unchanged copy of the {TOTAL_FILES:,}-file archive. The community '
@@ -429,7 +429,7 @@ overview = {
     'updated': datetime.date.today().isoformat(),
     'counts': {'clusters': len(CL), 'themes': len(TH), 'named': named,
                'files': len(mod_cl), 'total': TOTAL_FILES, 'units': len(unit_cl), 'lines': TOTAL_LINES},
-    'main': main, 'builds': builds[main], 'status': STATUS_BLOCK,
+    'main': main, 'builds': builds[main], 'status': STATUS_BLOCK, 'fstats': FSTATS,
     'themes': [{'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'conf': TNAMED.get(t, {}).get('confidence'),
                 'fl': theme_name(th)[0], 'n': len(th['clusters']), 's': TSLUG[t],
                 'units': size[t], 'words': th['words'][:8], 'x': r2(P[t][0]), 'y': r2(P[t][1]), 'r': r2(R[t])}
@@ -782,7 +782,7 @@ def steps_txt(d):
     return 'The main theorem' if d == 0 else f'{d} import step{"" if d == 1 else "s"} to the main theorem'
 STATUS = (f'<p class="meta">Proof status as of {AS_OF_TXT}: {ST_SHORT[0].lower()}{ST_SHORT[1:]} Names and descriptions on this map '
           'are written by Claude from samples of the code and may be wrong.</p>')
-FEEDBACK = f'<p class="feedback">Feedback or corrections? <a href="{X_FEEDBACK}" target="_blank" rel="noopener">@SomTheBuilder on X</a></p>'
+# feedback lives in one place: the site footer in the index.html template (@SomTheBuilder on X)
 ABOUT_T = 'Has the Riemann hypothesis been solved? How it was checked'
 ROUTE_T = 'How the Lean proof of the Riemann hypothesis is structured: the route to the main theorem'
 ROUTE_NAV = 'How the proof is structured: the route to the main theorem'
@@ -877,7 +877,7 @@ about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About
          'dependency, not a claim about which ideas you need first. The golden route is the shortest chain of imports from the main '
          'theorem\'s cluster.</p>'
          f'<p class="meta">Data and scripts: <a href="{GH}">{GH.replace("https://", "")}</a> · data for machines: '
-         '<a href="/api/">/api/</a> · updated {{UPDATED}}</p>' + FEEDBACK)
+         '<a href="/api/">/api/</a> · updated {{UPDATED}}</p>')
 ABOUT_D = f'A Lean proof of the Riemann hypothesis was released on 20 Nov 2026. {ST_META} What was checked, and what is not yet claimed.'
 page('/about/', ABOUT_T, ABOUT_D, 'about', about,
      [article_ld('/about/', 'Has the Riemann hypothesis been solved? How the Lean proof was checked', ABOUT_D, '2026-11-21'),
@@ -910,31 +910,32 @@ page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
 DEPTHS = collections.Counter(dist.values())
 def _plural(n, w):
     return f'{n:,} {w}{"" if n == 1 else "s"}'
-STEP_W = {1: 'One step', 2: 'Two steps'}
+DEPTH_KS = {d: sorted((k for k in CL if dist.get(k) == d), key=lambda k: -fcount[k]) for d in (1, 2)}
+# the app draws this page as rings (routeView() in app.js); this static copy is its text equivalent: depth counts as a
+# list, the first two steps as nested links (depth-2 clusters under the depth-1 cluster that imports them, as in par)
 route_body = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Route</div><div class="eyebrow">Route · Lean proof of the Riemann hypothesis</div>'
               f'<h1>{H(ROUTE_T)}</h1>'
-              f'<p class="lede">The Lean proof of the Riemann hypothesis is a library of {FILES_TXT}. Its top file, <code>Main</code>, states the '
-              'theorem and imports the files it rests on; those import others, and so on down. On this map the files are grouped into '
-              f'{len(CL):,} clusters, and a cluster\'s depth is the number of import steps from the main theorem\'s cluster to it.</p>'
+              f'<p class="lede">The Lean proof of the Riemann hypothesis is a library of {FILES_TXT}, grouped on this map into '
+              f'{len(CL):,} clusters. A cluster\'s depth is the number of import steps from the main theorem\'s cluster to it.</p>'
               f'{STATUS}'
-              '<h2>The main theorem</h2><ul class="rows">' + clink(main, sub=oneline(main)) + '</ul>'
-              + ''.join(f'<h2>{STEP_W[d]} from the main theorem <small>{_plural(DEPTHS[d], "cluster")}</small></h2><ul class="rows">'
-                        + ''.join(clink(k, sub=oneline(k)) for k in sorted((k for k in CL if dist.get(k) == d), key=lambda k: -fcount[k])) + '</ul>'
-                        for d in (1, 2))
-              + '<h2>How deep the proof goes</h2><p>Clusters by import steps from the main theorem:</p><ul>'
-              + ''.join(f'<li>{"Depth " + str(d) if d else "Depth 0 (the main theorem)"}: {_plural(DEPTHS[d], "cluster")}</li>' for d in sorted(DEPTHS))
+              '<h2>Clusters by depth</h2><p>Rings around the main theorem, from the centre out:</p><ul>'
+              + ''.join(f'<li><a href="/list/?depth={d}">{"Depth 0 (the main theorem)" if d == 0 else "Depth " + str(d)}</a>: {_plural(DEPTHS[d], "cluster")}</li>' for d in sorted(DEPTHS))
               + (f'<li>Not reached from the main theorem: {_plural(len(CL) - len(dist), "cluster")}</li>' if len(dist) < len(CL) else '') + '</ul>'
-              f'<p>Most clusters sit {max(DEPTHS, key=DEPTHS.get)} steps down: {DEPTHS[max(DEPTHS, key=DEPTHS.get)]:,} of {len(CL):,}. '
-              f'Every cluster is reached; the deepest are {max(DEPTHS)} steps down.</p>'
+              '<h2>The first two steps</h2><ul class="rows">'
+              f'<li><a href="{CPATH[main]}"><span class="t">★ Main theorem: {H(ctitle(main))}</span></a><ul>'
+              + ''.join(f'<li><a href="{CPATH[k]}">{H(ctitle(k))}</a> <small>depth 1</small>'
+                        + (('<ul>' + ''.join(f'<li><a href="{CPATH[j]}">{H(ctitle(j))}</a> <small>depth 2</small></li>' for j in DEPTH_KS[2] if par.get(j) == k) + '</ul>')
+                           if any(par.get(j) == k for j in DEPTH_KS[2]) else '') + '</li>' for k in DEPTH_KS[1])
+              + '</ul></li></ul>'
               '<h2>File by file</h2><ul>'
-              f'<li>All {FSTATS["reached"]:,} Lean files are reached from <code>Main</code> by imports.</li>'
-              f'<li>The median file is {FSTATS["median"]} imports from <code>Main</code>; the farthest is {FSTATS["max"]}.</li>'
-              f'<li>The longest chain of imports, each file importing the next, runs through {FSTATS["chain"]} files.</li></ul>'
+              f'<li>{FSTATS["reached"]:,} Lean files, all reached from <code>Main</code> by imports</li>'
+              f'<li>Median {FSTATS["median"]} imports from <code>Main</code>; farthest {FSTATS["max"]}</li>'
+              f'<li>Longest import chain: {FSTATS["chain"]} files</li></ul>'
               '<p class="meta">Distances are shortest import chains; the cluster graph has loops, the file graph does not.</p>'
-              f'<p><a href="/">Open the map</a> · <a href="{MAIN}">start at the main theorem</a> · <a href="/list/">every cluster as a list, by distance</a></p>' + FEEDBACK)
+              f'<p><a href="/">Open the map</a> · <a href="{MAIN}">start at the main theorem</a> · <a href="/list/">every cluster as a list, by distance</a></p>')
 ROUTE_D = clip(f'How the Lean proof of the Riemann hypothesis is structured: from the main theorem through {len(CL):,} clusters of '
                f'{TOTAL_FILES:,} Lean files, by import steps. The deepest cluster is {max(DEPTHS)} steps down; the longest import chain is {FSTATS["chain"]} files.')
-page('/route/', ROUTE_T, ROUTE_D, 'page', route_body,
+page('/route/', ROUTE_T, ROUTE_D, 'route', route_body,
      [article_ld('/route/', ROUTE_T, ROUTE_D, '2026-11-22'), crumbs_ld(('Map', '/'), ('Route', '/route/')), ORG], .8)
 
 # ---------- changelog (scripts/site/changelog.yaml) and its RSS feed
@@ -950,7 +951,7 @@ clog = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Change
         '<h1>What changed on this site</h1><p class="lede">Dated changes to the map, its pages and the proof status it reports. '
         'Follow along with the <a href="/changelog/feed.xml">RSS feed</a> or <a href="' + X_SITE + '">@RiemannMap on X</a>.</p>'
         + ''.join(f'<h2 id="{e["anchor"]}">{H(e["title"])} <small>{datetime.date.fromisoformat(str(e["date"])).strftime("%-d %b %Y")}</small></h2>'
-                  + change_html(e) for e in CHANGES) + FEEDBACK)
+                  + change_html(e) for e in CHANGES))
 page('/changelog/', 'Changelog · RH Lean Explorer', 'Dated changes to the map of the Lean proof of the Riemann hypothesis: '
      'new pages, data and status updates.', 'page', clog, [crumbs_ld(('Map', '/'), ('Changelog', '/changelog/'))], .4)
 open(os.path.join(OUT, 'changelog', 'feed.xml'), 'w').write(

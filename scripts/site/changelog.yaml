@@ -17,7 +17,10 @@
     - "Smaller first download for the map, and long caching for versioned data."
     - "Every page has a Markdown copy (add index.md to its path); new /api/ with JSON for the proof status, clusters and themes; llms.txt."
     - "The site's own data (names, descriptions, map layout, JSON) is licensed CC BY 4.0."
-    - "This changelog and its RSS feed; feedback links to @SomTheBuilder on X."
+    - "This changelog and its RSS feed; feedback goes to @SomTheBuilder on X, from the site footer, and each cluster has a small \"Report a wrong name\" link."
+    - "Lean source in a wide viewer: file pages open with the source already loading, cluster file lists have a </> button, and the import lines at the top of a file are links (files in the archive open in the viewer; Mathlib, Batteries and Lean core files open their Mathlib docs page)."
+    - "/route/ is now a picture: one ring per import step from the main theorem, sized by its number of clusters; click a ring to list its clusters."
+    - "Status wording: the joint statement does not claim peer review, and no refereed paper has been announced."
 
 - date: 2026-11-21
   title: Proof certified; launch of the map
