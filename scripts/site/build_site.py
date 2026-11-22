@@ -208,16 +208,15 @@ TOTAL_FILES = len(imports)   # every .lean file in the archive (175,187); mod_cl
 # lines of Lean in the whole archive (all 175,187 files), from the file index: 17,374,215
 TOTAL_LINES = sum(int(l.split('\t')[1]) for l in list(open(os.path.join(ROOT, 'notes', 'file_index.tsv')))[1:])
 LINES_TXT = f'about {TOTAL_LINES / 1e6:.1f} million lines'
-UNMAPPED_TXT = (f'The other {TOTAL_FILES - len(mod_cl):,} files are in the archive but not on the map, because none has a statement '
-                '(a theorem or definition) of its own: 96 are import-only files that just list other files, 5 are build helpers '
-                '(<code>BuildAid.D1</code>–<code>D5</code>), and 59 had no statements our extraction could read.')
+# the files in the archive but not on the map, recounted from the source (22 Nov 2026; /proof-in-numbers/ has the same
+# breakdown): import-only files that just list other files, build helpers (BuildAid.D1–D5), and files with no theorem or definition
+UNMAPPED = {'import_only': 150, 'build_helpers': 5, 'no_theorem_or_definition': 5}
+assert sum(UNMAPPED.values()) == TOTAL_FILES - len(mod_cl), 'unmapped-file breakdown no longer adds up: recount it'
 LICENSE = 'https://creativecommons.org/licenses/by/4.0/'
-LICENSE_TXT = ("The site's own data (cluster and theme names, descriptions, the map layout and the JSON files) is licensed under "
-               f'<a href="{LICENSE}">CC BY 4.0</a>; the Lean source keeps its own licence.')
 
 # ---------- proof status: the ONE canonical wording (plan item 36). Every status line comes from here: page footers and
-# meta descriptions (short form), About, /api/status.json, llms.txt and llms-full.txt (long form), and the app, which reads
-# overview.json 'status' (home lede, about(), source card). Facts and quotes: research/content/fact-sheet.md, VERIFIED lines
+# meta descriptions (short form), /api/status.json, llms.txt and llms-full.txt (long form), and the app, which reads
+# overview.json 'status' (home lede, source card). /status/ itself is data/pages/status.md. Facts and quotes: research/content/fact-sheet.md, VERIFIED lines
 # only. When a sentence changes, move STATUS_AS_OF and add a changelog entry. Write HTML; plain() and mdtext() derive the rest.
 import html as _html
 STATUS_AS_OF = '2026-11-22'
@@ -239,7 +238,7 @@ ST_MORE = f'More independent checks: <a href="{DREW}">math.mit.edu/~drew/grh</a>
 ST_SHORT = f'{ST_CERT} {ST_MORE}'
 ST_META = plain(ST_CERT)
 ST_CHIP = 'certified 21 Nov'   # header chip label; its tooltip is ST_META
-# long form: About, /api/status.json, llms.txt, llms-full.txt
+# long form: /api/status.json, llms.txt, llms-full.txt
 ST_RELEASE = (f'On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis, and of the generalized Riemann hypothesis '
               f'(GRH) for Dirichlet L-functions, as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, with a note at '
               f'<a href="{NOTE}">alpo.ge</a>.')
@@ -267,13 +266,7 @@ ST_SOURCES = [('Joint statement by the Lean and Mathlib communities (21 Nov 2026
               ("Michael Rubinstein's check, Waterloo", RUBINSTEIN),
               ("Mathlib's RiemannHypothesis", MATHLIB_RH),
               (f'The Lean source as released (community mirror, commit {LEAN_SHA[:8]})', f'{LEAN_REPO}/tree/{LEAN_SHA}')]
-ST_LONG = (f'<p class="lede">{ST_RELEASE} {ST_CERT} {ST_QUOTE}</p><p class="meta">Status as of {AS_OF_TXT}. '
-           '<a href="/status/">Full status page</a>.</p>'
-           f'<h2>How the Lean proof was checked</h2><p>{ST_VERIFIED}</p><p>The joint statement certifies four criteria:</p><ol>'
-           + ''.join(f'<li>{x}</li>' for x in ST_CHECKS) + f'</ol><p>{ST_ONGOING}</p>'
-           f'<h2>What was proved</h2><p>{ST_SCOPE}</p>'
-           '<h2>Primary sources</h2><ul>' + ''.join(f'<li><a href="{u}">{_html.escape(t)}</a></li>' for t, u in ST_SOURCES) + '</ul>')
-STATUS_BLOCK = {'as_of': STATUS_AS_OF, 'short': ST_SHORT, 'cert': ST_CERT, 'meta': ST_META, 'chip': ST_CHIP, 'long': ST_LONG,
+STATUS_BLOCK = {'as_of': STATUS_AS_OF, 'short': ST_SHORT, 'cert': ST_CERT, 'meta': ST_META, 'chip': ST_CHIP,
                 'archive': ST_ARCHIVE, 'archive_short': ST_ARCHIVE_SHORT, 'source_sha': LEAN_SHA, 'page': '/status/'}
 
 def lean_path(m):
@@ -793,7 +786,7 @@ def mdpath(path):
 
 # ---------- page writer
 URLS = []  # (path, priority, lastmod) for the sitemap
-ARTICLES = {'/about/', '/learn/', '/route/'}   # pages with Article JSON-LD get og:type article (content pages add theirs below)
+ARTICLES = {'/learn/', '/route/'}   # pages with Article JSON-LD get og:type article (content pages add theirs below)
 def head(path, title, desc, lds, md=True, img=None):
     t, d, u = H(title), H(desc), H(SITE + path)
     img, alt = img or (f'{SITE}/og.png?v=2', None)
@@ -916,7 +909,8 @@ STATUS = (f'<p class="meta">Proof status as of {AS_OF_TXT}: {ST_SHORT[0].lower()
 STATUS_CK = STATUS.replace('Names and descriptions on this map are written', "This cluster's name and description were checked "
                            'against its full Lean code; the other names and descriptions on this map are written')
 assert STATUS_CK != STATUS
-CK_BADGE = '<div class="badges"><a class="badge checked" href="#checked">Checked against the code</a></div>'
+CK_BADGE = ('<div class="badges"><a class="badge checked" href="#checked">Checked against the code</a>'
+            f'<a class="badgelink" href="/core/">See all {len(CHECKED)} core clusters ›</a></div>')
 def checked_html(k):
     return ('<h2 id="checked">Checked against the code</h2><p>This name and description were checked against every Lean file in '
             f'the cluster (source commit <code>{LEAN_SHA[:8]}</code>) and corrected where the earlier, AI-drafted ones were wrong. '
@@ -924,7 +918,9 @@ def checked_html(k):
             + ''.join(f'<li><code>{H(dc)}</code>' + (f' in <code>{H(m)}</code>' if m else '') + f': {H(w)}</li>' for m, dc, w in evidence(k))
             + '</ul>')
 # feedback lives in one place: the site footer in the index.html template (@SomTheBuilder on X)
-ABOUT_T = 'Has the Riemann hypothesis been solved? How it was checked'
+STATUS_NAV = 'Has the Riemann hypothesis been solved? Status of the proof'
+CORE_NAV = f'The core of the proof: {len(CHECKED)} clusters, names checked against the code'
+NUMBERS_NAV = 'The proof in numbers: files, lines, clusters and checks'
 CONTENT_PAGES = []   # (path, title, h1) of the Markdown content pages, filled in below; footer, home, llms.txt use it
 ROUTE_T = 'How the Lean proof of the Riemann hypothesis is structured: the route to the main theorem'
 ROUTE_NAV = 'How the proof is structured: the route to the main theorem'
@@ -932,8 +928,8 @@ LEARN_T = 'The Riemann hypothesis proof, step by step: learning path'
 HOME_T = 'Lean proof of the Riemann hypothesis: an interactive map'
 def explore(*extra, main_link=True):
     """'Where next' list on map pages: links the map to the explainers and back."""
-    items = list(extra) + [(MAIN if main_link else None, "Start at the main theorem's cluster"), ('/route/', ROUTE_NAV), ('/about/', ABOUT_T),
-                           ('/learn/', 'Learning path: the proof step by step, down to school maths')]
+    items = list(extra) + [(MAIN if main_link else None, "Start at the main theorem's cluster"), ('/route/', ROUTE_NAV), ('/core/', CORE_NAV),
+                           ('/proof-in-numbers/', NUMBERS_NAV), ('/status/', STATUS_NAV), ('/learn/', 'Learning path: the proof step by step, down to school maths')]
     return '<h2>Explore</h2><ul class="rows">' + ''.join(f'<li><a href="{p}">{H(t)}</a></li>' for p, t in items if p) + '</ul>'
 TT = {x['id']: tnode(x) for x in core['nodes'] + concepts}
 LEARN_OF = collections.defaultdict(list)  # cluster -> learning-path entries that point at it
@@ -1007,29 +1003,11 @@ for k, p in CPATH.items():
          [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, p))],
          img=(og_url(f'og/c/{k}.png'), f'{title}: cluster {k} of the Lean proof of the Riemann hypothesis'))
 
-# ---------- about: the status of the claim, the page most searchers want (keep in step with about() in app.js)
+# ---------- /api/status.json timeline (the About page is now data/pages/about.md; the status text is on /status/)
 STATUS_FACTS = [
     {'date': '2026-11-20', 'event': plain(ST_RELEASE), 'source': NOTE},
     {'date': '2026-11-21', 'event': plain(ST_CERT), 'source': STMT},
 ]
-about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About</div><div class="eyebrow">About · status of the proof</div>'
-         '<h1>Has the Riemann hypothesis been solved?</h1>' + ST_LONG +
-         '<h2>What this site is</h2><p>A reading guide: a map of the Lean files, grouped by their words and imports into '
-         f'{len(CL):,} clusters in {len(TH)} themes. Cluster names and descriptions were written by Claude from a sample of about one '
-         f'tenth of each cluster\'s files. They can be wrong. All {len(CL):,} clusters are named. The {len(CHECKED)} core clusters '
-         'were then checked against their full Lean code and corrected; their pages carry a “Checked against the code” badge.</p><p>{UNMAPPED_TXT}</p><p>{ST_ARCHIVE}</p><p>{LICENSE_TXT}</p>'
-         f'<h2>Where to start</h2><ul class="rows"><li><a href="{MAIN}">The main theorem\'s cluster</a></li>'
-         '<li><a href="/learn/">Learning path: from the theorem down to school maths</a></li><li><a href="/">The full map</a></li>'
-         '<li><a href="/changelog/">Changelog: what changed on this site, and when</a></li></ul>'
-         '<h2>What the lines mean</h2><p>A line from cluster A to cluster B means some file in A imports a file in B. That is a formal '
-         'dependency, not a claim about which ideas you need first. The golden route is the shortest chain of imports from the main '
-         'theorem\'s cluster.</p>'
-         f'<p class="meta">Data and scripts: <a href="{GH}">{GH.replace("https://", "")}</a> · data for machines: '
-         '<a href="/api/">/api/</a> · updated {{UPDATED}}</p>')
-ABOUT_D = f'A Lean proof of the Riemann hypothesis was released on 20 Nov 2026. {ST_META} What was checked, by whom, and what it covers.'
-page('/about/', ABOUT_T, ABOUT_D, 'about', about,
-     [article_ld('/about/', 'Has the Riemann hypothesis been solved? How the Lean proof was checked', ABOUT_D, '2026-11-21'),
-      crumbs_ld(('Map', '/'), ('About', '/about/')), ORG], .9)
 
 # ---------- learning path: the hand-built outline as nested lists (keep the H1 in step with learn() in app.js)
 def tli(i, seen):
@@ -1049,7 +1027,7 @@ learn = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Learn
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          f'<ul class="tree">{"".join(tli(r, seen) for r in core["roots"])}</ul>'
-         f'<p class="meta">See also: <a href="/about/">how the proof was checked</a> · <a href="{MAIN}">the main theorem on the map</a></p>')
+         f'<p class="meta">See also: <a href="/status/">how the proof was checked</a> · <a href="/core/">the core of the proof</a> · <a href="{MAIN}">the main theorem on the map</a></p>')
 page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
      [article_ld('/learn/', 'The Riemann hypothesis proof, step by step: a learning path', LEARN_D, '2026-11-21'),
       crumbs_ld(('Map', '/'), ('Learning path', '/learn/')), ORG], .8)
@@ -1104,7 +1082,11 @@ CONTENT = [   # draft, breadcrumb name, eyebrow, sitemap priority, first publish
     ('how-we-know.md', 'How we know', 'How the proof was checked', .8),
     ('faq.md', 'FAQ', 'Frequently asked questions', .8),
     ('why-it-matters.md', 'Why it matters', 'Why it matters', .7),
-    ('press.md', 'Press', 'Press, statements and reactions', .7)]
+    ('press.md', 'Press', 'Press, statements and reactions', .7),
+    ('core.md', 'The core', 'The core of the proof · 16 clusters', .8),
+    ('proof-in-numbers.md', 'In numbers', 'The proof in numbers', .7),
+    ('timeline.md', 'Timeline', 'Timeline', .6),
+    ('about.md', 'About', 'About this map', .6)]
 CONTENT_PUBLISHED = '2026-11-22'
 def read_draft(f):
     t = open(os.path.join(PAGES_DIR, f), encoding='utf-8').read()
@@ -1218,7 +1200,7 @@ def keep_going(t):   # the closing links: a '## Keep going' / '## More' section,
 def faq_pairs(t):   # H3 question, then its first paragraph (the visible answer, rendered the same way)
     return [(q, MDIT.renderInline(a.strip()))
             for q, a in re.findall(r'(?m)^### (.+)\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
-KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {'/', '/about/', '/learn/', '/route/', '/list/', '/changelog/'}
+KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {'/', '/learn/', '/route/', '/list/', '/changelog/', '/api/'}
 DRAFTS = [(f, *read_draft(f), crumb, eb, pr) for f, crumb, eb, pr in CONTENT]
 OLD_PATHS = {**TOLD, **COLD}   # a draft linking to a renamed cluster or theme gets its current address
 for i, (f, fm, t, *rest) in enumerate(DRAFTS):
@@ -1227,6 +1209,9 @@ for i, (f, fm, t, *rest) in enumerate(DRAFTS):
         print(f'{f}: links to renamed pages updated')
         DRAFTS[i] = (f, fm, t2, *rest)
 KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS}
+# site links added under a page's own text (the drafts are published as written, so these are not part of them)
+RELATED = {'/status/': [('/core/', CORE_NAV), ('/proof-in-numbers/', NUMBERS_NAV),
+                        ('/timeline/', 'Timeline of the Riemann hypothesis, 1748 to the 2026 Lean proof')]}
 for f, fm, t, crumb, eb, pr in DRAFTS:
     bad = [u for u in re.findall(r'\]\((/[^)#\s]*)', t) if u not in KNOWN_PATHS]
     assert not bad, f'{f}: links to pages that do not exist: {bad}'
@@ -1238,12 +1223,17 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
     html_body = re.sub(r'^<p><em>', '<p class="meta asof"><em>', html_body, count=1)
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>{H(crumb)}</div><div class="eyebrow">{H(eb)}</div>'
             f'<h1>{H(h1)}</h1>{html_body}')
+    rel = RELATED.get(path, [])
+    assert all(u in KNOWN_PATHS for u, _ in rel)
+    if rel:
+        body += '<h2>More on this site</h2><ul class="rows">' + ''.join(f'<li><a href="{u}">{H(x)}</a></li>' for u, x in rel) + '</ul>'
     lds = [article_ld(path, h1, fm['description'], CONTENT_PUBLISHED), crumbs_ld(('Map', '/'), (crumb, path)), ORG]
     if fm.get('structured_data') == 'FAQPage':
         pairs = faq_pairs(t)
         assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
         lds.insert(1, faq_ld(pairs))
-    page(path, fm['title'], fm['description'], 'page', body, lds, pr, md=md_abs(zeros_md(f'# {h1}\n\n{t}')))
+    page(path, fm['title'], fm['description'], 'page', body, lds, pr, md=md_abs(zeros_md(f'# {h1}\n\n{t}' + (
+        '\n## More on this site\n\n' + ''.join(f'- [{x}]({u})\n' for u, x in rel) if rel else ''))))
     if lv:   # one Markdown file per level: title, a one-line intro, the level's section, the closing links
         before, secs, after = lv
         intro = next((x.strip() for x in before.split('\n\n') if x.strip() and not re.fullmatch(r'\*[^*].*\*', x.strip())), '')
@@ -1292,6 +1282,7 @@ home = ('<div class="eyebrow">Interactive map · Lean 4</div><h1 class="hero">Th
         f'<ul class="rows"><li><a href="/status/">Has the Riemann hypothesis been solved? Status of the proof</a></li>'
         '<li><a href="/what-is-the-riemann-hypothesis/">What is the Riemann hypothesis? Simple, student and expert</a></li>'
         '<li><a href="/how-we-know/">How we know the proof is correct</a></li><li><a href="/faq/">Frequently asked questions</a></li>'
+        f'<li><a href="/core/">{H(CORE_NAV)}</a></li><li><a href="/proof-in-numbers/">{H(NUMBERS_NAV)}</a></li>'
         f'<li><a href="{MAIN}">Start at the main theorem</a></li><li><a href="/learn/">Learning path: the proof step by step</a></li>'
         '<li><a href="/changelog/">Changelog</a></li></ul>'
         f'<h2>Themes</h2><ul class="rows">{"".join(f"<li><a href=\"{TPATH[t]}\">{H(TNAME[t])}</a></li>" for t in TH)}</ul>')
@@ -1312,7 +1303,7 @@ DATASET = {
 # 404 (written before index.html, from the template); with a 404.html, Cloudflare Pages returns real 404s
 page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
      '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
-     '<a href="/">Open the full map</a> or <a href="/about/">read how the proof was checked</a>.</p>')
+     '<a href="/">Open the full map</a> or <a href="/status/">read how the proof was checked</a>.</p>')
 open(os.path.join(OUT, 'index.html'), 'w').write(page('/', HOME_T, HOME_DESC, '', home, [
     {'@type': 'WebSite', '@id': SITE_ID, 'name': SITE_NAME, 'url': SITE + '/', 'description': HOME_DESC, 'inLanguage': 'en',
      'about': RH_THING, 'publisher': {'@id': ORG_ID}, 'sameAs': [X_SITE]}, ORG, DATASET], 1.0))
@@ -1331,9 +1322,10 @@ API_STATUS = {
     'scope': plain(ST_SCOPE),
     'source_archive': {'text': plain(ST_ARCHIVE), 'repo': LEAN_REPO, 'commit': LEAN_SHA, 'files': TOTAL_FILES},
     'sources': [{'name': t, 'url': u} for t, u in ST_SOURCES], 'details': DREW, 'page': SITE + '/status/',
-    'counts': {'lean_files': TOTAL_FILES, 'mapped_files': len(mod_cl), 'clusters': len(CL), 'themes': len(TH)},
+    'counts': {'lean_files': TOTAL_FILES, 'mapped_files': len(mod_cl), 'unmapped_files': {'total': TOTAL_FILES - len(mod_cl), **UNMAPPED},
+               'clusters': len(CL), 'themes': len(TH)},
     'note': f'Cluster and theme names and descriptions on this site are written by Claude from samples of the code and may be wrong, except the {len(CHECKED)} core clusters marked checked in /api/clusters.json, which were checked against their full Lean code.',
-    'license': {'url': LICENSE, 'name': 'CC BY 4.0', 'applies_to': "this site's own data (cluster and theme names, descriptions, map layout, JSON); the Lean source keeps its own licence"},
+    'license': {'url': LICENSE, 'name': 'CC BY 4.0', 'applies_to': "everything this site made (page text, cluster and theme names and descriptions, the map layout, images and the JSON files); the Lean source keeps its own licence"},
 }
 jdump('status.json', API_STATUS)
 API_FIELDS = [{'id': f['id'], 'name': f['name'], 'hue': f['hue'], 'description': f['description']} for f in FIELDS]
@@ -1388,20 +1380,19 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
         + ''.join(f'- Levels for {SITE}{p}: for a plain explanation with no maths background fetch {SITE}{p}simple.md; '
                   f'for high-school or undergraduate level {SITE}{p}student.md; for researchers {SITE}{p}expert.md. '
                   f'{SITE}{p}index.md has all three.\n' for p in LEVEL_PAGES)
-        + f'- [About this site and how the proof was checked]({SITE}/about/index.md)\n'
-        f'- [Learning path: the proof step by step]({SITE}/learn/index.md)\n'
+        + f'- [Learning path: the proof step by step]({SITE}/learn/index.md)\n'
         f'- [How the proof is structured: the route to the main theorem]({SITE}/route/index.md)\n\n'
         f'## The map, by theme\n\n'
         + ''.join(f'- [{TNAME[t]}]({SITE}{TPATH[t]}index.md)\n' for t in sorted(TH, key=lambda t: TNAME[t]))
         + f'\n## Data\n\n- [API index]({SITE}/api/index.json): the JSON endpoints\n'
         f'- [Clusters]({SITE}/api/clusters.json): every cluster with its page and distance from the main theorem\n'
-        f'- Licence: CC BY 4.0 ({LICENSE}) for the site\'s own data (names, descriptions, map layout, JSON); the Lean source keeps its own licence.\n\n'
+        f'- Licence: CC BY 4.0 ({LICENSE}) for everything this site made (page text, names and descriptions, map layout, images, JSON); the Lean source keeps its own licence.\n\n'
         f'## Updates\n\n- [Changelog]({SITE}/changelog/index.md) · [RSS]({SITE}/changelog/feed.xml)\n'
         f'- Full text of the key pages: {SITE}/llms-full.txt\n')
 open(os.path.join(OUT, 'llms.txt'), 'w').write(llms)
 # llms-full.txt: the content pages, About, Learn, /route/, and every cluster within two steps of the main theorem, in full
 full = [llms, '\n---\n']
-for pth in [p for p, _, _ in CONTENT_PAGES] + ['/about/', '/learn/', '/route/'] + [CPATH[k] for k in sorted((k for k in CL if dist.get(k, 99) <= 2), key=lambda k: (dist[k], -fcount[k]))]:
+for pth in [p for p, _, _ in CONTENT_PAGES] + ['/learn/', '/route/'] + [CPATH[k] for k in sorted((k for k in CL if dist.get(k, 99) <= 2), key=lambda k: (dist[k], -fcount[k]))]:
     full += [open(os.path.join(OUT, pth.strip('/'), 'index.md')).read(), '\n---\n']
 open(os.path.join(OUT, 'llms-full.txt'), 'w').write('\n'.join(full))
 

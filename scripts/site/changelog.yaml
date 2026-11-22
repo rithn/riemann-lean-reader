@@ -3,6 +3,14 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-22
+  title: Core, numbers, timeline and a new About page
+  items:
+    - "New pages: /core/ (the 16 core clusters in route order, with names checked against the code), /proof-in-numbers/ (every figure of the proof, with sources) and /timeline/ (1748 to the 2026 Lean proof)."
+    - "/about/ is now about the map itself: what it is, how it was made, who made it, the licence and where AI was used. The status of the proof is on /status/."
+    - "The 160 files in the archive but not on the map were recounted: 150 import-only files, 5 build helpers and 5 with no theorem or definition."
+    - "Checked clusters link to all 16 core clusters; k0677's summary line now says what the cluster holds. On the explainer, the Simple / Student / Expert tabs no longer cover the zeros figure."
+
+- date: 2026-11-22
   title: Zeros figure and share links
   items:
     - "The explainer shows the critical strip with the first ten zeros of the zeta function at their true heights, the trivial zeros and the pole at s = 1."

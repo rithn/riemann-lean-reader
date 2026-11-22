@@ -150,7 +150,9 @@ k2404:
 k0677:
   verdict: minor fix
   title: Main theorem statements, plus the explicit formula for Dirichlet L-functions
-  plain: 'This group holds the project''s front door. Statements.lean spells out the Riemann hypothesis and its Dirichlet
+  # first sentence ("This group holds the project's front door.") dropped from the checked text on 22 Nov 2026: it was the
+  # summary line on the map and said nothing about the code; the rest is as checked
+  plain: 'Statements.lean spells out the Riemann hypothesis and its Dirichlet
     L-function versions, and Main.lean proves them by pointing to the final assembly elsewhere. Most of the other files prove
     a standard explicit formula: a prime sum twisted by a character is controlled by the zeros of its L-function, with the
     zeros near any height counted and Perron''s formula bounded. A third set of files only states alternative "if these prime-sum
