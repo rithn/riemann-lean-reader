@@ -22,6 +22,35 @@ M = json.load(open(os.path.join(D, 'map.json')))
 CL = {c['id']: c for c in M['clusters']}
 TH = {t['id']: t for t in M['themes']}
 
+# ---------- fields and tags: copies of research/content/fields.yaml and research/content/tags/cluster-tags.json, kept in
+# data/ so the build does not depend on research/. A theme belongs to one of 9 fields; a cluster's field is its theme's.
+# A cluster's era is the decade of the newest concept it needs, its level the highest level among those concepts.
+FY = yaml.safe_load(open(os.path.join(REPO, 'data', 'fields.yaml')))
+FIELDS = FY['fields']
+FIDX = {f['id']: i for i, f in enumerate(FIELDS)}
+TFIELD = {t: FY['themes'][t]['field'] for t in TH}
+assert set(TFIELD.values()) <= set(FIDX), 'fields.yaml: a theme names an unknown field'
+# short chip labels and the lightness each hue needs on the navy background (contrast 7.5:1 or more against #0b1230;
+# indigo and violet need the most). The app reads both from overview.json 'fields'.
+FIELD_SHORT = {'nt': 'Number theory', 'aut': 'Automorphic', 'theta': 'Theta & Siegel–Weil', 'lat': 'Lattices',
+               'ht': 'Heights', 'av': 'Abelian varieties', 'padic': 'p-adic Hodge', 'ag': 'Algebraic geometry',
+               'an': 'Harmonic analysis'}
+FIELD_L = {'nt': 56, 'aut': 72, 'theta': 72, 'lat': 58, 'ht': 64, 'av': 76, 'padic': 58, 'ag': 82, 'an': 58}
+def fcol(f):   # a field's colour, as the app draws it (col() in app.js with the field's lightness)
+    return f'hsla({f["hue"]},80%,{FIELD_L[f["id"]]}%,1)'
+CTAGS = json.load(open(os.path.join(REPO, 'data', 'cluster-tags.json')))
+assert set(CTAGS) == set(CL), 'cluster-tags.json does not cover the clusters exactly'
+ERAS = [('pre1900', 'before 1900'), ('1900-1949', '1900–1949'), ('1950s', '1950s'), ('1960s', '1960s'), ('1970s', '1970s'),
+        ('1980s', '1980s'), ('1990s', '1990s'), ('2000s', '2000s'), ('2010s', '2010s'), ('2020s', '2020s')]
+ERA_OF = {'before 1900': 0, '1900-1949': 1, **{e: i for i, (e, _) in enumerate(ERAS) if i > 1}}
+LEVELS = [('school', 'School'), ('ug', 'Undergraduate'), ('grad', 'Graduate'), ('phd', 'PhD'), ('research', 'Research')]
+LEVEL_OF = {n: i for i, (_, n) in enumerate(LEVELS)}
+assert all(x['era'] in ERA_OF and x['level'] in LEVEL_OF for x in CTAGS.values()), 'cluster-tags.json: unknown era or level'
+def ctag_line(k):   # 'Abelian varieties · 1960s · PhD level' (static cluster pages; the app writes its own)
+    x = CTAGS[k]
+    return ' · '.join([FIELDS[FIDX[TFIELD[CL[k]['theme']]]]['name'], ERAS[ERA_OF[x['era']]][1], f'{x["level"]} level']
+                      + (['new in this proof'] if x['new_in_proof'] else []))
+
 # ---------- names: newest run wins (sampled-fixed > full-data > first sampled)
 NAMES = {}
 for sub in ('naming-s10/out', 'naming/out-pilot', 'naming/out', 'naming-s10b/out'):
@@ -446,7 +475,18 @@ overview = {
                for t, th in TH.items()],
     'tedges': [[a, b, x] for (a, b), x in w.items()],
     'clusters': [],
+    # fields: the map's default colours and a filter (themes carry 'f', the field's index). 'l' is the lightness the hue
+    # needs on the navy background. Era and level per cluster are one digit each, in the order of 'clusters' (an index
+    # into 'eras' / 'levels'); 'new' lists the clusters (as numbers) that rest on the proof's own constructions.
+    'fields': [{'id': f['id'], 'name': f['name'], 'short': FIELD_SHORT[f['id']], 'hue': f['hue'], 'l': FIELD_L[f['id']],
+                'description': f['description']} for f in FIELDS],
+    'eras': [{'id': i, 'name': n} for i, n in ERAS],
+    'levels': [{'id': i, 'name': n} for i, n in LEVELS],
+    'tags': {'era': ''.join(str(ERA_OF[CTAGS[k]['era']]) for k in CL), 'level': ''.join(str(LEVEL_OF[CTAGS[k]['level']]) for k in CL),
+             'new': [int(k[1:]) for k in CL if CTAGS[k]['new_in_proof']]},
 }
+for o in overview['themes']:
+    o['f'] = FIDX[TFIELD[o['id']]]
 for k, c in CL.items():
     n = NAMES.get(k, {})
     overview['clusters'].append({
@@ -765,7 +805,6 @@ def neighbours(title, ids, on_route):
 MAIN = CPATH[main]
 # route glyph: the import route to the main theorem, as inline SVG (keep in step with routeGlyph() in app.js).
 # 1-3 steps: one dot per step, then the gold star; 4 or more: two dots, an ellipsis, the count in a ring, the star.
-THUE = {t: (i * 137.508 + 210) % 360 for i, t in enumerate(TH)}   # the app's theme hues (same order as overview themes)
 def route_glyph(d, color):
     import math
     parts = ['star'] if d == 0 else (['dot'] * d if d <= 3 else ['dot', 'dot', 'gap', 'num']) + ['star']
@@ -820,7 +859,8 @@ for t, th in TH.items():
     rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Theme</div>'
             f'<div class="eyebrow">Theme · Lean proof of the Riemann hypothesis</div>'
-            f'<h1>{H(TNAME[t])}</h1>' + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
+            f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>'
+            + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
             f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k, sub=oneline(k)) for k in cs)}</ul>'
             + (f'<h2>Related themes</h2><ul class="rows">' + ''.join(
                 f'<li><a href="{TPATH[o]}"><span class="t">{H(TNAME[o])}<small>{x} import links between their clusters</small></span></a></li>'
@@ -841,7 +881,7 @@ for k, p in CPATH.items():
     route = ''
     if k in dist and dist[k] > 0:   # the glyph is decorative here; the hidden text carries the meaning
         route = (f'<p class="meta"><a class="rglink" href="{MAIN}" title="{steps_txt(dist[k])}">'
-                 f'{route_glyph(dist[k], f"hsla({THUE[c["theme"]]:g},80%,72%,1)")}<span class="sr">{steps_txt(dist[k])}.</span></a></p>')
+                 f'{route_glyph(dist[k], fcol(FIELDS[FIDX[TFIELD[c["theme"]]]]))}<span class="sr">{steps_txt(dist[k])}.</span></a></p>')
     elif k == main:
         route = f'<p class="meta">{route_glyph(0, "#f5c46b")} This cluster holds the main theorem.</p>'
     th = c['theme']
@@ -858,7 +898,7 @@ for k, p in CPATH.items():
     on_route = set(up)
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
             f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k} · Lean proof of the Riemann hypothesis</div><h1>{H(title)}</h1>'
-            f'<p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>{STATUS}{why}'
+            f'<p class="meta tags">{H(ctag_line(k))}</p><p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>{STATUS}{why}'
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
             + (f'<h2>In the learning path</h2><ul class="rows">' + ''.join(
                 f'<li><a href="/learn/#{H(x["id"])}"><span class="t">{H(x["title"])}<small>{H(x["kind"])}</small></span></a></li>' for x in lp)
@@ -995,7 +1035,7 @@ DATASET = {
     'creator': {'@id': ORG_ID}, 'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isBasedOn': NOTE,
     'keywords': ['Riemann hypothesis', 'Lean 4', 'formal proof', 'Mathlib', 'proof map', 'import graph'],
     'distribution': [{'@type': 'DataDownload', 'encodingFormat': 'application/json', 'contentUrl': SITE + u, 'name': nm}
-                     for u, nm in (('/api/clusters.json', 'Clusters: id, title, theme, page, files, distance from the main theorem'),
+                     for u, nm in (('/api/clusters.json', 'Clusters: id, title, theme, page, files, distance from the main theorem, field, era, maths level'),
                                    ('/api/themes.json', 'Themes: id, name, blurb, page, clusters, files'),
                                    ('/api/status.json', 'Dated status of the proof, with primary sources'))],
 }
@@ -1025,18 +1065,32 @@ API_STATUS = {
     'license': {'url': LICENSE, 'name': 'CC BY 4.0', 'applies_to': "this site's own data (cluster and theme names, descriptions, map layout, JSON); the Lean source keeps its own licence"},
 }
 jdump('status.json', API_STATUS)
+API_FIELDS = [{'id': f['id'], 'name': f['name'], 'hue': f['hue'], 'description': f['description']} for f in FIELDS]
 jdump('clusters.json', {'updated': DATA_DATE, 'site': SITE, 'fields': {'path': 'page on the site (prefix with site)', 'dist': 'import steps from the main theorem (null: not reachable)',
-      'files': 'Lean files in the cluster'}, 'main': main, 'clusters': [
+      'files': 'Lean files in the cluster', 'field': "id of the cluster's field of mathematics (that of its theme; see math_fields)",
+      'era': 'decade of the newest concept the cluster needs: ' + ', '.join(n for n, _ in ERA_OF.items()),
+      'era_year': 'year of that newest concept', 'level': 'highest maths level among its concepts: ' + ', '.join(n for _, n in LEVELS),
+      'new_in_proof': "true if it rests on the proof's own named constructions rather than published mathematics"},
+      'tags_note': 'field, era and level are editorial tags derived from the theme and cluster descriptions and their concept tags; they may be wrong',
+      'math_fields': API_FIELDS, 'main': main, 'clusters': [
     {'id': k, 'title': NAMES[k]['title'] if k in NAMES else None, 'theme': CL[k]['theme'], 'path': CPATH[k],
-     'files': fcount[k], 'dist': dist.get(k)} for k in CL]})
+     'files': fcount[k], 'dist': dist.get(k), 'field': TFIELD[CL[k]['theme']], 'era': CTAGS[k]['era'], 'era_year': CTAGS[k]['era_year'],
+     'level': CTAGS[k]['level'], 'new_in_proof': CTAGS[k]['new_in_proof']} for k in CL]})
 jdump('themes.json', {'updated': DATA_DATE, 'fields': {'files': 'Lean files in the theme (all themes sum to the mapped total)',
-      'units': 'units after folding wrappers and single-use helpers into the file they belong to', 'clusters': 'clusters in the theme'}, 'themes': [
+      'units': 'units after folding wrappers and single-use helpers into the file they belong to', 'clusters': 'clusters in the theme',
+      'field': 'id of the field of mathematics the theme belongs to (see math_fields in /api/clusters.json)'}, 'themes': [
     {'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'path': TPATH[t], 'url': SITE + TPATH[t],
-     'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters']), 'units': size[t]} for t in TH]})
+     'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters']), 'units': size[t], 'field': TFIELD[t]} for t in TH]})
 API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
              'endpoints': {'/api/status.json': 'dated proof status with primary sources',
-                           '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist',
-                           '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files'},
+                           '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist, field, era, era_year, level, new_in_proof; plus math_fields, the {len(FIELDS)} fields (id, name, hue, description)',
+                           '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files, field'},
+             'tags': {'field': f'one of {len(FIELDS)} fields of mathematics per theme; a cluster takes its theme\'s field',
+                      'era': 'decade of the newest concept a cluster needs: ' + ', '.join(ERA_OF),
+                      'level': 'highest maths level among a cluster\'s concepts: ' + ', '.join(n for _, n in LEVELS),
+                      'new_in_proof': 'the cluster rests on the proof\'s own named constructions',
+                      'note': 'editorial tags derived from descriptions and concept tags; they may be wrong',
+                      'map_filters': 'the map takes the same filters in its URL, e.g. /?field=av,aut&d=0-4&era=1960s&level=phd&new=1; /list/ too'},
              'markdown': 'every HTML page has a Markdown copy at <page>index.md, e.g. /about/index.md',
              'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH,
              'license': API_STATUS['license']}

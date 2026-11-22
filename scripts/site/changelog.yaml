@@ -22,6 +22,8 @@
     - "Lean source in a wide viewer: file pages open with the source already loading, cluster file lists have a </> button, and the import lines at the top of a file are links (files in the archive open in the viewer; Mathlib, Batteries and Lean core files open their Mathlib docs page)."
     - "/route/ is now a picture: one ring per import step from the main theorem, sized by its number of clusters; click a ring to list its clusters."
     - "Status wording: the joint statement does not claim peer review, and no refereed paper has been announced."
+    - "The map is coloured by nine fields of mathematics (theme colours, or distance from the main theorem, are one tap away), and can be filtered by field, distance, era (the decade of the newest concept a cluster needs), maths level, and what is new in this proof. Filters are part of the address, so a filtered view can be shared, and the list view uses the same filters."
+    - "Cluster panels and pages show each cluster's field, era and maths level; /api/clusters.json has them too."
 
 - date: 2026-11-21
   title: Proof certified; launch of the map

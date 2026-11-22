@@ -1,0 +1,357 @@
+# Field grouping for the 63 themes of riemannhypothesissolved.com.
+# Colour hues are 0-360 (HSL, saturation 80%); the lightness for each is FIELD_L in scripts/site/build_site.py. Picked for
+# distinctness on the navy background (#0b1230): no two fields closer than 0.09 in OKLab, every field at contrast >= 7.5:1, and
+# nothing between hues 25 and 65, which is the main theorem's gold.
+fields:
+  - id: nt
+    name: "Classical number theory"
+    description: "Primes, ideals, class field theory, Hecke characters and L-functions: the classical machinery for numbers beyond the integers."
+    hue: 74
+  - id: aut
+    name: "Automorphic forms"
+    description: "Highly symmetric functions and the representations of matrix groups (GL_n, unitary groups) that they generate, over the rationals, number fields and p-adic fields."
+    hue: 216
+  - id: theta
+    name: "Theta & Siegel–Weil"
+    description: "Theta lifts: a machine that carries symmetric functions from one group to another, plus the Siegel–Weil formula that evaluates the sums behind it."
+    hue: 304
+  - id: lat
+    name: "Lattices & mass"
+    description: "Counting and measuring lattices (grids of points with extra structure), including mass formulas, volumes and local densities of unitary groups."
+    hue: 188
+  - id: ht
+    name: "Heights & Arakelov"
+    description: "Measuring the arithmetic size of points and geometric objects, with arithmetic intersection numbers and metrics on bundles."
+    hue: 22
+  - id: av
+    name: "Abelian varieties"
+    description: "Abelian varieties, their moduli, degenerations and complex multiplication: the geometric shapes that carry the arithmetic."
+    hue: 342
+  - id: padic
+    name: "p-adic Hodge theory"
+    description: "How p-adic Galois symmetries act on geometric objects, via period rings, Wach modules, deformation rings and Euler systems."
+    hue: 120
+  - id: ag
+    name: "Algebraic geometry"
+    description: "General scheme theory and cohomology: resolution of singularities, étale cohomology, ample bundles and vanishing theorems."
+    hue: 276
+  - id: an
+    name: "Harmonic analysis"
+    description: "Fourier transforms, wave and heat operators, and estimates for functions on matrix groups and real Lie groups."
+    hue: 158
+themes:
+  th001:
+    field: ht
+    secondary: null
+    confidence: low
+    reason: "Mostly pure symmetric-function algebra (Schur polynomials at roots of unity, tableaux, Vandermonde blocks, about 60% of files) plus Gaussian lattice sums and prime-sum remainder bounds. Filed under the heights folder, but the mathematics is algebra and combinatorics; there is no algebra field because it would hold 0.2% of files."
+  th002:
+    field: padic
+    secondary: null
+    confidence: high
+    reason: "Wach modules, Hodge–Tate chains and cohomology torsion lengths over valuation rings; many clusters are generic valuation-length estimates in service of these."
+  th003:
+    field: ag
+    secondary: null
+    confidence: high
+    reason: "Every large cluster is blowups, marked ideals, order reduction and principalization: Hironaka-style resolution in characteristic zero."
+  th004:
+    field: ht
+    secondary: an
+    confidence: high
+    reason: "Chow forms and Chow heights, heights of lattices and Hermitian bundles, Mahler-type bounds; the analytic-set material (Crofton formula, chart mass, germs) is the analytic tool for the height bounds."
+  th005:
+    field: lat
+    secondary: aut
+    confidence: medium
+    reason: "Hermitian spaces over number fields, Haar measure and finite volume of adelic unitary quotients: lattice volume results, close to automorphic territory."
+  th006:
+    field: ht
+    secondary: null
+    confidence: high
+    reason: "Arithmetic intersection numbers on flag bundles over discrete valuation rings, vertical divisors, models over projective space."
+  th007:
+    field: nt
+    secondary: padic
+    confidence: medium
+    reason: "Smaller clusters are genuine class field theory (Greenberg–Wiles, Poitou–Tate, global class formations, Artin/Chebotarev, ideles), but the three biggest clusters are Siegel–Eisenstein continuation, Shintani cones and partial zeta values, and Lubin–Tate/p-adic Hodge periods."
+  th008:
+    field: ag
+    secondary: null
+    confidence: high
+    reason: "Étale algebras, Henselian rings, strict Henselisation, Kummer theory, hypercohomology and finiteness/vanishing for étale cohomology."
+  th009:
+    field: ht
+    secondary: null
+    confidence: high
+    reason: "Heights of generic points via places and Gauss norms, Chow heights, Bertini scaling, Hilbert polynomials of Chow forms."
+  th010:
+    field: an
+    secondary: aut
+    confidence: medium
+    reason: "Fourier decay and partial Bessel transforms, Capelli operators, wave operators, radial decomposition, plus assembly steps for named theorems about unitary-group periods; analysis in service of automorphic periods."
+  th011:
+    field: aut
+    secondary: null
+    confidence: medium
+    reason: "Finite-field GL_n representation theory (Harish-Chandra induction, cuspidal characters, Whittaker, mirabolic derivatives) and bad-polynomial counts. This is the finite-field analogue of the p-adic theory, so it sits with representation theory."
+  th012:
+    field: ht
+    secondary: an
+    confidence: medium
+    reason: "Plurisubharmonic regularisation, weighted energies, Stokes limits and normal-crossing boundaries, all feeding a lower bound for heights; analysis-heavy."
+  th013:
+    field: ht
+    secondary: ag
+    confidence: high
+    reason: "Hilbert–Samuel counting, Moriwaki-style arithmetic bigness, successive minima, Arakelov metrics, intersection numbers; also commutative-algebra lemmas (Krull dimension, multi-homogeneous ideals)."
+  th014:
+    field: lat
+    secondary: aut
+    confidence: high
+    reason: "Counting sublattices and frames of Hermitian lattices, local densities, mass of lattices, strong approximation for stabilisers, unimodular gluing."
+  th015:
+    field: padic
+    secondary: aut
+    confidence: medium
+    reason: "Breuil–Kisin modules, A_inf, prisms, A_cris, B_cris and Hodge–Tate jumps are the core, but two of the four biggest clusters (about 370 files) are Weil representation machinery and Jacquet–Rallis transfer on matrix spaces."
+  th016:
+    field: lat
+    secondary: theta
+    confidence: medium
+    reason: "Stabiliser volumes, local volume formulas, Jacobian and different computations, mass-formula assembly using Siegel–Weil as an input."
+  th017:
+    field: lat
+    secondary: an
+    confidence: low
+    reason: "Mixture of reduction theory and geometry of numbers (about 30%), dbar/L2 estimates, étale charts, Arakelov degrees, cusp-form decay and period charts; no single field dominates."
+  th018:
+    field: aut
+    secondary: theta
+    confidence: medium
+    reason: "Polynomial representations of GL, Weyl modules, Gelfand–Tsetlin branching, Fock space, Howe duality; representation theory with a theta flavour. Algebraic in style, so low weight on an algebra label."
+  th019:
+    field: aut
+    secondary: theta
+    confidence: high
+    reason: "Rankin–Selberg, local Whittaker functions for GL2/GL3, zeta integrals and the Weil representation for quadratic base change."
+  th020:
+    field: nt
+    secondary: aut
+    confidence: high
+    reason: "Zero-free regions, Siegel–Walfisz, primes in progressions, Hecke characters, ideles, Artin reciprocity, Hasse norm principle; the Eisenstein/partial-zeta clusters lean automorphic."
+  th021:
+    field: av
+    secondary: theta
+    confidence: low
+    reason: "Odd theta function and CM elliptic curves, p-adic sigma functions, Eisenstein limits, adelic lattices and \"inert kernel\" frames: a blend of abelian-variety, theta, p-adic and lattice material."
+  th022:
+    field: padic
+    secondary: nt
+    confidence: medium
+    reason: "Kato-style Euler systems: Kummer classes of modular and Siegel units, p-adic cyclotomic towers, Bloch–Kato conditions, deformation lemmas; the largest cluster is Hecke operators and Eichler integrals."
+  th023:
+    field: an
+    secondary: aut
+    confidence: medium
+    reason: "Real reductive-group analysis: smooth vectors, Gårding finiteness, Casselman–Wallach lifts, K-types and Laplacian estimates for discrete series, Capelli identities and Bessel moment estimates. Could equally be filed as representation theory."
+  th024:
+    field: padic
+    secondary: null
+    confidence: high
+    reason: "De Rham implies potentially semistable, Wach lattices, Frobenius lifting, admissible filtered modules, Bloch–Kato and Selmer-length bounds."
+  th025:
+    field: an
+    secondary: theta
+    confidence: medium
+    reason: "Matrix-group calculus, Cayley transforms, wave and heat kernels, convergence and gluing: analysis steps for one continuation theorem about Siegel–Weil sums."
+  th026:
+    field: av
+    secondary: padic
+    confidence: low
+    reason: "Formal group logarithms, p-divisible groups, jet charts of abelian schemes, biextensions, Hodge–Tate kernels, alongside unrelated \"depth data at primes of CM fields\" and eigenvector-projection clusters."
+  th027:
+    field: ht
+    secondary: an
+    confidence: medium
+    reason: "Explicit block metric on flag varieties: matrix minors, factorisations, holomorphic charts and smooth potentials (small theme, all at distance 5)."
+  th028:
+    field: ht
+    secondary: padic
+    confidence: medium
+    reason: "Hodge inner products, Monge–Ampère integrals, intersection systems and nef lines, Chow forms and uniform height bounds; also Hopf orders and Hodge–Tate families."
+  th029:
+    field: padic
+    secondary: aut
+    confidence: high
+    reason: "Universal deformation rings, local deformation conditions, crystalline/ordinary deformations, potential modularity, Euler characteristics and Sha bounds; Stickelberger and matrix-algebra patching clusters are supporting algebra."
+  th030:
+    field: lat
+    secondary: aut
+    confidence: low
+    reason: "Lattice covolumes and unitary mass-formula measures (about 40%) mixed with the \"Hida setting\" for Bessel models, Petersson positivity and the Theorem S recursion; the name is not informative."
+  th031:
+    field: ag
+    secondary: null
+    confidence: high
+    reason: "Čech and de Rham cohomology on proper schemes, Kähler differentials, Cartier operator, Chow lemma. \"Galois local maximality\" appears only in two or three small clusters."
+  th032:
+    field: aut
+    secondary: null
+    confidence: high
+    reason: "Smooth GL_n representations over local fields: Bernstein–Zelevinsky derivatives, Jacquet modules, Zelevinsky classification, principal series, Satake parameters."
+  th033:
+    field: aut
+    secondary: null
+    confidence: high
+    reason: "Automorphic forms on adelic GL_n: multiplicity one, Godement–Jacquet zeta integrals, base-change matching, trace and truncation estimates."
+  th034:
+    field: padic
+    secondary: ag
+    confidence: high
+    reason: "Crystalline–semistable comparison, A_cris with divided powers, Hodge–Tate surjectivity, Hodge–Čech comparison for p-adic models."
+  th035:
+    field: av
+    secondary: theta
+    confidence: high
+    reason: "Theta constants and the key formula, Siegel-space actions, CM elliptic curves and CM abelian varieties, uniformisation and integral models."
+  th036:
+    field: aut
+    secondary: nt
+    confidence: low
+    reason: "Despite the name, the clusters are mostly Hermitian similitude groups, double-coset sums, Hecke trace conjugation and unitary groups over CM fields; actual local class field theory is a small part (Brauer groups, unramified extensions, group cohomology)."
+  th037:
+    field: av
+    secondary: theta
+    confidence: medium
+    reason: "Theta values along families of abelian varieties, integral and p-adic models, cusp-form values and level structures; theta-flavoured but geometric."
+  th038:
+    field: aut
+    secondary: null
+    confidence: medium
+    reason: "Cuspidal cohomology and Borel harmonic forms, symmetric-power transfer orbit counts, local quadratic algebras; much of it is \"results quoted from the literature\"."
+  th039:
+    field: av
+    secondary: ag
+    confidence: high
+    reason: "Néron models, dual abelian schemes, polarisations, lifting and descent for abelian and semistable group schemes, Harris–Taylor/Kottwitz moduli models."
+  th040:
+    field: lat
+    secondary: theta
+    confidence: low
+    reason: "Decorated and unimodular lattices, genus and weak approximation, column-norm bounds, adelic frames, alongside third-place theta lifts and Langlands inputs; a grab-bag, name does not describe it."
+  th041:
+    field: av
+    secondary: padic
+    confidence: medium
+    reason: "p-divisible groups, formal group laws, Dieudonné-style modules and Katz-style quasi-logarithms (single small theme); could equally go with p-adic Hodge theory."
+  th042:
+    field: av
+    secondary: ag
+    confidence: medium
+    reason: "Toroidal models and charts for Siegel/CM moduli, theta systems and line-bundle extension; fans, cones and regular local rings are the tools, not the topic."
+  th043:
+    field: av
+    secondary: null
+    confidence: high
+    reason: "Uniformisation and degeneration data, Mumford bundles, Rosati involution, theta sections on abelian varieties with semi-abelian reduction."
+  th044:
+    field: ag
+    secondary: null
+    confidence: high
+    reason: "Kleiman ampleness: Snapper polynomials, twists and nefness, Čech cohomology and Euler characteristics; elementary symmetric functions are a minor part."
+  th045:
+    field: ag
+    secondary: av
+    confidence: low
+    reason: "A single cluster (\"Čech periods for uniformised abelian varieties\", 90 files); name says Čech–de Rham comparison, content is abelian-variety periods."
+  th046:
+    field: aut
+    secondary: theta
+    confidence: low
+    reason: "Trace-formula ingredients, cuspidal spectrum, discrete series, regular semisimple elements and adelic unitary groups (majority), with theta lifts at real places and L-values; \"genus mass and indefinite lattices\" describes little of it."
+  th047:
+    field: av
+    secondary: ag
+    confidence: high
+    reason: "Lifting obstructions and Kodaira–Spencer for abelian schemes, cohomology of abelian varieties, Dieudonné theory, Harris–Taylor models."
+  th048:
+    field: aut
+    secondary: padic
+    confidence: low
+    reason: "Mixed bag: height-counting assembly, local Langlands statements, Satake parameters and Hecke algebras (about half), Bloch–Kato/Selmer reductions and admissible p-adic Hodge parameters (about a third), theta pairs."
+  th049:
+    field: theta
+    secondary: lat
+    confidence: low
+    reason: "About half theta (doubling, Howe duality, oscillator and Fock models), a quarter lattices and mass (Tamagawa number, finite volume), the rest Satake/Hecke spherical data."
+  th050:
+    field: ht
+    secondary: av
+    confidence: medium
+    reason: "Chern forms, Hermitian curvature, Monge–Ampère pullbacks, metrics on arithmetic bundles, p-adic heights on Shimura models; \"automorphic membership\" in the name is not what the clusters are about."
+  th051:
+    field: aut
+    secondary: null
+    confidence: high
+    reason: "Base change and discrete spectrum for GL_n and unitary groups: cusp forms, Whittaker transforms, Hecke eigenvalue limits, twisted orbital integrals; a \"unit lemma\" side branch is algebraic number theory."
+  th052:
+    field: ag
+    secondary: ht
+    confidence: medium
+    reason: "Kawamata–Viehweg and Nadel vanishing, log canonical pairs, discrepancies, Cartier divisors, effective generation; arithmetic content appears as \"height-covolume links\" and slope positivity."
+  th053:
+    field: theta
+    secondary: null
+    confidence: high
+    reason: "Nearly every cluster is titled \"Siegel–Weil\": Lagrangian decomposition, vacuum vectors, Schrödinger models, unfolding, Whittaker covolume."
+  th054:
+    field: theta
+    secondary: aut
+    confidence: medium
+    reason: "Doubling method, theta kernels, Fock models, seesaw pairs (about 55%), with reduction theory/Siegel sets, Eisenstein series and smooth paths in adelic unitary groups."
+  th055:
+    field: aut
+    secondary: padic
+    confidence: medium
+    reason: "Local Langlands, Tate epsilon factors, Artin reciprocity, newforms and Hecke operators on one side, potentially crystalline Galois representations and Hida theory on the other; a modularity-lifting bridge theme."
+  th056:
+    field: theta
+    secondary: null
+    confidence: high
+    reason: "Doubled Schrödinger model, Heisenberg theta vacua, Weil representation continuity and unitarity, theta transforms on CM adele spaces."
+  th057:
+    field: theta
+    secondary: lat
+    confidence: medium
+    reason: "See-saw dual pairs, split-place theta sums, Bessel compatibility; also lattice and Witt-frame material, as the name says."
+  th058:
+    field: theta
+    secondary: an
+    confidence: medium
+    reason: "Rank-one Siegel–Weil and Hua integrals, Whittaker integrals, theta integrals on adeles, Hermitian matrix integrals. \"Hecke character zero loci\" in the name is not supported by the clusters."
+  th059:
+    field: theta
+    secondary: aut
+    confidence: high
+    reason: "Doubling method, regularised Siegel–Weil, Gaussian laws for the Weil representation, Eisenstein measures, Fourier–Jacobi expansions."
+  th060:
+    field: theta
+    secondary: null
+    confidence: high
+    reason: "Almost every cluster is about theta-lift families: main hypotheses, bottom-row Bessel pairs, family-wide conditions, level subgroups."
+  th061:
+    field: theta
+    secondary: aut
+    confidence: medium
+    reason: "GL2 theta lifts, Fock operators and Weil representation over totally real fields, Whittaker–Hecke eigenvalues; \"split eigenfunctions on real groups\" is misleading."
+  th062:
+    field: theta
+    secondary: lat
+    confidence: medium
+    reason: "Howe duality, Stone–von Neumann and Schrödinger models, inert places and doubled vacuum vectors, self-dual tensor lattices; name (\"row-side Hecke models\") is opaque."
+  th063:
+    field: theta
+    secondary: aut
+    confidence: medium
+    reason: "Theta-lift growth along cusps, conjugate Weil data, twisted theta lifts along \"grid paths\", Gauss sums; \"character grids and wild jets\" is an opaque name for theta-lift test families."
