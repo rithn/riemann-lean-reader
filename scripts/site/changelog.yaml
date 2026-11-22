@@ -3,6 +3,14 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-22
+  title: Small fixes from a check of the live site
+  items:
+    - "Filters that leave 30 clusters or fewer zoom the map to them and ring each one in gold."
+    - "Cluster panels say that Builds on and Needed by count direct imports; the main theorem's line says it reaches every other cluster through chains of imports."
+    - "/list/ has a Markdown copy (/list/index.md) listing every cluster by distance from the main theorem."
+    - "On phones the header shows \"Certified\" next to its green dot, and the Lean source viewer wraps long lines. The route page says that clicking a ring lists its clusters, and the zeros figure's caption says the mirror images below the axis are not shown."
+
+- date: 2026-11-22
   title: Core, numbers, timeline and a new About page
   items:
     - "New pages: /core/ (the 16 core clusters in route order, with names checked against the code), /proof-in-numbers/ (every figure of the proof, with sources) and /timeline/ (1748 to the 2026 Lean proof)."

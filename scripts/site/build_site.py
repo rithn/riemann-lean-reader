@@ -238,6 +238,7 @@ ST_MORE = f'More independent checks: <a href="{DREW}">math.mit.edu/~drew/grh</a>
 ST_SHORT = f'{ST_CERT} {ST_MORE}'
 ST_META = plain(ST_CERT)
 ST_CHIP = 'certified 21 Nov'   # header chip label; its tooltip is ST_META
+ST_CHIP_SHORT = 'Certified'      # the chip's label on narrow screens
 # long form: /api/status.json, llms.txt, llms-full.txt
 ST_RELEASE = (f'On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis, and of the generalized Riemann hypothesis '
               f'(GRH) for Dirichlet L-functions, as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, with a note at '
@@ -657,8 +658,9 @@ APP_V, CSS_V = hfiles([os.path.join(OUT, 'app.js')]), hfiles([os.path.join(OUT, 
 TPL = re.sub(r'<link rel="stylesheet" href="/style\.css[^"]*">', f'<link rel="stylesheet" href="/style.css?v={CSS_V}">', TPL, count=1)
 TPL = re.sub(r'<script src="/app\.js[^"]*"[^>]*></script>', f'<script src="/app.js?v={APP_V}" data-v="{DATA_V}"></script>', TPL, count=1)
 TPL = re.sub(r'Charting [\d,]+ Lean files…', f'Charting {TOTAL_FILES:,} Lean files…', TPL)
-TPL = re.sub(r'<a class="status-chip ok" href="/(?:about|status)/" title="[^"]*">\s*<i></i><span>Lean proof · <b>[^<]*</b></span>',
-             f'<a class="status-chip ok" href="/status/" title="{H(ST_META)} How it was checked.">\n    <i></i><span>Lean proof · <b>{ST_CHIP}</b></span>', TPL, count=1)
+TPL = re.sub(r'<a class="status-chip ok" href="/(?:about|status)/" title="[^"]*"(?: aria-label="[^"]*")?>\s*<i></i><span>Lean proof · <b>[^<]*</b></span>(?:<small class="cshort">[^<]*</small>)?',
+             f'<a class="status-chip ok" href="/status/" title="{H(ST_META)} How it was checked." aria-label="Lean proof {ST_CHIP}: status of the proof">'
+             f'\n    <i></i><span>Lean proof · <b>{ST_CHIP}</b></span><small class="cshort">{ST_CHIP_SHORT}</small>', TPL, count=1)
 assert ST_META in html.unescape(TPL), 'status chip not found in the index.html template'
 assert f"GH_SHA = '{LEAN_SHA}'" in open(os.path.join(OUT, 'app.js')).read(), 'app.js GH_SHA differs from LEAN_SHA'
 assert f'data-v="{DATA_V}"' in TPL and f'style.css?v={CSS_V}' in TPL
@@ -863,16 +865,19 @@ def pct(n):
     return f'{p:.0f}%' if p >= 1 else ('under 1%' if n else '0%')
 def feeds_txt(k):
     if k == main:
-        return f'The whole proof feeds into it: it builds on all {builds[main]:,} other clusters.'
+        return (f'The whole proof feeds into it: through chains of imports it builds on all {builds[main]:,} other clusters '
+                '(Builds on, below, counts only its direct imports).')
     n = feeds[k]
     return f'Feeds into {n:,} cluster{"" if n == 1 else "s"} · {pct(n)} of the map.'
 def neighbours(title, ids, on_route):
     """'Builds on' / 'Needed by' as plain HTML: themes with counts, key neighbours, then the full list."""
+    note = ('<p class="meta">Direct imports: clusters with a file that a file here imports.</p>' if title == 'Builds on' else
+            '<p class="meta">Direct importers: clusters with a file that imports a file here.</p>')
     if not ids:
-        return f'<h2>{title} 0 clusters</h2><p class="meta">None outside this cluster.</p>'
+        return f'<h2>{title} 0 clusters</h2>{note}<p class="meta">None outside this cluster.</p>'
     tc = collections.Counter(CL[x]['theme'] for x in ids)
     key = sorted(ids, key=lambda x: (x not in on_route, -fcount[x], x))[:3]
-    return (f'<h2>{title} {len(ids):,} cluster{"" if len(ids) == 1 else "s"}</h2>'
+    return (f'<h2>{title} {len(ids):,} cluster{"" if len(ids) == 1 else "s"}</h2>{note}'
             f'<p class="meta">By theme: ' + ', '.join(f'<a href="{TPATH[t]}">{H(TNAME[t])}</a> ({n})' for t, n in tc.most_common()) + '</p>'
             f'<p class="meta">Key: ' + ', '.join(f'<a href="{CPATH[x]}">{H(ctitle(x))}</a>' + (' (on the route to the main theorem)' if x in on_route else '') for x in key) + '</p>'
             f'<ul class="rows">{"".join(clink(x) for x in sorted(ids, key=lambda x: (dist.get(x, 99), -fcount[x])))}</ul>')
@@ -1107,8 +1112,8 @@ def md_html(t):
 ZEROS = [14.1347, 21.0220, 25.0109, 30.4249, 32.9351, 37.5862, 40.9187, 43.3271, 48.0052, 49.7738]
 ZEROS_TXT = ', '.join(f'{t:.4f}' for t in ZEROS)
 ZEROS_CAP = ('The critical strip, where 0 < Re(s) < 1, with the critical line Re(s) = ½ down its middle. The Riemann hypothesis says '
-             'every non-trivial zero of ζ lies on that line. The first ten are drawn at their true heights; each has a mirror image '
-             'below the axis. The trivial zeros sit at −2, −4, −6, … and ζ has a pole, not a zero, at s = 1.')
+             'every non-trivial zero of ζ lies on that line. The first ten above the real axis are drawn at their true heights; '
+             'their mirror images below the axis are not shown. The trivial zeros sit at −2, −4, −6, … and ζ has a pole, not a zero, at s = 1.')
 ZEROS_DESC = (f'Diagram of the complex plane, real part Re(s) across and imaginary part Im(s) up. A shaded vertical strip runs from '
               f'Re(s) = 0 to Re(s) = 1, with a gold dashed line at Re(s) = ½. Ten gold dots sit on the gold line at heights {ZEROS_TXT}. '
               'Blue dots on the real axis mark the trivial zeros at −2, −4 and −6; a cross marks the pole at s = 1.')
@@ -1245,6 +1250,18 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             open(os.path.join(OUT, path.strip('/'), f'{l}.md'), 'w').write(
                 md_abs(zeros_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
 LEVEL_PAGES = [p for f, fm, t, *_ in DRAFTS if level_split(t) for p in [fm['path']]]
+
+# ---------- /list/: an app view (rewritten to the home page), so no HTML of its own; its Markdown copy lists every
+# cluster by distance from the main theorem, so the API's "every page has a Markdown copy" holds for it too
+os.makedirs(os.path.join(OUT, 'list'), exist_ok=True)
+_lmd = [f'# Every cluster, as a list\n\nThe {len(CL):,} clusters of the map of the Lean proof of the Riemann hypothesis, by distance '
+        f'(import steps) from the main theorem\'s cluster. Interactive list: {SITE}/list/ · data: {SITE}/api/clusters.json\n']
+for d in sorted(DEPTHS) + ([None] if len(dist) < len(CL) else []):
+    ks = sorted((k for k in CL if dist.get(k) == d), key=lambda k: (-fcount[k], k))
+    _lmd.append(f'\n## {"Not reached from the main theorem" if d is None else "Depth 0 (the main theorem)" if d == 0 else f"Depth {d}"} '
+                f'({_plural(len(ks), "cluster")})\n\n'
+                + ''.join(f'- [{ctitle(k)}]({SITE}{CPATH[k]}) · {k} · {TNAME[CL[k]["theme"]]} · {fcount[k]:,} files\n' for k in ks))
+open(os.path.join(OUT, 'list', 'index.md'), 'w').write(''.join(_lmd) + f'\n---\n\nEvery cluster, as a list. Web page: {SITE}/list/ · site map for machines: {SITE}/llms.txt\n')
 
 # ---------- changelog (scripts/site/changelog.yaml) and its RSS feed
 CHANGES = sorted(yaml.safe_load(open(os.path.join(HERE, 'changelog.yaml'))), key=lambda e: str(e['date']), reverse=True)
