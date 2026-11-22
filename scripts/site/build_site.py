@@ -152,6 +152,15 @@ for line in open(os.path.join(ROOT, 'notes', 'tree', 'import_closure.tsv')):
         importers[x].append(p[0])
 
 TOTAL_FILES = len(imports)   # every .lean file in the archive (175,187); mod_cl holds the mapped ones (175,027)
+# lines of Lean in the whole archive (all 175,187 files), from the file index: 17,374,215
+TOTAL_LINES = sum(int(l.split('\t')[1]) for l in list(open(os.path.join(ROOT, 'notes', 'file_index.tsv')))[1:])
+LINES_TXT = f'about {TOTAL_LINES / 1e6:.1f} million lines'
+UNMAPPED_TXT = (f'The other {TOTAL_FILES - len(mod_cl):,} files are in the archive but not on the map, because none has a statement '
+                '(a theorem or definition) of its own: 96 are import-only files that just list other files, 5 are build helpers '
+                '(<code>BuildAid.D1</code>–<code>D5</code>), and 59 had no statements our extraction could read.')
+LICENSE = 'https://creativecommons.org/licenses/by/4.0/'
+LICENSE_TXT = ("The site's own data (cluster and theme names, descriptions, the map layout and the JSON files) is licensed under "
+               f'<a href="{LICENSE}">CC BY 4.0</a>; the Lean source keeps its own licence.')
 
 def lean_path(m):
     return m.replace('.', '/') + '.lean'
@@ -274,9 +283,9 @@ CPATH = {k: f'/cluster/{k}-{CSLUG[k]}/' for k in CL}
 overview = {
     'updated': datetime.date.today().isoformat(),
     'counts': {'clusters': len(CL), 'themes': len(TH), 'named': named,
-               'files': len(mod_cl), 'total': TOTAL_FILES, 'units': len(unit_cl)},
+               'files': len(mod_cl), 'total': TOTAL_FILES, 'units': len(unit_cl), 'lines': TOTAL_LINES},
     'main': main,
-    'themes': [{'id': t, 'name': TNAME[t], 'named': theme_name(th)[1], 'blurb': TNAMED.get(t, {}).get('blurb'), 'conf': TNAMED.get(t, {}).get('confidence'),
+    'themes': [{'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'conf': TNAMED.get(t, {}).get('confidence'),
                 'fl': theme_name(th)[0], 'n': len(th['clusters']), 's': TSLUG[t],
                 'files': size[t], 'words': th['words'][:8], 'x': r2(P[t][0]), 'y': r2(P[t][1]), 'r': r2(R[t])}
                for t, th in TH.items()],
@@ -452,7 +461,7 @@ class _MD(HTMLParser):
         s.prefix = ''
     def handle_starttag(s, tag, a):
         a = dict(a)
-        if tag in ('script', 'style'):
+        if tag in ('script', 'style', 'svg'):
             s.skip += 1
         if tag in s.BLOCK:
             s.flush()
@@ -478,7 +487,7 @@ class _MD(HTMLParser):
         elif tag == 'br':
             s.flush()
     def handle_endtag(s, tag):
-        if tag in ('script', 'style'):
+        if tag in ('script', 'style', 'svg'):
             s.skip -= 1
         if tag == 'a' and s.links:
             s.buf = s.buf.rstrip() + f']({s.links.pop()})'
@@ -565,6 +574,33 @@ def clink(k, end=''):
     return (f'<li><a href="{CPATH[k]}"><span class="t">{H(title)}<small>{H(TNAME[CL[k]["theme"]])}</small></span>'
             + (f'<span class="end">{H(end)}</span>' if end else '') + '</a></li>')
 MAIN = CPATH[main]
+# route glyph: the import route to the main theorem, as inline SVG (keep in step with routeGlyph() in app.js).
+# 1-3 steps: one dot per step, then the gold star; 4 or more: two dots, an ellipsis, the count in a ring, the star.
+THUE = {t: (i * 137.508 + 210) % 360 for i, t in enumerate(TH)}   # the app's theme hues (same order as overview themes)
+def route_glyph(d, color):
+    import math
+    parts = ['star'] if d == 0 else (['dot'] * d if d <= 3 else ['dot', 'dot', 'gap', 'num']) + ['star']
+    wd, G, cy, x, out = {'dot': 7, 'gap': 10, 'num': 15, 'star': 14}, 5, 8, 1, []
+    for i, p in enumerate(parts):
+        if i:
+            out.append(f'<line x1="{x:g}" y1="{cy}" x2="{x + G:g}" y2="{cy}" stroke="{color}" stroke-opacity=".55" stroke-width="1.4"/>'); x += G
+        cx = x + wd[p] / 2
+        if p == 'dot':
+            out.append(f'<circle cx="{cx:g}" cy="{cy}" r="3.2" fill="{color}"/>')
+        elif p == 'gap':
+            out += [f'<circle cx="{cx + o:g}" cy="{cy}" r="1.1" fill="{color}"/>' for o in (-3.2, 0, 3.2)]
+        elif p == 'num':
+            out.append(f'<circle cx="{cx:g}" cy="{cy}" r="6.8" fill="none" stroke="{color}" stroke-width="1.3"/><text x="{cx:g}" y="{cy + 3.2:g}" '
+                       f'text-anchor="middle" fill="{color}" font-family="Inter, system-ui, sans-serif" font-size="{7.5 if d > 9 else 9}" font-weight="600">{d}</text>')
+        else:
+            pts = ' '.join(f'{cx + q * math.cos(a):.1f},{cy + q * math.sin(a):.1f}' for j in range(10)
+                           for a, q in [(-math.pi / 2 + j * math.pi / 5, 6.8 if j % 2 == 0 else 6.8 * .45)])
+            out.append(f'<polygon points="{pts}" fill="#f5c46b"/>')
+        x += wd[p]
+    return (f'<span class="rg"><svg viewBox="0 0 {x + 1:g} 16" width="{x + 1:g}" height="16" aria-hidden="true" focusable="false">'
+            + ''.join(out) + '</svg></span>')
+def steps_txt(d):
+    return 'The main theorem' if d == 0 else f'{d} import step{"" if d == 1 else "s"} to the main theorem'
 STATUS = (f'<p class="meta">Proof status: on 21 Nov 2026 the <a href="{STMT}">Lean FRO and the Mathlib Initiative certified</a> '
           'the Lean statement and proof (latest check). Names and descriptions on this map are written by Claude from samples '
           'of the code and may be wrong.</p>')
@@ -613,10 +649,11 @@ for k, p in CPATH.items():
                    f'matched by word overlap · unchecked</small></div>' for h in HINTS.get(k, []))
     conc = [CONC[x]['title'] if x in CONC else x.replace('concept-', '').replace('-', ' ') for x in n.get('concepts') or []]
     route = ''
-    if k in dist and dist[k] > 0:
-        route = f'<p class="meta">{dist[k]} import steps from the <a href="{MAIN}">main theorem</a>.</p>'
+    if k in dist and dist[k] > 0:   # the glyph is decorative here; the hidden text carries the meaning
+        route = (f'<p class="meta"><a class="rglink" href="{MAIN}" title="{steps_txt(dist[k])}">'
+                 f'{route_glyph(dist[k], f"hsla({THUE[c["theme"]]:g},80%,72%,1)")}<span class="sr">{steps_txt(dist[k])}.</span></a></p>')
     elif k == main:
-        route = '<p class="meta">This cluster holds the main theorem.</p>'
+        route = f'<p class="meta">{route_glyph(0, "#f5c46b")} This cluster holds the main theorem.</p>'
     th = c['theme']
     lp = LEARN_OF.get(k, [])
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
@@ -637,7 +674,7 @@ for k, p in CPATH.items():
 # ---------- about: the status of the claim, the page most searchers want (keep in step with about() in app.js)
 STATUS_FACTS = [
     {'date': '2026-11-20', 'event': 'Levent Alpöge released a proof of the Riemann hypothesis (and GRH for Dirichlet '
-     f'L-functions) as a Lean library of {TOTAL_FILES:,} Lean files, about 17 million lines, posted with a note.', 'source': NOTE},
+     f'L-functions) as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, posted with a note.', 'source': NOTE},
     {'date': '2026-11-21', 'event': 'The Lean FRO and the Mathlib Initiative published a joint statement certifying that '
      'both the statement and the proof are correct. That is the latest check.', 'source': STMT},
 ]
@@ -649,7 +686,7 @@ CHECKS = ["The statement is Mathlib's own RiemannHypothesis, vetted by experts i
 about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About</div><div class="eyebrow">About · status of the proof</div>'
          '<h1>Has the Riemann hypothesis been solved?</h1>'
          f'<p class="lede">On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis (and GRH for Dirichlet L-functions) '
-         f'as a Lean library of {FILES_TXT}, about 17 million lines, posted with a note at <a href="{NOTE}">alpo.ge</a>. '
+         f'as a Lean library of {FILES_TXT}, {LINES_TXT}, posted with a note at <a href="{NOTE}">alpo.ge</a>. '
          f'On 21 Nov 2026 the Lean FRO and the Mathlib Initiative published a <a href="{STMT}">joint statement</a> certifying that '
          'both the statement and the proof are correct. That is the latest check.</p>'
          '<h2>How the Lean proof was checked</h2><p>According to the joint statement:</p><ul>'
@@ -657,7 +694,7 @@ about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About
          f'<p>Details: <a href="{DREW}">math.mit.edu/~drew/grh</a>.</p>'
          '<h2>What this site is</h2><p>A reading guide: a map of the Lean files, grouped by their words and imports into '
          f'{len(CL):,} clusters in {len(TH)} themes. Cluster names and descriptions were written by Claude from a sample of about one '
-         f'tenth of each cluster\'s files. They can be wrong. ' + ("All clusters are named." if named == len(CL) else f"About {round(100 * named / len(CL))}% of clusters are named so far.") + '</p>'
+         f'tenth of each cluster\'s files. They can be wrong. All {len(CL):,} clusters are named.</p><p>{UNMAPPED_TXT}</p><p>{LICENSE_TXT}</p>'
          f'<h2>Where to start</h2><ul class="rows"><li><a href="{MAIN}">The main theorem\'s cluster</a></li>'
          '<li><a href="/learn/">Learning path: from the theorem down to school maths</a></li><li><a href="/">The full map</a></li>'
          '<li><a href="/changelog/">Changelog: what changed on this site, and when</a></li></ul>'
@@ -738,7 +775,7 @@ DATASET = {
                     f'{len(CL):,} clusters in {len(TH)} themes, the import links between clusters, each cluster\'s distance in '
                     'import steps from the main theorem, and cluster names and descriptions written by Claude from samples '
                     'of the code (they may be wrong). No Lean source text is included.'),
-    'url': SITE + '/', 'sameAs': GH, 'isAccessibleForFree': True, 'inLanguage': 'en', 'dateModified': DATA_DATE,
+    'url': SITE + '/', 'sameAs': GH, 'isAccessibleForFree': True, 'license': LICENSE, 'inLanguage': 'en', 'dateModified': DATA_DATE,
     'creator': {'@id': ORG_ID}, 'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isBasedOn': NOTE,
     'keywords': ['Riemann hypothesis', 'Lean 4', 'formal proof', 'Mathlib', 'proof map', 'import graph'],
     'distribution': [{'@type': 'DataDownload', 'encodingFormat': 'application/json', 'contentUrl': SITE + u, 'name': nm}
@@ -764,6 +801,7 @@ API_STATUS = {
     'timeline': STATUS_FACTS, 'checks': CHECKS, 'checks_source': STMT, 'details': DREW, 'page': SITE + '/about/',
     'counts': {'lean_files': TOTAL_FILES, 'mapped_files': len(mod_cl), 'clusters': len(CL), 'themes': len(TH)},
     'note': 'Cluster and theme names and descriptions on this site are written by Claude from samples of the code and may be wrong.',
+    'license': {'url': LICENSE, 'name': 'CC BY 4.0', 'applies_to': "this site's own data (cluster and theme names, descriptions, map layout, JSON); the Lean source keeps its own licence"},
 }
 jdump('status.json', API_STATUS)
 jdump('clusters.json', {'updated': DATA_DATE, 'site': SITE, 'fields': {'path': 'page on the site (prefix with site)', 'dist': 'import steps from the main theorem (null: not reachable)',
@@ -778,7 +816,8 @@ API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the m
                            '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist',
                            '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files'},
              'markdown': 'every HTML page has a Markdown copy at <page>index.md, e.g. /about/index.md',
-             'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH}
+             'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH,
+             'license': API_STATUS['license']}
 jdump('index.json', API_INDEX)
 open(os.path.join(OUT, 'api', 'index.html'), 'w').write(
     '<!doctype html><meta charset="utf-8"><title>API · RH Lean Explorer</title><meta name="robots" content="noindex">'
@@ -789,6 +828,8 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
         f'This site is an interactive map of the Lean code of the proof of the Riemann hypothesis: {FILES_TXT}, grouped by their '
         f'words and imports into {len(CL):,} clusters in {len(TH)} themes. Cluster and theme names and descriptions are written by '
         'Claude from samples of the code and may be wrong. No Lean source text is hosted here.\n\n'
+        f'Licence: the site\'s own data (cluster and theme names, descriptions, map layout, JSON) is CC BY 4.0 ({LICENSE}); '
+        'the Lean source keeps its own licence.\n\n'
         f'## Status (updated {API_STATUS["updated"]})\n\n'
         + ''.join(f'- {e["date"]}: {e["event"]} Source: {e["source"]}\n' for e in STATUS_FACTS)
         + f'- Details of the checks: {DREW}\n\n'

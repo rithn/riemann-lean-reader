@@ -3,29 +3,18 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-22
-  title: List view and Lean source viewer
+  title: Clean links, list view, Lean source viewer, faster loading
   items:
-    - "New list view at /list/ (List in the top menu, or the list button by the zoom controls): every cluster as text, grouped by theme, distance from the main theorem or size, with a filter."
-    - "Lean file pages link to the file on GitHub (the public mirror, pinned to one commit) and can show its source on request."
-    - "Lean locations on concept pages link to the same GitHub commit."
-
-- date: 2026-11-22
-  title: Clean links, Markdown copies and an API
-  items:
+    - "All 2,647 clusters now have names and descriptions written by Claude, and every cluster has its own page."
     - "Pages have real addresses (for example /cluster/k0677-…/ and /about/) instead of #/ links; old #/ links still work."
-    - "Every page has a Markdown copy (add index.md to its path), and llms.txt describes the site, its status sources and data."
-    - "New /api/ with JSON for the proof status, all clusters and all themes."
-    - "This changelog and its RSS feed."
-    - "Page titles, structured data and links between the map and the explainer pages reworked."
+    - "New list view at /list/: every cluster as text, ordered by distance from the main theorem, by theme or by size, with a filter."
+    - "Lean file pages link to the file on GitHub (the public mirror, pinned to one commit) and can show its source on request."
+    - "A small route glyph shows how many import steps lead from a cluster or theme to the main theorem."
+    - "Calmer panels: fewer stat tiles, a proof-at-a-glance row on the home panel, plain theme cards."
     - "Smaller first download for the map, and long caching for versioned data."
-
-- date: 2026-11-22
-  title: All 2,647 clusters named
-  items:
-    - "All 2,647 clusters now have names and descriptions written by Claude; every cluster has its own page."
-    - "Merged different spellings of the same topic tags and book titles."
-    - "Feedback links to @SomTheBuilder on X on the home page, About, cluster panels and by the map."
-    - "robots.txt states Content-Signal: search, ai-input and ai-train allowed."
+    - "Every page has a Markdown copy (add index.md to its path); new /api/ with JSON for the proof status, clusters and themes; llms.txt."
+    - "The site's own data (names, descriptions, map layout, JSON) is licensed CC BY 4.0."
+    - "This changelog and its RSS feed; feedback links to @SomTheBuilder on X."
 
 - date: 2026-11-21
   title: Proof certified; launch of the map
