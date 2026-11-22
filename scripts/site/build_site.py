@@ -368,7 +368,7 @@ overview = {
     'main': main, 'builds': builds[main],
     'themes': [{'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'conf': TNAMED.get(t, {}).get('confidence'),
                 'fl': theme_name(th)[0], 'n': len(th['clusters']), 's': TSLUG[t],
-                'files': size[t], 'words': th['words'][:8], 'x': r2(P[t][0]), 'y': r2(P[t][1]), 'r': r2(R[t])}
+                'units': size[t], 'words': th['words'][:8], 'x': r2(P[t][0]), 'y': r2(P[t][1]), 'r': r2(R[t])}
                for t, th in TH.items()],
     'tedges': [[a, b, x] for (a, b), x in w.items()],
     'clusters': [],
@@ -391,6 +391,8 @@ for m, k in mod_cl.items():
 fcount = collections.Counter(mod_cl.values())
 for o in overview['clusters']:
     o['files'] = fcount[o['id']]
+for o in overview['themes']:   # 'files' = Lean files (sums to the mapped total); 'units' = units after folding (sums to 63,892)
+    o['files'] = sum(fcount[k] for k in TH[o['id']]['clusters'])
 for k, c in CL.items():
     n = NAMES.get(k, {})
     files = []
@@ -960,9 +962,10 @@ jdump('clusters.json', {'updated': DATA_DATE, 'site': SITE, 'fields': {'path': '
       'files': 'Lean files in the cluster'}, 'main': main, 'clusters': [
     {'id': k, 'title': NAMES[k]['title'] if k in NAMES else None, 'theme': CL[k]['theme'], 'path': CPATH[k],
      'files': fcount[k], 'dist': dist.get(k)} for k in CL]})
-jdump('themes.json', {'updated': DATA_DATE, 'themes': [
+jdump('themes.json', {'updated': DATA_DATE, 'fields': {'files': 'Lean files in the theme (all themes sum to the mapped total)',
+      'units': 'units after folding wrappers and single-use helpers into the file they belong to', 'clusters': 'clusters in the theme'}, 'themes': [
     {'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'path': TPATH[t], 'url': SITE + TPATH[t],
-     'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters'])} for t in TH]})
+     'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters']), 'units': size[t]} for t in TH]})
 API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
              'endpoints': {'/api/status.json': 'dated proof status with primary sources',
                            '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist',
