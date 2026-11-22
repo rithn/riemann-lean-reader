@@ -93,8 +93,8 @@ for n in NAMES.values():
         s['title'] = _bookform[_booktitle(s['title'].strip())]
 print(f'aliases: {len(_tagc)} tag spellings -> {len(set(_tagform.values()))}; '
       f'{len(_bookc)} book spellings -> {len(set(_bookform.values()))}')
-# the namers saw only statements, so many descriptions end by hedging about proofs; the Lean FRO and Mathlib
-# Initiative have since certified the proof (21 Nov 2026), so drop those sentences (or the hedging clause)
+# the namers saw only statements, so many descriptions end by hedging about proofs; the joint statement by the Lean and
+# Mathlib communities has since certified the proof (21 Nov 2026), so drop those sentences (or the hedging clause)
 PROOFW = re.compile(r"(?i)\b(proofs?|proved|prove|correct(ness)?|checked|confirm|judge[ds]?)\b")
 HEDGE = re.compile(r"(?i)\bI (cannot|can't|can not|could not|only|see)\b|only statements|statements only|statements? (are|is|were) (seen|visible)|visible statements|not visible|unseen|unknown|not assessed|nothing (here )?is (shown|checked)|no proofs? (is |are )?(visible|confirmed|judged)|not proofs|only see the claims")
 STMT_ONLY = re.compile(r"(?i)^(I (only )?see (only )?statements( only)?|only statements (are|were) (visible|seen)|statements only are visible)[^.]*\.$")
@@ -169,6 +169,70 @@ UNMAPPED_TXT = (f'The other {TOTAL_FILES - len(mod_cl):,} files are in the archi
 LICENSE = 'https://creativecommons.org/licenses/by/4.0/'
 LICENSE_TXT = ("The site's own data (cluster and theme names, descriptions, the map layout and the JSON files) is licensed under "
                f'<a href="{LICENSE}">CC BY 4.0</a>; the Lean source keeps its own licence.')
+
+# ---------- proof status: the ONE canonical wording (plan item 36). Every status line comes from here: page footers and
+# meta descriptions (short form), About, /api/status.json, llms.txt and llms-full.txt (long form), and the app, which reads
+# overview.json 'status' (home lede, about(), source card). Facts and quotes: research/content/fact-sheet.md, VERIFIED lines
+# only. When a sentence changes, move STATUS_AS_OF and add a changelog entry. Write HTML; plain() and mdtext() derive the rest.
+import html as _html
+STATUS_AS_OF = '2026-11-22'
+AS_OF_TXT = datetime.date.fromisoformat(STATUS_AS_OF).strftime('%-d %b %Y')
+STMT = 'https://leanprover-community.github.io/blog/posts/riemann-hypothesis/'
+NOTE, DREW = 'https://alpo.ge/remark.pdf', 'https://math.mit.edu/~drew/grh/'
+MATHLIB_RH = 'https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/LSeries/RiemannZeta.html#RiemannHypothesis'
+CLAY_RULES = 'https://www.claymath.org/millennium-problems/rules/'
+LEAN_REPO = 'https://github.com/leanprover-community/riemann-hypothesis'
+LEAN_SHA = '40e56bab026552e089d7afcfeff08d2defb9c005'   # unchanged mirror of the 175,187-file archive; app.js GH_SHA must match
+def plain(h):
+    return _html.unescape(re.sub(r'<[^>]+>', '', h))
+def mdtext(h):   # links and code only, which is all the status HTML uses
+    h = re.sub(r'<a href="([^"]+)"[^>]*>(.*?)</a>', r'[\2](\1)', h)
+    return _html.unescape(re.sub(r'<[^>]+>', '', re.sub(r'</?code>', '`', h)))
+# short form: footers, meta, the app's home lede
+ST_CERT = (f'On 21 Nov 2026 a <a href="{STMT}">joint statement</a> by the Lean and Mathlib communities, endorsed by the '
+           'Lean FRO and the Mathlib Initiative, certified the Lean statement and proof.')
+ST_MORE = f'More independent checks: <a href="{DREW}">math.mit.edu/~drew/grh</a>.'
+ST_SHORT = f'{ST_CERT} {ST_MORE}'
+ST_META = plain(ST_CERT)
+ST_CHIP = 'certified 21 Nov'   # header chip label; its tooltip is ST_META
+# long form: About, /api/status.json, llms.txt, llms-full.txt
+ST_RELEASE = (f'On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis, and of the generalized Riemann hypothesis '
+              f'(GRH) for Dirichlet L-functions, as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, with a note at '
+              f'<a href="{NOTE}">alpo.ge</a>.')
+ST_QUOTE = 'In its words: “We hereby certify that both the statement and the proof of the Riemann Hypothesis are correct.”'
+ST_CHECKS = [   # the joint statement's four criteria, in its order and close to its wording
+    f'The statement is correct: it is Mathlib\'s own <a href="{MATHLIB_RH}"><code>RiemannHypothesis</code></a>, carefully vetted '
+    'by experts in Lean and number theory.',
+    'The library compiles without errors: dozens of people compiled it and reproduced the same raw proof export.',
+    'The theorem proved is exactly Mathlib\'s statement, as confirmed by two independent tools (comparator and con-leche --compare).',
+    'The proof is valid: the exported proof was checked by several proof checkers, including Lean\'s official kernel and the '
+    'con-leche and con-ron checkers, which come with a formal proof, relative to set theory, that they cannot accept a false proof. '
+    'The checks ran on an inert export of the proof.']
+ST_ONGOING = (f'More independent checks, some still running on {AS_OF_TXT}, are listed on Andrew Sutherland\'s verification page at '
+              f'MIT: <a href="{DREW}">math.mit.edu/~drew/grh</a>.')
+ST_SCOPE = ('The proof covers Mathlib\'s <code>RiemannHypothesis</code> and GRH for Dirichlet L-functions (all moduli and all '
+            'characters), and nothing broader: Dedekind zeta functions, Hecke L-functions and automorphic L-functions in general '
+            'are not among the statements that were checked.')
+ST_NOT_YET = ('There is no human-readable proof yet: Alpöge\'s note says he decided “to only present Lean”. The work has not been '
+              f'peer reviewed. No Clay Millennium Prize is in play: <a href="{CLAY_RULES}">Clay\'s rules</a> require publication, '
+              'a two-year wait and general acceptance in the mathematics community.')
+ST_ARCHIVE = (f'The source viewer shows the original archive as released: commit <code>{LEAN_SHA[:8]}</code> of the '
+              f'<a href="{LEAN_REPO}">community mirror</a>, an unchanged copy of the {TOTAL_FILES:,}-file archive. The community '
+              'repository has since removed 10,724 files in cleanup pull requests, leaving 164,464 .lean files including a new Challenge.lean.')
+ST_ARCHIVE_SHORT = 'This is the original archive as released; the community repository has since removed 10,724 files in cleanup pull requests.'
+ST_SOURCES = [('Joint statement by the Lean and Mathlib communities (21 Nov 2026)', STMT),
+              ("Levent Alpöge's note (20 Nov 2026)", NOTE),
+              ("Andrew Sutherland's verification page, MIT", DREW),
+              ("Mathlib's RiemannHypothesis", MATHLIB_RH),
+              (f'The Lean source as released (community mirror, commit {LEAN_SHA[:8]})', f'{LEAN_REPO}/tree/{LEAN_SHA}'),
+              ('Clay Millennium Prize rules', CLAY_RULES)]
+ST_LONG = (f'<p class="lede">{ST_RELEASE} {ST_CERT} {ST_QUOTE}</p><p class="meta">Status as of {AS_OF_TXT}.</p>'
+           '<h2>How the Lean proof was checked</h2><p>The joint statement says four criteria are all satisfied:</p><ul>'
+           + ''.join(f'<li>{x}</li>' for x in ST_CHECKS) + f'</ul><p>{ST_ONGOING}</p>'
+           f'<h2>What was proved</h2><p>{ST_SCOPE}</p><h2>What is not yet claimed</h2><p>{ST_NOT_YET}</p>'
+           '<h2>Primary sources</h2><ul>' + ''.join(f'<li><a href="{u}">{_html.escape(t)}</a></li>' for t, u in ST_SOURCES) + '</ul>')
+STATUS_BLOCK = {'as_of': STATUS_AS_OF, 'short': ST_SHORT, 'cert': ST_CERT, 'meta': ST_META, 'chip': ST_CHIP, 'long': ST_LONG,
+                'archive': ST_ARCHIVE, 'archive_short': ST_ARCHIVE_SHORT, 'source_sha': LEAN_SHA}
 
 def lean_path(m):
     return m.replace('.', '/') + '.lean'
@@ -365,7 +429,7 @@ overview = {
     'updated': datetime.date.today().isoformat(),
     'counts': {'clusters': len(CL), 'themes': len(TH), 'named': named,
                'files': len(mod_cl), 'total': TOTAL_FILES, 'units': len(unit_cl), 'lines': TOTAL_LINES},
-    'main': main, 'builds': builds[main],
+    'main': main, 'builds': builds[main], 'status': STATUS_BLOCK,
     'themes': [{'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'conf': TNAMED.get(t, {}).get('confidence'),
                 'fl': theme_name(th)[0], 'n': len(th['clusters']), 's': TSLUG[t],
                 'units': size[t], 'words': th['words'][:8], 'x': r2(P[t][0]), 'y': r2(P[t][1]), 'r': r2(R[t])}
@@ -462,8 +526,6 @@ H = html.escape
 today = datetime.date.today().isoformat()
 GH = 'https://github.com/rithn/riemann-lean-reader'
 X_SITE, X_FEEDBACK = 'https://x.com/RiemannMap', 'https://x.com/SomTheBuilder'
-STMT = 'https://leanprover-community.github.io/blog/posts/riemann-hypothesis/'
-NOTE, DREW = 'https://alpo.ge/remark.pdf', 'https://math.mit.edu/~drew/grh/'
 FILES_TXT = f'{TOTAL_FILES:,} Lean files ({len(mod_cl):,} mapped)'
 SITE_NAME = 'RH Lean Explorer'
 
@@ -478,6 +540,10 @@ APP_V, CSS_V = hfiles([os.path.join(OUT, 'app.js')]), hfiles([os.path.join(OUT, 
 TPL = re.sub(r'<link rel="stylesheet" href="/style\.css[^"]*">', f'<link rel="stylesheet" href="/style.css?v={CSS_V}">', TPL, count=1)
 TPL = re.sub(r'<script src="/app\.js[^"]*"[^>]*></script>', f'<script src="/app.js?v={APP_V}" data-v="{DATA_V}"></script>', TPL, count=1)
 TPL = re.sub(r'Charting [\d,]+ Lean files…', f'Charting {TOTAL_FILES:,} Lean files…', TPL)
+TPL = re.sub(r'<a class="status-chip ok" href="/about/" title="[^"]*">\s*<i></i><span>Lean proof · <b>[^<]*</b></span>',
+             f'<a class="status-chip ok" href="/about/" title="{H(ST_META)} How it was checked.">\n    <i></i><span>Lean proof · <b>{ST_CHIP}</b></span>', TPL, count=1)
+assert ST_META in html.unescape(TPL), 'status chip not found in the index.html template'
+assert f"GH_SHA = '{LEAN_SHA}'" in open(os.path.join(OUT, 'app.js')).read(), 'app.js GH_SHA differs from LEAN_SHA'
 assert f'data-v="{DATA_V}"' in TPL and f'style.css?v={CSS_V}' in TPL
 
 # ---------- lastmod: a page's date changes only when its title, description or body changes
@@ -714,9 +780,8 @@ def route_glyph(d, color):
             + ''.join(out) + '</svg></span>')
 def steps_txt(d):
     return 'The main theorem' if d == 0 else f'{d} import step{"" if d == 1 else "s"} to the main theorem'
-STATUS = (f'<p class="meta">Proof status: on 21 Nov 2026 the <a href="{STMT}">Lean FRO and the Mathlib Initiative certified</a> '
-          'the Lean statement and proof (latest check). Names and descriptions on this map are written by Claude from samples '
-          'of the code and may be wrong.</p>')
+STATUS = (f'<p class="meta">Proof status as of {AS_OF_TXT}: {ST_SHORT[0].lower()}{ST_SHORT[1:]} Names and descriptions on this map '
+          'are written by Claude from samples of the code and may be wrong.</p>')
 FEEDBACK = f'<p class="feedback">Feedback or corrections? <a href="{X_FEEDBACK}" target="_blank" rel="noopener">@SomTheBuilder on X</a></p>'
 ABOUT_T = 'Has the Riemann hypothesis been solved? How it was checked'
 ROUTE_T = 'How the Lean proof of the Riemann hypothesis is structured: the route to the main theorem'
@@ -797,28 +862,14 @@ for k, p in CPATH.items():
 
 # ---------- about: the status of the claim, the page most searchers want (keep in step with about() in app.js)
 STATUS_FACTS = [
-    {'date': '2026-11-20', 'event': 'Levent Alpöge released a proof of the Riemann hypothesis (and GRH for Dirichlet '
-     f'L-functions) as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, posted with a note.', 'source': NOTE},
-    {'date': '2026-11-21', 'event': 'The Lean FRO and the Mathlib Initiative published a joint statement certifying that '
-     'both the statement and the proof are correct. That is the latest check.', 'source': STMT},
+    {'date': '2026-11-20', 'event': plain(ST_RELEASE), 'source': NOTE},
+    {'date': '2026-11-21', 'event': plain(ST_CERT), 'source': STMT},
 ]
-CHECKS = ["The statement is Mathlib's own RiemannHypothesis, vetted by experts in Lean and number theory.",
-          'Dozens of people compiled the library and reproduced the same proof export.',
-          "Two independent tools confirmed the theorem proved is exactly Mathlib's statement.",
-          "The exported proof was checked by Lean's kernel and several independent proof checkers, two of them "
-          'formally verified, run on an inert export of the proof.']
 about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About</div><div class="eyebrow">About · status of the proof</div>'
-         '<h1>Has the Riemann hypothesis been solved?</h1>'
-         f'<p class="lede">On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis (and GRH for Dirichlet L-functions) '
-         f'as a Lean library of {FILES_TXT}, {LINES_TXT}, posted with a note at <a href="{NOTE}">alpo.ge</a>. '
-         f'On 21 Nov 2026 the Lean FRO and the Mathlib Initiative published a <a href="{STMT}">joint statement</a> certifying that '
-         'both the statement and the proof are correct. That is the latest check.</p>'
-         '<h2>How the Lean proof was checked</h2><p>According to the joint statement:</p><ul>'
-         + ''.join(f'<li>{H(x).replace("RiemannHypothesis", "<code>RiemannHypothesis</code>")}</li>' for x in CHECKS) + '</ul>'
-         f'<p>Details: <a href="{DREW}">math.mit.edu/~drew/grh</a>.</p>'
+         '<h1>Has the Riemann hypothesis been solved?</h1>' + ST_LONG +
          '<h2>What this site is</h2><p>A reading guide: a map of the Lean files, grouped by their words and imports into '
          f'{len(CL):,} clusters in {len(TH)} themes. Cluster names and descriptions were written by Claude from a sample of about one '
-         f'tenth of each cluster\'s files. They can be wrong. All {len(CL):,} clusters are named.</p><p>{UNMAPPED_TXT}</p><p>{LICENSE_TXT}</p>'
+         f'tenth of each cluster\'s files. They can be wrong. All {len(CL):,} clusters are named.</p><p>{UNMAPPED_TXT}</p><p>{ST_ARCHIVE}</p><p>{LICENSE_TXT}</p>'
          f'<h2>Where to start</h2><ul class="rows"><li><a href="{MAIN}">The main theorem\'s cluster</a></li>'
          '<li><a href="/learn/">Learning path: from the theorem down to school maths</a></li><li><a href="/">The full map</a></li>'
          '<li><a href="/changelog/">Changelog: what changed on this site, and when</a></li></ul>'
@@ -827,8 +878,7 @@ about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About
          'theorem\'s cluster.</p>'
          f'<p class="meta">Data and scripts: <a href="{GH}">{GH.replace("https://", "")}</a> · data for machines: '
          '<a href="/api/">/api/</a> · updated {{UPDATED}}</p>' + FEEDBACK)
-ABOUT_D = ('A Lean proof of the Riemann hypothesis was released on 20 Nov 2026 and certified by the Lean FRO and the '
-           'Mathlib Initiative on 21 Nov. What was checked, and how.')
+ABOUT_D = f'A Lean proof of the Riemann hypothesis was released on 20 Nov 2026. {ST_META} What was checked, and what is not yet claimed.'
 page('/about/', ABOUT_T, ABOUT_D, 'about', about,
      [article_ld('/about/', 'Has the Riemann hypothesis been solved? How the Lean proof was checked', ABOUT_D, '2026-11-21'),
       crumbs_ld(('Map', '/'), ('About', '/about/')), ORG], .9)
@@ -916,7 +966,7 @@ open(os.path.join(OUT, 'changelog', 'feed.xml'), 'w').write(
 
 # ---------- home: crawlable intro plus links to every theme
 HOME_DESC = (f'The Lean proof of the Riemann hypothesis, visualized: an interactive map of its {FILES_TXT}. '
-             'Certified by the Lean FRO and the Mathlib Initiative on 21 Nov 2026.')
+             f'{ST_META}')
 home = ('<div class="eyebrow">Interactive map · Lean 4</div><h1 class="hero">The <em>Lean</em> proof of the Riemann hypothesis, mapped</h1>'
         f'<p class="lede">An interactive map of the {FILES_TXT} in Levent Alpöge\'s proof of the Riemann hypothesis, '
         f'released on 20 Nov 2026, grouped into {len(CL):,} clusters in {len(TH)} themes.</p>{STATUS}'
@@ -952,8 +1002,13 @@ def jdump(name, obj):
     json.dump(obj, open(os.path.join(OUT, 'api', name), 'w'), ensure_ascii=False, separators=(',', ':'))
 API_STATUS = {
     'updated': NEW_STATE['/about/'][1], 'question': 'Has the Riemann hypothesis been solved?',
-    'status': 'On 21 Nov 2026 the Lean FRO and the Mathlib Initiative certified the Lean statement and proof (latest check).',
-    'timeline': STATUS_FACTS, 'checks': CHECKS, 'checks_source': STMT, 'details': DREW, 'page': SITE + '/about/',
+    'as_of': STATUS_AS_OF, 'status': plain(ST_SHORT), 'timeline': STATUS_FACTS,
+    'certification': {'text': plain(ST_CERT), 'quote': plain(ST_QUOTE), 'source': STMT},
+    'checks': [plain(x) for x in ST_CHECKS], 'checks_source': STMT,
+    'ongoing_checks': {'text': plain(ST_ONGOING), 'url': DREW},
+    'scope': plain(ST_SCOPE), 'not_yet_claimed': plain(ST_NOT_YET),
+    'source_archive': {'text': plain(ST_ARCHIVE), 'repo': LEAN_REPO, 'commit': LEAN_SHA, 'files': TOTAL_FILES},
+    'sources': [{'name': t, 'url': u} for t, u in ST_SOURCES], 'details': DREW, 'page': SITE + '/about/',
     'counts': {'lean_files': TOTAL_FILES, 'mapped_files': len(mod_cl), 'clusters': len(CL), 'themes': len(TH)},
     'note': 'Cluster and theme names and descriptions on this site are written by Claude from samples of the code and may be wrong.',
     'license': {'url': LICENSE, 'name': 'CC BY 4.0', 'applies_to': "this site's own data (cluster and theme names, descriptions, map layout, JSON); the Lean source keeps its own licence"},
@@ -980,14 +1035,16 @@ open(os.path.join(OUT, 'api', 'index.html'), 'w').write(
     '<link rel="canonical" href="' + SITE + '/api/index.json"><pre>' + H(json.dumps(API_INDEX, indent=2, ensure_ascii=False)) + '</pre>')
 
 # ---------- llms.txt and llms-full.txt
-STATUS_SHORT = {'2026-11-20': f'Levent Alpöge released a Lean proof of the Riemann hypothesis (and GRH for Dirichlet L-functions): {TOTAL_FILES:,} Lean files, {LINES_TXT}.',
-                '2026-11-21': 'The Lean FRO and the Mathlib Initiative certified the Lean statement and proof (latest check).'}
 llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
         f'An interactive map of the Lean proof of the Riemann hypothesis: {FILES_TXT} in {len(CL):,} clusters and {len(TH)} themes. '
         'Names and descriptions are written by Claude from samples of the code and may be wrong. Every page has a Markdown copy at <page>index.md.\n\n'
-        f'## Status (updated {API_STATUS["updated"]})\n\n'
-        + ''.join(f'- {e["date"]}: {STATUS_SHORT.get(e["date"], e["event"])} Source: {e["source"]}\n' for e in STATUS_FACTS)
-        + f'- Details of the checks: {DREW}\n\n'
+        f'## Status (as of {STATUS_AS_OF})\n\n'
+        + ''.join(f'- {e["date"]}: {e["event"]} Source: {e["source"]}\n' for e in STATUS_FACTS)
+        + f'- {plain(ST_QUOTE)}\n- The joint statement says four criteria are all satisfied:\n'
+        + ''.join(f'  - {mdtext(x)}\n' for x in ST_CHECKS)
+        + f'- {mdtext(ST_ONGOING)}\n- What was proved: {mdtext(ST_SCOPE)}\n- What is not yet claimed: {mdtext(ST_NOT_YET)}\n'
+        + f'- Source shown on the map: {mdtext(ST_ARCHIVE)}\n'
+        + '- Primary sources: ' + '; '.join(f'[{t}]({u})' for t, u in ST_SOURCES) + '\n\n'
         f'## Start here\n\n- [Has the Riemann hypothesis been solved? How it was checked]({SITE}/about/index.md)\n'
         f'- [Learning path: the proof step by step]({SITE}/learn/index.md)\n'
         f'- [How the proof is structured: the route to the main theorem]({SITE}/route/index.md)\n\n'

@@ -5,6 +5,7 @@
 - date: 2026-11-22
   title: Clean links, list view, Lean source viewer, faster loading
   items:
+    - "Status wording updated: who certified, ongoing checks, what is not yet claimed. One dated status block now feeds every page, the app, /api/status.json and llms.txt, and About notes that the source viewer shows the original archive as released (commit 40e56bab)."
     - "All 2,647 clusters now have names and descriptions written by Claude, and every cluster has its own page."
     - "Pages have real addresses (for example /cluster/k0677-…/ and /about/) instead of #/ links; old #/ links still work."
     - "New list view at /list/: every cluster as text, ordered by distance from the main theorem, by theme or by size, with a filter."
@@ -26,5 +27,5 @@
     - "Theme names and blurbs written by Claude from cluster names and folders."
     - "Static pages for the 63 themes and the named clusters, a social preview image, sitemap and robots.txt."
     - "Static About and Learning path pages, real 404 pages, structured data and llms.txt."
-    - "Status updated: on 21 Nov 2026 the Lean FRO and the Mathlib Initiative certified the Lean statement and proof."
+    - "Status updated: on 21 Nov 2026 a joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative, certified the Lean statement and proof."
     - "Panel redesign: summary first, stat tiles, route from the main theorem, folded references."
