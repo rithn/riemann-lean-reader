@@ -3,6 +3,13 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-22
+  title: List view and Lean source viewer
+  items:
+    - "New list view at /list/ (List in the top menu, or the list button by the zoom controls): every cluster as text, grouped by theme, distance from the main theorem or size, with a filter."
+    - "Lean file pages link to the file on GitHub (the public mirror, pinned to one commit) and can show its source on request."
+    - "Lean locations on concept pages link to the same GitHub commit."
+
+- date: 2026-11-22
   title: Clean links, Markdown copies and an API
   items:
     - "Pages have real addresses (for example /cluster/k0677-…/ and /about/) instead of #/ links; old #/ links still work."
