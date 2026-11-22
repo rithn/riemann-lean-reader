@@ -1,0 +1,211 @@
+{
+ "th001": [
+  "symmetric-polynomials-and-height-remainder-terms",
+  "symmetric-polynomials-and-determinant-bounds-for-heights"
+ ],
+ "th002": [
+  "wach-modules-and-hodgetate-cohomology-bounds"
+ ],
+ "th003": [
+  "functorial-embedded-resolution-of-singularities"
+ ],
+ "th004": [
+  "complex-analytic-sets-and-chow-heights"
+ ],
+ "th005": [
+  "finite-covolume-of-unitary-groups"
+ ],
+ "th006": [
+  "arithmetic-intersection-numbers-over-discrete-valuation"
+ ],
+ "th007": [
+  "class-field-theory-and-galois-cohomology-of-number-fields",
+  "class-field-theory-galois-cohomology-and-eisenstein-series"
+ ],
+ "th008": [
+  "etale-cohomology-sheaves-purity-and-kummer-theory"
+ ],
+ "th009": [
+  "heights-of-points-and-chow-forms"
+ ],
+ "th010": [
+  "fourier-decay-of-orbital-and-bessel-integrals"
+ ],
+ "th011": [
+  "representations-of-gl-over-finite-fields"
+ ],
+ "th012": [
+  "hodge-lower-bounds-via-plurisubharmonic-potentials"
+ ],
+ "th013": [
+  "hilbertsamuel-theory-and-arithmetic-intersections"
+ ],
+ "th014": [
+  "hermitian-lattice-counts-and-unitary-mass"
+ ],
+ "th015": [
+  "period-rings-in-p-adic-hodge-theory",
+  "period-rings-prisms-and-breuilkisin-modules"
+ ],
+ "th016": [
+  "stabilizer-volumes-in-the-unitary-mass-formula"
+ ],
+ "th017": [
+  "reduction-theory-and-l2-estimates-on-fundamental-domains"
+ ],
+ "th018": [
+  "polynomial-representations-of-gl-and-fock-spaces"
+ ],
+ "th019": [
+  "local-whittaker-functions-and-rankinselberg-integrals"
+ ],
+ "th020": [
+  "hecke-characters-and-primes-in-progressions"
+ ],
+ "th021": [
+  "theta-functions-and-dwork-style-integrality",
+  "cm-theta-functions-and-p-adic-integrality-at-inert-primes"
+ ],
+ "th022": [
+  "modular-units-and-kato-euler-systems"
+ ],
+ "th023": [
+  "discrete-series-and-bessel-estimates-on-unitary-groups"
+ ],
+ "th024": [
+  "wach-lattices-and-admissible-filtered-modules"
+ ],
+ "th025": [
+  "holomorphic-continuation-of-siegelweil-coset-sums",
+  "calculus-and-wave-kernels-on-complex-matrix-groups"
+ ],
+ "th026": [
+  "formal-groups-and-power-series-charts",
+  "formal-group-laws-logarithms-and-jets"
+ ],
+ "th027": [
+  "block-metrics-on-flag-charts"
+ ],
+ "th028": [
+  "hermitian-line-bundles-and-hodgetate-models"
+ ],
+ "th029": [
+  "deformation-rings-and-potential-modularity"
+ ],
+ "th030": [
+  "siegel-lattices-root-thresholds-and-gauge-shifts",
+  "flag-measures-bessel-models-and-lattices-on-unitary-groups"
+ ],
+ "th031": [
+  "proper-cohomology-of-schemes-and-galois-local-maximality",
+  "cohomology-of-proper-schemes-and-kahler-differentials"
+ ],
+ "th032": [
+  "valuative-local-fields-and-weil-representations"
+ ],
+ "th033": [
+  "automorphic-forms-and-convolution-on-adelic-groups"
+ ],
+ "th034": [
+  "crystallinesemistable-comparison-and-witt-lattices"
+ ],
+ "th035": [
+  "cubical-line-bundles-and-theta-laws"
+ ],
+ "th036": [
+  "local-class-field-theory-and-spherical-galois-coordinates",
+  "unitary-similitude-groups-over-cm-fields"
+ ],
+ "th037": [
+  "siegel-theta-transformation-and-cusp-form-evaluation"
+ ],
+ "th038": [
+  "symmetric-power-transfer-and-borel-harmonic-forms"
+ ],
+ "th039": [
+  "moduli-degeneration-and-abelian-scheme-laws"
+ ],
+ "th040": [
+  "global-interpolation-and-satake-parameters",
+  "adelic-lattices-level-subgroups-and-explicit-bounds"
+ ],
+ "th041": [
+  "katz-style-power-series-and-p-divisible-groups"
+ ],
+ "th042": [
+  "toric-fans-and-regular-local-rings",
+  "toroidal-compactifications-of-siegel-and-unitary-moduli"
+ ],
+ "th043": [
+  "uniformization-of-abelian-varieties-and-rings-of-integers"
+ ],
+ "th044": [
+  "kleiman-ampleness-and-elementary-symmetric-functions"
+ ],
+ "th045": [
+  "cechde-rham-comparison-on-divisors",
+  "cech-periods-of-complex-abelian-varieties"
+ ],
+ "th046": [
+  "genus-mass-and-indefinite-real-lattices",
+  "theta-lifts-and-the-trace-formula-on-unitary-groups"
+ ],
+ "th047": [
+  "coherent-cohomology-on-abelian-varieties"
+ ],
+ "th048": [
+  "height-counting-and-third-place-theta-series",
+  "galois-representations-attached-to-hecke-eigensystems"
+ ],
+ "th049": [
+  "decorated-lattices-and-theta-ranks-over-host-fields"
+ ],
+ "th050": [
+  "flags-charts-and-automorphic-membership",
+  "chern-forms-and-integral-models-of-arithmetic-varieties"
+ ],
+ "th051": [
+  "base-change-and-residual-spectrum-slice-tensors"
+ ],
+ "th052": [
+  "hodge-bundle-weights-and-nadel-vanishing",
+  "vanishing-theorems-and-positivity-of-line-bundles"
+ ],
+ "th053": [
+  "siegelweil-formula-and-theta-kernels"
+ ],
+ "th054": [
+  "weil-tensor-models-and-theta-lifts"
+ ],
+ "th055": [
+  "hecke-algebras-and-modularity-threshold-arguments"
+ ],
+ "th056": [
+  "weil-pairs-and-schrodinger-models"
+ ],
+ "th057": [
+  "see-saw-dual-pairs-and-lattice-frames"
+ ],
+ "th058": [
+  "adelic-analysis-and-hecke-character-zero-loci",
+  "adelic-analysis-for-the-rank-one-siegelweil-formula"
+ ],
+ "th059": [
+  "doubling-method-and-global-gauss-laws"
+ ],
+ "th060": [
+  "real-packets-in-third-place-series",
+  "assumptions-behind-a-family-of-theta-lifts"
+ ],
+ "th061": [
+  "theta-bounds-and-split-eigenfunctions-on-real-groups",
+  "theta-lifts-and-whittaker-functions-for-adelic-gl2"
+ ],
+ "th062": [
+  "indefinite-row-side-hecke-models-in-theta-correspondence"
+ ],
+ "th063": [
+  "character-grids-and-wild-jets",
+  "twisted-theta-lifts-and-theta-kernel-bounds"
+ ]
+}

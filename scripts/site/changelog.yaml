@@ -5,6 +5,7 @@
 - date: 2026-11-22
   title: Clean links, list view, Lean source viewer, faster loading
   items:
+    - "Renamed 20 themes whose names described only a small part of their content; old addresses redirect."
     - "Status wording updated: who certified, ongoing checks, what is not yet claimed. One dated status block now feeds every page, the app, /api/status.json and llms.txt, and About notes that the source viewer shows the original archive as released (commit 40e56bab)."
     - "All 2,647 clusters now have names and descriptions written by Claude, and every cluster has its own page."
     - "Pages have real addresses (for example /cluster/k0677-…/ and /about/) instead of #/ links; old #/ links still work."
