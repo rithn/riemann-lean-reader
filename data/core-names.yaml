@@ -1,0 +1,412 @@
+# Checked names for the 16 core clusters: title, plain description and evidence, each checked against the full Lean
+# source (commit 40e56bab). Copied from research/content/core-check/core-names.yaml (write-up: core-check.md there),
+# with one owner override (k0695, see owner_override). build_site.py applies these over every AI naming run, marks
+# the clusters checked, and shows the first evidence lines on their pages. Edit here, then rebuild.
+k1394:
+  verdict: minor fix
+  title: 'Galois action on p-adic complex numbers: Ax–Sen–Tate, Tate traces, twists'
+  plain: Proved lemmas about how Galois symmetries act on the completed algebraic closure of the p-adic numbers. The headline
+    results are the Ax–Sen–Tate lemma (a number that every symmetry moves only slightly lies close to the base field), Tate's
+    normalized trace along the cyclotomic tower, the cyclotomic character, and the fact that a nonzero Tate twist C_p(j) has
+    no Galois-fixed vectors. Supporting files build the unramified closure, the Weil group of a local field, and units close
+    to 1.
+  evidence:
+  - 'GroundTheory.PAdicHodge.GaloisOnCp: gal_smul_padicComplexInt — Galois automorphisms map the integers of C_p onto themselves'
+  - 'GroundTheory.PAdicHodge.AxLemma: ax_lemma / fixedPoints_gal_eq — Ax–Sen–Tate approximation with explicit constant; Galois-fixed
+    points of C_p over finite K are exactly K'
+  - 'GroundTheory.PAdicHodge.NormalizedTrace: norm_natCast_mul_normTrace_le — ||N * normTrace y|| <= ||y|| when deg minpoly
+    divides N'
+  - 'GroundTheory.PAdicHodge.TateNormalizedTrace: norm_tateTrace_le — Tate''s trace on the cyclotomic limit is uniformly bounded'
+  - 'GroundTheory.PAdicHodge.ExistsGalFixCyclotomicLayerCycloCharNeOne: cpTwistRep_invariants_eq_bot — C_p(j) has no Galois
+    invariants for j != 0'
+  unsupported:
+  - 'bound the size of a number''s norm and trace — imprecise: the bound is on the normalized trace (trace / degree), not
+    the field norm'
+  - 'looks like groundwork ... Most files seem to state concrete lemmas — hedged: all files prove concrete lemmas, specifically
+    p-adic Hodge theory groundwork'
+k0427:
+  verdict: minor fix
+  title: 'Hermitian lattices over number fields: trace form, genus, class-number finiteness'
+  plain: Proved results about lattices over the integers of a number field that carry a Hermitian form. Taking the trace of
+    the form turns such a lattice into an ordinary Euclidean lattice. Using that, the code shows that every lattice in one
+    genus has the same covolume, that a genus contains only finitely many lattices up to isometry, and that each lattice has
+    finitely many symmetries. Theta series of these lattices are also set up and shown to converge.
+  evidence:
+  - 'Formalism.HermitianLattices.DefsCS: IsomOfTrace (proved by isomOfTrace) — a linear automorphism preserving the trace
+    form Tr h is an isometry of h'
+  - 'Formalism.HermitianLattices.HermitianLatticesProofs.ClassSetFinite: classSetFinite — a genus contains finitely many lattices
+    up to isometry'
+  - 'Formalism.HermitianLattices.HermitianLatticesProofs.GenusCovol: genusCovol — lattices in the same genus have equal covolume'
+  - 'Formalism.HermitianLattices.HermitianLatticesProofs.AutFinite: autFinite — finitely many isometries stabilise a lattice'
+  - 'Formalism.AlphaUniqueness.Statement: AlphaInv — Prop def only, never proved: mod-2 refinement qRef invariant under commuting
+    isometries'
+  unsupported:
+  - 'two isometries agree when their trace forms agree — misread: IsomOfTrace says a linear map preserving the trace form
+    is an isometry'
+  - a quadratic reference form is invariant under commuting isometries — only a Prop definition (AlphaInv), never proved,
+    about a mod-2 form on an abstract group
+k0250:
+  verdict: wrong
+  title: 'A concrete model transfer matrix: Yang-Baxter relation, frames and energy limit'
+  plain: Builds an explicit 2x2 transfer matrix whose entries are operators on functions, indexed by patterns of numbers that
+    interlace two given sequences, and proves it is Hermitian, satisfies the Yang-Baxter (RTT) relation and has a prescribed
+    quantum determinant. On top of this model it proves the frame and positivity statements for admissible words and an energy-limit
+    lemma (the "Lemma E" model case).
+  evidence:
+  - 'Formalism.HermitianCurvature.HermitianCurvatureProofs.TransferRtt: transfer_rtt — model transfer matrix QQr satisfies
+    the RTT (Yang-Baxter) relation, proved'
+  - 'Formalism.HermitianCurvature.HermitianCurvatureProofs.WeightedSumDifferenceIdentity: transfer_determinant — QQr(Y+1)^T
+    J QQr(Y) = qC(Y) J (quantum determinant), proved'
+  - 'Formalism.HermitianCurvature.HermitianCurvatureProofs.LowerLevelsSameScalar: model_frame — every valid parameter set
+    has a model level whose cut words give frames with positive coefficients, proved'
+  - 'Formalism.HermitianCurvature.HermitianCurvatureProofs.IsAdmissibleSplittingCharPairMulTwist: lemma_model — cutoff energy
+    form of an admissible word tends to size(w) times the squared norm as epsilon goes to 0+, proved'
+  - 'Formalism.HermitianCurvature.HermitianCurvatureProofs.Interlace / TransferProductMonic: interlaceSign, tProdMonic_holds
+    — interlacing sign pattern and monicity of a product of 2x2 polynomial transfer matrices, proved'
+  unsupported:
+  - '''These files state that ...'' — every listed Prop is proved (no sorry or axiom in the source tree), not just stated'
+  - '''model assembly claim ... leading to a model-frame claim'' — ModelAssemble is proved and discharged; model_frame : ModelFrame
+    is a theorem'
+  - '''A fourth-reduction estimate on a form pairing is also stated'' — DKStep4 is an exact product identity, not an estimate,
+    and it is proved'
+  - '''The role is root-location input for the project''s analysis'' — main content is the explicit model transfer matrix
+    (Hermitian, RTT, quantum determinant), frames and an energy-limit lemma; nothing locates roots of a target function'
+  - 'Title/summary omit the bulk of the cluster: model algebra relations, RTT/determinant proofs, analytic adjointness and
+    energy identities, LemmaEModel'
+k2463:
+  verdict: minor fix
+  title: 'Final assembly: GRH for Dirichlet L-functions, then the Riemann hypothesis'
+  plain: The file MainConclusion proves that no Dirichlet L-function vanishes to the right of the line Re s = 1/2 and deduces
+    the Riemann hypothesis from it in one step. The project's headline theorem in Main.lean rests on this step. The other
+    files in the group are named bundles of results quoted from the literature, plus conditional automorphy lemmas of the
+    form "if these published results hold, then this follows".
+  evidence:
+  - 'Development.AutomorphicArithmetic.CharacterBoxes.MainConclusion: UpperTheory.FinalTheorems.riemannHypothesis — Mathlib''s
+    RiemannHypothesis, proved as riemannHypothesis_of_everyCharacter everyCharacter'
+  - 'Development.AutomorphicArithmetic.CharacterBoxes.MainConclusion: UpperTheory.FinalTheorems.everyCharacter — L(chi,s)
+    != 0 for every Dirichlet character and Re s > 1/2 (except the pole), proved from galoisLocalGlobalStrong_recParameter'
+  - 'Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.RowSrc: galoisLocalGlobalStrong_recParameter
+    — Row0b recT, proved from the theta-lift theorem TP.K.tLiftK'
+  - 'Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.MixedUnitCongruences.MixedUnitPublishedTheorems:
+    MixedUnitPublishedTheorems — Prop structure bundling named literature inputs'
+  - 'Development.AutomorphicArithmetic.AutomorphicVarieties.SmallClassNumbers.CorGKOf: litN, corGK, bound — proved theorems
+    discharging the literature bundle and bounding weighted lengths of Sha-type modules polynomially in e'
+  unsupported:
+  - 'The theorem is shown with no visible argument — wrong: explicit two-step proof via everyCharacter and the functional-equation
+    lemma riemannHypothesis_of_everyCharacter'
+  - 'the file whose main statement is the Riemann hypothesis itself — partial: the headline RH theorem is Main.lean riemannHypothesis
+    (k0677); MainConclusion has a second copy and the GRH step the headline uses'
+  - a quadratic-twist bound — not present; CorGKOf.bound bounds lengths of Selmer/Sha-type modules of cyclotomic twists
+  - 'capstone mixed with supporting assumptions — misleading: the RH chain here takes no hypotheses; the hypothesis bundles
+    feed conditional lemmas, some discharged by proved theorems'
+k1091:
+  verdict: minor fix
+  title: Bernoulli numbers for Dirichlet characters, plus the final step from GRH to RH
+  plain: 'Most of these files are a proved library on generalised Bernoulli numbers attached to Dirichlet characters: how
+    they relate to L-values at negative integers, their denominators, their size, and how they change when the modulus changes.
+    A few small files carry the last step of the project. They take "no Dirichlet L-function vanishes right of the line Re
+    s = 1/2" and turn it, through the functional equation, into the Riemann hypothesis and the critical-line statements that
+    Main.lean exports.'
+  evidence:
+  - 'Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.BernoulliNumbers.BLprim: UpperTheory.V.Bern.b_lprim
+    — L(chi, 1-k) = -B_{k,chi}/k'
+  - 'Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.BernoulliNumbers.GeneralizedBernoulliChangeLevel:
+    b_level — level raising multiplies B_{k,chi} by the product of (1 - chi(p) p^(k-1))'
+  - 'Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.BernoulliNumbers.Sumval: b_sumval — sum of v_l(M)
+    log l over primes l is at most log |M|'
+  - 'Formalism.GammaFactorNonvanishing.RhOfRight: Formalism.VW.rh_of_right — zeta nonvanishing for Re s > 1/2 implies RiemannHypothesis'
+  - 'Supplements.Kernels.MainTheorems: rhOfAll — RiemannHypothesis := rh_of_every allChi, with allChi = everyCharacter from
+    k2463; also critAll, claimAll'
+  unsupported:
+  - a bound on a sum of logarithms of primes dividing a number — the sum is weighted by p-adic valuations (sum v_l(M) log
+    l <= log |M|)
+  - 'a library of explicit arithmetic facts feeding the cyclotomic-field and class-group parts — incomplete: omits the RH/critical-line
+    deduction files (rhOfAll, critAll, rh_of_right, zeta_iff)'
+k2404:
+  verdict: minor fix
+  title: 'Local Langlands for GL(n): tempered parameters, uniqueness and literature inputs'
+  plain: Proves that a local Langlands map of the assumed kind sends tempered representations to tempered Galois-side parameters,
+    that a character of GL(1) is tempered exactly when its absolute value is 1, and that the map is unique once local converse
+    and a few other named results hold. Also names published results (local converse, existence of local Langlands, Caraiani's
+    temperedness) as hypotheses and bundles them into packages, many of which are discharged by theorems proved elsewhere
+    in the project.
+  evidence:
+  - 'Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.LocalConverseGL: LocalConverseGL — Prop: cuspidal
+    reps with equal twisted epsilon factors are isomorphic (named, not proved here)'
+  - 'Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.TemperedProductOfSquareIntegrable: unitary_char /
+    not_tempered_char — proved: a GL(1) character is tempered iff |chi| = 1'
+  - 'Development.AbelianVarietyTheory.Proofs.SatakeParameters.TemperedRepTemperedParameter: tempered_of_isTemperedGL — proved:
+    under IsRec, tempered reps get tempered Weil-Deligne parameters'
+  - 'Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ReciprocityUniqueOf: recUnique_of_localConverse — five named
+    hypotheses imply the local Langlands map is unique'
+  - 'Development.AbelianVarietyTheory.Proofs.SatakeParameters.PublishedInputsCombined: HypothesesBridge.main — 22 named published
+    results imply the bundle NRows.Hypotheses₂'
+  - 'Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.InertCharpoly.GaloisLocalGlobalOfLocalGlobalCompatibility:
+    galois_realisation_of_top — CoreAll plus Top give Row0'
+  unsupported:
+  - Most content states assumptions or conditional implications rather than new facts — overstated; many real proofs about
+    Weil-Deligne parameters and temperedness, and most literature projections cite results proved elsewhere
+  - Because proofs are hidden. — a sentence fragment with no basis in the code; proofs are present, with no sorry or axiom
+k0677:
+  verdict: minor fix
+  title: Main theorem statements, plus the explicit formula for Dirichlet L-functions
+  plain: 'This group holds the project''s front door. Statements.lean spells out the Riemann hypothesis and its Dirichlet
+    L-function versions, and Main.lean proves them by pointing to the final assembly elsewhere. Most of the other files prove
+    a standard explicit formula: a prime sum twisted by a character is controlled by the zeros of its L-function, with the
+    zeros near any height counted and Perron''s formula bounded. A third set of files only states alternative "if these prime-sum
+    bounds hold, then RH follows" claims, which are never proved.'
+  evidence:
+  - 'Main: riemannHypothesis — RiemannHypothesis := rhOfAll; plus the GRH-for-Dirichlet theorems LFunction_ne_zero_of_half_lt_re,
+    LFunction_eq_zero_re, LFunction_eq_zero_re_of_isPrimitive'
+  - 'Statements: DirichletLNonvanishingRightOfHalf — L(chi,s) != 0 for Re s > 1/2 except at the pole'
+  - 'Formalism.PeriodIntegrals.ExplicitFormulaCounts.ExplicitFormula: explicitFormula_closed / zerosWindow_closed — truncated
+    explicit formula and local zero count, proved'
+  - 'Formalism.LandauZeroFreeBounds.ExceptionalZeroBounds.Positivity: negLogDerivPositivity — 3-4-1 positivity of -Re L''/L,
+    plus real-character variants'
+  - 'Formalism.StatementOC: RiemannHypothesisOfLowerBounds — Prop def only, never proved: prime-sum lower bounds for a family
+    of real characters imply RH'
+  unsupported:
+  - Omission — the description does not mention that the cluster contains Main.lean and Statements.lean (the headline RH/GRH
+    theorems and their statements)
+  - 'positivity inequality ... built from three characters — loosely right: the 3-4-1 combination of 1, chi, chi^2, plus real-character
+    variants'
+  - 'set up an explicit formula argument — understated: explicitFormula_closed and zerosWindow_closed are fully proved'
+k0695:
+  verdict: minor fix
+  title: An alternative route to GRH for Dirichlet L-functions, from three inputs
+  plain: 'An alternative route to GRH for Dirichlet L-functions: the top theorem shows that if three inputs hold (Green''s
+    description of cuspidal characters of finite GL, a bound on certain Galois cohomology groups of cyclotomic subfields,
+    and a large bundle of further assumptions), then no Dirichlet L-function vanishes when Re s > 1/2. The three inputs are
+    not proved here. The final-assembly cluster k2463 proves the same claim (everyCharacter) with no hypotheses, and that
+    is the version the main theorem uses. The rest builds the tools: an abelian "host" number field inside a cyclotomic field,
+    Jacobi-symbol rules for which primes are inert or ramified there, how its Dirichlet characters and conductors behave,
+    and counting lemmas, plus short proved facts such as a prime-counting bound implying zeta has no zeros past that exponent.'
+  evidence:
+  - 'Development.AutomorphicArithmetic.CharacterBoxes.EveryCharacter: UpperTheory.Top.plugAll — from Green, VWin and Hyps
+    (all hypotheses) every Dirichlet L-function is nonzero for Re s > 1/2 (except zeta at s = 1)'
+  - 'Development.AutomorphicArithmetic.ConductorsKronecker.IsInertIff: UpperTheory.GL.isInert_iff — p is ''inert'' (Frobenius
+    outside the CM-type set) iff p prime, p does not divide condN, and Jacobi (-d/p) = -1'
+  - 'Development.AutomorphicArithmetic.ConductorsKronecker.ChCond: UpperTheory.GL.ch_cond — the host''s sign characters have
+    conductors d and q with Jacobi-symbol values'
+  - 'Development.AutomorphicArithmetic.PrimitiveCosets.ToEBij: UpperTheory.Comparison₂.toE_bij — Galois group to product +-1
+    x +-1 x A is a bijection respecting complex conjugation'
+  - 'Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.LandauZeroFreeHalfPlane: landau_zero_free_half_plane
+    — Gz(y) <= y^theta for large y implies zeta(s) != 0 for Re s > theta'
+  - 'Development.AutomorphicArithmetic.CharacterBoxes.ExistsPageN: exists_pageN — for x >= 1 some e has x^(2+8eps) <= 2^e
+    <= 2 x^(2+8eps)'
+  unsupported:
+  - '''tests whether primes there are inert (stay prime)'' — IsInert is defined via Frobenius lying outside an abstract subset,
+    not as the prime ideal staying prime'
+  - '''conditions under which an explicit formula error is small'' — the theorem repackages HostConditions into the EAtH bundle
+    (bounded characters, log-derivative bound), no explicit-formula error estimate'
+  - 'Omission: the headline conditional result (Dirichlet L-functions zero-free right of 1/2 from three unproved hypotheses)
+    is not mentioned'
+  owner_override: 'title and plain: an alternative route needing three inputs; k2463 proves everyCharacter with no hypotheses'
+k0704:
+  verdict: minor fix
+  title: 'Hecke characters on ideles: local factors, finiteness and rigidity'
+  plain: These files define Hecke characters of a number field (continuous characters of the ideles that are trivial on the
+    field's own nonzero elements) and prove their basic properties. A continuous idele character is unramified at almost all
+    primes and splits as a product of local pieces; Hecke characters with a fixed behaviour at infinity and bounded conductor
+    are finitely many, are unitary, and are determined by their values at almost all primes; characters can also be built
+    with prescribed properties and moved along field isomorphisms.
+  evidence:
+  - 'Development.AbelianVarietyTheory.Definitions.Foundations.IsUnitaryOfOrder: hcharSub/HChar — Hecke characters are continuous
+    Ideles → ℂˣ homs trivial on diagonal field units'
+  - 'Development.AbelianVarietyTheory.Proofs.SatakeParameters.ContinuousIdeleCharLocalFactorization: continuous_char_factor
+    — unramified at cofinitely many primes, trivial near 1 at each prime, χ(x) = χ(inf part)·∏ local factors'
+  - 'Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.KeyFinitenessGlobal: heckeFin — characters of given infinity
+    type and bounded level are finitely many'
+  - 'Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.FiniteInfinitePlaceProduct: finite_infinite_product_eq_one
+    — proves HeckeCharacterRigidity (agreement at almost all primes implies equality)'
+  - 'Formalism.LocalToGlobal.UnitaryNorms.CharExGen: exists_hchar_eq_on — a character on a subgroup containing the unit ideles,
+    trivial on principal elements, extends to a Hecke character'
+  - 'Development.AbelianVarietyTheory.Definitions.Foundations.AbsCharNotUnitary: absChar_not_unitary — |·|^1 is not unitary'
+  unsupported:
+  - give CM-field characters with prescribed values on units — values are prescribed on ideals generated by norm-one elements
+    (z·c(z)=1), not on units
+  - finitely many places lie above a given prime — finite_aboveF concerns primes of L above a prime of a subfield F
+  - Many are wrappers — only about 10 of 89 files are restatement wrappers; headline results (finiteness, unitarity, finite
+    order, rigidity) are omitted
+k2395:
+  verdict: wrong
+  title: Local and global Galois groups of number fields and the Artin map
+  plain: These files compare the symmetry group of a number field's algebraic closure with the local symmetry groups at each
+    prime, by embedding the closure into completions and identifying decomposition groups with local Galois groups. They prove
+    that the global Artin reciprocity map is unique, that it is compatible with the local Artin maps, norms and restriction
+    to subfields, and prove Chevalley's theorem that units close enough to 1 are m-th powers.
+  evidence:
+  - 'Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GlobalArtinReciprocityMapUnique: globalArtin_unique — any
+    two global Artin maps are equal'
+  - 'Development.WeilBound.CoreStatements.StandardPublishedResults.StandardTheoremStatements.GlobalArtinReciprocity: globalArtinReciprocity
+    / rayClassFieldSt / heckeLAdicCharacter — the named Props are proved from the project''s own Artin map'
+  - 'Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChevalleyUnits: GlobalTheory.Published.chevalleyUnits'' —
+    proves ChevalleyUnits (units ≡ 1 mod a suitable a are m-th powers)'
+  - 'Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DecompositionGroupLocalGaloisIso: decomposition_mulEquiv_galLoc
+    — decomposition group ≅ local absolute Galois group'
+  - 'Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLocalEmbeddingOverPlace: exists_isLocEmb — Ω embeds
+    into the closure of E_w compatibly with the place'
+  - 'Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinMapUniqueTransportPlaceIso: isLocalArtin_transport
+    — local Artin maps transport along place isomorphisms (with GlobalArtinReciprocity, ChevalleyUnits as hypotheses)'
+  unsupported:
+  - named published results taken as assumptions (global Artin reciprocity, Chevalley units, l-adic Hecke character) — all
+    three are proved in the project (chevalleyUnits' here; globalArtinReciprocity/heckeLAdicCharacter from the project's globalArtin);
+    they are hypotheses only in a few theorems
+  - Some files hold only definitions or claims; the project does not show proofs here — most files contain full proofs, no
+    sorry/axiom; thin files are restatement wrappers
+k2401:
+  verdict: minor fix
+  title: A proved depth-zero local Langlands map for GL(n) over p-adic fields
+  plain: Proves, with no extra hypotheses, that for every place of a number field there is a map from irreducible representations
+    of GL(n) over the completed field to Weil–Deligne representations. The map matches dimensions, sends characters of GL(1)
+    through the local Artin map, respects Langlands' segment classification, twists, central characters and duals, sends depth-zero
+    representations to tame ones, and on depth-zero cuspidals matches Green's description of cuspidal characters of finite
+    GL(n). Building blocks proved along the way include Green's character formula, Schur's lemma for central elements, and
+    twisting finite cuspidal representations by determinant characters. One further result needs four published theorems as
+    inputs.
+  evidence:
+  - 'Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RecTExists: UpperTheory.Zero.LLC.recTExists
+    — proves RecTExists (a map satisfying all of LawsT exists at every place), no hypotheses'
+  - 'Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.CuspEx: cuspEx — cuspidal map from goodMap
+    on depth-zero/GL(1) pieces, junk WD representation elsewhere'
+  - 'Development.DiscreteGroups.GlobalIrreducibility.NarrowBigHolds: narrowBig_holds — NarrowBig from four published-result
+    hypotheses (Artin reciprocity, Chevalley units, LocalLanglandsExists, Bernstein irreducibility)'
+  - 'Development.WeilBound.CoreStatements.StandardPublishedResults.StandardTheoremStatements.GreenRegularCharacters: greenRegularCharacters
+    — Green''s parametrization of cuspidal characters of GL_d(F_g) by regular characters, proved'
+  - 'Development.DiscreteGroups.GlobalIrreducibility.DzKSchur: central_scalar — a class function acts by a scalar c on a simple
+    representation, c*dim = sum f(y) chi(y)'
+  - 'Development.DiscreteGroups.GlobalIrreducibility.DzTwFin: isCusp_twFD — twisting a cuspidal rep of GL_n(F_g) by chi∘det
+    stays cuspidal'
+  unsupported:
+  - '''Others state existence of a reciprocity map'' — recTExists proves it without hypotheses'
+  - '''Many are definitions of properties or conditional implications'' — the named Props (ArtEx, TypeEx, LCusp, LDepth, LTw,
+    ...) are each proved; only narrowBig_holds (and St3) are conditional'
+  - '''It appears to organise a reduction to published results'' — only true of NarrowBig; the main existence theorem takes
+    no published-result hypotheses'
+  - '''building the local Langlands correspondence'' — overstated: no L/epsilon factors or surjectivity, and non-depth-zero
+    cuspidals map to placeholders'
+k2033:
+  verdict: minor fix
+  title: 'Unitary groups over local fields: Satake parameters of spherical representations'
+  plain: Proves that every irreducible spherical representation of an unramified unitary group over a local field sits inside
+    a principal series whose Satake parameter can be reordered so its sizes decrease and are all at least 1. The supporting
+    work includes the Iwasawa, Bruhat and Iwahori decompositions, Haar-measure counts on Weyl cells, and the rank-one integral
+    that gives the factor (1 - z/q^2)(1 + z/q)/(1 - z^2).
+  evidence:
+  - '...UnitaryExtremality.ExtremeU: extremeU — proves ExtremeU: an admissible irreducible rep with Satake parameter alpha
+    embeds in a principal series with Weyl-conjugate beta, norms decreasing and each >= 1'
+  - '...InertEigenvalues.EigInert: eigInert — at inert places of a CM field, the ordered parameter beta exists plus a nonzero
+    Iwahori-fixed eigenvector of the level operators with explicit eigenvalue'
+  - 'Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryIwasawaBruhatDecomposition: bruhat_iwasawa — every element
+    of GU is Borel * permutation * Iwahori'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.SphericalVectorValueUnitaryRankOneGindikinKarpel: value_rankOne
+    — explicit value of a normalised spherical function on the rank-one Weyl cell'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasSumSu21RankOneSeriesDifferences: hasSum_series — shell series
+    sums to cSU q z = (1 - z/q^2)(1 + z/q)/(1 - z^2)'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.HaarMeasureUniqueSigmaCompactNormalisedCompactOp: haar_unique_of_sigmaCompact_normalised
+    — a left-invariant measure agreeing with c*mu on one compact open set equals c*mu'
+  unsupported:
+  - 'Haar measure is unique — slightly overstated: Haar measure is unique up to a constant factor, which is fixed by its value
+    on one compact open set; it is a general group lemma, not unitary-specific'
+  - 'existence of a diagonal element — too vague: exists_strictDom gives a diagonal element of GU whose valuations strictly
+    decrease along the diagonal'
+k0293:
+  verdict: minor fix
+  title: Characters of finite groups and Brauer's induction theorem
+  plain: 'Character theory for finite groups, built from scratch and fully proved: characters (traces of representations),
+    virtual characters (integer combinations), induction, the inner product and orthogonality. The main result is Brauer''s
+    induction theorem, that every character is an integer combination of characters induced from one-dimensional characters
+    of small subgroups, together with results on twisted characters of semidirect products with a cyclic group.'
+  evidence:
+  - 'Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.AbByPOfComm: IsChar/Virt/ind/pair — characters as traces
+    of representations, their additive closure, induction and the normalised pairing'
+  - 'GroundTheory.LocalFields.BrauerInductionAssembly: mem_spanZ_of_mono — every character is in the ℤ-span of characters
+    induced from elementary subgroups (hypothesis discharged by IsElementary.exists_eq_indLin)'
+  - 'Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BrauerDegreeZero: brauerDegreeZero — trace(ρ g) − dim V is
+    a ℤ-combination of Ind λ − Ind 1'
+  - 'Development.AbelianVarietyTheory.Proofs.CharacterTheory.FiniteGroupFunctionPairingAddNatPosSymm: character_pairing_eq_finrank_hom
+    — pairing of characters equals dimension of intertwining maps'
+  - 'Development.AbelianVarietyTheory.Proofs.CharacterTheory.VirtualCharactersMulComapConjIndLinear: virt_mul_comap_conj_ind_linear
+    — virtual characters closed under products, restriction and induction'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.CliffordSemidirectPrimeIndexIrreducibleCharacter: clifford_prime_index
+    — irreducible characters of G ⋊ Γ (Γ prime order) vanish on a coset or restrict irreducibly'
+  unsupported: []
+k2009:
+  verdict: minor fix
+  title: Local Langlands bookkeeping at split places for the theta-lift argument
+  plain: 'Assuming a local Langlands map exists, these files work out what it says at the split places of a CM field: spherical
+    (unramified) components get unramified parameters whose Frobenius eigenvalues match the Hecke eigenvalues, tame and depth-zero
+    components get inertia data read off from Green''s labels, and a "series correspondence" built from the map agrees with
+    it. Almost every result also assumes a bundle of published inputs or a large package of character-choice data.'
+  evidence:
+  - 'Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.IsRc: IsSeriesCorrespondence —
+    Prop: per-place correspondence agrees with locRecT hL'
+  - 'Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ExistsIsRc: exists_isRc_alt — given
+    hL, such a correspondence exists (built from locRecT)'
+  - 'Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ImportsTerTailStatement: GlobalTheory.T.locRecT_unr_of_sphAt
+    — spherical at a split place implies unramified local parameter'
+  - 'Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.SglobDzBigDef: DepthZeroInertiaBigAlt
+    — Prop: inertia char. polynomial of rc(sigma) equals lifted Green label polynomial'
+  - 'Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LocalBesselMultiplicityOne: GlobalTheory.T.LocalBesselMultiplicityOne''
+    — abbrev: under label-tie hypotheses, TypeLab holds; nothing about Bessel models'
+  - 'Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LocalTypeDeterminedAtAllPrimes:
+    GlobalTheory.T.tieChi_at_members_of_depthZero — from HtCard, third-layer inputs, DepthZeroSupport and hL, tieChi, admDZ,
+    TieInePoly and SerLoc hold at layer members'
+  unsupported:
+  - the local Bessel model is unique — taken from the name LocalBesselMultiplicityOne; the statement concerns type labels
+    (TypeLab), and no Bessel model appears
+  - depth-zero types are determined at all primes — taken from the file name; the theorem proves a conjunction of tie/character/series
+    conditions at layer member points under several bundles
+  - This view only shows statements. — filler about the site, not the code; proofs are present
+k0913:
+  verdict: minor fix
+  title: Twisted trace on unitary-invariant maps is ±2^n, via highest-weight counting
+  plain: These files prove that a certain twisted trace, taken over the maps from a finite-dimensional unitary-group representation
+    into an irreducible module for GL(n) viewed as a real group, is always plus or minus 2^n. The proof counts highest-weight
+    vectors (vectors killed by raising operators), shows only one candidate weight occurs and its space is a line, and uses
+    Weyl-character product identities, a Dirac-operator inequality and simultaneous diagonalisation of commuting Hermitian
+    matrices along the way.
+  evidence:
+  - 'Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GL4GeometricSide.CoreG: UpperTheory.V.Z.GSp4Splitting.coreG
+    — proves CoreG (twisted trace on invariants = ±2^n) from countG_holds, multG_of_multFor multiplicity_formula_holds, signOne'
+  - 'Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.HighestVectorsRegularLine:
+    coreG_of — CountG and MultG and SignOne imply CoreG'
+  - 'Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DiagonalMemUnitary: countG — trace on invariants = 2^n times
+    the sum over harmSet of traces of A on highest-weight spaces'
+  - 'Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CommutingHermitianSimultaneousDiag: exists_unitary_isDiag —
+    commuting Hermitian matrices are diagonalised by one unitary'
+  - 'Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DominanceOfWeylCharacterCoeff: domLE_of_mul_eq — weights in
+    a Weyl-character-type product are dominated by m0 lam'
+  unsupported:
+  - Over half the files are wrappers — 61 of 172 (about 35%) are wrappers; 71 helpers, 40 units
+  - the overall target is only partly clear — the target is the proved CoreG ±2^n twisted-trace statement
+  - highest weight has multiplicity one — only for IsCoreMod modules, and derived from the hypothesis MultFor supplied from
+    outside the cluster
+k2384:
+  verdict: minor fix
+  title: Weil-representation Fock models and multiplicity-one steps for theta lifts
+  plain: Works with the Weil representation of unitary groups over a CM field, on the "polynomial Fock space" spanned by Gaussians
+    and their repeated Heisenberg derivatives at the real places. It proves this space and its degree filtration are preserved
+    by the maximal compact subgroup. Assuming a bundle of published results named KP, it then proves multiplicity-one statements
+    (any two such maps agree up to a scalar) for the induction steps of theta lifts in two set-ups, A and B, along with Levi,
+    Iwasawa and lattice facts at finite places.
+  evidence:
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolynomialFockSpaceStableArchimedeanMaximalCompa: pol_stable_kInf
+    — the Weil action of the archimedean maximal compact KInf preserves the polynomial Fock space M.Pol (no KP)'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolEqISupFockDeg: pol_eq_iSup_fockDeg — M.Pol is the union of fockDeg
+    k (Gaussians plus k Heisenberg-derivative steps)'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.GoodCharactersParityStatement: GlobalTheory.T.good_characters_parity
+    — B.mα w + a'' is even at every infinite place for good data'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConfigAInductionThetaLiftStatement: GlobalTheory.T.config_a_induction_theta_lift
+    — under KP, in configuration A, two IsFrobInf maps are proportional on the low part or the first vanishes there'
+  - 'Development.AbelianVarietyTheory.Proofs.DivisorProofs.H1A: h1B — under KP, in configuration B, IndLineFin holds at every
+    finite place and IndLineInf at the archimedean places'
+  - 'Development.AbelianVarietyTheory.Definitions.Divisors.SiegelWeilAnisotropicHermitian: KP — a Prop bundling about 24 published
+    theorems (Howe duality, Siegel-Weil, Jacquet-Shalika, Rallis tower, ...)'
+  unsupported:
+  - 'one result builds a stable subspace in a hyperbolic plane over a Hensel-type local ring — wrong: exists_stable_hyp is
+    at a real place over a number field; Hensel (henselSqrt) is used only in the Iwasawa decomposition at inert finite places'
+  - 'induction steps for a theta lift in a configuration called A — incomplete: about half the files treat configuration B,
+    and finite-place Iwasawa/Levi/Jacquet/induced-representation results are not mentioned'
+  - 'Terms like Fock degree and reading are project names whose exact meaning is not clear — filler and inaccurate: fockDeg
+    and IsReading both have explicit, readable definitions'

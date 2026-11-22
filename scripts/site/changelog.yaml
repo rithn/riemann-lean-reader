@@ -3,6 +3,13 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-22
+  title: 16 core cluster names checked against the code
+  items:
+    - "The names and descriptions of the 16 core clusters (the main theorem, the final assembly and the clusters closest to them) were checked against their full Lean code and corrected; for example k0677 is now \"Main theorem statements, plus the explicit formula for Dirichlet L-functions\"."
+    - "These 16 clusters carry a \"Checked against the code\" badge on their pages and in the map's panel, with a few of the Lean declarations the check rests on. All other names are still written by Claude from samples of the code."
+    - "Their page addresses changed with their names; old addresses redirect. /api/clusters.json has a new field, checked."
+
+- date: 2026-11-22
   title: Status, explainer, FAQ and press pages
   items:
     - "New pages: /status/ (has the Riemann hypothesis been solved?), /what-is-the-riemann-hypothesis/, /how-we-know/, /why-it-matters/, /faq/ and /press/."

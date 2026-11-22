@@ -1,7 +1,8 @@
 """Write data/*.json for the static explorer site (github.com/rithn/rh-lean-explorer).
 
-usage: uv run -q --with pyyaml --with networkx --with scipy python -I scripts/site/build_site.py <cluster dir> <out dir>
+usage: uv run -q --with pyyaml --with networkx --with scipy --with markdown-it-py python -I scripts/site/build_site.py <cluster dir> <out dir>
 e.g.   ... build_site.py ../notes/cluster3 ../site
+(from a worktree, e.g. repo-core: ... build_site.py ../notes/cluster3 ../site-core)
 
 Reads only our own derived data (map.json, merged.tsv, import list, naming answers, tree YAML).
 No Lean source text is copied: files appear by module name and path only.
@@ -153,6 +154,21 @@ def deconf(text):
 for c in NAMES.values():
     if c.get('plain'):
         c['plain'] = deconf(dehedge(c['plain']))
+# ---------- checked names (data/core-names.yaml): the 16 core clusters' titles and descriptions, checked against their
+# full Lean source. They win over every AI run above (and skip dehedge/deconf: they are used exactly as written). Each
+# also carries its evidence (module: declaration — what it says), shown on the cluster's page and in the app's panel.
+CHECKED = yaml.safe_load(open(os.path.join(REPO, 'data', 'core-names.yaml')))
+assert set(CHECKED) <= set(CL), 'core-names.yaml names an unknown cluster'
+for k, x in CHECKED.items():
+    assert x.get('title') and x.get('plain') and len(x.get('evidence') or []) >= 2, f'core-names.yaml: {k} needs title, plain, evidence'
+    NAMES[k] = {**NAMES.get(k, {}), 'title': x['title'], 'plain': ' '.join(x['plain'].split()), 'checked': True}
+def evidence(k, n=3):   # [(module, declaration, what it says)] for a checked cluster, first n
+    out = []
+    for e in CHECKED[k]['evidence'][:n]:
+        e = ' '.join(e.split())
+        m = re.match(r'^(\S+): (.+?) — (.+)$', e)
+        out.append(m.groups() if m else ('', '', e))
+    return out
 HINTS = json.load(open(os.path.join(D, 'hints.json'))) if os.path.exists(os.path.join(D, 'hints.json')) else {}
 
 # ---------- tree (core proof outline + concepts + mapped file nodes)
@@ -458,8 +474,19 @@ for t in TH:
 json.dump(dict(sorted(TSLUG_HIST.items())), open(TSLUG_F, 'w'), indent=1)
 TOLD = {f'/theme/{t}-{s}/': TPATH[t] for t, ss in TSLUG_HIST.items() if t in TPATH for s in ss if s != TSLUG[t]}
 assert not set(TOLD) & set(TPATH.values()), 'an old theme path is also a current one'
+# the same for clusters (scripts/site/cluster_slugs_history.json): a renamed cluster's old /cluster/<id>-<old>/ 301s
+# to its current path
+CSLUG_F = os.path.join(HERE, 'cluster_slugs_history.json')
+CSLUG_HIST = json.load(open(CSLUG_F)) if os.path.exists(CSLUG_F) else {}
+for k in CL:
+    if CSLUG[k] not in CSLUG_HIST.setdefault(k, []):
+        CSLUG_HIST[k].append(CSLUG[k])
+open(CSLUG_F, 'w').write('{\n' + ',\n'.join(f'{json.dumps(k)}: {json.dumps(v, ensure_ascii=False)}' for k, v in sorted(CSLUG_HIST.items())) + '\n}\n')
+COLD = {f'/cluster/{k}-{s}/': CPATH[k] for k, ss in CSLUG_HIST.items() if k in CPATH for s in ss if s != CSLUG[k]}
+assert not set(COLD) & set(CPATH.values()), 'an old cluster path is also a current one'
 # overview.json is what the map needs for first paint. Field notes: 's' is the URL slug (page = /cluster/<id>-<s>/,
-# /theme/<id>-<s>/); 'uses' are cluster numbers (k0677 -> 677; the app turns them back into ids); search words
+# /theme/<id>-<s>/); 'uses' are cluster numbers (k0677 -> 677; the app turns them back into ids); 'ck': 1 marks a cluster whose
+# name was checked against its code (data/core-names.yaml); search words
 # ('w') and folder labels ('fl', kept here only for unnamed clusters) live in words.json, loaded after first paint. Dropped as unused by the app: conf, coh, lines, core.
 overview = {
     'updated': datetime.date.today().isoformat(),
@@ -489,6 +516,7 @@ for k, c in CL.items():
     overview['clusters'].append({
         'id': k, 't': c['theme'], 'title': n.get('title'), 's': CSLUG[k],
         **({} if n.get('title') else {'fl': folder_label(c['folders'])}),
+        **({'ck': 1} if n.get('checked') else {}),
         'n': len(c['files']), 'uses': [int(u[1:]) for u in uses[k]], 'd': dist.get(k), 'fi': feeds[k],
         **({'r': min(nroutes[k], 100)} if nroutes.get(k, 1) > 1 else {}),
         'x': r2(pos_c[k][0]), 'y': r2(pos_c[k][1]),
@@ -529,6 +557,7 @@ for k, c in CL.items():
         'source': n.get('source') if isinstance(n.get('source'), dict) else None,
         'hints': HINTS.get(k, []), 'uses': uses[k], 'used_by': sorted(used_by[k]),
         'dist': dist.get(k), 'core': core_cl.get(k, []), 'lines': c['lines'], 'files': files,
+        **({'checked': True, 'evidence': [{'m': m, 'decl': dc, 'says': w} for m, dc, w in evidence(k)]} if k in CHECKED else {}),
     }
     json.dump(detail, open(os.path.join(OUT, 'data', 'c', k + '.json'), 'w'), separators=(',', ':'))
 
@@ -827,6 +856,17 @@ def steps_txt(d):
     return 'The main theorem' if d == 0 else f'{d} import step{"" if d == 1 else "s"} to the main theorem'
 STATUS = (f'<p class="meta">Proof status as of {AS_OF_TXT}: {ST_SHORT[0].lower()}{ST_SHORT[1:]} Names and descriptions on this map '
           'are written by Claude from samples of the code and may be wrong.</p>')
+# checked clusters (data/core-names.yaml) say so instead, with a badge that links to the evidence on the same page
+STATUS_CK = STATUS.replace('Names and descriptions on this map are written', "This cluster's name and description were checked "
+                           'against its full Lean code; the other names and descriptions on this map are written')
+assert STATUS_CK != STATUS
+CK_BADGE = '<div class="badges"><a class="badge checked" href="#checked">Checked against the code</a></div>'
+def checked_html(k):
+    return ('<h2 id="checked">Checked against the code</h2><p>This name and description were checked against every Lean file in '
+            f'the cluster (source commit <code>{LEAN_SHA[:8]}</code>) and corrected where the earlier, AI-drafted ones were wrong. '
+            'Some of the declarations the check rests on:</p><ul class="evidence">'
+            + ''.join(f'<li><code>{H(dc)}</code>' + (f' in <code>{H(m)}</code>' if m else '') + f': {H(w)}</li>' for m, dc, w in evidence(k))
+            + '</ul>')
 # feedback lives in one place: the site footer in the index.html template (@SomTheBuilder on X)
 ABOUT_T = 'Has the Riemann hypothesis been solved? How it was checked'
 CONTENT_PAGES = []   # (path, title, h1) of the Markdown content pages, filled in below; footer, home, llms.txt use it
@@ -895,7 +935,9 @@ for k, p in CPATH.items():
     on_route = set(up)
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
             f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k} · Lean proof of the Riemann hypothesis</div><h1>{H(title)}</h1>'
-            f'<p class="meta tags">{H(ctag_line(k))}</p><p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>{STATUS}{why}'
+            f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '')
+            + f'<p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>'
+            + (STATUS_CK + checked_html(k) if k in CHECKED else STATUS) + why
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
             + (f'<h2>In the learning path</h2><ul class="rows">' + ''.join(
                 f'<li><a href="/learn/#{H(x["id"])}"><span class="t">{H(x["title"])}<small>{H(x["kind"])}</small></span></a></li>' for x in lp)
@@ -916,7 +958,8 @@ about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About
          '<h1>Has the Riemann hypothesis been solved?</h1>' + ST_LONG +
          '<h2>What this site is</h2><p>A reading guide: a map of the Lean files, grouped by their words and imports into '
          f'{len(CL):,} clusters in {len(TH)} themes. Cluster names and descriptions were written by Claude from a sample of about one '
-         f'tenth of each cluster\'s files. They can be wrong. All {len(CL):,} clusters are named.</p><p>{UNMAPPED_TXT}</p><p>{ST_ARCHIVE}</p><p>{LICENSE_TXT}</p>'
+         f'tenth of each cluster\'s files. They can be wrong. All {len(CL):,} clusters are named. The {len(CHECKED)} core clusters '
+         'were then checked against their full Lean code and corrected; their pages carry a “Checked against the code” badge.</p><p>{UNMAPPED_TXT}</p><p>{ST_ARCHIVE}</p><p>{LICENSE_TXT}</p>'
          f'<h2>Where to start</h2><ul class="rows"><li><a href="{MAIN}">The main theorem\'s cluster</a></li>'
          '<li><a href="/learn/">Learning path: from the theorem down to school maths</a></li><li><a href="/">The full map</a></li>'
          '<li><a href="/changelog/">Changelog: what changed on this site, and when</a></li></ul>'
@@ -1059,6 +1102,12 @@ def faq_pairs(t):   # H3 question, then its first paragraph (the visible answer,
             for q, a in re.findall(r'(?m)^### (.+)\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
 KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {'/', '/about/', '/learn/', '/route/', '/list/', '/changelog/'}
 DRAFTS = [(f, *read_draft(f), crumb, eb, pr) for f, crumb, eb, pr in CONTENT]
+OLD_PATHS = {**TOLD, **COLD}   # a draft linking to a renamed cluster or theme gets its current address
+for i, (f, fm, t, *rest) in enumerate(DRAFTS):
+    t2 = re.sub(r'\]\((/(?:cluster|theme)/[^)#\s]*)', lambda m: '](' + OLD_PATHS.get(m.group(1), m.group(1)), t)
+    if t2 != t:
+        print(f'{f}: links to renamed pages updated')
+        DRAFTS[i] = (f, fm, t2, *rest)
 KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS}
 for f, fm, t, crumb, eb, pr in DRAFTS:
     bad = [u for u in re.findall(r'\]\((/[^)#\s]*)', t) if u not in KNOWN_PATHS]
@@ -1165,7 +1214,7 @@ API_STATUS = {
     'source_archive': {'text': plain(ST_ARCHIVE), 'repo': LEAN_REPO, 'commit': LEAN_SHA, 'files': TOTAL_FILES},
     'sources': [{'name': t, 'url': u} for t, u in ST_SOURCES], 'details': DREW, 'page': SITE + '/status/',
     'counts': {'lean_files': TOTAL_FILES, 'mapped_files': len(mod_cl), 'clusters': len(CL), 'themes': len(TH)},
-    'note': 'Cluster and theme names and descriptions on this site are written by Claude from samples of the code and may be wrong.',
+    'note': f'Cluster and theme names and descriptions on this site are written by Claude from samples of the code and may be wrong, except the {len(CHECKED)} core clusters marked checked in /api/clusters.json, which were checked against their full Lean code.',
     'license': {'url': LICENSE, 'name': 'CC BY 4.0', 'applies_to': "this site's own data (cluster and theme names, descriptions, map layout, JSON); the Lean source keeps its own licence"},
 }
 jdump('status.json', API_STATUS)
@@ -1174,12 +1223,13 @@ jdump('clusters.json', {'updated': DATA_DATE, 'site': SITE, 'fields': {'path': '
       'files': 'Lean files in the cluster', 'field': "id of the cluster's field of mathematics (that of its theme; see math_fields)",
       'era': 'decade of the newest concept the cluster needs: ' + ', '.join(n for n, _ in ERA_OF.items()),
       'era_year': 'year of that newest concept', 'level': 'highest maths level among its concepts: ' + ', '.join(n for _, n in LEVELS),
-      'new_in_proof': "true if it rests on the proof's own named constructions rather than published mathematics"},
+      'new_in_proof': "true if it rests on the proof's own named constructions rather than published mathematics",
+      'checked': f'true for the {len(CHECKED)} core clusters whose title and description were checked against their full Lean code and corrected; false: written by Claude from a sample of the code, may be wrong'},
       'tags_note': 'field, era and level are editorial tags derived from the theme and cluster descriptions and their concept tags; they may be wrong',
       'math_fields': API_FIELDS, 'main': main, 'clusters': [
     {'id': k, 'title': NAMES[k]['title'] if k in NAMES else None, 'theme': CL[k]['theme'], 'path': CPATH[k],
      'files': fcount[k], 'dist': dist.get(k), 'field': TFIELD[CL[k]['theme']], 'era': CTAGS[k]['era'], 'era_year': CTAGS[k]['era_year'],
-     'level': CTAGS[k]['level'], 'new_in_proof': CTAGS[k]['new_in_proof']} for k in CL]})
+     'level': CTAGS[k]['level'], 'new_in_proof': CTAGS[k]['new_in_proof'], 'checked': k in CHECKED} for k in CL]})
 jdump('themes.json', {'updated': DATA_DATE, 'fields': {'files': 'Lean files in the theme (all themes sum to the mapped total)',
       'units': 'units after folding wrappers and single-use helpers into the file they belong to', 'clusters': 'clusters in the theme',
       'field': 'id of the field of mathematics the theme belongs to (see math_fields in /api/clusters.json)'}, 'themes': [
@@ -1187,7 +1237,7 @@ jdump('themes.json', {'updated': DATA_DATE, 'fields': {'files': 'Lean files in t
      'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters']), 'units': size[t], 'field': TFIELD[t]} for t in TH]})
 API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
              'endpoints': {'/api/status.json': 'dated proof status with primary sources',
-                           '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist, field, era, era_year, level, new_in_proof; plus math_fields, the {len(FIELDS)} fields (id, name, hue, description)',
+                           '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist, field, era, era_year, level, new_in_proof, checked; plus math_fields, the {len(FIELDS)} fields (id, name, hue, description)',
                            '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files, field'},
              'tags': {'field': f'one of {len(FIELDS)} fields of mathematics per theme; a cluster takes its theme\'s field',
                       'era': 'decade of the newest concept a cluster needs: ' + ', '.join(ERA_OF),
@@ -1207,7 +1257,7 @@ open(os.path.join(OUT, 'api', 'index.html'), 'w').write(
 # ---------- llms.txt and llms-full.txt
 llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
         f'An interactive map of the Lean proof of the Riemann hypothesis: {FILES_TXT} in {len(CL):,} clusters and {len(TH)} themes. '
-        'Names and descriptions are written by Claude from samples of the code and may be wrong. Every page has a Markdown copy at <page>index.md.\n\n'
+        f'Names and descriptions are written by Claude from samples of the code and may be wrong, except the {len(CHECKED)} core clusters marked "Checked against the code". Every page has a Markdown copy at <page>index.md.\n\n'
         f'## Status (as of {STATUS_AS_OF})\n\n'
         + ''.join(f'- {e["date"]}: {e["event"]} Source: {e["source"]}\n' for e in STATUS_FACTS)
         + f'- {plain(ST_QUOTE)}\n- Verified: {mdtext(ST_VERIFIED)}\n- The joint statement certifies four criteria:\n'
@@ -1242,8 +1292,8 @@ open(os.path.join(OUT, 'sitemap.xml'), 'w').write(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     + ''.join(f'<url><loc>{SITE}{u}</loc><lastmod>{d}</lastmod><priority>{p}</priority></url>\n'
               for u, p, d in sorted(URLS, key=lambda z: (-z[1], z[0]))) + '</urlset>\n')
-# _redirects (Cloudflare Pages, read top-down): the app-view rewrites, then 301s from old theme paths (renamed themes,
-# from TSLUG_HIST) to the current ones, with and without the trailing slash, and for the Markdown copies
+# _redirects (Cloudflare Pages, read top-down): the app-view rewrites, then 301s from old theme and cluster paths (renamed
+# themes and clusters, from TSLUG_HIST and CSLUG_HIST) to the current ones, with and without the trailing slash, and for the Markdown copies
 REDIR = ('# Generated by scripts/site/build_site.py; edit there, not here.\n'
          '# Cloudflare Pages rewrites (200 = serve the home page (index.html) at the same URL; target must be "/" because Pages 308s /index.html to /; the app reads the path).\n'
          '# Clusters, themes, /about/, /learn/ and /changelog/ are real static pages; only these app views have none.\n'
@@ -1252,6 +1302,9 @@ REDIR = ('# Generated by scripts/site/build_site.py; edit there, not here.\n'
 if TOLD:
     REDIR += '\n# Renamed themes: old address -> current address (permanent)\n' + ''.join(
         f'{o} {n} 301\n{o.rstrip("/")} {n} 301\n{o}index.md {n}index.md 301\n' for o, n in sorted(TOLD.items()))
+if COLD:
+    REDIR += '\n# Renamed clusters: old address -> current address (permanent)\n' + ''.join(
+        f'{o} {n} 301\n{o.rstrip("/")} {n} 301\n{o}index.md {n}index.md 301\n' for o, n in sorted(COLD.items()))
 open(os.path.join(OUT, '_redirects'), 'w').write(REDIR)
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
 KEY_F = os.path.join(HERE, 'indexnow.key')   # IndexNow key (public by design: it is served at /<key>.txt)
