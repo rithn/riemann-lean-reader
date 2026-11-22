@@ -508,7 +508,7 @@ def alt_links(path):
 def ld(obj):  # JSON-LD block; '</' escaped so text cannot close the script tag
     return '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', **obj}, ensure_ascii=False).replace('</', '<\\/') + '</script>\n'
 ORG_ID, SITE_ID = SITE + '/#org', SITE + '/#website'
-ORG = {'@type': 'Organization', '@id': ORG_ID, 'name': SITE_NAME, 'url': SITE + '/', 'sameAs': [X_SITE]}
+ORG = {'@type': 'Organization', '@id': ORG_ID, 'name': SITE_NAME, 'url': SITE + '/', 'logo': SITE + '/logo.png', 'sameAs': [X_SITE]}
 RH_THING = {'@type': 'Thing', 'name': 'Riemann hypothesis', 'sameAs': 'https://en.wikipedia.org/wiki/Riemann_hypothesis'}
 def crumbs_ld(*items):  # (name, path) pairs, home first
     return {'@type': 'BreadcrumbList', 'itemListElement': [
@@ -516,7 +516,7 @@ def crumbs_ld(*items):  # (name, path) pairs, home first
 def article_ld(path, headline, desc, published):
     return {'@type': 'Article', '@id': SITE + path + '#article', 'headline': headline, 'description': desc,
             'url': SITE + path, 'mainEntityOfPage': SITE + path, 'inLanguage': 'en',
-            'datePublished': published, 'dateModified': '{{UPDATED}}', 'author': {'@id': ORG_ID},
+            'datePublished': published + 'T00:00:00Z', 'dateModified': '{{UPDATED}}T00:00:00Z', 'author': {'@id': ORG_ID},
             'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isPartOf': {'@id': SITE_ID}, 'image': SITE + '/og.png?v=2'}
 def faq_ld(pairs):
     """FAQPage for (question, answer) pairs; answers may hold simple HTML (links, lists).
@@ -604,12 +604,13 @@ def mdpath(path):
 
 # ---------- page writer
 URLS = []  # (path, priority, lastmod) for the sitemap
+ARTICLES = {'/about/', '/learn/', '/route/'}   # pages with Article JSON-LD get og:type article
 def head(path, title, desc, lds, md=True):
     t, d, u = H(title), H(desc), H(SITE + path)
     return ((ld({'@graph': lds}) if lds else '') + f'\n<link rel="canonical" href="{u}">\n' + alt_links(path)
             + (f'<link rel="alternate" type="text/markdown" href="{H(mdpath(path))}">\n' if md else '')
             + f'<link rel="alternate" type="application/rss+xml" title="{SITE_NAME} changelog" href="/changelog/feed.xml">\n'
-            f'<meta property="og:type" content="website">\n'
+            f'<meta property="og:type" content="{"article" if path in ARTICLES else "website"}">\n'
             f'<meta property="og:site_name" content="{SITE_NAME}">\n<meta property="og:title" content="{t}">\n'
             f'<meta property="og:description" content="{d}">\n<meta property="og:url" content="{u}">\n'
             f'<meta property="og:image" content="{SITE}/og.png?v=2">\n<meta property="og:image:width" content="1200">\n'
