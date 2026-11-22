@@ -3,10 +3,17 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-22
+  title: Status, explainer, FAQ and press pages
+  items:
+    - "New pages: /status/ (has the Riemann hypothesis been solved?), /what-is-the-riemann-hypothesis/, /how-we-know/, /why-it-matters/, /faq/ and /press/."
+    - "The explainer has three levels, Simple, Student and Expert, as tabs; each level also has its own Markdown file (simple.md, student.md, expert.md)."
+    - "The status block on every page, the app, /api/status.json and llms.txt now states what was verified, the four certified criteria, the live list of checks and what the proof covers."
+
+- date: 2026-11-22
   title: Clean links, list view, Lean source viewer, faster loading
   items:
     - "Renamed 20 themes whose names described only a small part of their content; old addresses redirect."
-    - "Status wording updated: who certified, ongoing checks, what is not yet claimed. One dated status block now feeds every page, the app, /api/status.json and llms.txt, and About notes that the source viewer shows the original archive as released (commit 40e56bab)."
+    - "Status wording updated: who certified, the ongoing checks and what the proof covers. One dated status block now feeds every page, the app, /api/status.json and llms.txt, and About notes that the source viewer shows the original archive as released (commit 40e56bab)."
     - "All 2,647 clusters now have names and descriptions written by Claude, and every cluster has its own page."
     - "Pages have real addresses (for example /cluster/k0677-…/ and /about/) instead of #/ links; old #/ links still work."
     - "New list view at /list/: every cluster as text, ordered by distance from the main theorem, by theme or by size, with a filter."
@@ -21,7 +28,6 @@
     - "This changelog and its RSS feed; feedback goes to @SomTheBuilder on X, from the site footer, and each cluster has a small \"Report a wrong name\" link."
     - "Lean source in a wide viewer: file pages open with the source already loading, cluster file lists have a </> button, and the import lines at the top of a file are links (files in the archive open in the viewer; Mathlib, Batteries and Lean core files open their Mathlib docs page)."
     - "/route/ is now a picture: one ring per import step from the main theorem, sized by its number of clusters; click a ring to list its clusters."
-    - "Status wording: the joint statement does not claim peer review, and no refereed paper has been announced."
     - "The map is coloured by nine fields of mathematics (theme colours, or distance from the main theorem, are one tap away), and can be filtered by field, distance, era (the decade of the newest concept a cluster needs), maths level, and what is new in this proof. Filters are part of the address, so a filtered view can be shared, and the list view uses the same filters."
     - "Cluster panels and pages show each cluster's field, era and maths level; /api/clusters.json has them too."
 

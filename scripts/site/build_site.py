@@ -209,7 +209,6 @@ AS_OF_TXT = datetime.date.fromisoformat(STATUS_AS_OF).strftime('%-d %b %Y')
 STMT = 'https://leanprover-community.github.io/blog/posts/riemann-hypothesis/'
 NOTE, DREW = 'https://alpo.ge/remark.pdf', 'https://math.mit.edu/~drew/grh/'
 MATHLIB_RH = 'https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/LSeries/RiemannZeta.html#RiemannHypothesis'
-CLAY_RULES = 'https://www.claymath.org/millennium-problems/rules/'
 LEAN_REPO = 'https://github.com/leanprover-community/riemann-hypothesis'
 LEAN_SHA = '40e56bab026552e089d7afcfeff08d2defb9c005'   # unchanged mirror of the 175,187-file archive; app.js GH_SHA must match
 def plain(h):
@@ -229,39 +228,37 @@ ST_RELEASE = (f'On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hy
               f'(GRH) for Dirichlet L-functions, as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, with a note at '
               f'<a href="{NOTE}">alpo.ge</a>.')
 ST_QUOTE = 'In its words: “We hereby certify that both the statement and the proof of the Riemann Hypothesis are correct.”'
-ST_CHECKS = [   # the joint statement's four criteria, in its order and close to its wording
-    f'The statement is correct: it is Mathlib\'s own <a href="{MATHLIB_RH}"><code>RiemannHypothesis</code></a>, carefully vetted '
-    'by experts in Lean and number theory.',
-    'The library compiles without errors: dozens of people compiled it and reproduced the same raw proof export.',
-    'The theorem proved is exactly Mathlib\'s statement, as confirmed by two independent tools (comparator and con-leche --compare).',
-    'The proof is valid: the exported proof was checked by several proof checkers, including Lean\'s official kernel and the '
-    'con-leche and con-ron checkers, which come with a formal proof, relative to set theory, that they cannot accept a false proof. '
-    'The checks ran on an inert export of the proof.']
-ST_ONGOING = (f'More independent checks, some still running on {AS_OF_TXT}, are listed on Andrew Sutherland\'s verification page at '
-              f'MIT: <a href="{DREW}">math.mit.edu/~drew/grh</a>.')
-ST_SCOPE = ('The proof covers Mathlib\'s <code>RiemannHypothesis</code> and GRH for Dirichlet L-functions (all moduli and all '
-            'characters), and nothing broader: Dedekind zeta functions, Hecke L-functions and automorphic L-functions in general '
-            'are not among the statements that were checked.')
-ST_NOT_YET = ('There is no human-readable proof yet: Alpöge\'s note says he decided “to only present Lean”. The joint statement does not '
-              f'claim peer review, and no refereed paper has been announced. No Clay Millennium Prize is in play: <a href="{CLAY_RULES}">Clay\'s rules</a> require publication, '
-              'a two-year wait and general acceptance in the mathematics community.')
+ST_CHECKS = [   # the joint statement's four criteria, in its order, worded as on /status/ (data/pages/status.md)
+    f'The formal statement is the Riemann hypothesis as Mathlib states it: <a href="{MATHLIB_RH}"><code>RiemannHypothesis</code></a>.',
+    'The library compiles without errors, and dozens of people reproduced the same proof export.',
+    'Two independent tools confirmed that the theorem proved is exactly Mathlib\'s statement.',
+    'Several independent proof checkers accepted the exported proof.']
+ST_VERIFIED = (f'All {TOTAL_FILES:,} modules compile with zero errors. Every module has been replayed through Lean\'s kernel, and the '
+               'exported proof has been accepted by nanoda, con-leche and con-ron. lean4lean accepts every module. A sandboxed rebuild '
+               'on a separate machine produced an export identical to the published one.')
+ST_ONGOING = (f'Andrew Sutherland\'s verification page at MIT keeps the full, live list of independent checks: '
+              f'<a href="{DREW}">math.mit.edu/~drew/grh</a>.')
+ST_SCOPE = ('The proof covers Mathlib\'s <code>RiemannHypothesis</code> and GRH for Dirichlet L-functions, all moduli and characters. '
+            'The theorems are stated without hypotheses.')
 ST_ARCHIVE = (f'The source viewer shows the original archive as released: commit <code>{LEAN_SHA[:8]}</code> of the '
               f'<a href="{LEAN_REPO}">community mirror</a>, an unchanged copy of the {TOTAL_FILES:,}-file archive. The community '
               'repository has since removed 10,724 files in cleanup pull requests, leaving 164,464 .lean files including a new Challenge.lean.')
 ST_ARCHIVE_SHORT = 'This is the original archive as released; the community repository has since removed 10,724 files in cleanup pull requests.'
+RUBINSTEIN = 'https://mrubinst.github.io/grh-lean-verification/'
 ST_SOURCES = [('Joint statement by the Lean and Mathlib communities (21 Nov 2026)', STMT),
               ("Levent Alpöge's note (20 Nov 2026)", NOTE),
               ("Andrew Sutherland's verification page, MIT", DREW),
+              ("Michael Rubinstein's check, Waterloo", RUBINSTEIN),
               ("Mathlib's RiemannHypothesis", MATHLIB_RH),
-              (f'The Lean source as released (community mirror, commit {LEAN_SHA[:8]})', f'{LEAN_REPO}/tree/{LEAN_SHA}'),
-              ('Clay Millennium Prize rules', CLAY_RULES)]
-ST_LONG = (f'<p class="lede">{ST_RELEASE} {ST_CERT} {ST_QUOTE}</p><p class="meta">Status as of {AS_OF_TXT}.</p>'
-           '<h2>How the Lean proof was checked</h2><p>The joint statement says four criteria are all satisfied:</p><ul>'
-           + ''.join(f'<li>{x}</li>' for x in ST_CHECKS) + f'</ul><p>{ST_ONGOING}</p>'
-           f'<h2>What was proved</h2><p>{ST_SCOPE}</p><h2>What is not yet claimed</h2><p>{ST_NOT_YET}</p>'
+              (f'The Lean source as released (community mirror, commit {LEAN_SHA[:8]})', f'{LEAN_REPO}/tree/{LEAN_SHA}')]
+ST_LONG = (f'<p class="lede">{ST_RELEASE} {ST_CERT} {ST_QUOTE}</p><p class="meta">Status as of {AS_OF_TXT}. '
+           '<a href="/status/">Full status page</a>.</p>'
+           f'<h2>How the Lean proof was checked</h2><p>{ST_VERIFIED}</p><p>The joint statement certifies four criteria:</p><ol>'
+           + ''.join(f'<li>{x}</li>' for x in ST_CHECKS) + f'</ol><p>{ST_ONGOING}</p>'
+           f'<h2>What was proved</h2><p>{ST_SCOPE}</p>'
            '<h2>Primary sources</h2><ul>' + ''.join(f'<li><a href="{u}">{_html.escape(t)}</a></li>' for t, u in ST_SOURCES) + '</ul>')
 STATUS_BLOCK = {'as_of': STATUS_AS_OF, 'short': ST_SHORT, 'cert': ST_CERT, 'meta': ST_META, 'chip': ST_CHIP, 'long': ST_LONG,
-                'archive': ST_ARCHIVE, 'archive_short': ST_ARCHIVE_SHORT, 'source_sha': LEAN_SHA}
+                'archive': ST_ARCHIVE, 'archive_short': ST_ARCHIVE_SHORT, 'source_sha': LEAN_SHA, 'page': '/status/'}
 
 def lean_path(m):
     return m.replace('.', '/') + '.lean'
@@ -590,8 +587,8 @@ APP_V, CSS_V = hfiles([os.path.join(OUT, 'app.js')]), hfiles([os.path.join(OUT, 
 TPL = re.sub(r'<link rel="stylesheet" href="/style\.css[^"]*">', f'<link rel="stylesheet" href="/style.css?v={CSS_V}">', TPL, count=1)
 TPL = re.sub(r'<script src="/app\.js[^"]*"[^>]*></script>', f'<script src="/app.js?v={APP_V}" data-v="{DATA_V}"></script>', TPL, count=1)
 TPL = re.sub(r'Charting [\d,]+ Lean files…', f'Charting {TOTAL_FILES:,} Lean files…', TPL)
-TPL = re.sub(r'<a class="status-chip ok" href="/about/" title="[^"]*">\s*<i></i><span>Lean proof · <b>[^<]*</b></span>',
-             f'<a class="status-chip ok" href="/about/" title="{H(ST_META)} How it was checked.">\n    <i></i><span>Lean proof · <b>{ST_CHIP}</b></span>', TPL, count=1)
+TPL = re.sub(r'<a class="status-chip ok" href="/(?:about|status)/" title="[^"]*">\s*<i></i><span>Lean proof · <b>[^<]*</b></span>',
+             f'<a class="status-chip ok" href="/status/" title="{H(ST_META)} How it was checked.">\n    <i></i><span>Lean proof · <b>{ST_CHIP}</b></span>', TPL, count=1)
 assert ST_META in html.unescape(TPL), 'status chip not found in the index.html template'
 assert f"GH_SHA = '{LEAN_SHA}'" in open(os.path.join(OUT, 'app.js')).read(), 'app.js GH_SHA differs from LEAN_SHA'
 assert f'data-v="{DATA_V}"' in TPL and f'style.css?v={CSS_V}' in TPL
@@ -636,8 +633,7 @@ def article_ld(path, headline, desc, published):
             'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isPartOf': {'@id': SITE_ID}, 'image': SITE + '/og.png?v=2'}
 def faq_ld(pairs):
     """FAQPage for (question, answer) pairs; answers may hold simple HTML (links, lists).
-    Only use it on a page that visibly shows exactly these questions and answers (Google's rule).
-    Not used yet: the planned /faq/ page will be its first user."""
+    Only use it on a page that visibly shows exactly these questions and answers (Google's rule). Used by /faq/."""
     return {'@type': 'FAQPage', 'mainEntity': [
         {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in pairs]}
 
@@ -720,7 +716,7 @@ def mdpath(path):
 
 # ---------- page writer
 URLS = []  # (path, priority, lastmod) for the sitemap
-ARTICLES = {'/about/', '/learn/', '/route/'}   # pages with Article JSON-LD get og:type article
+ARTICLES = {'/about/', '/learn/', '/route/'}   # pages with Article JSON-LD get og:type article (content pages add theirs below)
 def head(path, title, desc, lds, md=True):
     t, d, u = H(title), H(desc), H(SITE + path)
     return ((ld({'@graph': lds}) if lds else '') + f'\n<link rel="canonical" href="{u}">\n' + alt_links(path)
@@ -734,7 +730,7 @@ def head(path, title, desc, lds, md=True):
             f'<meta name="twitter:site" content="@RiemannMap">\n'
             f'<meta name="twitter:title" content="{t}">\n<meta name="twitter:description" content="{d}">\n'
             f'<meta name="twitter:image" content="{SITE}/og.png?v=2">\n')
-def page(path, title, desc, route, body, lds=(), priority=.5):
+def page(path, title, desc, route, body, lds=(), priority=.5, md=None):
     is404 = path.endswith('.html')
     date = lastmod(path, title, desc, body)
     t = TPL
@@ -748,7 +744,7 @@ def page(path, title, desc, route, body, lds=(), priority=.5):
         open(os.path.join(OUT, path.strip('/')), 'w').write(t)
         return
     URLS.append((path, priority, date))
-    md = (to_md(body.replace('{{UPDATED}}', date)) + f'\n---\n\n{title}. Web page: {SITE}{path} · updated {date} · '
+    md = ((md if md is not None else to_md(body.replace('{{UPDATED}}', date))) + f'\n---\n\n{title}. Web page: {SITE}{path} · updated {date} · '
           f'site map for machines: {SITE}/llms.txt\n')
     d = os.path.join(OUT, path.strip('/'))
     os.makedirs(d, exist_ok=True)
@@ -833,6 +829,7 @@ STATUS = (f'<p class="meta">Proof status as of {AS_OF_TXT}: {ST_SHORT[0].lower()
           'are written by Claude from samples of the code and may be wrong.</p>')
 # feedback lives in one place: the site footer in the index.html template (@SomTheBuilder on X)
 ABOUT_T = 'Has the Riemann hypothesis been solved? How it was checked'
+CONTENT_PAGES = []   # (path, title, h1) of the Markdown content pages, filled in below; footer, home, llms.txt use it
 ROUTE_T = 'How the Lean proof of the Riemann hypothesis is structured: the route to the main theorem'
 ROUTE_NAV = 'How the proof is structured: the route to the main theorem'
 LEARN_T = 'The Riemann hypothesis proof, step by step: learning path'
@@ -928,7 +925,7 @@ about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About
          'theorem\'s cluster.</p>'
          f'<p class="meta">Data and scripts: <a href="{GH}">{GH.replace("https://", "")}</a> · data for machines: '
          '<a href="/api/">/api/</a> · updated {{UPDATED}}</p>')
-ABOUT_D = f'A Lean proof of the Riemann hypothesis was released on 20 Nov 2026. {ST_META} What was checked, and what is not yet claimed.'
+ABOUT_D = f'A Lean proof of the Riemann hypothesis was released on 20 Nov 2026. {ST_META} What was checked, by whom, and what it covers.'
 page('/about/', ABOUT_T, ABOUT_D, 'about', about,
      [article_ld('/about/', 'Has the Riemann hypothesis been solved? How the Lean proof was checked', ABOUT_D, '2026-11-21'),
       crumbs_ld(('Map', '/'), ('About', '/about/')), ORG], .9)
@@ -988,6 +985,110 @@ ROUTE_D = clip(f'How the Lean proof of the Riemann hypothesis is structured: fro
 page('/route/', ROUTE_T, ROUTE_D, 'route', route_body,
      [article_ld('/route/', ROUTE_T, ROUTE_D, '2026-11-22'), crumbs_ld(('Map', '/'), ('Route', '/route/')), ORG], .8)
 
+# ---------- content pages: Markdown drafts in data/pages/*.md (copied from research/content/pages/, the approved text)
+# Front matter gives title, description, h1 and path. Published as written, except: front matter, HTML comments and
+# build notes for visuals not made yet (blockquotes starting "**Visual") are dropped, and the H1 comes from front matter.
+# A page with sections '## … {#simple}', '{#student}' and '{#expert}' gets level tabs (all three in the DOM; app.js
+# shows one, picked by the hash) and per-level Markdown copies at <path>simple.md, student.md and expert.md.
+try:
+    from markdown_it import MarkdownIt
+except ImportError:
+    sys.exit('build_site.py needs markdown-it-py: add --with markdown-it-py to the uv run command')
+PAGES_DIR = os.path.join(REPO, 'data', 'pages')
+MDIT = MarkdownIt('commonmark', {'html': False}).enable('table')
+READ_LEVELS = [('simple', 'Simple'), ('student', 'Student'), ('expert', 'Expert')]
+CONTENT = [   # draft, breadcrumb name, eyebrow, sitemap priority, first published
+    ('status.md', 'Status', 'Status of the proof', .9),
+    ('what-is-rh.md', 'What is the Riemann hypothesis?', 'Explainer · three levels', .9),
+    ('how-we-know.md', 'How we know', 'How the proof was checked', .8),
+    ('faq.md', 'FAQ', 'Frequently asked questions', .8),
+    ('why-it-matters.md', 'Why it matters', 'Why it matters', .7),
+    ('press.md', 'Press', 'Press, statements and reactions', .7)]
+CONTENT_PUBLISHED = '2026-11-22'
+def read_draft(f):
+    t = open(os.path.join(PAGES_DIR, f), encoding='utf-8').read()
+    m = re.match(r'---\n(.*?)\n---\n', t, re.S)
+    fm, t = yaml.safe_load(m.group(1)), t[m.end():]
+    t = re.sub(r'<!--.*?-->', '', t, flags=re.S)
+    t = re.sub(r'(?m)^> \*\*Visual [^\n]*\n(?:>[^\n]*\n)*\n?', '', t)
+    t = re.sub(r'\A\s*# [^\n]*\n', '', t)
+    return fm, re.sub(r'\n{3,}', '\n\n', t).strip() + '\n'
+def md_html(t):
+    h = MDIT.render(t)
+    h = re.sub(r'<h([2-6])>(.*?)\s*\{#([\w-]+)\}</h\1>', r'<h\1 id="\3">\2</h\1>', h)
+    h = h.replace('<table>', '<div class="tablewrap"><table>').replace('</table>', '</table></div>')
+    return h.replace('<blockquote>', '<blockquote class="callout">').strip()
+def md_abs(t):   # Markdown copies are read off-site: make site links absolute
+    return re.sub(r'\]\((/[^)\s]*)\)', lambda m: f']({SITE}{m.group(1)})', t)
+def h2_sections(t):   # [intro, '## …', '## …', …], split at H2 lines outside code fences
+    out, cur, fence = [], [], False
+    for line in t.split('\n'):
+        if line.startswith('```'):
+            fence = not fence
+        if not fence and line.startswith('## '):
+            out.append('\n'.join(cur)); cur = []
+        cur.append(line)
+    return out + ['\n'.join(cur)]
+def level_split(t):
+    """(before, {level: section}, after) if the page has all three level sections, one after the other; else None."""
+    secs = h2_sections(t)
+    idx = {}
+    for i, x in enumerate(secs):
+        m = re.match(r'## .*?\{#(\w+)\}\s*$', x.split('\n', 1)[0])
+        if m:
+            idx[m.group(1)] = i
+    ids = [idx.get(l) for l, _ in READ_LEVELS]
+    if None in ids:
+        return None
+    assert ids == list(range(ids[0], ids[0] + len(READ_LEVELS))), 'level sections must follow one another: simple, student, expert'
+    return ('\n'.join(secs[:ids[0]]), {l: secs[i] for (l, _), i in zip(READ_LEVELS, ids)}, '\n'.join(secs[ids[-1] + 1:]))
+def levels_html(before, lv, after):
+    tabs = ''.join(f'<a href="#{l}" role="tab" data-level="{l}" aria-controls="{l}">{n}</a>' for l, n in READ_LEVELS)
+    secs = ''.join(f'<section class="level" id="{l}" role="tabpanel" aria-label="{n} level">'
+                   + md_html(re.sub(r'^(## .*?)\s*\{#\w+\}', r'\1', lv[l])) + '</section>' for l, n in READ_LEVELS)
+    return (md_html(before) + '<div class="levels"><div class="ltabs" role="tablist" aria-label="Level">' + tabs + '</div>'
+            + secs + '</div>' + md_html(after))
+def keep_going(t):   # the closing links: a '## Keep going' / '## More' section, or a final 'More: …' line
+    for x in h2_sections(t)[1:]:
+        if re.match(r'## (Keep going|More)\b', x, re.I):
+            return x.strip()
+    m = re.search(r'(?m)^More: .*$', t)
+    return m.group(0) if m else ''
+def faq_pairs(t):   # H3 question, then its first paragraph (the visible answer, rendered the same way)
+    return [(q, MDIT.renderInline(a.strip()))
+            for q, a in re.findall(r'(?m)^### (.+)\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
+KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {'/', '/about/', '/learn/', '/route/', '/list/', '/changelog/'}
+DRAFTS = [(f, *read_draft(f), crumb, eb, pr) for f, crumb, eb, pr in CONTENT]
+KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS}
+for f, fm, t, crumb, eb, pr in DRAFTS:
+    bad = [u for u in re.findall(r'\]\((/[^)#\s]*)', t) if u not in KNOWN_PATHS]
+    assert not bad, f'{f}: links to pages that do not exist: {bad}'
+    path, h1 = fm['path'], fm['h1']
+    CONTENT_PAGES.append((path, fm['title'], h1))
+    ARTICLES.add(path)
+    lv = level_split(t)
+    html_body = levels_html(*lv) if lv else md_html(t)
+    html_body = re.sub(r'^<p><em>', '<p class="meta asof"><em>', html_body, count=1)
+    body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>{H(crumb)}</div><div class="eyebrow">{H(eb)}</div>'
+            f'<h1>{H(h1)}</h1>{html_body}')
+    lds = [article_ld(path, h1, fm['description'], CONTENT_PUBLISHED), crumbs_ld(('Map', '/'), (crumb, path)), ORG]
+    if fm.get('structured_data') == 'FAQPage':
+        pairs = faq_pairs(t)
+        assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
+        lds.insert(1, faq_ld(pairs))
+    page(path, fm['title'], fm['description'], 'page', body, lds, pr, md=md_abs(f'# {h1}\n\n{t}'))
+    if lv:   # one Markdown file per level: title, a one-line intro, the level's section, the closing links
+        before, secs, after = lv
+        intro = next((x.strip() for x in before.split('\n\n') if x.strip() and not re.fullmatch(r'\*[^*].*\*', x.strip())), '')
+        more = keep_going(after)
+        for l, n in READ_LEVELS:
+            others = ' · '.join(f'[{m}]({SITE}{path}{k}.md)' for k, m in READ_LEVELS)
+            lmd = (f'# {h1} ({n})\n\n{intro}\n\n*{n} level of three ({others}). Full page with every level: {SITE}{path}*\n\n'
+                   + re.sub(r'^(## .*?)\s*\{#\w+\}', r'\1', secs[l].strip()) + '\n\n' + (more + '\n' if more else ''))
+            open(os.path.join(OUT, path.strip('/'), f'{l}.md'), 'w').write(
+                md_abs(lmd) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
+LEVEL_PAGES = [p for f, fm, t, *_ in DRAFTS if level_split(t) for p in [fm['path']]]
+
 # ---------- changelog (scripts/site/changelog.yaml) and its RSS feed
 CHANGES = sorted(yaml.safe_load(open(os.path.join(HERE, 'changelog.yaml'))), key=lambda e: str(e['date']), reverse=True)
 for e in CHANGES:
@@ -1021,7 +1122,9 @@ HOME_DESC = (f'The Lean proof of the Riemann hypothesis, visualized: an interact
 home = ('<div class="eyebrow">Interactive map · Lean 4</div><h1 class="hero">The <em>Lean</em> proof of the Riemann hypothesis, mapped</h1>'
         f'<p class="lede">An interactive map of the {FILES_TXT} in Levent Alpöge\'s proof of the Riemann hypothesis, '
         f'released on 20 Nov 2026, grouped into {len(CL):,} clusters in {len(TH)} themes.</p>{STATUS}'
-        f'<ul class="rows"><li><a href="/about/">Has the Riemann hypothesis been solved? How the proof was checked</a></li>'
+        f'<ul class="rows"><li><a href="/status/">Has the Riemann hypothesis been solved? Status of the proof</a></li>'
+        '<li><a href="/what-is-the-riemann-hypothesis/">What is the Riemann hypothesis? Simple, student and expert</a></li>'
+        '<li><a href="/how-we-know/">How we know the proof is correct</a></li><li><a href="/faq/">Frequently asked questions</a></li>'
         f'<li><a href="{MAIN}">Start at the main theorem</a></li><li><a href="/learn/">Learning path: the proof step by step</a></li>'
         '<li><a href="/changelog/">Changelog</a></li></ul>'
         f'<h2>Themes</h2><ul class="rows">{"".join(f"<li><a href=\"{TPATH[t]}\">{H(TNAME[t])}</a></li>" for t in TH)}</ul>')
@@ -1052,14 +1155,15 @@ os.makedirs(os.path.join(OUT, 'api'), exist_ok=True)
 def jdump(name, obj):
     json.dump(obj, open(os.path.join(OUT, 'api', name), 'w'), ensure_ascii=False, separators=(',', ':'))
 API_STATUS = {
-    'updated': NEW_STATE['/about/'][1], 'question': 'Has the Riemann hypothesis been solved?',
+    'updated': NEW_STATE['/status/'][1], 'question': 'Has the Riemann hypothesis been solved?',
     'as_of': STATUS_AS_OF, 'status': plain(ST_SHORT), 'timeline': STATUS_FACTS,
     'certification': {'text': plain(ST_CERT), 'quote': plain(ST_QUOTE), 'source': STMT},
+    'verified': plain(ST_VERIFIED), 'verified_sources': [DREW, RUBINSTEIN],
     'checks': [plain(x) for x in ST_CHECKS], 'checks_source': STMT,
     'ongoing_checks': {'text': plain(ST_ONGOING), 'url': DREW},
-    'scope': plain(ST_SCOPE), 'not_yet_claimed': plain(ST_NOT_YET),
+    'scope': plain(ST_SCOPE),
     'source_archive': {'text': plain(ST_ARCHIVE), 'repo': LEAN_REPO, 'commit': LEAN_SHA, 'files': TOTAL_FILES},
-    'sources': [{'name': t, 'url': u} for t, u in ST_SOURCES], 'details': DREW, 'page': SITE + '/about/',
+    'sources': [{'name': t, 'url': u} for t, u in ST_SOURCES], 'details': DREW, 'page': SITE + '/status/',
     'counts': {'lean_files': TOTAL_FILES, 'mapped_files': len(mod_cl), 'clusters': len(CL), 'themes': len(TH)},
     'note': 'Cluster and theme names and descriptions on this site are written by Claude from samples of the code and may be wrong.',
     'license': {'url': LICENSE, 'name': 'CC BY 4.0', 'applies_to': "this site's own data (cluster and theme names, descriptions, map layout, JSON); the Lean source keeps its own licence"},
@@ -1091,7 +1195,8 @@ API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the m
                       'new_in_proof': 'the cluster rests on the proof\'s own named constructions',
                       'note': 'editorial tags derived from descriptions and concept tags; they may be wrong',
                       'map_filters': 'the map takes the same filters in its URL, e.g. /?field=av,aut&d=0-4&era=1960s&level=phd&new=1; /list/ too'},
-             'markdown': 'every HTML page has a Markdown copy at <page>index.md, e.g. /about/index.md',
+             'markdown': 'every HTML page has a Markdown copy at <page>index.md, e.g. /status/index.md; pages with levels also have '
+                         '<page>simple.md, student.md and expert.md, e.g. /what-is-the-riemann-hypothesis/student.md',
              'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH,
              'license': API_STATUS['license']}
 jdump('index.json', API_INDEX)
@@ -1105,12 +1210,17 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
         'Names and descriptions are written by Claude from samples of the code and may be wrong. Every page has a Markdown copy at <page>index.md.\n\n'
         f'## Status (as of {STATUS_AS_OF})\n\n'
         + ''.join(f'- {e["date"]}: {e["event"]} Source: {e["source"]}\n' for e in STATUS_FACTS)
-        + f'- {plain(ST_QUOTE)}\n- The joint statement says four criteria are all satisfied:\n'
-        + ''.join(f'  - {mdtext(x)}\n' for x in ST_CHECKS)
-        + f'- {mdtext(ST_ONGOING)}\n- What was proved: {mdtext(ST_SCOPE)}\n- What is not yet claimed: {mdtext(ST_NOT_YET)}\n'
+        + f'- {plain(ST_QUOTE)}\n- Verified: {mdtext(ST_VERIFIED)}\n- The joint statement certifies four criteria:\n'
+        + ''.join(f'  {i}. {mdtext(x)}\n' for i, x in enumerate(ST_CHECKS, 1))
+        + f'- {mdtext(ST_ONGOING)}\n- What was proved: {mdtext(ST_SCOPE)}\n'
         + f'- Source shown on the map: {mdtext(ST_ARCHIVE)}\n'
         + '- Primary sources: ' + '; '.join(f'[{t}]({u})' for t, u in ST_SOURCES) + '\n\n'
-        f'## Start here\n\n- [Has the Riemann hypothesis been solved? How it was checked]({SITE}/about/index.md)\n'
+        f'## Start here\n\n'
+        + ''.join(f'- [{h1}]({SITE}{p}index.md)\n' for p, _, h1 in CONTENT_PAGES)
+        + ''.join(f'- Levels for {SITE}{p}: for a plain explanation with no maths background fetch {SITE}{p}simple.md; '
+                  f'for high-school or undergraduate level {SITE}{p}student.md; for researchers {SITE}{p}expert.md. '
+                  f'{SITE}{p}index.md has all three.\n' for p in LEVEL_PAGES)
+        + f'- [About this site and how the proof was checked]({SITE}/about/index.md)\n'
         f'- [Learning path: the proof step by step]({SITE}/learn/index.md)\n'
         f'- [How the proof is structured: the route to the main theorem]({SITE}/route/index.md)\n\n'
         f'## The map, by theme\n\n'
@@ -1121,9 +1231,9 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
         f'## Updates\n\n- [Changelog]({SITE}/changelog/index.md) · [RSS]({SITE}/changelog/feed.xml)\n'
         f'- Full text of the key pages: {SITE}/llms-full.txt\n')
 open(os.path.join(OUT, 'llms.txt'), 'w').write(llms)
-# llms-full.txt: About, Learn, /route/, and every cluster within two steps of the main theorem, in full
+# llms-full.txt: the content pages, About, Learn, /route/, and every cluster within two steps of the main theorem, in full
 full = [llms, '\n---\n']
-for pth in ['/about/', '/learn/', '/route/'] + [CPATH[k] for k in sorted((k for k in CL if dist.get(k, 99) <= 2), key=lambda k: (dist[k], -fcount[k]))]:
+for pth in [p for p, _, _ in CONTENT_PAGES] + ['/about/', '/learn/', '/route/'] + [CPATH[k] for k in sorted((k for k in CL if dist.get(k, 99) <= 2), key=lambda k: (dist[k], -fcount[k]))]:
     full += [open(os.path.join(OUT, pth.strip('/'), 'index.md')).read(), '\n---\n']
 open(os.path.join(OUT, 'llms-full.txt'), 'w').write('\n'.join(full))
 
