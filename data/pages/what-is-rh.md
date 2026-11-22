@@ -37,11 +37,11 @@ This page explains the claim. The proof is Lean code with a four-page note, and 
 
 **Where the zeros are.** Some zeros are boring. They sit at known places on the sheet: -2, -4, -6, and so on. The other zeros lie inside a strip of the sheet between 0 and 1. The Riemann hypothesis says every one of those zeros sits exactly on the line down the middle of the strip. That is the line at 1/2. Computers have found the first 103,800,788,359 of them, and all have real part 1/2. ([LMFDB](https://www.lmfdb.org/zeros/zeta/))
 
+{{figure:zeros}}
+
 **Why it is hard.** A proof has to show that no zero anywhere strays off the line, even by a tiny amount.
 
 **What happened in November 2026.** On 20 Nov 2026 a mathematician called Levent Alpöge released a proof written in Lean. Lean is a proof assistant: a program that checks mathematics step by step. ([Lean reference manual](https://lean-lang.org/doc/reference/latest/)) On 21 Nov the Lean and Mathlib communities said they had checked it and that it is correct. The proof is 17.4 million lines of code, and Alpöge says he intends to write it up for readers later. Read more on [how we know it is right](/how-we-know/) and on [why it matters](/why-it-matters/).
-
-> **Visual A (to build): "Zeros on the line".** A flat sheet with a shaded vertical strip between 0 and 1 and a dashed line down the middle at 1/2. Dots, the zeros, drop in one at a time and settle on the dashed line. A caption says "The hypothesis: every dot sits on the line." Mark the boring zeros at -2, -4, -6 off to the left. Data: the first zeros from the [LMFDB](https://www.lmfdb.org/zeros/zeta/), whose heights begin 14.1347…, 21.0220…, 25.0108…, 30.4248…, 32.9350….
 
 ## Student {#student}
 
@@ -65,6 +65,8 @@ Euler gave it in 1748. ([Bombieri](https://www.claymath.org/wp-content/uploads/2
 
 **The hypothesis.** Every non-trivial zero has real part exactly 1/2. The vertical line Re(s) = 1/2 is the *critical line*. ([Bombieri](https://www.claymath.org/wp-content/uploads/2022/05/riemann.pdf))
 
+{{figure:zeros}}
+
 **In Mathlib's words.** The Lean library Mathlib states it as: for every complex s with ζ(s) = 0, if s is not a trivial zero and s ≠ 1, then Re(s) = 1/2. ([Mathlib documentation](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/LSeries/RiemannZeta.html#RiemannHypothesis))
 
 **Where this sits on the map.** The main theorem is in the cluster ["Explicit formula, Perron kernel and zero-free conditions for Dirichlet L-functions"](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/). The clusters nearest to it are all classical number theory: [zero-free region for zeta and Dirichlet L-functions](/cluster/k0680-zero-free-region-for-zeta-and-dirichlet-l-functions/), [primes in progressions, Siegel–Walfisz and the exceptional zero](/cluster/k0683-primes-in-progressions-siegel-walfisz-and-exceptional-zero/) and [Mertens-type estimates and zero sums for Dirichlet L-functions](/cluster/k0694-mertens-type-estimates-and-zero-sums-for-dirichlet-l/). Cluster titles on the map were drafted by AI.
@@ -80,6 +82,8 @@ Euler gave it in 1748. ([Bombieri](https://www.claymath.org/wp-content/uploads/2
 `def RiemannHypothesis : Prop := ∀ (s : ℂ) (_ : riemannZeta s = 0) (_ : ¬∃ n : ℕ, s = -2 * (n + 1)) (_ : s ≠ 1), s.re = 1 / 2`
 
 The clause `s ≠ 1` is there "because Mathlib assigns ζ a conventional value at its pole." Bombieri's Clay description gives the usual form: the zeros at −2, −4, … are the trivial zeros, and "the nontrivial zeros of ζ(s) have real part equal to ½". ([Bombieri](https://www.claymath.org/wp-content/uploads/2022/05/riemann.pdf)) The release also proves `riemannZeta_eq_zero_re`, the same statement in the submission's own words, which Lean accepts as equal by definition. ([Sutherland](https://math.mit.edu/~drew/grh/))
+
+{{figure:zeros}}
 
 **Generalised Riemann hypothesis for Dirichlet L-functions.** The release has three further theorems:
 

@@ -3,6 +3,12 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-22
+  title: Zeros figure and share links
+  items:
+    - "The explainer shows the critical strip with the first ten zeros of the zeta function at their true heights, the trivial zeros and the pole at s = 1."
+    - "Clusters and themes have a Share button that copies the page's link (or opens the share sheet on phones), and each has its own preview image for links on social media."
+
+- date: 2026-11-22
   title: 16 core cluster names checked against the code
   items:
     - "The names and descriptions of the 16 core clusters (the main theorem, the final assembly and the clusters closest to them) were checked against their full Lean code and corrected; for example k0677 is now \"Main theorem statements, plus the explicit formula for Dirichlet L-functions\"."

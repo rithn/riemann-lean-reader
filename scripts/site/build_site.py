@@ -1,6 +1,6 @@
 """Write data/*.json for the static explorer site (github.com/rithn/rh-lean-explorer).
 
-usage: uv run -q --with pyyaml --with networkx --with scipy --with markdown-it-py python -I scripts/site/build_site.py <cluster dir> <out dir>
+usage: uv run -q --with pyyaml --with networkx --with scipy --with markdown-it-py --with pillow python -I scripts/site/build_site.py <cluster dir> <out dir>
 e.g.   ... build_site.py ../notes/cluster3 ../site
 (from a worktree, e.g. repo-core: ... build_site.py ../notes/cluster3 ../site-core)
 
@@ -584,6 +584,54 @@ for k, c in CL.items():
 json.dump({'roots': core['roots'], 'nodes': [tnode(x) for x in core['nodes'] + concepts],
            'concept_clusters': used_concepts},
           open(os.path.join(OUT, 'data', 'tree.json'), 'w'), separators=(',', ':'))
+# ---------- share cards: a 1200x630 PNG per cluster (/og/c/<id>.png) and theme (/og/t/<id>.png), the og:image and
+# twitter:image of its static page. og_cards.py draws them (Pillow: add --with pillow to the uv run command) in a few
+# processes, and only those whose key changed: the key hashes the card's fields, og_cards.py, the fonts and logo.png.
+# OG_V, a hash of all keys, versions the image URLs (/og/* is cached for a year); the app reads it as overview 'ogv'.
+import hashlib, subprocess, tempfile
+try:
+    import PIL
+except ImportError:
+    sys.exit('build_site.py needs Pillow for the share cards: add --with pillow to the uv run command')
+OG_PY = os.path.join(HERE, 'og_cards.py')
+_ogh = hashlib.sha256()
+for f in [OG_PY, os.path.join(OUT, 'logo.png')] + sorted(glob.glob(os.path.join(HERE, 'fonts', '*.ttf'))):
+    _ogh.update(open(f, 'rb').read())
+OG_RENDER_V = _ogh.hexdigest()
+def _fieldof(t):
+    f = FIELDS[FIDX[TFIELD[t]]]
+    return f['name'], f['hue'], FIELD_L[f['id']]
+def _steps_from(d):
+    return 'Holds the main theorem' if d == 0 else f'{d} import step{"" if d == 1 else "s"} from the main theorem'
+OG_JOBS = []
+for k, c in CL.items():
+    fname, hue, li = _fieldof(c['theme'])
+    d = dist.get(k)
+    OG_JOBS.append({'path': f'og/c/{k}.png', 'tag': f'Cluster {k}', 'eyebrow': f'{fname} · {TNAME[c["theme"]]}',
+                    'title': NAMES[k]['title'] if k in NAMES else folder_label(c['folders']), 'hue': hue, 'l': li, 'd': d,
+                    'route': _steps_from(d) if d is not None else 'Not on an import route from the main theorem'})
+for t, th in TH.items():
+    fname, hue, li = _fieldof(t)
+    ds = [dist[k] for k in th['clusters'] if k in dist]
+    d = min(ds) if ds else None
+    OG_JOBS.append({'path': f'og/t/{t}.png', 'tag': 'Theme', 'eyebrow': f'{fname} · {len(th["clusters"])} clusters · '
+                    f'{sum(fcount[k] for k in th["clusters"]):,} Lean files', 'title': TNAME[t], 'hue': hue, 'l': li, 'd': d,
+                    'route': ('Holds the main theorem' if d == 0 else f'Closest cluster: {_steps_from(d)}') if d is not None else ''})
+for j in OG_JOBS:
+    j['key'] = hashlib.sha256((OG_RENDER_V + json.dumps(j, sort_keys=True, ensure_ascii=False)).encode()).hexdigest()[:20]
+OG_V = hashlib.sha256(''.join(j['key'] for j in OG_JOBS).encode()).hexdigest()[:10]
+overview['ogv'] = OG_V
+with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False) as _f:
+    json.dump({'out': os.path.abspath(OUT), 'jobs': OG_JOBS}, _f)
+subprocess.run([sys.executable, '-I', OG_PY, _f.name], check=True)
+os.remove(_f.name)
+_ogkeep = {os.path.join(OUT, j['path']) for j in OG_JOBS}
+for f in glob.glob(os.path.join(OUT, 'og', '*', '*.png')):   # cards of clusters or themes that no longer exist
+    if f not in _ogkeep:
+        os.remove(f)
+def og_url(path):
+    return f'{SITE}/{path}?v={OG_V}'
+
 json.dump(overview, open(os.path.join(OUT, 'data', 'overview.json'), 'w'), separators=(',', ':'))
 json.dump(WORDS, open(os.path.join(OUT, 'data', 'words.json'), 'w'), separators=(',', ':'))
 print(f'{len(CL)} clusters ({named} named), {len(TH)} themes, {len(mod_cl)} files -> {OUT}')
@@ -746,26 +794,34 @@ def mdpath(path):
 # ---------- page writer
 URLS = []  # (path, priority, lastmod) for the sitemap
 ARTICLES = {'/about/', '/learn/', '/route/'}   # pages with Article JSON-LD get og:type article (content pages add theirs below)
-def head(path, title, desc, lds, md=True):
+def head(path, title, desc, lds, md=True, img=None):
     t, d, u = H(title), H(desc), H(SITE + path)
+    img, alt = img or (f'{SITE}/og.png?v=2', None)
     return ((ld({'@graph': lds}) if lds else '') + f'\n<link rel="canonical" href="{u}">\n' + alt_links(path)
             + (f'<link rel="alternate" type="text/markdown" href="{H(mdpath(path))}">\n' if md else '')
             + f'<link rel="alternate" type="application/rss+xml" title="{SITE_NAME} changelog" href="/changelog/feed.xml">\n'
             f'<meta property="og:type" content="{"article" if path in ARTICLES else "website"}">\n'
             f'<meta property="og:site_name" content="{SITE_NAME}">\n<meta property="og:title" content="{t}">\n'
             f'<meta property="og:description" content="{d}">\n<meta property="og:url" content="{u}">\n'
-            f'<meta property="og:image" content="{SITE}/og.png?v=2">\n<meta property="og:image:width" content="1200">\n'
+            f'<meta property="og:image" content="{H(img)}">\n<meta property="og:image:width" content="1200">\n'
+            + (f'<meta property="og:image:alt" content="{H(alt)}">\n' if alt else '') +
             f'<meta property="og:image:height" content="630">\n<meta name="twitter:card" content="summary_large_image">\n'
             f'<meta name="twitter:site" content="@RiemannMap">\n'
             f'<meta name="twitter:title" content="{t}">\n<meta name="twitter:description" content="{d}">\n'
-            f'<meta name="twitter:image" content="{SITE}/og.png?v=2">\n')
-def page(path, title, desc, route, body, lds=(), priority=.5, md=None):
+            f'<meta name="twitter:image" content="{H(img)}">\n')
+SHARE_RE = re.compile(r'<p class="sharebar">.*?</p>')
+def share_btn(path, title):   # a Share button (app.js copies the link or opens the phone's share sheet); not part of lastmod
+    return (f'<p class="sharebar"><button type="button" class="share" data-share="{H(SITE + path)}" data-title="{H(title)}">'
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0-4 4m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>'
+            '<span>Share</span></button></p>')
+def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None):
+    """img: (og:image URL, alt text) for this page; default the site card /og.png."""
     is404 = path.endswith('.html')
-    date = lastmod(path, title, desc, body)
+    date = lastmod(path, title, desc, SHARE_RE.sub('', body))
     t = TPL
     t = re.sub(r'<title>.*?</title>', f'<title>{H(title)}</title>', t, count=1)
     t = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{H(desc)}">', t, count=1)
-    t = between(t, '<!--head-->', '<!--/head-->', head(path, title, desc, list(lds), md=not is404))
+    t = between(t, '<!--head-->', '<!--/head-->', head(path, title, desc, list(lds), md=not is404, img=img))
     t = re.sub(r'<body data-route="[^"]*">', f'<body data-route="{H(route)}">', t, count=1)
     t = between(t, '<!--prerender-->', '<!--/prerender-->', body).replace('{{UPDATED}}', date)
     if is404:  # 404.html: noindex, no canonical
@@ -773,7 +829,7 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None):
         open(os.path.join(OUT, path.strip('/')), 'w').write(t)
         return
     URLS.append((path, priority, date))
-    md = ((md if md is not None else to_md(body.replace('{{UPDATED}}', date))) + f'\n---\n\n{title}. Web page: {SITE}{path} · updated {date} · '
+    md = ((md if md is not None else to_md(SHARE_RE.sub('', body).replace('{{UPDATED}}', date))) + f'\n---\n\n{title}. Web page: {SITE}{path} · updated {date} · '
           f'site map for machines: {SITE}/llms.txt\n')
     d = os.path.join(OUT, path.strip('/'))
     os.makedirs(d, exist_ok=True)
@@ -896,14 +952,15 @@ for t, th in TH.items():
     rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Theme</div>'
             f'<div class="eyebrow">Theme · Lean proof of the Riemann hypothesis</div>'
-            f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>'
+            f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>' + share_btn(TPATH[t], TNAME[t])
             + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
             f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k, sub=oneline(k)) for k in cs)}</ul>'
             + (f'<h2>Related themes</h2><ul class="rows">' + ''.join(
                 f'<li><a href="{TPATH[o]}"><span class="t">{H(TNAME[o])}<small>{x} import links between their clusters</small></span></a></li>'
                 for x, o in rel) + '</ul>' if rel else '')
             + explore())
-    page(TPATH[t], fit(TNAME[t]), desc, f'theme/{t}', body, [crumbs_ld(('Map', '/'), (TNAME[t], TPATH[t]))], .6)
+    page(TPATH[t], fit(TNAME[t]), desc, f'theme/{t}', body, [crumbs_ld(('Map', '/'), (TNAME[t], TPATH[t]))], .6,
+         img=(og_url(f'og/t/{t}.png'), f'{TNAME[t]}: a theme of the Lean proof of the Riemann hypothesis'))
 
 # ---------- cluster pages
 for k, p in CPATH.items():
@@ -935,7 +992,7 @@ for k, p in CPATH.items():
     on_route = set(up)
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
             f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k} · Lean proof of the Riemann hypothesis</div><h1>{H(title)}</h1>'
-            f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '')
+            f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + share_btn(p, title)
             + f'<p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>'
             + (STATUS_CK + checked_html(k) if k in CHECKED else STATUS) + why
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
@@ -947,7 +1004,8 @@ for k, p in CPATH.items():
             + f'<p class="meta">{len(members[k])} Lean files, main folder {H(c["folders"][0][0] if c["folders"] else "")}.</p>'
             + explore((TPATH[th], f'Theme: {TNAME[th]}'), main_link=k != main))
     page(p, fit(title), clip(n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
-         [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, p))])
+         [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, p))],
+         img=(og_url(f'og/c/{k}.png'), f'{title}: cluster {k} of the Lean proof of the Riemann hypothesis'))
 
 # ---------- about: the status of the claim, the page most searchers want (keep in step with about() in app.js)
 STATUS_FACTS = [
@@ -1061,6 +1119,66 @@ def md_html(t):
     h = re.sub(r'<h([2-6])>(.*?)\s*\{#([\w-]+)\}</h\1>', r'<h\1 id="\3">\2</h\1>', h)
     h = h.replace('<table>', '<div class="tablewrap"><table>').replace('</table>', '</table></div>')
     return h.replace('<blockquote>', '<blockquote class="callout">').strip()
+# ---------- the zeros figure: '{{figure:zeros}}' on a line of its own in a draft becomes an inline SVG of the critical strip
+# (no JS; one copy per level section, ids suffixed) in the HTML, and its text description in the Markdown copies.
+# Heights: the first ten non-trivial zeros of zeta, rounded to 4 places (LMFDB, https://www.lmfdb.org/zeros/zeta/).
+ZEROS = [14.1347, 21.0220, 25.0109, 30.4249, 32.9351, 37.5862, 40.9187, 43.3271, 48.0052, 49.7738]
+ZEROS_TXT = ', '.join(f'{t:.4f}' for t in ZEROS)
+ZEROS_CAP = ('The critical strip, where 0 < Re(s) < 1, with the critical line Re(s) = ½ down its middle. The Riemann hypothesis says '
+             'every non-trivial zero of ζ lies on that line. The first ten are drawn at their true heights; each has a mirror image '
+             'below the axis. The trivial zeros sit at −2, −4, −6, … and ζ has a pole, not a zero, at s = 1.')
+ZEROS_DESC = (f'Diagram of the complex plane, real part Re(s) across and imaginary part Im(s) up. A shaded vertical strip runs from '
+              f'Re(s) = 0 to Re(s) = 1, with a gold dashed line at Re(s) = ½. Ten gold dots sit on the gold line at heights {ZEROS_TXT}. '
+              'Blue dots on the real axis mark the trivial zeros at −2, −4 and −6; a cross marks the pole at s = 1.')
+def zeros_figure(sfx):
+    U, V, X0, Y0, W_, H_ = 32, 8.3, 222, 476, 380, 520     # px per unit of Re(s) and of Im(s); origin; viewBox size
+    x = lambda re: round(X0 + re * U, 1)
+    y = lambda im: round(Y0 - im * V, 1)
+    sans, gold, acc = 'font-family="Inter, system-ui, sans-serif"', '#f5c46b', '#8ea2ff'
+    o = [f'<rect x="{x(0)}" y="22" width="{U}" height="{H_ - 36}" fill="{acc}" fill-opacity=".16"/>',
+         f'<line x1="{x(.5)}" y1="22" x2="{x(.5)}" y2="{Y0 + 6}" stroke="{gold}" stroke-width="2" stroke-dasharray="6 4"/>',
+         # axes, with arrowheads
+         f'<path d="M10 {Y0}H{W_ - 14}M{W_ - 20} {Y0 - 5}l7 5-7 5" fill="none" stroke="#8b96c2" stroke-width="1.4"/>',
+         f'<path d="M{x(0)} {H_ - 14}V14M{x(0) - 5} 20l5-7 5 7" fill="none" stroke="#8b96c2" stroke-width="1.4"/>',
+         f'<text x="{W_ - 6}" y="{Y0 + 22}" text-anchor="end" fill="#c3cbef" font-size="13" {sans}>Re(s)</text>',
+         f'<text x="{x(0) - 8}" y="22" text-anchor="end" fill="#c3cbef" font-size="13" {sans}>Im(s)</text>',
+         # direct labels: the strip, the line, the hypothesis
+         f'<text x="{x(0) - 10}" y="62" text-anchor="end" fill="#c3cbef" font-size="14" {sans}>critical strip</text>',
+         f'<text x="{x(0) - 10}" y="80" text-anchor="end" fill="#8b96c2" font-size="13" {sans}>0 &lt; Re(s) &lt; 1</text>',
+         f'<text x="{x(0) - 10}" y="112" text-anchor="end" fill="{gold}" font-size="14" {sans}>critical line</text>',
+         f'<text x="{x(0) - 10}" y="130" text-anchor="end" fill="{gold}" fill-opacity=".85" font-size="13" {sans}>Re(s) = ½</text>',
+         f'<path d="M{x(0) - 6} 118H{x(.5) - 4}" stroke="{gold}" stroke-opacity=".6" stroke-width="1"/>',
+         '<g font-family="Fraunces, Georgia, serif" font-style="italic" font-size="17" fill="#e9edff">'
+         + ''.join(f'<text x="14" y="{256 + i * 23}">{t}</text>' for i, t in enumerate(('The Riemann hypothesis:', 'every non-trivial zero', 'lies on the gold line.')))
+         + '</g>',
+         # ticks on the real axis
+         f'<g fill="#8b96c2" font-size="13" text-anchor="middle" {sans}>'
+         + ''.join(f'<text x="{x(v) + dx}" y="{Y0 + 22}">{t}</text>' for v, t, dx in ((-6, '−6', 0), (-4, '−4', 0), (-2, '−2', 0), (0, '0', -6), (.5, '½', 0), (1, '1', 5)))
+         + '</g>',
+         # trivial zeros and the pole
+         f'<text x="{x(-4)}" y="{Y0 - 16}" text-anchor="middle" fill="#b4c1ff" font-size="13" {sans}>trivial zeros</text>',
+         ''.join(f'<circle cx="{x(v)}" cy="{Y0}" r="5" fill="{acc}"><title>Trivial zero at s = −{-v}</title></circle>' for v in (-2, -4, -6)),
+         f'<g fill="#8b96c2">' + ''.join(f'<circle cx="{x(-6.6) + i * 4}" cy="{Y0}" r="1.3"/>' for i in (-1, 0, 1)) + '</g>',
+         f'<path d="M{x(1) - 5} {Y0 - 5}l10 10m0-10-10 10" stroke="#ff8a8a" stroke-width="2"><title>Pole at s = 1</title></path>',
+         f'<text x="{x(1) + 9}" y="{Y0 - 9}" fill="#ff8a8a" font-size="13" {sans}>pole</text>',
+         f'<text x="{x(1) + 16}" y="40" fill="#8b96c2" font-size="13" {sans}>height</text>']
+    ly = []
+    for t in ZEROS:                                   # labels at least 18 apart, pushed up where two zeros are close
+        ly.append(min(y(t), ly[-1] - 18) if ly else y(t))
+    for t, l in zip(ZEROS, ly):
+        o.append(f'<g class="z" tabindex="0"><title>Zero at s = ½ + {t:.4f}i</title>'
+                 f'<path d="M{x(.5) + 7} {y(t)}L{x(1) + 4} {l}H{x(1) + 12}" fill="none" stroke="#8b96c2" stroke-opacity=".55"/>'
+                 f'<circle cx="{x(.5)}" cy="{y(t)}" r="5.5" fill="{gold}" stroke="#0b1230" stroke-width="1.5"/>'
+                 f'<text x="{x(1) + 16}" y="{l}" dy=".35em" fill="#e9edff" font-size="14" font-variant-numeric="tabular-nums" {sans}>{t:.4f}</text></g>')
+    return (f'<figure class="zfig" id="zeros-{sfx}"><svg viewBox="0 0 {W_} {H_}" role="img" aria-labelledby="zt-{sfx} zd-{sfx}">'
+            f'<title id="zt-{sfx}">The critical strip and the first ten zeros of the Riemann zeta function</title>'
+            f'<desc id="zd-{sfx}">{H(ZEROS_DESC)}</desc>' + ''.join(o) + f'</svg><figcaption>{H(ZEROS_CAP)}</figcaption></figure>')
+def zeros_md(t):   # the figure in the Markdown copies: its caption and the list of zeros
+    return re.sub(r'(?m)^\{\{figure:zeros\}\}$', lambda m: (
+        f'*Figure: the critical strip and the first ten zeros.* {ZEROS_CAP}\n\n'
+        f'Heights of the first ten non-trivial zeros, each at ½ + it: {ZEROS_TXT} ([LMFDB](https://www.lmfdb.org/zeros/zeta/)).'), t)
+def figures_html(h, sfx):
+    return h.replace('<p>{{figure:zeros}}</p>', zeros_figure(sfx))
 def md_abs(t):   # Markdown copies are read off-site: make site links absolute
     return re.sub(r'\]\((/[^)\s]*)\)', lambda m: f']({SITE}{m.group(1)})', t)
 def h2_sections(t):   # [intro, '## …', '## …', …], split at H2 lines outside code fences
@@ -1088,9 +1206,9 @@ def level_split(t):
 def levels_html(before, lv, after):
     tabs = ''.join(f'<a href="#{l}" role="tab" data-level="{l}" aria-controls="{l}">{n}</a>' for l, n in READ_LEVELS)
     secs = ''.join(f'<section class="level" id="{l}" role="tabpanel" aria-label="{n} level">'
-                   + md_html(re.sub(r'^(## .*?)\s*\{#\w+\}', r'\1', lv[l])) + '</section>' for l, n in READ_LEVELS)
-    return (md_html(before) + '<div class="levels"><div class="ltabs" role="tablist" aria-label="Level">' + tabs + '</div>'
-            + secs + '</div>' + md_html(after))
+                   + figures_html(md_html(re.sub(r'^(## .*?)\s*\{#\w+\}', r'\1', lv[l])), l) + '</section>' for l, n in READ_LEVELS)
+    return (figures_html(md_html(before), 'top') + '<div class="levels"><div class="ltabs" role="tablist" aria-label="Level">' + tabs + '</div>'
+            + secs + '</div>' + figures_html(md_html(after), 'end'))
 def keep_going(t):   # the closing links: a '## Keep going' / '## More' section, or a final 'More: …' line
     for x in h2_sections(t)[1:]:
         if re.match(r'## (Keep going|More)\b', x, re.I):
@@ -1116,7 +1234,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
     CONTENT_PAGES.append((path, fm['title'], h1))
     ARTICLES.add(path)
     lv = level_split(t)
-    html_body = levels_html(*lv) if lv else md_html(t)
+    html_body = levels_html(*lv) if lv else figures_html(md_html(t), 'main')
     html_body = re.sub(r'^<p><em>', '<p class="meta asof"><em>', html_body, count=1)
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>{H(crumb)}</div><div class="eyebrow">{H(eb)}</div>'
             f'<h1>{H(h1)}</h1>{html_body}')
@@ -1125,7 +1243,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
         pairs = faq_pairs(t)
         assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
         lds.insert(1, faq_ld(pairs))
-    page(path, fm['title'], fm['description'], 'page', body, lds, pr, md=md_abs(f'# {h1}\n\n{t}'))
+    page(path, fm['title'], fm['description'], 'page', body, lds, pr, md=md_abs(zeros_md(f'# {h1}\n\n{t}')))
     if lv:   # one Markdown file per level: title, a one-line intro, the level's section, the closing links
         before, secs, after = lv
         intro = next((x.strip() for x in before.split('\n\n') if x.strip() and not re.fullmatch(r'\*[^*].*\*', x.strip())), '')
@@ -1135,7 +1253,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             lmd = (f'# {h1} ({n})\n\n{intro}\n\n*{n} level of three ({others}). Full page with every level: {SITE}{path}*\n\n'
                    + re.sub(r'^(## .*?)\s*\{#\w+\}', r'\1', secs[l].strip()) + '\n\n' + (more + '\n' if more else ''))
             open(os.path.join(OUT, path.strip('/'), f'{l}.md'), 'w').write(
-                md_abs(lmd) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
+                md_abs(zeros_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
 LEVEL_PAGES = [p for f, fm, t, *_ in DRAFTS if level_split(t) for p in [fm['path']]]
 
 # ---------- changelog (scripts/site/changelog.yaml) and its RSS feed
