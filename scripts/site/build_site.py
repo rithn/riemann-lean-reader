@@ -151,6 +151,8 @@ for line in open(os.path.join(ROOT, 'notes', 'tree', 'import_closure.tsv')):
     for x in imports[p[0]]:
         importers[x].append(p[0])
 
+TOTAL_FILES = len(imports)   # every .lean file in the archive (175,187); mod_cl holds the mapped ones (175,027)
+
 def lean_path(m):
     return m.replace('.', '/') + '.lean'
 
@@ -247,6 +249,10 @@ for t, th in TH.items():
         pos_c[k] = (P[t][0] + x * R[t], P[t][1] + y * R[t])
 
 r2 = lambda v: round(v, 2)
+def slug(s, n=60):
+    s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode().lower()
+    s = re.sub(r'[^a-z0-9]+', '-', s).strip('-')
+    return s[:n].rsplit('-', 1)[0] if len(s) > n else s
 TNAME = {t: theme_name(th)[0] for t, th in TH.items()}
 TN_FILE = os.path.join(D, 'theme-naming', 'theme_names.yaml')
 TNAMED = {x['id']: x for x in yaml.safe_load(open(TN_FILE))['themes']} if os.path.exists(TN_FILE) else {}
@@ -257,13 +263,21 @@ for t in TH:
     elif _dup[TNAME[t]] > 1:
         TNAME[t] += ' (' + ', '.join(w for w in TH[t]['words'] if w not in GENERIC)[:2 * 14].rsplit(',', 1)[0] + ')'
 named = len(NAMES)
+# static page paths; every cluster gets one (named clusters by title, any unnamed one by folder label)
+TSLUG = {t: slug(TNAME[t]) for t in TH}
+CSLUG = {k: slug(NAMES[k]['title'] if k in NAMES else folder_label(CL[k]['folders'])) for k in CL}
+TPATH = {t: f'/theme/{t}-{TSLUG[t]}/' for t in TH}
+CPATH = {k: f'/cluster/{k}-{CSLUG[k]}/' for k in CL}
+# overview.json is what the map needs for first paint. Field notes: 's' is the URL slug (page = /cluster/<id>-<s>/,
+# /theme/<id>-<s>/); 'uses' are cluster numbers (k0677 -> 677; the app turns them back into ids); search words
+# ('w') and folder labels ('fl', kept here only for unnamed clusters) live in words.json, loaded after first paint. Dropped as unused by the app: conf, coh, lines, core.
 overview = {
     'updated': datetime.date.today().isoformat(),
     'counts': {'clusters': len(CL), 'themes': len(TH), 'named': named,
-               'files': len(mod_cl), 'units': len(unit_cl)},
+               'files': len(mod_cl), 'total': TOTAL_FILES, 'units': len(unit_cl)},
     'main': main,
     'themes': [{'id': t, 'name': TNAME[t], 'named': theme_name(th)[1], 'blurb': TNAMED.get(t, {}).get('blurb'), 'conf': TNAMED.get(t, {}).get('confidence'),
-                'fl': theme_name(th)[0], 'n': len(th['clusters']),
+                'fl': theme_name(th)[0], 'n': len(th['clusters']), 's': TSLUG[t],
                 'files': size[t], 'words': th['words'][:8], 'x': r2(P[t][0]), 'y': r2(P[t][1]), 'r': r2(R[t])}
                for t, th in TH.items()],
     'tedges': [[a, b, x] for (a, b), x in w.items()],
@@ -272,12 +286,12 @@ overview = {
 for k, c in CL.items():
     n = NAMES.get(k, {})
     overview['clusters'].append({
-        'id': k, 't': c['theme'], 'title': n.get('title'), 'fl': folder_label(c['folders']),
-        'conf': n.get('confidence'), 'coh': n.get('coherent'),
-        'n': len(c['files']), 'lines': c['lines'], 'uses': uses[k], 'd': dist.get(k),
-        'core': core_cl.get(k, []), 'x': r2(pos_c[k][0]), 'y': r2(pos_c[k][1]),
-        'w': c['words'][:6],
+        'id': k, 't': c['theme'], 'title': n.get('title'), 's': CSLUG[k],
+        **({} if n.get('title') else {'fl': folder_label(c['folders'])}),
+        'n': len(c['files']), 'uses': [int(u[1:]) for u in uses[k]], 'd': dist.get(k),
+        'x': r2(pos_c[k][0]), 'y': r2(pos_c[k][1]),
     })
+WORDS = {'w': {k: c['words'][:6] for k, c in CL.items()}, 'fl': {k: folder_label(c['folders']) for k in CL}}
 
 # ---------- per-cluster detail
 members = collections.defaultdict(list)
@@ -338,80 +352,260 @@ json.dump({'roots': core['roots'], 'nodes': [tnode(x) for x in core['nodes'] + c
            'concept_clusters': used_concepts},
           open(os.path.join(OUT, 'data', 'tree.json'), 'w'), separators=(',', ':'))
 json.dump(overview, open(os.path.join(OUT, 'data', 'overview.json'), 'w'), separators=(',', ':'))
+json.dump(WORDS, open(os.path.join(OUT, 'data', 'words.json'), 'w'), separators=(',', ':'))
 print(f'{len(CL)} clusters ({named} named), {len(TH)} themes, {len(mod_cl)} files -> {OUT}')
 
-# ---------- static pages for search engines and sharing: /theme/<slug>/, /cluster/<slug>/, sitemap, robots
-# index.html is the template: <!--head-->…<!--/head--> and <!--prerender-->…<!--/prerender--> are replaced.
-import html, unicodedata
+
+# ---------- static pages for search engines, sharing and machines
+# index.html is the template: <!--head-->…<!--/head--> and <!--prerender-->…<!--/prerender--> are replaced, and the
+# asset URLs get content hashes (?v=…) so _headers can cache /data/*, /app.js and /style.css as immutable.
+# Every page also gets a Markdown copy next to it (<path>index.md, linked with rel=alternate type=text/markdown).
+# Rebuild after editing app.js or style.css: the hashes in the HTML are what bust the long cache.
+import html, hashlib, secrets, email.utils
+from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = open(os.path.join(OUT, 'index.html')).read()
 H = html.escape
-def slug(s, n=60):
-    s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode().lower()
-    s = re.sub(r'[^a-z0-9]+', '-', s).strip('-')
-    return s[:n].rsplit('-', 1)[0] if len(s) > n else s
-def between(t, a, b, new):
-    i, j = t.index(a) + len(a), t.index(b)
-    return t[:i] + new + t[j:]
+today = datetime.date.today().isoformat()
+GH = 'https://github.com/rithn/riemann-lean-reader'
+X_SITE, X_FEEDBACK = 'https://x.com/RiemannMap', 'https://x.com/SomTheBuilder'
+STMT = 'https://leanprover-community.github.io/blog/posts/riemann-hypothesis/'
+NOTE, DREW = 'https://alpo.ge/remark.pdf', 'https://math.mit.edu/~drew/grh/'
+FILES_TXT = f'{TOTAL_FILES:,} Lean files ({len(mod_cl):,} mapped)'
+SITE_NAME = 'RH Lean Explorer'
+
+# ---------- content versions
+def hfiles(paths):
+    h = hashlib.sha256()
+    for f in paths:
+        h.update(os.path.relpath(f, OUT).encode()); h.update(open(f, 'rb').read())
+    return h.hexdigest()[:10]
+DATA_V = hfiles(sorted(glob.glob(os.path.join(OUT, 'data', '*.json')) + glob.glob(os.path.join(OUT, 'data', 'c', '*.json'))))
+APP_V, CSS_V = hfiles([os.path.join(OUT, 'app.js')]), hfiles([os.path.join(OUT, 'style.css')])
+TPL = re.sub(r'<link rel="stylesheet" href="/style\.css[^"]*">', f'<link rel="stylesheet" href="/style.css?v={CSS_V}">', TPL, count=1)
+TPL = re.sub(r'<script src="/app\.js[^"]*"[^>]*></script>', f'<script src="/app.js?v={APP_V}" data-v="{DATA_V}"></script>', TPL, count=1)
+TPL = re.sub(r'Charting [\d,]+ Lean files…', f'Charting {TOTAL_FILES:,} Lean files…', TPL)
+assert f'data-v="{DATA_V}"' in TPL and f'style.css?v={CSS_V}' in TPL
+
+# ---------- lastmod: a page's date changes only when its title, description or body changes
+# (state kept in scripts/site/lastmod.json: path -> [content hash, date]); '{{UPDATED}}' in a page becomes that date
+STATE_F = os.path.join(HERE, 'lastmod.json')
+STATE = json.load(open(STATE_F)) if os.path.exists(STATE_F) else {}
+NEW_STATE = {}
+def lastmod(key, *parts):
+    h = hashlib.sha256('\x00'.join(parts).encode()).hexdigest()[:12]
+    old = STATE.get(key)
+    NEW_STATE[key] = [h, old[1] if old and old[0] == h else today]
+    return NEW_STATE[key][1]
+DATA_DATE = lastmod('data:', DATA_V)
+
+# ---------- hreflang. Translated pages (/ja/, /tr/) do not exist yet, so this is a no-op today. To add one, register
+# the group on every member path, e.g. g = {'en': '/about/', 'ja': '/ja/about/', 'tr': '/tr/about/'};
+# ALTERNATES.update({p: g for p in g.values()}). head() then emits <link rel="alternate" hreflang="…"> for each
+# language plus hreflang="x-default" (the 'en' page). The sitemap could carry the same links later (xhtml:link).
+ALTERNATES = {}
+def alt_links(path):
+    a = ALTERNATES.get(path)
+    if not a:
+        return ''
+    return (''.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{p}">\n' for l, p in sorted(a.items()))
+            + f'<link rel="alternate" hreflang="x-default" href="{SITE}{a.get("en", path)}">\n')
+
+# ---------- JSON-LD
 def ld(obj):  # JSON-LD block; '</' escaped so text cannot close the script tag
     return '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', **obj}, ensure_ascii=False).replace('</', '<\\/') + '</script>\n'
+ORG_ID, SITE_ID = SITE + '/#org', SITE + '/#website'
+ORG = {'@type': 'Organization', '@id': ORG_ID, 'name': SITE_NAME, 'url': SITE + '/', 'sameAs': [X_SITE]}
+RH_THING = {'@type': 'Thing', 'name': 'Riemann hypothesis', 'sameAs': 'https://en.wikipedia.org/wiki/Riemann_hypothesis'}
 def crumbs_ld(*items):  # (name, path) pairs, home first
-    return ld({'@type': 'BreadcrumbList', 'itemListElement': [
-        {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': SITE + p} for i, (n, p) in enumerate(items)]})
-def head(title, desc, url, extra=''):
-    t, d, u = H(title), H(desc), H(url)
-    return (extra + f'\n<link rel="canonical" href="{u}">\n<meta property="og:type" content="website">\n'
-            f'<meta property="og:site_name" content="RH Lean Explorer">\n<meta property="og:title" content="{t}">\n'
+    return {'@type': 'BreadcrumbList', 'itemListElement': [
+        {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': SITE + p} for i, (n, p) in enumerate(items)]}
+def article_ld(path, headline, desc, published):
+    return {'@type': 'Article', '@id': SITE + path + '#article', 'headline': headline, 'description': desc,
+            'url': SITE + path, 'mainEntityOfPage': SITE + path, 'inLanguage': 'en',
+            'datePublished': published, 'dateModified': '{{UPDATED}}', 'author': {'@id': ORG_ID},
+            'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isPartOf': {'@id': SITE_ID}, 'image': SITE + '/og.png?v=2'}
+def faq_ld(pairs):
+    """FAQPage for (question, answer) pairs; answers may hold simple HTML (links, lists).
+    Only use it on a page that visibly shows exactly these questions and answers (Google's rule).
+    Not used yet: the planned /faq/ page will be its first user."""
+    return {'@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in pairs]}
+
+# ---------- Markdown copies: a small HTML -> Markdown converter for the markup these pages use
+class _MD(HTMLParser):
+    BLOCK = {'p', 'div', 'h1', 'h2', 'h3', 'li', 'ul', 'ol', 'details', 'summary', 'footer', 'nav'}
+    def __init__(s):
+        super().__init__(convert_charrefs=True)
+        s.lines, s.buf, s.depth, s.bullet, s.prefix, s.links, s.skip = [], '', 0, False, '', [], 0
+    def flush(s):
+        t = ' '.join(s.buf.split()); s.buf = ''
+        if not t:
+            return
+        ind = '  ' * max(0, s.depth - 1)
+        if s.bullet:
+            s.lines.append(ind + '- ' + t); s.bullet = False
+        elif s.depth:
+            s.lines.append(ind + '  ' + t)
+        else:
+            s.lines += [s.prefix + t, '']
+        s.prefix = ''
+    def handle_starttag(s, tag, a):
+        a = dict(a)
+        if tag in ('script', 'style'):
+            s.skip += 1
+        if tag in s.BLOCK:
+            s.flush()
+        if tag in ('ul', 'ol'):
+            s.depth += 1
+        elif tag == 'li':
+            s.bullet = True
+        elif tag in ('h1', 'h2', 'h3'):
+            s.prefix = '#' * int(tag[1]) + ' '
+            if s.lines and s.lines[-1] != '':
+                s.lines.append('')
+        elif tag == 'a':
+            href = a.get('href') or ''
+            s.links.append(SITE + href if href.startswith('/') else href); s.buf += '['
+        elif tag in ('b', 'strong'):
+            s.buf += '**'
+        elif tag in ('em', 'i'):
+            s.buf += '*'
+        elif tag == 'code':
+            s.buf += '`'
+        elif tag == 'small':
+            s.buf += ' — '
+        elif tag == 'br':
+            s.flush()
+    def handle_endtag(s, tag):
+        if tag in ('script', 'style'):
+            s.skip -= 1
+        if tag == 'a' and s.links:
+            s.buf = s.buf.rstrip() + f']({s.links.pop()})'
+        elif tag in ('b', 'strong'):
+            s.buf = s.buf.rstrip() + '** '
+        elif tag in ('em', 'i'):
+            s.buf += '*'
+        elif tag == 'code':
+            s.buf += '`'
+        if tag in s.BLOCK:
+            s.flush()
+        if tag in ('ul', 'ol'):
+            s.depth -= 1
+            if not s.depth:
+                s.lines.append('')
+    def handle_data(s, d):
+        if not s.skip:
+            s.buf += d
+def to_md(body):
+    body = re.sub(r'</span>(?=<span class="?chip)', '</span>, ', body)
+    body = body.replace('<span class="sep">/</span>', ' / ')
+    p = _MD(); p.feed(body); p.flush()
+    return re.sub(r'\n{3,}', '\n\n', '\n'.join(p.lines)).strip() + '\n'
+def mdpath(path):
+    return path + 'index.md' if path.endswith('/') else path + '.md'
+
+# ---------- page writer
+URLS = []  # (path, priority, lastmod) for the sitemap
+def head(path, title, desc, lds, md=True):
+    t, d, u = H(title), H(desc), H(SITE + path)
+    return ((ld({'@graph': lds}) if lds else '') + f'\n<link rel="canonical" href="{u}">\n' + alt_links(path)
+            + (f'<link rel="alternate" type="text/markdown" href="{H(mdpath(path))}">\n' if md else '')
+            + f'<link rel="alternate" type="application/rss+xml" title="{SITE_NAME} changelog" href="/changelog/feed.xml">\n'
+            f'<meta property="og:type" content="website">\n'
+            f'<meta property="og:site_name" content="{SITE_NAME}">\n<meta property="og:title" content="{t}">\n'
             f'<meta property="og:description" content="{d}">\n<meta property="og:url" content="{u}">\n'
             f'<meta property="og:image" content="{SITE}/og.png?v=2">\n<meta property="og:image:width" content="1200">\n'
             f'<meta property="og:image:height" content="630">\n<meta name="twitter:card" content="summary_large_image">\n'
+            f'<meta name="twitter:site" content="@RiemannMap">\n'
             f'<meta name="twitter:title" content="{t}">\n<meta name="twitter:description" content="{d}">\n'
             f'<meta name="twitter:image" content="{SITE}/og.png?v=2">\n')
-def page(path, title, desc, route, body, extra=''):
+def page(path, title, desc, route, body, lds=(), priority=.5):
+    is404 = path.endswith('.html')
+    date = lastmod(path, title, desc, body)
     t = TPL
     t = re.sub(r'<title>.*?</title>', f'<title>{H(title)}</title>', t, count=1)
     t = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{H(desc)}">', t, count=1)
-    t = between(t, '<!--head-->', '<!--/head-->', head(title, desc, SITE + path, extra))
+    t = between(t, '<!--head-->', '<!--/head-->', head(path, title, desc, list(lds), md=not is404))
     t = re.sub(r'<body data-route="[^"]*">', f'<body data-route="{H(route)}">', t, count=1)
-    t = between(t, '<!--prerender-->', '<!--/prerender-->', body)
-    if path == '/':
-        return t
-    if path.endswith('.html'):  # 404.html: noindex, no canonical
+    t = between(t, '<!--prerender-->', '<!--/prerender-->', body).replace('{{UPDATED}}', date)
+    if is404:  # 404.html: noindex, no canonical
         t = t.replace(f'<link rel="canonical" href="{H(SITE + path)}">\n', '<meta name="robots" content="noindex">\n')
         open(os.path.join(OUT, path.strip('/')), 'w').write(t)
         return
+    URLS.append((path, priority, date))
+    md = (to_md(body.replace('{{UPDATED}}', date)) + f'\n---\n\n{title}. Web page: {SITE}{path} · updated {date} · '
+          f'site map for machines: {SITE}/llms.txt\n')
     d = os.path.join(OUT, path.strip('/'))
     os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, 'index.md'), 'w').write(md)
+    if path == '/':
+        return t
     open(os.path.join(d, 'index.html'), 'w').write(t)
+def between(t, a, b, new):
+    i, j = t.index(a) + len(a), t.index(b)
+    return t[:i] + new + t[j:]
 def clip(s, n=155):
     s = ' '.join(str(s or '').split())
     return s if len(s) <= n else s[:n].rsplit(' ', 1)[0] + '…'
+def fit(name, n=60):
+    """Title for a map page: the name plus as much of the primary query ('Lean proof of the Riemann hypothesis')
+    as fits in about 60 characters (keep in step with pageTitle() in app.js)."""
+    for t in (f'{name} in the Lean proof of the Riemann hypothesis', f'{name} · Riemann hypothesis Lean proof',
+              f'{name} · RH Lean proof'):
+        if len(t) <= n:
+            return t
+    return name
 
-for sub in ('theme', 'cluster'):
+# ---------- shared bits
+for sub in ('theme', 'cluster', 'changelog', 'api'):
     shutil.rmtree(os.path.join(OUT, sub), ignore_errors=True)
-TPATH = {t: f'/theme/{t}-{slug(TNAME[t])}/' for t in TH}
-CPATH = {k: f'/cluster/{k}-{slug(NAMES[k]["title"])}/' for k in CL if k in NAMES}
-def clink(k):
+def clink(k, end=''):
     title = NAMES[k]['title'] if k in NAMES else folder_label(CL[k]['folders'])
-    href = CPATH.get(k, f'/#/cluster/{k}')
-    return f'<li><a href="{href}"><span class="t">{H(title)}<small>{H(TNAME[CL[k]["theme"]])}</small></span></a></li>'
-STMT = 'https://leanprover-community.github.io/blog/posts/riemann-hypothesis/'
+    return (f'<li><a href="{CPATH[k]}"><span class="t">{H(title)}<small>{H(TNAME[CL[k]["theme"]])}</small></span>'
+            + (f'<span class="end">{H(end)}</span>' if end else '') + '</a></li>')
+MAIN = CPATH[main]
 STATUS = (f'<p class="meta">Proof status: on 21 Nov 2026 the <a href="{STMT}">Lean FRO and the Mathlib Initiative certified</a> '
           'the Lean statement and proof (latest check). Names and descriptions on this map are written by Claude from samples '
           'of the code and may be wrong.</p>')
-urls = [('/', 1.0)]
+FEEDBACK = f'<p class="feedback">Feedback or corrections? <a href="{X_FEEDBACK}" target="_blank" rel="noopener">@SomTheBuilder on X</a></p>'
+ABOUT_T = 'Has the Riemann hypothesis been solved? How it was checked'
+LEARN_T = 'The Riemann hypothesis proof, step by step: learning path'
+HOME_T = 'Lean proof of the Riemann hypothesis: an interactive map'
+def explore(*extra, main_link=True):
+    """'Where next' list on map pages: links the map to the explainers and back."""
+    items = list(extra) + [(MAIN if main_link else None, "Start at the main theorem's cluster"), ('/about/', ABOUT_T),
+                           ('/learn/', 'Learning path: the proof step by step, down to school maths')]
+    return '<h2>Explore</h2><ul class="rows">' + ''.join(f'<li><a href="{p}">{H(t)}</a></li>' for p, t in items if p) + '</ul>'
+TT = {x['id']: tnode(x) for x in core['nodes'] + concepts}
+LEARN_OF = collections.defaultdict(list)  # cluster -> learning-path entries that point at it
+for x in TT.values():
+    for k in x['clusters']:
+        LEARN_OF[k].append(x)
+
+# ---------- theme pages
+REL = collections.defaultdict(list)   # theme -> [(import links, other theme)] from the theme edges (tedges)
+for (a, b), x in w.items():
+    REL[a].append((x, b)); REL[b].append((x, a))
 for t, th in TH.items():
     tn = TNAMED.get(t, {})
     cs = sorted(th['clusters'], key=lambda k: (k not in NAMES, dist.get(k, 99)))
     desc = clip(f"{tn.get('blurb') or ''} {len(cs)} clusters of Lean files in the Lean proof of the Riemann hypothesis.")
-    body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Theme</div><div class="eyebrow">Theme</div>'
+    rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
+    body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Theme</div>'
+            f'<div class="eyebrow">Theme · Lean proof of the Riemann hypothesis</div>'
             f'<h1>{H(TNAME[t])}</h1>' + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
-            f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k) for k in cs)}</ul>')
-    page(TPATH[t], f'{TNAME[t]} · RH Lean Explorer', desc, f'theme/{t}', body,
-         crumbs_ld(('Map', '/'), (TNAME[t], TPATH[t])))
-    urls.append((TPATH[t], .6))
+            f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k) for k in cs)}</ul>'
+            + (f'<h2>Related themes</h2><ul class="rows">' + ''.join(
+                f'<li><a href="{TPATH[o]}"><span class="t">{H(TNAME[o])}<small>{x} import links between their clusters</small></span></a></li>'
+                for x, o in rel) + '</ul>' if rel else '')
+            + explore())
+    page(TPATH[t], fit(TNAME[t]), desc, f'theme/{t}', body, [crumbs_ld(('Map', '/'), (TNAME[t], TPATH[t]))], .6)
+
+# ---------- cluster pages
 for k, p in CPATH.items():
-    n, c = NAMES[k], CL[k]
+    n, c = NAMES.get(k, {}), CL[k]
+    title = n.get('title') or folder_label(c['folders'])
     src = n.get('source') if isinstance(n.get('source'), dict) else None
     refs = ''.join([f'<div class="ref">{H(src.get("title", ""))}{" · " + H(src["where"]) if src.get("where") else ""}'
                     f'<small>Background reading suggested by the AI namer · unchecked</small></div>'] if src else []) + \
@@ -420,97 +614,217 @@ for k, p in CPATH.items():
     conc = [CONC[x]['title'] if x in CONC else x.replace('concept-', '').replace('-', ' ') for x in n.get('concepts') or []]
     route = ''
     if k in dist and dist[k] > 0:
-        route = f'<p class="meta">{dist[k]} import steps from the main theorem.</p>'
-    body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[c["theme"]]}">{H(TNAME[c["theme"]])}</a>'
-            f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k}</div><h1>{H(n["title"])}</h1>'
+        route = f'<p class="meta">{dist[k]} import steps from the <a href="{MAIN}">main theorem</a>.</p>'
+    elif k == main:
+        route = '<p class="meta">This cluster holds the main theorem.</p>'
+    th = c['theme']
+    lp = LEARN_OF.get(k, [])
+    body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
+            f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k} · Lean proof of the Riemann hypothesis</div><h1>{H(title)}</h1>'
             f'<p>{H(n.get("plain") or "")}</p>{route}{STATUS}'
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
+            + (f'<h2>In the learning path</h2><ul class="rows">' + ''.join(
+                f'<li><a href="/learn/#{H(x["id"])}"><span class="t">{H(x["title"])}<small>{H(x["kind"])}</small></span></a></li>' for x in lp)
+               + '</ul>' if lp else '')
             + (f'<h2>References</h2>{refs}' if refs else '')
             + f'<h2>Uses</h2><ul class="rows">{"".join(clink(u) for u in uses[k][:30])}</ul>'
             + f'<h2>Used by</h2><ul class="rows">{"".join(clink(u) for u in sorted(used_by[k])[:30])}</ul>'
-            + f'<p class="meta">{len(members[k])} Lean files, main folder {H(c["folders"][0][0] if c["folders"] else "")}.</p>')
-    page(p, f'{n["title"]} · RH Lean Explorer', clip(n.get('plain')), f'cluster/{k}', body,
-         crumbs_ld(('Map', '/'), (TNAME[c['theme']], TPATH[c['theme']]), (n['title'], p)))
-    urls.append((p, .5))
-FEEDBACK = '<p class="feedback">Feedback or corrections? <a href="https://x.com/SomTheBuilder" target="_blank" rel="noopener">@SomTheBuilder on X</a></p>'
-today = datetime.date.today().isoformat()
-REPO = 'https://github.com/rithn/riemann-lean-reader'
-RH_THING = {'@type': 'Thing', 'name': 'Riemann hypothesis', 'sameAs': 'https://en.wikipedia.org/wiki/Riemann_hypothesis'}
-MAIN = CPATH.get(main, f'/#/cluster/{main}')
-# about: the status of the claim, the page most searchers want (keep in step with about() in app.js)
-about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About</div><div class="eyebrow">About</div>'
+            + f'<p class="meta">{len(members[k])} Lean files, main folder {H(c["folders"][0][0] if c["folders"] else "")}.</p>'
+            + explore((TPATH[th], f'Theme: {TNAME[th]}'), main_link=k != main))
+    page(p, fit(title), clip(n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
+         [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, p))])
+
+# ---------- about: the status of the claim, the page most searchers want (keep in step with about() in app.js)
+STATUS_FACTS = [
+    {'date': '2026-11-20', 'event': 'Levent Alpöge released a proof of the Riemann hypothesis (and GRH for Dirichlet '
+     f'L-functions) as a Lean library of {TOTAL_FILES:,} Lean files, about 17 million lines, posted with a note.', 'source': NOTE},
+    {'date': '2026-11-21', 'event': 'The Lean FRO and the Mathlib Initiative published a joint statement certifying that '
+     'both the statement and the proof are correct. That is the latest check.', 'source': STMT},
+]
+CHECKS = ["The statement is Mathlib's own RiemannHypothesis, vetted by experts in Lean and number theory.",
+          'Dozens of people compiled the library and reproduced the same proof export.',
+          "Two independent tools confirmed the theorem proved is exactly Mathlib's statement.",
+          "The exported proof was checked by Lean's kernel and several independent proof checkers, two of them "
+          'formally verified, run on an inert export of the proof.']
+about = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>About</div><div class="eyebrow">About · status of the proof</div>'
          '<h1>Has the Riemann hypothesis been solved?</h1>'
          f'<p class="lede">On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis (and GRH for Dirichlet L-functions) '
-         f'as a Lean library of {len(mod_cl):,} files, about 17 million lines, posted with a note at <a href="https://alpo.ge/remark.pdf">alpo.ge</a>. '
+         f'as a Lean library of {FILES_TXT}, about 17 million lines, posted with a note at <a href="{NOTE}">alpo.ge</a>. '
          f'On 21 Nov 2026 the Lean FRO and the Mathlib Initiative published a <a href="{STMT}">joint statement</a> certifying that '
          'both the statement and the proof are correct. That is the latest check.</p>'
-         '<h2>What was checked</h2><p>According to the joint statement:</p><ul>'
-         '<li>The statement is Mathlib\'s own <code>RiemannHypothesis</code>, vetted by experts in Lean and number theory.</li>'
-         '<li>Dozens of people compiled the library and reproduced the same proof export.</li>'
-         '<li>Two independent tools confirmed the theorem proved is exactly Mathlib\'s statement.</li>'
-         '<li>The exported proof was checked by Lean\'s kernel and several independent proof checkers, two of them '
-         'formally verified, run on an inert export of the proof.</li></ul>'
-         '<p>Details: <a href="https://math.mit.edu/~drew/grh/">math.mit.edu/~drew/grh</a>.</p>'
+         '<h2>How the Lean proof was checked</h2><p>According to the joint statement:</p><ul>'
+         + ''.join(f'<li>{H(x).replace("RiemannHypothesis", "<code>RiemannHypothesis</code>")}</li>' for x in CHECKS) + '</ul>'
+         f'<p>Details: <a href="{DREW}">math.mit.edu/~drew/grh</a>.</p>'
          '<h2>What this site is</h2><p>A reading guide: a map of the Lean files, grouped by their words and imports into '
          f'{len(CL):,} clusters in {len(TH)} themes. Cluster names and descriptions were written by Claude from a sample of about one '
          f'tenth of each cluster\'s files. They can be wrong. ' + ("All clusters are named." if named == len(CL) else f"About {round(100 * named / len(CL))}% of clusters are named so far.") + '</p>'
          f'<h2>Where to start</h2><ul class="rows"><li><a href="{MAIN}">The main theorem\'s cluster</a></li>'
-         '<li><a href="/learn/">Learning path: from the theorem down to school maths</a></li><li><a href="/">The full map</a></li></ul>'
+         '<li><a href="/learn/">Learning path: from the theorem down to school maths</a></li><li><a href="/">The full map</a></li>'
+         '<li><a href="/changelog/">Changelog: what changed on this site, and when</a></li></ul>'
          '<h2>What the lines mean</h2><p>A line from cluster A to cluster B means some file in A imports a file in B. That is a formal '
          'dependency, not a claim about which ideas you need first. The golden route is the shortest chain of imports from the main '
          'theorem\'s cluster.</p>'
-         f'<p class="meta">Data and scripts: <a href="{REPO}">{REPO.replace("https://", "")}</a> · updated {today}</p>' + FEEDBACK)
-page('/about/', 'Has the Riemann hypothesis been solved? The Lean proof and its checks',
-     f'Levent Alpöge released a {len(mod_cl):,}-file Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO '
-     'and the Mathlib Initiative certified the statement and proof. What was checked, and a map of the code.', 'about', about,
-     ld({'@type': 'WebPage', 'name': 'The Lean proof of the Riemann hypothesis and how it was checked', 'url': SITE + '/about/',
-         'about': RH_THING, 'dateModified': today}))
-# learning path: the hand-built outline as nested lists
-TT = {x['id']: tnode(x) for x in core['nodes'] + concepts}
+         f'<p class="meta">Data and scripts: <a href="{GH}">{GH.replace("https://", "")}</a> · data for machines: '
+         '<a href="/api/">/api/</a> · updated {{UPDATED}}</p>' + FEEDBACK)
+ABOUT_D = ('A Lean proof of the Riemann hypothesis was released on 20 Nov 2026 and certified by the Lean FRO and the '
+           'Mathlib Initiative on 21 Nov. What was checked, and how.')
+page('/about/', ABOUT_T, ABOUT_D, 'about', about,
+     [article_ld('/about/', 'Has the Riemann hypothesis been solved? How the Lean proof was checked', ABOUT_D, '2026-11-21'),
+      crumbs_ld(('Map', '/'), ('About', '/about/')), ORG], .9)
+
+# ---------- learning path: the hand-built outline as nested lists (keep the H1 in step with learn() in app.js)
 def tli(i, seen):
     n = TT.get(i)
     if not n or i in seen:
         return ''
     seen.add(i)
-    on_map = ''.join(f' <a href="{CPATH[k]}">{H(NAMES[k]["title"])}</a>' for k in n['clusters'] if k in CPATH)
+    on_map = ''.join(f' <a href="{CPATH[k]}">{H(NAMES[k]["title"] if k in NAMES else folder_label(CL[k]["folders"]))}</a>' for k in n['clusters'])
     kids = ''.join(tli(k, seen) for k in n['needs'])
-    return (f'<li><b>{H(n["title"])}</b> <small>{H(n["kind"])}</small><p>{H(n["plain"])}</p>'
+    return (f'<li id="{H(i)}"><b>{H(n["title"])}</b> <small>{H(n["kind"])}</small><p>{H(n["plain"])}</p>'
             + (f'<p class="meta">On the map:{on_map}</p>' if on_map else '') + (f'<ul>{kids}</ul>' if kids else '') + '</li>')
 seen = set()
+LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through the main steps of '
+           'the proof down to the background maths, with links to the code on the map.')
 learn = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Learning path</div><div class="eyebrow">Learning path</div>'
-         '<h1>From the Riemann hypothesis down to school maths</h1><p class="lede">The outline runs from the two headline theorems '
-         'through the main steps of the proof, then to background concepts and school or first-year university material. '
-         'It follows the proof as we read it from the Lean code.</p>'
-         f'<ul class="tree">{"".join(tli(r, seen) for r in core["roots"])}</ul>')
-page('/learn/', 'Learning path for the Lean proof of the Riemann hypothesis · RH Lean Explorer',
-     'An outline of the Lean proof of the Riemann hypothesis, from the headline theorems through the main steps to the '
-     'background maths.', 'learn', learn,
-     crumbs_ld(('Map', '/'), ('Learning path', '/learn/')))
-urls += [('/about/', .9), ('/learn/', .8)]
-# home: crawlable intro plus links to every theme
-home = ('<div class="eyebrow">Interactive map · Lean 4</div><h1 class="hero">The shape of the <em>Lean</em> proof of the Riemann hypothesis</h1>'
-        f'<p class="lede">An interactive map of the {len(mod_cl):,} Lean files in Levent Alpöge\'s proof of the Riemann hypothesis, '
+         '<h1>The Riemann hypothesis proof, step by step</h1><p class="lede">From the Riemann hypothesis down to school maths: '
+         'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
+         'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
+         f'<ul class="tree">{"".join(tli(r, seen) for r in core["roots"])}</ul>'
+         f'<p class="meta">See also: <a href="/about/">how the proof was checked</a> · <a href="{MAIN}">the main theorem on the map</a></p>')
+page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
+     [article_ld('/learn/', 'The Riemann hypothesis proof, step by step: a learning path', LEARN_D, '2026-11-21'),
+      crumbs_ld(('Map', '/'), ('Learning path', '/learn/')), ORG], .8)
+
+# ---------- changelog (scripts/site/changelog.yaml) and its RSS feed
+CHANGES = sorted(yaml.safe_load(open(os.path.join(HERE, 'changelog.yaml'))), key=lambda e: str(e['date']), reverse=True)
+for e in CHANGES:
+    e['anchor'] = f'd-{e["date"]}-{slug(e["title"], 40)}'
+assert len({e['anchor'] for e in CHANGES}) == len(CHANGES), 'changelog: two entries with the same date and title' 
+def rfc822(d):
+    return email.utils.format_datetime(datetime.datetime.combine(datetime.date.fromisoformat(str(d)), datetime.time(12), datetime.timezone.utc))
+def change_html(e):
+    return f'<ul>{"".join(f"<li>{H(x)}</li>" for x in e["items"])}</ul>'
+clog = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Changelog</div><div class="eyebrow">Changelog</div>'
+        '<h1>What changed on this site</h1><p class="lede">Dated changes to the map, its pages and the proof status it reports. '
+        'Follow along with the <a href="/changelog/feed.xml">RSS feed</a> or <a href="' + X_SITE + '">@RiemannMap on X</a>.</p>'
+        + ''.join(f'<h2 id="{e["anchor"]}">{H(e["title"])} <small>{datetime.date.fromisoformat(str(e["date"])).strftime("%-d %b %Y")}</small></h2>'
+                  + change_html(e) for e in CHANGES) + FEEDBACK)
+page('/changelog/', 'Changelog · RH Lean Explorer', 'Dated changes to the map of the Lean proof of the Riemann hypothesis: '
+     'new pages, data and status updates.', 'page', clog, [crumbs_ld(('Map', '/'), ('Changelog', '/changelog/'))], .4)
+open(os.path.join(OUT, 'changelog', 'feed.xml'), 'w').write(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>\n'
+    f'<title>{SITE_NAME} changelog</title><link>{SITE}/changelog/</link>\n'
+    '<description>Dated changes to the map of the Lean proof of the Riemann hypothesis.</description><language>en</language>\n'
+    f'<atom:link href="{SITE}/changelog/feed.xml" rel="self" type="application/rss+xml"/>\n'
+    f'<lastBuildDate>{rfc822(CHANGES[0]["date"])}</lastBuildDate>\n'
+    + ''.join(f'<item><title>{H(e["title"])}</title><link>{SITE}/changelog/#{e["anchor"]}</link>'
+              f'<guid isPermaLink="false">rh-lean-explorer-changelog-{e["anchor"]}</guid><pubDate>{rfc822(e["date"])}</pubDate>'
+              f'<description>{H(change_html(e))}</description></item>\n' for e in CHANGES)
+    + '</channel></rss>\n')
+
+# ---------- home: crawlable intro plus links to every theme
+HOME_DESC = (f'The Lean proof of the Riemann hypothesis, visualized: an interactive map of its {FILES_TXT}. '
+             'Certified by the Lean FRO and the Mathlib Initiative on 21 Nov 2026.')
+home = ('<div class="eyebrow">Interactive map · Lean 4</div><h1 class="hero">The <em>Lean</em> proof of the Riemann hypothesis, mapped</h1>'
+        f'<p class="lede">An interactive map of the {FILES_TXT} in Levent Alpöge\'s proof of the Riemann hypothesis, '
         f'released on 20 Nov 2026, grouped into {len(CL):,} clusters in {len(TH)} themes.</p>{STATUS}'
-        f'<ul class="rows"><li><a href="/about/">How the proof was checked</a></li>'
-        f'<li><a href="{MAIN}">Start at the main theorem</a></li><li><a href="/learn/">Learning path</a></li></ul>'
+        f'<ul class="rows"><li><a href="/about/">Has the Riemann hypothesis been solved? How the proof was checked</a></li>'
+        f'<li><a href="{MAIN}">Start at the main theorem</a></li><li><a href="/learn/">Learning path: the proof step by step</a></li>'
+        '<li><a href="/changelog/">Changelog</a></li></ul>'
         f'<h2>Themes</h2><ul class="rows">{"".join(f"<li><a href=\"{TPATH[t]}\">{H(TNAME[t])}</a></li>" for t in TH)}</ul>')
-HOME_DESC = (f'An interactive map of the {len(mod_cl):,} Lean files in Levent Alpöge\'s proof of the Riemann hypothesis, '
-             'certified by the Lean FRO and the Mathlib Initiative on 21 Nov 2026.')
+DATASET = {
+    '@type': 'Dataset', '@id': SITE + '/#dataset', 'name': 'Map of the Lean proof of the Riemann hypothesis',
+    'description': (f"Clusters and themes of the {FILES_TXT} in Levent Alpöge's Lean proof of the Riemann hypothesis: "
+                    f'{len(CL):,} clusters in {len(TH)} themes, the import links between clusters, each cluster\'s distance in '
+                    'import steps from the main theorem, and cluster names and descriptions written by Claude from samples '
+                    'of the code (they may be wrong). No Lean source text is included.'),
+    'url': SITE + '/', 'sameAs': GH, 'isAccessibleForFree': True, 'inLanguage': 'en', 'dateModified': DATA_DATE,
+    'creator': {'@id': ORG_ID}, 'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isBasedOn': NOTE,
+    'keywords': ['Riemann hypothesis', 'Lean 4', 'formal proof', 'Mathlib', 'proof map', 'import graph'],
+    'distribution': [{'@type': 'DataDownload', 'encodingFormat': 'application/json', 'contentUrl': SITE + u, 'name': nm}
+                     for u, nm in (('/api/clusters.json', 'Clusters: id, title, theme, page, files, distance from the main theorem'),
+                                   ('/api/themes.json', 'Themes: id, name, blurb, page, clusters, files'),
+                                   ('/api/status.json', 'Dated status of the proof, with primary sources'))],
+}
 # 404 (written before index.html, from the template); with a 404.html, Cloudflare Pages returns real 404s
-page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '',
+page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
      '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
      '<a href="/">Open the full map</a> or <a href="/about/">read how the proof was checked</a>.</p>')
-open(os.path.join(OUT, 'index.html'), 'w').write(page('/', 'The Lean proof of the Riemann hypothesis, mapped · RH Lean Explorer', HOME_DESC, '', home,
-     ld({'@type': 'WebSite', 'name': 'RH Lean Explorer', 'url': SITE + '/', 'description': HOME_DESC, 'about': RH_THING})))
-open(os.path.join(OUT, 'llms.txt'), 'w').write(
-    f'# RH Lean Explorer\n\n> {HOME_DESC}\n\nLevent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026 '
-    f'(note: https://alpo.ge/remark.pdf). On 21 Nov 2026 the Lean FRO and the Mathlib Initiative certified the statement and '
-    f'proof ({STMT}); that is the latest check. This site is a map of the Lean code. Cluster names '
-    'and descriptions are written by Claude and may be wrong.\n\n'
-    f'- [The proof and how it was checked]({SITE}/about/)\n- [Learning path]({SITE}/learn/)\n- [Main theorem cluster]({SITE}{MAIN})\n'
-    f'- [Sitemap: {len(TH)} themes and {len(CPATH):,} named clusters]({SITE}/sitemap.xml)\n- [Data and scripts]({REPO})\n')
+open(os.path.join(OUT, 'index.html'), 'w').write(page('/', HOME_T, HOME_DESC, '', home, [
+    {'@type': 'WebSite', '@id': SITE_ID, 'name': SITE_NAME, 'url': SITE + '/', 'description': HOME_DESC, 'inLanguage': 'en',
+     'about': RH_THING, 'publisher': {'@id': ORG_ID}, 'sameAs': [X_SITE]}, ORG, DATASET], 1.0))
+
+# ---------- /api/: small JSON files for machines (short cache; /data/ is the app's own versioned format)
+os.makedirs(os.path.join(OUT, 'api'), exist_ok=True)
+def jdump(name, obj):
+    json.dump(obj, open(os.path.join(OUT, 'api', name), 'w'), ensure_ascii=False, separators=(',', ':'))
+API_STATUS = {
+    'updated': NEW_STATE['/about/'][1], 'question': 'Has the Riemann hypothesis been solved?',
+    'status': 'On 21 Nov 2026 the Lean FRO and the Mathlib Initiative certified the Lean statement and proof (latest check).',
+    'timeline': STATUS_FACTS, 'checks': CHECKS, 'checks_source': STMT, 'details': DREW, 'page': SITE + '/about/',
+    'counts': {'lean_files': TOTAL_FILES, 'mapped_files': len(mod_cl), 'clusters': len(CL), 'themes': len(TH)},
+    'note': 'Cluster and theme names and descriptions on this site are written by Claude from samples of the code and may be wrong.',
+}
+jdump('status.json', API_STATUS)
+jdump('clusters.json', {'updated': DATA_DATE, 'site': SITE, 'fields': {'path': 'page on the site (prefix with site)', 'dist': 'import steps from the main theorem (null: not reachable)',
+      'files': 'Lean files in the cluster'}, 'main': main, 'clusters': [
+    {'id': k, 'title': NAMES[k]['title'] if k in NAMES else None, 'theme': CL[k]['theme'], 'path': CPATH[k],
+     'files': fcount[k], 'dist': dist.get(k)} for k in CL]})
+jdump('themes.json', {'updated': DATA_DATE, 'themes': [
+    {'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'path': TPATH[t], 'url': SITE + TPATH[t],
+     'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters'])} for t in TH]})
+API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
+             'endpoints': {'/api/status.json': 'dated proof status with primary sources',
+                           '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist',
+                           '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files'},
+             'markdown': 'every HTML page has a Markdown copy at <page>index.md, e.g. /about/index.md',
+             'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH}
+jdump('index.json', API_INDEX)
+open(os.path.join(OUT, 'api', 'index.html'), 'w').write(
+    '<!doctype html><meta charset="utf-8"><title>API · RH Lean Explorer</title><meta name="robots" content="noindex">'
+    '<link rel="canonical" href="' + SITE + '/api/index.json"><pre>' + H(json.dumps(API_INDEX, indent=2, ensure_ascii=False)) + '</pre>')
+
+# ---------- llms.txt and llms-full.txt
+llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
+        f'This site is an interactive map of the Lean code of the proof of the Riemann hypothesis: {FILES_TXT}, grouped by their '
+        f'words and imports into {len(CL):,} clusters in {len(TH)} themes. Cluster and theme names and descriptions are written by '
+        'Claude from samples of the code and may be wrong. No Lean source text is hosted here.\n\n'
+        f'## Status (updated {API_STATUS["updated"]})\n\n'
+        + ''.join(f'- {e["date"]}: {e["event"]} Source: {e["source"]}\n' for e in STATUS_FACTS)
+        + f'- Details of the checks: {DREW}\n\n'
+        f'## Key pages\n\n- [Has the Riemann hypothesis been solved? How it was checked]({SITE}/about/): status, what was checked, sources\n'
+        f'- [Learning path]({SITE}/learn/): the proof step by step, from the headline theorems down to school maths\n'
+        f'- [Main theorem cluster]({SITE}{MAIN})\n- [Interactive map]({SITE}/): {len(TH)} theme pages and {len(CPATH):,} cluster pages, all in the sitemap\n'
+        f'- [Changelog]({SITE}/changelog/) and [RSS]({SITE}/changelog/feed.xml)\n\n'
+        f'## Data and API\n\n- Markdown copy of every page: add `index.md` to the page path, e.g. {SITE}/about/index.md\n'
+        f'- [{SITE}/api/status.json]({SITE}/api/status.json): dated status facts with primary sources\n'
+        f'- [{SITE}/api/clusters.json]({SITE}/api/clusters.json): every cluster (id, title, theme, page, files, distance from the main theorem)\n'
+        f'- [{SITE}/api/themes.json]({SITE}/api/themes.json): every theme (id, name, blurb, page, clusters, files)\n'
+        f'- [Sitemap]({SITE}/sitemap.xml)\n- [Full text of the main pages]({SITE}/llms-full.txt)\n- [Data and scripts]({GH})\n\n'
+        f'## Contact\n\n- Site on X: {X_SITE}\n- Feedback and corrections: {X_FEEDBACK}\n')
+open(os.path.join(OUT, 'llms.txt'), 'w').write(llms)
+full = [llms, '\n---\n']
+for pth in ('/about/', '/learn/', '/changelog/'):
+    full += [open(os.path.join(OUT, pth.strip('/'), 'index.md')).read(), '\n---\n']
+full.append('# Themes\n\n' + ''.join(f'- [{TNAME[t]}]({SITE}{TPATH[t]}): {TNAMED.get(t, {}).get("blurb") or ""} '
+                                    f'({len(TH[t]["clusters"])} clusters)\n' for t in TH))
+open(os.path.join(OUT, 'llms-full.txt'), 'w').write('\n'.join(full))
+
+# ---------- sitemap (clean URLs, lastmod from the content state), robots, IndexNow key
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    + ''.join(f'<url><loc>{SITE}{u}</loc><lastmod>{today}</lastmod><priority>{p}</priority></url>\n' for u, p in urls) + '</urlset>\n')
+    + ''.join(f'<url><loc>{SITE}{u}</loc><lastmod>{d}</lastmod><priority>{p}</priority></url>\n'
+              for u, p, d in sorted(URLS, key=lambda z: (-z[1], z[0]))) + '</urlset>\n')
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
-print(f'{len(TPATH)} theme pages, {len(CPATH)} cluster pages, sitemap with {len(urls)} urls')
+KEY_F = os.path.join(HERE, 'indexnow.key')   # IndexNow key (public by design: it is served at /<key>.txt)
+if not os.path.exists(KEY_F):
+    open(KEY_F, 'w').write(secrets.token_hex(16) + '\n')
+KEY = open(KEY_F).read().strip()
+for f in glob.glob(os.path.join(OUT, '*.txt')):
+    if re.fullmatch(r'[0-9a-f]{32}\.txt', os.path.basename(f)) and os.path.basename(f) != KEY + '.txt':
+        os.remove(f)
+open(os.path.join(OUT, KEY + '.txt'), 'w').write(KEY)
+json.dump(dict(sorted(NEW_STATE.items())), open(STATE_F, 'w'), indent=0, separators=(',', ':'))
+changed = sorted(u for u, _, d in URLS if d == today)
+print(f'{len(TPATH)} theme pages, {len(CPATH)} cluster pages, sitemap with {len(URLS)} urls ({len(changed)} changed today); '
+      f'data v={DATA_V} app v={APP_V} css v={CSS_V}')

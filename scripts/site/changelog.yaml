@@ -1,0 +1,32 @@
+# Changelog for riemannhypothesissolved.com, rendered by build_site.py as /changelog/ and /changelog/feed.xml.
+# One entry per day, newest anywhere (the builder sorts). Dates are the day the change was made (site repo commits, IST).
+# Seeded from the git log of the site repo (rithn/rh-lean-explorer).
+
+- date: 2026-11-22
+  title: Clean links, Markdown copies and an API
+  items:
+    - "Pages have real addresses (for example /cluster/k0677-…/ and /about/) instead of #/ links; old #/ links still work."
+    - "Every page has a Markdown copy (add index.md to its path), and llms.txt describes the site, its status sources and data."
+    - "New /api/ with JSON for the proof status, all clusters and all themes."
+    - "This changelog and its RSS feed."
+    - "Page titles, structured data and links between the map and the explainer pages reworked."
+    - "Smaller first download for the map, and long caching for versioned data."
+
+- date: 2026-11-22
+  title: All 2,647 clusters named
+  items:
+    - "All 2,647 clusters now have names and descriptions written by Claude; every cluster has its own page."
+    - "Merged different spellings of the same topic tags and book titles."
+    - "Feedback links to @SomTheBuilder on X on the home page, About, cluster panels and by the map."
+    - "robots.txt states Content-Signal: search, ai-input and ai-train allowed."
+
+- date: 2026-11-21
+  title: Proof certified; launch of the map
+  items:
+    - "First version of the RH Lean Explorer: cluster map, cluster, file and concept views, and search."
+    - "Canvas star map with a fly-to camera, the route from the main theorem, command search and a mobile sheet."
+    - "Theme names and blurbs written by Claude from cluster names and folders."
+    - "Static pages for the 63 themes and the named clusters, a social preview image, sitemap and robots.txt."
+    - "Static About and Learning path pages, real 404 pages, structured data and llms.txt."
+    - "Status updated: on 21 Nov 2026 the Lean FRO and the Mathlib Initiative certified the Lean statement and proof."
+    - "Panel redesign: summary first, stat tiles, route from the main theorem, folded references."
