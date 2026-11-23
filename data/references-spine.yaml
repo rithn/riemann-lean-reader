@@ -1,0 +1,1269 @@
+meta:
+  written: '2026-11-23'
+  task: 'tracker #35 (exact references for the spine)'
+  spine: 41 clusters of research/seo/indexable-pages.md (main path dist 0-2 plus core 16)
+  lean_commit: 40e56bab
+  precision_labels:
+    exact: theorem, lemma or section number read in the cited text and the stated result matches the Lean statement (see match). Downgraded to section when the match is only related or partial.
+    section: right chapter or section, not a specific theorem (chapter title verified from a contents list)
+    topic: 'general reference: paper or book cited without a verified locator'
+  fields: 'per cluster: id, title, current_book_reference (from site/data/c/<id>.json "source"), current_book_verdict, references[citation, locator, url, doi, precision, match, evidence, note]'
+  limits:
+  - 'Source type (a) is empty: the Lean files contain no comments or docstrings, so no in-file citations exist.'
+  - 'Source type (b): blueprint (chrisflav/riemann-blueprint @137d976) gives author and year only, with 3 locators in the whole blueprint, none for these clusters. Naskrecki gives no sources.'
+  - 'Source type (c): MV (Montgomery-Vaughan vol. I) chapter PDFs are hosted by the authors and were read in full text; Zelevinsky 1980 read from numdam. Davenport, Neukirch, Serre, Washington, Scharlau,
+    Goodman-Wallach, Birkenhake-Lange, Bushnell-Henniart, Bump, Bombieri-Gubler: chapter lists only (Springer page, Crossref chapter DOIs); theorem numbers in those books are NOT checked.'
+  - Third-party locators (Jaswal preprint, Adriazola EXTERNAL_THEOREMS.md) are recorded in evidence or note and never promoted to a locator unless I checked them.
+clusters:
+- id: k0162
+  title: Hecke characters, conductors and root numbers
+  depth: 2
+  current_book_reference: Neukirch, Algebraic Number Theory, ch. VII §6-§8
+  current_book_verdict: ok
+  current_book_verdict_note: Neukirch ch. VII section 6-8 is right (see k0722).
+  references:
+  - citation: J. Neukirch, Algebraic Number Theory, Grundlehren 322, Springer, 1999
+    locator: Ch. VII sections 6-8 (Hecke Characters, Theta Series, Hecke L-series)
+    url: https://doi.org/10.1007/978-3-662-03983-0
+    doi: 10.1007/978-3-662-03983-0
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: contents excerpt via web search (see k0722)'
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/HeckeTateFE.lean:5 (GlobalTheory.Top.heckeTateFE)
+  - citation: J. T. Tate, Fourier analysis in number fields, and Hecke's zeta-functions (Chapter XV), in J. W. S. Cassels and A. Fröhlich (eds.), Algebraic Number Theory, Academic Press, 1967, pp. 305-347
+    locator: Chapter XV, whole chapter (Tate's thesis)
+    url: https://en.wikipedia.org/wiki/Tate%27s_thesis
+    precision: section
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-functional-equation-cm matched to Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/HeckeTateFE.lean:5
+      (GlobalTheory.Top.heckeTateFE)
+    - 'Checked 23 Nov 2026: Cassels-Froehlich Chapter XV = Tate (web-search contents)'
+  - citation: E. Hecke, Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen I, Math. Z. 1 (1918), 357-376
+    locator: whole paper
+    url: https://doi.org/10.1007/BF01465095
+    doi: 10.1007/BF01465095
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-functional-equation-cm source field
+- id: k0169
+  title: Idele measures, local root numbers and Godement sections
+  depth: 2
+  current_book_reference: Cassels and Fröhlich (eds.), Algebraic Number Theory, ch. XV (Tate)
+  current_book_verdict: ok
+  current_book_verdict_note: Cassels-Froehlich ch. XV (Tate's thesis) is right.
+  references:
+  - citation: J. T. Tate, Fourier analysis in number fields, and Hecke's zeta-functions (Chapter XV), in J. W. S. Cassels and A. Fröhlich (eds.), Algebraic Number Theory, Academic Press, 1967, pp. 305-347
+    locator: 'Chapter XV, whole chapter (Tate''s thesis: Haar measure on ideles, local functional equation and root numbers)'
+    url: https://en.wikipedia.org/wiki/Tate%27s_thesis
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Cassels-Froehlich Chapter XV = Tate, Fourier analysis in number fields and Hecke''s zeta-functions (web-search contents; pp. 305-347 via Wikipedia reference)'
+    - 'cluster summary: idele measure, local root number of a Hecke character, preparation for adelic functional equations'
+- id: k0250
+  title: 'A concrete model transfer matrix: Yang-Baxter relation, frames and energy limit'
+  depth: 5
+  current_book_reference: null
+  current_book_verdict: none
+  current_book_verdict_note: No current book reference. The cluster builds a Yangian-type transfer matrix; the only candidate source is Molev's book.
+  references:
+  - citation: A. Molev, Yangians and Classical Lie Algebras, Math. Surveys and Monographs 143, AMS, 2007
+    locator: Ch. 1 and ch. 7 as named by Adriazola
+    url: https://doi.org/10.1090/surv/143
+    doi: 10.1090/surv/143
+    precision: topic
+    evidence:
+    - 'secondary: J. Adriazola, RH-Alpoge-Reconstruction, EXTERNAL_THEOREMS.md (github.com/jimjamzola/RH-Alpoge-Reconstruction, read 23 Nov 2026), section "LinkS, LinkIRR, Theorem P": quantum minors, Capelli,
+      centrality of the quantum determinant: "Molev, Yangians and Classical Lie Algebras, ch. 1, 7 | Theorem P, radial identities | partially compared"'
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label def-archimedean-bessel-data (source field: "Bessel models in the sense of Gan-Gross-Prasad [gan-2012]") matched in this cluster'
+    note: Chapter numbers are Adriazola's; the book was not checked. Adriazola says the identities were confirmed numerically in low rank.
+- id: k0293
+  title: Characters of finite groups and Brauer's induction theorem
+  depth: 4
+  current_book_reference: Jean-Pierre Serre, Linear Representations of Finite Groups, chs. 2-3 and 10
+  current_book_verdict: ok
+  current_book_verdict_note: Serre chs. 2, 3 and 10 are right (Character theory; Subgroups, products, induced representations; A theorem of Brauer).
+  references:
+  - citation: J.-P. Serre, Linear Representations of Finite Groups, GTM 42, Springer, 1977
+    locator: Ch. 10 (A theorem of Brauer); chs. 2-3 for characters and induction
+    url: https://doi.org/10.1007/978-1-4684-9458-7
+    doi: 10.1007/978-1-4684-9458-7
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Serre (link.springer.com/book/10.1007/978-1-4684-9458-7): Part II chapters 6-13 including 9 Artin''s theorem, 10 A theorem of Brauer, 11 Applications
+      of Brauer''s theorem; web-search contents excerpt names section 10.5 "Brauer''s theorem" (the PDF it came from now returns 404, so the section number is not independently confirmed)'
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BrauerDegreeZero.lean:203 (GlobalTheory.BrauerZero.brauerDegreeZero)
+    note: The theorem number for Brauer's induction theorem was not confirmed; it is not Theorem 18 (10.4 proves theorems 18 and 18', before 10.5 "Brauer's theorem").
+  - citation: R. Brauer, On Artin's L-series with general group characters, Ann. of Math. (2) 48 (1947), 502 ff.
+    locator: whole paper (original statement and proof)
+    url: https://doi.org/10.2307/1969183
+    doi: 10.2307/1969183
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-brauer-induction-degree-zero (source field: "after Brauer [brauer-1947]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BrauerDegreeZero.lean:203
+      (GlobalTheory.BrauerZero.brauerDegreeZero)'
+- id: k0427
+  title: 'Hermitian lattices over number fields: trace form, genus, class-number finiteness'
+  depth: 3
+  current_book_reference: Shimura, Arithmetic of Quadratic Forms, ch. 5 (class numbers and mass)
+  current_book_verdict: unverified
+  current_book_verdict_note: 'Shimura ch. 5 is "Quadratic Forms" (Crossref chapter list); I could not confirm that class numbers and mass are in it. The cluster is about hermitian lattices over number fields:
+    Scharlau ch. 10 is the closer chapter.'
+  references:
+  - citation: W. Scharlau, Quadratic and Hermitian Forms, Grundlehren 270, Springer, 1985
+    locator: Ch. 10 (Hermitian Forms over Global Fields) and ch. 7 (Foundations of the Theory of Hermitian Forms)
+    url: https://doi.org/10.1007/978-3-642-69971-9
+    doi: 10.1007/978-3-642-69971-9
+    precision: topic
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Scharlau (10 chapters: 7 Foundations of the Theory of Hermitian Forms, 10 Hermitian Forms over Global Fields; also Crossref chapter DOI ..._10)'
+    - 'cluster summary: trace form turns a hermitian lattice into a Euclidean lattice, genus has constant covolume, finitely many classes and finite automorphism group'
+    note: Chapter titles checked; whether finiteness of the class number in a genus is stated there was not checked.
+  - citation: A. Borel and Harish-Chandra, Arithmetic subgroups of algebraic groups, Ann. of Math. (2) 75 (1962), 485 ff.
+    locator: whole paper (finiteness of class number for arithmetic groups)
+    url: https://doi.org/10.2307/1970210
+    doi: 10.2307/1970210
+    precision: topic
+    evidence:
+    - Chosen by topic (finite number of classes in a genus). Not named in the blueprint or in Adriazola's list for this cluster.
+    note: My suggestion; not read.
+- id: k0443
+  title: Chain parameters, weighted means and grid valuation bounds
+  depth: 2
+  current_book_reference: null
+  current_book_verdict: none
+  current_book_verdict_note: No current book reference. This cluster states numeric inequalities for chains of lattices; I found no published source.
+  references: []
+- id: k0459
+  title: Division values, index change and divisor bounds
+  depth: 2
+  current_book_reference: null
+  current_book_verdict: none
+  current_book_verdict_note: No current book reference. Division values and index change are prime-by-prime lattice bookkeeping specific to the argument; no published source found.
+  references: []
+- id: k0469
+  title: Test lattices, dual lattices and slope bounds
+  depth: 2
+  current_book_reference: Bombieri and Gubler, Heights in Diophantine Geometry, ch. 2
+  current_book_verdict: wrong
+  current_book_verdict_note: 'Bombieri-Gubler ch. 2 is "Weil heights" (Crossref chapter list: 1 Heights, 2 Weil heights, 3 Linear tori ...). It does not treat slopes of lattices or test lattices.'
+  references:
+  - citation: D. Grayson, Reduction theory using semistability, Comment. Math. Helv. 59 (1984), 600-634
+    locator: whole paper (Harder-Narasimhan filtration and slopes of lattices)
+    url: https://doi.org/10.1007/BF02566369
+    doi: 10.1007/BF02566369
+    precision: topic
+    evidence:
+    - 'secondary: J. Adriazola, RH-Alpoge-Reconstruction, EXTERNAL_THEOREMS.md (github.com/jimjamzola/RH-Alpoge-Reconstruction, read 23 Nov 2026), section "Slopes, frame theorem and covolumes": names "Harder-Narasimhan
+      theory; slope inequality | Stuhler, Grayson, Bost, Gaudron" for FrameF and (A3); status "not compared". Grayson is Adriazola''s name only; the DOI is my Crossref lookup.'
+    note: Related background, not matched to a Lean statement here.
+- id: k0656
+  title: Weight-indexed polynomial spaces, lattices and branching over number fields
+  depth: 2
+  current_book_reference: Goodman and Wallach, Symmetry, Representations, and Invariants, ch. 8 (branching laws)
+  current_book_verdict: ok
+  current_book_verdict_note: 'Goodman-Wallach ch. 8 is "Branching Laws" (Springer chapter list): right for the branching rule in this cluster.'
+  references:
+  - citation: R. Goodman and N. R. Wallach, Symmetry, Representations, and Invariants, GTM 255, Springer, 2009
+    locator: Ch. 8 (Branching Laws)
+    url: https://doi.org/10.1007/978-0-387-79852-3
+    doi: 10.1007/978-0-387-79852-3
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Goodman-Wallach (12 chapters; 3 Highest-Weight Theory, 7 Character Formulas, 8 Branching Laws)'
+    - 'cluster summary: polynomial spaces indexed by dominant weights, branching from a bigger matrix group to a smaller one'
+- id: k0674
+  title: Rankin-Selberg method and Hecke eigenform hypotheses over the rationals
+  depth: 2
+  current_book_reference: Bump, Automorphic Forms and Representations, ch. 3 and 6 (Rankin-Selberg method)
+  current_book_verdict: wrong
+  current_book_verdict_note: 'Bump (1997) has four chapters (Crossref chapter list: Modular Forms; Automorphic Forms and Representations of GL(2,R); Automorphic Representations; Representations of GL(2)
+    over a p-adic field). "ch. 6" does not exist.'
+  references:
+  - citation: D. Bump, Automorphic Forms and Representations, Cambridge Univ. Press, 1997
+    locator: Ch. 3 (Automorphic Representations); expected to contain the Rankin-Selberg method; section not identified
+    url: https://doi.org/10.1017/CBO9780511609572
+    doi: 10.1017/CBO9780511609572
+    precision: topic
+    evidence:
+    - 'Checked 23 Nov 2026: Crossref chapter list of the book (DOI 10.1017/CBO9780511609572.xxx)'
+    - 'cluster summary: Rankin-Selberg method, Whittaker functions, Eisenstein series, Hecke eigenforms over Q'
+    note: Section number not verified.
+- id: k0677
+  title: Main theorem statements, plus the explicit formula for Dirichlet L-functions
+  depth: 0
+  current_book_reference: Davenport, Multiplicative Number Theory, ch. 17-19 (explicit formula, zero-free region)
+  current_book_verdict: partly
+  current_book_verdict_note: Davenport ch. 17-19 is right for the explicit formula (ch. 17 psi(x), 18 PNT, 19 psi(x,chi)). The zero-free region the label mentions is ch. 13-14, not 17-19.
+  references:
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 12.10 (explicit formula for psi_0(x,chi), chi primitive mod q>1, truncated at height T)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Formalism/PeriodIntegrals/ExplicitFormula.lean:26 (PI.ExplicitFormula)
+    - Lean 40e56bab src/Formalism/PeriodIntegrals/ExplicitFormulaCounts/ExplicitFormula.lean:8 (explicitFormula_closed)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/16.0_pp_397_418_Explicit_formulae.pdf (Theorem 12.10 printed: psi_0(x,chi) = -sum_{|gamma|<=T}
+      x^rho/rho - (1/2)log(x-1) - chi(-1)/2 log(x+1) + C(chi) + R, R << (log x)min(1,x/(T<x>)) + (x/T)log^2(qxT); text read)'
+    match: 'same result, different form: the Lean statement absorbs the explicit terms into an O(...) with log(qu) and the near-zero sum of 1/|rho|'
+    note: MV Cor. 12.11 and Theorem 11.4 give the bound on C(chi) that the Lean form needs.
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Lemma 6.5 (the 3-4-1 inequality, proof of Theorem 11.3 for chi)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/Positivity.lean:51 (Formalism.ZeroFreeDirichlet.term_three_four_one_nonneg)
+    - Lean 40e56bab src/Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/Positivity.lean:130 (Formalism.ZeroFreeDirichlet.negLogDerivPositivity)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/10.0_pp_168_198_The_Prime_Number_Theorem.pdf (Lemma 6.5: Re(-3 zeta''/zeta(s) - 4 zeta''/zeta(s+it)
+      - zeta''/zeta(s+2it)) >= 0 for sigma>1, from 3+4cos+cos2 = 2(1+cos)^2; text read)'
+    match: 'related: same inequality; MV states it for zeta, the Lean file for chi, chi^2 and the trivial character, the form used in the MV proof of Theorem 11.3'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 5.1 (Perron formula) and Theorem 5.2 with Corollary 5.3 (effective form)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/ExplicitFormulaFromGluing.lean:19 (PI.EF.explicitFormula_of_perron_shift)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/09.0_pp_137_167_Dirichlet_series_II.pdf (Theorems 5.1, 5.2, Cor. 5.3 printed; text
+      read)'
+    match: 'related: the Lean file takes a Perron estimate as hypothesis (PerronL) and proves the explicit formula from it; MV proves Theorem 12.5/12.10 from Theorem 5.2'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: H. Davenport, Multiplicative Number Theory, 3rd ed. (rev. H. L. Montgomery), GTM 74, Springer, 2000
+    locator: Ch. 19 (The Explicit Formula for psi(x,chi)) and ch. 17 (Explicit Formula for psi(x))
+    url: https://doi.org/10.1007/978-1-4757-5927-3
+    doi: 10.1007/978-1-4757-5927-3
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Davenport (link.springer.com/book/10.1007/978-1-4757-5927-3, headless browser; 30 chapters, titles and order); numbering follows that order and Crossref
+      chapter DOI suffixes (e.g. _15 = The Number N(T))'
+    - Lean 40e56bab src/Formalism/PeriodIntegrals/ExplicitFormula.lean:26 (PI.ExplicitFormula)
+  - citation: B. Riemann, Ueber die Anzahl der Primzahlen unter einer gegebenen Groesse, Monatsber. Koenigl. Preuss. Akad. Wiss. Berlin (1859)
+    locator: whole paper (statement of the Riemann hypothesis)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label def-riemann-hypothesis (source field: "Riemann [riemann-1859]") matched to RiemannZetaZerosOnLine, Lean 40e56bab src/Statements.lean:3
+      (RiemannZetaZerosOnLine)'
+- id: k0678
+  title: Log-derivative bounds and truncated explicit formula for L-functions
+  depth: 2
+  current_book_reference: Montgomery and Vaughan, Multiplicative Number Theory I, ch. 12 and 13 (zeros, explicit formula)
+  current_book_verdict: partly
+  current_book_verdict_note: MV ch. 12 (Explicit formulae) is right. Ch. 13 is Conditional estimates (assumes RH) and does not hold the zeros material; the zero and log-derivative results are in ch. 6,
+    10 and 11.
+  references:
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: 'Lemma 6.3 (with Lemma 6.1, Jensen): zeros of a bounded analytic function in a disc and f''/f as a sum over them'
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/NormOneSubConjMul.lean:125 (GlobalTheory.LogDerivZeros.main)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/10.0_pp_168_198_The_Prime_Number_Theorem.pdf (Lemma 6.1 Jensen count K << log(M/|f(0)|);
+      Lemma 6.3 f''/f(z) = sum 1/(z-z_k) + O(log(M/|f(0)|)) for |z|<=r<R<1; text read)'
+    match: same statement (zero count <= C(1+log(M/|f(0)|)) and |f'/f - sum over zeros of ord/(z-w)| <= C(1+log(M/|f(0)|)))
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Lemma 11.1 and Theorem 10.17 (L'/L in a strip as a sum over nearby zeros, count of zeros)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LogDerivLFunctionStrip.lean:73 (GlobalTheory.LWide.logDeriv_LFunction_strip)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf (Lemma 11.1 printed; text
+      read)'
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/14.0_pp_326_357_Analytic_properties_of_the_zeta_function_and_L-functions.pdf (Theorem
+      10.17 printed: zeros of L(s,chi) in [0,1]x[T,T+1] number << log q(|T|+2); text read)'
+    match: 'related form: MV Lemma 11.1 uses the disc |rho-(3/2+it)|<=5/6 for 5/6<=sigma<=2; the Lean statement uses radius 7/2 about 2+it for -1<=sigma<=2'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 11.3 and Corollary 11.10 (Page) (at most one exceptional zero, unique across characters)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExceptionalDirichletZeroUniqueZeroFreeRegionStatement.lean:7 (GlobalTheory.T.exceptionalDirichletZero_unique_zeroFreeRegion)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf (Thm 11.3 and Cor. 11.10 printed;
+      text read)'
+    match: 'partial: the Lean statement also gives a lower bound 1-beta >= c/(M^2 log M), weaker than Siegel (MV Theorem 11.14)'
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 12.10 (truncated explicit formula, Perron shift)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/AnalyticAtDslope.lean:189 (GlobalTheory.ExplicitRect.residue_identity)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/16.0_pp_397_418_Explicit_formulae.pdf (Thm 12.10 proof: contour shift to Re s=-K and
+      residues; text read)'
+    match: 'related: the Lean file proves the residue identity for the rectangle used in the shift, not the whole theorem'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+- id: k0680
+  title: Zero-free region for zeta and Dirichlet L-functions
+  depth: 1
+  current_book_reference: Davenport, Multiplicative Number Theory, ch. 13-14 (zero-free region, prime number theorem)
+  current_book_verdict: ok
+  current_book_verdict_note: Davenport ch. 13-14 (zero-free regions for zeta and L(s,chi)) is right. The "prime number theorem" in the label is ch. 18, not 13-14.
+  references:
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 11.3 (zero-free region for L(s,chi), one exceptional real zero) and Theorem 11.4 (L'/L near an exceptional zero)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LogDerivSubExceptionalLe.lean:92 (GlobalTheory.Hk.LogDerivHalf.logDeriv_sub_exceptional_le)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf (Thm 11.3 and 11.4 printed;
+      (11.8) L''/L(s,chi) = 1/(s-beta1) + O(log q); text read)'
+    match: 'related: MV states it for Dirichlet characters; the Lean statement is for a family of ray class (Hecke) L-functions, a generalisation'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 6.6 and Lemma 6.5 (classical zero-free region for zeta, 3-4-1)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/RayClassFamilyLogDerivReGtOneStatement.lean:7 (GlobalTheory.T.rayClassFamily_logDeriv_re_gt_one)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/10.0_pp_168_198_The_Prime_Number_Theorem.pdf (Theorem 6.6 printed: zeta(s) != 0 for
+      sigma >= 1 - c/log tau; text read)'
+    match: 'related: the Lean file is the ray-class analogue of the positivity step'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: H. Davenport, Multiplicative Number Theory, 3rd ed. (rev. H. L. Montgomery), GTM 74, Springer, 2000
+    locator: Ch. 13 (A Zero-Free Region for zeta(s)) and ch. 14 (Zero-Free Regions for L(s,chi))
+    url: https://doi.org/10.1007/978-1-4757-5927-3
+    doi: 10.1007/978-1-4757-5927-3
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Davenport (link.springer.com/book/10.1007/978-1-4757-5927-3, headless browser; 30 chapters, titles and order); numbering follows that order and Crossref
+      chapter DOI suffixes (e.g. _15 = The Number N(T))'
+  - citation: E. Landau, Ueber Ideale und Primideale in Idealklassen, Math. Z. 2 (1918), 52-154
+    locator: 'whole paper (prime ideals in ideal classes: zero-free region for Hecke L-functions)'
+    url: https://doi.org/10.1007/BF01212899
+    doi: 10.1007/BF01212899
+    precision: topic
+    evidence:
+    - 'Chosen by topic: the cluster treats ray class L-functions; this is the classical source named in the blueprint for Hecke L-functions (blueprint reference landau-1918).'
+- id: k0681
+  title: Hypothesis packaging for Jacobi symbols, zero density and prime pairs
+  depth: 2
+  current_book_reference: Iwaniec and Kowalski, Analytic Number Theory, ch. 10 (zero density) and ch. 5 (quadratic characters)
+  current_book_verdict: unverified
+  current_book_verdict_note: IK ch. 10 is "Zero Density Estimates" (title seen in two contents excerpts). Ch. 5 ("Classical Analytic Theory of L-functions") is plausible but I did not find a section on
+    Jacobi symbols. Cluster is mostly hypotheses, not proofs.
+  references:
+  - citation: H. Iwaniec and E. Kowalski, Analytic Number Theory, AMS Colloquium Publications 53, 2004
+    locator: Ch. 10 (Zero Density Estimates)
+    url: https://doi.org/10.1090/coll/053
+    doi: 10.1090/coll/053
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: contents excerpts returned by web search (AMS bookstore listing, Scribd front-matter copy) give chapter 10 = Zero Density Estimates, starting p. 249; page not fetched directly
+      (AMS site returns 403)'
+    - 'secondary: J. Adriazola, RH-Alpoge-Reconstruction, EXTERNAL_THEOREMS.md (github.com/jimjamzola/RH-Alpoge-Reconstruction, read 23 Nov 2026), row V17 names a Jutila zero-density bound N(alpha,Q,T)
+      << (Q^2 T)^((2+eps)(1-alpha)) for alpha >= 4/5 as an input of the host-field step'
+    note: Declarations in this cluster are named conditions, for example SecondEstimateOfIntervalHypothesis, MeanSquareOfPrimeNumberTheorem. They were not mapped one by one.
+  - citation: M. Jutila, Zero-density estimates for L-functions, Acta Arith. 32 (1977), 55-62
+    locator: whole paper (zero-density estimates for L-functions)
+    url: https://doi.org/10.4064/aa-32-1-55-62
+    doi: 10.4064/aa-32-1-55-62
+    precision: topic
+    evidence:
+    - 'secondary: J. Adriazola, RH-Alpoge-Reconstruction, EXTERNAL_THEOREMS.md (github.com/jimjamzola/RH-Alpoge-Reconstruction, read 23 Nov 2026), row V17 ("Jutila''s zero density"); the Adriazola text
+      gives no citation, so this paper is my identification by title and year (Crossref record 10.4064/aa-32-1-55-62)'
+    note: My identification, not stated by Adriazola. Not read.
+- id: k0682
+  title: Landau's theorem and nonvanishing of zeta from one-sided prime-sum bounds
+  depth: 2
+  current_book_reference: Montgomery and Vaughan, Multiplicative Number Theory I, ch. 1 (Landau's theorem on Dirichlet series) and ch. 15
+  current_book_verdict: ok
+  current_book_verdict_note: MV ch. 1 (Landau's theorem, Theorem 1.7) and ch. 15 (Applications of Landau's theorem) are exactly right.
+  references:
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: 'Theorem 1.7 (Landau: a Dirichlet series with non-negative coefficients has a singularity at its abscissa of convergence)'
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauDichotomy.lean:24 (Deduction.landau_dichotomy)
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean:11 (Deduction.zeroFree_of_rpow_window)
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-landau-windows (source field: "after Landau [landau-1905]") matched to Lean 40e56bab src/Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean:8
+      (UpperTheory.Comparison₂.formB)'
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/05.0_pp_1_34_Dirichlet_series_I.pdf (Theorem 1.7 (Landau) printed; text read)'
+    match: 'related: the Lean files prove the nearest-singularity argument behind the theorem for pole sets, not the Dirichlet-series statement itself'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Lemma 15.1 (Mellin-transform form of Landau's theorem) and the paragraph before Theorem 15.2 (one-sided bound for psi(x)-x forces no zeros to the right)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/19.0_pp_463_485_Oscillations_of_error_terms.pdf (Lemma 15.1 printed: for A(x) >= 0
+      the transform F(s)=int A(x)x^-s dx is analytic for sigma>sigma_c but not at sigma_c; text read)'
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean:11 (Deduction.zeroFree_of_rpow_window)
+    match: 'related: the Lean criterion uses a one-sided bound on windows [Y, Y^(1+delta)], which is stronger than the plain one-sided bound in MV'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: E. Landau, Ueber einen Satz von Tschebyschef, Math. Ann. 61 (1905), 527-550
+    locator: whole paper (original theorem)
+    url: https://doi.org/10.1007/BF01449495
+    doi: 10.1007/BF01449495
+    precision: topic
+    evidence:
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/05.0_pp_1_34_Dirichlet_series_I.pdf (MV notes: "Theorem 1.7 originates in Landau (1905)";
+      text read)'
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-landau-windows source field
+  - citation: J. Kaczorowski and J. Pintz, Oscillatory properties of arithmetical functions I, Acta Math. Hungar. 48 (1986), 173-185
+    locator: Theorem 1 and Corollary 1 (as cited by Jaswal)
+    url: https://doi.org/10.1007/BF01949062
+    doi: 10.1007/BF01949062
+    precision: topic
+    evidence:
+    - 'secondary: Jaswal preprint (zenodo.org/records/24410057, read 23 Nov 2026), cites Kaczorowski-Pintz [50, Thm 1, Cor. 1] for the windowed oscillation statement (text line 792 of the extracted PDF).
+      Not checked: paper is paywalled.'
+    note: Locator is from Jaswal's guide; the paper was not checked.
+- id: k0683
+  title: Primes in progressions, Siegel-Walfisz and exceptional zero bounds
+  depth: 1
+  current_book_reference: Davenport, Multiplicative Number Theory, ch. 20-22 (primes in progressions, Siegel's theorem, Deuring-Heilbronn)
+  current_book_verdict: partly
+  current_book_verdict_note: Davenport ch. 20-22 are PNT for APs (I), Siegel's theorem and PNT for APs (II), so those parts are right. Davenport has no Deuring-Heilbronn chapter; that material is in Linnik
+    1944 part II and IK ch. 18.
+  references:
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Corollary 11.19 (The Siegel-Walfisz theorem)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:38 (Formalism.ZeroFreeDirichlet.SiegelWalfiszAP)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf (Cor. 11.19 printed: q <=
+      (log x)^A, (a,q)=1 => psi(x;q,a) = x/phi(q) + O_A(x exp(-c1 sqrt(log x))); text read)'
+    match: same statement
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: 'Theorem 11.14 (Siegel: L(1,chi) > C(eps) q^-eps for quadratic chi)'
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:29 (Formalism.ZeroFreeDirichlet.SiegelLower)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf (Thm 11.14 printed; text read)'
+    match: same statement
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 11.3 and Corollary 11.10 (zero-free region, at most one exceptional zero)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Formalism/LandauZeroFreeBounds/Statement.lean:15 (Formalism.ZeroFreeDirichlet.ZFRDirichlet)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf (Thm 11.3, Cor. 11.10 printed;
+      text read)'
+    match: 'same result: ZFRDirichlet also asserts uniqueness across all characters of one modulus (Page, Cor. 11.10) and non-vanishing derivative'
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 11.16 (psi(x,chi) with and without an exceptional zero)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Formalism/LandauZeroFreeBounds/SiegelWalfiszAP.lean:22 (Formalism.ZeroFreeDirichlet.PsiChiBound)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/15.0_pp_358_396_Primes_in_arithmetic_progressions_II.pdf (Thm 11.16 printed; text read)'
+    match: same result, different parametrisation of the exceptional zeros
+  - citation: H. Iwaniec and E. Kowalski, Analytic Number Theory, AMS Colloquium Publications 53, 2004
+    locator: Ch. 18 section 18.3 (exceptional zero repulsion, Deuring-Heilbronn) and section 18.4 (proof of Linnik's theorem)
+    url: https://doi.org/10.1090/coll/053
+    doi: 10.1090/coll/053
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTFinal.lean:22 (Formalism.HermitianLattices.Ext.PrimesInProgressions.pnt_progressions_relative_weak_holds)
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-pnt-progressions-exceptional-zero (source field: "after Linnik [linnik-1944] and Gallagher [gallagher-1970]")'
+    - 'Checked 23 Nov 2026: web-search contents excerpt (Scribd copy of the IK front matter) lists chapter 18 "The Least Prime in an Arithmetic Progression" with 18.2 log-free zero-density, 18.3 exceptional
+      zero repulsion, 18.4 proof of Linnik''s theorem; not confirmed on the AMS page (403)'
+  - citation: P. X. Gallagher, A large sieve density estimate near sigma = 1, Invent. Math. 11 (1970), 329-339
+    locator: whole paper (large-sieve density estimate near sigma=1; used for primes in progressions with relative error)
+    url: https://doi.org/10.1007/BF01403187
+    doi: 10.1007/BF01403187
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-pnt-progressions-exceptional-zero
+    - 'secondary: J. Adriazola, RH-Alpoge-Reconstruction, EXTERNAL_THEOREMS.md (github.com/jimjamzola/RH-Alpoge-Reconstruction, read 23 Nov 2026), row V1 says the form used is "Gallagher, Invent. Math.
+      11 (1970), Thm 7" and records "source match pending (Gallagher''s paper not opened)"'
+    note: Theorem 7 is Adriazola's unverified attribution, so it is not given as a locator.
+  - citation: H. Davenport, Multiplicative Number Theory, 3rd ed. (rev. H. L. Montgomery), GTM 74, Springer, 2000
+    locator: Ch. 20-22 (PNT for APs I, Siegel's Theorem, PNT for APs II)
+    url: https://doi.org/10.1007/978-1-4757-5927-3
+    doi: 10.1007/978-1-4757-5927-3
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Davenport (link.springer.com/book/10.1007/978-1-4757-5927-3, headless browser; 30 chapters, titles and order); numbering follows that order and Crossref
+      chapter DOI suffixes (e.g. _15 = The Number N(T))'
+- id: k0688
+  title: Mean-square and Jacobi-symbol estimates for prime sums in progressions
+  depth: 2
+  current_book_reference: Iwaniec and Kowalski, Analytic Number Theory, ch. 7 (large sieve) and ch. 5
+  current_book_verdict: unverified
+  current_book_verdict_note: 'IK ch. 7 and 5: I could not confirm ch. 7 is the large sieve chapter (inferred from chapter order only) and found nothing tying the cluster to it. The cluster contains a Linnik
+    theorem file, which the current book reference does not cover (IK ch. 18).'
+  references:
+  - citation: U. V. Linnik, On the least prime in an arithmetic progression I. The basic theorem; II. The Deuring-Heilbronn phenomenon, Mat. Sbornik N.S. 15(57) (1944)
+    locator: Part I (the basic theorem)
+    precision: topic
+    evidence:
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/ThetaCorrespondence/Linnik.lean:142 (UpperTheory.Lit.linnik)
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-linnik (source field: "Linnik [linnik-1944]")'
+    note: Part and theorem numbers within the paper not checked.
+  - citation: H. Iwaniec and E. Kowalski, Analytic Number Theory, AMS Colloquium Publications 53, 2004
+    locator: Ch. 18 (The Least Prime in an Arithmetic Progression), section 18.4 Proof of Linnik's Theorem
+    url: https://doi.org/10.1090/coll/053
+    doi: 10.1090/coll/053
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/ThetaCorrespondence/Linnik.lean:142 (UpperTheory.Lit.linnik)
+    - 'Checked 23 Nov 2026: contents excerpt via web search (see k0683); IK page itself not fetched'
+- id: k0690
+  title: Ray class data, ideal-norm sums and imaginary quadratic examples
+  depth: 2
+  current_book_reference: Neukirch, Algebraic Number Theory, ch. VI (ray class groups) and ch. VII (zeta functions, Chebotarev)
+  current_book_verdict: ok
+  current_book_verdict_note: Neukirch ch. VI (global class field theory, ray class groups) and ch. VII (zeta functions) are right at chapter level; I did not check section numbers.
+  references:
+  - citation: J. Neukirch, Algebraic Number Theory, Grundlehren 322, Springer, 1999
+    locator: Ch. VII (Zeta Functions and L-series) for the convergence of the sum over ideal norms; ch. VI (Global Class Field Theory) for ray class groups; ch. I (Algebraic Integers) for the Minkowski
+      bound on ideal norms
+    url: https://doi.org/10.1007/978-3-662-03983-0
+    doi: 10.1007/978-3-662-03983-0
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Neukirch (link.springer.com/book/10.1007/978-3-662-03983-0): I Algebraic Integers, ... VI Global Class Field Theory, VII Zeta Functions and L-series'
+    - 'cluster summary: EulerSum (sums over ideals converge for s>1), ExistsIdealInClassOfNormLeSqrtDiscr (Minkowski bound)'
+  - citation: E. Landau, Ueber Ideale und Primideale in Idealklassen, Math. Z. 2 (1918), 52-154
+    locator: whole paper (prime ideal theorem in ideal classes)
+    url: https://doi.org/10.1007/BF01212899
+    doi: 10.1007/BF01212899
+    precision: topic
+    evidence:
+    - Named in blueprint (landau-1918) for Hecke L-functions; chosen by topic for the ray-class prime counts in this cluster.
+- id: k0694
+  title: Mertens-type estimates and zero sums for Dirichlet L-functions
+  depth: 1
+  current_book_reference: Davenport, Multiplicative Number Theory, ch. 17-19 (explicit formula) and ch. 6 (Mertens)
+  current_book_verdict: wrong
+  current_book_verdict_note: Davenport ch. 6 is "Dirichlet's Class Number Formula", not Mertens. Mertens-type sums are in MV ch. 2 (Theorem 2.7). The explicit-formula chapters 17-19 are right.
+  references:
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: 'Theorem 2.7(a): sum_{n<=x} Lambda(n)/n = log x + O(1) (Mertens)'
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/LogFactorialEqSumVonMangoldtMulDiv.lean:59 (GlobalTheory.mertens_first_vonMangoldt)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/06.0_pp_35_75_The_elementary_theory_of_arithmetic_functions.pdf (Theorem 2.7 printed
+      (a)-(e); proof section 2.2 "The prime number estimates of Chebyshev and of Mertens"; text read)'
+    match: 'same statement (Lean: |sum_{n<=y} Lambda(n)/n - log y| <= C for y>=1)'
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 12.10 (explicit formula for psi_0(x,chi))
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ExplChi.lean:12 (GlobalTheory.Mem.An.ExplChi)
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/ExplicitFormulaClosed.lean:44 (GlobalTheory.ExplicitFormulaClosed.explicit_formula_closed)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/16.0_pp_397_418_Explicit_formulae.pdf (Thm 12.10 printed; text read)'
+    match: 'same result; ExplChi writes the constant as L''/L(1,chi^-1) + log(q/2pi) - Euler gamma (MV: C(chi) = L''/L(1,chi) + log(q/2pi) - C0); conjugation convention not compared'
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Theorem 10.17 (number of zeros of L(s,chi) with T <= gamma <= T+1 is << log q(|T|+2))
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: exact
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/ZeroCount.lean:12 (GlobalTheory.Mem.An.ZeroCount)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/14.0_pp_326_357_Analytic_properties_of_the_zeta_function_and_L-functions.pdf (Thm 10.17
+      printed; text read)'
+    match: same statement
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Corollary 10.18, formulas (10.37)-(10.39) (L'/L(1,chi) in terms of zeros)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/LogDerOne.lean:12 (GlobalTheory.Mem.An.LogDerOne)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/14.0_pp_326_357_Analytic_properties_of_the_zeta_function_and_L-functions.pdf (Cor.
+      10.18 printed; text read)'
+    match: 'related form: the Lean statement truncates the zero sum to |gamma|<1 and bounds the difference by C log(3q)'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: H. Davenport, Multiplicative Number Theory, 3rd ed. (rev. H. L. Montgomery), GTM 74, Springer, 2000
+    locator: Ch. 17 (Explicit Formula for psi(x)) and ch. 19 (Explicit Formula for psi(x,chi))
+    url: https://doi.org/10.1007/978-1-4757-5927-3
+    doi: 10.1007/978-1-4757-5927-3
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Davenport (link.springer.com/book/10.1007/978-1-4757-5927-3, headless browser; 30 chapters, titles and order); numbering follows that order and Crossref
+      chapter DOI suffixes (e.g. _15 = The Number N(T))'
+- id: k0695
+  title: An alternative route to GRH for Dirichlet L-functions, from three inputs
+  depth: 3
+  current_book_reference: Neukirch, Algebraic Number Theory, ch. I and II (primes in quadratic fields, ramification)
+  current_book_verdict: weak
+  current_book_verdict_note: Neukirch ch. I-II is generic. The cluster is an alternative conditional route to GRH; its published inputs are Landau's windows, Green's characters and Galois cohomology bounds.
+  references:
+  - citation: E. Landau, Ueber einen Satz von Tschebyschef, Math. Ann. 61 (1905), 527-550
+    locator: whole paper (Landau window criterion)
+    url: https://doi.org/10.1007/BF01449495
+    doi: 10.1007/BF01449495
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-landau-windows (source field: "after Landau [landau-1905]") matched to Formalism.HC.Level.FormB in this cluster'
+  - citation: J. A. Green, The characters of the finite general linear groups, Trans. Amer. Math. Soc. 80 (1955), 402-447
+    locator: whole paper (cuspidal characters of finite GL)
+    url: https://doi.org/10.1090/S0002-9947-1955-0072878-2
+    doi: 10.1090/S0002-9947-1955-0072878-2
+    precision: topic
+    evidence:
+    - 'cluster summary: "Green''s description of cuspidal characters of finite GL" is one of the three inputs'
+- id: k0701
+  title: Host field data, class number lemmas and Galois descent for embeddings
+  depth: 2
+  current_book_reference: Neukirch, Algebraic Number Theory, ch. I (ideals, class group) and ch. VII
+  current_book_verdict: weak
+  current_book_verdict_note: Neukirch ch. I and VII are generic background. The cluster is a bookkeeping construction (host field, Frobenius conditions); the one published theorem matched to it is the Chowla-Selberg
+    formula.
+  references:
+  - citation: S. Chowla and A. Selberg, On Epstein's zeta-function, J. Reine Angew. Math. 227 (1967), 86-110
+    locator: whole paper (Chowla-Selberg formula)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-chowla-selberg (source field: "Chowla-Selberg [chowla-selberg-1967]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/HomogeneousIdeals/DedekindZetaEqSumRealEisenstein.lean:222
+      (GlobalTheory.chowla_selberg_eta)'
+  - citation: J. Neukirch, Algebraic Number Theory, Grundlehren 322, Springer, 1999
+    locator: 'Ch. I (Algebraic Integers: class group, ideals)'
+    url: https://doi.org/10.1007/978-3-662-03983-0
+    doi: 10.1007/978-3-662-03983-0
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Neukirch'
+    - 'cluster summary: small class-group lemma, splitting of primes in the host'
+- id: k0704
+  title: 'Hecke characters on ideles: local factors, finiteness and rigidity'
+  depth: 3
+  current_book_reference: Cassels and Fröhlich (eds.), Algebraic Number Theory, ch. II (Tate's thesis) and ch. VII
+  current_book_verdict: wrong
+  current_book_verdict_note: In Cassels-Froehlich, Tate's thesis is Chapter XV. Ch. II is Cassels' "Global Fields" and ch. VII is Tate's "Global Class Field Theory". The current "ch. II (Tate's thesis)"
+    points to the wrong chapter.
+  references:
+  - citation: J. T. Tate, Fourier analysis in number fields, and Hecke's zeta-functions (Chapter XV), in J. W. S. Cassels and A. Fröhlich (eds.), Algebraic Number Theory, Academic Press, 1967, pp. 305-347
+    locator: 'Chapter XV, whole chapter (Tate''s thesis: idele class characters, local factors, conductors)'
+    url: https://en.wikipedia.org/wiki/Tate%27s_thesis
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: web-search contents of Cassels-Froehlich: Ch. XV = Tate''s thesis; Ch. VII = Tate, Global Class Field Theory; Ch. II = Cassels, Global Fields'
+  - citation: E. Hecke, Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen I, Math. Z. 1 (1918), 357-376
+    locator: whole paper
+    url: https://doi.org/10.1007/BF01465095
+    doi: 10.1007/BF01465095
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-l-entire (source field: "Hecke [hecke-1918], [hecke-1920]; Landau [landau-1918]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/HeckeLEntireAndNonzeroAtOne.lean:28
+      (GlobalTheory.Published.HeckeLEntireAndNonzeroAtOne)'
+  - citation: E. Hecke, Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen II, Math. Z. 6 (1920), 11-51
+    locator: whole paper
+    url: https://doi.org/10.1007/BF01202991
+    doi: 10.1007/BF01202991
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-l-entire source field
+  - citation: E. Landau, Ueber Ideale und Primideale in Idealklassen, Math. Z. 2 (1918), 52-154
+    locator: whole paper
+    url: https://doi.org/10.1007/BF01212899
+    doi: 10.1007/BF01212899
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-l-entire source field
+- id: k0706
+  title: Primes in progressions, thin prime sets and imaginary quadratic host primes
+  depth: 2
+  current_book_reference: Iwaniec and Kowalski, Analytic Number Theory, ch. 5 and 18 (primes in progressions, Linnik's theorem)
+  current_book_verdict: ok
+  current_book_verdict_note: IK ch. 18 (Linnik's theorem) is right. Ch. 5 not checked.
+  references:
+  - citation: U. V. Linnik, On the least prime in an arithmetic progression I. The basic theorem; II. The Deuring-Heilbronn phenomenon, Mat. Sbornik N.S. 15(57) (1944)
+    locator: Part I (the basic theorem)
+    precision: topic
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/PrimesInProgressionNonempty.lean:9 (GlobalTheory.Published.Linnik)
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-linnik (source field: "Linnik [linnik-1944]") matched to GlobalTheory.Published.Linnik'
+    note: 'Lean statement: exist C, L > 0 with least prime p = a mod q at most C q^L for all coprime a, q. Theorem numbers inside the paper not checked.'
+  - citation: H. Iwaniec and E. Kowalski, Analytic Number Theory, AMS Colloquium Publications 53, 2004
+    locator: Ch. 18 (The Least Prime in an Arithmetic Progression), section 18.4 Proof of Linnik's Theorem
+    url: https://doi.org/10.1090/coll/053
+    doi: 10.1090/coll/053
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: contents excerpt via web search (Scribd copy); IK page itself not fetched'
+- id: k0714
+  title: 'Sizes of number fields: discriminants, class numbers, quadratic fields'
+  depth: 2
+  current_book_reference: Neukirch, Algebraic Number Theory, ch. I §2–3 (integers and discriminants), ch. I §6 (class group)
+  current_book_verdict: ok
+  current_book_verdict_note: Neukirch ch. I (Algebraic Integers) is right at chapter level. Of the section numbers given, only I section 2 (Integrality) was confirmed; the rest are unchecked.
+  references:
+  - citation: J. Neukirch, Algebraic Number Theory, Grundlehren 322, Springer, 1999
+    locator: 'Ch. I (Algebraic Integers): rings of integers, discriminants, ideal classes, Minkowski bound'
+    url: https://doi.org/10.1007/978-3-662-03983-0
+    doi: 10.1007/978-3-662-03983-0
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list (Ch. I Algebraic Integers); web-search contents excerpt confirms I section 1 The Gaussian Integers and section 2 Integrality; later sections not seen'
+    - 'cluster summary: Q(sqrt(-q)) discriminant, ring of integers of quadratic field, class number bounded by log of discriminant'
+- id: k0722
+  title: Hecke characters, conductors and functional equations over CM hosts
+  depth: 2
+  current_book_reference: Neukirch, Algebraic Number Theory, ch. VII §6–8 (Hecke L-series and functional equation)
+  current_book_verdict: ok
+  current_book_verdict_note: Neukirch ch. VII section 6-8 (Hecke characters, theta series, Hecke L-series) is right.
+  references:
+  - citation: J. Neukirch, Algebraic Number Theory, Grundlehren 322, Springer, 1999
+    locator: Ch. VII sections 6-8 (6 Hecke Characters, 7 Theta Series of Algebraic Number Fields, 8 Hecke L-series)
+    url: https://doi.org/10.1007/978-3-662-03983-0
+    doi: 10.1007/978-3-662-03983-0
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: contents excerpt via web search (Springer-related table of contents) lists VII section 6 Hecke characters, section 7 theta series of algebraic number fields, section 8 Hecke
+      L-series; the book text itself not read'
+  - citation: J. T. Tate, Fourier analysis in number fields, and Hecke's zeta-functions (Chapter XV), in J. W. S. Cassels and A. Fröhlich (eds.), Algebraic Number Theory, Academic Press, 1967, pp. 305-347
+    locator: 'Chapter XV, whole chapter (Tate''s thesis: local and global functional equation)'
+    url: https://en.wikipedia.org/wiki/Tate%27s_thesis
+    precision: section
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-functional-equation-cm (source field: "special case of Hecke [hecke-1918], [hecke-1920]; Tate [tate-1967]") matched to Lean
+      40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/HeckeTateFunctionalEquationCM.lean:244 (GlobalTheory.Published.HeckeTateFunctionalEquation)'
+    - 'Checked 23 Nov 2026: web-search contents of Cassels-Froehlich lists Chapter XV = Tate, Fourier analysis in number fields and Hecke''s zeta-functions (thesis, 1950); pp. 305-347 per the Wikipedia
+      reference list for Tate''s thesis'
+  - citation: E. Hecke, Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen I, Math. Z. 1 (1918), 357-376
+    locator: whole paper (Hecke L-series, analytic continuation, functional equation)
+    url: https://doi.org/10.1007/BF01465095
+    doi: 10.1007/BF01465095
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-functional-equation-cm source field
+  - citation: E. Hecke, Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen II, Math. Z. 6 (1920), 11-51
+    locator: whole paper (part II)
+    url: https://doi.org/10.1007/BF01202991
+    doi: 10.1007/BF01202991
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-functional-equation-cm source field
+- id: k0797
+  title: Norm sums, size bounds and the archimedean height bound
+  depth: 2
+  current_book_reference: Bombieri and Gubler, Heights in Diophantine Geometry, ch. 1-2
+  current_book_verdict: ok
+  current_book_verdict_note: Bombieri-Gubler ch. 1-2 (Heights; Weil heights) is right for the height bound.
+  references:
+  - citation: E. Bombieri and W. Gubler, Heights in Diophantine Geometry, Cambridge Univ. Press, 2006
+    locator: Ch. 1 (Heights) and ch. 2 (Weil heights)
+    url: https://doi.org/10.1017/CBO9780511542879
+    doi: 10.1017/CBO9780511542879
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Crossref chapter list of Bombieri-Gubler (1 Heights, 2 Weil heights, 3 Linear tori ...)'
+    - 'cluster summary: archimedean height bound with a log term'
+  - citation: A. Weil, Sur certains groupes d'operateurs unitaires, Acta Math. 111 (1964), 143-211
+    locator: whole paper (theta functions and the Weil representation; rational invariance of theta)
+    url: https://doi.org/10.1007/BF02391012
+    doi: 10.1007/BF02391012
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-theta-rational-invariance (source field: "after Weil [weil-1964]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/GlobalTheta/ThetaRationalInvarianceHolds.lean:10
+      (GlobalTheory.Published.ThetaRationalInvariance)'
+- id: k0913
+  title: Twisted trace on unitary-invariant maps is ±2^n, via highest-weight counting
+  depth: 4
+  current_book_reference: Goodman and Wallach, Symmetry, Representations, and Invariants, ch. 5
+  current_book_verdict: partly
+  current_book_verdict_note: 'Goodman-Wallach ch. 5 is "Classical Invariant Theory". The cluster counts highest-weight vectors and uses Weyl character identities: ch. 3 (Highest-Weight Theory) and ch. 7
+    (Character Formulas) fit better.'
+  references:
+  - citation: R. Goodman and N. R. Wallach, Symmetry, Representations, and Invariants, GTM 255, Springer, 2009
+    locator: Ch. 3 (Highest-Weight Theory) and ch. 7 (Character Formulas)
+    url: https://doi.org/10.1007/978-0-387-79852-3
+    doi: 10.1007/978-0-387-79852-3
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Goodman-Wallach'
+    - 'cluster summary: highest-weight vectors killed by raising operators, Weyl-character product identities'
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-twisted-trace-lowest-type (provenance "new", no source) matched to HighestVectorsRegularLine
+  - citation: R. Parthasarathy, Dirac operator and the discrete series, Ann. of Math. (2) 96 (1972), 1 ff.
+    locator: whole paper (Dirac operator inequality)
+    url: https://doi.org/10.2307/1970892
+    doi: 10.2307/1970892
+    precision: topic
+    evidence:
+    - cluster summary mentions "a Dirac-operator inequality"; I identified the Parthasarathy paper by topic. Not named in the blueprint.
+    note: My suggestion; not read, not matched to a Lean statement.
+- id: k1091
+  title: Bernoulli numbers for Dirichlet characters, plus the final step from GRH to RH
+  depth: 4
+  current_book_reference: Washington, Introduction to Cyclotomic Fields, ch. 4
+  current_book_verdict: ok
+  current_book_verdict_note: Washington ch. 4 (Dirichlet L-series and class number formulas) is right for the Bernoulli part. The cluster also holds the final GRH-to-RH step, which uses the functional equation
+    (Davenport ch. 9).
+  references:
+  - citation: L. C. Washington, Introduction to Cyclotomic Fields, 2nd ed., GTM 83, Springer, 1997
+    locator: Ch. 4 (Dirichlet L-series and Class Number Formulas), and ch. 6 (Stickelberger's Theorem) for the Stickelberger declarations
+    url: https://doi.org/10.1007/978-1-4612-1934-7
+    doi: 10.1007/978-1-4612-1934-7
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Washington (16 chapters: 4 Dirichlet L-series and Class Number Formulas, 5 p-adic L-functions and Bernoulli Numbers, 6 Stickelberger''s Theorem)'
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/BernoulliNumbers/BLval.lean:8 (hurwitzZeta_one_sub_eq_bernoulli)
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/BernoulliNumbers/GeneralizedBernoulliChangeLevel.lean:22 (UpperTheory.V.Bern.generalized_bernoulli_change_level)
+  - citation: 'H. L. Montgomery and R. C. Vaughan, Multiplicative Number Theory I: Classical Theory, Cambridge Univ. Press, 2007'
+    locator: Corollary 10.8 (functional equation xi(s,chi) = eps(chi) xi(1-s,conj chi) for primitive chi) and Corollary 10.3 (zeta)
+    url: https://personal.science.psu.edu/rcv4/personal/Publications/MNTI.html
+    doi: 10.1017/CBO9780511618314
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:42 (Claim.prim_reflect)
+    - Lean 40e56bab src/Formalism/GammaFactorNonvanishing/CritLine.lean:6 (Formalism.VW.gammaFactor_ne_zero)
+    - 'Checked 23 Nov 2026: author-hosted chapter PDF https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/14.0_pp_326_357_Analytic_properties_of_the_zeta_function_and_L-functions.pdf (Cor.
+      10.3, 10.8 printed; text read)'
+    match: 'related: the Lean theorem derives "zero at s in the strip implies zero of the conjugate character at 1-s" from the functional equation and the non-vanishing of the gamma factor'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: H. Davenport, Multiplicative Number Theory, 3rd ed. (rev. H. L. Montgomery), GTM 74, Springer, 2000
+    locator: Ch. 9 (The Functional Equation of the L Functions) and ch. 5 (Primitive Characters)
+    url: https://doi.org/10.1007/978-1-4757-5927-3
+    doi: 10.1007/978-1-4757-5927-3
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Davenport (link.springer.com/book/10.1007/978-1-4757-5927-3, headless browser; 30 chapters, titles and order); numbering follows that order and Crossref
+      chapter DOI suffixes (e.g. _15 = The Number N(T))'
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean:23 (Claim.prim_zero)
+  - citation: B. Riemann, Ueber die Anzahl der Primzahlen unter einer gegebenen Groesse, Monatsber. Koenigl. Preuss. Akad. Wiss. Berlin (1859)
+    locator: whole paper (statement of the Riemann hypothesis)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label def-riemann-hypothesis (source field: "Riemann [riemann-1859]")'
+- id: k1349
+  title: Periodic holomorphic data on theta-function torus families
+  depth: 2
+  current_book_reference: Birkenhake and Lange, Complex Abelian Varieties, ch. 8
+  current_book_verdict: unverified
+  current_book_verdict_note: Birkenhake-Lange ch. 8 is "Moduli" (the Siegel upper half space and the symplectic action live there, I believe, but I did not read the section). Theta functions are treated
+    across chs. 3, 6 and 8.
+  references:
+  - citation: C. Birkenhake and H. Lange, Complex Abelian Varieties, 2nd ed., Grundlehren 302, Springer, 2004
+    locator: Ch. 8 (Moduli) for the period matrices and the symplectic action; ch. 6 (Theta and Heisenberg Groups) for theta functions
+    url: https://doi.org/10.1007/978-3-662-06307-1
+    doi: 10.1007/978-3-662-06307-1
+    precision: topic
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list (17 chapters after Introduction and Notation: 1 Complex Tori ... 6 Theta and Heisenberg Groups, 7 Equations for Abelian Varieties, 8 Moduli); Crossref chapter
+      DOIs ..._6 Abelian Varieties = ch. 4, ..._16 = ch. 14 confirm the +2 offset'
+    - 'cluster summary: period maps to symmetric complex matrices, action of symplectic matrices'
+    note: Section content not checked.
+- id: k1394
+  title: 'Galois action on p-adic complex numbers: Ax–Sen–Tate, Tate traces, twists'
+  depth: 4
+  current_book_reference: 'Fernando Gouvêa, p-adic Numbers: An Introduction, ch. 3 (completions and algebraic closure)'
+  current_book_verdict: weak
+  current_book_verdict_note: Gouvea (2nd ed.) has chapters "Vector Spaces and Field Extensions" and "Analysis in C_p" (Crossref list), which are the relevant ones. The Ax-Sen-Tate lemma and the Galois action
+    on C_p are not Gouvea topics; the sources are Ax, Sen and Tate.
+  references:
+  - citation: J. Ax, Zeros of polynomials over local fields - the Galois action, J. Algebra 15 (1970), 417-428
+    locator: Proposition / Lemma on approximating algebraic elements by conjugates (the "Ax lemma" step)
+    url: https://doi.org/10.1016/0021-8693(70)90069-4
+    doi: 10.1016/0021-8693(70)90069-4
+    precision: topic
+    evidence:
+    - Lean 40e56bab src/GroundTheory/PAdicHodge/AxLemma.lean:449 (GroundTheory.PAdicHodge.ax_lemma)
+    - 'secondary: J. Adriazola, RH-Alpoge-Reconstruction, EXTERNAL_THEOREMS.md (github.com/jimjamzola/RH-Alpoge-Reconstruction, read 23 Nov 2026), section "Local p-adic Hodge theory": "Tate''s results on
+      H^1(H_K, O_C) and the normalized decomposition; Ax-Sen-Tate | Tate (1967) | proved in archive"'
+    note: Locator inside Ax's paper not checked.
+  - citation: J. Tate, p-divisible groups, in Proc. Conf. Local Fields (Driebergen 1966), Springer, 1967, pp. 158-183
+    locator: section on ramification theory and the normalized trace (Ax-Sen-Tate)
+    url: https://doi.org/10.1007/978-3-642-87942-5_12
+    doi: 10.1007/978-3-642-87942-5_12
+    precision: topic
+    evidence:
+    - 'secondary: J. Adriazola, RH-Alpoge-Reconstruction, EXTERNAL_THEOREMS.md (github.com/jimjamzola/RH-Alpoge-Reconstruction, read 23 Nov 2026), same row as above names Tate (1967) for the normalized
+      decomposition and Ax-Sen-Tate'
+    - 'Chosen: Crossref confirms "p-divisible groups", Proc. Conf. Local Fields 1967, as the 1967 Tate paper; I did not read it and do not give a section number'
+  - citation: S. Sen, On automorphisms of local fields, Ann. of Math. (2) 90 (1969), 33 ff.
+    locator: whole paper (automorphisms of local fields)
+    url: https://doi.org/10.2307/1970680
+    doi: 10.2307/1970680
+    precision: topic
+    evidence:
+    - Standard companion of Ax and Tate for the Ax-Sen-Tate lemma; not named by the blueprint or by Adriazola for this cluster
+    note: My suggestion; not read.
+- id: k1636
+  title: 'Explicit parameter choices: scale, ranks and host conditions'
+  depth: 2
+  current_book_reference: null
+  current_book_verdict: none
+  current_book_verdict_note: No current book reference. Explicit parameter choices for the argument; no published source.
+  references: []
+- id: k1640
+  title: Family bounds on shares, degrees and admissible constants
+  depth: 2
+  current_book_reference: null
+  current_book_verdict: none
+  current_book_verdict_note: No current book reference. Family-wide estimates under the argument's own parameters; no published source.
+  references: []
+- id: k1838
+  title: Signatures of hermitian forms, Hasse norm theorem, slopes
+  depth: 2
+  current_book_reference: Scharlau, Quadratic and Hermitian Forms, ch. 6-7
+  current_book_verdict: partly
+  current_book_verdict_note: 'Scharlau ch. 6-7: ch. 6 is "Symmetric Bilinear Forms over Dedekind Rings and Global Fields", ch. 7 "Foundations of the Theory of Hermitian Forms". The Hasse principle and classification
+    for hermitian forms over global fields is ch. 10.'
+  references:
+  - citation: W. Scharlau, Quadratic and Hermitian Forms, Grundlehren 270, Springer, 1985
+    locator: Ch. 10 (Hermitian Forms over Global Fields), with ch. 7 (Foundations)
+    url: https://doi.org/10.1007/978-3-642-69971-9
+    doi: 10.1007/978-3-642-69971-9
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Scharlau and Crossref chapter DOI ..._10 "Hermitian Forms over Global Fields"'
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/GlobalTheta/HermitianHassePrincipleHolds.lean:437 (GlobalTheory.Published.HermitianHassePrinciple)
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/LandherrAndLandherrSt.lean:19 (GlobalTheory.QNorm.landherr_and_landherrSt)
+  - citation: W. Landherr, Aequivalenz Hermitescher Formen ueber einem beliebigen algebraischen Zahlkoerper, Abh. Math. Sem. Univ. Hamburg 11 (1935/36), 245-248
+    locator: whole paper (classification of hermitian forms over number fields)
+    url: https://doi.org/10.1007/BF02940728
+    doi: 10.1007/BF02940728
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-landherr-cm and thm-hermitian-hasse-principle (source field: "Landherr [landherr-1936]")'
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/LandherrAndLandherrSt.lean:19 (GlobalTheory.QNorm.landherr_and_landherrSt)
+  - citation: R. Jacobowitz, Hermitian forms over local fields, Amer. J. Math. 84 (1962), 441 ff.
+    locator: whole paper (hermitian forms over local fields)
+    url: https://doi.org/10.2307/2372982
+    doi: 10.2307/2372982
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-landherr-hermitian-forms (source field: "Jacobowitz [jacobowitz-1962]; Landherr [landherr-1936]")'
+  - citation: H. Hasse, Beweis eines Satzes und Widerlegung einer Vermutung ueber das allgemeine Normenrestsymbol, Nachr. Ges. Wiss. Goettingen, Math.-Phys. Kl. (1931)
+    locator: whole paper (Hasse norm theorem)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hasse-norm-cyclic (source field: "Hasse [hasse-1931]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/AdelicLattices₂/AlgebraMapNormOfBasisOneSqrt.lean:20
+      (GlobalTheory.Published.HasseNorm)'
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/AdelicLatticeProofs/HasseNormTheoremQuadraticExtension.lean:13 (GlobalTheory.QNorm.hasseNormSt)
+- id: k1883
+  title: Cuspidal spectrum, trace class and published representation theory
+  depth: 2
+  current_book_reference: Bump, Automorphic Forms and Representations, ch. 2-3
+  current_book_verdict: partly
+  current_book_verdict_note: Bump chs. 2-3 are plausible for cuspidal spectrum and trace class (the book has four chapters). The cluster is a collection of published statements, each with its own source
+    in the blueprint.
+  references:
+  - citation: R. Godement, Sur les relations d'orthogonalite de V. Bargmann, C. R. Acad. Sci. Paris 225 (1947)
+    locator: whole note (Schur orthogonality for square-integrable representations)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-godement-schur-orthogonality (source field: "Godement [godement-1947]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/SchurOrthogonalitySquareIntegrable.lean:14
+      (GlobalTheory.Published.SchurOrthogonalitySquareIntegrable)'
+  - citation: D. Flath, Decomposition of representations into tensor products, in Automorphic forms, representations and L-functions, Part 1, Proc. Sympos. Pure Math. 33, AMS, 1979, pp. 179-183
+    locator: whole paper (tensor product factorisation)
+    url: https://doi.org/10.1090/pspum/033.1/546596
+    doi: 10.1090/pspum/033.1/546596
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-flath-tensor-product and thm-flath-unramified (source field: "Flath [flath-1979]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/ExistsFactorisationCuspidal.lean:36
+      (GlobalTheory.Published.FlathFactorisation)'
+  - citation: J. Dixmier and P. Malliavin, Factorisations de fonctions et de vecteurs indefiniment differentiables, Bull. Sci. Math. (2) 102 (1978)
+    locator: Theoreme (factorisation of smooth vectors) as cited in the blueprint
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-dixmier-malliavin (source field: "after Dixmier-Malliavin [dixmier-malliavin-1978]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/IsClosedEmbeddingOfLocallyCompact.lean:14
+      (GlobalTheory.Published.DixmierMalliavinFactorisation)'
+    note: Theorem number not checked.
+  - citation: I. M. Gelfand, M. I. Graev and I. I. Piatetski-Shapiro, Representation Theory and Automorphic Functions, W. B. Saunders, 1969
+    locator: whole book (cuspidal spectrum, trace-class convolution operators)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-cusp-trace-class (source field: "after Gelfand-Graev-Piatetski-Shapiro [gelfand-1969]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/CuspDiscreteDecompositionOfTraceClass.lean:21
+      (GlobalTheory.Published.CuspTraceClass)'
+  - citation: I. N. Bernstein, All reductive p-adic groups are tame, Funct. Anal. Appl. 8 (1974)
+    locator: whole paper (admissibility of unitary representations of p-adic groups)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-bernstein-unitary-admissible (source field: "special case of Bernstein [bernstein-1974]")'
+  - citation: D. E. Radford, A natural ring basis for the shuffle algebra and an application to group schemes, J. Algebra 58 (1979)
+    locator: whole paper (shuffle algebra is a polynomial algebra)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-radford-shuffle (source field: "Radford [radford-1979]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/RadfordShufflePolynomialHolds.lean:675
+      (GlobalTheory.Published.RadfordShufflePolynomial)'
+  - citation: A. Weil, Sur certains groupes d'operateurs unitaires, Acta Math. 111 (1964), 143-211
+    locator: whole paper (Stone-von Neumann theorem over a p-adic field, with von Neumann 1931 and Mackey 1949)
+    url: https://doi.org/10.1007/BF02391012
+    doi: 10.1007/BF02391012
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-stone-von-neumann (source field: "after von Neumann [von-neumann-1931]; Mackey [mackey-1949]; Weil [weil-1964]") matched to Lean
+      40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/GlobalTheta/PlaneFormNondegenerate.lean:59 (GlobalTheory.Published.StoneVonNeumann)'
+  - citation: D. Bump, Automorphic Forms and Representations, Cambridge Univ. Press, 1997
+    locator: Ch. 2-3 (Automorphic forms and representations of GL(2,R); Automorphic Representations)
+    url: https://doi.org/10.1017/CBO9780511609572
+    doi: 10.1017/CBO9780511609572
+    precision: topic
+    evidence:
+    - Crossref chapter list of Bump; background only, GL(2) case
+- id: k2009
+  title: Local Langlands bookkeeping at split places for the theta-lift argument
+  depth: 4
+  current_book_reference: Bump, Automorphic Forms and Representations, ch. 3 and 4
+  current_book_verdict: weak
+  current_book_verdict_note: 'Bump ch. 3-4: ch. 4 is "Representations of GL(2) over a p-adic field"; this cluster is about GL(n) and a CM field, so a GL(2) text is background only.'
+  references:
+  - citation: A. V. Zelevinsky, Induced representations of reductive p-adic groups II. On irreducible representations of GL(n), Ann. Sci. Ecole Norm. Sup. (4) 13 (1980), 165-210
+    locator: Theorem 6.1 (classification of irreducible representations of GL(n) by multisegments)
+    url: https://www.numdam.org/item/10.24033/asens.1379
+    doi: 10.24033/asens.1379
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: numdam PDF (numdam.org/item/10.24033/asens.1379.pdf), section 6.1 THEOREM (a)-(c) read: every irreducible representation of G_n is the unique irreducible submodule of a product
+      of segment representations, parametrised by multisets of segments'
+    - 'cluster summary: spherical components, unramified parameters, tame and depth-zero components, "series correspondence"'
+    match: 'related: the cluster uses the classification through segments but does not state it'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: J. A. Green, The characters of the finite general linear groups, Trans. Amer. Math. Soc. 80 (1955), 402-447
+    locator: whole paper (characters of GL_n over a finite field)
+    url: https://doi.org/10.1090/S0002-9947-1955-0072878-2
+    doi: 10.1090/S0002-9947-1955-0072878-2
+    precision: topic
+    evidence:
+    - 'cluster summary: "inertia data read off from Green''s labels"'
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-green-regular-characters (source field: "Green [green-1955]") matched in cluster k2401'
+  - citation: G. Henniart, Une preuve simple des conjectures de Langlands pour GL(n) sur un corps p-adique, Invent. Math. 139 (2000), 439-455
+    locator: whole paper (local Langlands correspondence for GL(n), p-adic)
+    url: https://doi.org/10.1007/s002220050012
+    doi: 10.1007/s002220050012
+    precision: topic
+    evidence:
+    - 'cluster summary: "Assuming a local Langlands map exists"; standard source for existence, not named in the blueprint for this cluster'
+    note: My suggestion; not read.
+- id: k2033
+  title: 'Unitary groups over local fields: Satake parameters of spherical representations'
+  depth: 4
+  current_book_reference: W. Casselman, Introduction to the theory of admissible representations of p-adic reductive groups, ch. 1 and 4
+  current_book_verdict: partly
+  current_book_verdict_note: 'Casselman''s notes (Draft 1995): ch. 1 "Preparation", ch. 4 "The asymptotic behavior of matrix coefficients". The notes do not treat the Satake parameter (zero hits for "Satake"
+    in the text), so they cover only the decomposition and measure parts.'
+  references:
+  - citation: W. Casselman, Introduction to the theory of admissible representations of p-adic reductive groups (draft notes, 1995)
+    locator: 'Ch. 1 (Preparation: structure theory, decompositions)'
+    url: https://personal.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf
+    precision: topic
+    evidence:
+    - 'Checked 23 Nov 2026: downloaded the 80-page notes, read the contents (ch. 0-9) and searched the text for "Satake" and "unramified principal" (0 hits for both)'
+    note: Section content on Iwasawa and Bruhat decompositions not checked.
+  - citation: I. Satake, Theory of spherical functions on reductive algebraic groups over p-adic fields, Publ. Math. IHES 18 (1963), 5-69
+    locator: whole paper (spherical functions, Satake isomorphism)
+    url: https://doi.org/10.1007/BF02684781
+    doi: 10.1007/BF02684781
+    precision: topic
+    evidence:
+    - Standard source for the Satake parameter; chosen by topic. Crossref confirms DOI.
+    note: My suggestion; not read.
+  - citation: 'P. Cartier, Representations of p-adic groups: a survey, in Automorphic forms, representations and L-functions, Part 1, Proc. Sympos. Pure Math. 33, AMS, 1979, pp. 111-155'
+    locator: Survey of representations of p-adic groups (unramified principal series, spherical vectors)
+    url: https://doi.org/10.1090/pspum/033.1/546593
+    doi: 10.1090/pspum/033.1/546593
+    precision: topic
+    evidence:
+    - Chosen by topic; Crossref confirms DOI. Section not checked.
+    note: My suggestion; not read.
+- id: k2384
+  title: Weil-representation Fock models and multiplicity-one steps for theta lifts
+  depth: 4
+  current_book_reference: Howe, Transcending Classical Invariant Theory, sections on the oscillator representation
+  current_book_verdict: ok
+  current_book_verdict_note: Howe (current reference) is a paper, not a book; the current "sections on the oscillator representation" has no locator.
+  references:
+  - citation: R. Howe, Transcending classical invariant theory, J. Amer. Math. Soc. 2 (1989), 535-552
+    locator: sections on the oscillator (Weil) representation
+    url: https://doi.org/10.1090/S0894-0347-1989-0985172-6
+    doi: 10.1090/S0894-0347-1989-0985172-6
+    precision: topic
+    evidence:
+    - Chosen by topic; Crossref confirms JAMS 2 (1989) 535-552.
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-stone-von-neumann (Weil 1964) as the base statement
+    note: Section numbers not checked.
+  - citation: A. Weil, Sur certains groupes d'operateurs unitaires, Acta Math. 111 (1964), 143-211
+    locator: whole paper (the Weil representation)
+    url: https://doi.org/10.1007/BF02391012
+    doi: 10.1007/BF02391012
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-stone-von-neumann and thm-theta-rational-invariance source fields
+- id: k2395
+  title: Local and global Galois groups of number fields and the Artin map
+  depth: 4
+  current_book_reference: Neukirch, Algebraic Number Theory, ch. IV–VI
+  current_book_verdict: ok
+  current_book_verdict_note: Neukirch chs. IV-VI (Abstract, Local and Global Class Field Theory) are right.
+  references:
+  - citation: J. Neukirch, Algebraic Number Theory, Grundlehren 322, Springer, 1999
+    locator: Ch. V (Local Class Field Theory) and ch. VI (Global Class Field Theory)
+    url: https://doi.org/10.1007/978-3-662-03983-0
+    doi: 10.1007/978-3-662-03983-0
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Neukirch (IV Abstract CFT, V Local CFT, VI Global CFT)'
+    - 'cluster summary: uniqueness and local-global compatibility of the Artin map, Chevalley''s theorem on units'
+  - citation: C. Chevalley, Deux theoremes d'arithmetique, J. Math. Soc. Japan 3 (1951), 36-44
+    locator: whole paper (theorem on units close to 1 being m-th powers)
+    url: https://doi.org/10.2969/jmsj/00310036
+    doi: 10.2969/jmsj/00310036
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-chevalley-congruence-units (source field: "Chevalley [chevalley-1951]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChevalleyUnits.lean:174
+      (GlobalTheory.Published.chevalleyUnits'')'
+  - citation: T. Takagi, Ueber eine Theorie des relativ Abel'schen Zahlkoerpers, J. Coll. Sci. Imp. Univ. Tokyo 41 (1920)
+    locator: whole paper (existence of ray class fields)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-ray-class-field (source field: "Takagi [takagi-1920]") matched to Lean 40e56bab src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:11
+      (PositivityTheory.Stage1.PM.rayClassFieldSt)'
+  - citation: A. Weil, On a certain type of characters of the idele-class group of an algebraic number field, Proc. Internat. Symp. Algebraic Number Theory (Tokyo-Nikko 1955), Science Council of Japan,
+      1956
+    locator: whole paper (algebraic Hecke characters, with Serre 1968)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-hecke-l-adic-character (source field: "Weil [weil-1956]; Serre [serre-1968]") matched to Lean 40e56bab src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GlobalArtinReciprocity.lean:14
+      (PositivityTheory.Stage1.PM.heckeLAdicCharacter)'
+- id: k2401
+  title: A proved depth-zero local Langlands map for GL(n) over p-adic fields
+  depth: 4
+  current_book_reference: Bushnell and Henniart, The Local Langlands Conjecture for GL(2), ch. 3 and 4
+  current_book_verdict: weak
+  current_book_verdict_note: Bushnell-Henniart is GL(2) only (13 chapters; ch. 3 Induced Representations of Linear Groups, ch. 4 Cuspidal Representations). The cluster proves a depth-zero map for GL(n).
+    Zelevinsky's segment classification and Green's characters are the matching published inputs.
+  references:
+  - citation: A. V. Zelevinsky, Induced representations of reductive p-adic groups II. On irreducible representations of GL(n), Ann. Sci. Ecole Norm. Sup. (4) 13 (1980), 165-210
+    locator: Theorem 6.1 (classification by multisegments)
+    url: https://www.numdam.org/item/10.24033/asens.1379
+    doi: 10.24033/asens.1379
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: numdam PDF, section 6.1 THEOREM read (see k2009)'
+    - 'cluster summary: "respects Langlands'' segment classification"'
+    - 'secondary: Jaswal preprint (zenodo.org/records/24410057, read 23 Nov 2026), cites Zelevinsky [94, Thm 6.1] for the same step (line 168 of the extracted PDF); I confirmed the number in the paper itself'
+    match: 'related: the Lean map is shown compatible with the segment classification; the classification itself is not proved in the cluster'
+    note: Theorem number verified in the text, but the Lean statement is only related to it, so labelled section.
+  - citation: J. A. Green, The characters of the finite general linear groups, Trans. Amer. Math. Soc. 80 (1955), 402-447
+    locator: whole paper (characters of GL_n(F_q))
+    url: https://doi.org/10.1090/S0002-9947-1955-0072878-2
+    doi: 10.1090/S0002-9947-1955-0072878-2
+    precision: topic
+    evidence:
+    - Lean 40e56bab src/Development/WeilBound/CoreStatements/StandardPublishedResults/StandardTheoremStatements/GreenRegularCharacters.lean:5 (PositivityTheory.Stage1.PM.greenRegularCharacters)
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-green-regular-characters (source field: "Green [green-1955]")'
+  - citation: G. Henniart, Une preuve simple des conjectures de Langlands pour GL(n) sur un corps p-adique, Invent. Math. 139 (2000), 439-455
+    locator: whole paper (simple proof of local Langlands for GL(n))
+    url: https://doi.org/10.1007/s002220050012
+    doi: 10.1007/s002220050012
+    precision: topic
+    evidence:
+    - Standard source for existence of the local Langlands map; not named in the blueprint for this cluster
+    note: My suggestion; not read.
+  - citation: C. J. Bushnell and G. Henniart, The Local Langlands Conjecture for GL(2), Grundlehren 335, Springer, 2006
+    locator: Ch. 7 (Representations of Weil Groups) and ch. 8 (The Langlands Correspondence), GL(2) case only
+    url: https://doi.org/10.1007/3-540-31511-X
+    doi: 10.1007/3-540-31511-X
+    precision: topic
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list and Crossref chapter DOIs of Bushnell-Henniart (13 chapters)'
+    note: Background for n = 2 only.
+- id: k2404
+  title: 'Local Langlands for GL(n): tempered parameters, uniqueness and literature inputs'
+  depth: 3
+  current_book_reference: Bushnell and Henniart, The Local Langlands Conjecture for GL(2), ch. 1 and 7
+  current_book_verdict: weak
+  current_book_verdict_note: Bushnell-Henniart ch. 1 (Smooth Representations) and ch. 7 (Representations of Weil Groups) cover GL(2) only. The cluster's published inputs are named in the blueprint.
+  references:
+  - citation: G. Henniart, Caracterisation de la correspondance de Langlands locale par les facteurs epsilon de paires, Invent. Math. 113 (1993), 339-350
+    locator: whole paper (local converse theorem for GL(n))
+    url: https://doi.org/10.1007/BF01244309
+    doi: 10.1007/BF01244309
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-henniart-local-converse (source field: "after Henniart [henniart-1993]") matched to Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/LocalConverseGL.lean:12
+      (GlobalTheory.Published.LocalConverseGL)'
+  - citation: H. Jacquet, Generic representations, in Non-commutative harmonic analysis (Marseille-Luminy 1976), Lecture Notes in Math. 587, Springer, 1977
+    locator: whole paper (generic representations; tempered = products of square-integrable)
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-tempered-products (source field: "Jacquet [jacquet-1977]; Bernstein-Zelevinsky [bernstein-zelevinsky-1977]") matched to Lean 40e56bab
+      src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/TemperedProductOfSquareIntegrable.lean:9 (GlobalTheory.Published.TemperedProductOfSquareIntegrable)'
+  - citation: I. N. Bernstein and A. V. Zelevinsky, Induced representations of reductive p-adic groups I, Ann. Sci. Ecole Norm. Sup. (4) 10 (1977), 441-472
+    locator: whole paper (induced representations I)
+    url: https://doi.org/10.24033/asens.1333
+    doi: 10.24033/asens.1333
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-tempered-products source field
+  - citation: G. Henniart, Une preuve simple des conjectures de Langlands pour GL(n) sur un corps p-adique, Invent. Math. 139 (2000), 439-455
+    locator: whole paper (local Langlands for GL(n))
+    url: https://doi.org/10.1007/s002220050012
+    doi: 10.1007/s002220050012
+    precision: topic
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/LocalLanglandsExists.lean:16 (GlobalTheory.Published.LocalLanglandsExists)
+    - standard source for the existence statement; the blueprint does not name it
+    note: My suggestion; not read.
+  - citation: A. Caraiani, Local-global compatibility and the action of monodromy on nearby cycles, Duke Math. J. 161 (2012), 2311-2413
+    locator: Theorem 1.1 (as cited by Jaswal) for temperedness / local-global compatibility
+    url: https://doi.org/10.1215/00127094-1723706
+    doi: 10.1215/00127094-1723706
+    precision: topic
+    evidence:
+    - 'secondary: Jaswal preprint (zenodo.org/records/24410057, read 23 Nov 2026), cites Caraiani [17, Thm 1.1] and [18, Thm 1.1] (lines 2444-2445 of the extracted PDF); cluster summary names "Caraiani''s
+      temperedness"'
+    note: Locator is Jaswal's claim; paper not opened.
+- id: k2463
+  title: 'Final assembly: GRH for Dirichlet L-functions, then the Riemann hypothesis'
+  depth: 4
+  current_book_reference: Diamond and Shurman, A First Course in Modular Forms, ch. 4 (Eisenstein series) and ch. 9
+  current_book_verdict: weak
+  current_book_verdict_note: Diamond-Shurman ch. 4 (Eisenstein Series) and ch. 9 (Galois Representations) are background for GL(2) only. The final assembly uses automorphy and Galois representations for
+    GL(4) over CM fields.
+  references:
+  - citation: S. W. Shin, Galois representations arising from some compact Shimura varieties, Ann. of Math. (2) 173 (2011), 1645-1741
+    locator: Theorem 1.2 (as cited by Jaswal)
+    url: https://doi.org/10.4007/annals.2011.173.3.9
+    doi: 10.4007/annals.2011.173.3.9
+    precision: topic
+    evidence:
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-galois-reps-polarized (source field: "after Harris-Taylor [harris-taylor-2001]; Shin [shin-2011]; Chenevier-Harris [chenevier-harris-2013];
+      Barnet-Lamb-Gee-Geraghty-Taylor [barnet-lamb-2012]; [barnet-lamb-2014a]; Caraiani [caraiani-2012]; [caraiani-2014]") matched to Lean 40e56bab src/Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean:6
+      (UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter)'
+    - 'secondary: Jaswal preprint (zenodo.org/records/24410057, read 23 Nov 2026), cites Shin [77, Thm 1.2] (line 2443)'
+    note: Locator is Jaswal's claim; paper not opened.
+  - citation: G. Chenevier and M. Harris, Construction of automorphic Galois representations, II, Camb. J. Math. 1 (2013), 53-73
+    locator: Theorem 3.2.3 (as cited by Jaswal)
+    url: https://doi.org/10.4310/CJM.2013.v1.n1.a2
+    doi: 10.4310/CJM.2013.v1.n1.a2
+    precision: topic
+    evidence:
+    - 'secondary: Jaswal preprint (zenodo.org/records/24410057, read 23 Nov 2026), cites Chenevier-Harris [20, Thm 3.2.3] (line 2443)'
+    note: Locator is Jaswal's claim; paper not opened.
+  - citation: A. Caraiani, Local-global compatibility and the action of monodromy on nearby cycles, Duke Math. J. 161 (2012), 2311-2413
+    locator: Theorem 1.1 (as cited by Jaswal)
+    url: https://doi.org/10.1215/00127094-1723706
+    doi: 10.1215/00127094-1723706
+    precision: topic
+    evidence:
+    - 'secondary: Jaswal preprint (zenodo.org/records/24410057, read 23 Nov 2026), cites Caraiani [17, Thm 1.1] (line 2445)'
+    note: Locator is Jaswal's claim; paper not opened.
+  - citation: M. Harris and R. Taylor, The Geometry and Cohomology of Some Simple Shimura Varieties, Annals of Math. Studies 151, Princeton Univ. Press, 2001
+    locator: whole book (Galois representations for some simple Shimura varieties)
+    url: https://doi.org/10.1515/9781400837205
+    doi: 10.1515/9781400837205
+    precision: topic
+    evidence:
+    - blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-galois-reps-polarized source field
+  - citation: F. Diamond and J. Shurman, A First Course in Modular Forms, GTM 228, Springer, 2005
+    locator: Ch. 9 (Galois Representations) and ch. 4 (Eisenstein Series), background only
+    url: https://doi.org/10.1007/978-0-387-27226-9
+    doi: 10.1007/978-0-387-27226-9
+    precision: topic
+    evidence:
+    - 'Checked 23 Nov 2026: Springer chapter list of Diamond-Shurman (9 chapters)'

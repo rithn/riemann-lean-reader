@@ -41,7 +41,7 @@ One concrete example from the checks: Sutherland combined the proof with an inde
 
 ## What the proof may teach
 
-Mathematicians commented on the proof's ideas on 20 Nov, before the community certification. Each comment is conditional.
+Mathematicians commented on the proof's ideas on 20 Nov, before the 21 Nov certification. Each comment is conditional.
 
 - **Hector Pasten** (Pontifical Catholic University of Chile): "If the proof is correct and understood, this completes a dictionary between different branches of math where the connections were only partial," ... "something like a Rosetta Stone." ([Scientific American](https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/))
 - **Carlo Pagano** (Concordia University): "If true, ... it is very plausible to me that the new ideas in the proof will open up brand new avenues of thinking in number theory". (same article)

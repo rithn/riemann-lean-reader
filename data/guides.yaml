@@ -1,0 +1,264 @@
+# Outside guides and explainers (tracker C9, items 68a to 68c). Written 23 Nov 2026.
+# NOT YET USED BY THE GENERATOR: build_site.py does not read this file. The /guides/ page (68e, 68f) and the
+# "explained elsewhere" cluster box (69b) come later.
+#
+# Fields per entry:
+#   author         name as the page gives it (a note says where the page names no one)
+#   title          exact title on the page
+#   url            the page that was opened
+#   date           ISO date printed on the page, or the first public date found; date_note says what the date is
+#   type           kind of page
+#   language       en
+#   parts_covered  which parts of the proof the guide covers (from research/guides/candidates-2026-11-23.md,
+#                  where every page was read on 23 Nov; not re-read entry by entry on this pass)
+#   status         verified: the author ran or certifies checks of the Lean proof himself or itself.
+#                  explains-only: the author explains or maps the proof and ran no check of the archive.
+#   status_quote   exact words from the page that support the status
+#   tier           A or B, as in the candidates file
+#   clusters       tier A only (tracker 69a, 23 Nov 2026): ids of the clusters that hold the Lean files or declarations
+#                  the guide cites, as found by exact name. A short list or an empty one means the guide gives few
+#                  names, not that it covers little. Tier B entries have none yet.
+#   clusters_basis one line on how the list was made. Evidence table: research/guides/cluster-map-2026-11-23.tsv
+#
+# A field that could not be confirmed is written as a mapping with `unconfirmed: true`, plus the best value known
+# and where it came from. Each page was opened on 23 Nov 2026 (read with a page-reading tool that returns a summary,
+# so quotes are as returned; GitHub details come from the GitHub API).
+#
+# Not added: the 15 "maybe" entries (tier C), and Terence Tao's blog post (labelled B in the candidates file
+# but "context, not an explainer"; the candidates file has 5 rows marked B, the tracker says 4).
+
+guides:
+
+  # ---------------- Tier A ----------------
+
+  - id: rubinstein-zeta-guide
+    author: Michael Rubinstein (University of Waterloo)
+    title: "Alpöge/Claude proof of the Generalized Riemann Hypothesis"
+    guide_title: "The Alpöge–Claude proof of the Riemann hypothesis explained for the Riemann zeta function"
+    url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/
+    pdf_url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/zeta-paper_v2.pdf
+    date: "2026-11-22"
+    date_note: "guide version 2, 'working draft, 22 November 2026'; version 1 is dated 21 November 2026. Page says 265 pages for v2 (the candidates file said 164 pages for the earlier draft)."
+    type: guide (PDF) and verification hub
+    language: en
+    parts_covered: "Zeta case only. Deduces RH from inequality (M) plus two Dirichlet-character estimates; (M) is not proved there, its proof is taken from the Lean development. Part I strategy, Part II step checks. The page also links other people's checks."
+    status: verified
+    status_quote: "This page links to my own check of that Lean proof and to checks made by others. ... All four checks finished with no errors."
+    status_note: "The guide itself only explains ('A working guide to the proof, specialised to the Riemann zeta function'; '(M) itself is not proved there'). The verification is the author's own checks, listed on the same page."
+    tier: A
+    clusters: [k0292, k0417, k0422, k0430, k0437, k0451, k0464, k0485, k0641, k0682, k0685,
+      k0688, k0693, k0694, k0695, k0697, k0701, k0751, k0752, k0754, k0775, k0782, k0971, k1084,
+      k1091, k1098, k1108, k1110, k1114, k1117, k1628, k1633, k1636, k1638, k1640, k1642, k1651,
+      k1655, k1658, k1666, k1852, k1867, k1965, k1977, k2334, k2431, k2461]
+    clusters_basis: "Lean files the guide cites in its text (version 2 PDF): full paths under lean/src/ and bare file names that occur once in the archive, each mapped to its cluster with site/data/modules.json. Cited names that match no file are left out. Declaration names are not mapped, so the list may be incomplete."
+
+  - id: sutherland-grh-verification
+    author: Andrew Sutherland (MIT)
+    title: "RH Lean proof: verification files"
+    heading: "Verification files for the Lean proof of the Riemann Hypothesis"
+    url: https://math.mit.edu/~drew/grh/
+    date: "2026-11-22"
+    date_note: "'Last updated 2026-11-22 16:20 UTC' on the page; the first publication date is not printed"
+    type: verification page
+    language: en
+    parts_covered: "Verification only, no explanation of the mathematics: compile, axioms, nanoda, con-leche, lean4lean, comparator. Scope: 'GRH here means Dirichlet L-functions: all moduli and all characters.'"
+    status: verified
+    status_quote: "The published Lean source compiles without errors"
+    status_note: "Still pending at the last update: the Lean default and paranoid kernels on the full export, and the Lean-kernel stages of the end-to-end `lake comparator` run."
+    tier: A
+    clusters: [k0677]
+    clusters_basis: "The page names Main.lean and its five theorems (Main is in k0677). Its checks cover every module but name no other, so only k0677 is listed."
+
+  - id: lean-community-statement
+    author: Lean FRO and Mathlib Initiative
+    author_note: "Byline read 23 Nov 2026: 'Joint statement by the Lean FRO and the Mathlib Initiative.' Until 23 Nov it read 'Joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative.'"
+    title: "Lean verification of the Riemann Hypothesis"
+    url: https://leanprover-community.github.io/blog/posts/riemann-hypothesis/
+    date: "2026-11-21"
+    date_note: "published 2026-11-21 13:55 (page)"
+    type: official certification statement
+    language: en
+    parts_covered: "Verification: the four criteria (the statement is correct; the library compiles; the code proves the correct statement; the Lean proof is valid)."
+    status: verified
+    status_quote: "We have full confidence that Alpöge's proof of the Riemann Hypothesis is correct"
+    tier: A
+    clusters: [k0677]
+    clusters_basis: "The statement names no Lean file. It certifies that the theorem proved in the library is Mathlib's RiemannHypothesis, which Main.lean proves (cluster k0677). No other cluster is listed."
+
+  - id: jaswal-zenodo-guide
+    author: Manvir Jaswal (independent researcher, Toronto; ORCID 0009-0001-2880-9528)
+    title: "The Riemann hypothesis for Dirichlet L-functions [after Levent Alpöge]"
+    url: https://zenodo.org/records/24410057
+    date: "2026-11-21"
+    date_note: "Zenodo publication date of v1. The Zenodo API shows v2 (record 24432579), last updated 2026-11-22; the record page does not print the v2 date."
+    type: preprint (Zenodo, CC BY 4.0)
+    language: en
+    parts_covered: "States the five Main.lean theorems in ordinary notation; the reduction to an inequality excluding zeros right of 1/2; the analytic argument; where the inequality comes from; the Tate-Shafarevich bound for Tate twists."
+    status: explains-only
+    status_quote: "The theorems and their proofs are Alpöge's, and the guide is a reading of his archive."
+    status_note: "The guide relays Sutherland's check ('A. Sutherland has compiled the archive and reports that Lean's kernel and two independent kernels accept it'); it ran none itself."
+    tier: A
+    clusters: [k0040, k0158, k0162, k0173, k0212, k0248, k0286, k0296, k0302, k0417, k0419,
+      k0430, k0437, k0443, k0462, k0463, k0464, k0466, k0477, k0484, k0485, k0525, k0630, k0641,
+      k0648, k0650, k0655, k0677, k0680, k0682, k0683, k0685, k0688, k0695, k0697, k0701, k0706,
+      k0722, k0754, k0757, k0760, k0770, k0775, k0791, k0793, k0794, k0802, k0834, k0840, k0903,
+      k0916, k0918, k0924, k0954, k0957, k0961, k0965, k0971, k1034, k1087, k1091, k1108, k1112,
+      k1114, k1116, k1117, k1120, k1122, k1133, k1134, k1135, k1138, k1141, k1148, k1164, k1176,
+      k1183, k1186, k1187, k1188, k1193, k1198, k1252, k1348, k1363, k1606, k1620, k1626, k1627,
+      k1628, k1630, k1633, k1634, k1635, k1636, k1638, k1640, k1642, k1651, k1658, k1665, k1666,
+      k1667, k1668, k1685, k1691, k1703, k1841, k1842, k1852, k1857, k1862, k1867, k1896, k1898,
+      k1906, k1907, k1914, k1917, k1965, k1985, k1989, k2001, k2002, k2016, k2019, k2023, k2045,
+      k2047, k2066, k2208, k2225, k2246, k2273, k2282, k2335, k2358, k2401, k2404, k2409, k2413,
+      k2427, k2431, k2440, k2461, k2463, k2467, k2572, k2592, k2628, k2647]
+    clusters_basis: "Files the guide cites by path with line numbers (version 2 PDF, record 24432579): its folder abbreviations expanded, '.../' paths matched to one file, and bare file names that occur once in the archive, each mapped with site/data/modules.json. 310 of 329 checkable name-and-file pairs matched a declaration in the resolved file; the rest are parse noise. Cited paths that match no file are left out."
+
+  - id: adriazola-reconstruction
+    author: Jimmie Adriazola (School of Mathematical and Statistical Sciences, Arizona State University)
+    title: "An End-to-End Reconstruction of the Alpöge–Claude Route to the Riemann Hypothesis"
+    repo_title: "RH-Alpoge-Reconstruction: An attempt to make the proof of the Riemann hypothesis human readable"
+    url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction
+    date: "2026-11-22"
+    date_note: "README 'Status, 22 November 2026'; GitHub repo created 2026-11-21, last pushed 2026-11-23"
+    type: manuscript (66 pages) and repository, CC BY 4.0
+    language: en
+    parts_covered: "Conventional-mathematics reconstruction: strategy, dependency map (packages PC-1 to PC-7), external theorems. Incomplete."
+    status: explains-only
+    status_quote: "This repository did not build or replay the archive itself."
+    status_note: "Also: 'I cannot guarantee that everything in this repository is correct.' and 'The external boundary as a whole has not been verified.'"
+    tier: A
+    clusters: [k0677]
+    clusters_basis: "Prose reconstruction that mostly uses short, namespace-free Lean names, which cannot be matched to files exactly. It cites lean/src/Main.lean line 4 and the five Main.lean theorems by name (Main is in k0677). Only k0677 is listed."
+
+  - id: naskrecki-riemann-rev
+    author: Bartosz Naskręcki
+    author_note: "The site and README name no person; they say 'prepared ... under the direction of the repository owner'. The owner is the GitHub account nasqret, whose public profile reads 'Bartosz Naskręcki', Adam Mickiewicz University (finding 53d in the candidates file)."
+    title: "The announced proof of the Riemann hypothesis: map, guide and record of checks"
+    short_name: riemann-rev
+    url: https://nasqret.github.io/riemann-rev/
+    repo_url: https://github.com/nasqret/riemann-rev
+    date: "2026-11-21"
+    date_note: "GitHub repo created 2026-11-21; the page's record is 'as of 2026-11-20 23:51 UTC'; last push 2026-11-22"
+    type: status dashboard, guide, book, atlas (0BSD)
+    language: en
+    parts_covered: "Overall route in 7 steps, the theorem, who checked what; an atlas of 14 components and 107 declarations; two 'deformalization' notes (twisted cokernels, local nilpotence)."
+    status: explains-only
+    status_quote: "It is not a proof, not a referee report and not an endorsement, and it is not an official companion to the announcement."
+    status_note: "It does one small check of its own: the README says 'The logical skeleton of the argument compiles in Lean 4.35.0 with no axioms (10 axiom-free declarations)'. It runs no check of the archive; it reports checks by others."
+    tier: A
+    clusters: [k0302, k0415, k0595, k0641, k0677, k0682, k0688, k0694, k0695, k0697, k1091,
+      k1092, k1108, k1112, k1114, k1148, k1209, k1633, k1636, k1703, k1989, k2342, k2358, k2401,
+      k2404, k2409, k2431, k2440, k2463, k2466, k2467, k2569]
+    clusters_basis: "All 107 Lean declarations in the atlas (data/model.json at e9bdf8f) matched to files by full name, or by suffix within the stated module for 4 private names (64 files). See research/lean-reader/xref/blueprint_matches.tsv."
+
+  - id: merten-riemann-blueprint
+    author:
+      value: Christian Merten (GitHub chrisflav)
+      unconfirmed: true
+      note: "The repository page names only the account chrisflav and says nothing about the author's name. 'Christian Merten' comes from the candidates file, which took it from the GitHub profile."
+    title: "riemann-blueprint: A reading blueprint of the Lean formalisation claiming RH and GRH for Dirichlet L-functions"
+    url: https://github.com/chrisflav/riemann-blueprint
+    date: "2026-11-21"
+    date_note: "GitHub repo created 2026-11-21T15:15Z, last pushed 2026-11-21T21:18Z. The page itself prints no date. The blueprint website (https://riemann.fuxi.merten.dev) did not render, so it was not opened."
+    type: blueprint (461 statements in 4 chapters; no licence stated)
+    language: en
+    parts_covered: "Five main theorems and the reduction to 'no L-function vanishes for Re s > 1/2'; proof outline; shared foundations; published results used."
+    status: explains-only
+    status_quote: "This is a reader's account of Alpöge's proof, not his own exposition of it."
+    status_note: "Also: 'A node here says nothing about whether the formal proof of it is correct.' and 'No build of the formal proof was used, because the project is too large to build on the machine where this was written.'"
+    tier: A
+    clusters: [k0029, k0030, k0032, k0040, k0105, k0107, k0131, k0155, k0162, k0164, k0172,
+      k0173, k0174, k0194, k0203, k0210, k0218, k0223, k0226, k0233, k0240, k0241, k0250, k0251,
+      k0256, k0260, k0266, k0268, k0272, k0275, k0277, k0279, k0284, k0293, k0299, k0302, k0306,
+      k0349, k0395, k0398, k0402, k0403, k0437, k0463, k0471, k0475, k0478, k0480, k0482, k0500,
+      k0503, k0512, k0519, k0520, k0521, k0522, k0523, k0524, k0525, k0563, k0572, k0595, k0605,
+      k0606, k0611, k0623, k0628, k0633, k0634, k0647, k0648, k0649, k0655, k0657, k0660, k0672,
+      k0677, k0678, k0682, k0683, k0685, k0687, k0688, k0694, k0695, k0696, k0697, k0701, k0704,
+      k0706, k0710, k0711, k0717, k0722, k0748, k0760, k0765, k0770, k0773, k0777, k0783, k0787,
+      k0793, k0797, k0801, k0802, k0816, k0820, k0832, k0834, k0837, k0840, k0841, k0842, k0846,
+      k0855, k0864, k0868, k0875, k0886, k0889, k0894, k0898, k0899, k0905, k0906, k0908, k0911,
+      k0912, k0913, k0915, k0918, k0920, k0927, k0934, k0938, k0945, k0947, k0952, k0956, k0957,
+      k0958, k0960, k0962, k0965, k0971, k0973, k0976, k1004, k1014, k1029, k1034, k1045, k1050,
+      k1070, k1073, k1077, k1087, k1091, k1120, k1122, k1167, k1169, k1182, k1183, k1185, k1186,
+      k1188, k1198, k1204, k1209, k1212, k1224, k1226, k1227, k1228, k1231, k1233, k1235, k1244,
+      k1247, k1249, k1250, k1251, k1252, k1253, k1254, k1256, k1257, k1259, k1260, k1262, k1268,
+      k1279, k1299, k1306, k1308, k1312, k1315, k1323, k1327, k1348, k1354, k1375, k1377, k1378,
+      k1408, k1412, k1417, k1418, k1428, k1434, k1445, k1447, k1458, k1461, k1469, k1526, k1544,
+      k1546, k1556, k1560, k1561, k1597, k1598, k1601, k1603, k1604, k1606, k1607, k1609, k1628,
+      k1630, k1633, k1634, k1636, k1638, k1650, k1657, k1661, k1669, k1672, k1681, k1687, k1693,
+      k1703, k1704, k1705, k1706, k1709, k1711, k1722, k1725, k1727, k1734, k1744, k1749, k1767,
+      k1780, k1783, k1788, k1793, k1810, k1838, k1844, k1849, k1861, k1862, k1883, k1902, k1912,
+      k1916, k1918, k1927, k1931, k1934, k1935, k1937, k1941, k1946, k1948, k1950, k1953, k1955,
+      k1965, k1966, k1975, k1981, k1985, k1987, k1989, k1994, k1996, k2001, k2003, k2008, k2016,
+      k2019, k2021, k2023, k2065, k2066, k2080, k2093, k2094, k2098, k2099, k2105, k2106, k2119,
+      k2133, k2136, k2138, k2140, k2142, k2147, k2152, k2153, k2166, k2172, k2177, k2198, k2199,
+      k2202, k2203, k2204, k2208, k2211, k2214, k2216, k2223, k2225, k2234, k2236, k2238, k2249,
+      k2253, k2254, k2258, k2259, k2277, k2280, k2282, k2295, k2298, k2301, k2302, k2309, k2311,
+      k2314, k2324, k2327, k2331, k2335, k2342, k2350, k2351, k2358, k2363, k2395, k2396, k2399,
+      k2400, k2401, k2403, k2404, k2408, k2409, k2410, k2411, k2413, k2417, k2426, k2427, k2431,
+      k2440, k2444, k2449, k2454, k2463, k2476, k2493, k2494, k2498, k2520, k2524, k2541, k2542,
+      k2543, k2544, k2545, k2552, k2554, k2556, k2559, k2560, k2562, k2566, k2570, k2571, k2572,
+      k2592, k2601, k2610, k2621, k2630, k2631, k2634, k2636, k2647]
+    clusters_basis: "All 1,193 Lean names in the blueprint (repo at 137d976) that match a file by full name (952 files). One name, RiemannHypothesis, is a Mathlib name and is left out. See research/lean-reader/xref/blueprint_matches.tsv."
+
+  # ---------------- Tier B ----------------
+
+  - id: rubinstein-grh-lean-verification
+    author:
+      value: Michael Rubinstein (University of Waterloo)
+      unconfirmed: true
+      note: "The page has no byline. It links to Rubinstein's page and to the repository mrubinst/grh-lean-verification, which it names as its source."
+    title: "GRH Lean Check: An independent check of the Lean proof of RH and GRH"
+    url: https://mrubinst.github.io/grh-lean-verification/
+    date: "2026-11-21"
+    date_note: "last log entry 2026-11-21 10:06 UTC; status line 'At 10:10 UTC (21 Nov)'"
+    type: verification log with scripts
+    language: en
+    parts_covered: "Source hash, static audit, compile, axioms, kernel replay, nanoda. Not an explanation."
+    status: verified
+    status_quote: "All 175,187 modules compile with no errors"
+    status_note: "Also: 'The checks are run by Claude Code (an AI agent) on the account owner's university compute allocation; every result here comes from our own runs.'"
+    tier: B
+
+  - id: baez-azimuth-masullo
+    author: John Baez
+    title: "Masullo on the Riemann Hypothesis"
+    url: https://johncarlosbaez.wordpress.com/2026/11/22/masullo-on-the-riemann-hypothesis/
+    date: "2026-11-22"
+    type: blog post (Azimuth), mostly about another claim by Masullo
+    language: en
+    parts_covered: "One-line strategy: the proof 'transplants Stepanov's proof from finite fields to number fields' and uses heavy machinery from automorphic forms. Links Rubinstein's and Adriazola's guides."
+    status: explains-only
+    status_quote: "If you also want a sketch of the Alpöge / Claude attempt, check out these:"
+    status_note: "He neither verified the proof nor explains it in depth. He calls his own account 'very tentative' and says he is 'not an expert on number theory'. The Mathstodon post quoted in the candidates file ('I don't think anybody knows yet if it's right') was not re-opened on this pass."
+    tier: B
+
+  - id: aaronson-shtetl-optimized
+    author: Scott Aaronson
+    title: "The stochastic parrots have apparently proved the Riemann Hypothesis"
+    url: https://scottaaronson.blog/?p=10344
+    date: "2026-11-20"
+    date_note: "post dated Friday 20 Nov 2026, 12:29 pm; update dated 21 Nov"
+    type: blog post with update
+    language: en
+    parts_covered: "Verification and trust (con-leche, kernel bugs). No proof strategy."
+    status: explains-only
+    status_quote: "The proof has now been verified independently by the Lean community, using con-leche"
+    status_note: "He reports verification by others and ran no check. The post explains no mathematics; it is here for the trust discussion. Only the first 100,000 of about 178,000 characters of the page were read."
+    tier: B
+
+  - id: tamnd-riemann-handbook
+    author:
+      value: tamnd (GitHub handle)
+      unconfirmed: true
+      note: "The site names no author ('Built by rh dev'). The GitHub repo tamnd/riemann (created 2026-11-20) matches the candidates file's attribution."
+    title: "A written proof of the Lean proof of the Riemann Hypothesis"
+    url: https://riemann.tamnd.com
+    date: "2026-11-21"
+    date_note: "'Updated 2026-11-21' printed on the site; the site may have changed since"
+    type: site with levels L0 to L3 (about 50 steps, CC BY 4.0)
+    language: en
+    parts_covered: "L0 the proof in one page; L1 a chapter per part; L2 a step per lemma; L3 one Lean declaration. 'All 50 steps are drafted.'"
+    status: explains-only
+    status_quote: "This site has not checked the claim yet."
+    status_note: "Trust report on 23 Nov: compile, axioms and second-kernel checks 'not run'; whether the written steps match the Lean code: 'No person has checked them yet.' The candidates file notes this text predates the 21 Nov certification: re-read before describing it."
+    tier: B

@@ -38,7 +38,7 @@ Order: distance from the main theorem (import steps between clusters, `dist` on 
 
 [Cluster page](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) · distance 0 · 65 files
 
-The front door of the proof. `Statements.lean` states the Riemann hypothesis and its Dirichlet L-function versions, `Main.lean` proves them by pointing to the final assembly, and most other files prove a standard explicit formula that ties a prime sum twisted by a character to the zeros of its L-function.
+`Statements.lean` states the Riemann hypothesis and its Dirichlet L-function versions, `Main.lean` proves them by pointing to the final assembly, and most other files prove a standard explicit formula that ties a prime sum twisted by a character to the zeros of its L-function.
 
 - `riemannHypothesis` in `Main`, with `LFunction_ne_zero_of_half_lt_re`, `LFunction_eq_zero_re` and `LFunction_eq_zero_re_of_isPrimitive`
 - `DirichletLNonvanishingRightOfHalf` in `Statements`

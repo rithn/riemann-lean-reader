@@ -30,7 +30,7 @@ A Lean proof is written as code. Lean is "an interactive theorem prover based on
 
 Kevin Buzzard's Xena Project blog put it this way on 12 Nov, before this proof appeared: "“It’s true because it’s checked in Lean” can be made to make sense. But one has to do some work beyond “the Lean code compiles”." ([Xena](https://xenaproject.wordpress.com/2026/11/12/and-the-proof-is-checked-in-lean/))
 
-His post lists four questions to ask of a Lean repository. The Lean and Mathlib communities' joint statement says all four are satisfied. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)) They are the frame for this page.
+His post lists four questions to ask of a Lean repository. The joint statement by the Lean FRO and the Mathlib Initiative says all four are satisfied. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)) They are the frame for this page.
 
 ## Question 1: what statement was checked?
 

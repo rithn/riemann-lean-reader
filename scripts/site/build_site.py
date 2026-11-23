@@ -14,6 +14,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
 ROOT = os.path.dirname(REPO)
 D, OUT = sys.argv[1], sys.argv[2]
+# 80a: --src-bundles[=DIR] also writes one Lean source bundle per cluster (default DIR: <out>/src/c). Off by default:
+# the full set is ~1 GB (the whole archive once more), see the note at SRC_BUNDLE below
+SRC_BUNDLES = next((a.split('=', 1)[1] if '=' in a else os.path.join(OUT, 'src', 'c') for a in sys.argv[3:] if a.startswith('--src-bundles')), None)
 os.makedirs(os.path.join(OUT, 'data', 'c'), exist_ok=True)
 for f in glob.glob(os.path.join(OUT, 'data', 'c', '*.json')):
     os.remove(f)
@@ -22,6 +25,25 @@ for f in glob.glob(os.path.join(OUT, 'data', 'c', '*.json')):
 M = json.load(open(os.path.join(D, 'map.json')))
 CL = {c['id']: c for c in M['clusters']}
 TH = {t['id']: t for t in M['themes']}
+
+# ---------- content dates (lastmod). State in scripts/site/lastmod.json: key -> [content hash, date the content last
+# changed]. A key is a page path ('/status/'), or 'data:' for the app data. The date moves only when the hash moves, so
+# rebuilding unchanged content keeps every date; a key seen for the first time gets today. The hash leaves out noise:
+# asset versions (?v=…, data-v="…") and anything the caller strips (the Share bar). scripts/site/indexnow.py reads the
+# same hashes to submit only the pages that changed since its last submission.
+import hashlib
+today = datetime.date.today().isoformat()
+STATE_F = os.path.join(HERE, 'lastmod.json')
+STATE = json.load(open(STATE_F)) if os.path.exists(STATE_F) else {}
+NEW_STATE = {}
+NOISE_RE = re.compile(r'\?v=[0-9a-f]+|\s?data-v="[^"]*"|(?<=/app)\.[0-9a-f]{10}(?=\.js)|(?<=/style)\.[0-9a-f]{10}(?=\.css)')
+def chash(*parts):
+    return hashlib.sha256('\x00'.join(NOISE_RE.sub('', x) for x in parts).encode()).hexdigest()[:12]
+def lastmod(key, *parts):
+    h = chash(*parts)
+    old = STATE.get(key)
+    NEW_STATE[key] = [h, old[1] if old and old[0] == h else today]
+    return NEW_STATE[key][1]
 
 # ---------- fields and tags: copies of research/content/fields.yaml and research/content/tags/cluster-tags.json, kept in
 # data/ so the build does not depend on research/. A theme belongs to one of 9 fields; a cluster's field is its theme's.
@@ -123,8 +145,8 @@ for n in NAMES.values():
         s['title'] = _bookform[_booktitle(s['title'].strip())]
 print(f'aliases: {len(_tagc)} tag spellings -> {len(set(_tagform.values()))}; '
       f'{len(_bookc)} book spellings -> {len(set(_bookform.values()))}')
-# the namers saw only statements, so many descriptions end by hedging about proofs; the joint statement by the Lean and
-# Mathlib communities has since certified the proof (21 Nov 2026), so drop those sentences (or the hedging clause)
+# the namers saw only statements, so many descriptions end by hedging about proofs; the joint statement by the Lean FRO
+# and the Mathlib Initiative has since certified the proof (21 Nov 2026), so drop those sentences (or the hedging clause)
 PROOFW = re.compile(r"(?i)\b(proofs?|proved|prove|correct(ness)?|checked|confirm|judge[ds]?)\b")
 HEDGE = re.compile(r"(?i)\bI (cannot|can't|can not|could not|only|see)\b|only statements|statements only|statements? (are|is|were) (seen|visible)|visible statements|not visible|unseen|unknown|not assessed|nothing (here )?is (shown|checked)|no proofs? (is |are )?(visible|confirmed|judged)|not proofs|only see the claims")
 STMT_ONLY = re.compile(r"(?i)^(I (only )?see (only )?statements( only)?|only statements (are|were) (visible|seen)|statements only are visible)[^.]*\.$")
@@ -170,6 +192,48 @@ def evidence(k, n=3):   # [(module, declaration, what it says)] for a checked cl
         out.append(m.groups() if m else ('', '', e))
     return out
 HINTS = json.load(open(os.path.join(D, 'hints.json'))) if os.path.exists(os.path.join(D, 'hints.json')) else {}
+# ---------- 35b: checked references for the spine (data/references-spine.yaml, a copy of research/references/
+# spine-2026-11-23.yaml). On those clusters they replace the AI namer's book suggestion ('source'), which elsewhere is
+# shown as "Automatic match, unchecked". exact and section come first; topic is shown as Background. A cluster with no
+# checked reference keeps its automatic one unless the yaml's verdict on it is 'wrong'. Notes the checker marked as
+# unread suggestions ("My suggestion; not read", "... Not read.") are not shown; 'evidence' goes to /api/ only.
+SPINE_Y = yaml.safe_load(open(os.path.join(REPO, 'data', 'references-spine.yaml'), encoding='utf-8'))
+SPINE_DATE = str(SPINE_Y['meta']['written'])
+PREC_ORDER = {'exact': 0, 'section': 1, 'topic': 2}
+PREC_TIP = {'exact': 'Exact: the theorem or lemma number was read in the cited text and the result matches the Lean statement',
+            'section': 'Section: the right chapter or section, not a specific theorem',
+            'topic': 'Topic: a general reference, cited without a checked chapter or theorem number'}
+AUTO_LABEL = 'Automatic match, unchecked'
+_UNREAD = re.compile(r'(?i)\bnot read\b')
+def _spine_ref(r):
+    assert r['precision'] in PREC_ORDER, r
+    url = r.get('url') or (f'https://doi.org/{r["doi"]}' if r.get('doi') else None)
+    note = ' '.join(str(r.get('note') or '').split())
+    return {'citation': ' '.join(r['citation'].split()), 'locator': ' '.join(str(r.get('locator') or '').split()) or None,
+            'url': url, 'doi': r.get('doi'), 'precision': r['precision'],
+            'match': ' '.join(str(r.get('match') or '').split()) or None,
+            'note': None if not note or _UNREAD.search(note) else note}
+SPINE = {}
+for x in SPINE_Y['clusters']:
+    k = x['id']
+    assert k in CL, f'references-spine.yaml names an unknown cluster {k}'
+    refs = sorted((_spine_ref(r) for r in x.get('references') or []), key=lambda r: PREC_ORDER[r['precision']])
+    SPINE[k] = {'verdict': x['current_book_verdict'], 'refs': refs,
+                'evidence': [[str(e) for e in r.get('evidence') or []] for r in sorted(x.get('references') or [], key=lambda r: PREC_ORDER[r['precision']])]}
+    s = NAMES.get(k, {}).get('source')
+    cur = f'{s["title"]}, {s["where"]}' if isinstance(s, dict) and s.get('where') else (s or {}).get('title') if isinstance(s, dict) else None
+    if (cur or None) != (x.get('current_book_reference') or None):
+        print(f'NOTE references-spine.yaml {k}: the reference it judged ({x.get("current_book_reference")!r}) is not today\'s ({cur!r})')
+def shown_source(k):   # the automatic (AI namer) book reference still shown for cluster k, or None
+    s = NAMES.get(k, {}).get('source')
+    if not isinstance(s, dict) or not s.get('title'):
+        return None
+    if k in SPINE and (SPINE[k]['refs'] or SPINE[k]['verdict'] == 'wrong'):
+        return None
+    return s
+for k in ('k0704', 'k0674', 'k0694', 'k0469'):   # the four the checker found wrong: their automatic reference must go
+    assert k in SPINE and SPINE[k]['verdict'] == 'wrong' and shown_source(k) is None, k
+print(f'references: {len(SPINE)} spine clusters, {sum(len(v["refs"]) for v in SPINE.values())} checked references')
 
 # ---------- tree (core proof outline + concepts + mapped file nodes)
 core = yaml.safe_load(open(os.path.join(REPO, 'tree.yaml')))
@@ -232,11 +296,12 @@ def mdtext(h):   # links and code only, which is all the status HTML uses
     h = re.sub(r'<a href="([^"]+)"[^>]*>(.*?)</a>', r'[\2](\1)', h)
     return _html.unescape(re.sub(r'<[^>]+>', '', re.sub(r'</?code>', '`', h)))
 # short form: footers, meta, the app's home lede
-ST_CERT = (f'On 21 Nov 2026 a <a href="{STMT}">joint statement</a> by the Lean and Mathlib communities, endorsed by the '
-           'Lean FRO and the Mathlib Initiative, certified the Lean statement and proof.')
+ST_CERT = (f'On 21 Nov 2026 a <a href="{STMT}">joint statement</a> by the Lean FRO and the Mathlib Initiative '
+           'certified the Lean statement and proof.')   # byline as changed on the blog on 23 Nov 2026
 ST_MORE = f'More independent checks: <a href="{DREW}">math.mit.edu/~drew/grh</a>.'
 ST_SHORT = f'{ST_CERT} {ST_MORE}'
 ST_META = plain(ST_CERT)
+ST_META_SHORT = 'Certified by the Lean FRO and the Mathlib Initiative on 21 Nov 2026.'   # the home meta description (160-character cap)
 ST_CHIP = 'certified 21 Nov'   # header chip label; its tooltip is ST_META
 ST_CHIP_SHORT = 'Certified'      # the chip's label on narrow screens
 # long form: /api/status.json, llms.txt, llms-full.txt
@@ -247,7 +312,7 @@ ST_QUOTE = 'In its words: “We hereby certify that both the statement and the p
 ST_CHECKS = [   # the joint statement's four criteria, in its order, worded as on /status/ (data/pages/status.md)
     f'The formal statement is the Riemann hypothesis as Mathlib states it: <a href="{MATHLIB_RH}"><code>RiemannHypothesis</code></a>.',
     'The library compiles without errors, and dozens of people reproduced the same proof export.',
-    'Two independent tools confirmed that the theorem proved is exactly Mathlib\'s statement.',
+    'Two independent tools confirmed that the theorem proved, <code>riemannHypothesis</code>, is exactly Mathlib\'s statement of the Riemann hypothesis.',
     'Several independent proof checkers accepted the exported proof.']
 ST_VERIFIED = (f'All {TOTAL_FILES:,} modules compile with zero errors. Every module has been replayed through Lean\'s kernel, and the '
                'exported proof has been accepted by nanoda, con-leche and con-ron. lean4lean accepts every module. A sandboxed rebuild '
@@ -261,7 +326,7 @@ ST_ARCHIVE = (f'The source viewer shows the original archive as released: commit
               'repository has since removed 10,724 files in cleanup pull requests, leaving 164,464 .lean files including a new Challenge.lean.')
 ST_ARCHIVE_SHORT = 'This is the original archive as released; the community repository has since removed 10,724 files in cleanup pull requests.'
 RUBINSTEIN = 'https://mrubinst.github.io/grh-lean-verification/'
-ST_SOURCES = [('Joint statement by the Lean and Mathlib communities (21 Nov 2026)', STMT),
+ST_SOURCES = [('Joint statement by the Lean FRO and the Mathlib Initiative (21 Nov 2026)', STMT),
               ("Levent Alpöge's note (20 Nov 2026)", NOTE),
               ("Andrew Sutherland's verification page, MIT", DREW),
               ("Michael Rubinstein's check, Waterloo", RUBINSTEIN),
@@ -483,7 +548,7 @@ assert not set(COLD) & set(CPATH.values()), 'an old cluster path is also a curre
 # name was checked against its code (data/core-names.yaml); search words
 # ('w') and folder labels ('fl', kept here only for unnamed clusters) live in words.json, loaded after first paint. Dropped as unused by the app: conf, coh, lines, core.
 overview = {
-    'updated': datetime.date.today().isoformat(),
+    'updated': STATE.get('data:', [None, today])[1],   # the date the data last changed (checked at DATA_V below), not the build date
     'counts': {'clusters': len(CL), 'themes': len(TH), 'named': named,
                'files': len(mod_cl), 'total': TOTAL_FILES, 'units': len(unit_cl), 'lines': TOTAL_LINES},
     'main': main, 'builds': builds[main], 'status': STATUS_BLOCK, 'fstats': FSTATS,
@@ -548,7 +613,8 @@ for k, c in CL.items():
         'fl': folder_label(c['folders']), 'folders': c['folders'], 'words': c['words'],
         'coherent': n.get('coherent'), 'confidence': n.get('confidence'),
         'concepts': conc, 'new_concepts': n.get('new_concepts') or [],
-        'source': n.get('source') if isinstance(n.get('source'), dict) else None,
+        'source': shown_source(k),   # automatic (AI namer) book reference, unchecked; None where checked ones replace it
+        **({'refs': SPINE[k]['refs'], 'refs_checked': SPINE_DATE} if k in SPINE else {}),
         'hints': HINTS.get(k, []), 'uses': uses[k], 'used_by': sorted(used_by[k]),
         'dist': dist.get(k), 'core': core_cl.get(k, []), 'lines': c['lines'], 'files': files,
         **({'checked': True, 'evidence': [{'m': m, 'decl': dc, 'says': w} for m, dc, w in evidence(k)]} if k in CHECKED else {}),
@@ -626,14 +692,25 @@ for f in glob.glob(os.path.join(OUT, 'og', '*', '*.png')):   # cards of clusters
 def og_url(path):
     return f'{SITE}/{path}?v={OG_V}'
 
-json.dump(overview, open(os.path.join(OUT, 'data', 'overview.json'), 'w'), separators=(',', ':'))
 json.dump(WORDS, open(os.path.join(OUT, 'data', 'words.json'), 'w'), separators=(',', ':'))
+# G3: each /data/ file is fetched with its own content hash (?v=<hash of that file>), so a build that changes 41 cluster
+# files gives 41 new URLs, not ~2,650 (one global ?v= made every /data/ URL new after any change, and Google's renderer
+# fetched them all again). overview 'dv': 'f' the shared files' hashes, 'c' the cluster files' hashes, DV_N hex digits
+# each, concatenated in the order of overview 'clusters'. overview.json itself is versioned by data-v (OV_V below).
+DV_N = 7
+def _fh(path):
+    return hashlib.sha256(open(path, 'rb').read()).hexdigest()[:DV_N]
+overview['dv'] = {'f': {n: _fh(os.path.join(OUT, 'data', n + '.json')) for n in ('tree', 'words', 'modules')},
+                  'c': ''.join(_fh(os.path.join(OUT, 'data', 'c', c['id'] + '.json')) for c in overview['clusters'])}
+def write_overview():
+    json.dump(overview, open(os.path.join(OUT, 'data', 'overview.json'), 'w'), separators=(',', ':'))
+write_overview()
 print(f'{len(CL)} clusters ({named} named), {len(TH)} themes, {len(mod_cl)} files -> {OUT}')
 
 
 # ---------- static pages for search engines, sharing and machines
 # index.html is the template: <!--head-->…<!--/head--> and <!--prerender-->…<!--/prerender--> are replaced, and the
-# asset URLs get content hashes (?v=…) so _headers can cache /data/*, /app.js and /style.css as immutable.
+# asset URLs get content hashes (app.<hash>.js, style.<hash>.css; /data/*?v=…) so _headers can cache them as immutable.
 # Every page also gets a Markdown copy next to it (<path>index.md, linked with rel=alternate type=text/markdown).
 # Rebuild after editing app.js or style.css: the hashes in the HTML are what bust the long cache.
 import html, hashlib, secrets, email.utils
@@ -641,7 +718,6 @@ from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = open(os.path.join(OUT, 'index.html')).read()
 H = html.escape
-today = datetime.date.today().isoformat()
 GH = 'https://github.com/rithn/riemann-lean-reader'
 X_SITE, X_FEEDBACK = 'https://x.com/RiemannMap', 'https://x.com/SomTheBuilder'
 FILES_TXT = f'{TOTAL_FILES:,} Lean files ({len(mod_cl):,} mapped)'
@@ -653,29 +729,59 @@ def hfiles(paths):
     for f in paths:
         h.update(os.path.relpath(f, OUT).encode()); h.update(open(f, 'rb').read())
     return h.hexdigest()[:10]
-DATA_V = hfiles(sorted(glob.glob(os.path.join(OUT, 'data', '*.json')) + glob.glob(os.path.join(OUT, 'data', 'c', '*.json'))))
+DATA_FILES = sorted(glob.glob(os.path.join(OUT, 'data', '*.json')) + glob.glob(os.path.join(OUT, 'data', 'c', '*.json')))
+DATA_V = hfiles(DATA_FILES)
+if STATE.get('data:', [None])[0] != chash(DATA_V):   # the data changed (overview 'updated' was the old date): date it today
+    overview['updated'] = today
+    write_overview()
+    DATA_V = hfiles(DATA_FILES)
+DATA_DATE = lastmod('data:', DATA_V)   # = overview['updated']
+assert DATA_DATE == overview['updated']
+OV_V = hfiles([os.path.join(OUT, 'data', 'overview.json')])   # data-v: the version of overview.json alone (G3)
+# app.js and style.css (hand-written, in the site repo) are copied to app.<hash>.js and style.<hash>.css, and the pages
+# load those: a new file name per change, so no cache (browser or Cloudflare edge) can serve an old copy under a new
+# version (a ?v= query once came back stale for ~15 min). _headers caches the hashed names for a year; the plain names
+# stay (short cache) for HTML cached before the switch. Older hashed copies are kept ASSET_KEEP_DAYS after their last
+# build, so HTML cached from a previous deploy still finds its files.
 APP_V, CSS_V = hfiles([os.path.join(OUT, 'app.js')]), hfiles([os.path.join(OUT, 'style.css')])
-TPL = re.sub(r'<link rel="stylesheet" href="/style\.css[^"]*">', f'<link rel="stylesheet" href="/style.css?v={CSS_V}">', TPL, count=1)
-TPL = re.sub(r'<script src="/app\.js[^"]*"[^>]*></script>', f'<script src="/app.js?v={APP_V}" data-v="{DATA_V}"></script>', TPL, count=1)
+APP_F, CSS_F = f'app.{APP_V}.js', f'style.{CSS_V}.css'
+ASSET_KEEP_DAYS = 30
+for src, dst, pat in (('app.js', APP_F, r'app\.[0-9a-f]{10}\.js'), ('style.css', CSS_F, r'style\.[0-9a-f]{10}\.css')):
+    shutil.copyfile(os.path.join(OUT, src), os.path.join(OUT, dst))   # also refreshes its mtime: kept while in use
+    for f in os.listdir(OUT):
+        if re.fullmatch(pat, f) and f != dst and os.path.getmtime(os.path.join(OUT, f)) < datetime.datetime.now().timestamp() - ASSET_KEEP_DAYS * 86400:
+            os.remove(os.path.join(OUT, f))
+TPL = re.sub(r'<link rel="stylesheet" href="/style(?:\.[0-9a-f]{10})?\.css[^"]*">', f'<link rel="stylesheet" href="/{CSS_F}">', TPL, count=1)
+TPL = re.sub(r'<script src="/app(?:\.[0-9a-f]{10})?\.js[^"]*"[^>]*></script>', f'<script src="/{APP_F}" data-v="{OV_V}"></script>', TPL, count=1)
 TPL = re.sub(r'Charting [\d,]+ Lean files…', f'Charting {TOTAL_FILES:,} Lean files…', TPL)
 TPL = re.sub(r'<a class="status-chip ok" href="/(?:about|status)/" title="[^"]*"(?: aria-label="[^"]*")?>\s*<i></i><span>Lean proof · <b>[^<]*</b></span>(?:<small class="cshort">[^<]*</small>)?',
              f'<a class="status-chip ok" href="/status/" title="{H(ST_META)} How it was checked." aria-label="Lean proof {ST_CHIP}: status of the proof">'
              f'\n    <i></i><span>Lean proof · <b>{ST_CHIP}</b></span><small class="cshort">{ST_CHIP_SHORT}</small>', TPL, count=1)
 assert ST_META in html.unescape(TPL), 'status chip not found in the index.html template'
 assert f"GH_SHA = '{LEAN_SHA}'" in open(os.path.join(OUT, 'app.js')).read(), 'app.js GH_SHA differs from LEAN_SHA'
-assert f'data-v="{DATA_V}"' in TPL and f'style.css?v={CSS_V}' in TPL
+# 80b: the source viewer (/file/) serves the files of the proof's last step from this site, /src/<module>.lean, copied
+# byte for byte from the local tree (src/lean/src, the archive at LEAN_SHA); every other file still comes from the pinned
+# GitHub mirror, which is also the fallback. The set: Main and the spine it imports down to MainConclusion (where
+# everyCharacter is proved), plus every file those five import directly, as /core/ "How the last step works" describes.
+SRC_SPINE = ['Main', 'Supplements.Kernels.MainTheoremsAll', 'Supplements.Kernels.MainTheoremsCritical',
+             'Supplements.Kernels.MainTheorems', 'Development.AutomorphicArithmetic.CharacterBoxes.MainConclusion']
+assert all(b in imports[a] for a, b in zip(SRC_SPINE, SRC_SPINE[1:])), 'SRC_SPINE: each file must import the next'
+LOCAL_SRC = sorted(set(SRC_SPINE) | {x for m in SRC_SPINE for x in imports[m]})
+LEAN_SRC = os.path.join(ROOT, 'src', 'lean', 'src')
+os.makedirs(os.path.join(OUT, 'src'), exist_ok=True)
+for f in glob.glob(os.path.join(OUT, 'src', '*.lean')):   # only the top-level copies: src/c/ (80a bundles) is left alone
+    if os.path.basename(f)[:-5] not in LOCAL_SRC:
+        os.remove(f)
+for m in LOCAL_SRC:
+    shutil.copyfile(os.path.join(LEAN_SRC, *m.split('.')) + '.lean', os.path.join(OUT, 'src', m + '.lean'))
+_ls = re.search(r'const LOCAL_SRC = new Set\((\[[^\]]*\])\)', open(os.path.join(OUT, 'app.js')).read())
+_app = open(os.path.join(OUT, 'app.js')).read()   # 35b: the app's precision tooltips are the generator's
+assert all(f"{p}: '{t}'" in _app for p, t in PREC_TIP.items()), 'app.js PREC_TIP must match the generator'
+assert _ls and sorted(json.loads(_ls.group(1).replace("'", '"'))) == LOCAL_SRC, f'app.js LOCAL_SRC must list exactly: {LOCAL_SRC}'
+assert f'data-v="{OV_V}"' in TPL and f'href="/{CSS_F}"' in TPL and f'src="/{APP_F}"' in TPL
 
-# ---------- lastmod: a page's date changes only when its title, description or body changes
-# (state kept in scripts/site/lastmod.json: path -> [content hash, date]); '{{UPDATED}}' in a page becomes that date
-STATE_F = os.path.join(HERE, 'lastmod.json')
-STATE = json.load(open(STATE_F)) if os.path.exists(STATE_F) else {}
-NEW_STATE = {}
-def lastmod(key, *parts):
-    h = hashlib.sha256('\x00'.join(parts).encode()).hexdigest()[:12]
-    old = STATE.get(key)
-    NEW_STATE[key] = [h, old[1] if old and old[0] == h else today]
-    return NEW_STATE[key][1]
-DATA_DATE = lastmod('data:', DATA_V)
+# ---------- lastmod (state and lastmod() are at the top): a page's date changes only when its title, description or body
+# changes; '{{UPDATED}}' in a page becomes that date
 
 # ---------- hreflang. Translated pages (/ja/, /tr/) do not exist yet, so this is a no-op today. To add one, register
 # the group on every member path, e.g. g = {'en': '/about/', 'ja': '/ja/about/', 'tr': '/tr/about/'};
@@ -789,8 +895,10 @@ def mdpath(path):
 # ---------- page writer
 URLS = []  # (path, priority, lastmod) for the sitemap
 ARTICLES = {'/learn/', '/route/'}   # pages with Article JSON-LD get og:type article (content pages add theirs below)
+def HA(s):   # title and description text in the head: escape only what HTML needs (an apostrophe stays one character)
+    return html.escape(s, quote=False).replace('"', '&quot;')
 def head(path, title, desc, lds, md=True, img=None):
-    t, d, u = H(title), H(desc), H(SITE + path)
+    t, d, u = HA(title), HA(desc), H(SITE + path)
     img, alt = img or (f'{SITE}/og.png?v=2', None)
     return ((ld({'@graph': lds}) if lds else '') + f'\n<link rel="canonical" href="{u}">\n' + alt_links(path)
             + (f'<link rel="alternate" type="text/markdown" href="{H(mdpath(path))}">\n' if md else '')
@@ -809,13 +917,19 @@ def share_btn(path, title):   # a Share button (app.js copies the link or opens 
     return (f'<p class="sharebar"><button type="button" class="share" data-share="{H(SITE + path)}" data-title="{H(title)}">'
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0-4 4m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>'
             '<span>Share</span></button></p>')
-def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None):
-    """img: (og:image URL, alt text) for this page; default the site card /og.png."""
+def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None, fm=False):
+    """img: (og:image URL, alt text) for this page; default the site card /og.png. fm: title and description come from a
+    content page's front matter (data/pages/*.md): over the caps only warns, as that text is reviewed separately."""
     is404 = path.endswith('.html')
+    for what, v, cap in (('description', desc, DESC_MAX), ('title', title, TITLE_MAX)):   # 85b, 85d
+        if max(len(v), len(HA(v)) if what == 'description' else 0) > cap:
+            msg = f'{path}: {what} is {len(v)} characters, over {cap}: {v}'
+            assert fm, msg
+            print('WARNING (content page, shorten it in research/content/pages):', msg)
     date = lastmod(path, title, desc, SHARE_RE.sub('', body))
     t = TPL
-    t = re.sub(r'<title>.*?</title>', f'<title>{H(title)}</title>', t, count=1)
-    t = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{H(desc)}">', t, count=1)
+    t = re.sub(r'<title>.*?</title>', lambda _: f'<title>{html.escape(title, quote=False)}</title>', t, count=1)
+    t = re.sub(r'<meta name="description" content="[^"]*">', lambda _: f'<meta name="description" content="{HA(desc)}">', t, count=1)
     t = between(t, '<!--head-->', '<!--/head-->', head(path, title, desc, list(lds), md=not is404, img=img))
     t = re.sub(r'<body data-route="[^"]*">', f'<body data-route="{H(route)}">', t, count=1)
     t = between(t, '<!--prerender-->', '<!--/prerender-->', body).replace('{{UPDATED}}', date)
@@ -838,14 +952,77 @@ def between(t, a, b, new):
 def clip(s, n=155):
     s = ' '.join(str(s or '').split())
     return s if len(s) <= n else s[:n].rsplit(' ', 1)[0] + '…'
+# 85b: meta descriptions of generated pages are at most 160 characters and end cleanly (meta_desc); the build fails if a
+# generated page's description is longer, and warns for the content pages (their text is data/pages/*.md, reviewed apart)
+DESC_MAX, TITLE_MAX = 160, 70
+_ABBR = re.compile(r'(?:\b(?:e\.g|i\.e|vs|cf|al|resp|etc|approx|Thm|Prop|Lem|Def|Sec|Ch|No|St|Dr|Mr|Ms|Prof|Jr|Sr|ca|fig|Fig)|\b[A-Z])\.$')
+_TAILW = re.compile(r'(?i)\s+(?:and|or|but|nor|of|the|a|an|to|in|into|onto|for|with|without|within|by|from|on|at|as|its|their|his|her|that|which|whose|who|is|are|was|were|be|been|via|over|under|than|then|so|if|when|where|while|each|every|all|any|some|no|not|this|these|those|such|like|about|between|among|called|named|known|how|what|several|more|less|most|very|also|both|either|neither|whether|after|before|until|up|down|per)$')
+_CLAUSE = re.compile(r'\s*[,;:]\s|\s+[—–]\s+|\s+\(|\s+(?=(?:and|but|while|whereas|which|where|because|so that|through|using|via|with)\s)')
+def _balanced(t):
+    return t.count('(') == t.count(')') and t.count('[') == t.count(']') and t.count('“') == t.count('”') and t.count('"') % 2 == 0 and t.count('$') % 2 == 0
+def _detail(t):   # drop dangling small words and punctuation from the end of a cut
+    while True:
+        t2 = _TAILW.sub('', t).rstrip(' ,;:—–(“"')
+        if t2 == t:
+            return t
+        t = t2
+def meta_desc(s, n=160):
+    """A meta description of at most n characters (85b). The text as is if it fits; else, in this order: the longest run
+    of whole sentences that fits, if at least 100 characters; the longest cut at a clause break (comma, semicolon, colon,
+    dash, an opening bracket, or before 'and', 'which', 'where'…) that fits, with '…', if at least 100; whole sentences of
+    at least 60, then of 40, or a clause cut of that length; else a cut at a word. A cut never ends on a dangling 'and', 'of', 'the'…"""
+    s = ' '.join(str(s or '').split())
+    w = lambda t: len(HA(t))   # length as written in the attribute, where a quote mark is &quot;, so either count is <= n
+    if w(s) <= n:
+        return s
+    sent = ''
+    for m in re.finditer(r'[.!?]["”)]?(?=\s+[A-Z0-9"“(`]|$)', s):
+        pre = s[:m.end()]
+        if w(pre) > n:
+            break
+        if not (pre[m.start()] == '.' and _ABBR.search(s[:m.start() + 1])) and _balanced(pre):
+            sent = pre
+    cut = ''
+    for m in _CLAUSE.finditer(s):
+        if w(s[:m.start()]) + 1 > n:
+            break
+        pre = _detail(s[:m.start()])
+        if _balanced(pre) and len(pre) > len(cut):
+            cut = pre
+    for floor in (100, 60, 40):
+        if len(sent) >= floor:
+            return sent
+        if len(cut) >= floor:
+            return cut + '…'
+    t = s[:n]
+    while w(t) + 1 > n:
+        t = t[:-1]
+    return _detail(t.rsplit(' ', 1)[0]) + '…'
+_TBREAK = re.compile(_CLAUSE.pattern + r'|\s+(?=(?:for|of|over|in|on|from|at|to|into|by|under|between|after|as|off|without|within)\s)')
+def cut_title(s, n=TITLE_MAX):
+    """85d: a name longer than n characters, cut for the <title> only (the H1 and the address keep the whole name): at
+    the last phrase break that fits (a clause break, or before 'for', 'of', 'over'… so no noun phrase is split) if that
+    keeps 30 characters or more, else at a word; never on a dangling 'and', 'of'…; then '…'. app.js has the same
+    function (cutTitle); keep them in step."""
+    if len(s) <= n:
+        return s
+    cut = ''
+    for m in _TBREAK.finditer(s):
+        if m.start() + 1 > n:
+            break
+        pre = _detail(s[:m.start()])
+        if _balanced(pre) and len(pre) > len(cut):
+            cut = pre
+    return (cut if len(cut) >= 30 else _detail(s[:n].rsplit(' ', 1)[0])) + '…'
 def fit(name, n=60):
     """Title for a map page: the name plus as much of the primary query ('Lean proof of the Riemann hypothesis')
-    as fits in about 60 characters (keep in step with pageTitle() in app.js)."""
+    as fits in about 60 characters; a name too long for any suffix stands alone, cut to 70 characters if longer
+    (cut_title) rather than cut to make room for a suffix (keep in step with fit() in app.js)."""
     for t in (f'{name} in the Lean proof of the Riemann hypothesis', f'{name} · Riemann hypothesis Lean proof',
               f'{name} · RH Lean proof'):
         if len(t) <= n:
             return t
-    return name
+    return cut_title(name)
 
 # ---------- shared bits
 for sub in ('theme', 'cluster', 'changelog', 'api', 'route'):
@@ -928,6 +1105,8 @@ CORE_NAV = f'The core of the proof: {len(CHECKED)} clusters, names checked again
 NUMBERS_NAV = 'The proof in numbers: files, lines, clusters and checks'
 CONTENT_PAGES = []   # (path, title, h1) of the Markdown content pages, filled in below; footer, home, llms.txt use it
 ROUTE_T = 'How the Lean proof of the Riemann hypothesis is structured: the route to the main theorem'
+ROUTE_TITLE = 'The route: how the Lean proof of the Riemann hypothesis is structured'   # <title>, 70-character cap; the H1 keeps ROUTE_T (keep in step with pageTitle() in app.js)
+assert len(ROUTE_TITLE) <= 70
 ROUTE_NAV = 'How the proof is structured: the route to the main theorem'
 LEARN_T = 'The Riemann hypothesis proof, step by step: learning path'
 HOME_T = 'Lean proof of the Riemann hypothesis: an interactive map'
@@ -941,6 +1120,15 @@ LEARN_OF = collections.defaultdict(list)  # cluster -> learning-path entries tha
 for x in TT.values():
     for k in x['clusters']:
         LEARN_OF[k].append(x)
+# the ids the static /learn/ page draws (tli() below walks the same tree from the two roots); other learning-path entries
+# have no anchor there, so cluster pages link their app page /concept/<id> instead (link sweep 23 Nov: 9 dead anchors)
+ON_LEARN, _todo = set(), list(core['roots'])
+while _todo:
+    _i = _todo.pop()
+    if _i in TT and _i not in ON_LEARN:
+        ON_LEARN.add(_i); _todo += TT[_i]['needs']
+def learn_href(i):
+    return f'/learn/#{i}' if i in ON_LEARN else f'/concept/{i}'
 
 # ---------- theme pages
 REL = collections.defaultdict(list)   # theme -> [(import links, other theme)] from the theme edges (tedges)
@@ -949,7 +1137,7 @@ for (a, b), x in w.items():
 for t, th in TH.items():
     tn = TNAMED.get(t, {})
     cs = sorted(th['clusters'], key=lambda k: (dist.get(k, 99), -fcount[k]))
-    desc = clip(f"{tn.get('blurb') or ''} {len(cs)} clusters of Lean files in the Lean proof of the Riemann hypothesis.")
+    desc = meta_desc(f"{tn.get('blurb') or ''} {len(cs)} clusters of Lean files in the Lean proof of the Riemann hypothesis.")
     rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Theme</div>'
             f'<div class="eyebrow">Theme · Lean proof of the Riemann hypothesis</div>'
@@ -964,12 +1152,28 @@ for t, th in TH.items():
          img=(og_url(f'og/t/{t}.png'), f'{TNAME[t]}: a theme of the Lean proof of the Riemann hypothesis'))
 
 # ---------- cluster pages
+def spine_ref_html(r):   # one checked reference: citation (linked), locator, precision pill, match and note
+    cit = f'<a href="{H(r["url"])}">{H(r["citation"])}</a>' if r['url'] else H(r['citation'])
+    extra = ' '.join(x for x in ((f'Match: {r["match"]}.' if r['match'] else ''), r['note'] or '') if x)
+    return (f'<div class="ref chk">{cit}' + (f' · <span class="loc">{H(r["locator"])}</span>' if r['locator'] else '')
+            + f' <span class="prec {r["precision"]}" title="{H(PREC_TIP[r["precision"]])}"><span class="sr">(precision: </span>'
+            f'{r["precision"]}<span class="sr">)</span></span>' + (f'<small>{H(extra)}</small>' if extra else '') + '</div>')
+def spine_refs_html(k):   # 35b: the checked references of a spine cluster, exact and section first, then Background
+    if k not in SPINE or not SPINE[k]['refs']:
+        return ''
+    rs = SPINE[k]['refs']
+    main_rs, bg = [r for r in rs if r['precision'] != 'topic'], [r for r in rs if r['precision'] == 'topic']
+    d = datetime.date.fromisoformat(SPINE_DATE)
+    return (f'<p class="meta refnote">References checked on {d.day} {d:%b %Y}. Exact: the theorem number was read in the '
+            'text and matches the Lean statement. Section: the right chapter or section. Topic: general background.</p>'
+            + ''.join(spine_ref_html(r) for r in main_rs)
+            + (f'<h3 class="refbg">Background</h3>' + ''.join(spine_ref_html(r) for r in bg) if bg else ''))
 for k, p in CPATH.items():
     n, c = NAMES.get(k, {}), CL[k]
     title = n.get('title') or folder_label(c['folders'])
-    src = n.get('source') if isinstance(n.get('source'), dict) else None
-    refs = ''.join([f'<div class="ref">{H(src.get("title", ""))}{" · " + H(src["where"]) if src.get("where") else ""}'
-                    f'<small>Background reading suggested by the AI namer · unchecked</small></div>'] if src else []) + \
+    src = shown_source(k)
+    refs = spine_refs_html(k) + ''.join([f'<div class="ref">{H(src.get("title", ""))}{" · " + H(src["where"]) if src.get("where") else ""}'
+                    f'<small>{AUTO_LABEL} · suggested by the AI that named the cluster</small></div>'] if src else []) + \
            ''.join(f'<div class="ref note">{H(re.sub(r"\s*\(word match [\d.]+\):", " —", h))}<small>Cited in the author\'s note · '
                    f'matched by word overlap · unchecked</small></div>' for h in HINTS.get(k, []))
     conc = [CONC[x]['title'] if x in CONC else x.replace('concept-', '').replace('-', ' ') for x in n.get('concepts') or []]
@@ -998,13 +1202,13 @@ for k, p in CPATH.items():
             + (STATUS_CK + checked_html(k) if k in CHECKED else STATUS) + why
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
             + (f'<h2>In the learning path</h2><ul class="rows">' + ''.join(
-                f'<li><a href="/learn/#{H(x["id"])}"><span class="t">{H(x["title"])}<small>{H(x["kind"])}</small></span></a></li>' for x in lp)
+                f'<li><a href="{H(learn_href(x["id"]))}"><span class="t">{H(x["title"])}<small>{H(x["kind"])}</small></span></a></li>' for x in lp)
                + '</ul>' if lp else '')
             + (f'<h2>References</h2>{refs}' if refs else '')
             + neighbours('Builds on', uses[k], on_route) + neighbours('Needed by', sorted(used_by[k]), on_route)
             + f'<p class="meta">{len(members[k])} Lean files, main folder {H(c["folders"][0][0] if c["folders"] else "")}.</p>'
             + explore((TPATH[th], f'Theme: {TNAME[th]}'), main_link=k != main))
-    page(p, fit(title), clip(n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
+    page(p, fit(title), meta_desc(n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
          [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, p))],
          img=(og_url(f'og/c/{k}.png'), f'{title}: cluster {k} of the Lean proof of the Riemann hypothesis'))
 
@@ -1025,14 +1229,15 @@ def tli(i, seen):
     return (f'<li id="{H(i)}"><b>{H(n["title"])}</b> <small>{H(n["kind"])}</small><p>{H(n["plain"])}</p>'
             + (f'<p class="meta">On the map:{on_map}</p>' if on_map else '') + (f'<ul>{kids}</ul>' if kids else '') + '</li>')
 seen = set()
-LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through the main steps of '
-           'the proof down to the background maths, with links to the code on the map.')
+LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through its main steps '
+           'down to background maths, linked to the code.')
 learn = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Learning path</div><div class="eyebrow">Learning path</div>'
          '<h1>The Riemann hypothesis proof, step by step</h1><p class="lede">From the Riemann hypothesis down to school maths: '
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          f'<ul class="tree">{"".join(tli(r, seen) for r in core["roots"])}</ul>'
          f'<p class="meta">See also: <a href="/status/">how the proof was checked</a> · <a href="/core/">the core of the proof</a> · <a href="{MAIN}">the main theorem on the map</a></p>')
+assert seen == ON_LEARN, 'learn_href() and the /learn/ page disagree on which entries the page draws'
 page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
      [article_ld('/learn/', 'The Riemann hypothesis proof, step by step: a learning path', LEARN_D, '2026-11-21'),
       crumbs_ld(('Map', '/'), ('Learning path', '/learn/')), ORG], .8)
@@ -1064,9 +1269,9 @@ route_body = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>
               f'<li>Longest import chain: {FSTATS["chain"]} files</li></ul>'
               '<p class="meta">Distances are shortest import chains; the cluster graph has loops, the file graph does not.</p>'
               f'<p><a href="/">Open the map</a> · <a href="{MAIN}">start at the main theorem</a> · <a href="/list/">every cluster as a list, by distance</a></p>')
-ROUTE_D = clip(f'How the Lean proof of the Riemann hypothesis is structured: from the main theorem through {len(CL):,} clusters of '
+ROUTE_D = meta_desc(f'How the Lean proof of the Riemann hypothesis is structured: from the main theorem through {len(CL):,} clusters of '
                f'{TOTAL_FILES:,} Lean files, by import steps. The deepest cluster is {max(DEPTHS)} steps down; the longest import chain is {FSTATS["chain"]} files.')
-page('/route/', ROUTE_T, ROUTE_D, 'route', route_body,
+page('/route/', ROUTE_TITLE, ROUTE_D, 'route', route_body,
      [article_ld('/route/', ROUTE_T, ROUTE_D, '2026-11-22'), crumbs_ld(('Map', '/'), ('Route', '/route/')), ORG], .8)
 
 # ---------- content pages: Markdown drafts in data/pages/*.md (copied from research/content/pages/, the approved text)
@@ -1213,7 +1418,7 @@ for i, (f, fm, t, *rest) in enumerate(DRAFTS):
     if t2 != t:
         print(f'{f}: links to renamed pages updated')
         DRAFTS[i] = (f, fm, t2, *rest)
-KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS}
+KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS} | {'/guides/'}
 # site links added under a page's own text (the drafts are published as written, so these are not part of them)
 RELATED = {'/status/': [('/core/', CORE_NAV), ('/proof-in-numbers/', NUMBERS_NAV),
                         ('/timeline/', 'Timeline of the Riemann hypothesis, 1748 to the 2026 Lean proof')]}
@@ -1237,7 +1442,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
         pairs = faq_pairs(t)
         assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
         lds.insert(1, faq_ld(pairs))
-    page(path, fm['title'], fm['description'], 'page', body, lds, pr, md=md_abs(zeros_md(f'# {h1}\n\n{t}' + (
+    page(path, fm['title'], fm['description'], 'page', body, lds, pr, fm=True, md=md_abs(zeros_md(f'# {h1}\n\n{t}' + (
         '\n## More on this site\n\n' + ''.join(f'- [{x}]({u})\n' for u, x in rel) if rel else ''))))
     if lv:   # one Markdown file per level: title, a one-line intro, the level's section, the closing links
         before, secs, after = lv
@@ -1250,6 +1455,75 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             open(os.path.join(OUT, path.strip('/'), f'{l}.md'), 'w').write(
                 md_abs(zeros_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
 LEVEL_PAGES = [p for f, fm, t, *_ in DRAFTS if level_split(t) for p in [fm['path']]]
+
+# ---------- /guides/: outside guides, explainers and verification pages, listed from data/guides.yaml. The intro is
+# data/pages/guides.md (a copy of research/content/pages/guides.md, the approved text) when it exists, else the stub below.
+# If the text links every guide in guides.yaml (the approved text writes its own list), it is published as written and
+# guides.yaml only checks it: the build stops if the text links some guides but not all. Otherwise the generated list goes
+# where the text has a line '{{guides}}', or before a closing '## Keep going' / '## More' section, or at the end. In that
+# generated list a field written as {value: …, unconfirmed: true} in guides.yaml is not shown as fact: an unconfirmed
+# author reads 'No author named on the page', an unconfirmed date or type is left out, an unconfirmed title is marked.
+# 'clusters:' is not used here (the cluster-page boxes are a later item).
+GUIDES = yaml.safe_load(open(os.path.join(REPO, 'data', 'guides.yaml'), encoding='utf-8'))['guides']
+GUIDES_F = os.path.join(PAGES_DIR, 'guides.md')
+GUIDES_STUB = ({'title': 'Guides to the Lean proof of the Riemann hypothesis',
+                'description': 'Guides, explainers and verification pages about the Lean proof of the Riemann hypothesis, by other '
+                               'people. Each says whether its author checked the proof.',
+                'h1': 'Guides to the proof by other people', 'path': '/guides/'},
+               'Guides, explainers and verification pages about the Lean proof of the Riemann hypothesis, written by other people. '
+               'Each entry says whether its author ran checks of the Lean proof or explains it without checking it.\n')
+G_STATUS = {'verified': 'Checked the Lean proof', 'explains-only': 'Explains the proof, ran no check of it'}
+def gfield(g, k):   # (value, confirmed)
+    v = g.get(k)
+    return (v.get('value'), not v.get('unconfirmed')) if isinstance(v, dict) else (v, True)
+def guide_parts(g):   # (title, url, [detail, …]) with unconfirmed fields left out or marked
+    title, tok = gfield(g, 'title')
+    url, uok = gfield(g, 'url')
+    assert title and url and uok, f'guides.yaml {g.get("id")}: needs a title and a confirmed url'
+    author, aok = gfield(g, 'author')
+    gtype, tyok = gfield(g, 'type')
+    date, dok = gfield(g, 'date')
+    assert g.get('status') in G_STATUS, f'guides.yaml {g.get("id")}: status must be one of {list(G_STATUS)}'
+    det = [author if author and aok else 'No author named on the page']
+    if gtype and tyok:
+        det.append(gtype)
+    if date and dok:
+        det.append(datetime.date.fromisoformat(str(date)).strftime('%-d %b %Y'))
+    det.append(G_STATUS[g['status']])
+    return title + ('' if tok else ' (title not confirmed)'), url, det
+G_ROWS = [guide_parts(g) for g in GUIDES]
+G_HTML = '<ul class="rows guides">' + ''.join(
+    f'<li><a href="{H(u)}"><span class="t">{H(t)}<small>{" · ".join(H(x) for x in d)}</small></span></a></li>' for t, u, d in G_ROWS) + '</ul>'
+G_MD = ''.join(f'- [{t}]({u}) · ' + ' · '.join(d) + '\n' for t, u, d in G_ROWS)
+if os.path.exists(GUIDES_F):
+    gfm, gt = read_draft('guides.md')
+else:
+    gfm, gt = GUIDES_STUB
+    print('guides.md not found in data/pages: /guides/ uses the stub intro')
+gbad = [u for u in re.findall(r'\]\((/[^)#\s]*)', gt) if u not in KNOWN_PATHS]
+assert not gbad, f'guides.md: links to pages that do not exist: {gbad}'
+assert gfm['path'] == '/guides/', 'guides.md: path must be /guides/'
+G_URLS = [u for _, u, _ in G_ROWS]
+g_in_text = [u for u in G_URLS if f']({u})' in gt]
+G_OWN_LIST = len(g_in_text) == len(G_URLS) and not re.search(r'(?m)^\{\{guides\}\}$', gt)
+assert G_OWN_LIST or not g_in_text, ('guides.md links some guides of guides.yaml but not these: '
+                                     f'{[u for u in G_URLS if u not in g_in_text]}; list them all, or none and let the build list them')
+if G_OWN_LIST:
+    print(f'guides.md lists all {len(G_URLS)} guides of guides.yaml itself: published as written')
+elif not re.search(r'(?m)^\{\{guides\}\}$', gt):   # no marker: put the list before the closing links, or at the end
+    secs = h2_sections(gt)
+    i = next((j for j, x in enumerate(secs) if j and re.match(r'## (Keep going|More)\b', x, re.I)), len(secs))
+    gt = '\n'.join(secs[:i] + ['\n{{guides}}\n'] + secs[i:])
+gpath, gh1 = gfm['path'], gfm['h1']
+CONTENT_PAGES.append((gpath, gfm['title'], gh1))
+ARTICLES.add(gpath)
+ghtml = re.sub(r'^<p><em>', '<p class="meta asof"><em>', md_html(gt).replace('<p>{{guides}}</p>', G_HTML), count=1)
+assert G_OWN_LIST or G_HTML in ghtml
+page(gpath, gfm['title'], gfm['description'], 'page',
+     f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>Guides</div><div class="eyebrow">Guides and explainers</div>'
+     f'<h1>{H(gh1)}</h1>{ghtml}',
+     [article_ld(gpath, gh1, gfm['description'], str(gfm.get('published', '2026-11-23'))), crumbs_ld(('Map', '/'), ('Guides', gpath)), ORG], .6, fm=True,
+     md=md_abs(f'# {gh1}\n\n' + re.sub(r'(?m)^\{\{guides\}\}\n?', lambda m: G_MD, gt).rstrip() + '\n'))
 
 # ---------- /list/: an app view (rewritten to the home page), so no HTML of its own; its Markdown copy lists every
 # cluster by distance from the main theorem, so the API's "every page has a Markdown copy" holds for it too
@@ -1291,7 +1565,10 @@ open(os.path.join(OUT, 'changelog', 'feed.xml'), 'w').write(
     + '</channel></rss>\n')
 
 # ---------- home: crawlable intro plus links to every theme
-HOME_DESC = (f'The Lean proof of the Riemann hypothesis, visualized: an interactive map of its {FILES_TXT}. '
+# HOME_DESC: meta, og and twitter description, capped at 160 characters (Bing flags longer ones); HOME_LONG for llms.txt
+HOME_DESC = f'The Lean proof of the Riemann hypothesis: an interactive map of its {TOTAL_FILES:,} Lean files. {ST_META_SHORT}'
+assert len(HOME_DESC) <= 160, f'home description is {len(HOME_DESC)} characters'
+HOME_LONG = (f'The Lean proof of the Riemann hypothesis, visualized: an interactive map of its {FILES_TXT}. '
              f'{ST_META}')
 home = ('<div class="eyebrow">Interactive map · Lean 4</div><h1 class="hero">The <em>Lean</em> proof of the Riemann hypothesis, mapped</h1>'
         f'<p class="lede">An interactive map of the {FILES_TXT} in Levent Alpöge\'s proof of the Riemann hypothesis, '
@@ -1362,10 +1639,24 @@ jdump('themes.json', {'updated': DATA_DATE, 'fields': {'files': 'Lean files in t
       'field': 'id of the field of mathematics the theme belongs to (see math_fields in /api/clusters.json)'}, 'themes': [
     {'id': t, 'name': TNAME[t], 'blurb': TNAMED.get(t, {}).get('blurb'), 'path': TPATH[t], 'url': SITE + TPATH[t],
      'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters']), 'units': size[t], 'field': TFIELD[t]} for t in TH]})
+# 35b: the checked references of the spine clusters, with precision and the checker's evidence (Lean file and line,
+# what was read and where); notes marked as unread suggestions are left out, as on the pages
+jdump('references.json', {'updated': SPINE_DATE, 'lean_commit': str(SPINE_Y['meta']['lean_commit']),
+      'fields': {'precision': '; '.join(f'{p}: {" ".join(str(v).split())}' for p, v in SPINE_Y['meta']['precision_labels'].items()),
+                 'citation': 'the work cited', 'locator': 'where in it (chapter, section, theorem)', 'url': 'link to the work (DOI where there is one)',
+                 'match': 'how the cited result compares with the Lean statement, where checked',
+                 'note': "the checker's caveat, if any", 'evidence': 'what the reference was checked against (Lean file and line, contents lists, the blueprint)',
+                 'automatic_reference': f'the book reference the site showed before the check (suggested by the AI that named the cluster); verdict: ok, partly, weak, unverified, wrong or none; shown on the page only where there is no checked reference and the verdict is not wrong',
+                 'other_clusters': f'clusters not listed here show only an automatic reference, labelled "{AUTO_LABEL}"'},
+      'clusters': [{'id': k, 'title': ctitle(k), 'path': CPATH[k], 'dist': dist.get(k),
+                    'automatic_reference': {'text': next((x.get('current_book_reference') for x in SPINE_Y['clusters'] if x['id'] == k), None),
+                                            'verdict': v['verdict'], 'shown': shown_source(k) is not None},
+                    'references': [{**r, 'evidence': ev} for r, ev in zip(v['refs'], v['evidence'])]} for k, v in SPINE.items()]})
 API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
              'endpoints': {'/api/status.json': 'dated proof status with primary sources',
                            '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist, field, era, era_year, level, new_in_proof, checked; plus math_fields, the {len(FIELDS)} fields (id, name, hue, description)',
-                           '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files, field'},
+                           '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files, field',
+                           '/api/references.json': f'checked references for the {len(SPINE)} clusters of the spine (the main path and the core): citation, locator, url, doi, precision (exact, section or topic), match, note, evidence'},
              'tags': {'field': f'one of {len(FIELDS)} fields of mathematics per theme; a cluster takes its theme\'s field',
                       'era': 'decade of the newest concept a cluster needs: ' + ', '.join(ERA_OF),
                       'level': 'highest maths level among a cluster\'s concepts: ' + ', '.join(n for _, n in LEVELS),
@@ -1375,14 +1666,92 @@ API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the m
              'markdown': 'every HTML page has a Markdown copy at <page>index.md, e.g. /status/index.md; pages with levels also have '
                          '<page>simple.md, student.md and expert.md, e.g. /what-is-the-riemann-hypothesis/student.md',
              'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH,
-             'license': API_STATUS['license']}
+             'openapi': '/api/openapi.json', 'license': API_STATUS['license']}
 jdump('index.json', API_INDEX)
-open(os.path.join(OUT, 'api', 'index.html'), 'w').write(
-    '<!doctype html><meta charset="utf-8"><title>API · RH Lean Explorer</title><meta name="robots" content="noindex">'
-    '<link rel="canonical" href="' + SITE + '/api/index.json"><pre>' + H(json.dumps(API_INDEX, indent=2, ensure_ascii=False)) + '</pre>')
+
+# /api/openapi.json: an OpenAPI 3.1 description of the files above, its schemas inferred from the JSON as written (every
+# value at a position is merged: types, required keys, enums for the tag fields), so it cannot drift from the real files
+def _jtype(v):
+    return ('null' if v is None else 'boolean' if isinstance(v, bool) else 'integer' if isinstance(v, int) else 'number'
+            if isinstance(v, float) else 'string' if isinstance(v, str) else 'array' if isinstance(v, list) else 'object')
+OA_ENUMS = {'era', 'level', 'field'}   # string fields of a cluster or theme with a small fixed set of values: listed as enums
+OA_NULL = {'dist', 'title', 'blurb', 'url', 'doi', 'locator', 'match', 'note', 'text'}    # item fields the code can set to null even when today's data has none
+def oa_schema(vals, key=None, desc=None, item=False):
+    """desc: the file's own 'fields' notes; they (and enums, nullables) apply to the fields of array items only."""
+    ts = {_jtype(v) for v in vals}
+    if {'integer', 'number'} <= ts: ts.discard('integer')
+    if item and key in OA_NULL: ts.add('null')
+    s = {'type': sorted(ts)[0] if len(ts) == 1 else sorted(ts)}
+    if item and desc and key in desc: s['description'] = desc[key]
+    objs = [v for v in vals if isinstance(v, dict)]
+    if objs:
+        keys = list(dict.fromkeys(k for o in objs for k in o))
+        s['properties'] = {k: oa_schema([o[k] for o in objs if k in o], k, desc, item and key is None) for k in keys}
+        req = [k for k in keys if all(k in o for o in objs)]
+        if req: s['required'] = req
+    arrs = [v for v in vals if isinstance(v, list)]
+    if arrs:
+        items = [x for a in arrs for x in a]
+        s['items'] = oa_schema(items, None, desc, True) if items else {}
+    strs = sorted({v for v in vals if isinstance(v, str)})
+    if item and key in OA_ENUMS and strs and len(strs) <= 20: s['enum'] = strs + ([None] if 'null' in ts else [])
+    return s
+OA_FILES = [('index.json', 'getIndex', 'API index: the endpoints, tag meanings and licence', API_INDEX['description'], {}),
+            ('status.json', 'getStatus', 'Dated status of the proof, with primary sources', API_INDEX['endpoints']['/api/status.json'], {}),
+            ('clusters.json', 'getClusters', 'Every cluster', API_INDEX['endpoints']['/api/clusters.json'],
+             json.load(open(os.path.join(OUT, 'api', 'clusters.json')))['fields']),
+            ('themes.json', 'getThemes', 'Every theme', API_INDEX['endpoints']['/api/themes.json'],
+             json.load(open(os.path.join(OUT, 'api', 'themes.json')))['fields']),
+            ('references.json', 'getReferences', 'Checked references for the spine clusters', API_INDEX['endpoints']['/api/references.json'],
+             json.load(open(os.path.join(OUT, 'api', 'references.json')))['fields'])]
+OPENAPI = {
+    'openapi': '3.1.0',
+    'info': {'title': SITE_NAME + ' API', 'version': DATA_DATE,
+             'summary': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
+             'description': ('Read-only static files, no key, no rate limit beyond normal caching (max-age 3600, CORS open). '
+                             + API_STATUS['note'] + ' Era, level and new_in_proof are ' + API_INDEX['tags']['note'] + '.'),
+             'license': {'name': 'CC BY 4.0', 'url': LICENSE}},
+    'servers': [{'url': SITE}],
+    'externalDocs': {'description': 'API index', 'url': SITE + '/api/index.json'},
+    'paths': {f'/api/{f}': {'get': {'operationId': op, 'summary': summ, 'description': d,
+                                    'responses': {'200': {'description': 'OK', 'content': {'application/json': {
+                                        'schema': {'$ref': f'#/components/schemas/{op[3:]}'}}}}}}}
+              for f, op, summ, d, _ in OA_FILES},
+    'components': {'schemas': {op[3:]: oa_schema([json.load(open(os.path.join(OUT, 'api', f)))], None, desc)
+                               for f, op, _, _, desc in OA_FILES}},
+}
+jdump('openapi.json', OPENAPI)
+# /api/ for people (QA16): the site's own template and CSS, the endpoints as a table and the index JSON wrapped (no sideways
+# scroll). Still noindex with its canonical on /api/index.json and not in the sitemap, as before: machines read the JSON
+def _apirow(u, d):
+    return f'<tr><td><a href="{H(u)}"><code>{H(u)}</code></a></td><td>{H(d)}</td></tr>'
+API_BODY = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>API</div><div class="eyebrow">API</div>'
+    f'<h1>{H(API_INDEX["name"])}</h1><p class="lede">{H(API_INDEX["description"])} Plain files: no key, no rate limit, '
+    f'licensed <a href="{LICENSE}">{H(API_STATUS["license"]["name"])}</a>.</p>'
+    '<h2 id="endpoints">Endpoints</h2><div class="tablewrap"><table><thead><tr><th>File</th><th>What it holds</th></tr></thead><tbody>'
+    + _apirow('/api/index.json', 'this index, as JSON')
+    + ''.join(_apirow(u, d) for u, d in API_INDEX['endpoints'].items())
+    + _apirow(API_INDEX['openapi'], 'the same endpoints as OpenAPI 3.1, with their schemas')
+    + '</tbody></table></div>'
+    '<h2 id="tags">Tags</h2><ul>' + ''.join(f'<li><code>{H(k)}</code>: {H(v)}</li>' for k, v in API_INDEX['tags'].items()) + '</ul>'
+    '<h2 id="more">Markdown, feeds and source</h2><ul>'
+    f'<li>Markdown: {H(API_INDEX["markdown"])}.</li>'
+    + ''.join(f'<li><a href="{H(u)}"><code>{H(u)}</code></a>: {H(d)}</li>' for u, d in API_INDEX['feeds'].items())
+    + f'<li>Source of this site: <a href="{H(API_INDEX["source"])}">{H(API_INDEX["source"].replace("https://", ""))}</a></li></ul>'
+    f'<h2 id="license">Licence</h2><p><a href="{LICENSE}">{H(API_STATUS["license"]["name"])}</a>: {H(API_STATUS["license"]["applies_to"])}.</p>'
+    '<h2 id="json">The index as JSON</h2><pre class="wrap"><code>' + H(json.dumps(API_INDEX, indent=2, ensure_ascii=False)) + '</code></pre>')
+_t = TPL
+_t = re.sub(r'<title>.*?</title>', f'<title>API · {SITE_NAME}</title>', _t, count=1)
+_t = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{H(API_INDEX["description"])}">', _t, count=1)
+_t = between(_t, '<!--head-->', '<!--/head-->', '\n<meta name="robots" content="noindex">\n'
+             f'<link rel="canonical" href="{SITE}/api/index.json">\n<link rel="alternate" type="application/json" href="/api/index.json">\n')
+_t = re.sub(r'<body data-route="[^"]*">', '<body data-route="page">', _t, count=1)
+_t = between(_t, '<!--prerender-->', '<!--/prerender-->', API_BODY)
+assert '{{UPDATED}}' not in _t
+open(os.path.join(OUT, 'api', 'index.html'), 'w').write(_t)
 
 # ---------- llms.txt and llms-full.txt
-llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
+llms = (f'# {SITE_NAME}\n\n> {HOME_LONG}\n\n'
         f'An interactive map of the Lean proof of the Riemann hypothesis: {FILES_TXT} in {len(CL):,} clusters and {len(TH)} themes. '
         f'Names and descriptions are written by Claude from samples of the code and may be wrong, except the {len(CHECKED)} core clusters marked "Checked against the code". Every page has a Markdown copy at <page>index.md.\n\n'
         f'## Status (as of {STATUS_AS_OF})\n\n'
@@ -1402,7 +1771,9 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_DESC}\n\n'
         f'## The map, by theme\n\n'
         + ''.join(f'- [{TNAME[t]}]({SITE}{TPATH[t]}index.md)\n' for t in sorted(TH, key=lambda t: TNAME[t]))
         + f'\n## Data\n\n- [API index]({SITE}/api/index.json): the JSON endpoints\n'
+        f'- [OpenAPI description]({SITE}/api/openapi.json): the same endpoints as OpenAPI 3.1, with their schemas\n'
         f'- [Clusters]({SITE}/api/clusters.json): every cluster with its page and distance from the main theorem\n'
+        f'- [Checked references]({SITE}/api/references.json): sources for the {len(SPINE)} spine clusters, each with its precision (exact, section or topic)\n'
         f'- Licence: CC BY 4.0 ({LICENSE}) for everything this site made (page text, names and descriptions, map layout, images, JSON); the Lean source keeps its own licence.\n\n'
         f'## Updates\n\n- [Changelog]({SITE}/changelog/index.md) · [RSS]({SITE}/changelog/feed.xml)\n'
         f'- Full text of the key pages: {SITE}/llms-full.txt\n')
@@ -1432,7 +1803,14 @@ if COLD:
     REDIR += '\n# Renamed clusters: old address -> current address (permanent)\n' + ''.join(
         f'{o} {n} 301\n{o.rstrip("/")} {n} 301\n{o}index.md {n}index.md 301\n' for o, n in sorted(COLD.items()))
 open(os.path.join(OUT, '_redirects'), 'w').write(REDIR)
-open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
+# G3: /data/ stays crawlable: app.js fetches it while a page renders, and Google's renderer obeys robots.txt (with it
+# blocked, every rendered page showed "Could not load the map data" and /learn/ lost two thirds of its text). The app
+# always adds ?v=<hash>; only the bare /data/…json URLs (found as strings in app.js, never fetched by the app) are
+# blocked, with $ (end of URL) so the versioned ones still match nothing. /api/ (the public data API) stays open.
+open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\nAllow: /\n'
+    '# the app\'s data files are fetched with ?v=<version>; the bare addresses are never used by the site\n'
+    'Disallow: /data/*.json$\n\n'
+    f'Sitemap: {SITE}/sitemap.xml\n')
 KEY_F = os.path.join(HERE, 'indexnow.key')   # IndexNow key (public by design: it is served at /<key>.txt)
 if not os.path.exists(KEY_F):
     open(KEY_F, 'w').write(secrets.token_hex(16) + '\n')
@@ -1445,3 +1823,43 @@ json.dump(dict(sorted(NEW_STATE.items())), open(STATE_F, 'w'), indent=0, separat
 changed = sorted(u for u, _, d in URLS if d == today)
 print(f'{len(TPATH)} theme pages, {len(CPATH)} cluster pages, sitemap with {len(URLS)} urls ({len(changed)} changed today); '
       f'data v={DATA_V} app v={APP_V} css v={CSS_V}')
+
+# ---------- 80a: one source download per cluster, /src/c/<id>.txt (only with --src-bundles; see the note below)
+# Format: plain UTF-8 text, a 4-line header (comment lines), then the cluster's Lean files in module order, each copied
+# unchanged from the local tree (the archive at LEAN_SHA) after a separator line "-- ==== <module> ====". Text rather
+# than JSON: no escaping, served as text/plain with noindex by the /src/* rule in _headers, readable as it is (curl one
+# URL), and it compresses as well as JSON (both ~4.8x). The separator is a Lean comment line that occurs in no source
+# file (checked here); to split, cut before each line matching /^-- ==== (\S+) ====$/ and drop that line (every source
+# ends with a newline, also checked). A bundle is rewritten only when its bytes change; bundles of clusters that no
+# longer exist are removed. Cloudflare Pages limits: 25 MiB per file, 20,000 files per site on the free plan (checked
+# below). Measured 23 Nov 2026: 2,647 bundles, 1,001 MiB in all (about 206 MiB gzipped), largest 2.34 MiB (k0952): every file
+# fits, but the set is the whole archive again, 3x the rest of the site, in the site's git repo; so it is off by
+# default until the owner decides (research/review-2026-11-23-code-3.md).
+SRC_SEP = re.compile(r'^-- ==== (\S+) ====$', re.M)
+PAGES_MAX_FILE, PAGES_MAX_FILES = 25 * 2**20, 20000
+if SRC_BUNDLES:
+    os.makedirs(SRC_BUNDLES, exist_ok=True)
+    _nb, _tot, _big = 0, 0, (0, '')
+    for k in CL:
+        ms = sorted(members[k])
+        parts = [f'-- RH Lean Explorer: the Lean source of cluster {k}, {ctitle(k)}\n'
+                 f'-- {len(ms)} files, copied unchanged from the archive at commit {LEAN_SHA[:8]} ({LEAN_REPO}/tree/{LEAN_SHA}).\n'
+                 f'-- Page: {SITE}{CPATH[k]}\n'
+                 '-- Each file starts after its line "-- ==== <module> ====" (that line is not part of the file).\n']
+        for m in ms:
+            src = open(os.path.join(LEAN_SRC, *m.split('.')) + '.lean', encoding='utf-8').read()
+            assert not SRC_SEP.search(src), f'{m}: a line looks like a bundle separator'
+            assert src.endswith('\n') or not src, f'{m}: no final newline'
+            parts.append(f'-- ==== {m} ====\n{src}')
+        b, f = ''.join(parts).encode('utf-8'), os.path.join(SRC_BUNDLES, k + '.txt')
+        assert len(b) < PAGES_MAX_FILE, f'{k}: source bundle is {len(b)} bytes, over the Cloudflare Pages limit of 25 MiB: split it'
+        if not os.path.exists(f) or os.path.getsize(f) != len(b) or open(f, 'rb').read() != b:
+            open(f, 'wb').write(b); _nb += 1
+        _tot += len(b); _big = max(_big, (len(b), k))
+    for f in glob.glob(os.path.join(SRC_BUNDLES, '*.txt')):
+        if os.path.basename(f)[:-4] not in CL:
+            os.remove(f)
+    print(f'source bundles: {len(CL)} in {SRC_BUNDLES} ({_nb} written), {_tot / 2**20:.0f} MiB, largest {_big[1]} {_big[0] / 2**20:.2f} MiB')
+_nfiles = sum(len(fs) for r, ds, fs in os.walk(OUT) if '.git' not in r.split(os.sep))
+assert _nfiles < PAGES_MAX_FILES, f'{OUT} holds {_nfiles} files, over the Cloudflare Pages free-plan limit of {PAGES_MAX_FILES}'
+print(f'{_nfiles} files in {OUT} (Cloudflare Pages free plan: {PAGES_MAX_FILES:,})')

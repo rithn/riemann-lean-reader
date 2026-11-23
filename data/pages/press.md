@@ -23,17 +23,17 @@ as_of: "22 Nov 2026"
 >
 > **Numbers you can quote.** The longest import chain is 203 files. The median file is 13 imports from `Main`, and the farthest is 43. By import distance from the main-theorem cluster, the clusters fall into bands 0 to 8, with 1, 3, 22, 437, 1,443, 637, 76, 25 and 3 clusters. The 175,187 figure is for the submitted archive. The community repository has since removed files and now has 164,464 `.lean` files with `Challenge.lean`.
 >
-> **Free to use.** Everything we made, including data, page text, images and clips, is free to use under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Credit "riemannhypothesissolved.com".
+> **Free to use.** Everything we made, including data, page text, images and clips, is free to use under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Credit "RH Lean Explorer (riemannhypothesissolved.com)".
 >
 > **Contact.** X: [@RiemannMap](https://x.com/RiemannMap)
 >
-> **Wording we suggest.** "Certified" refers to the four formal criteria in the joint statement. The certification is a "joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative". Cluster names on the map were drafted by AI. For claims about the proof, cite the primary sources.
+> **Wording we suggest.** "Certified" refers to the four formal criteria in the joint statement. The certification is a "joint statement by the Lean FRO and the Mathlib Initiative". Cluster names on the map were drafted by AI. For claims about the proof, cite the primary sources.
 
 ## Official statements and primary documents
 
 - **20 Nov 2026. Levent Alpöge, [note (4-page PDF)](https://alpo.ge/remark.pdf).** The announcement note, linking the 14 archive parts. His [home page](https://alpo.ge/) lists Anthropic and a Harvard junior fellowship.
 - **20 Nov 2026. Lean community, [first commit in the mirror](https://github.com/leanprover-community/riemann-hypothesis/commit/40e56bab026552e089d7afcfeff08d2defb9c005).** An unmodified copy of the submission. The [repository](https://github.com/leanprover-community/riemann-hypothesis) was later trimmed. Its [verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md) give sizes, a static scan and caveats.
-- **21 Nov 2026, 13:55 UTC. Lean and Mathlib communities, [Lean verification of the Riemann Hypothesis](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).** A joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative. It certifies the statement and proof and lists four checks.
+- **21 Nov 2026, 13:55 UTC. Lean FRO and Mathlib Initiative, [Lean verification of the Riemann Hypothesis](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).** A joint statement by the Lean FRO and the Mathlib Initiative. It certifies the statement and proof and lists four checks.
 - **Read 22 Nov 2026. [Mathlib Initiative](https://mathlib-initiative.org/).** A home-page banner saying it "fully endorses" the communities' verification.
 - **Read 22 Nov 2026. [Lean home page](https://lean-lang.org/).** A November 2026 timeline entry: "Levent Alpöge releases a Lean-verified proof of the Riemann Hypothesis".
 - **20 Nov 2026. Association for Human Mathematics, [statement](https://www.ahmath.org/statements).** A critical statement on the way the announcement was made. Written before the joint statement.

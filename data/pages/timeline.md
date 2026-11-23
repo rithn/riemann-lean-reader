@@ -15,7 +15,7 @@ as_of: "22 Nov 2026"
 
 *As of 22 Nov 2026. Times are UTC where a source gives UTC. Other clock times carry no stated time zone.*
 
-**Riemann stated the hypothesis in 1859. Levent Alpöge released a Lean proof on 20 Nov 2026, and the Lean and Mathlib communities certified it on 21 Nov.** See [status](/status/) for what was checked.
+**Riemann stated the hypothesis in 1859. Levent Alpöge released a Lean proof on 20 Nov 2026, and the Lean FRO and the Mathlib Initiative certified it on 21 Nov.** See [status](/status/) for what was checked.
 
 ## Background
 
@@ -44,7 +44,7 @@ as_of: "22 Nov 2026"
 ## 21 Nov 2026: checks and certification
 
 - **21 Nov, 01:47 UTC.** Michael Rubinstein (Waterloo) finishes a full compile of all 175,187 modules, 3 h 18 min after the distributed build started. His kernel replay finishes at 05:24 UTC and his nanoda check at 10:06 UTC. ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
-- **21 Nov, 13:55 UTC.** The Lean community blog publishes the joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative: "We hereby certify that both the statement and the proof of the Riemann Hypothesis are correct." ([statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
+- **21 Nov, 13:55 UTC.** The Lean community blog publishes the joint statement by the Lean FRO and the Mathlib Initiative: "We hereby certify that both the statement and the proof of the Riemann Hypothesis are correct." ([statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
 - **21 Nov, 18:07 UTC.** Sutherland's sandboxed rebuild on a separate machine finishes. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **21 Nov, 21:19 UTC.** con-leche accepts the full export, and its `--compare` run accepts all five theorems. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **21 Nov, about 21:55 UTC.** lean4lean finishes accepting 175,187 of 175,187 modules. ([Sutherland](https://math.mit.edu/~drew/grh/))

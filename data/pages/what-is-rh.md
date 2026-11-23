@@ -41,7 +41,7 @@ This page explains the claim. The proof is Lean code with a four-page note, and 
 
 **Why it is hard.** A proof has to show that no zero anywhere strays off the line, even by a tiny amount.
 
-**What happened in November 2026.** On 20 Nov 2026 a mathematician called Levent Alpöge released a proof written in Lean. Lean is a proof assistant: a program that checks mathematics step by step. ([Lean reference manual](https://lean-lang.org/doc/reference/latest/)) On 21 Nov the Lean and Mathlib communities said they had checked it and that it is correct. The proof is 17.4 million lines of code, and Alpöge says he intends to write it up for readers later. Read more on [how we know it is right](/how-we-know/) and on [why it matters](/why-it-matters/).
+**What happened in November 2026.** On 20 Nov 2026 a mathematician called Levent Alpöge released a proof written in Lean. Lean is a proof assistant: a program that checks mathematics step by step. ([Lean reference manual](https://lean-lang.org/doc/reference/latest/)) On 21 Nov the Lean FRO and the Mathlib Initiative said it had been checked and that it is correct. The proof is 17.4 million lines of code, and Alpöge says he intends to write it up for readers later. Read more on [how we know it is right](/how-we-know/) and on [why it matters](/why-it-matters/).
 
 ## Student {#student}
 

@@ -22,9 +22,9 @@ as_of: "22 Nov 2026"
 
 ### Has the Riemann hypothesis been solved?
 
-Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative, certified that the statement and the proof are correct. Independent checkers compiled all 175,187 modules and replayed the proof through several kernels. Alpöge says he intends to write the argument up later.
+Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof are correct. Independent checkers compiled all 175,187 modules and replayed the proof through several kernels. Alpöge says he intends to write the argument up later.
 
-Source: [Joint statement by the Lean and Mathlib communities](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+Source: [Joint statement by the Lean FRO and the Mathlib Initiative](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
 ### What is the Riemann hypothesis?
 
