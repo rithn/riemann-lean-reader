@@ -1,0 +1,13 @@
+# Display fixes to the reviewed readings (tracker #10), applied by scripts/readings/assemble.py on top of the canonical
+# drafts in research/lean-reader/readings (which are left as Codex wrote them). Each fix: module, field, the exact text
+# it replaces (the script fails if that text is no longer there), the new text, and why. Facts only from the file's source.
+- module: Formalism.PeriodIntegrals.OrbitalBoundsConclusion.IdeleUnitsOpen
+  field: reading
+  old: This file packages an openness result for unit ideles.
+  new: The theorem IdeleUnitsOpen restates the imported openness result PI.IdeleUnitsOpenW.openUnits for unit ideles.
+  why: 'Owner, 24 Nov 2026: no "this file". Source (6 lines): theorem IdeleUnitsOpen (L) : Formalism.L2.Host.CharEx.OpenUnits L := PI.IdeleUnitsOpenW.openUnits L'
+- module: Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ThetaLiftOfReference
+  field: reading
+  old: The split reference-pair proof uses this module to establish
+  new: The split reference-pair proof uses this row module to establish
+  why: '"this module" here is the row module of the previous sentence, not the Lean file; named so, the banned-phrase check ("this file", "this module") stays strict'

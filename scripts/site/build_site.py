@@ -908,6 +908,212 @@ overview['guides'] = [{'id': g['id'], 's': g['slug'] or g['id'], **({'pg': 1} if
 print(f'guides: {len(GD)} ({sum(g["page"] for g in GD)} with a page), refs read for {len(G_REFS_SEEN)}, '
       f'{len(CGUIDES)} clusters cite a guide, {sum(1 for g in GD if g["ph48"])} photos or logos')
 
+# ---------- #10: English readings of the core Lean files (spec: research/plans/core-lean-readings-process.md, section 5).
+# data/file-lines/<cluster>.yaml, written by scripts/readings/assemble.py from the reviewed drafts: per file the
+# module, depth, lines, a one-sentence line, a reading, up to 5 key declarations (name + gloss), blueprint labels, status
+# (checked | fixed | cut | pending) and the check. Pending entries are left out everywhere. Shown on one indexable page
+# per core cluster, CPATH[k] + 'lean/' (split into part-2/, part-3/… when one page would pass FL_MAX), with the key
+# declarations' statements cut from the local source at build time (up to `:=`, as the viewer's lxStatement does); in
+# the Lean viewer above the code and as the CodeLens title where no blueprint or atlas title exists (data/lean/<id>
+# .json.gz 'r', core clusters only); on the cluster pages and /core/ as a link; and in /api/file-lines/.
+FL_DIR = os.path.join(REPO, 'data', 'file-lines')
+FL_MAX = 400_000          # bytes of HTML per page (section 5.2); the build fails if a page is over it
+FL_FRAME = 40_000         # bytes per page besides the file sections and the contents list: template, head, intro, links
+FL_LABEL = 'Checked against the code'
+FL_HOW = ('Written by AI from the Lean source at commit 40e56bab; each sentence checked against the code by a second pass.')
+FL_BANNED = re.compile(r"\b(?:I|(?i:we|our|us|seems|likely|appears|crucial|elegant|powerful|plays a key role|this file|this module))\b")   # assemble.py's
+FL = {}                   # k -> shown entries (not pending), in page order: depth, then module
+FL_PEND = collections.Counter()
+_fl_src = os.path.join(ROOT, 'src', 'lean', 'src')
+_fl_decls_f = os.path.join(os.environ.get('RH_XREF') or os.path.join(ROOT, 'research', 'lean-reader', 'xref'), 'decls.tsv.gz')
+def _fl_load():   # a function, so that its names do not leak into the build's globals
+    for _f in sorted(glob.glob(os.path.join(FL_DIR, '*.yaml'))):
+        _y = yaml.safe_load(open(_f, encoding='utf-8'))
+        k = _y['cluster']
+        assert os.path.basename(_f) == k + '.yaml' and k in CHECKED, f'{_f}: not a core cluster'
+        assert str(_y['source_commit']) == LEAN_SHA[:8], f'{_f}: source_commit {_y["source_commit"]} is not {LEAN_SHA[:8]}'
+        es = []
+        for e in _y['files']:
+            m = e['module']
+            assert mod_cl.get(m) == k, f'{_f}: {m} is not a file of {k} on the map (mod_cl: {mod_cl.get(m)})'
+            assert e['status'] in ('checked', 'fixed', 'cut', 'pending'), f'{_f}: {m}: status {e["status"]}'
+            assert e['depth'] == fdist.get(m), f'{_f}: {m}: depth {e["depth"]}, the map says {fdist.get(m)}'
+            if e['status'] == 'pending':
+                FL_PEND[k] += 1
+                continue
+            for fld in ('line', 'reading'):
+                b = FL_BANNED.search(e.get(fld) or '')
+                assert not b, f'{_f}: {m}: {fld} has {b.group()!r} (first person or a banned word)'
+            assert len(e['line']) <= 140 and len(e.get('reading') or '') <= 700, f'{_f}: {m}: line or reading over its limit'
+            assert len(e['key_decls'] or []) <= 5, f'{_f}: {m}: more than 5 key_decls'
+            for x in e['key_decls'] or []:
+                b = FL_BANNED.search(x['gloss'])
+                assert not b, f'{_f}: {m}: gloss of {x["name"]} has {b.group()!r}'
+            es.append(e)
+        assert len({e['module'] for e in es}) == len(es), f'{_f}: a module listed twice'
+        FL[k] = sorted(es, key=lambda e: (e['depth'], e['module']))
+_fl_load()
+if FL:
+    if os.path.exists(_fl_decls_f):   # section 5.7: every key_decls name is a declaration of its module
+        import gzip as _gz, csv as _csv
+        _want = {e['module'] for es in FL.values() for e in es}
+        _dn = collections.defaultdict(set)
+        with _gz.open(_fl_decls_f, 'rt', encoding='utf-8') as _fh:
+            for _r in _csv.DictReader(_fh, delimiter='\t'):
+                if _r['module'] in _want:
+                    _dn[_r['module']].add(_r['name'])
+        _bad = [(e['module'], x['name']) for es in FL.values() for e in es for x in e['key_decls'] or [] if x['name'] not in _dn[e['module']]]
+        assert not _bad, f'file-lines: key_decls not in decls.tsv.gz: {_bad[:5]}'
+        del _dn
+    else:
+        print(f'WARNING file-lines: no {_fl_decls_f}, key_decls names not checked against the declaration index')
+    print(f'file-lines: {sum(map(len, FL.values()))} files with readings in {len(FL)} core clusters'
+          + (f', {sum(FL_PEND.values())} pending left out ({", ".join(f"{k} {n}" for k, n in sorted(FL_PEND.items()))})' if FL_PEND else ''))
+# statements of the key declarations, cut from the local source: the command that declares the name (scripts/xref/
+# leansrc.py), up to its first top-level `:=`, `where` or `|` (an inductive's constructors); a def or abbrev under 8
+# lines whole, and a structure, class or inductive under 16 lines whole (their fields are their content). A name that
+# is no command of its own (a structure field) shows its line from decls.tsv. Same rule as lxStmtEnd / lxStatement in app.js.
+sys.path.insert(0, os.path.join(REPO, 'scripts', 'xref'))
+import leansrc as _leansrc
+def _fl_stmt_end(lines, a, b, kind):
+    depth = 0
+    for n in range(a, min(b, len(lines)) + 1):
+        L = lines[n - 1]
+        for i, ch in enumerate(L):
+            if ch in '([{⦃⟨':
+                depth += 1
+            elif ch in ')]}⦄⟩':
+                depth = max(0, depth - 1)
+            elif not depth:
+                if ch == ':' and L[i + 1:i + 2] == '=':
+                    return n, i
+                if ch == '|' and kind == 'inductive' and (not i or L[i - 1] == ' '):
+                    return n, i
+                if ch == 'w' and L.startswith('where', i) and not re.match(r"[\w'.]", L[i - 1] if i else ' ') and not re.match(r"[\w']", L[i + 5:i + 6] or ' '):
+                    return n, i
+    return None
+FL_STMT_MAX = 40   # lines of one statement shown on the page; longer ones end with a note and the link to the file
+def fl_statements(m, names):
+    """{name: (first line number, [lines])} for the names declared in module m."""
+    text = open(os.path.join(_fl_src, *m.split('.')) + '.lean', encoding='utf-8', errors='replace').read()
+    lines = text.split('\n')
+    cmds = {c.full: c for c in _leansrc.parse(text)['cmds'] if getattr(c, 'full', None)}
+    out = {}
+    for nm in names:
+        c = cmds.get(nm)
+        if not c:
+            continue
+        cl = c.text.split('\n')
+        k = len(cl)
+        while k > 1 and not cl[k - 1].strip():
+            k -= 1
+        a, b = c.line, c.line + k - 1
+        se = _fl_stmt_end(lines, a, b, c.kind)
+        whole = (c.kind in ('def', 'abbrev') and b - a < 8) or (c.kind in ('structure', 'class', 'inductive') and b - a < 16)
+        if not se or whole:
+            st = lines[a - 1:b]
+        else:
+            st = lines[a - 1:se[0]]
+            st[-1] = st[-1][:se[1]].rstrip() + (' := …' if lines[se[0] - 1].startswith(':=', se[1]) else '')
+        out[nm] = (a, st)
+    return out
+FL_DLINE = {}   # (module, name) -> line, for names that are not commands (fields): from decls.tsv
+if FL and os.path.exists(_fl_decls_f):
+    _want = {(e['module'], x['name']) for es in FL.values() for e in es for x in e['key_decls'] or []}
+    with _gz.open(_fl_decls_f, 'rt', encoding='utf-8') as _fh:
+        for _r in _csv.DictReader(_fh, delimiter='\t'):
+            if (_r['module'], _r['name']) in _want:
+                FL_DLINE[(_r['module'], _r['name'])] = int(_r['line'])
+# blueprint labels -> (source name, title, url): Merten's statements (their file in the blueprint repository) and
+# Naskręcki's atlas entries (the atlas page)
+FL_BP = {}
+_xd = os.path.dirname(_fl_decls_f)
+if os.path.exists(os.path.join(_xd, 'merten.json')):
+    for s in json.load(open(os.path.join(_xd, 'merten.json')))['statements']:
+        FL_BP['merten:' + s['label']] = ("Merten's blueprint", s.get('title') or s['label'], s.get('url'))
+    for s in json.load(open(os.path.join(_xd, 'naskrecki.json')))['declarations']:
+        FL_BP['naskrecki:' + s['label']] = ("Naskręcki's atlas", s.get('title') or s['label'], s.get('atlas') or s.get('url'))
+_E = _html.escape
+def fl_anchor(m):   # the file's id on its /lean/ page: the module name itself
+    return m
+def fl_short(name):
+    return name.rsplit('.', 1)[-1]
+def fl_pre(a, st):
+    return ('<pre class="lst"><code>' + ''.join(f'<span class="l"><span class="n">{a + i}</span>{_E(L) or ' '}</span>' for i, L in enumerate(st[:FL_STMT_MAX]))
+            + (f'<span class="l more">… {len(st) - FL_STMT_MAX} more lines of the statement in the full file</span>' if len(st) > FL_STMT_MAX else '')
+            + '</code></pre>')
+def fl_section(k, e):
+    """(HTML, Markdown) of one file's entry on its cluster's /lean/ page."""
+    m = e['module']
+    st = fl_statements(m, [x['name'] for x in e['key_decls'] or []])
+    fh = f'/file/{m}'
+    meta = [f'{"★ Main" if e["depth"] == 0 else str(e["depth"]) + " import " + ("step" if e["depth"] == 1 else "steps") + " from Main"}',
+            f'{e["lines"]:,} lines']
+    lbl = f' · <span class="ck">{FL_LABEL}</span>' if e['status'] in ('checked', 'fixed') else ''
+    h = [f'<section class="lf" id="{_E(fl_anchor(m))}"><h3><a href="{_E(fh)}"><code>{_E(m)}</code></a></h3>',
+         f'<p class="meta">{" · ".join(meta)}{lbl}</p>']
+    md = [f'### {m}', '', f'{" · ".join(meta)}' + (f' · {FL_LABEL}' if lbl else '') + f' · [Open in the Lean viewer]({SITE_URL}{fh})', '']
+    if e['status'] != 'cut':
+        h.append(f'<p class="lfl">{_E(e["line"])}</p>')
+        md += [f'**{e["line"]}**', '']
+        if e.get('reading'):
+            h.append(f'<p>{_E(e["reading"])}</p>')
+            md += [e['reading'], '']
+    kd = e['key_decls'] or []
+    if kd:
+        h.append(f'<h4>Key declarations</h4>')
+        md += ['Key declarations:', '']
+        for x in kd:
+            nm, s = x['name'], fl_short(x['name'])
+            h.append(f'<div class="lkd"><p><a href="{_E(fh)}#{_E(s)}"><code>{_E(nm)}</code></a>'
+                     + (f': {_E(x["gloss"])}' if e['status'] != 'cut' else '') + '</p>')
+            md.append(f'- `{nm}`' + (f': {x["gloss"]}' if e['status'] != 'cut' else ''))
+            if nm in st:
+                a, lines = st[nm]
+            elif (m, nm) in FL_DLINE:
+                a = FL_DLINE[(m, nm)]
+                lines = [open(os.path.join(_fl_src, *m.split('.')) + '.lean', encoding='utf-8', errors='replace').read().split('\n')[a - 1]]
+            else:
+                a, lines = None, []
+            if lines:
+                h.append(fl_pre(a, lines))
+                md += ['', '  ```lean'] + [f'  {L}' for L in lines[:FL_STMT_MAX]] + (['  …'] if len(lines) > FL_STMT_MAX else []) + ['  ```']
+            h.append('</div>')
+        md.append('')
+    bps = [FL_BP.get(b) for b in e.get('blueprint') or []]
+    bps = [b for b in bps if b]
+    if bps:
+        h.append('<p class="meta lbp">Blueprint: ' + ' · '.join(
+            (f'<a href="{_E(u)}">{_E(t)}</a>' if u else _E(t)) + f' <span class="src">({_E(src)})</span>' for src, t, u in bps) + '</p>')
+        md += ['Blueprint: ' + ' · '.join((f'[{t}]({u})' if u else t) + f' ({src})' for src, t, u in bps), '']
+    h.append(f'<p class="lfa"><a href="{_E(fh)}">Show the full file ›</a><a class="top" href="#contents">Contents ↑</a></p></section>')
+    return ''.join(h), '\n'.join(md)
+SITE_URL = 'https://riemannhypothesissolved.com'
+# per cluster: the sections, split into parts of about equal size, each under the budget; FL_PART[(k, module)] = part index (0: lean/)
+FL_SEC, FL_PARTS, FL_PART = {}, {}, {}
+def fl_ppath(k, i):
+    return CPATH[k] + 'lean/' + (f'part-{i + 1}/' if i else '')
+def _fl_split():   # a function, so that its names do not leak into the build's globals
+    for k, es in FL.items():
+        secs = [(e, *fl_section(k, e)) for e in es]
+        # every part repeats the full contents list (about 2 module names and the line per file)
+        budget = FL_MAX - FL_FRAME - sum(len((2 * e['module'] + e['line']).encode()) + 160 for e in es)
+        tot = sum(len(x[1].encode()) for x in secs)
+        target = min(budget, tot / -(-tot // budget) * 1.02)   # ceil(tot / budget) parts of about equal size
+        parts, cur, size = [], [], 0
+        for s in secs:
+            n = len(s[1].encode())
+            if cur and size + n > target:
+                parts.append(cur); cur, size = [], 0
+            cur.append(s); size += n
+        if cur:
+            parts.append(cur)
+        FL_SEC[k], FL_PARTS[k] = secs, parts
+        for i, p in enumerate(parts):
+            for s in p:
+                FL_PART[(k, s[0]['module'])] = i
+_fl_split()
+
 # ---------- per-cluster detail
 members = collections.defaultdict(list)
 for m, k in mod_cl.items():
@@ -946,6 +1152,7 @@ for k, c in CL.items():
         'dist': dist.get(k), 'core': core_cl.get(k, []), 'lines': c['lines'], 'files': files,
         **({'checked': True, 'evidence': [{'m': m, 'decl': dc, 'says': w} for m, dc, w in evidence(k)]} if k in CHECKED else {}),
         **({'guides': CGUIDES[k]} if k in CGUIDES else {}),   # [{'i': index in overview 'guides', 'p': [[page label, url], …]}]
+        **({'rl': len(FL[k])} if FL.get(k) else {}),   # #10: files with an English reading, on CPATH[k] + 'lean/'
     }
     json.dump(detail, open(os.path.join(OUT, 'data', 'c', k + '.json'), 'w'), separators=(',', ':'))
 
@@ -1172,6 +1379,14 @@ def _lean_viewer():   # a function, so that none of its names leak into the buil
         d1, x1 = mods(order)
         d2, x2 = mods(XM)
         main = {'d': d1, 'x': x1, 'ns': NS, 'f': F, 't': T}
+        if FL.get(k):   # #10 readings (core clusters only): r.p the /lean/ page parts; r.f [file index, line, reading, part, [[declaration index, gloss]]]
+            rf = []
+            for e in FL[k]:
+                fi_ = OWN[e['module']]
+                gl = [[DIDX[(x['name'], e['module'])][1], x['gloss']] for x in e['key_decls'] or [] if (x['name'], e['module']) in DIDX]
+                rf.append([fi_, e['line'] if e['status'] != 'cut' else '', (e.get('reading') or '') if e['status'] != 'cut' else '',
+                           FL_PART[(k, e['module'])], gl if e['status'] != 'cut' else []])
+            main['r'] = {'p': [fl_ppath(k, i) for i in range(len(FL_PARTS[k]))], 'f': rf}
         lazy = {'d': d2, 'x': x2, 'ns': XNS, 'e': E, 'by': BY}
         for path, obj in ((os.path.join(LV_OUT, k + '.json.gz'), main), (os.path.join(LV_OUT, 'x', k + '.json.gz'), lazy)):
             raw = json.dumps(obj, separators=(',', ':'), ensure_ascii=False).encode()
@@ -1861,6 +2076,10 @@ def gcite_html(k):   # N3 tier 1: the subsection at the end of References
     return (f'<h3 class="refbg" id="guide-cited">{GC_T}</h3><p class="meta refnote">{H(GC_LABEL)}. {H(GC_NOTE)} '
             f'<a href="/guides/">About the guides</a></p>' + ''.join(gcite_item(w) for w in ws[:GC_CAP])
             + (f'<details class="gcmore"><summary>Show all {len(ws)}</summary>{"".join(gcite_item(w) for w in rest)}</details>' if rest else ''))
+def fl_link_text(k):
+    return f'Read its Lean files, in plain English ({len(FL[k])} {"file" if len(FL[k]) == 1 else "files"})'
+def fl_link(k):   # #10: the cluster page's link to its /lean/ page
+    return f'<p class="lflink"><a class="btn" href="{CPATH[k]}lean/">{H(fl_link_text(k))} <span class="arr">→</span></a></p>' if FL.get(k) else ''
 for k, p in CPATH.items():
     n, c = NAMES.get(k, {}), CL[k]
     title = n.get('title') or folder_label(c['folders'])
@@ -1891,7 +2110,7 @@ for k, p in CPATH.items():
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
             f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k} · Lean proof of the Riemann hypothesis</div><h1>{H(title)}</h1>'
             f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + share_btn(p, title)
-            + f'<p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>'
+            + f'<p>{H(n.get("plain") or "")}</p>' + fl_link(k) + f'{route}<p class="meta">{H(feeds_txt(k))}</p>'
             + with_report(STATUS_CK if k in CHECKED else STATUS, k) + (checked_html(k) if k in CHECKED else '') + why
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
             + (f'<h2>In the learning path</h2><ul class="rows">' + ''.join(
@@ -1905,6 +2124,83 @@ for k, p in CPATH.items():
     page(p, fit(title), cluster_desc(k, n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
          [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, p))],
          img=(og_url(f'og/c/{k}.png'), f'{title}: cluster {k} of the Lean proof of the Riemann hypothesis'))
+
+# ---------- #10: /cluster/<id>-<slug>/lean/ (and part-2/, …): the core cluster's Lean files in plain English
+FL_PAGES = {}   # k -> [(path, title, html bytes)]
+def fl_contents(k):
+    """the contents list by depth, linking every file (in whichever part it is)"""
+    by = collections.defaultdict(list)
+    for e in FL[k]:
+        by[e['depth']].append(e)
+    out = ['<h2 id="contents">Contents</h2><p class="meta">By import steps from <code>Main.lean</code>, closest first.</p>']
+    for d in sorted(by):
+        dl = '★ Main' if d == 0 else f'{d} import {"step" if d == 1 else "steps"} from Main'
+        out.append(f'<h3 class="ldep">{dl} '
+                   f'<span class="n">{len(by[d])}</span></h3><ul class="lcon">')
+        for e in by[d]:
+            m = e['module']
+            out.append(f'<li><a href="{fl_ppath(k, FL_PART[(k, m)])}#{H(fl_anchor(m))}"><code>{H(m)}</code></a>'
+                       + (f'<small>{H(e["line"])}</small>' if e['status'] != 'cut' else '') + '</li>')
+        out.append('</ul>')
+    return ''.join(out)
+def fl_contents_md(k):
+    by = collections.defaultdict(list)
+    for e in FL[k]:
+        by[e['depth']].append(e)
+    out = ['## Contents', '']
+    for d in sorted(by):
+        out += ['- Main:' if d == 0 else f'- {d} import {"step" if d == 1 else "steps"} from Main:']
+        out += [f'  - [{e["module"]}]({SITE}{fl_ppath(k, FL_PART[(k, e["module"])])}#{e["module"]})' for e in by[d]]
+    return '\n'.join(out) + '\n'
+def _fl_pages():   # a function, so that its names do not leak into the build's globals
+    for k, parts in FL_PARTS.items():
+        n, c = NAMES.get(k, {}), CL[k]
+        title, th, cp = ctitle(k), c['theme'], CPATH[k]
+        np_ = len(parts)
+        nf = len(FL[k])
+        for i, secs in enumerate(parts):
+            path = fl_ppath(k, i)
+            sfx = ' · Lean files in plain English' + (f', part {i + 1}' if i else '')
+            ptitle = cut_title(title, TITLE_MAX - len(sfx)) + sfx
+            first, last = secs[0][0], secs[-1][0]
+            rng = f'files {FL[k].index(first) + 1}–{FL[k].index(last) + 1} of {nf}'
+            desc = meta_desc((f'Part {i + 1} of {np_}, {rng}. ' if np_ > 1 else '')
+                             + f'The {nf} Lean files of cluster {k}, {title}, in plain English: what each proves, its key '
+                             f'statements, each reading checked against the code.')
+            pnav = ''
+            if np_ > 1:
+                pnav = ('<nav class="lparts" aria-label="Parts of this page">' + ' '.join(
+                    (f'<span aria-current="page">Part {j + 1}</span>' if j == i else f'<a href="{fl_ppath(k, j)}">Part {j + 1}</a>')
+                    for j in range(np_)) + f'<span class="meta">{rng}</span></nav>')
+            crumbs = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
+                      f'<span class="sep">/</span><a href="{cp}">{k}</a><span class="sep">/</span>Lean files' + (f' (part {i + 1})' if i else '') + '</div>')
+            body = (crumbs + f'<div class="eyebrow">Cluster {k} · Lean files in plain English</div>'
+                    f'<h1>{H(title)}: its Lean files in plain English</h1>' + share_btn(path, ptitle)
+                    + f'<p class="lede lhow">{H(FL_HOW)}</p>'
+                    + f'<p class="meta">{nf} Lean {"file" if nf == 1 else "files"}, by distance from <code>Main.lean</code>. Each file links to the '
+                    f'Lean viewer; the statements below are cut from the source up to <code>:=</code>. '
+                    f'<a href="{cp}">Back to the cluster page</a> · <a href="/core/">All {len(CHECKED)} core clusters</a></p>'
+                    + pnav + fl_contents(k) + '<h2 id="files">The files</h2>' + ''.join(h for _, h, _ in secs) + pnav
+                    + explore((cp, f'Cluster page: {title}'), ('/core/', CORE_NAV), main_link=False))
+            md = (f'# {title}: its Lean files in plain English\n\n{FL_HOW}\n\n'
+                  f'Cluster {k} ({SITE}{cp}) · {nf} Lean files, by distance from Main.lean' + (f' · part {i + 1} of {np_}, {rng}' if np_ > 1 else '')
+                  + f' · data: {SITE}/api/file-lines/{k}.json\n\n'
+                  + (''.join(f'- Part {j + 1}: {SITE}{fl_ppath(k, j)}index.md\n' for j in range(np_)) + '\n' if np_ > 1 else '')
+                  + fl_contents_md(k) + '\n## The files\n\n' + '\n'.join(x for _, _, x in secs) + '\n')
+            lds = [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, cp), ('Lean files' + (f', part {i + 1}' if i else ''), path)),
+                   {'@type': 'WebPage', '@id': SITE + path, 'url': SITE + path, 'name': ptitle, 'description': desc, 'inLanguage': 'en',
+                    'isPartOf': {'@id': SITE_ID}, 'about': {'@type': 'SoftwareSourceCode', 'name': f'Lean files of cluster {k}',
+                    'programmingLanguage': 'Lean 4', 'codeRepository': f'{LEAN_REPO}/tree/{LEAN_SHA}'}}]
+            page(path, ptitle, desc, 'page', body, lds, .6, md=md,
+                 img=(og_url(f'og/c/{k}.png'), f'{title}: cluster {k} of the Lean proof of the Riemann hypothesis'))
+            sz = os.path.getsize(os.path.join(OUT, path.strip('/'), 'index.html'))
+            assert sz <= FL_MAX, f'{path}: {sz:,} bytes of HTML, over the {FL_MAX:,} limit: raise FL_FRAME'
+            FL_PAGES.setdefault(k, []).append((path, ptitle, sz))
+_fl_pages()
+if FL_PAGES:
+    _szs = [z for v in FL_PAGES.values() for _, _, z in v]
+    print(f'file-lines pages: {len(_szs)} pages for {len(FL_PAGES)} clusters ({sum(1 for v in FL_PAGES.values() if len(v) > 1)} split), '
+          f'{sum(_szs) / 1e6:.2f} MB HTML, largest {max(_szs) / 1e3:.0f} kB')
 
 # ---------- /api/status.json timeline (the About page is now data/pages/about.md; the status text is on /status/)
 STATUS_FACTS = [
@@ -2126,6 +2422,12 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
     lv = level_split(t)
     html_body = levels_html(*lv) if lv else figures_html(md_html(t), 'main')
     html_body = re.sub(r'^<p><em>', '<p class="meta asof"><em>', html_body, count=1)
+    if path == '/core/' and FL:   # #10: after each core cluster's "Cluster page" link, a link to its /lean/ page (HTML and Markdown)
+        for k in FL:
+            a_ = f'<a href="{CPATH[k]}">Cluster page</a>'
+            assert html_body.count(a_) == 1 and t.count(f'[Cluster page]({CPATH[k]})') == 1, f'core.md: no single "Cluster page" link for {k}'
+            html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
+            t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>{H(crumb)}</div><div class="eyebrow">{H(eb)}</div>'
             f'<h1>{H(h1)}</h1>{html_body}')
     rel = RELATED.get(path, [])
@@ -2450,12 +2752,35 @@ jdump('references.json', {'updated': max(SPINE_DATE, N3_DATE) if N3_N else SPINE
                            'works': [{'citation': w['citation'], 'url': w['url'], 'checked': False, 'basis': 'guide-page-citation', 'guides': w['guides'],
                                       'cited_on': [{'guide': gi, 'guide_name': G_BY_ID[gi]['cite_as'], 'page': l, 'url': u} for gi, l, u in w['on']]}
                                      for w in ws]} for k, ws in sorted(GCITE.items())]})
+# #10: /api/file-lines/<k>.json, the English readings of a core cluster's Lean files (data/file-lines/<k>.yaml as shown,
+# pending entries left out), and /api/file-lines/index.json listing them
+FL_FIELDS = {'module': 'Lean module; the file is src/<module with / for .>.lean at source_commit', 'depth': 'import steps from Main',
+             'lines': 'lines of Lean in the file', 'line': 'one sentence on what the file does (written by AI, checked against the code)',
+             'reading': '2 to 5 sentences on what the file establishes (written by AI, checked against the code)',
+             'key_decls': 'up to 5 declarations of the file chosen by the writer: name (full Lean name) and gloss (one sentence on its statement)',
+             'blueprint': "labels of Merten's blueprint (merten:) and Naskręcki's atlas (naskrecki:) entries matched to the file's declarations",
+             'status': 'checked: a second pass compared every sentence with the source and found nothing to fix; fixed: it found imprecise or wrong statements and they were corrected; cut: the reading was removed (statements only)',
+             'check': "the review's verdict and a note on what was changed", 'viewer': 'the file in the Lean viewer', 'page': 'the file on its cluster\'s Lean page'}
+if FL:
+    os.makedirs(os.path.join(OUT, 'api', 'file-lines'), exist_ok=True)
+    for k in FL:
+        jdump(os.path.join('file-lines', k + '.json'), {
+            'cluster': k, 'title': ctitle(k), 'cluster_page': SITE + CPATH[k], 'pages': [SITE + p for p, _, _ in FL_PAGES[k]],
+            'source_commit': LEAN_SHA[:8], 'source': f'{LEAN_REPO}/tree/{LEAN_SHA}', 'how': FL_HOW, 'fields': FL_FIELDS,
+            'files': [{**{f: e.get(f) for f in ('module', 'depth', 'lines', 'line', 'reading', 'key_decls', 'blueprint', 'status', 'check')},
+                       'viewer': f'{SITE}/file/{e["module"]}', 'page': f'{SITE}{fl_ppath(k, FL_PART[(k, e["module"])])}#{e["module"]}'} for e in FL[k]]})
+    jdump(os.path.join('file-lines', 'index.json'), {'updated': DATA_DATE, 'how': FL_HOW, 'source_commit': LEAN_SHA[:8],
+          'clusters': [{'id': k, 'title': ctitle(k), 'files': len(FL[k]), 'url': f'{SITE}/api/file-lines/{k}.json',
+                        'pages': [SITE + p for p, _, _ in FL_PAGES[k]]} for k in FL]})
 API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
              'endpoints': {'/api/status.json': 'dated proof status with primary sources',
                            '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist, field, era, era_year, level, new_in_proof, checked; plus math_fields, the {len(FIELDS)} fields (id, name, hue, description)',
                            '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files, field',
                            '/api/references.json': f'checked references for {len(CHECKED_REFS)} clusters (the {len(SPINE)} of the spine, the main path and the core, and guide citations judged to support a cluster): citation, locator, url, doi, precision (exact, section or topic), match, note, evidence, "checked": true; '
-                                                   f'and guide_citations, {sum(map(len, GCITE.values()))} works on {len(GCITE)} clusters flagged "checked": false, "basis": "guide-page-citation" ({GC_LABEL.lower()})'},
+                                                   f'and guide_citations, {sum(map(len, GCITE.values()))} works on {len(GCITE)} clusters flagged "checked": false, "basis": "guide-page-citation" ({GC_LABEL.lower()})',
+                           **({'/api/file-lines/index.json': f'the {len(FL)} core clusters with English readings of their Lean files: id, title, files, url, pages',
+                               '/api/file-lines/{cluster}.json': f'one core cluster\'s {sum(map(len, FL.values())):,} Lean files in plain English, e.g. /api/file-lines/{main}.json: '
+                                                                 'module, depth, lines, line, reading, key_decls (name, gloss), blueprint, status, check, viewer, page. ' + FL_HOW} if FL else {})},
              'tags': {'field': f'one of {len(FIELDS)} fields of mathematics per theme; a cluster takes its theme\'s field',
                       'era': 'decade of the newest concept a cluster needs: ' + ', '.join(ERA_OF),
                       'level': 'highest maths level among a cluster\'s concepts: ' + ', '.join(n for _, n in LEVELS),
@@ -2503,6 +2828,9 @@ OA_FILES = [('index.json', 'getIndex', 'API index: the endpoints, tag meanings a
              json.load(open(os.path.join(OUT, 'api', 'themes.json')))['fields']),
             ('references.json', 'getReferences', 'Checked references, and works cited by guides (not checked)', API_INDEX['endpoints']['/api/references.json'],
              json.load(open(os.path.join(OUT, 'api', 'references.json')))['fields'])]
+if FL:
+    OA_FILES.append(('file-lines/index.json', 'getFileLinesIndex', 'Core clusters with English readings of their Lean files',
+                     API_INDEX['endpoints']['/api/file-lines/index.json'], {}))
 OPENAPI = {
     'openapi': '3.1.0',
     'info': {'title': SITE_NAME + ' API', 'version': DATA_DATE,
@@ -2519,11 +2847,20 @@ OPENAPI = {
     'components': {'schemas': {op[3:]: oa_schema([json.load(open(os.path.join(OUT, 'api', f)))], None, desc)
                                for f, op, _, _, desc in OA_FILES}},
 }
+if FL:   # one templated path for the 16 files; the schema merges all of them
+    OPENAPI['paths']['/api/file-lines/{cluster}.json'] = {'get': {
+        'operationId': 'getFileLines', 'summary': "A core cluster's Lean files in plain English",
+        'description': API_INDEX['endpoints']['/api/file-lines/{cluster}.json'],
+        'parameters': [{'name': 'cluster', 'in': 'path', 'required': True, 'description': 'core cluster id',
+                        'schema': {'type': 'string', 'enum': list(FL)}}],
+        'responses': {'200': {'description': 'OK', 'content': {'application/json': {'schema': {'$ref': '#/components/schemas/FileLines'}}}}}}}
+    OPENAPI['components']['schemas']['FileLines'] = oa_schema(
+        [json.load(open(os.path.join(OUT, 'api', 'file-lines', k + '.json'))) for k in FL], None, FL_FIELDS)
 jdump('openapi.json', OPENAPI)
 # /api/ for people (QA16): the site's own template and CSS, the endpoints as a table and the index JSON wrapped (no sideways
 # scroll). Still noindex with its canonical on /api/index.json and not in the sitemap, as before: machines read the JSON
-def _apirow(u, d):
-    return f'<tr><td><a href="{H(u)}"><code>{H(u)}</code></a></td><td>{H(d)}</td></tr>'
+def _apirow(u, d):   # a templated path ({cluster}) is not a link
+    return (f'<tr><td><code>{H(u)}</code></td>' if '{' in u else f'<tr><td><a href="{H(u)}"><code>{H(u)}</code></a></td>') + f'<td>{H(d)}</td></tr>'
 API_BODY = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>API</div><div class="eyebrow">API</div>'
     f'<h1>{H(API_INDEX["name"])}</h1><p class="lede">{H(API_INDEX["description"])} Plain files: no key, no rate limit, '
     f'licensed <a href="{LICENSE}">{H(API_STATUS["license"]["name"])}</a>.</p>'
@@ -2567,7 +2904,10 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_LONG}\n\n'
                   f'{SITE}{p}index.md has all three.\n' for p in LEVEL_PAGES)
         + f'- [Learning path: the proof step by step]({SITE}/learn/index.md)\n'
         f'- [How the proof is structured: the route to the main theorem]({SITE}/route/index.md)\n\n'
-        f'## The map, by theme\n\n'
+        + (f'## The core Lean files, in plain English\n\n{FL_HOW}\n\n'
+           + ''.join(f'- [{ctitle(k)}: its {len(FL[k])} Lean files]({SITE}{FL_PAGES[k][0][0]}index.md)'
+                     + (f' (parts: ' + ', '.join(f'{SITE}{p}index.md' for p, _, _ in FL_PAGES[k][1:]) + ')' if len(FL_PAGES[k]) > 1 else '') + '\n' for k in FL) + '\n' if FL else '')
+        + f'## The map, by theme\n\n'
         + ''.join(f'- [{TNAME[t]}]({SITE}{TPATH[t]}index.md)\n' for t in sorted(TH, key=lambda t: TNAME[t]))
         + f'\n## Data\n\n- [API index]({SITE}/api/index.json): the JSON endpoints\n'
         f'- [OpenAPI description]({SITE}/api/openapi.json): the same endpoints as OpenAPI 3.1, with their schemas\n'
@@ -2575,7 +2915,9 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_LONG}\n\n'
         f'- [Checked references]({SITE}/api/references.json): sources for the {len(SPINE)} spine clusters and {len(CHECKED_REFS) - len(SPINE)} others, each with its precision (exact, section or topic)\n'
         f'- Cited by expert guides, in the same file (guide_citations, "checked": false, "basis": "guide-page-citation"): {sum(map(len, GCITE.values()))} works on {len(GCITE)} clusters. '
         f'{GC_LABEL}: the work is cited on a guide page that also covers the cluster; it is not a checked source for the cluster\'s Lean results\n'
-        f'- Licence: CC BY 4.0 ({LICENSE}) for everything this site made (page text, names and descriptions, map layout, images, JSON); the Lean source keeps its own licence.\n\n'
+        + (f'- [Lean files in plain English]({SITE}/api/file-lines/index.json): the {sum(map(len, FL.values())):,} Lean files of the {len(FL)} core clusters, '
+           f'one sentence and a short reading each, with key declarations; {FL_HOW} One file per cluster, e.g. {SITE}/api/file-lines/{main}.json\n' if FL else '')
+        + f'- Licence: CC BY 4.0 ({LICENSE}) for everything this site made (page text, names and descriptions, map layout, images, JSON); the Lean source keeps its own licence.\n\n'
         f'## Updates\n\n- [Changelog]({SITE}/changelog/index.md) · [RSS]({SITE}/changelog/feed.xml)\n'
         f'- Full text of the key pages: {SITE}/llms-full.txt\n')
 open(os.path.join(OUT, 'llms.txt'), 'w').write(llms)
