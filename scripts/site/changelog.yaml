@@ -2,6 +2,15 @@
 # One entry per day, newest anywhere (the builder sorts). Dates are the day the change was made (site repo commits, IST).
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
+- date: 2026-11-24
+  title: Status update and number fixes
+  items:
+    - "Status: Lean's own kernel has accepted the full export in its default (22 Nov) and paranoid (23 Nov) modes, and the unmodified Comparator v4.33.0 reports \"Your solution is okay!\" (23 Nov), as on Sutherland's page last updated 24 Nov 2026 at 05:25 UTC. His end-to-end lake comparator run on Lean v4.36.0 is still in progress."
+    - "/status/ has a section on refereed publication and the Clay prize rules."
+    - "Corrected dates: Sutherland's con-leche runs and the lean4lean check finished on 20 Nov, not 21 Nov (/timeline/, /status/)."
+    - "Corrected /proof-in-numbers/: the largest field, automorphic forms, holds 20.6% of the mapped files, just over a fifth. The FAQ now credits the dependency-closure count to Rubinstein's page."
+    - "The home and route descriptions now say the map holds 175,027 of the 175,187 Lean files; the status date is 24 Nov 2026 everywhere."
+
 - date: 2026-11-22
   title: Small fixes from a check of the live site
   items:

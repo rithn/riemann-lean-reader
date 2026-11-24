@@ -78,7 +78,7 @@ Source: [Sutherland's verification page](https://math.mit.edu/~drew/grh/)
 
 The submitted archive has 175,187 Lean files and 17,374,215 lines, about 17.4 million, in 1,030,531,854 bytes of source. The accompanying note is four pages. The main theorem's dependency closure is 1,478,198 declarations. For scale, Mathlib is about 2 million lines.
 
-Source: [Verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md)
+Source: [Verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md) for the files, lines and bytes; [Rubinstein](https://mrubinst.github.io/grh-lean-verification/) for the dependency closure and the size of Mathlib
 
 ### Is there a human-readable version of the proof?
 

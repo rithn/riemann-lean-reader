@@ -1,5 +1,5 @@
 ---
-title: "Has the Riemann hypothesis been solved? Status 22 Nov 2026"
+title: "Has the Riemann hypothesis been solved? Status 24 Nov 2026"
 description: "A Lean proof of the Riemann hypothesis was released on 20 Nov 2026 and certified on 21 Nov. What was checked, by whom, and what it covers."
 h1: "Has the Riemann hypothesis been solved?"
 path: /status/
@@ -10,12 +10,12 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "23 Nov 2026"
+as_of: "24 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
-*Status as of 23 Nov 2026. This page is updated as news arrives. See the changelog at the end.*
+*Status as of 24 Nov 2026. This page is updated as news arrives. See the changelog at the end.*
 
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof of the Riemann hypothesis are correct. Independent checkers have compiled all 175,187 modules, replayed the proof through Lean's kernel and checked the exported proof with several independent programs.**
 
@@ -31,7 +31,7 @@ as_of: "23 Nov 2026"
 
 ## What was verified
 
-All 175,187 modules compile with zero errors. Every module has been replayed through Lean's kernel, and the exported proof has been accepted by nanoda, con-leche and con-ron. lean4lean accepts every module. A sandboxed rebuild on a separate machine produced an export identical to the published one.
+All 175,187 modules compile with zero errors. Every module has been replayed through Lean's kernel, and the exported proof has been accepted by nanoda, con-leche and con-ron, and by Lean's own kernel in its default and paranoid modes. lean4lean accepts every module. A sandboxed rebuild on a separate machine produced an export identical to the published one. One end-to-end `lake comparator` run is still in progress.
 
 | Check | Who | Result |
 |---|---|---|
@@ -42,12 +42,13 @@ All 175,187 modules compile with zero errors. Every module has been replayed thr
 | Full export checked by nanoda, an independent kernel written in Rust | Sutherland; Rubinstein | Accepted; Rubinstein reports 1,484,729 declarations checked |
 | Full export checked by con-leche | Sutherland | 1,468,418 declarations accepted in `--verified` mode |
 | Statement comparison (`--compare`) with con-leche and con-ron | Sutherland | All five theorems accepted as justified by the solution |
-| End-to-end `lake comparator` run (Lean v4.36.0) | Sutherland | Statement comparison and axiom check passed in one run; the Lean kernel stage on the export is still running |
-| Lean default and paranoid kernels on the export | Sutherland | Running, no verdict yet. Lean's kernel has already accepted every module from the compiled files (`leanchecker`, above) |
+| End-to-end run of the unmodified Comparator v4.33.0 | Sutherland | Passes: statement comparison and axiom check pass, nanoda and Lean's default kernel accept, "Your solution is okay!" (09:10 UTC, 23 Nov) |
+| End-to-end `lake comparator` run (Lean v4.36.0) | Sutherland | Still in progress. Its Lean paranoid kernel stage accepted at about 19:53 UTC on 23 Nov and its nanoda stage at about 21:31 UTC; its last stage, Lean's default kernel, is running |
+| Lean default and paranoid kernels on the full export (Lean v4.36.0) | Sutherland | Both accept: the default kernel at 18:44 UTC on 22 Nov, the paranoid kernel at 19:01 UTC on 23 Nov |
 | Module-by-module check with lean4lean | Sutherland | 175,187 of 175,187 accepted |
 | Axiom check | Sutherland | Only `propext`, `Classical.choice`, `Quot.sound` |
 
-Sources: [Sutherland's verification page](https://math.mit.edu/~drew/grh/), last updated 22 Nov 2026 at 16:20 UTC (read on 23 Nov), and [Rubinstein's check](https://mrubinst.github.io/grh-lean-verification/), where all four of his checks finished on 21 Nov. Sutherland's page keeps the full, live list. At 16:20 UTC it lists two checks as still running: the end-to-end `lake comparator` run and the Lean default and paranoid kernels on the export. For the `lake comparator` run it says the statement comparison and axiom check "already passed in one run". Both ran their checks with Claude Code. [Elliot Arledge](https://github.com/Infatoshi/rh-verification-receipts) and [Bartosz Naskręcki](https://nasqret.github.io/riemann-rev/) have published their own results.
+Sources: [Sutherland's verification page](https://math.mit.edu/~drew/grh/), last updated 24 Nov 2026 at 05:25 UTC (read on 24 Nov), and [Rubinstein's check](https://mrubinst.github.io/grh-lean-verification/), where all four of his checks finished on 21 Nov. Sutherland's page keeps the full, live list. Its summary at 05:25 UTC says: "Lean's own kernel also accepts the full export, and Comparator v4.33.0 reports “Your solution is okay!”. Lean's paranoid kernel accepts it too. The lake comparator (v4.36.0) run is still in progress." Both ran their checks with Claude Code. [Elliot Arledge](https://github.com/Infatoshi/rh-verification-receipts) and [Bartosz Naskręcki](https://nasqret.github.io/riemann-rev/) have published their own results.
 
 ## What was certified, and by whom
 
@@ -70,6 +71,10 @@ The joint statement covers the Riemann hypothesis; [Sutherland's checks](https:/
 
 The statement adds that it looks forward to "all the activity in the mathematical community that will help explain the new ideas in this proof." See [how we know](/how-we-know/) for how the four checks work.
 
+## Publication and the Clay prize
+
+As of 24 Nov 2026 we have found no announcement of a refereed paper on the proof, and Alpöge's four-page note is his only write-up of it so far; he says he intends "to write it properly". The Clay Mathematics Institute's rules for its Millennium Prize require a solution to be published in a qualifying outlet (a refereed mathematics publication, or one approved under relaxed conditions), at least two years to pass after publication, and the solution to gain general acceptance in the mathematics community. ([note](https://alpo.ge/remark.pdf), [Clay rules](https://www.claymath.org/millennium-problems/rules/), [rules in full, §4 and §6](https://www.claymath.org/wp-content/uploads/2022/03/millennium_prize_rules_0.pdf))
+
 ## What changed when
 
 All times are UTC where a source gives UTC. Other clock times carry no stated time zone.
@@ -80,10 +85,15 @@ All times are UTC where a source gives UTC. Other clock times carry no stated ti
 - **20 Nov, morning.** Alpöge posts the note and the archive.
 - **20 Nov, 14:36 UTC.** The first commit appears in the Lean community's mirror of the submission. ([commit](https://github.com/leanprover-community/riemann-hypothesis/commit/40e56bab026552e089d7afcfeff08d2defb9c005))
 - **20 Nov.** Sutherland is first to compile it, shortly before noon (time zone not stated). Simon DeDeo (Carnegie Mellon) follows a few hours later. Terence Tao, Scientific American, Nature and IBM Think all publish the same day.
+- **20 Nov, 21:19 UTC.** Sutherland's con-leche run accepts the full export, and its `--compare` run accepts all five theorems. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **21 Nov, 01:47 UTC.** Rubinstein's full compile finishes, 3 h 18 min after the distributed build started. His kernel replay finishes at 05:24 UTC and his nanoda check at 10:06 UTC. ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 - **21 Nov, 13:55 UTC.** The joint statement is published.
-- **21 Nov, evening UTC.** Sutherland's sandboxed rebuild finishes at 18:07 UTC. His `--compare` runs finish at 21:19 and 23:02 UTC. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **21 Nov, evening UTC.** Sutherland's sandboxed rebuild finishes at 18:07 UTC. His con-ron `--compare` run finishes at 23:02 UTC. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **22 Nov, 16:20 UTC.** Sutherland's page is last updated. It reports the statement comparison and axiom check of the `lake comparator` run as passed. The Lean kernel stages are still running. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **22 Nov, 18:44 UTC.** Lean's default kernel accepts the full export, after 48 hours on one thread. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **23 Nov, 09:10 UTC.** The unmodified Comparator v4.33.0 passes end to end: "Your solution is okay!" ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **23 Nov, 19:01 UTC.** Lean's paranoid kernel accepts the full export. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **24 Nov, 05:25 UTC.** Sutherland's page is last updated. One check is still in progress: the end-to-end `lake comparator` run on Lean v4.36.0, whose last stage is running. ([Sutherland](https://math.mit.edu/~drew/grh/))
 
 ## Community work on the proof
 
@@ -113,5 +123,6 @@ riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropi
 
 ## Changelog
 
+- **24 Nov 2026.** Updated the checks to Sutherland's page as last updated 24 Nov 2026 at 05:25 UTC: Lean's default and paranoid kernels and the unmodified Comparator v4.33.0 accept; the `lake comparator` run on Lean v4.36.0 is still in progress. Corrected the date of Sutherland's con-leche runs to 20 Nov. Added a section on refereed publication and the Clay prize rules.
 - **23 Nov 2026.** Updated the checks to Sutherland's page as last updated 22 Nov 2026 at 16:20 UTC. Added "Community work on the proof".
 - **22 Nov 2026.** First version.

@@ -9,12 +9,12 @@ target_queries:
   - how long is the riemann hypothesis proof
   - riemann hypothesis lean proof lines of code
   - lean proof structure riemann hypothesis
-as_of: "22 Nov 2026"
+as_of: "24 Nov 2026"
 ---
 
 # The proof in numbers
 
-*As of 22 Nov 2026. The figures for size come from the released archive (commit [`40e56bab`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005)). The shape figures come from this map's data and were recomputed from the Lean source.*
+*As of 24 Nov 2026. The figures for size come from the released archive (commit [`40e56bab`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005)). The shape figures come from this map's data and were recomputed from the Lean source.*
 
 **The proof is 175,187 Lean files and about 17.4 million lines. The map groups 175,027 of the files into 2,647 clusters and 63 themes. The median file is 13 import steps from `Main.lean`, the farthest is 43, and the longest import chain is 203 modules.**
 
@@ -23,7 +23,7 @@ as_of: "22 Nov 2026"
 - **175,187 Lean files.** This is the archive Levent Alpöge released on 20 Nov 2026, and the number of modules in the full compile check. ([verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
 - **17,374,215 lines, about 17.4 million.** Of these, 15,531,759 are non-blank. Mathlib, which the proof builds on, is about 2 million lines. ([verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md), [Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 - **1,030,531,854 bytes of source.** About 1 GB of text, which is what a reader or a checker has to take in. ([verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
-- **818,755 theorems and lemmas, and 242,067 definitions, structures, classes, instances and inductive types.** These are the statements the files contain. ([verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
+- **818,755 theorems and lemmas, and 242,067 definitions, abbreviations, structures, classes, instances and inductive types.** These are the statements the files contain. ([verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
 - **175,027 files on the map.** The map covers every file that has a theorem or definition of its own. The other 160 are 150 files that only list imports, the 5 build helpers `BuildAid.D1` to `D5`, and 5 files with no theorem or definition (only `open`, `section`, `namespace` or `set_option` lines).
 - **14 parts, 239,275,554 bytes.** This is the size of the joined archive as posted. ([Sutherland](https://math.mit.edu/~drew/grh/))
 
@@ -64,7 +64,7 @@ Share of the 175,027 mapped files, by the field of the file's theme.
 | Algebraic geometry | 6 | 139 | 7,941 | 4.5% |
 | Classical number theory | 2 | 96 | 5,664 | 3.2% |
 
-No single field holds more than a fifth of the files. Classical number theory holds the main theorem and all four clusters within one step of it, and 3.2% of the files.
+The largest field, automorphic forms, holds 20.6% of the files (36,120 of 175,027), just over a fifth; no other field holds more than 19.8%. Classical number theory holds the main theorem and all four clusters within one step of it, and 3.2% of the files.
 
 ## Age and level of the mathematics
 
@@ -103,7 +103,7 @@ Nearly two thirds of the clusters (62.9%) need PhD-level mathematics.
 - **3 h 18 min, against about 17 hours.** Rubinstein's distributed compile took 3 h 18 min on university servers. A plain `lake build` pointed to a finish in roughly 17 hours. This is the cost of reproducing the first check. ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 - **61,570,595,788 bytes: the exported proof.** Unpacked, it is 61.6 GB (7,699,933,588 bytes compressed). The independent checkers read this export. The smaller challenge export, which isolates the statement, is 350,862,970 bytes. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **1,468,418 declarations accepted by con-leche, 1,484,729 by nanoda.** The two figures come from different checkers. Rubinstein gives a third, 1,478,198, for the dependency closure of the main theorem, and notes that many statements in the files are parallel or earlier formulations the theorem never uses. ([Sutherland](https://math.mit.edu/~drew/grh/), [Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
-- **5 checkers have accepted the proof.** They are Lean's kernel replay (`leanchecker`, 175,187 of 175,187 modules), nanoda (a kernel written in Rust), con-leche, con-ron and lean4lean. con-leche and con-ron come with a formal proof that they cannot accept a false proof. ([Sutherland](https://math.mit.edu/~drew/grh/), [joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
+- **5 checkers have accepted the proof.** They are Lean's own kernel (`leanchecker`, which replayed all 175,187 of 175,187 modules and, on 22 and 23 Nov, accepted the full export in its default and paranoid modes), nanoda (a kernel written in Rust), con-leche, con-ron and lean4lean. con-leche and con-ron come with a formal proof that they cannot accept a false proof. ([Sutherland](https://math.mit.edu/~drew/grh/), [joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
 - **3 axioms.** The five main theorems depend only on `propext`, `Classical.choice` and `Quot.sound`. The environment holds 15 axioms, all in Lean core. This keeps the logical base to the standard one. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **5 theorems in `Main.lean`.** The first is Mathlib's `RiemannHypothesis`. The other four are about Dirichlet L-functions. ([Sutherland](https://math.mit.edu/~drew/grh/))
 

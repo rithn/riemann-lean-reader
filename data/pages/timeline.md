@@ -40,14 +40,14 @@ as_of: "22 Nov 2026"
 - **20 Nov, 14:36 UTC.** The first commit appears in the Lean community's mirror of the submission. ([commit](https://github.com/leanprover-community/riemann-hypothesis/commit/40e56bab026552e089d7afcfeff08d2defb9c005))
 - **20 Nov.** Terence Tao writes that Alpöge, "using an internal AI model, has generated an (enormous) Lean-only proof of the Generalized Riemann Hypothesis". The same post covers Euler and Navier–Stokes blow-up claims that Alpöge and Tristan Buckmaster released the same day. ([Tao](https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/))
 - **20 Nov.** Scientific American, Nature and IBM Think publish reports. ([Scientific American](https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/), [Nature](https://www.nature.com/articles/d41586-026-03812-7), [IBM Think](https://www.ibm.com/think/news/anthropic-claude-riemann-hypothesis-math-proof))
+- **20 Nov, 21:19 UTC.** con-leche accepts the full export, and its `--compare` run accepts all five theorems. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **20 Nov, about 21:55 UTC.** lean4lean finishes accepting 175,187 of 175,187 modules. ([Sutherland](https://math.mit.edu/~drew/grh/))
 
 ## 21 Nov 2026: checks and certification
 
 - **21 Nov, 01:47 UTC.** Michael Rubinstein (Waterloo) finishes a full compile of all 175,187 modules, 3 h 18 min after the distributed build started. His kernel replay finishes at 05:24 UTC and his nanoda check at 10:06 UTC. ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 - **21 Nov, 13:55 UTC.** The Lean community blog publishes the joint statement by the Lean FRO and the Mathlib Initiative: "We hereby certify that both the statement and the proof of the Riemann Hypothesis are correct." ([statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
 - **21 Nov, 18:07 UTC.** Sutherland's sandboxed rebuild on a separate machine finishes. ([Sutherland](https://math.mit.edu/~drew/grh/))
-- **21 Nov, 21:19 UTC.** con-leche accepts the full export, and its `--compare` run accepts all five theorems. ([Sutherland](https://math.mit.edu/~drew/grh/))
-- **21 Nov, about 21:55 UTC.** lean4lean finishes accepting 175,187 of 175,187 modules. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **21 Nov, 23:02 UTC.** con-ron's `--compare` run accepts. ([Sutherland](https://math.mit.edu/~drew/grh/))
 
 ## 22 Nov 2026: checks still running

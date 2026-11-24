@@ -283,7 +283,7 @@ LICENSE = 'https://creativecommons.org/licenses/by/4.0/'
 # overview.json 'status' (home lede, source card). /status/ itself is data/pages/status.md. Facts and quotes: research/content/fact-sheet.md, VERIFIED lines
 # only. When a sentence changes, move STATUS_AS_OF and add a changelog entry. Write HTML; plain() and mdtext() derive the rest.
 import html as _html
-STATUS_AS_OF = '2026-11-22'
+STATUS_AS_OF = '2026-11-24'
 AS_OF_TXT = datetime.date.fromisoformat(STATUS_AS_OF).strftime('%-d %b %Y')
 STMT = 'https://leanprover-community.github.io/blog/posts/riemann-hypothesis/'
 NOTE, DREW = 'https://alpo.ge/remark.pdf', 'https://math.mit.edu/~drew/grh/'
@@ -315,8 +315,9 @@ ST_CHECKS = [   # the joint statement's four criteria, in its order, worded as o
     'Two independent tools confirmed that the theorem proved, <code>riemannHypothesis</code>, is exactly Mathlib\'s statement of the Riemann hypothesis.',
     'Several independent proof checkers accepted the exported proof.']
 ST_VERIFIED = (f'All {TOTAL_FILES:,} modules compile with zero errors. Every module has been replayed through Lean\'s kernel, and the '
-               'exported proof has been accepted by nanoda, con-leche and con-ron. lean4lean accepts every module. A sandboxed rebuild '
-               'on a separate machine produced an export identical to the published one.')
+               'exported proof has been accepted by nanoda, con-leche and con-ron, and by Lean\'s own kernel in its default and paranoid '
+               'modes. lean4lean accepts every module. A sandboxed rebuild on a separate machine produced an export identical to the '
+               'published one.')
 ST_ONGOING = (f'Andrew Sutherland\'s verification page at MIT keeps the full, live list of independent checks: '
               f'<a href="{DREW}">math.mit.edu/~drew/grh</a>.')
 ST_SCOPE = ('The proof covers Mathlib\'s <code>RiemannHypothesis</code> and GRH for Dirichlet L-functions, all moduli and characters. '
@@ -1139,7 +1140,7 @@ def head(path, title, desc, lds, md=True, img=None):
             f'<meta name="twitter:site" content="@RiemannMap">\n'
             f'<meta name="twitter:title" content="{t}">\n<meta name="twitter:description" content="{d}">\n'
             f'<meta name="twitter:image" content="{H(img)}">\n')
-SHARE_RE = re.compile(r'<p class="sharebar">.*?</p>')
+SHARE_RE = re.compile(r'<p class="sharebar">.*?</p>| <span class="report">.*?</span>')   # QA23a: the report link is left out too
 def share_btn(path, title):   # a Share button (app.js copies the link or opens the phone's share sheet); not part of lastmod
     return (f'<p class="sharebar"><button type="button" class="share" data-share="{H(SITE + path)}" data-title="{H(title)}">'
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0-4 4m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>'
@@ -1225,6 +1226,25 @@ def meta_desc(s, n=160):
     while w(t) + 1 > n:
         t = t[:-1]
     return _detail(t.rsplit(' ', 1)[0]) + '…'
+# P2: hand-written meta descriptions for the clusters whose automatic cut (meta_desc) ends mid-phrase, i.e. was cut at a
+# word, not at a clause break. data/meta-desc-fixes.tsv: cluster, old (the automatic cut it replaces), new (whole
+# sentences, words taken from the cluster's own name and description). A fix applies only while its 'old' still matches
+# what meta_desc gives, so a changed description fails the build instead of keeping a stale fix.
+MDFIX_F = os.path.join(REPO, 'data', 'meta-desc-fixes.tsv')
+MDFIX = {}
+if os.path.exists(MDFIX_F):
+    for _ln in open(MDFIX_F, encoding='utf-8').read().splitlines()[1:]:
+        if _ln.strip():
+            _k, _old, _new = _ln.split('\t')
+            MDFIX[_k] = (_old, _new)
+def cluster_desc(k, text):
+    d = meta_desc(text)
+    if k in MDFIX:
+        old, new = MDFIX[k]
+        assert d == old, f'meta-desc-fixes.tsv: {k} no longer matches its automatic description; update or drop the fix:\n  {d}'
+        assert max(len(new), len(HA(new))) <= DESC_MAX and new.endswith('.'), f'meta-desc-fixes.tsv: {k}: new text over {DESC_MAX} or not a sentence'
+        return new
+    return d
 _TBREAK = re.compile(_CLAUSE.pattern + r'|\s+(?=(?:for|of|over|in|on|from|at|to|into|by|under|between|after|as|off|without|within)\s)')
 def cut_title(s, n=TITLE_MAX):
     """85d: a name longer than n characters, cut for the <title> only (the H1 and the address keep the whole name): at
@@ -1327,6 +1347,17 @@ def checked_html(k):
             + ''.join(f'<li><code>{H(dc)}</code>' + (f' in <code>{H(m)}</code>' if m else '') + f': {H(w)}</li>' for m, dc, w in evidence(k))
             + '</ul>')
 # feedback lives in one place: the site footer in the index.html template (@SomTheBuilder on X)
+# QA23a: a cluster page also gets the app's quiet "Report a wrong name" link (same X post, prefilled with the id and URL;
+# keep in step with reportHref() in app.js). Like the Share bar it is not part of lastmod, nor of the Markdown copy.
+from urllib.parse import quote as _quote
+def report_html(k):
+    u = 'https://x.com/intent/post?text=' + _quote(f'@SomTheBuilder Wrong name or description for cluster {k} on the RH Lean map: '
+                                                  f'{SITE}{CPATH[k]}', safe="-_.!~*'()")
+    return (f'<span class="report"><a href="{H(u)}" target="_blank" rel="noopener" aria-label="Report a wrong name or '
+            f'description for cluster {k} on X (opens in a new tab)">Report a wrong name ›</a></span>')
+def with_report(status, k):   # at the end of the status line, which says names and descriptions may be wrong
+    assert status.endswith('may be wrong.</p>')
+    return status[:-4] + ' ' + report_html(k) + '</p>'
 STATUS_NAV = 'Has the Riemann hypothesis been solved? Status of the proof'
 CORE_NAV = f'The core of the proof: {len(CHECKED)} clusters, names checked against the code'
 NUMBERS_NAV = 'The proof in numbers: files, lines, clusters and checks'
@@ -1490,7 +1521,7 @@ for k, p in CPATH.items():
             f'<span class="sep">/</span>{k}</div><div class="eyebrow">Cluster {k} · Lean proof of the Riemann hypothesis</div><h1>{H(title)}</h1>'
             f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + share_btn(p, title)
             + f'<p>{H(n.get("plain") or "")}</p>{route}<p class="meta">{H(feeds_txt(k))}</p>'
-            + (STATUS_CK + checked_html(k) if k in CHECKED else STATUS) + why
+            + with_report(STATUS_CK if k in CHECKED else STATUS, k) + (checked_html(k) if k in CHECKED else '') + why
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
             + (f'<h2>In the learning path</h2><ul class="rows">' + ''.join(
                 f'<li><a href="{H(learn_href(x["id"]))}"><span class="t">{H(x["title"])}<small>{H(x["kind"])}</small></span></a></li>' for x in lp)
@@ -1500,7 +1531,7 @@ for k, p in CPATH.items():
             + neighbours('Builds on', uses[k], on_route) + neighbours('Needed by', sorted(used_by[k]), on_route)
             + f'<p class="meta">{len(members[k])} Lean files, main folder {H(c["folders"][0][0] if c["folders"] else "")}.</p>'
             + explore((TPATH[th], f'Theme: {TNAME[th]}'), main_link=k != main))
-    page(p, fit(title), meta_desc(n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
+    page(p, fit(title), cluster_desc(k, n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
          [crumbs_ld(('Map', '/'), (TNAME[th], TPATH[th]), (title, p))],
          img=(og_url(f'og/c/{k}.png'), f'{title}: cluster {k} of the Lean proof of the Riemann hypothesis'))
 
@@ -1561,8 +1592,8 @@ route_body = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>
               f'<li>Longest import chain: {FSTATS["chain"]} files</li></ul>'
               '<p class="meta">Distances are shortest import chains; the cluster graph has loops, the file graph does not.</p>'
               f'<p><a href="/">Open the map</a> · <a href="{MAIN}">start at the main theorem</a> · <a href="/list/">every cluster as a list, by distance</a></p>')
-ROUTE_D = meta_desc(f'How the Lean proof of the Riemann hypothesis is structured: from the main theorem through {len(CL):,} clusters of '
-               f'{TOTAL_FILES:,} Lean files, by import steps. The deepest cluster is {max(DEPTHS)} steps down; the longest import chain is {FSTATS["chain"]} files.')
+ROUTE_D = meta_desc(f'How the Lean proof of the Riemann hypothesis is structured, by import steps from the main theorem: {len(CL):,} clusters '
+               f'holding {len(mod_cl):,} of its {TOTAL_FILES:,} Lean files. The deepest cluster is {max(DEPTHS)} steps down; the longest import chain is {FSTATS["chain"]} files.')
 page('/route/', ROUTE_TITLE, ROUTE_D, 'route', route_body,
      [article_ld('/route/', ROUTE_T, ROUTE_D, '2026-11-22'), crumbs_ld(('Map', '/'), ('Route', '/route/')), ORG], .8)
 
@@ -1947,7 +1978,7 @@ open(os.path.join(OUT, 'changelog', 'feed.xml'), 'w').write(
 
 # ---------- home: crawlable intro plus links to every theme
 # HOME_DESC: meta, og and twitter description, capped at 160 characters (Bing flags longer ones); HOME_LONG for llms.txt
-HOME_DESC = f'The Lean proof of the Riemann hypothesis: an interactive map of its {TOTAL_FILES:,} Lean files. {ST_META_SHORT}'
+HOME_DESC = f'The Lean proof of the Riemann hypothesis, mapped: {len(mod_cl):,} of its {TOTAL_FILES:,} Lean files. {ST_META_SHORT}'   # P1: the map holds the mapped files only
 assert len(HOME_DESC) <= 160, f'home description is {len(HOME_DESC)} characters'
 HOME_LONG = (f'The Lean proof of the Riemann hypothesis, visualized: an interactive map of its {FILES_TXT}. '
              f'{ST_META}')
