@@ -324,8 +324,8 @@ ST_SCOPE = ('The proof covers Mathlib\'s <code>RiemannHypothesis</code> and GRH 
             'The theorems are stated without hypotheses.')
 ST_ARCHIVE = (f'The source viewer shows the original archive as released: commit <code>{LEAN_SHA[:8]}</code> of the '
               f'<a href="{LEAN_REPO}">community mirror</a>, an unchanged copy of the {TOTAL_FILES:,}-file archive. The community '
-              'repository has since removed 10,724 files in cleanup pull requests, leaving 164,464 .lean files including a new Challenge.lean.')
-ST_ARCHIVE_SHORT = 'This is the original archive as released; the community repository has since removed 10,724 files in cleanup pull requests.'
+              'repository removes unused files; at commit 6866a9c6 (24 Nov 2026, 13:39 UTC) it had 60,156 .lean files.')
+ST_ARCHIVE_SHORT = 'This is the original archive as released (175,187 files); the community repository removes unused files and had 60,156 at commit 6866a9c6 (24 Nov 2026).'
 RUBINSTEIN = 'https://mrubinst.github.io/grh-lean-verification/'
 ST_SOURCES = [('Joint statement by the Lean FRO and the Mathlib Initiative (21 Nov 2026)', STMT),
               ("Levent Alpöge's note (20 Nov 2026)", NOTE),
@@ -1950,6 +1950,7 @@ def zeros_figure(sfx):
             f'<title id="zt-{sfx}">The critical strip and the first ten zeros of the Riemann zeta function</title>'
             f'<desc id="zd-{sfx}">{H(ZEROS_DESC)}</desc>' + ''.join(o) + f'</svg><figcaption>{H(ZEROS_CAP)}</figcaption></figure>')
 def zeros_md(t):   # the figure in the Markdown copies: its caption and the list of zeros
+    t = re.sub(r'(?m)^(###+ .*?)\s*\{#[\w-]+\}\s*$', r'\1', t)   # heading ids ({#tautology}) are for the HTML only
     return re.sub(r'(?m)^\{\{figure:zeros\}\}$', lambda m: (
         f'*Figure: the critical strip and the first ten zeros.* {ZEROS_CAP}\n\n'
         f'Heights of the first ten non-trivial zeros, each at ½ + it: {ZEROS_TXT} ([LMFDB](https://www.lmfdb.org/zeros/zeta/)).'), t)
@@ -1993,7 +1994,7 @@ def keep_going(t):   # the closing links: a '## Keep going' / '## More' section,
     return m.group(0) if m else ''
 def faq_pairs(t):   # H3 question, then its first paragraph (the visible answer, rendered the same way)
     return [(q, MDIT.renderInline(a.strip()))
-            for q, a in re.findall(r'(?m)^### (.+)\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
+            for q, a in re.findall(r'(?m)^### (.+?)(?:\s*\{#[\w-]+\})?\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
 KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {'/', '/learn/', '/route/', '/list/', '/changelog/', '/api/'}
 DRAFTS = [(f, *read_draft(f), crumb, eb, pr) for f, crumb, eb, pr in CONTENT]
 OLD_PATHS = {**TOLD, **COLD}   # a draft linking to a renamed cluster or theme gets its current address

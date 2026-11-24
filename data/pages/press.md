@@ -10,18 +10,18 @@ target_queries:
   - riemann hypothesis lean certified statement
   - alpöge riemann hypothesis criticism
   - riemann hypothesis proof scientific american nature quanta
-as_of: "22 Nov 2026"
+as_of: "24 Nov 2026"
 ---
 
 # Press, official statements and reactions
 
-*As of 22 Nov 2026. Dates are as printed on each page. Several reactions came before the joint statement of 21 Nov, so each carries its date. We link out and summarise in one line. For the current status, see [status](/status/).*
+*As of 24 Nov 2026. Dates are as printed on each page. Several reactions came before the joint statement of 21 Nov, so each carries its date. We link out and summarise in one line. For the current status, see [status](/status/).*
 
 > **For journalists**
 >
 > **What the map offers.** An independent, interactive map of the submitted Lean archive: 175,187 Lean files (175,027 on the map) in 2,647 clusters and 63 themes, about 17.4 million lines. It shows how the proof is structured: the main theorem's cluster, and how far each cluster is from it. [How the proof is structured](/route/) · [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) · [browse the list](/list/) · [learning path](/learn/).
 >
-> **Numbers you can quote.** The longest import chain is 203 files. The median file is 13 imports from `Main`, and the farthest is 43. By import distance from the main-theorem cluster, the clusters fall into bands 0 to 8, with 1, 3, 22, 437, 1,443, 637, 76, 25 and 3 clusters. The 175,187 figure is for the submitted archive. The community repository has since removed files and now has 164,464 `.lean` files with `Challenge.lean`.
+> **Numbers you can quote.** The longest import chain is 203 files. The median file is 13 imports from `Main`, and the farthest is 43. By import distance from the main-theorem cluster, the clusters fall into bands 0 to 8, with 1, 3, 22, 437, 1,443, 637, 76, 25 and 3 clusters. The 175,187 figure is for the submitted archive. The community repository has since removed most of those files: at its main commit [6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) (24 Nov 2026, 13:39 UTC) it has 60,156 `.lean` files, 60,147 of them under `src/`. The count changes with every merge.
 >
 > **Free to use.** Everything we made, including data, page text, images and clips, is free to use under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Credit "RH Lean Explorer (riemannhypothesissolved.com)".
 >
@@ -57,6 +57,9 @@ as_of: "22 Nov 2026"
 - **About 20–21 Nov. The Next Web (Ana Maria Constantin), [Anthropic mathematician says he and Claude proved the Riemann hypothesis](https://thenextweb.com/news/anthropic-alpoge-claude-riemann-hypothesis-proof-lean).** A summary that relays New York Times quotes from Conrad and Maynard.
 - **20–21 Nov. OfficeChai, [How mathematicians have reacted to claimed Riemann hypothesis proof](https://officechai.com/ai/how-mathematicians-have-reacted-to-claimed-riemann-hypothesis-proof-by-anthropics-levent-alpoge/).** A roundup embedding posts from X.
 - **22 Nov. Startup Fortune (Dave Barr), [Lean groups certify Claude-assisted Riemann hypothesis proof from Anthropic](https://startupfortune.com/lean-groups-certify-claude-assisted-riemann-hypothesis-proof-from-anthropic/).** Summarises the certification and notes Clay's rules. It relies on other outlets.
+- **24 Nov, 5:15 AM (no time zone stated). WIRED (Isabella Ward), [AI Solved Math’s Most Famous Problem. Now Humans Are Struggling to Understand It](https://www.wired.com/story/ai-solved-maths-most-famous-problem/).** Quotes Abhishek Saha (Queen Mary University of London): "Knowing there is a proof is one thing, … but when we understand the proof, that would allow us to actually go beyond what has happened". Anton Shakov (Principia Math) expects it "will take mathematicians months" to understand. WIRED describes the 250,000 pages as a paper version that "clocks in at 250,000 pages" and adds that Alpöge later called the figure a "joke".
+- **24 Nov. The Wall Street Journal, [article on Alpöge and Claude](https://www.wsj.com/tech/ai/anthropic-mathematician-says-claude-has-solved-the-most-famous-problem-in-math-9361920b) (headline not seen).** Paywalled; we have not read it. WSJ's post on X (24 Nov, 04:17 UTC) says "One day after the company’s IPO, an Anthropic employee says Claude helped discover a proof." ([X](https://x.com/WSJ/status/2125081353641222615))
+- **24 Nov, 11:30 as printed (time zone not stated). Nikkei, [数学難問リーマン予想、アンソロピック証明は「正しいと確信」 専門家](https://www.nikkei.com/article/DGXZQOSG222470S6A121C2000000/)** (roughly: "Hard math problem, the Riemann hypothesis: Anthropic proof 'convinced it is correct', expert"). Paywalled; we read the headline and opening only. The visible text refers to "an outside expert" and the joint statement, and names no one.
 
 ## Blogs and commentary
 
@@ -90,7 +93,7 @@ Quotes are exact and link to where we read them. Summaries are marked "paraphras
 ### Cautious
 
 - **Pierre Richemond, X, 20 Nov (Cohere, per OfficeChai).** "The Riemann Hypothesis may be solved (pending Lean review) – not totally unexpected, yet raising more questions than it answers. We’re now in a bizarre epistemic zone that barely existed before 2026: unmistakably serious mathematics, yet completely unverified in human terms." ([X](https://x.com/TheOneKloud/status/2123804288921027070))
-- **Thomas Bloom, X, 20 Nov (University of Manchester, per OfficeChai).** He was surprised at the claim of a coherent proof "that, written out in human-readable format, is 250,000+ pages long." ([X](https://x.com/thomasfbloom/status/2123796489197514945)) Alpöge's note says an informal draft by Claude reached 250,000+ pages and was not released.
+- **Thomas Bloom, X, 20 Nov (University of Manchester, per OfficeChai).** He was surprised at the claim of a coherent proof "that, written out in human-readable format, is 250,000+ pages long." ([X](https://x.com/thomasfbloom/status/2123796489197514945)) Alpöge's note says, in a footnote about a write-up he did not post: "I of course amused myself, and hit 250, 000+ pages." ([note](https://alpo.ge/remark.pdf)) On 23 Nov, 22:03 UTC, he wrote on X: "250,000+ pages was a joke guys!" ([post](https://x.com/__alpoge__/status/2124987173439209561))
 
 ### Critical
 

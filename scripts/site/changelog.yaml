@@ -3,6 +3,14 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-24
+  title: Alpöge's posts, reactions and the tautology objection
+  items:
+    - "/status/ adds what Alpöge has said since the release (his posts of 23 Nov, 22:03 UTC and 24 Nov, 03:01 UTC, and replies), eight named reactions with a source for each, and a short summary of the objection that the proof is a tautology."
+    - "/faq/ has three new questions: whether the proof is a tautology (the full objection and the responses), whether Alpöge retracted it, and whether anyone has disproved it in Lean. It also explains figures such as \"60,790 files\" that count the community repository after clean-up."
+    - "/timeline/ runs to 24 Nov, including the kernel results of 22 and 23 Nov. /press/ adds WIRED, The Wall Street Journal and Nikkei."
+    - "The community repository's file count is now dated: 60,156 .lean files at commit 6866a9c6 (24 Nov 2026, 13:39 UTC), against 175,187 in the released archive."
+
+- date: 2026-11-24
   title: Status update and number fixes
   items:
     - "Status: Lean's own kernel has accepted the full export in its default (22 Nov) and paranoid (23 Nov) modes, and the unmodified Comparator v4.33.0 reports \"Your solution is okay!\" (23 Nov), as on Sutherland's page last updated 24 Nov 2026 at 05:25 UTC. His end-to-end lake comparator run on Lean v4.36.0 is still in progress."

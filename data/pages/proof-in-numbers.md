@@ -27,7 +27,7 @@ as_of: "24 Nov 2026"
 - **175,027 files on the map.** The map covers every file that has a theorem or definition of its own. The other 160 are 150 files that only list imports, the 5 build helpers `BuildAid.D1` to `D5`, and 5 files with no theorem or definition (only `open`, `section`, `namespace` or `set_option` lines).
 - **14 parts, 239,275,554 bytes.** This is the size of the joined archive as posted. ([Sutherland](https://math.mit.edu/~drew/grh/))
 
-The community repository has since removed 10,724 files, leaving 164,464 `.lean` files including a new `Challenge.lean`. Every figure on this page is for the original archive. ([community repository](https://github.com/leanprover-community/riemann-hypothesis))
+The released archive has 175,187 files. The community repository removes unused files; at commit [6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) (24 Nov 2026, 13:39 UTC) it had 60,156 `.lean` files. Every figure on this page is for the original archive. ([community repository](https://github.com/leanprover-community/riemann-hypothesis))
 
 ## Shape
 

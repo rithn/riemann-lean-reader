@@ -11,12 +11,12 @@ target_queries:
   - claude checked claude riemann proof
   - how does lean verify a proof
   - lean kernel soundness
-as_of: "22 Nov 2026"
+as_of: "24 Nov 2026"
 ---
 
 # How do we know the Riemann hypothesis proof is correct?
 
-*As of 22 Nov 2026. See [status](/status/) for the latest.*
+*As of 24 Nov 2026. See [status](/status/) for the latest.*
 
 **A program called a kernel tests every step of a Lean proof against fixed logical rules. Several independent programs have repeated that check on the exported proof. People also confirmed that the theorem proved is the Riemann hypothesis as Mathlib states it. The proof runs to 17.4 million lines, so the checking is done by machine.**
 
@@ -154,6 +154,6 @@ The release proves `riemannHypothesis : RiemannHypothesis` (see question 1) and 
 
 **Size.** Every file is imported by `Main`. The theorem's dependency closure is 1,478,198 declarations, and Rubinstein notes that many statements in the 175,187 files are "parallel or earlier formulations that it never uses". ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 
-**Mirror.** The community repository's first commit, `40e56bab`, is the unmodified submission. Later clean-up removed 10,724 files, leaving 164,464 `.lean` files with `Challenge.lean`. Our "175,187 files" refers to the original archive.
+**Mirror.** The community repository's first commit, `40e56bab`, is the unmodified submission. The released archive has 175,187 files. Later clean-up removes unused files: at commit [6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) (24 Nov 2026, 13:39 UTC) the repository had 60,156 `.lean` files. Our "175,187 files" refers to the original archive.
 
 Primary sources: [Sutherland](https://math.mit.edu/~drew/grh/), [Rubinstein](https://mrubinst.github.io/grh-lean-verification/), [verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md), [joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).

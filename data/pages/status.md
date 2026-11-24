@@ -75,6 +75,36 @@ The statement adds that it looks forward to "all the activity in the mathematica
 
 As of 24 Nov 2026 we have found no announcement of a refereed paper on the proof, and Alpöge's four-page note is his only write-up of it so far; he says he intends "to write it properly". The Clay Mathematics Institute's rules for its Millennium Prize require a solution to be published in a qualifying outlet (a refereed mathematics publication, or one approved under relaxed conditions), at least two years to pass after publication, and the solution to gain general acceptance in the mathematics community. ([note](https://alpo.ge/remark.pdf), [Clay rules](https://www.claymath.org/millennium-problems/rules/), [rules in full, §4 and §6](https://www.claymath.org/wp-content/uploads/2022/03/millennium_prize_rules_0.pdf))
 
+## What Alpöge has said since the release
+
+On 23 Nov 2026 at 22:03 UTC Alpöge posted a list headed "Stupid things I did" on X. ([post](https://x.com/__alpoge__/status/2124987173439209561)) It includes three points that bear on this page; replies from the next day are added after them.
+
+- **On length.** "250,000+ pages was a joke guys!" His note had said, in a footnote about an English write-up he did not post: "I of course amused myself, and hit 250, 000+ pages." ([note](https://alpo.ge/remark.pdf)) We do not use 250,000 pages as the length of the proof. The released archive is 175,187 Lean files and about 17.4 million lines.
+- **On the code.** "The Lean is full of garbage obviously, but compiles, but all criticism of such garbage is totally reasonable and accepted, I should have cleaned it up but it was randomly difficult to for various strange reasons. Mea culpa…" Elsewhere in the post: "I really was yoloing a lot in there, I bet most is unnecessary in the end, admittedly the lazy thing to do would be to wait because it’ll simplify massively…"
+- **On what he thinks the point is.** "I feel Riemann should be easy, and any real difficulty is an indication our setup is just dumb at the moment."
+- **In replies on 24 Nov.** On the page count, at 04:02 UTC: "Yeah alas. I did say I amused myself before giving the number and gave an example from the main theorem of incredible pedantry, but I should’ve cut it." ([reply](https://x.com/__alpoge__/status/2125077588263465075)) On the word "garbage", at 03:08 UTC: "Yea i use the word garbage too liberally from video games of yore. “full of garbage” is a hilarious choice. Mb" ([reply](https://x.com/__alpoge__/status/2125063891034186070))
+
+At 03:01 UTC on 24 Nov he added: "People seem to be reading this as me saying there’s something wrong with the proof. I’m pretty confused. No? It literally checked out days ago?" ([post](https://x.com/__alpoge__/status/2125062170207457583))
+
+The checks above test the exported proof, not how tidy the source is, so these posts do not change them. They do confirm that the author regards the released code as unpolished, and that a readable account of the argument is still to come.
+
+## Reactions
+
+Eight named reactions from 20 to 21 Nov, with a stance for each. None of these people reports a failed check. The doubts are about whether the argument can be read, about how it was released, and about who is responsible for it. More are on [press](/press/).
+
+- **Andrew Sutherland (MIT), 20–21 Nov. Accepts the formal check.** "Honestly the chance that anything is fishy here is approximately zero." ([Scientific American](https://www.scientificamerican.com/article/the-ai-riemann-hypothesis-proof-is-almost-certainly-true-independent-mathematicians-attest/))
+- **Scott Aaronson, blog, 20 Nov and 21 Nov update. Accepts the check; says readability is the next job.** On 21 Nov, after the con-leche verification: "The proof is correct." On 20 Nov: "Mathematicians of course won’t be satisfied with 17 million lines of Lean. They’ll be satisfied when, and only when, they’re able to explain and distill and reconstruct the ideas for themselves." ([Shtetl-Optimized](https://scottaaronson.blog/?p=10344))
+- **James Maynard (University of Oxford), Nature, 20 Nov. Expects it to hold; needs understanding.** "I suspect that the proof will turn out to be correct," ([Nature](https://www.nature.com/articles/d41586-026-03812-7))
+- **Alex Kontorovich (Rutgers), AP, 20 Nov. Accepts the check; says he still has to read it.** "…if you can satisfy the computer, there's a very, very good chance you're going to satisfy me too," and "But I have to do the work." ([AP via ABC News](https://abcnews.com/Technology/wireStory/anthropic-worker-claims-solved-holy-grail-math-problems-138338426))
+- **Kevin Buzzard (Imperial College London), Al Jazeera, 21 Nov. Cautious about readability.** "At the minute, we don’t even know why the theorem is true," He also said: "Experience shows you that you give the humans the Lean code, and within a week or two, they have a much better understanding of what’s actually going on in this code," ([Al Jazeera](https://www.aljazeera.com/news/2026/11/21/riemann-hypothesis-has-the-worlds-most-famous-maths-problem-been-cracked))
+- **Maksym Radziwiłł (NYU), Quanta, 20 Nov, from an email. Cautious about understanding.** "The object of mathematics as the rest of science is really the question ‘why?’ and this doesn’t answer it at all." ([Quanta](https://www.quantamagazine.org/updates/transformation/))
+- **Andrew Granville (University of Montreal), Nature, 20 Nov. Objects to the write-up and the timing.** "What he released is garbled," ([Nature](https://www.nature.com/articles/d41586-026-03812-7)) Alpöge's note calls the timing explanation "an obvious cynical view" and says it "is false".
+- **Association for Human Mathematics (Communications Working Group), statement dated 20 Nov. Objects to the process.** "At this time, no human being can reasonably claim to be responsible for, or even to understand, such a document. Neither can any mathematician confirm with full certainty that the proof is correct." It was written before the joint statement. ([AHM](https://www.ahmath.org/statements))
+
+## Objections and responses
+
+J. L. Nielsen's preprint grants that the code typechecks ("Although the type comparison succeeds, it does not supply the missing mathematical content", p. 1) but argues that its geometric part is "a manufactured witness" (p. 1), so that "The formal comparison is Riemann to Riemann, not an independent geometric derivation of Riemann" (p. 15). ([preprint](https://philarchive.org/rec/NIEIOT-2)) The verifiers answer that the theorem proved is stated with Mathlib's own definition of the Riemann hypothesis and was compared with it by two tools, so definitions inside the proof cannot make the checkers accept a wrong statement. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Bailey on MathOverflow](https://mathoverflow.net/questions/518109/after-the-lean-verification-of-the-riemann-hypothesis-proof-what-residual-trust#comment1354173_518119), [Toledo](https://carlostoledo.co/reports/alpoge-grh.html), [Bloom](https://x.com/thomasfbloom/status/2124221582105014284)) Whether the code checks is not in dispute; what is in dispute is what the code means. The objection, what is true in it and the responses in full: [Is the proof a tautology?](/faq/#tautology)
+
 ## What changed when
 
 All times are UTC where a source gives UTC. Other clock times carry no stated time zone.
@@ -110,6 +140,8 @@ Other people are writing about and working on the proof. These are three example
 - [Community repository](https://github.com/leanprover-community/riemann-hypothesis) and its [verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md)
 - [Sutherland's verification files (MIT)](https://math.mit.edu/~drew/grh/)
 - [Rubinstein's check (Waterloo)](https://mrubinst.github.io/grh-lean-verification/) and [working guide](https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/)
+- Alpöge's posts on X: [23 Nov, 22:03 UTC](https://x.com/__alpoge__/status/2124987173439209561) and [24 Nov, 03:01 UTC](https://x.com/__alpoge__/status/2125062170207457583)
+- [Toledo's audit](https://carlostoledo.co/reports/alpoge-grh.html) (independent, last updated 24 Nov 2026 at 10:27 UTC) and the [MathOverflow thread on trust assumptions](https://mathoverflow.net/questions/518109/after-the-lean-verification-of-the-riemann-hypothesis-proof-what-residual-trust)
 
 For coverage and expert reactions, see [press](/press/). For guides by other authors that explain the proof, see [guides](/guides/).
 
@@ -123,6 +155,7 @@ riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropi
 
 ## Changelog
 
+- **24 Nov 2026, later.** Added Alpöge's two clarifying posts (23 Nov, 22:03 UTC; 24 Nov, 03:01 UTC), a short list of named reactions, and a short entry on the objection that the proof is a tautology, with the full text in the [FAQ](/faq/#tautology).
 - **24 Nov 2026.** Updated the checks to Sutherland's page as last updated 24 Nov 2026 at 05:25 UTC: Lean's default and paranoid kernels and the unmodified Comparator v4.33.0 accept; the `lake comparator` run on Lean v4.36.0 is still in progress. Corrected the date of Sutherland's con-leche runs to 20 Nov. Added a section on refereed publication and the Clay prize rules.
 - **23 Nov 2026.** Updated the checks to Sutherland's page as last updated 22 Nov 2026 at 16:20 UTC. Added "Community work on the proof".
 - **22 Nov 2026.** First version.

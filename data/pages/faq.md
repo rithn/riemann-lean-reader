@@ -1,6 +1,6 @@
 ---
 title: "Riemann hypothesis proof FAQ: Claude, Lean, prize, crypto"
-description: "Short, sourced answers to 20 common questions on the Lean proof of the Riemann hypothesis: who, how it was checked, how long, the prize and cryptography."
+description: "Short, sourced answers to 23 common questions on the Lean proof of the Riemann hypothesis: who, how it was checked, how long, the prize and cryptography."
 h1: "Frequently asked questions about the Lean proof of the Riemann hypothesis"
 path: /faq/
 target_queries:
@@ -13,12 +13,12 @@ target_queries:
   - riemann hypothesis cryptography
   - generalized riemann hypothesis proof
 structured_data: FAQPage
-as_of: "22 Nov 2026"
+as_of: "24 Nov 2026"
 ---
 
 # Frequently asked questions about the Lean proof of the Riemann hypothesis
 
-*As of 22 Nov 2026. Each answer links to its source. For dates and the latest checks, see [status](/status/).*
+*As of 24 Nov 2026. Each answer links to its source. For dates and the latest checks, see [status](/status/).*
 
 ### Has the Riemann hypothesis been solved?
 
@@ -50,6 +50,12 @@ Levent Alpöge is a mathematician at Anthropic and a junior fellow of the Harvar
 
 Source: [Alpöge's website](https://alpo.ge/)
 
+### Did Alpöge retract or apologise for the proof?
+
+No. On 24 Nov at 03:01 UTC he wrote: "People seem to be reading this as me saying there’s something wrong with the proof. I’m pretty confused. No? It literally checked out days ago?" On 23 Nov he had said that the "250,000+ pages" figure was a joke and that the Lean code is "full of garbage" that still "compiles". Both posts are quoted on [status](/status/).
+
+Source: [24 Nov post](https://x.com/__alpoge__/status/2125062170207457583), [23 Nov post](https://x.com/__alpoge__/status/2124987173439209561)
+
 ### What is Lean?
 
 Lean is an interactive theorem prover based on dependent type theory, designed for use in cutting-edge mathematics and in software verification. Mathlib is a community-driven effort to build a unified library of mathematics formalized in Lean. Mathlib already contained the statement of the Riemann hypothesis, which the new proof uses.
@@ -61,6 +67,45 @@ Source: [Lean reference manual](https://lean-lang.org/doc/reference/latest/) and
 Four checks were made. The statement is Mathlib's, which experts vetted. The library compiles, and dozens of people reproduced the same proof export. Two tools confirmed that the theorem proved is exactly Mathlib's statement. Lean's kernel and independent checkers, written in different languages, accepted the exported proof.
 
 Source: [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+
+### Is the proof a tautology? (the `True` definitions) {#tautology}
+
+Not in the sense the checkers test, but the objection has a true part. A condition named `anyGeometry` is defined as `fun _ _ _ => True`, which accepts every input, at [line 19 of `OverIx.lean`](https://github.com/leanprover-community/riemann-hypothesis/blob/40e56bab026552e089d7afcfeff08d2defb9c005/src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OverIx.lean#L19). The route from the main theorem reaches it, and Alpöge says the code is "full of garbage". A preprint by J. L. Nielsen grants that the code typechecks but argues its geometric part is a manufactured stand-in, so the argument is circular ("Riemann to Riemann"). The checkers' answer is about the theorem: it is stated with Mathlib's own definition of the Riemann hypothesis, two tools compared it with what was proved, and several independent checkers accepted the proof. A dummy definition inside a proof cannot make a checker accept a proof of the wrong statement. On MathOverflow, Chris Bailey wrote that "the definitions used in the proof are irrelevant as long as they produce a term of the correct type". Thomas Bloom (University of Manchester) made the same point on X: a vacuously true part of the proof "does not invalidate the proof". What is open is what the code means and where the mathematics sits.
+
+#### The claim
+
+J. L. Nielsen (Center for Topological Physics, Lawrence, Kansas) posted a preprint on PhilArchive, "The Invalidity of Alpöge’s Proof of the Riemann Hypothesis: Vacuous Truth in a Geometric Argument with a Custom Bundle Built to Match Zeta". ([preprint](https://philarchive.org/rec/NIEIOT-2)) It does not say the code fails to check. It says the geometric part of the argument is "a manufactured witness" (p. 1): a condition defined as `True`, a degenerate geometric model, lattice data copied from the analytic side, and a divisor height that is assigned a formula and then "verified" by `rfl`. Its conclusion: "The formal comparison is Riemann to Riemann, not an independent geometric derivation of Riemann." (p. 15) It states what it grants: "Although the type comparison succeeds, it does not supply the missing mathematical content" (p. 1), and "The defect identified here is structural rather than axiomatic" (p. 15). It also says the analytic estimates exist but "do not prove RiemannHypothesis on their own; they prove conditional bounds parameterized by the divisor datum" (p. 12). On compiling, it says both that "Remove the manufactured bundle, and the proof term does not compile" (p. 14) and that an empty `none` witness or "any other inhabitable filler" leaves the chain compilable, so that only a constant `False` blocks it (p. 3). The word "tautology" appears in its section 8, "The tautology in the height comparison"; the phrase "nested tautology" is not in it.
+
+#### What is true in it
+
+The code does define `anyGeometry` as `fun _ _ _ => True`, at [line 19 of `OverIx.lean`](https://github.com/leanprover-community/riemann-hypothesis/blob/40e56bab026552e089d7afcfeff08d2defb9c005/src/Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OverIx.lean#L19), and it is passed on as `geoCl anyGeometry` on the route from the main theorem. We checked the preprint's code claims in our copy of the source: the name occurs on 118 lines in 24 files (its figure); the zero map `iMj`, the degenerate model (`geoDegenerate`, `mdlJunk`, `divXFl`) and the height `ht := hExpl6 …` exist; and the six "extraction lemmas" it lists each appear once, at their own definition. It also concedes that `everyE₂` "is not the witness on the final everyCharacter route" (p. 3), which matches our reading. Toledo's audit adds another example: a theorem named `siegel_eisenstein_simple_pole` proves a statement defined as `True`. Alpöge calls the code "full of garbage" (see [status](/status/)). Three independent reads of the code ([Chu, 22 Nov](https://dev.to/frankchu/grh-proofs-geometry-is-fun-true-in-24-files-2n2b), [Toledo, 24 Nov](https://carlostoledo.co/reports/alpoge-grh.html), [dial481](https://github.com/dial481/riemann-hypothesis-rosetta/blob/main/results/anygeometry.md)) confirm the definition and its reach. We did not check its claims about the heights and the forty or so matrix estimates.
+
+#### What the verifiers say
+
+They agree with the preprint that the code checks; they say this makes the theorem proved whatever the intermediate definitions are.
+
+- The theorem proved, `riemannHypothesis`, has the type of Mathlib's own `RiemannHypothesis`. The Lean FRO and Mathlib Initiative say two tools (`comparator` and `con-leche --compare`) confirmed that the theorem proved is exactly Mathlib's statement. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
+- Several checkers accept the exported proof, using only the three standard axioms. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- Chris Bailey, the author of the nanoda checker according to another answer in the thread, wrote on MathOverflow on 23 Nov: "the definitions used in the proof are irrelevant as long as they produce a term of the correct type, and (2) comparator checks that the definitions used to construct the type (which do matter) match those used in the challenge." ([comment](https://mathoverflow.net/questions/518109/after-the-lean-verification-of-the-riemann-hypothesis-proof-what-residual-trust#comment1354173_518119))
+- Carlos Toledo's audit says the formal theorem "is decided by the kernels, not by the names", and that the preprint's title "goes further than its analysis". The preprint agrees on the first point: "ordinary definitions and lemmas suffice to typecheck the term without extra axioms or kernel errors" (p. 1). Toledo also reports a Lean proof that Mathlib's `RiemannHypothesis` is equivalent to the textbook statement about zeros in the critical strip. ([Toledo](https://carlostoledo.co/reports/alpoge-grh.html))
+- Thomas Bloom (University of Manchester) wrote on X on 21 Nov at 19:21 UTC: "Finding a small part of the massive formal RH proof that is vacuously true, or where the definitions seem weird, does not invalidate the proof. It just means the proof is a little longer than it needs to be." ([post](https://x.com/thomasfbloom/status/2124221582105014284))
+- Sutherland combined the proof with a separate formalisation of Robin's and Lagarias's criteria (Robin1984, by someone else) and checked two inequalities about divisor sums that do not mention the zeta function. They still rely on Mathlib's definitions of the divisor sum, exp, log and so on. ([Sutherland](https://math.mit.edu/~drew/grh/))
+
+#### Other tests on X are not checks
+
+Two repositories shared on 24 Nov are circulating. One claims a Lean "countermodel"; its own README says it "does not claim that Alpöge's theorem is false", and its `Disproof.lean` imports only Mathlib and the repository's own file, not the archive. ([repo](https://github.com/jackyreaps/X-files/tree/main/riemann-hypothesis)) The other reports that deleting the geometry field still builds; it says it did not rebuild upstream modules from source or replay the result, and we have not reproduced it. ([repo](https://github.com/mrnathanhumphrey-droid/levent-rh-proof-anygeometry-excision-test))
+
+#### What remains open
+
+Whether the code checks is not in dispute: the preprint grants it. What is in dispute is what the code means. Toledo's audit says whether the inputs that feed the key inequalities "carry the argument, and what they mean, is a question for number theorists, not for a kernel". There is no human-readable proof yet, Alpöge calls the code garbage, and no refereed paper has been announced. One independent audit, Toledo's, also reports that its own `comparator` run was stopped for cost after 53 hours with no verdict; its `con-leche` comparison matched all five theorems.
+
+Source: [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Bloom](https://x.com/thomasfbloom/status/2124221582105014284), [MathOverflow comment](https://mathoverflow.net/questions/518109/after-the-lean-verification-of-the-riemann-hypothesis-proof-what-residual-trust#comment1354173_518119), [Toledo's audit](https://carlostoledo.co/reports/alpoge-grh.html)
+
+### Has anyone disproved the proof in Lean?
+
+No. On 24 Nov a user on X said he had "formally verified in Lean 4" that the proof is "mathematically broken on its live path". His repository's own README says it "does not claim that Alpöge's theorem is false". The file `Disproof.lean` imports only Mathlib and another file of the same repository, and works with copies of the archive's hypotheses that the repository itself defines as `True`. What it refutes is a lemma stated in that repository and left as `sorry`, not a theorem in Alpöge's archive. A second repository reports that deleting the `geo` field still builds; it has not been reproduced.
+
+Source: [JackyReaps's repository](https://github.com/jackyreaps/X-files/tree/main/riemann-hypothesis), [excision test](https://github.com/mrnathanhumphrey-droid/levent-rh-proof-anygeometry-excision-test)
 
 ### Has the proof been peer reviewed?
 
@@ -77,6 +122,8 @@ Source: [Sutherland's verification page](https://math.mit.edu/~drew/grh/)
 ### How long is the proof?
 
 The submitted archive has 175,187 Lean files and 17,374,215 lines, about 17.4 million, in 1,030,531,854 bytes of source. The accompanying note is four pages. The main theorem's dependency closure is 1,478,198 declarations. For scale, Mathlib is about 2 million lines.
+
+Figures such as "60,790 files" that circulate on X count the community repository after clean-up, not the released archive. That repository's `src/` folder held 60,790 `.lean` files at commit [b4c6e71c](https://github.com/leanprover-community/riemann-hypothesis/commit/b4c6e71c073f053c1b78900a68dcdb07522cdcc7) on 24 Nov 2026 (04:22 UTC); the released archive has 175,187 files and 17,374,215 lines, all reachable from `Main.lean`.
 
 Source: [Verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md) for the files, lines and bytes; [Rubinstein](https://mrubinst.github.io/grh-lean-verification/) for the dependency closure and the size of Mathlib
 
