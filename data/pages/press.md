@@ -95,9 +95,11 @@ Quotes are exact and link to where we read them. Summaries are marked "paraphras
 - **Pierre Richemond, X, 20 Nov (Cohere, per OfficeChai).** "The Riemann Hypothesis may be solved (pending Lean review) – not totally unexpected, yet raising more questions than it answers. We’re now in a bizarre epistemic zone that barely existed before 2026: unmistakably serious mathematics, yet completely unverified in human terms." ([X](https://x.com/TheOneKloud/status/2123804288921027070))
 - **Thomas Bloom, X, 20 Nov (University of Manchester, per OfficeChai).** He was surprised at the claim of a coherent proof "that, written out in human-readable format, is 250,000+ pages long." ([X](https://x.com/thomasfbloom/status/2123796489197514945)) Alpöge's note says, in a footnote about a write-up he did not post: "I of course amused myself, and hit 250, 000+ pages." ([note](https://alpo.ge/remark.pdf)) On 23 Nov, 22:03 UTC, he wrote on X: "250,000+ pages was a joke guys!" ([post](https://x.com/__alpoge__/status/2124987173439209561))
 
+- **Kevin Buzzard (Imperial College London), Al Jazeera, 21 Nov.** "At the minute, we don’t even know why the theorem is true," He also said: "Experience shows you that you give the humans the Lean code, and within a week or two, they have a much better understanding of what’s actually going on in this code," ([Al Jazeera](https://www.aljazeera.com/news/2026/11/21/riemann-hypothesis-has-the-worlds-most-famous-maths-problem-been-cracked))
+
 ### Critical
 
-- **Andrew Granville (Université de Montréal), Nature, 20 Nov.** "What he released is garbled," ([Nature](https://www.nature.com/articles/d41586-026-03812-7)). Paraphrase: Nature reports that he says Alpöge should have prepared a clearer write-up first, and cites the downturn in the company's stock value as the reason for the timing.
+- **Andrew Granville (Université de Montréal), Nature, 20 Nov.** "What he released is garbled," ([Nature](https://www.nature.com/articles/d41586-026-03812-7)). Paraphrase: Nature reports that he says Alpöge should have prepared a clearer write-up first, and cites the downturn in the company's stock value as the reason for the timing. Alpöge's note calls the timing explanation "an obvious cynical view" and says it "is false". ([note](https://alpo.ge/remark.pdf))
 - **Maksym Radziwiłł (NYU), Quanta, 20 Nov, from an email.** "The object of mathematics as the rest of science is really the question ‘why?’ and this doesn’t answer it at all." Quanta also reports, in its own words, that he says the four-page note contains "nonsensical statements". Alpöge's note thanks him by name. ([Quanta](https://www.quantamagazine.org/updates/transformation/))
 - **Association for Human Mathematics, 20 Nov.** "At this time, no human being can reasonably claim to be responsible for, or even to understand, such a document. Neither can any mathematician confirm with full certainty that the proof is correct." Written before the joint statement. ([AHM](https://www.ahmath.org/statements))
 - **Brian Conrad (Stanford), 20 Nov. Second-hand: The Next Web, quoting The New York Times.** The Next Web writes that he criticised the release and called it "frankly completely outrageous" to put out a proof that Alpöge does not fully understand. ([The Next Web](https://thenextweb.com/news/anthropic-alpoge-claude-riemann-hypothesis-proof-lean))
@@ -105,6 +107,7 @@ Quotes are exact and link to where we read them. Summaries are marked "paraphras
 ### The author
 
 - **Levent Alpöge, note, 20 Nov.** "I believe I have, working with Claude, discovered a proof of the Riemann Hypothesis." On timing: "The precise timing is horrible." On limits: "I may have baked lots of strange suboptimal choices into the argument". ([note](https://alpo.ge/remark.pdf))
+- **Levent Alpöge, X, 23 Nov, 22:03 UTC.** In a list headed "Stupid things I did": "I feel Riemann should be easy, and any real difficulty is an indication our setup is just dumb at the moment." ([post](https://x.com/__alpoge__/status/2124987173439209561))
 
 ### Common threads
 

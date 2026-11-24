@@ -1950,7 +1950,7 @@ def zeros_figure(sfx):
             f'<title id="zt-{sfx}">The critical strip and the first ten zeros of the Riemann zeta function</title>'
             f'<desc id="zd-{sfx}">{H(ZEROS_DESC)}</desc>' + ''.join(o) + f'</svg><figcaption>{H(ZEROS_CAP)}</figcaption></figure>')
 def zeros_md(t):   # the figure in the Markdown copies: its caption and the list of zeros
-    t = re.sub(r'(?m)^(###+ .*?)\s*\{#[\w-]+\}\s*$', r'\1', t)   # heading ids ({#tautology}) are for the HTML only
+    t = re.sub(r'(?m)^(##+ .*?)\s*\{#[\w-]+\}\s*$', r'\1', t)   # heading ids ({#tautology}, {#nov-24}) are for the HTML only
     return re.sub(r'(?m)^\{\{figure:zeros\}\}$', lambda m: (
         f'*Figure: the critical strip and the first ten zeros.* {ZEROS_CAP}\n\n'
         f'Heights of the first ten non-trivial zeros, each at ½ + it: {ZEROS_TXT} ([LMFDB](https://www.lmfdb.org/zeros/zeta/)).'), t)
