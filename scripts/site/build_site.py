@@ -656,6 +656,20 @@ for i, g in enumerate(GD):
 # guide-refs: cluster -> pages, per guide. A page is a PDF page number or one web page of a guide site
 def _pkey(p):
     return (0, int(p), '') if str(p).isdigit() else (1, 0, str(p))
+def _glabel(g, p):   # a guide-refs 'page' -> (is an audit note, the label shown)
+    if p.lower().endswith('.md') and ' ' not in p:   # an audit note: file name without .md, underscores as spaces
+        return True, p.rstrip('/').rsplit('/', 1)[-1][:-3].replace('_', ' ').strip()
+    m = re.fullmatch(r'(?:p\.?\s*)?(\d+)', p)
+    if m:                            # a PDF page: 'p. 44' or '44'
+        p = m.group(1)
+    elif re.match(r'https?://', p):  # a web guide's page given as its address: its last path segment, or the address
+        seg = [x for x in re.sub(r'[?#].*$', '', p).split('/')[3:] if x]
+        p = re.sub(r'^https?://(www\.)?', '', p).rstrip('/') if p.rstrip('/') == g['url'].rstrip('/') or not seg else seg[-1].removesuffix('.html')
+        if len(p) > 40 and '/' in p:   # a long address: its host only
+            p = p.split('/', 1)[0]
+    elif '/' in p and ' ' not in p:  # a path in a repository or site: its last part
+        p = p.rstrip('/').rsplit('/', 1)[-1]
+    return False, p
 G_REFS_SEEN = []
 for g in GD:
     f = os.path.join(GREFS_D, g['id'] + '.tsv')
@@ -680,21 +694,11 @@ for g in GD:
         pages = g['refs'].setdefault(k, [])
         if r.get('basis', '').strip().startswith('manual-'):
             g['manual'].append((k, r.get('evidence', '').strip()))
-        if p.lower().endswith('.md') and ' ' not in p:   # an audit note: file name without .md, underscores as spaces
-            l = p.rstrip('/').rsplit('/', 1)[-1][:-3].replace('_', ' ').strip()
-            if l and not any(x[0] == l for x in g['notes'][k]):
-                g['notes'][k].append((l, u if re.match(r'https?://', u) else None))
+        note, p = _glabel(g, p)
+        if note:   # an audit note
+            if p and not any(x[0] == p for x in g['notes'][k]):
+                g['notes'][k].append((p, u if re.match(r'https?://', u) else None))
             continue
-        m = re.fullmatch(r'(?:p\.?\s*)?(\d+)', p)
-        if m:                            # a PDF page: 'p. 44' or '44'
-            p = m.group(1)
-        elif re.match(r'https?://', p):  # a web guide's page given as its address: its last path segment, or the address
-            seg = [x for x in re.sub(r'[?#].*$', '', p).split('/')[3:] if x]
-            p = re.sub(r'^https?://(www\.)?', '', p).rstrip('/') if p.rstrip('/') == g['url'].rstrip('/') or not seg else seg[-1].removesuffix('.html')
-            if len(p) > 40 and '/' in p:   # a long address: its host only
-                p = p.split('/', 1)[0]
-        elif '/' in p and ' ' not in p:  # a path in a repository or site: its last part
-            p = p.rstrip('/').rsplit('/', 1)[-1]
         if p and not any(x[0] == p for x in pages):
             pages.append((p, u if re.match(r'https?://', u) else None))
     for k in g['refs']:
@@ -848,6 +852,258 @@ for k, c in CL.items():
     }
     json.dump(detail, open(os.path.join(OUT, 'data', 'c', k + '.json'), 'w'), separators=(',', ':'))
 
+# ---------- Lean viewer data (design: research/plans/lean-structure-design.md, "Viewer layout DECIDED"). One file per
+# cluster, data/lean/<id>.json, fetched when the viewer opens; data/lean-hover.json (declaration count and the top 3
+# per cluster, for the map hover) is fetched after first paint. Built from the P4 cross-reference run
+# (repo/scripts/xref/full_run.py, then derive.py; output in research/lean-reader/xref/full/, or $RH_XREF/full/), the
+# blueprint matches (blueprint_matches.tsv, merten.json, naskrecki.json in the same xref folder) and the guides' full
+# citation lists (data/guide-decls.tsv.gz, written by scripts/guides/match_guides.py --decls=). No P4 output: the viewer
+# data is skipped and the app shows the source without declarations. Only unique matches are used ("resolved from source").
+# data/lean/<id>.json.gz (stored gzipped; the app fetches the bytes and unzips them with DecompressionStream, so it does
+# not depend on how the host labels .gz files):
+#   d  folders; x this cluster's files as [folder index, last part], in explorer order (units closest to Main first,
+#      each followed by its helpers, depth-first along the fold tree)
+#   ns namespaces of this cluster's declarations (a name is ns[i] + '.' + short name)
+#   f  per file: [parent file index (-1: a unit head), kind (u unit, h helper, w wrapper), steps from Main (null:
+#      none), importers (count), declarations, name links, cited by]
+#      declaration: [ns index (-1: none), short name, kind, start line, end line, used, guides, title, chain] (the
+#        last two left out when 0). used: distinct declarations in the proof that name it (P4); guides: distinct
+#        guides on the map that cite it; title: [English title, 'b' Merten's blueprint | 'a' Naskręcki's atlas,
+#        label] or 0; chain: 1 if reached from Main's declarations through resolved uses. The statement's end (`:=`)
+#        is found by the app in the source.
+#      name links: [targets in this node, overrides]; overrides {token: target | {line: target}}. A target >= 0 is
+#        t[target]; a target < 0 is a declaration in another node, e[-target - 1] in the lazy file
+#      cited by: [[guide index in overview 'guides', page label, url, short declaration name or '']]
+#   t  link targets in this node: [file index, declaration index]
+# data/lean/x/<id>.json.gz, fetched only when a name in another node is hovered or clicked, or the "Imports and used
+# by" panel opens:
+#   d, x  modules elsewhere (as above); ns their namespaces
+#   e  [x index, ns index, short name, kind, start line, end line] per link target in another node
+#   by per file, up to 5 importers: >= 0 a file of this node, < 0 x[-i - 1]
+XREF_D = os.path.join(os.environ.get('RH_XREF') or os.path.join(ROOT, 'research', 'lean-reader', 'xref'))
+LV_OUT = os.path.join(OUT, 'data', 'lean')
+os.makedirs(os.path.join(LV_OUT, 'x'), exist_ok=True)
+for f in glob.glob(os.path.join(LV_OUT, '*.json')) + glob.glob(os.path.join(LV_OUT, '*.json.gz')) + glob.glob(os.path.join(LV_OUT, 'x', '*.json.gz')):
+    os.remove(f)
+LEAN_HOVER = None
+if os.path.exists(os.path.join(OUT, 'data', 'lean-hover.json')):
+    os.remove(os.path.join(OUT, 'data', 'lean-hover.json'))
+# name links, compressed: per file the list of targets its names resolve to, plus overrides. The app links a token to
+# the one target in that list whose full name is the token or ends with '.' + token (else it drops the token's last
+# dotted part, as Lean reads a projection, and tries again); lvMatch() in app.js, keep in step. A token for which that
+# rule gives another answer, or none, or whose target has a short name that could be a local (not _lv_safe), or that
+# resolves differently on different lines, is written out: overrides {token: t index | {line: t index}}.
+def _lv_safe(short):
+    return len(short) >= 8 or (len(short) >= 4 and bool(re.search(r'[_0-9]|.[A-Z]', short)))
+def _lv_index(cand, full):   # every dotted suffix of each candidate's full name -> candidates
+    ix = collections.defaultdict(list)
+    for c in cand:
+        p = full[c].split('.')
+        for i in range(len(p)):
+            ix['.'.join(p[i:])].append(c)
+    return ix
+def _lv_match(tok, ix):
+    s = tok
+    while True:
+        hits = ix.get(s, ())
+        if len(hits) == 1:
+            return hits[0]
+        if hits or '.' not in s:
+            return None
+        s = s.rsplit('.', 1)[0]
+def _lv_links(links, full):   # targets >= 0 are in this node (full names known); < 0 elsewhere: always written out
+    cand = sorted({t for v in links.values() for t in ([v] if isinstance(v, int) else v.values()) if t >= 0})
+    ix = _lv_index(cand, full)
+    over = {}
+    for tok, v in links.items():
+        if isinstance(v, int) and v >= 0 and _lv_safe(full[v].rsplit('.', 1)[-1]) and _lv_match(tok, ix) == v:
+            continue
+        over[tok] = v
+    return [cand, over] if over else [cand]
+def _lean_viewer():   # a function, so that none of its names leak into the build's globals (par, order, …)
+    LEAN_HOVER = None
+    import gzip, csv
+    _t0 = __import__('time').time()
+    LVK = {'theorem': 't', 'lemma': 'l', 'def': 'd', 'abbrev': 'a', 'instance': 'i', 'structure': 's', 'class': 'c',
+           'inductive': 'n', 'alias': 'A', 'opaque': 'o', 'axiom': 'x', 'irreducible_def': 'd'}
+    DSTAT = {}          # (name, module) -> [kind, start, end, stmt_end, flags, used, chain]
+    MDECL = collections.defaultdict(list)
+    with gzip.open(os.path.join(XREF_D, 'full', 'decl_stats.tsv.gz'), 'rt', encoding='utf-8') as fh:
+        next(fh)
+        for ln in fh:
+            n, m, k, a, b, se, fl, u, ch = ln.rstrip('\n').split('\t')
+            if m in mod_cl:
+                r = (LVK.get(k, k[:1]), int(a), int(b), int(se), fl, int(u), int(ch))
+                DSTAT[(n, m)] = r
+                MDECL[m].append(n)
+    # English titles from the blueprints (real sources only): Merten's statement title, else Naskręcki's atlas title
+    _bt = {}
+    _mer = {s['label']: s.get('title') for s in json.load(open(os.path.join(XREF_D, 'merten.json')))['statements']}
+    _nas = {s['label']: s.get('title') for s in json.load(open(os.path.join(XREF_D, 'naskrecki.json')))['declarations']}
+    # which title, when both name a declaration: a Merten statement about this declaration alone, else the atlas entry
+    # (one declaration each), else a Merten statement that covers several declarations
+    _rows = [r for r in csv.DictReader(open(os.path.join(XREF_D, 'blueprint_matches.tsv')), delimiter='\t') if r['status'] == 'matched']
+    _nper = collections.Counter(r['label'] for r in _rows if r['source'] == 'merten')
+    _rank = {}
+    for r in _rows:
+        t = (_mer if r['source'] == 'merten' else _nas).get(r['label'])
+        key = (r['lean_name'], r['module'])
+        rk = 2 if r['source'] == 'naskrecki' else 1 if _nper[r['label']] == 1 else 3
+        if t and rk < _rank.get(key, 9):
+            _rank[key] = rk
+            _bt[key] = [t, 'b' if r['source'] == 'merten' else 'a', r['label']]
+    # guide citations, unshortened (guide-decls.tsv.gz): per declaration the guides on the map that name it, per file
+    # the citations (guide, page, declaration)
+    _goi = {g['id']: g for g in G_MAP}
+    DGUIDES = collections.defaultdict(set)
+    FCITES = collections.defaultdict(list)
+    def _gpage(g, k, raw):
+        note, l = _glabel(g, raw)
+        if note:
+            return l, next((u for x, u in g['notes'].get(k, []) if x == l), None)
+        url = next((u for x, u in g['refs'].get(k, []) if x == l), None)
+        return ('p. ' + l if l.isdigit() else l), url
+    with gzip.open(os.path.join(REPO, 'data', 'guide-decls.tsv.gz'), 'rt', encoding='utf-8') as fh:
+        for r in csv.DictReader(fh, delimiter='\t'):
+            g = _goi.get(r['guide'])
+            if not g or r['cluster'] not in CL:
+                continue
+            m = r['module']
+            if r['kind'] == 'd':
+                if (r['name'], m) not in DSTAT:
+                    continue
+                DGUIDES[(r['name'], m)].add(g['oi'])
+            elif m not in mod_cl:
+                continue
+            l, u = _gpage(g, r['cluster'], r['page'])
+            e = [g['oi'], l, u, r['name'].rsplit('.', 1)[-1] if r['kind'] == 'd' else '']
+            if e not in FCITES[m]:
+                FCITES[m].append(e)
+    _ord = {g['oi']: i for i, g in enumerate(G_MAP)}
+    def _pk(e):
+        mm = re.match(r'p\. (\d+)', e[1])
+        return (e[0], 0 if mm else 1, int(mm.group(1)) if mm else 0, e[1], e[3])
+    LEAN_HOVER = {}
+    _hsz = []
+    for k in CL:
+        # explorer order: unit heads by steps from Main (then name), each followed by its helpers along the fold tree
+        mems = members[k]
+        kids = collections.defaultdict(list)
+        heads = []
+        for m in mems:
+            p = parent.get(m)
+            if m in unit_cl or p not in mod_cl or mod_cl.get(p) != k:
+                heads.append(m)
+            else:
+                kids[p].append(m)
+        heads.sort(key=lambda m: (fdist.get(m) is None, fdist.get(m) or 0, m.rsplit('.', 1)[-1].lower(), m))
+        order, par = [], {}
+        def walk(m, pi):
+            par[m] = pi
+            i = len(order); order.append(m)
+            for c in sorted(kids.get(m, []), key=lambda x: (x.rsplit('.', 1)[-1].lower(), x)):
+                walk(c, i)
+        for h in heads:
+            walk(h, -1)
+        OWN = {m: i for i, m in enumerate(order)}
+        NS, NSI = [], {}       # namespaces of this cluster's declarations (main file)
+        XNS, XNSI = [], {}     # namespaces of declarations elsewhere (lazy file)
+        XM, XMI = [], {}       # modules elsewhere (lazy file)
+        def tab(lst, idx, v):
+            if v not in idx:
+                idx[v] = len(lst); lst.append(v)
+            return idx[v]
+        def split(name, lst, idx):
+            a, _, b = name.rpartition('.')
+            return (tab(lst, idx, a) if a else -1), b
+        try:
+            REFS = json.load(gzip.open(os.path.join(XREF_D, 'full', 'refs', k + '.json.gz'), 'rt', encoding='utf-8'))
+        except FileNotFoundError:
+            REFS = {}
+        # this cluster's declarations (the link targets inside the node point at them by [file, declaration] index)
+        DIDX, DS = {}, []
+        allD = []
+        for fi_, m in enumerate(order):
+            ds = []
+            for n in sorted(MDECL.get(m, []), key=lambda n: DSTAT[(n, m)][1]):
+                st = DSTAT[(n, m)]
+                a, b = split(n, NS, NSI)
+                g = len(DGUIDES.get((n, m), ()))
+                row = [a, b, st[0], st[1], st[2], st[5], g, _bt.get((n, m), 0), st[6]]
+                while len(row) > 6 and not row[-1]:   # trailing zeros (no title, not on the chain) are left out
+                    row.pop()
+                DIDX[(n, m)] = [fi_, len(ds)]
+                ds.append(row)
+                allD.append((n, m, st, g, (n, m) in _bt, fi_))
+            DS.append(ds)
+        T, TI, TF = [], {}, []   # link targets inside the node: [file, declaration]; full names for the matching rule
+        E, EI = [], {}           # link targets in other nodes (lazy file); a link to one is written as -(index + 1)
+        def ti(tgt, tm):
+            key = (tgt, tm)
+            if key in DIDX:
+                if key not in TI:
+                    TI[key] = len(T); T.append(DIDX[key]); TF.append(tgt)
+                return TI[key]
+            st = DSTAT.get(key)
+            if not st:
+                return None
+            if key not in EI:
+                a, b = split(tgt, XNS, XNSI)
+                EI[key] = len(E); E.append([tab(XM, XMI, tm), a, b, st[0], st[1], st[2]])
+            return -EI[key] - 1
+        F, BY = [], []
+        for fi_, m in enumerate(order):
+            links = {}
+            for tok, v in REFS.get(m, {}).items():
+                if isinstance(v, list):
+                    t = ti(*v)
+                    if t is not None:
+                        links[tok] = t
+                else:
+                    per = {l: ti(*x) for l, x in v.items()}
+                    per = {l: t for l, t in per.items() if t is not None}
+                    if per:
+                        links[tok] = per
+            links = _lv_links(links, TF)
+            by = sorted(importers.get(m, []), key=lambda x: (fdist.get(x) is None, fdist.get(x) or 0, x))
+            kd = 'u' if m in unit_cl else ('w' if kind.get(m) == 'wrapper' else 'h')
+            F.append([par[m], kd, fdist.get(m), len(by), DS[fi_], links, sorted(FCITES.get(m, []), key=_pk)])
+            BY.append([OWN[x] if x in OWN else -tab(XM, XMI, x) - 1 for x in by[:5]])
+        def mods(ms):   # [folders, [[folder index, last part]]]
+            fd, fdi = [], {}
+            return fd, [[tab(fd, fdi, mm.rpartition('.')[0]), mm.rpartition('.')[2]] for mm in ms]
+        d1, x1 = mods(order)
+        d2, x2 = mods(XM)
+        main = {'d': d1, 'x': x1, 'ns': NS, 'f': F, 't': T}
+        lazy = {'d': d2, 'x': x2, 'ns': XNS, 'e': E, 'by': BY}
+        for path, obj in ((os.path.join(LV_OUT, k + '.json.gz'), main), (os.path.join(LV_OUT, 'x', k + '.json.gz'), lazy)):
+            raw = json.dumps(obj, separators=(',', ':'), ensure_ascii=False).encode()
+            open(path, 'wb').write(gzip.compress(raw, 9, mtime=0))
+            _hsz.append((k, path.endswith(os.path.join('x', k + '.json.gz')), len(raw), os.path.getsize(path)))
+        # the top 3 ("main") declarations (decision 5, simplified 24 Nov): (a) cited by guides or blueprints, more
+        # guides first; then (b) on the chain to Main, the file closer to Main first. Ties: theorems and lemmas before
+        # definitions, then source order (explorer order, then line). Nothing in (a) or (b): no "main:" list.
+        THM = ('t', 'l')
+        ca = [x for x in allD if x[3] or x[4]]
+        cb = [x for x in allD if not (x[3] or x[4]) and x[2][6]]
+        ca.sort(key=lambda x: (-x[3], x[2][0] not in THM, x[5], x[2][1]))
+        cb.sort(key=lambda x: (fdist.get(x[1]) if fdist.get(x[1]) is not None else 999, x[2][0] not in THM, x[5], x[2][1]))
+        LEAN_HOVER[k] = [len(allD)] + [x[0].rsplit('.', 1)[-1] for x in (ca + cb)[:3]]
+    for lazy in (False, True):
+        r = sorted(x[2] for x in _hsz if x[1] == lazy); z = sorted(x[3] for x in _hsz if x[1] == lazy)
+        print(f'Lean viewer data ({"lazy x/" if lazy else "main"}): {len(z)} files, {sum(z) / 1e6:.1f} MB gzipped '
+              f'({sum(r) / 1e6:.1f} MB raw), median {z[len(z) // 2] / 1e3:.0f} kB, max {z[-1] / 1e3:.0f} kB gzipped '
+              f'({r[-1] / 1e3:.0f} kB raw)')
+    print(f'Lean viewer data built in {__import__("time").time() - _t0:.0f}s')
+    json.dump({'k': [LEAN_HOVER.get(c['id'], [0]) for c in overview['clusters']]},
+              open(os.path.join(OUT, 'data', 'lean-hover.json'), 'w'), separators=(',', ':'), ensure_ascii=False)
+    del DSTAT, MDECL
+    return LEAN_HOVER
+if not os.path.exists(os.path.join(XREF_D, 'full', 'decl_stats.tsv.gz')):
+    print(f'Lean viewer data: no P4 output in {XREF_D}/full, skipped')
+else:
+    LEAN_HOVER = _lean_viewer()
+
 # ---------- search index: folders + leaf names
 folders, fidx, rows = [], {}, []
 for m, k in mod_cl.items():
@@ -927,8 +1183,12 @@ json.dump(WORDS, open(os.path.join(OUT, 'data', 'words.json'), 'w'), separators=
 DV_N = 7
 def _fh(path):
     return hashlib.sha256(open(path, 'rb').read()).hexdigest()[:DV_N]
-overview['dv'] = {'f': {n: _fh(os.path.join(OUT, 'data', n + '.json')) for n in ('tree', 'words', 'modules')},
-                  'c': ''.join(_fh(os.path.join(OUT, 'data', 'c', c['id'] + '.json')) for c in overview['clusters'])}
+overview['dv'] = {'f': {n: _fh(os.path.join(OUT, 'data', n + '.json')) for n in ('tree', 'words', 'modules')
+                        + (('lean-hover',) if LEAN_HOVER else ())},
+                  'c': ''.join(_fh(os.path.join(OUT, 'data', 'c', c['id'] + '.json')) for c in overview['clusters']),
+                  # the Lean viewer files (data/lean/<id>.json), the same way; absent when the P4 data was missing
+                  **({'l': ''.join(_fh(os.path.join(LV_OUT, c['id'] + '.json.gz')) for c in overview['clusters']),
+                      'lx': ''.join(_fh(os.path.join(LV_OUT, 'x', c['id'] + '.json.gz')) for c in overview['clusters'])} if LEAN_HOVER else {})}
 def write_overview():
     json.dump(overview, open(os.path.join(OUT, 'data', 'overview.json'), 'w'), separators=(',', ':'))
 write_overview()
@@ -956,7 +1216,8 @@ def hfiles(paths):
     for f in paths:
         h.update(os.path.relpath(f, OUT).encode()); h.update(open(f, 'rb').read())
     return h.hexdigest()[:10]
-DATA_FILES = sorted(glob.glob(os.path.join(OUT, 'data', '*.json')) + glob.glob(os.path.join(OUT, 'data', 'c', '*.json')))
+DATA_FILES = sorted(glob.glob(os.path.join(OUT, 'data', '*.json')) + glob.glob(os.path.join(OUT, 'data', 'c', '*.json'))
+                    + glob.glob(os.path.join(OUT, 'data', 'lean', '*.json.gz')) + glob.glob(os.path.join(OUT, 'data', 'lean', 'x', '*.json.gz')))
 DATA_V = hfiles(DATA_FILES)
 if STATE.get('data:', [None])[0] != chash(DATA_V):   # the data changed (overview 'updated' was the old date): date it today
     overview['updated'] = today
@@ -2190,7 +2451,8 @@ open(os.path.join(OUT, '_redirects'), 'w').write(REDIR)
 # blocked, with $ (end of URL) so the versioned ones still match nothing. /api/ (the public data API) stays open.
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\nAllow: /\n'
     '# the app\'s data files are fetched with ?v=<version>; the bare addresses are never used by the site\n'
-    'Disallow: /data/*.json$\n\n'
+    'Disallow: /data/*.json$\n'
+    'Disallow: /data/*.json.gz$\n\n'
     f'Sitemap: {SITE}/sitemap.xml\n')
 KEY_F = os.path.join(HERE, 'indexnow.key')   # IndexNow key (public by design: it is served at /<key>.txt)
 if not os.path.exists(KEY_F):
