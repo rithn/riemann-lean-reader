@@ -23,6 +23,8 @@
 # Fields added on 24 Nov 2026 (lane 1, "guide facts"; design: research/plans/guides-design.md sections 1, 4, 6).
 # Every value comes from the author's own pages; the report with sources is research/guides/lane1-facts-2026-11-24.md.
 #   slug           short URL name: /guides/<slug>/ and /?guide=<slug>
+#   cite_as        optional short name in the cluster pages' "Cited by expert guides" lists ("Jaswal, p. 12"); default the
+#                  last word of author.name
 #   page           true: the guide has its own page. false: a line on /guides/ only (tamnd)
 #   listed         false: kept here but skipped by the build everywhere (hub, pages, sitemap, refs, photos); dropped_note says why
 #   order          hub order, 1 first. Rule: group 1 = authors with a university maths post, group 2 = other named
@@ -612,6 +614,7 @@ guides:
   - id: tamnd-riemann-handbook
     slug: tamnd
     page: false
+    cite_as: tamnd   # short name in "cited on tamnd, …" lists (N3); the author's name order is not stated on the site
     order: 10
     author:
       as_listed:

@@ -1,0 +1,252 @@
+meta:
+  written: '2026-11-24'
+  task: tracker N3 (references via the guides)
+  method: 'Phase 1: bibliographies and in-text citations of the guides (refs.tsv, candidates.tsv). Phase 2: judgments.jsonl. merge.py keeps only supports verdicts. exact needs the text read (source_read
+    text); section needs the text or a contents list read; source_read false caps at topic.'
+  spine_file: spine-2026-11-23.yaml
+  precision_labels:
+    exact: theorem, lemma or section number read in the cited text and the stated result matches the Lean statement (see match). Downgraded to section when the match is only related or partial.
+    section: right chapter or section, not a specific theorem (chapter title verified from a contents list), or a theorem number read in the text where the Lean statement is only related or partial
+    topic: 'general reference: paper or book cited without a verified locator'
+  counts:
+    judgments_read: 30
+    supports_kept: 17
+    clusters: 8
+    clusters_in_spine: 2
+    clusters_outside_spine: 6
+    new_references: 8
+    new_by_precision:
+      topic: 4
+      section: 4
+  limits:
+  - 'Entries marked n3: true come from guide citations; spine entries are copied verbatim and come first in each cluster.'
+  - A guide page that maps to a cluster by Lean name is not itself evidence that the citation is about that cluster; only judgments with verdict supports are used.
+clusters:
+- id: k0688
+  title: Mean-square and Jacobi-symbol estimates for prime sums in progressions
+  depth: 2
+  current_book_reference: Iwaniec and Kowalski, Analytic Number Theory, ch. 7 (large sieve) and ch. 5
+  current_book_verdict: unverified
+  current_book_verdict_note: 'IK ch. 7 and 5: I could not confirm ch. 7 is the large sieve chapter (inferred from chapter order only) and found nothing tying the cluster to it. The cluster contains a Linnik
+    theorem file, which the current book reference does not cover (IK ch. 18).'
+  references:
+  - citation: U. V. Linnik, On the least prime in an arithmetic progression I. The basic theorem; II. The Deuring-Heilbronn phenomenon, Mat. Sbornik N.S. 15(57) (1944)
+    locator: Part I (the basic theorem)
+    precision: topic
+    evidence:
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/ThetaCorrespondence/Linnik.lean:142 (UpperTheory.Lit.linnik)
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-linnik (source field: "Linnik [linnik-1944]")'
+    note: Part and theorem numbers within the paper not checked.
+  - citation: H. Iwaniec and E. Kowalski, Analytic Number Theory, AMS Colloquium Publications 53, 2004
+    locator: Ch. 18 (The Least Prime in an Arithmetic Progression), section 18.4 Proof of Linnik's Theorem
+    url: https://doi.org/10.1090/coll/053
+    doi: 10.1090/coll/053
+    precision: section
+    evidence:
+    - Lean 40e56bab src/Development/AutomorphicArithmetic/ThetaCorrespondence/Linnik.lean:142 (UpperTheory.Lit.linnik)
+    - 'Checked 23 Nov 2026: contents excerpt via web search (see k0683); IK page itself not fetched'
+  - citation: P.X. Gallagher, A large sieve density estimate near ?=1, Inventiones Mathematicae 11 (1970), 329–339
+    locator: ''
+    url: https://doi.org/10.1007/bf01403187
+    doi: 10.1007/bf01403187
+    precision: topic
+    evidence:
+    - 'guide adriazola-reconstruction (repository file at commit 1da722efa44d51d76c5c39e35ca9d5de6717cd6c) audit/Post_Closure_Verification_Boundary.md, cluster k0688: cited as Gallagher 1970 <https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/1da722efa44d51d76c5c39e35ca9d5de6717cd6c/audit/Post_Closure_Verification_Boundary.md>'
+    - 'guide text: "(C7) = `PNTAPRelW`, primes in progressions with relative error | Derived from Gallagher (Invent. Math. 11, 1970, Theorem 7) at level max(M, e^{√log X}) plus partial summation."'
+    - 'guide adriazola-reconstruction (repository file at commit 1da722efa44d51d76c5c39e35ca9d5de6717cd6c) docs/EXTERNAL_THEOREMS.md, cluster k0688: cited as Gallagher 1970 <https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/1da722efa44d51d76c5c39e35ca9d5de6717cd6c/docs/EXTERNAL_THEOREMS.md>'
+    - 'guide text: "Primes in progressions with relative error, (C7) = `PNTAPRelW` | Gallagher, Invent. Math. 11 (1970), Thm 7, at level $\max(M,e^{\sqrt{\log X}})$ with partial summation."'
+    note: 'The guide derives the relative prime-count estimate with its exceptional-zero term by specializing the sieve level and applying partial summation. Publisher offers subscription access (https://link.springer.com/article/10.1007/BF01403187).
+      Lean: Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.PNTAPRelW | V1 cites the source theorem as the basis for C7’s relative prime-count estimate after choosing the level and applying partial
+      summation. Publisher offers subscription access (https://link.springer.com/article/10.1007/BF01403187). Lean: Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.PNTAPRelW | The C7 row refers
+      to V1 for the relative prime-count estimate, a consequence of the cited theorem via partial summation. Publisher offers subscription access (https://link.springer.com/article/10.1007/BF01403187).
+      Lean: Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.PNTAPRelW'
+    n3: true
+    cand_ids:
+    - c_44845a6b6f
+    - c_85c6c0315d
+    - c_d0699809d4
+    - c_e0db276551
+- id: k0706
+  title: Primes in progressions, thin prime sets and imaginary quadratic host primes
+  depth: 2
+  current_book_reference: Iwaniec and Kowalski, Analytic Number Theory, ch. 5 and 18 (primes in progressions, Linnik's theorem)
+  current_book_verdict: ok
+  current_book_verdict_note: IK ch. 18 (Linnik's theorem) is right. Ch. 5 not checked.
+  references:
+  - citation: U. V. Linnik, On the least prime in an arithmetic progression I. The basic theorem; II. The Deuring-Heilbronn phenomenon, Mat. Sbornik N.S. 15(57) (1944)
+    locator: Part I (the basic theorem)
+    precision: topic
+    evidence:
+    - Lean 40e56bab src/Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/PrimesInProgressionNonempty.lean:9 (GlobalTheory.Published.Linnik)
+    - 'blueprint chrisflav/riemann-blueprint@137d976, merten.json label thm-linnik (source field: "Linnik [linnik-1944]") matched to GlobalTheory.Published.Linnik'
+    note: 'Lean statement: exist C, L > 0 with least prime p = a mod q at most C q^L for all coprime a, q. Theorem numbers inside the paper not checked.'
+  - citation: H. Iwaniec and E. Kowalski, Analytic Number Theory, AMS Colloquium Publications 53, 2004
+    locator: Ch. 18 (The Least Prime in an Arithmetic Progression), section 18.4 Proof of Linnik's Theorem
+    url: https://doi.org/10.1090/coll/053
+    doi: 10.1090/coll/053
+    precision: section
+    evidence:
+    - 'Checked 23 Nov 2026: contents excerpt via web search (Scribd copy); IK page itself not fetched'
+  - citation: U. V. Linnik, On the least prime in an arithmetic progression. I. The basic theorem; II. The Deuring–Heilbronn phenomenon, Rec. Math. [Mat. Sbornik] N.S. 15(57) (1944)
+    locator: ''
+    url: ''
+    precision: topic
+    evidence:
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-linnik, cluster k0706: cited as [linnik-1944] <https://riemann.fuxi.merten.dev/#/object/thm-linnik>'
+    - 'guide text: "source = "Linnik [linnik-1944]" ... There are constants $C, L > 0$ such that for all coprime $a, q \ge 1$ the least prime $p \equiv a \pmod q$ satisfies $p \le C q^L$."'
+    note: 'Same uniform power bound for the least prime in every reduced progression. The Math-Net record (https://www.mathnet.ru/eng/sm/v57/i2/p139) identifies Part I, but sandbox DNS prevented access
+      to the PDF. Lean: GlobalTheory.Published.Linnik'
+    n3: true
+    cand_ids:
+    - c_5a02bca2c6
+- id: k0302
+  title: Green's parametrisation of cuspidal characters by Frobenius labels
+  depth: 3
+  current_book_reference: null
+  current_book_verdict: not-assessed
+  current_book_verdict_note: 'N3 cluster outside the spine: the book reference was not assessed.'
+  references:
+  - citation: J.A. Green, The characters of the finite general linear groups, Transactions of the American Mathematical Society 80 (1955), 402–447
+    locator: ''
+    url: https://doi.org/10.1090/s0002-9947-1955-0072878-2
+    doi: 10.1090/s0002-9947-1955-0072878-2
+    precision: topic
+    evidence:
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-green-parametrisation, cluster k0302: cited as [green-1955] <https://riemann.fuxi.merten.dev/#/object/thm-green-parametrisation>'
+    - 'guide text: "Green''s parametrisation of cuspidal characters ... source = "Green [green-1955]""'
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-green-regular-characters, cluster k0302: cited as [green-1955] <https://riemann.fuxi.merten.dev/#/object/thm-green-regular-characters>'
+    - 'guide text: "Cuspidal characters of GL(d) over a finite field ... source = "Green [green-1955]""'
+    note: 'The node''s cuspidal case is the prime-field classification using irreducible-polynomial labels, with the degree and elliptic character formula. The AMS PDF was unavailable for local verification
+      (https://doi.org/10.1090/s0002-9947-1955-0072878-2). Lean: GlobalTheory.GLq.Green | Lean states the prime-field cuspidal case using regular Frobenius orbits, including the degree and elliptic character
+      formula. The AMS PDF was unavailable for local verification (https://doi.org/10.1090/s0002-9947-1955-0072878-2). Lean: GlobalTheory.Published.GreenRegularCharacters'
+    n3: true
+    cand_ids:
+    - c_6049da0bd9
+    - c_233de891bb
+- id: k1251
+  title: Generic unitary dual of GL, segments and unitarisable twists
+  depth: 4
+  current_book_reference: null
+  current_book_verdict: not-assessed
+  current_book_verdict_note: 'N3 cluster outside the spine: the book reference was not assessed.'
+  references:
+  - citation: A.V. Zelevinsky, Induced representations of reductive p-adic groups. II. On irreducible representations of GL(n), Annales scientifiques de l'École normale supérieure 13 (1980), 165–210
+    locator: Section 9, 9.7(b)
+    url: https://doi.org/10.24033/asens.1379
+    doi: 10.24033/asens.1379
+    precision: section
+    evidence:
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-zelevinsky-segments, cluster k1251: cited as [zelevinsky-1980] <https://riemann.fuxi.merten.dev/#/object/thm-zelevinsky-segments>'
+    - 'guide text: "title = "Zelevinsky''s classification by segments" ... source = "Bernstein–Zelevinsky [bernstein-zelevinsky-1977]; Zelevinsky [zelevinsky-1980]""'
+    - 'Checked 2026-11-24: source text: "(b) Any non-degenerate coeIrrG^ decomposes as the product co=<Ai y x . . . x<(A,.y, where Ai, . . ., A^ are segments in ^ no two of which are linked."'
+    note: 'Blueprint part 4 cites the decomposition of generic irreducibles into unlinked segment products. Lean proves the 9.7(b) decomposition over characteristic-zero local fields and omits uniqueness.
+      Source excerpt from https://www.numdam.org/item/ASENS_1980_4_13_2_165_0.pdf. Lean: GlobalTheory.RgGu.Holds.genericUnlinkedGL_holds'
+    n3: true
+    cand_ids:
+    - c_74ea8b3f5e
+- id: k1252
+  title: Finite length, Langlands exhaustion and Satake parameters for GL
+  depth: 3
+  current_book_reference: null
+  current_book_verdict: not-assessed
+  current_book_verdict_note: 'N3 cluster outside the spine: the book reference was not assessed.'
+  references:
+  - citation: I.N. Bernstein and A.V. Zelevinsky, Induced representations of reductive p-adic groups. I, Annales scientifiques de l'École normale supérieure 10 (1977), 441–472
+    locator: Section 2.8
+    url: https://doi.org/10.24033/asens.1333
+    doi: 10.24033/asens.1333
+    precision: section
+    evidence:
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-bz-finiteness, cluster k1252: cited as [bernstein-zelevinsky-1977] <https://riemann.fuxi.merten.dev/#/object/thm-bz-finiteness>'
+    - 'guide text: "title = "Finiteness and duality for parabolic induction" ... source = "Bernstein–Zelevinsky [bernstein-zelevinsky-1976], [bernstein-zelevinsky-1977]""'
+    - 'Checked 2026-11-24: source text: "2.8. Now we state main theorems about induced representations."'
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-disjoint-support-product-irreducible, cluster k1252: cited as [bernstein-zelevinsky-1977] <https://riemann.fuxi.merten.dev/#/object/thm-disjoint-support-product-irreducible>'
+    - 'guide text: "title = "Irreducibility of products with disjoint cuspidal lines" ... source = "after Bernstein–Zelevinsky [bernstein-zelevinsky-1977]; Zelevinsky [zelevinsky-1980]""'
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-geometric-lemma, cluster k1252: cited as [bernstein-zelevinsky-1977] <https://riemann.fuxi.merten.dev/#/object/thm-geometric-lemma>'
+    - 'guide text: "title = "The geometric lemma" ... source = "Bernstein–Zelevinsky [bernstein-zelevinsky-1977]""'
+    note: 'The cuspidal irreducible inducing case of finite length for parabolic induction is in the Numdam PDF excerpt, https://www.numdam.org/item/ASENS_1977_4_10_4_441_0.pdf. Lean: GlobalTheory.SmGL.InductionFiniteLength
+      | The blueprint derives its disjoint-line criterion from the paper’s criterion. The Lean implication specializes the twist exclusion to 1 and ν±1, and the paper''s criterion treats cuspidal inducing
+      factors. PDF download failed. Lean: GlobalTheory.TotDisjUnlinked.main | The blueprint cites the geometric lemma directly. Lean records the GL case of the parabolic-induction/Jacquet filtration and
+      its cell multiplicity consequence. PDF download failed. Lean: GlobalTheory.Published.GeometricLemma'
+    n3: true
+    cand_ids:
+    - c_999c520eb5
+    - c_39637b5688
+    - c_cf985eabbb
+- id: k2016
+  title: 'Third-place series: theta data and Galois preconditions'
+  depth: 4
+  current_book_reference: null
+  current_book_verdict: not-assessed
+  current_book_verdict_note: 'N3 cluster outside the spine: the book reference was not assessed.'
+  references:
+  - citation: G. Henniart, Une preuve simple des conjectures de Langlands pour GL(n) sur un corps p-adique, Inventiones mathematicae 139 (2000), 439–455
+    locator: ''
+    url: https://doi.org/10.1007/s002220050012
+    doi: 10.1007/s002220050012
+    precision: topic
+    evidence:
+    - 'guide tamnd-riemann-handbook (web page as fetched 2026-11-24T12:14:10Z) https://riemann.tamnd.com/proof/named-results/, cluster k2016: cited as Henniart <https://riemann.tamnd.com/proof/named-results/>'
+    - 'guide text: "Local Langlands correspondence for GL(n) over p-adic fields (Harris-Taylor, Henniart) Lean: UpperTheory.LiteratureTheorems.local_langlands_gl_recT_exists_of_literature , which proves
+      UpperTheory.Zero.LLC.RecTExists ."'
+    - 'guide tamnd-riemann-handbook (web page as fetched 2026-11-24T12:13:09Z) https://riemann.tamnd.com/proof/trunk/, cluster k2016: cited as Henniart <https://riemann.tamnd.com/proof/trunk/>'
+    - 'guide text: "Remark (IsRecT is weaker than local Langlands). IsRecT does not ask for a bijection, and it does not mention ε \varepsilon -factors or L L -factors. Several of its laws hold only on
+      good classes. This chapter does not say whether the gap matters for the proof. The correspondence of Harris and Taylor, of Henniart and of Scholze is much stronger."'
+    - 'guide tamnd-riemann-handbook (web page as fetched 2026-11-24T12:13:12Z) https://riemann.tamnd.com/proof/unitary-hypotheses/, cluster k2016: cited as Henniart <https://riemann.tamnd.com/proof/unitary-hypotheses/>'
+    - 'guide text: "Classically, the existence part of the local Langlands correspondence for general linear groups is the theorem of Henniart."'
+    - 'guide tamnd-riemann-handbook (web page as fetched 2026-11-24T12:14:02Z) https://riemann.tamnd.com/step/local-langlands-gl-rect-exists-of-literature/, cluster k2016: cited as Henniart 2000 <https://riemann.tamnd.com/step/local-langlands-gl-rect-exists-of-literature/>'
+    - 'guide text: "The entry points to the local Langlands correspondence for G L n \mathrm{GL}_n over p p -adic fields: Harris and Taylor (2001), Henniart (2000), and Scholze (2013) for a later proof."'
+    note: 'The named result cites the full correspondence for the weaker existence claim at completions, with injectivity restricted to good representations. Full text inaccessible. Lean: UpperTheory.Zero.LLC.RecTExists
+      | The trunk compares the cited full correspondence with its weaker existence result. The Lean predicate uses restricted injectivity and omits surjectivity and factor identities. Full text inaccessible.
+      Lean: UpperTheory.Zero.LLC.RecTExists | The guide explicitly cites the existence part. Lean restricts the base fields to finite completions of number fields and asks for fewer compatibility laws.
+      Full text inaccessible. Lean: UpperTheory.Zero.LLC.RecTExists | The cited full correspondence supplies the existence component represented by the record field, with fewer compatibility laws in Lean.
+      Full text inaccessible. Lean: UpperTheory.Zero.LLC.RecTExists'
+    n3: true
+    cand_ids:
+    - c_0eb97ee9bd
+    - c_9f0231a00b
+    - c_e573c5da7a
+    - c_aee9b7b8ae
+- id: k2019
+  title: 'Local reciprocity laws: Weil-Deligne, Speh and Satake'
+  depth: 3
+  current_book_reference: null
+  current_book_verdict: not-assessed
+  current_book_verdict_note: 'N3 cluster outside the spine: the book reference was not assessed.'
+  references:
+  - citation: A. Caraiani, Local-global compatibility and the action of monodromy on nearby cycles, Duke Mathematical Journal 161 (2012), 2311–2413
+    locator: Section 1 (Introduction), Theorem 1.1
+    url: https://doi.org/10.1215/00127094-1723706
+    doi: 10.1215/00127094-1723706
+    precision: section
+    evidence:
+    - 'guide merten-riemann-blueprint (blueprint chrisflav/riemann-blueprint@137d976) object/thm-galois-reps-polarized-cuspidal, cluster k2019: cited as [caraiani-2012] <https://riemann.fuxi.merten.dev/#/object/thm-galois-reps-polarized-cuspidal>'
+    - 'guide text: "title = "Galois representations of polarized cuspidal representations" ... source = "after Harris–Taylor [harris-taylor-2001]; Shin [shin-2011]; Chenevier–Harris [chenevier-harris-2013];
+      Caraiani [caraiani-2012]""'
+    - 'Checked 2026-11-24: source text: "1 Introduction In this paper, we aim to strengthen the local-global compatibility of the Langlands correspondence."'
+    note: 'Theorem 1.1 gives stronger away-from-l compatibility in the conjugate self-dual case, one condition of the broader polarized-pair existence statement (https://arxiv.org/html/1010.2188). Lean:
+      UpperTheory.GalS.CuspUAlt, UpperTheory.GalS.IsGalUAlt.aw'
+    n3: true
+    cand_ids:
+    - c_900c9d9101
+- id: k2409
+  title: 'Potentially semistable Galois representations: conjugation and jumps'
+  depth: 3
+  current_book_reference: null
+  current_book_verdict: not-assessed
+  current_book_verdict_note: 'N3 cluster outside the spine: the book reference was not assessed.'
+  references:
+  - citation: A. Caraiani, Monodromy and local-global compatibility for l=p, Algebra & Number Theory 8 (2014), 1597–1646
+    locator: Section 1 (Theorem 1.1)
+    url: https://doi.org/10.2140/ant.2014.8.1597
+    doi: 10.2140/ant.2014.8.1597
+    precision: section
+    evidence:
+    - 'guide jaswal-zenodo-guide (v2, Zenodo record 24432579 (md5 3024933685553636c1f9b8e93af708a5 per Zenodo API); fetched 2026-11-24T05:38:46Z) p. 41, cluster k2409: cited as [18] <https://zenodo.org/records/24432579/files/jaswal-rh-dirichlet-after-alpoge.pdf#page=41>'
+    - 'guide text: "For such π Caraiani proves the same compatibility at w | ℓ[18, Thm 1.1] ... Row0b is a weak form of these theorems."'
+    - 'Checked 2026-11-24: source text: "1 Introduction"'
+    note: 'Theorem 1.1 gives full Frobenius-semisimplified Weil–Deligne compatibility above ℓ for cohomological conjugate self-dual cusp forms. Row0b proves a weaker above-ℓ comparison for restricted zero-monodromy
+      local types under tied period and bridge assumptions. arXiv text (https://arxiv.org/html/1202.4683). Lean: UpperTheory.Gal.Int.galoisRepresentations_of_thetaLift'
+    n3: true
+    cand_ids:
+    - c_c334a60bca

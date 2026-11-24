@@ -17,6 +17,14 @@ D, OUT = sys.argv[1], sys.argv[2]
 # 80a: --src-bundles[=DIR] also writes one Lean source bundle per cluster (default DIR: <out>/src/c). Off by default:
 # the full set is ~1 GB (the whole archive once more), see the note at SRC_BUNDLE below
 SRC_BUNDLES = next((a.split('=', 1)[1] if '=' in a else os.path.join(OUT, 'src', 'c') for a in sys.argv[3:] if a.startswith('--src-bundles')), None)
+# N3 tier 1 (works cited on guide pages that cover a cluster) and the Codex judgments that override them: rebuilt from
+# research/references/n3/ on every build where it exists (RH_N3 points elsewhere), so a new batch of judgments needs only
+# a rebuild; the script rewrites data/guide-cited-refs.tsv and data/references-n3.yaml only when their content changes.
+# Without research/ the committed copies are read. Run before data/c/ is cleared: merge.py reads cluster titles there.
+N3_D = os.environ.get('RH_N3') or os.path.join(ROOT, 'research', 'references', 'n3')
+if os.path.exists(os.path.join(N3_D, 'candidates.tsv')):
+    import subprocess
+    subprocess.run([sys.executable, '-I', os.path.join(REPO, 'scripts', 'refs', 'guide_cited_refs.py'), '--n3', N3_D], check=True)
 os.makedirs(os.path.join(OUT, 'data', 'c'), exist_ok=True)
 for f in glob.glob(os.path.join(OUT, 'data', 'c', '*.json')):
     os.remove(f)
@@ -224,6 +232,45 @@ for x in SPINE_Y['clusters']:
     cur = f'{s["title"]}, {s["where"]}' if isinstance(s, dict) and s.get('where') else (s or {}).get('title') if isinstance(s, dict) else None
     if (cur or None) != (x.get('current_book_reference') or None):
         print(f'NOTE references-spine.yaml {k}: the reference it judged ({x.get("current_book_reference")!r}) is not today\'s ({cur!r})')
+# N3: references from guide citations that Codex judged 'supports' (data/references-n3.yaml, written by
+# scripts/refs/guide_cited_refs.py from merge.py's output; only its n3: true entries are read, the spine ones above are
+# the same). Shown exactly as the spine's checked references, after them, on spine and other clusters alike. CHECKED_REFS:
+# cluster -> {'refs', 'evidence', 'date'}, the spine's and N3's together, by precision. A non-spine cluster keeps its
+# automatic book reference: N3 did not assess it.
+N3_F = os.path.join(REPO, 'data', 'references-n3.yaml')
+N3_Y = yaml.safe_load(open(N3_F, encoding='utf-8')) if os.path.exists(N3_F) else {'meta': {}, 'clusters': []}
+N3_DATE = str(N3_Y['meta'].get('written') or SPINE_DATE)
+CHECKED_REFS = {k: {'refs': list(v['refs']), 'evidence': list(v['evidence']), 'date': SPINE_DATE} for k, v in SPINE.items()}
+N3_N = collections.Counter()
+N3_FULL_NOTE = {}
+def n3_note(full, n):   # pages and app: the first supports judgment's note (merge.py puts the best one first, notes
+    # joined by ' | '), at most 2 sentences, then how many guide citations were judged; the full text stays in the API
+    first = (full or '').split(' | ')[0].strip()
+    ss = re.split(r'(?<=[.!?])\s+(?=[A-Z(])', first) if first else []
+    short = ' '.join(ss[:2])
+    if short and _UNREAD.search(short):
+        short = ''
+    return ' '.join(x for x in (short, f'({n} guide {"citation" if n == 1 else "citations"} checked)') if x)
+for x in N3_Y.get('clusters') or []:
+    rs = [r for r in x.get('references') or [] if r.get('n3')]
+    if not rs or x['id'] not in CL:
+        assert not rs, f'references-n3.yaml names an unknown cluster {x["id"]}'
+        continue
+    e = CHECKED_REFS.setdefault(x['id'], {'refs': [], 'evidence': [], 'date': N3_DATE})
+    e['date'] = max(e['date'], N3_DATE)
+    for r in rs:
+        d = {**_spine_ref(r), 'basis': 'guide-citation-judged'}
+        full = ' '.join(str(r.get('note') or '').split()) or None
+        d['note'] = n3_note(full, len(r.get('cand_ids') or []) or 1)
+        e['refs'].append(d)
+        e['evidence'].append([str(z) for z in r.get('evidence') or []])
+        N3_FULL_NOTE[id(d)] = full   # the API keeps every judgment's note
+        N3_N[x['id'] in SPINE] += 1
+for e in CHECKED_REFS.values():
+    o = sorted(range(len(e['refs'])), key=lambda i: PREC_ORDER[e['refs'][i]['precision']])
+    e['refs'], e['evidence'] = [e['refs'][i] for i in o], [e['evidence'][i] for i in o]
+print(f'references (N3, judged supports): {sum(N3_N.values())} checked references from guide citations, '
+      f'{N3_N[True]} on spine clusters, {N3_N[False]} elsewhere')
 def shown_source(k):   # the automatic (AI namer) book reference still shown for cluster k, or None
     s = NAMES.get(k, {}).get('source')
     if not isinstance(s, dict) or not s.get('title'):
@@ -642,6 +689,8 @@ def gnorm(g, i):
             'type': gfield(g, 'type')[0] if gfield(g, 'type')[1] else None, 'format': g.get('format'),
             'licence': g.get('licence') or g.get('license'), 'host_copy': bool(g.get('host_copy')), 'versions': vers,
             'status': st, 'quote': g.get('status_quote'), 'order': g.get('order'),
+            # cite_as: the short name in "cited on Jaswal, p. 12" (N3); default the last word of the author's name
+            'cite_as': str(g.get('cite_as') or (name.split()[-1] if name and aok else title.split(':')[0][:30])),
             'role': (a.get('order_group') if isinstance(a, dict) else None) or g.get('role'),
             'clusters': [k for k in (g.get('clusters') or []) if k in CL]}
 GD = [gnorm(g, i) for i, g in enumerate(GUIDES)]
@@ -748,8 +797,9 @@ for g in GD:
     cp = f'/guides/{g["slug"]}/files/{g["copy_plan"][0]}'
     blob = lambda u: re.sub(r'/blob/[0-9a-f]{7,40}/', '/blob/*/', re.sub(r'#.*$', '', u or ''))
     if v.get('url') and '/blob/' in v['url']:
+        g['fix_url'] = (lambda cp, vu: lambda u: cp + u[u.index('#'):] if u and '#page=' in u and blob(u) == blob(vu) else u)(cp, v['url'])
         for k, ps in g['refs'].items():
-            g['refs'][k] = [(p, cp + u[u.index('#'):] if u and '#page=' in u and blob(u) == blob(v['url']) else u) for p, u in ps]
+            g['refs'][k] = [(p, g['fix_url'](u)) for p, u in ps]
 G_PMAX = 8   # pages listed per guide in a cluster's list; the rest are on the guide's own page ('m': how many more)
 G_MAP = [g for g in GD if g['page']]   # the guides on the map (overview 'guides', in hub order); 'oi': index there
 for i, g in enumerate(G_MAP):
@@ -762,6 +812,51 @@ for g in G_MAP:
         pg = page_groups(pages)
         CGUIDES[k].append({'i': g['oi'], 'p': [[l, u] for l, u in pg[:G_PMAX]], **({'m': len(pg) - G_PMAX} if len(pg) > G_PMAX else {}),
                            **({'n': [[l, u] for l, u in g['notes'][k]]} if g['notes'].get(k) else {})})
+# N3 tier 1: works cited on a guide page that covers the cluster, automatic and not checked (data/guide-cited-refs.tsv,
+# written by scripts/refs/guide_cited_refs.py; see its header). Shown after the checked and automatic references as
+# "Cited by expert guides (automatic, not checked)", GC_CAP works first (most citing guides first), the rest behind
+# "Show all". GCITE: cluster -> [{'citation', 'url', 'guides': n, 'on': [(guide, label, url)]}]. The app reads the same
+# lists from data/guide-cites.json, fetched only when the section is opened; each cluster file carries only the count
+# ('gc'). A citing page of a guide that is not listed is left out (and the work, if no page is left).
+GC_T = 'Cited by expert guides (automatic, not checked)'
+GC_LABEL = 'Cited on a guide page that covers this node (automatic, not checked)'
+GC_NOTE = ('A guide page can cover several clusters, so a work listed here may concern another part of that page. '
+           'Checked references, where there are any, are listed above.')
+GC_CAP, GC_PMAX = 8, 4   # works shown before "Show all"; citing pages shown per work before "and N more"
+GC_F = os.path.join(REPO, 'data', 'guide-cited-refs.tsv')
+G_BY_ID = {g['id']: g for g in GD}
+GCITE = collections.defaultdict(list)
+_gc_skip = collections.Counter()
+if os.path.exists(GC_F):
+    with open(GC_F, encoding='utf-8', newline='') as f:
+        import csv as _csv
+        for r in _csv.DictReader(f, delimiter='\t', quoting=_csv.QUOTE_NONE):
+            if r['cluster'] not in CL:
+                _gc_skip['cluster not on the map'] += 1; continue
+            on, seen = [], set()
+            for x in r['cited_on'].split(';'):
+                gid, pg, pu = (x.split('|') + ['', ''])[:3]
+                g = G_BY_ID.get(gid)
+                if not g:
+                    _gc_skip['guide not listed'] += 1; continue
+                note, lab = _glabel(g, pg)
+                lab = f'p. {lab}' if lab.isdigit() else lab
+                u = g.get('fix_url', lambda u: u)(pu) if re.match(r'https?://', pu) else None
+                if (gid, lab) not in seen:
+                    seen.add((gid, lab)); on.append((gid, lab, u))
+            if not on:
+                continue
+            GCITE[r['cluster']].append({'citation': ' '.join(r['citation'].split()), 'url': r['url'] or None,
+                                        'guides': len({x[0] for x in on}), 'on': on})
+for k in GCITE:
+    GCITE[k].sort(key=lambda w: (-w['guides'], -len(w['on']), w['citation'].lower()))
+GC_GUIDES = sorted({x[0] for ws in GCITE.values() for w in ws for x in w['on']}, key=lambda i: G_BY_ID[i]['i'])
+# the app's copy: g [[short name, the guide's page here or its original]], c {cluster: [[citation, url, [[g index, page label, url], …]], …]}
+json.dump({'label': GC_LABEL, 'g': [[G_BY_ID[i]['cite_as'], f'/guides/{G_BY_ID[i]["slug"]}/' if G_BY_ID[i]['page'] else G_BY_ID[i]['url']] for i in GC_GUIDES],
+           'c': {k: [[w['citation'], w['url'], [[GC_GUIDES.index(gi), l, u] for gi, l, u in w['on']]] for w in ws] for k, ws in sorted(GCITE.items())}},
+          open(os.path.join(OUT, 'data', 'guide-cites.json'), 'w'), separators=(',', ':'), ensure_ascii=False)
+print(f'guide-cited references (N3 tier 1, automatic): {sum(map(len, GCITE.values()))} works on {len(GCITE)} clusters, '
+      f'{sum(1 for k in GCITE if k not in SPINE)} outside the spine' + (f'; left out: {dict(_gc_skip)}' if _gc_skip else ''))
 # photos: 48 px (hover, lists) and 96 px (pages) WebP copies, square, centre crop; stale copies are removed
 os.makedirs(GPHOTO_OUT, exist_ok=True)
 _gph_keep = set()
@@ -845,7 +940,8 @@ for k, c in CL.items():
         'coherent': n.get('coherent'), 'confidence': n.get('confidence'),
         'concepts': conc, 'new_concepts': n.get('new_concepts') or [],
         'source': shown_source(k),   # automatic (AI namer) book reference, unchecked; None where checked ones replace it
-        **({'refs': SPINE[k]['refs'], 'refs_checked': SPINE_DATE} if k in SPINE else {}),
+        **({'refs': CHECKED_REFS[k]['refs'], 'refs_checked': CHECKED_REFS[k]['date']} if k in CHECKED_REFS else {}),
+        **({'gc': len(GCITE[k])} if k in GCITE else {}),   # N3: works cited by guides (data/guide-cites.json has them)
         'hints': HINTS.get(k, []), 'uses': uses[k], 'used_by': sorted(used_by[k]),
         'dist': dist.get(k), 'core': core_cl.get(k, []), 'lines': c['lines'], 'files': files,
         **({'checked': True, 'evidence': [{'m': m, 'decl': dc, 'says': w} for m, dc, w in evidence(k)]} if k in CHECKED else {}),
@@ -1184,7 +1280,7 @@ json.dump(WORDS, open(os.path.join(OUT, 'data', 'words.json'), 'w'), separators=
 DV_N = 7
 def _fh(path):
     return hashlib.sha256(open(path, 'rb').read()).hexdigest()[:DV_N]
-overview['dv'] = {'f': {n: _fh(os.path.join(OUT, 'data', n + '.json')) for n in ('tree', 'words', 'modules')
+overview['dv'] = {'f': {n: _fh(os.path.join(OUT, 'data', n + '.json')) for n in ('tree', 'words', 'modules', 'guide-cites')
                         + (('lean-hover',) if LEAN_HOVER else ())},
                   'c': ''.join(_fh(os.path.join(OUT, 'data', 'c', c['id'] + '.json')) for c in overview['clusters']),
                   # the Lean viewer files (data/lean/<id>.json), the same way; absent when the P4 data was missing
@@ -1678,11 +1774,11 @@ def spine_ref_html(r):   # one checked reference: citation (linked), locator, pr
             + f' <span class="prec {r["precision"]}" title="{H(PREC_TIP[r["precision"]])}"><span class="sr">(precision: </span>'
             f'{r["precision"]}<span class="sr">)</span></span>' + (f'<small>{H(extra)}</small>' if extra else '') + '</div>')
 def spine_refs_html(k):   # 35b: the checked references of a spine cluster, exact and section first, then Background
-    if k not in SPINE or not SPINE[k]['refs']:
+    if k not in CHECKED_REFS or not CHECKED_REFS[k]['refs']:   # the spine's and N3's judged guide citations
         return ''
-    rs = SPINE[k]['refs']
+    rs = CHECKED_REFS[k]['refs']
     main_rs, bg = [r for r in rs if r['precision'] != 'topic'], [r for r in rs if r['precision'] == 'topic']
-    d = datetime.date.fromisoformat(SPINE_DATE)
+    d = datetime.date.fromisoformat(CHECKED_REFS[k]['date'])
     return (f'<p class="meta refnote">References checked on {d.day} {d:%b %Y}. Exact: the theorem number was read in the '
             'text and matches the Lean statement. Section: the right chapter or section. Topic: general background.</p>'
             + ''.join(spine_ref_html(r) for r in main_rs)
@@ -1751,6 +1847,20 @@ def gbox_html(k):   # the cluster page's list: each guide (photo, author, title 
         li.append(f'<li><a href="{H(GPATH.get(g["slug"], g["url"]))}">{gav(g, 24)}<span class="t">{gauthor(g, False)}<small>{H(g["title"])}</small></span></a>'
                   + (f'<p class="gpages">{refs}</p>' if refs else '') + '</li>')
     return f'<h2 id="guides">{G_BOX_T}</h2><ul class="rows glist">{"".join(li)}</ul><p class="meta"><a href="/guides/">All guides</a></p>'
+def gcite_item(w):   # one guide-cited work: the citation (linked by DOI or arXiv), then "cited on Jaswal, p. 12, …"
+    cit = f'<a href="{H(w["url"])}">{H(w["citation"])}</a>' if w['url'] else H(w['citation'])
+    on = [f'<a href="{H(u)}">{H(G_BY_ID[gi]["cite_as"])}, {H(l)}</a>' if u else f'{H(G_BY_ID[gi]["cite_as"])}, {H(l)}'
+          for gi, l, u in w['on'][:GC_PMAX]]
+    more = len(w['on']) - GC_PMAX
+    return f'<div class="ref gc">{cit}<small>cited on {", ".join(on)}{f" and {more} more" if more > 0 else ""}</small></div>'
+def gcite_html(k):   # N3 tier 1: the subsection at the end of References
+    ws = GCITE.get(k)
+    if not ws:
+        return ''
+    rest = ws[GC_CAP:]
+    return (f'<h3 class="refbg" id="guide-cited">{GC_T}</h3><p class="meta refnote">{H(GC_LABEL)}. {H(GC_NOTE)} '
+            f'<a href="/guides/">About the guides</a></p>' + ''.join(gcite_item(w) for w in ws[:GC_CAP])
+            + (f'<details class="gcmore"><summary>Show all {len(ws)}</summary>{"".join(gcite_item(w) for w in rest)}</details>' if rest else ''))
 for k, p in CPATH.items():
     n, c = NAMES.get(k, {}), CL[k]
     title = n.get('title') or folder_label(c['folders'])
@@ -1758,7 +1868,7 @@ for k, p in CPATH.items():
     refs = spine_refs_html(k) + ''.join([f'<div class="ref">{H(src.get("title", ""))}{" · " + H(src["where"]) if src.get("where") else ""}'
                     f'<small>{AUTO_LABEL} · suggested by the AI that named the cluster</small></div>'] if src else []) + \
            ''.join(f'<div class="ref note">{H(re.sub(r"\s*\(word match [\d.]+\):", " —", h))}<small>Cited in the author\'s note · '
-                   f'matched by word overlap · unchecked</small></div>' for h in HINTS.get(k, []))
+                   f'matched by word overlap · unchecked</small></div>' for h in HINTS.get(k, [])) + gcite_html(k)
     conc = [CONC[x]['title'] if x in CONC else x.replace('concept-', '').replace('-', ' ') for x in n.get('concepts') or []]
     route = ''
     if k in dist and dist[k] > 0:   # the glyph is decorative here; the hidden text carries the meaning
@@ -2315,22 +2425,37 @@ jdump('themes.json', {'updated': DATA_DATE, 'fields': {'files': 'Lean files in t
      'clusters': len(TH[t]['clusters']), 'files': sum(fcount[k] for k in TH[t]['clusters']), 'units': size[t], 'field': TFIELD[t]} for t in TH]})
 # 35b: the checked references of the spine clusters, with precision and the checker's evidence (Lean file and line,
 # what was read and where); notes marked as unread suggestions are left out, as on the pages
-jdump('references.json', {'updated': SPINE_DATE, 'lean_commit': str(SPINE_Y['meta']['lean_commit']),
+jdump('references.json', {'updated': max(SPINE_DATE, N3_DATE) if N3_N else SPINE_DATE, 'lean_commit': str(SPINE_Y['meta']['lean_commit']),
       'fields': {'precision': '; '.join(f'{p}: {" ".join(str(v).split())}' for p, v in SPINE_Y['meta']['precision_labels'].items()),
                  'citation': 'the work cited', 'locator': 'where in it (chapter, section, theorem)', 'url': 'link to the work (DOI where there is one)',
                  'match': 'how the cited result compares with the Lean statement, where checked',
-                 'note': "the checker's caveat, if any", 'evidence': 'what the reference was checked against (Lean file and line, contents lists, the blueprint)',
+                 'note': "the checker's caveat, if any", 'evidence': 'what the reference was checked against (Lean file and line, contents lists, the blueprint, the citing guide page)',
+                 'checked': 'true: a checked reference (clusters, references); false: an automatic one (guide_citations)',
+                 'basis': 'spine-check: checked for the spine (main path and core); guide-citation-judged: a guide citation judged to support the cluster, with its precision; '
+                          f'guide-page-citation: "{GC_LABEL}", the work is cited on a page of an expert guide that also covers this cluster, and nobody has checked that it is about this cluster',
                  'automatic_reference': f'the book reference the site showed before the check (suggested by the AI that named the cluster); verdict: ok, partly, weak, unverified, wrong or none; shown on the page only where there is no checked reference and the verdict is not wrong',
+                 'guide_citations': f'{GC_LABEL}: per cluster, the works cited on guide pages that cover it (tier 1 of tracker N3: blueprint citations and pages that cover at most 4 clusters), '
+                                    'with the pages that cite them; works a judgment moved to the checked references, or judged context-only or unrelated, are left out',
+                 'cited_on': 'the citing pages: guide id, guide (short name), page as the guide labels it, url of that page',
+                 'guides': 'number of distinct guides that cite the work on a page covering the cluster',
                  'other_clusters': f'clusters not listed here show only an automatic reference, labelled "{AUTO_LABEL}"'},
-      'clusters': [{'id': k, 'title': ctitle(k), 'path': CPATH[k], 'dist': dist.get(k),
+      'clusters': [{'id': k, 'title': ctitle(k), 'path': CPATH[k], 'dist': dist.get(k), 'spine': k in SPINE,
                     'automatic_reference': {'text': next((x.get('current_book_reference') for x in SPINE_Y['clusters'] if x['id'] == k), None),
-                                            'verdict': v['verdict'], 'shown': shown_source(k) is not None},
-                    'references': [{**r, 'evidence': ev} for r, ev in zip(v['refs'], v['evidence'])]} for k, v in SPINE.items()]})
+                                            'verdict': SPINE[k]['verdict'], 'shown': shown_source(k) is not None} if k in SPINE else
+                                           {'text': None, 'verdict': 'not-assessed', 'shown': shown_source(k) is not None},
+                    'references': [{**r, **({'note': N3_FULL_NOTE[id(r)]} if id(r) in N3_FULL_NOTE else {}), 'checked': True,
+                                    'basis': r.get('basis') or 'spine-check', 'evidence': ev} for r, ev in zip(v['refs'], v['evidence'])]}
+                   for k, v in sorted(CHECKED_REFS.items(), key=lambda kv: (kv[0] not in SPINE, kv[0]))],
+      'guide_citations': [{'cluster': k, 'title': ctitle(k), 'path': CPATH[k], 'spine': k in SPINE, 'label': GC_LABEL,
+                           'works': [{'citation': w['citation'], 'url': w['url'], 'checked': False, 'basis': 'guide-page-citation', 'guides': w['guides'],
+                                      'cited_on': [{'guide': gi, 'guide_name': G_BY_ID[gi]['cite_as'], 'page': l, 'url': u} for gi, l, u in w['on']]}
+                                     for w in ws]} for k, ws in sorted(GCITE.items())]})
 API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
              'endpoints': {'/api/status.json': 'dated proof status with primary sources',
                            '/api/clusters.json': f'all {len(CL):,} clusters: id, title, theme, page, files, dist, field, era, era_year, level, new_in_proof, checked; plus math_fields, the {len(FIELDS)} fields (id, name, hue, description)',
                            '/api/themes.json': f'all {len(TH)} themes: id, name, blurb, page, clusters, files, field',
-                           '/api/references.json': f'checked references for the {len(SPINE)} clusters of the spine (the main path and the core): citation, locator, url, doi, precision (exact, section or topic), match, note, evidence'},
+                           '/api/references.json': f'checked references for {len(CHECKED_REFS)} clusters (the {len(SPINE)} of the spine, the main path and the core, and guide citations judged to support a cluster): citation, locator, url, doi, precision (exact, section or topic), match, note, evidence, "checked": true; '
+                                                   f'and guide_citations, {sum(map(len, GCITE.values()))} works on {len(GCITE)} clusters flagged "checked": false, "basis": "guide-page-citation" ({GC_LABEL.lower()})'},
              'tags': {'field': f'one of {len(FIELDS)} fields of mathematics per theme; a cluster takes its theme\'s field',
                       'era': 'decade of the newest concept a cluster needs: ' + ', '.join(ERA_OF),
                       'level': 'highest maths level among a cluster\'s concepts: ' + ', '.join(n for _, n in LEVELS),
@@ -2376,7 +2501,7 @@ OA_FILES = [('index.json', 'getIndex', 'API index: the endpoints, tag meanings a
              json.load(open(os.path.join(OUT, 'api', 'clusters.json')))['fields']),
             ('themes.json', 'getThemes', 'Every theme', API_INDEX['endpoints']['/api/themes.json'],
              json.load(open(os.path.join(OUT, 'api', 'themes.json')))['fields']),
-            ('references.json', 'getReferences', 'Checked references for the spine clusters', API_INDEX['endpoints']['/api/references.json'],
+            ('references.json', 'getReferences', 'Checked references, and works cited by guides (not checked)', API_INDEX['endpoints']['/api/references.json'],
              json.load(open(os.path.join(OUT, 'api', 'references.json')))['fields'])]
 OPENAPI = {
     'openapi': '3.1.0',
@@ -2447,7 +2572,9 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_LONG}\n\n'
         + f'\n## Data\n\n- [API index]({SITE}/api/index.json): the JSON endpoints\n'
         f'- [OpenAPI description]({SITE}/api/openapi.json): the same endpoints as OpenAPI 3.1, with their schemas\n'
         f'- [Clusters]({SITE}/api/clusters.json): every cluster with its page and distance from the main theorem\n'
-        f'- [Checked references]({SITE}/api/references.json): sources for the {len(SPINE)} spine clusters, each with its precision (exact, section or topic)\n'
+        f'- [Checked references]({SITE}/api/references.json): sources for the {len(SPINE)} spine clusters and {len(CHECKED_REFS) - len(SPINE)} others, each with its precision (exact, section or topic)\n'
+        f'- Cited by expert guides, in the same file (guide_citations, "checked": false, "basis": "guide-page-citation"): {sum(map(len, GCITE.values()))} works on {len(GCITE)} clusters. '
+        f'{GC_LABEL}: the work is cited on a guide page that also covers the cluster; it is not a checked source for the cluster\'s Lean results\n'
         f'- Licence: CC BY 4.0 ({LICENSE}) for everything this site made (page text, names and descriptions, map layout, images, JSON); the Lean source keeps its own licence.\n\n'
         f'## Updates\n\n- [Changelog]({SITE}/changelog/index.md) · [RSS]({SITE}/changelog/feed.xml)\n'
         f'- Full text of the key pages: {SITE}/llms-full.txt\n')
