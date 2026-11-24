@@ -1,6 +1,6 @@
 {
 "submitted":"2026-11-24",
-"note":"2719 of 2719 URLs accepted",
+"note":"3 of 3 URLs accepted",
 "urls":{
 "/":"f9ab83cacb7b",
 "/about/":"ae12ebb95e7d",
@@ -2666,10 +2666,10 @@
 "/guides/sutherland/":"1c04e19c82f0",
 "/how-we-know/":"88cf2a795cbb",
 "/learn/":"2e118702fd56",
-"/press/":"ad1807a0d2e3",
+"/press/":"332746b78ee2",
 "/proof-in-numbers/":"67b76803a5c1",
 "/route/":"804c51236390",
-"/status/":"3944bf73cc30",
+"/status/":"14cb7a21490c",
 "/theme/th001-symmetric-polynomials-and-determinant-bounds-for-heights/":"49dd1a7055d2",
 "/theme/th002-wach-modules-and-hodgetate-cohomology-bounds/":"05b19a85e3de",
 "/theme/th003-functorial-embedded-resolution-of-singularities/":"9064c4972878",
@@ -2733,7 +2733,7 @@
 "/theme/th061-theta-lifts-and-whittaker-functions-for-adelic-gl2/":"dd6a12e0baa8",
 "/theme/th062-indefinite-row-side-hecke-models-in-theta-correspondence/":"abd95c68b706",
 "/theme/th063-twisted-theta-lifts-and-theta-kernel-bounds/":"856d3d2098d8",
-"/timeline/":"b38dc9f113f6",
+"/timeline/":"30e2edb440d6",
 "/what-is-the-riemann-hypothesis/":"ec3451be41ee",
 "/why-it-matters/":"ad12b374761a"
 }
