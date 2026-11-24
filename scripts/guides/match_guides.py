@@ -1,7 +1,7 @@
 """Deterministic page-level links from outside guides to the map's clusters (guides-design.md section 5 step 2).
 
 usage: uv run --no-project --with pymupdf python -I match_guides.py <sources dir> <xref dir> <site modules.json>
-                                                                    <lean src tree> <out dir> [<summary.json>]
+                                                                    <lean src tree> <out dir> [<summary.json>] [--decls=<file>]
 
 <sources dir>   research/guides/sources (pinned copies; read as data, nothing in it is run)
 <xref dir>      research/lean-reader/xref (decls.tsv.gz, blueprint_matches.tsv)
@@ -38,8 +38,13 @@ the only text that names the declaration.
 """
 import os, sys, re, csv, json, gzip, html, collections, glob, urllib.parse
 
-src_dir, xref, modules_json, tree, out_dir = sys.argv[1:6]
-summary_path = sys.argv[6] if len(sys.argv) > 6 else None
+_args = [a for a in sys.argv[1:] if not a.startswith('--decls=')]
+src_dir, xref, modules_json, tree, out_dir = _args[:5]
+summary_path = _args[5] if len(_args) > 5 else None
+# --decls=<file>: also write every cited declaration and file, unshortened (the evidence column keeps only 4 per
+# row, then '+N more'): guide, cluster, page, kind (d = declaration, f = file), name or module, declaring module
+DECLS_OUT = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--decls=')), None)
+DECL_ROWS = set()
 import pymupdf
 
 # ---------------- reference data ----------------
@@ -199,7 +204,7 @@ def find_hits(text, abbr=None):
             if not partial and q in file_set and ('/' in q or 'lean/src/' in p):
                 c = cluster_of_module(q[:-5].replace('/', '.'))
                 if c:
-                    hits.append((c, 'exact-path', p + tag))
+                    hits.append((c, 'exact-path', p + tag, ('f', q[:-5].replace('/', '.'))))
                 else:
                     skipped['path without cluster'] += 1
                 continue
@@ -207,7 +212,7 @@ def find_hits(text, abbr=None):
             if len(cands) == 1:
                 c = cluster_of_module(cands[0][:-5].replace('/', '.'))
                 if c:
-                    hits.append((c, 'unique-filename', f'{p} -> {cands[0]}{tag}'))
+                    hits.append((c, 'unique-filename', f'{p} -> {cands[0]}{tag}', ('f', cands[0][:-5].replace('/', '.'))))
             elif len(cands) > 1:
                 skipped['file name not unique'] += 1
             else:
@@ -225,7 +230,7 @@ def find_hits(text, abbr=None):
             if len(parts) > 1 and tok in modules:
                 c = cluster_of_module(tok)
                 if c:
-                    hits.append((c, 'exact-module', tok + tag))
+                    hits.append((c, 'exact-module', tok + tag, ('f', tok)))
                 continue
             for k in range(len(parts), 0, -1):
                 n = '.'.join(parts[:k])
@@ -243,7 +248,7 @@ def find_hits(text, abbr=None):
                             break
                     cls = {cluster_of_module(x) for x in mods} - {None}
                     if len(cls) == 1:
-                        hits.append((cls.pop(), 'exact-name', n + tag))
+                        hits.append((cls.pop(), 'exact-name', n + tag, ('d', n, sorted(mods)[0] if len(mods) == 1 else '')))
                     elif len(cls) > 1:
                         skipped['name in several clusters'] += 1
                     break
@@ -257,7 +262,7 @@ def merge_rows(page_hits):
     rows = []
     for (page, url), hs in page_hits.items():
         per = collections.defaultdict(list)
-        for c, b, e in hs:
+        for c, b, e, *_ in hs:
             per[c].append((RANK[b], b, e))
         for c, lst in per.items():
             lst.sort()
@@ -321,10 +326,16 @@ for gid, g in GUIDES.items():
         for r in bm[srcname]:
             page, url = fn(r['label'])
             page_hits.setdefault((page, url), []).append((r['cluster'], 'blueprint-label',
-                                                          f"{r['label']}: {r['lean_name']}"))
+                                                          f"{r['label']}: {r['lean_name']}", ('d', r['lean_name'], r['module'])))
         scanned['blueprint statements'] = len({r['label'] for r in bm[srcname]})
 
     rows = merge_rows(page_hits)
+    if DECLS_OUT and not g.get('side'):
+        for (page, url), hs in page_hits.items():
+            for h in hs:
+                if len(h) > 3:
+                    ref = h[3]
+                    DECL_ROWS.add((gid, h[0], page, ref[0], ref[1], ref[2] if ref[0] == 'd' else ref[1]))
     rows.sort(key=lambda r: (r[0], r[1]))
     od = os.path.dirname(summary_path) if g.get('side') else out_dir
     outf = os.path.join(od, f"{gid.replace('@', '--')}.tsv")
@@ -349,3 +360,9 @@ for gid, g in GUIDES.items():
           'clusters', len(summary[gid]['clusters']), summary[gid]['by_basis'], dict(skipped), file=sys.stderr)
 if summary_path:
     json.dump(summary, open(summary_path, 'w'), indent=1)
+if DECLS_OUT:
+    with open(DECLS_OUT, 'w', encoding='utf-8') as fh:
+        fh.write('guide\tcluster\tpage\tkind\tname\tmodule\n')
+        for r in sorted(DECL_ROWS):
+            fh.write('\t'.join(r) + '\n')
+    print(f'{DECLS_OUT}: {len(DECL_ROWS)} rows', file=sys.stderr)
