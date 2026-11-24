@@ -741,6 +741,7 @@ for g in GD:
     f = os.path.join(GREFS_D, g['id'] + '.tsv')
     g['refs'] = collections.OrderedDict()
     g['manual'] = []   # hand-written rows: (cluster, evidence)
+    g['basis'] = collections.defaultdict(set)   # cluster -> the bases of its rows (shown as 'Found by')
     g['notes'] = collections.defaultdict(list)   # cluster -> [(label, url)]: the guide's repository Markdown files (audit notes)
     g['from_refs'] = os.path.exists(f)
     if not g['from_refs']:
@@ -758,6 +759,7 @@ for g in GD:
         if k not in CL:
             bad += 1; continue
         pages = g['refs'].setdefault(k, [])
+        g['basis'][k].add(r.get('basis', '').strip())
         if r.get('basis', '').strip().startswith('manual-'):
             g['manual'].append((k, r.get('evidence', '').strip()))
         note, p = _glabel(g, p)
@@ -2575,6 +2577,14 @@ page(gpath, gfm['title'], gfm['description'], 'page',
 
 # /guides/<slug>/: one page per guide with page: true. "Read our copy" and "Download" only for host_copy: true with a pinned
 # local file (the last version with 'local', a path under the project root), copied to site/guides/<slug>/files/
+# 'Found by' on a guide page: how the rows of a node were found (guide-refs 'basis'). agent: a short name the page writes
+# (no namespace or folders), proposed by an agent pass, resolved to one declaration or file by a script, sample-checked
+G_BASIS_T = {'exact-name': 'full name', 'exact-path': 'file path', 'exact-module': 'module name', 'unique-filename': 'file name',
+             'blueprint-label': 'blueprint label', 'agent': 'short name in text'}
+def gbasis(g, k):
+    bs = g['basis'].get(k, set())
+    out = [t for b, t in G_BASIS_T.items() if b in bs] + (['by hand'] if any(b.startswith('manual-') for b in bs) else [])
+    return ', '.join(dict.fromkeys(out)) or '–'
 def dist_txt(k):
     d = dist.get(k)
     return 'not reached' if d is None else '0 (main theorem)' if d == 0 else str(d)
@@ -2618,14 +2628,18 @@ for g in GD:
     nrow = len(rows)
     if nrow:   # a guide that cites no node has no map view
         acts.append(f'<a class="btn primary" href="{H(gmapq(g))}">On the map</a>')
-    tbl = ('<div class="tablewrap"><table class="gnodes"><thead><tr><th>Node</th><th>Distance from Main</th><th>Pages</th></tr></thead><tbody>'
-           + ''.join(f'<tr><td><a href="{CPATH[k]}">{H(ctitle(k))}</a></td><td>{dist_txt(k)}</td><td>{grefs_html(g, page_groups(ps), g["notes"].get(k, [])) or "–"}</td></tr>' for k, ps in rows)
+    tbl = ('<div class="tablewrap"><table class="gnodes"><thead><tr><th>Node</th><th>Distance from Main</th><th>Pages</th><th>Found by</th></tr></thead><tbody>'
+           + ''.join(f'<tr><td><a href="{CPATH[k]}">{H(ctitle(k))}</a></td><td>{dist_txt(k)}</td><td>{grefs_html(g, page_groups(ps), g["notes"].get(k, [])) or "–"}</td><td>{H(gbasis(g, k))}</td></tr>' for k, ps in rows)
            + '</tbody></table></div>') if rows else '<p class="meta">0 nodes on the map.</p>'
     if g['from_refs']:
         how = ('Each node is a cluster of the map holding a Lean declaration or file that the guide names on that page, found by '
                'exact match of full names and file paths.')
     else:
         how = 'Each node is a cluster holding a Lean file or declaration the guide names. Pages are not mapped yet.'
+    if g['from_refs'] and any('agent' in bs for bs in g['basis'].values()):
+        how += (' A checked agent pass then added short-name matches: names that the page writes without their namespace or '
+                'folders, each resolved by a script to one declaration or file of the archive ("short name in text"). '
+                'A second run checked a sample of 20 of them per guide; the ones that failed were removed.')
     if not nrow:
         how = 'The guide names no Lean declaration or file of the archive, so no node of the map is linked to it.'
     if g['manual']:
@@ -2665,9 +2679,9 @@ for g in GD:
           + G_STATUS_T[g['status']] + (f': "{" ".join(str(g["quote"]).split())}"' if g.get('quote') else '') + '\n\n'
           + (gai_md(g) + '\n\n' if g['ai'] else '')
           + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else f'{G_ZERO}\n\n')
-          + f'## Nodes in this guide ({nrow})\n\n| Node | Distance from Main | Pages |\n|---|---|---|\n'
+          + f'## Nodes in this guide ({nrow})\n\n| Node | Distance from Main | Pages | Found by |\n|---|---|---|---|\n'
           + ''.join(f'| [{ctitle(k)}]({SITE}{CPATH[k]}) | {dist_txt(k)} | '
-                    + (grefs_md(g, page_groups(ps), g['notes'].get(k, [])) or '–') + ' |\n' for k, ps in rows)
+                    + (grefs_md(g, page_groups(ps), g['notes'].get(k, [])) or '–') + f' | {gbasis(g, k)} |\n' for k, ps in rows)
           + f'\n## How we mapped it\n\n{how}\n\nAuthors can correct this: post to @SomTheBuilder on X ({X_FEEDBACK}).\n'
           + (f'\n{"Logos" if len(psrcs) > 1 else "Photo"}: {", ".join(psrcs)}\n' if photo_credit else ''))
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],

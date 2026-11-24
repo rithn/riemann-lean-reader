@@ -1,6 +1,7 @@
 cluster	page	page_url	basis	evidence
 k0286	https://mrubinst.github.io/grh-lean-verification/	https://mrubinst.github.io/grh-lean-verification/	unique-filename	.../CutCptCopy.lean -> Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean
 k0677	https://mrubinst.github.io/grh-lean-verification/	https://mrubinst.github.io/grh-lean-verification/	exact-name	DirichletLNonvanishingRightOfHalf; DirichletLZerosOnLine; LFunction_eq_zero_re; LFunction_eq_zero_re_of_isPrimitive; +5 more
+k0695	https://mrubinst.github.io/grh-lean-verification/	https://mrubinst.github.io/grh-lean-verification/	agent	"rh_of_every (h : EveryCharacter) : RiemannHypothesis" -> UpperTheory.EveryCharacter
 k1091	https://mrubinst.github.io/grh-lean-verification/	https://mrubinst.github.io/grh-lean-verification/	exact-name	Formalism.VW.rh_of_every; allChi; rhOfAll; Formalism/GammaFactorNonvanishing/CritLine.lean
 k2004	https://mrubinst.github.io/grh-lean-verification/	https://mrubinst.github.io/grh-lean-verification/	unique-filename	.../HeckeNonvanishing/Imports.lean -> Formalism/LocalToGlobal/IndefiniteReal/HeckeNonvanishing/Imports.lean; .../OwnStruct.lean -> Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean
 k2463	https://mrubinst.github.io/grh-lean-verification/	https://mrubinst.github.io/grh-lean-verification/	exact-name	UpperTheory.FinalTheorems.everyCharacter; UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter
