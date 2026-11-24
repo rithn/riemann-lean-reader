@@ -17,7 +17,7 @@ as_of: "24 Nov 2026"
 
 *As of 24 Nov 2026. We read each page on this list on 23 Nov and again on 24 Nov.*
 
-**This page lists guides and checks written by other people about Levent Alpöge's Lean proof of the Riemann hypothesis. A guide is listed when its author is named, the page is public and it is about this proof. For each one we say whether the author checked the proof or only explains it. Listing a guide does not mean we have checked its mathematics.** For what was checked and by whom, see [status](/status/).
+**This page lists guides and checks written by other people about Levent Alpöge's Lean proof of the Riemann hypothesis. A guide is listed when its author is named or uses a consistent public handle or pen name, the page is public and it is about this proof. For each one we say whether the author checked the proof or only explains it. Listing a guide does not mean we have checked its mathematics.** For what was checked and by whom, see [status](/status/).
 
 {{guides}}
 
@@ -33,3 +33,4 @@ Post to [@SomTheBuilder](https://x.com/SomTheBuilder) on X with the link. We add
 
 - **23 Nov 2026.** First version, with 11 guides.
 - **24 Nov 2026.** One list of 10 guides instead of two groups. Nine have their own page, with links to the nodes of the map they cite.
+- **24 Nov 2026, evening.** 13 more guides, 23 in all, 22 with their own page. A guide is labelled "AI-assisted" when its author says AI helped make it (we quote the author), or, for one guide, when its commit history says so. Each guide shows how many nodes of the map it names, 0 included.

@@ -49,6 +49,25 @@
 #   changed_since_2026-11-23   what differed on 24 Nov from the 23 Nov entry. Existing fields are not edited, so a
 #                  field above (date, status_note, type) may be stale where this note says so
 #
+# Fields added on 24 Nov 2026 with the 13 new guides (lane 1: research/guides/new-2026-11-24/lane1-facts.md;
+# decisions: research/guides/new-2026-11-24/owner-decisions.md). Status may be written checked | explains (the build
+# reads both vocabularies).
+#   ai_statement   {quote, url, also: [{quote, url}]}: the author's own verbatim statement about AI or language-model use,
+#                  with where it is (url may carry a location note after the address, e.g. '(page 2)'). Shown as
+#                  "AI-assisted (author's statement)" with the quote and a link: guide page, hub tag, node panel, hover.
+#                  null if the author says nothing (never inferred). source: repository-history marks the one entry whose
+#                  label rests on the repository's commit trailers, not on the author's words (Epstein); it is shown as
+#                  "AI-assisted (repository history)" and says so
+#   ai_note        what was searched, or where the statement lives
+#   status_quote_url, status_quote_also, status_note   where the status quote is, further quotes, caveats
+#   author.photo   for Dixit, Xu, dial481, Qui Vincit and Toledo this is the author's own avatar, not a photograph
+#                  (owner decision: use it, cited like the others; it was lane 1's photo_candidate). The build writes
+#                  48 and 96 px WebP copies with no EXIF or GPS data
+#   author.name_basis    set when the name rests on a GitHub profile name field
+#   author.photo_crop   [left, top, size] of a square in the original, for a photo where the face is small (Plascencia)
+#   versions[].file_url  the address of the PDF the page links point at, where it differs from url (our copy replaces them)
+#   retrieved      date every field was read
+#
 # A field that could not be confirmed is written as a mapping with `unconfirmed: true`, plus the best value known
 # and where it came from. Pages were opened on 23 Nov 2026 (read with a page-reading tool that returns a summary,
 # so quotes are as returned; GitHub details come from the GitHub API) and again on 24 Nov 2026 (raw HTML, GitHub API,
@@ -64,7 +83,7 @@ guides:
   - id: rubinstein-zeta-guide
     slug: rubinstein-zeta
     page: true
-    order: 2
+    order: 1
     author:
       as_listed: Michael Rubinstein (University of Waterloo)
       name: Michael Rubinstein
@@ -120,7 +139,7 @@ guides:
   - id: sutherland-grh-verification
     slug: sutherland
     page: true
-    order: 6
+    order: 5
     author:
       as_listed: Andrew Sutherland (MIT)
       name: Andrew Sutherland
@@ -171,7 +190,7 @@ guides:
   - id: lean-community-statement
     slug: lean-statement
     page: true
-    order: 11
+    order: 22
     author:
       as_listed: Lean FRO and Mathlib Initiative
       name: Lean FRO and Mathlib Initiative
@@ -219,7 +238,7 @@ guides:
   - id: jaswal-zenodo-guide
     slug: jaswal
     page: true
-    order: 7
+    order: 11
     author:
       as_listed: Manvir Jaswal (independent researcher, Toronto; ORCID 0009-0001-2880-9528)
       name: Manvir Jaswal
@@ -282,7 +301,7 @@ guides:
   - id: adriazola-reconstruction
     slug: adriazola
     page: true
-    order: 3
+    order: 2
     author:
       as_listed: Jimmie Adriazola (School of Mathematical and Statistical Sciences, Arizona State University)
       name: Jimmie Adriazola
@@ -334,6 +353,16 @@ guides:
       local: research/guides/sources/adriazola-reconstruction/repo/manuscript/main.pdf
       md5: 46ad40ddc3d2ee0ee88ac03bd4ec9acd
       note: 'Committed 2026-11-23 18:23 UTC. README: ''The Alpöge Proof of the Riemann Hypothesis (225 pages, 23 November 2026). It is a working document.'''
+    - version: manuscript/main.pdf (268 pages)
+      date: '2026-11-24'
+      url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/1da722efa44d51d76c5c39e35ca9d5de6717cd6c/manuscript/main.pdf
+      raw: https://raw.githubusercontent.com/jimjamzola/RH-Alpoge-Reconstruction/1da722efa44d51d76c5c39e35ca9d5de6717cd6c/manuscript/main.pdf
+      commit: 1da722ef
+      local: research/guides/sources/adriazola-reconstruction/repo-1da722e/manuscript/main.pdf
+      md5: f4ceaf99e9daec789377df13d543290a
+      sha256: 1c7b5773b01ce7a03d687ffc617f5dbeeeb7cda06662c92a7904ceba8f24843b
+      note: 'Repository head 1da722e, 2026-11-24 09:19 UTC (8 commits after 33583b7). The manuscript reads ''revised 24 November 2026''. The route notes moved to archive/route-notes/ (same file); supporting .md files moved to docs/ and archive/. Pinned and mapped on 24 Nov (research/guides/n4/N4-NOTES.md); riemannHypothesis is now on p. 6 (was p. 7).'
+    changed_since_2026-11-24: 'Head 1da722e (24 Nov 09:19 UTC): manuscript/main.pdf is now 268 pages, revised 24 November 2026; mapped and served from that version (N7).'
     changed_since_2026-11-23: 'New 225-page manuscript (manuscript/main.pdf, 23 Nov) under a new title; the 66-page text the clusters were mapped from is now the ''earlier manuscript''. Repository head 33583b74 (2026-11-24 00:08 UTC). Status stays ''explains-only'': the status_quote is still in the README (''This repository did not build or replay the archive itself.''), and the README says the manuscript ''does not yet constitute a proof of the Riemann hypothesis independent of the Lean development''. The 23 Nov evening note says the open-statement list in the manuscript is incomplete.'
     tier: A
     clusters: [k0677]
@@ -342,7 +371,7 @@ guides:
   - id: naskrecki-riemann-rev
     slug: naskrecki
     page: true
-    order: 4
+    order: 3
     author:
       as_listed: Bartosz Naskręcki
       name: Bartosz Naskręcki
@@ -399,7 +428,7 @@ guides:
   - id: merten-riemann-blueprint
     slug: blueprint
     page: true
-    order: 8
+    order: 10
     author:
       as_listed:
         value: Christian Merten (GitHub chrisflav)
@@ -484,7 +513,7 @@ guides:
   - id: rubinstein-grh-lean-verification
     slug: rubinstein-check
     page: true
-    order: 5
+    order: 4
     author:
       as_listed:
         value: Michael Rubinstein (University of Waterloo)
@@ -531,7 +560,6 @@ guides:
     listed: false
     dropped_note: "24 Nov 2026: dropped for now; the post is about Masullo's claim, not this proof"
     page: true
-    order: 1
     author:
       as_listed: John Baez
       name: John Baez
@@ -571,7 +599,7 @@ guides:
   - id: aaronson-shtetl-optimized
     slug: aaronson
     page: true
-    order: 9
+    order: 20
     author:
       as_listed: Scott Aaronson
       name: Scott Aaronson
@@ -615,7 +643,7 @@ guides:
     slug: tamnd
     page: false
     cite_as: tamnd   # short name in "cited on tamnd, …" lists (N3); the author's name order is not stated on the site
-    order: 10
+    order: 18
     author:
       as_listed:
         value: tamnd (GitHub handle)
@@ -660,3 +688,613 @@ guides:
       note: '''Updated 2026-11-21'' on the page; repository last pushed 2026-11-23 11:04 UTC. Not pinned to a release.'
     changed_since_2026-11-23: None. Status quote ('This site has not checked the claim yet.') and the 'not run' items are still on the page; the text still predates the 21 Nov certification.
     tier: B
+
+  # ---------------- Added 24 Nov 2026 (13 new guides, lane 1) ----------------
+
+  - id: zhang-ihes-note
+    slug: zhang
+    page: true
+    listed: true
+    order: 6
+    author:
+      name: Robin Zhang
+      name_source: https://www.ihes.fr/~rzhang/
+      name_note: Home page title and heading 'Robin Zhang'; the PDF title page reads 'ROBIN ZHANG'.
+      home: https://www.ihes.fr/~rzhang/
+      role: Postdoctoral fellow at the Institut des Hautes Études Scientifiques (IHES)
+      role_source: https://www.ihes.fr/~rzhang/
+      role_note: 'Home page: ''I am a postdoctoral fellow at the Institut des Hautes Études Scientifiques (IHES).'' The IHES directory lists ''Post-doctorant, Mathématiques'' (01/06/2026 - 30/05/2028). IHES is a research institute, not a university: placed in group 1 as an academic mathematics post (judgement call).'
+      order_group: 1
+      photo: research/guides/photos-src/zhang.jpg
+      photo_source: https://www.ihes.fr/en/scholars/phdstudents-postdocs/
+      photo_url: https://gestion.ihes.fr//uploads/applicant/0092443/6a1d815474f3f_zhang_R.JPG.jpg
+      photo_note: 'IHES directory entry ''Zhang Robin''. Only 91 x 125 px (as published): fine for the 48 px hover, soft at 96 px. His own home page has no portrait (only a poster, wine, teaching and cookbook images).'
+    title: A preliminary note on Alpöge’s proposed proof of the Generalized Riemann Hypothesis
+    posted_at:
+      url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf
+      date: '2026-11-22'
+      note: 'The PDF prints ''Date: November 22, 2026''. His home page lists the note as ''A preliminary note on GRH, November 2026''. File Last-Modified 22 Nov 2026 20:33 GMT.'
+    format: pdf
+    licence: none stated
+    licence_note: No licence text in the PDF or on the home page.
+    host_copy: false
+    versions:
+    - version: single file
+      date: '2026-11-22'
+      url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf
+      pages: 76
+      sha256: 3bd82fa3d242fe473cb371cbab0a8d211cb7dd05f72ba2db1b4c4ef8f27478a3
+      md5: ab2b209e4985275510c82120c680f19e
+      note: 'Last-Modified 22 Nov 2026 20:33:19 GMT. The file is replaced in place at the same URL: pin by hash.'
+    status: explains
+    status_quote: The main purpose of this preliminary report is to begin looking for some of the sources, provenance, and mathematical history behind the proposed proof of the generalized Riemann hypothesis announced by Levent Alpöge using a Claude model [Alp26] on November 20, 2026.
+    status_quote_url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf (page 1, "Statement from the author")
+    status_note: 'Same page: ''I cannot claim that this summary is a faithful translation of the Lean code in [Alp26]''. The note has almost no Lean names, so it is expected to map 0 nodes.'
+    ai_statement:
+      quote: 'As such, I have also used AI to begin writing this report: I prompted GPT 6 Pro to digest the Lean code on Alpöge’s website, infer a human-readable mathematical proof, to search the literature carefully for earlier sources and analogues of the ideas in the argument, and then to produce a written summary.'
+      url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf (page 2)
+      also:
+      - quote: I also apologize to the reader for the condensed and imperfect exposition here, as most of the text from Section 2 onwards was largely written by AI.
+        url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf (page 2)
+    retrieved: '2026-11-24'
+  - id: zahid-alpoge-rh-exposition
+    slug: zahid
+    page: true
+    listed: true
+    order: 7
+    author:
+      name: Arham Zahid
+      name_source: https://github.com/arhamzahid235711/alpoge-rh-exposition
+      name_note: README line 3 'Arham Zahid'; the PDF title pages read 'ARHAM ZAHID'; GitHub profile name 'Arham Zahid'.
+      home: https://github.com/arhamzahid235711
+      role: null
+      role_source: null
+      role_note: 'None stated. The author''s own commit message reads ''Author: Arham Zahid (no affiliation or e-mail)''.'
+      order_group: 2
+      photo: null
+      photo_note: GitHub profile shows only the default generated identicon. Use initials.
+    title: An exposition of Alpöge’s Lean proof of the Riemann Hypothesis, I and II
+    posted_at:
+      url: https://github.com/arhamzahid235711/alpoge-rh-exposition
+      date: '2026-11-22'
+      note: 'The PDF title page prints ''Date: 22 November 2026''. Repository created 2026-11-22 18:40 UTC.'
+    format: pdf
+    licence: none stated
+    licence_note: No LICENSE file; the README states none ('It has not been refereed').
+    host_copy: false
+    versions:
+    - version: combined PDF, Parts I and II
+      date: '2026-11-22'
+      url: https://github.com/arhamzahid235711/alpoge-rh-exposition/blob/df760045/Alpoge-Lean-proof-of-RH-exposition-Parts-I-and-II.pdf
+      pages: 692
+      sha256: 949f9edcddd3513fef64c915c3d6f04ff7bb886a51f88744f59a1b9b9854f4c8
+      md5: 7f9fa4fa1586c6c5da1964400313326a
+      commit: df760045
+      note: Head commit 'Revise both parts after referee findings (second round)', 2026-11-22 22:33 UTC; PDF creation date 22 Nov 22:33 UTC. 692 pages (the Mastodon post said 684).
+    status: explains
+    status_quote: The account is conditional on results that it uses without proof.
+    status_quote_url: https://github.com/arhamzahid235711/alpoge-rh-exposition (PDF abstract, page 1)
+    status_note: 'README: ''It has not been refereed.'' PDF page 6: ''No check of the mathematics of either part by a human reader is recorded''.'
+    ai_statement:
+      quote: The text was prepared with extensive use of an AI system, Claude (Anthropic), run in the Claude Code environment, with many instances working in parallel.
+      url: 'https://github.com/arhamzahid235711/alpoge-rh-exposition (PDF page 6, "How this paper was prepared"; the README says the same: "It was prepared with extensive use of Claude (Anthropic)")'
+      also:
+      - quote: Part II was drafted by Claude from the Lean source of the development, at the commit cited in §1.5
+        url: PDF page 6
+      - quote: No AI system is an author of this paper.
+        url: PDF page 6
+    retrieved: '2026-11-24'
+  - id: chu-geometry-true
+    slug: chu
+    page: true
+    listed: true
+    order: 8
+    author:
+      name: frank chu
+      name_source: https://dev.to/frankchu/grh-proofs-geometry-is-fun-true-in-24-files-2n2b
+      name_note: Byline and profile name on DEV, lower case as written. His GitHub profile (linked from the DEV profile) has the name field 'Haobing(Frank) Chu'; not used.
+      home: https://dev.to/frankchu
+      role: null
+      role_source: null
+      role_note: 'None stated: the DEV bio reads ''404 bio not found''.'
+      order_group: 2
+      photo: research/guides/photos-src/chu.png
+      photo_source: https://dev.to/frankchu
+      photo_url: https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/user/profile_image/4039145/88cac5e7-d445-4b8b-b95a-9c9131ec6eb8.png
+      photo_note: DEV profile image, 1254 x 1254 px PNG, circular crop on white. It looks like a portrait, but we cannot tell whether it is a photograph or a generated image.
+    title: GRH proof's geometry is `fun _ _ _ => True`, in 24 files
+    posted_at:
+      url: https://dev.to/frankchu/grh-proofs-geometry-is-fun-true-in-24-files-2n2b
+      date: '2026-11-22'
+      note: '''Posted on Nov 22''; page metadata datePublished 2026-11-22T00:39:54Z (dateModified identical).'
+    format: web
+    licence: none stated
+    licence_note: No licence text on the post.
+    host_copy: false
+    versions:
+    - version: post
+      date: '2026-11-22'
+      url: https://dev.to/frankchu/grh-proofs-geometry-is-fun-true-in-24-files-2n2b
+      note: dateModified equals datePublished (2026-11-22T00:39:54Z). Comments on the page (including one dated 22 Nov by another user) are not part of the post.
+    status: checked
+    status_quote: I opened the source. The definition is exactly where the paper says it is.
+    status_quote_url: https://dev.to/frankchu/grh-proofs-geometry-is-fun-true-in-24-files-2n2b
+    status_note: 'Judgement call: this is a source reading of one claim (git grep, quoted lines), not a run of the proof. He writes: ''I did not establish whether the Main.lean dependency path runs through the anyGeometry bundle constructions.'' and calls it ''the open question''. Marked checked because he checked the source himself; the lead may prefer explains.'
+    ai_statement: null
+    ai_note: Nothing about AI or language models in the post text (read in full) or on the profile. The only AI wording on the page is in a comment by another user (Harry Tong), not by the author.
+    retrieved: '2026-11-24'
+  - id: chojecki-ulam-guide
+    slug: chojecki
+    page: true
+    listed: true
+    order: 9
+    author:
+      name: Przemek Chojecki
+      name_source: https://x.com/prz_chojecki
+      name_note: Display name on his X profile is 'Przemek Chojecki | PC' (profile read through the public fxtwitter mirror of the profile and post, no login). The Ulam team page writes 'Dr. Przemek Chojecki' and its page title 'Dr. Przemyslaw Chojecki'. The PDF itself names no author; it is attributed to him by his own post announcing it.
+      home: https://www.ulam.ai/team
+      home_also: https://x.com/prz_chojecki
+      role: Founder & CEO, Ulam
+      role_source: https://www.ulam.ai/team
+      role_note: 'Team page of his company, which links his X and LinkedIn: ''Dr. Przemek Chojecki / Founder & CEO''. X bio: ''Ultra hard Math & STEM RL tasks for LLMs @ ulam.ai, PhD in mathematics.'' A company post, not a university post: group 2.'
+      order_group: 2
+      photo: research/guides/photos-src/chojecki.jpg
+      photo_source: https://x.com/prz_chojecki
+      photo_url: https://pbs.twimg.com/profile_images/1595909528045977601/g_y0_WO7.jpg
+      photo_note: X profile image (the 400 x 400 px original of the 200 x 200 avatar), read without logging in.
+    title: Dirichlet L-functions and the critical line
+    posted_at:
+      url: https://x.com/prz_chojecki/status/2124254198975893907
+      date: '2026-11-21'
+      note: Post dated Sat Nov 21 21:30:42 +0000 2026 ('55-page Riemann Hypothesis proof guide is here'). The PDF is at https://www.ulam.ai/research/riemann_hypothesis.pdf; its internal creation date is 21 Nov 2026 21:15 +01:00.
+    format: pdf
+    licence: none stated
+    licence_note: No licence text in the PDF or on ulam.ai.
+    host_copy: false
+    versions:
+    - version: replaced in place
+      date: '2026-11-24'
+      url: https://www.ulam.ai/research/riemann_hypothesis.pdf
+      pages: 55
+      sha256: 419e24a4ba07eb9ce98524ad11f568f2bd87d8d70abe288e4ef37632bdd8bb85
+      md5: f96eba635b489e6dcc973bc910e06353
+      note: 'HTTP Last-Modified 24 Nov 2026 07:55:40 GMT, ETag equals the md5; internal creation date 21 Nov 2026. The file was replaced on 24 Nov under the same URL: lane 2 must pin by sha256.'
+    status: explains
+    status_quote: Thus the paper is a detailed guide to the full development; its treatment of those deep inputs is by precise citation, not an independent reconstruction of every imported theorem.
+    status_quote_url: https://www.ulam.ai/research/riemann_hypothesis.pdf (page 1)
+    status_note: 'His post: ''I claim no correctness or originality here. I simply want to understand how it''s done.'''
+    ai_statement:
+      quote: I've used Gemini 4 Carbon agents to go over the entire Lean proof, writing out notes on different sections, and then used GPT-6 Pro to polish the text and fill in gaps to make it more coherent.
+      url: https://x.com/prz_chojecki/status/2124254198975893907
+      also:
+      - quote: This is a de-formalized Lean following Alpoge's proof, mostly to understand the ideas and methods used.
+        url: https://x.com/prz_chojecki/status/2124254198975893907
+    ai_note: The statement is in his X post, not in the PDF (the PDF has no AI statement; its bibliography lists Alpöge "with Claude"). Text of the post read through the public fxtwitter mirror; a logged-out Chromium returned an empty page for x.com.
+    retrieved: '2026-11-24'
+  - id: toledo-alpoge-grh-check
+    slug: toledo
+    page: true
+    listed: true
+    order: 12
+    author:
+      name: Carlos Toledo
+      name_source: https://carlostoledo.co/about/index.html
+      name_note: Page title 'Carlos Toledo · about'; the report footer reads 'cert-machine · Carlos Toledo'. GitHub profile name 'Carlos Toledo' (bio 'Independent Researcher'), blog carlostoledo.co.
+      home: https://carlostoledo.co/
+      role: null
+      role_source: null
+      role_note: 'None stated on his own pages. About page: ''I work alone, from Brazil.'' (a description, not a post). The GitHub bio reads ''Independent Researcher''.'
+      order_group: 2
+      photo: research/guides/photos-src/toledo-avatar.png
+      photo_source: https://github.com/carlostoledo1891
+      photo_note: 'No portrait on his site. His GitHub avatar is an abstract contour image captioned ''published ring 43.3 µas'', not a photo of a person. Owner decision 24 Nov 2026: the avatar is used as the author''s image, cited like the others.'
+    title: Checking Alpöge’s Lean release on RH and Dirichlet GRH
+    posted_at:
+      url: https://carlostoledo.co/reports/alpoge-grh.html
+      date: '2026-11-21'
+      note: 'Change log on the page: ''2026-11-21 03:39 UTC. First published, as a draft''.'
+    format: web
+    licence: none stated
+    licence_note: No licence text on the report. His about page says the repository (cert-machine) is public under MIT; the report page itself states no licence.
+    host_copy: false
+    versions:
+    - version: live page, FINAL
+      date: '2026-11-24'
+      url: https://carlostoledo.co/reports/alpoge-grh.html
+      sha256: 0341d539472f37ba88c13e94cb98330dfcce14f127c79cf7540b6dce19bc2b01
+      note: '''Last updated 2026-11-24 10:27 UTC'' (HTTP Last-Modified 24 Nov 14:15 GMT; byte-identical on two fetches at about 15:40 UTC). The page is overwritten in place; sha256 is of the HTML as read.'
+    status: checked
+    status_quote: all 175,187 Lean source files compile; Lean’s own replay, nanoda and con-leche accept the compiled proof
+    status_quote_url: https://carlostoledo.co/reports/alpoge-grh.html
+    status_note: 'Also: ''The central check of this audit did not finish.'' Comparator ran 53 hours and ''gave no verdict, for or against''; 3 of the 24 checks were refused.'
+    ai_statement:
+      quote: I did this with Claude (Anthropic), which wrote this audit’s programs under my direction; Astra 6.2 gave second readings and red-teamed.
+      url: https://carlostoledo.co/reports/alpoge-grh.html (footer of the report)
+    retrieved: '2026-11-24'
+  - id: dixit-theta-lifts-account
+    slug: dixit
+    page: true
+    listed: true
+    order: 13
+    author:
+      name: Ishaan Dixit
+      name_source: https://ishaan2006.github.io/rh-lean-reproduction/
+      name_note: Byline 'Ishaan Dixit · Updated 23 November 2026'; README 'Ishaan Dixit'; GitHub profile name 'Ishaan Dixit'.
+      home: https://github.com/ishaan2006
+      home_note: His GitHub Pages root https://ishaan2006.github.io/ returns 404.
+      role: Student, Arizona State University
+      role_source: https://github.com/ishaan2006/rh-lean-reproduction (README, Contact section)
+      role_note: 'README Contact section lists ''Student (Arizona State University)'' beside an ASU address (address not recorded). A student status, not a university maths post: group 2.'
+      order_group: 2
+      photo: research/guides/photos-src/dixit-avatar.jpg
+      photo_source: https://github.com/ishaan2006
+      photo_note: 'His GitHub avatar is a fractal image, not a photo of a person. No portrait on the page or in the README. Owner decision 24 Nov 2026: the avatar is used as the author''s image, cited like the others.'
+    title: 'The Riemann Hypothesis via a chain of theta lifts: a human-readable account of the Lean proof'
+    title_note: Page heading; the browser title and contents heading read 'The Lean proof of the Riemann Hypothesis, explained'. Part I paper (34 pp., Zenodo DOI 10.5281/zenodo.24477213) and Part II paper (24 pp.) are linked from the same page.
+    posted_at:
+      url: https://ishaan2006.github.io/rh-lean-reproduction/
+      date: '2026-11-21'
+      note: 'The page prints only ''Updated 23 November 2026''. Date from GitHub: repository created 2026-11-21 00:34 UTC, release v1.0 published 2026-11-21 06:57 UTC.'
+    format: web
+    licence: MIT (write-up, scripts, analyses, site); CC BY 4.0 (the two journal papers, Part I and Part II)
+    licence_note: 'Site: ''This write-up and the repository are released under the MIT License. The Lean proof itself is Levent Alpöge''s and is not covered by that licence.'' README License section: ''MIT for scripts, analyses, and site files; CC BY 4.0 for the journal papers''. No LICENSE file (GitHub API: none). The Zenodo record for Part I returned HTTP 403 to us, so its licence is unconfirmed.'
+    host_copy: true
+    versions:
+    - version: v1.0
+      date: '2026-11-21'
+      url: https://github.com/ishaan2006/rh-lean-reproduction/releases/tag/v1.0
+      note: 'Published 2026-11-21 06:57 UTC: clean independent build and readable account.'
+    - version: v1.1
+      date: '2026-11-23'
+      url: https://github.com/ishaan2006/rh-lean-reproduction/releases/tag/v1.1
+      note: Published 2026-11-23 18:18 UTC.
+    - version: v1.2
+      date: '2026-11-23'
+      url: https://github.com/ishaan2006/rh-lean-reproduction/releases/tag/v1.2
+      note: 'Published 2026-11-23 20:17 UTC: Part II paper and literature-fidelity audit.'
+    - version: head
+      date: '2026-11-23'
+      url: https://github.com/ishaan2006/rh-lean-reproduction/tree/5725b932
+      commit: 5725b932
+      note: 'Committed 2026-11-23 22:08 UTC. Page byline: Updated 23 November 2026.'
+    status: checked
+    status_quote: 'Our independent build is clean: 175,187 modules, Mathlib''s own statement, only the three standard axioms'
+    status_quote_url: https://ishaan2006.github.io/rh-lean-reproduction/
+    status_note: 'README: ''The build is complete and clean, the proof is traced end to end''; export compared with the published one byte for byte. His build was not sandboxed (he says so).'
+    ai_statement:
+      quote: I traced the proof and built the project myself, with help from Claude, an AI assistant, for reading the code and drafting the text.
+      url: https://ishaan2006.github.io/rh-lean-reproduction/ ("How this was made")
+      also:
+      - quote: Claude (Anthropic) was used to help read the Lean source, run searches over the declaration list, and draft parts of this text and its figures.
+        url: https://ishaan2006.github.io/rh-lean-reproduction/ ("Use of AI tools")
+      - quote: I wrote the scripts, analyses and pages with help from Claude, an AI assistant, and ran and checked the results myself.
+        url: https://github.com/ishaan2006/rh-lean-reproduction (README, "How this was made")
+    retrieved: '2026-11-24'
+  - id: odesky-lean-rh-statements
+    slug: odesky
+    page: true
+    listed: true
+    order: 14
+    author:
+      name: Andrew O’Desky
+      name_source: https://andrewodesky.com/
+      name_note: Page heading and title 'Andrew O'Desky' (home page, straight apostrophe); the catalogue pages write 'Andrew O’Desky' (curly).
+      home: https://andrewodesky.com/
+      role: null
+      role_source: null
+      role_note: 'No post stated. Home page: ''I am a mathematician with research interests in number theory and algebraic geometry.'' (a self-description, not a post). Group 2 on that reading.'
+      order_group: 2
+      photo: research/guides/photos-src/odesky.jpg
+      photo_source: https://andrewodesky.com/
+      photo_url: https://andrewodesky.com/res/me4.jpg
+      photo_note: 'Home page image, alt text ''A photo of Andrew O''Desky'', 956 x 1124 px. PRIVACY: the original file carries EXIF with GPS data. Strip EXIF when resizing; do not copy the original to the site.'
+    title: Statements of the Lean RH project
+    title_note: HTML title of https://andrewodesky.com/rh/index.html. The outline page is titled 'The Lean proof of RH in outline'; the home page lists the work as 'Parsing the Lean proof of RH, Reading notes, in progress (2026)'.
+    posted_at:
+      url: https://andrewodesky.com/rh/index.html
+      date:
+        value: '2026-11-21'
+        unconfirmed: true
+        note: The outline page prints 'version of 21 November 2026'. The page prints no first-posting date and the catalogue has grown since (1,723 statements read on 24 Nov). The Internet Archive was offline, so no first snapshot was checked.
+    format: web
+    licence: none stated
+    licence_note: No licence text on the pages read.
+    host_copy: false
+    versions:
+    - version: live site (growing catalogue)
+      date: '2026-11-24'
+      url: https://andrewodesky.com/rh/index.html
+      note: 'HTTP Last-Modified 24 Nov 2026 15:20 GMT for index, overview and selection pages. Counters on 24 Nov: 1,723 Lean theorems stated; Tier 1 proofs 7 / 24; reviews recorded 1,387; proofs written 17. The pages change often: pin by hash only when mapping. The outline page says ''version of 21 November 2026''.'
+    status: explains
+    status_quote: This page presents mathematical statements covering 1,723 theorems of the Lean proof.
+    status_quote_url: https://andrewodesky.com/rh/index.html
+    status_note: 'Same page: ''Theorems marked as Tier 1 were judged by LLMs to be significant for the proof, and the list is subject to change.'' The number in the quote changes as the catalogue grows.'
+    ai_statement:
+      quote: Written by agents from the Lean and from the catalogue, and read against both by other agents; version of 21 November 2026.
+      url: https://andrewodesky.com/rh/overview.html
+      also:
+      - quote: 'The judging was done by large language models: Claude and Codex agents that read the Lean statement and proof of each theorem. No mathematician has yet reviewed the list.'
+        url: https://andrewodesky.com/rh/selection.html
+      - quote: Agents are reviewing the coverage for any omissions or inaccuracies in an ongoing process.
+        url: https://andrewodesky.com/rh/index.html
+    retrieved: '2026-11-24'
+  - id: epstein-rh-alpoge-blueprint
+    slug: epstein
+    page: true
+    listed: true
+    order: 15
+    author:
+      name: Jonathan Epstein
+      name_source: https://github.com/jae-63
+      name_basis: github-profile-name-field
+      unconfirmed: false
+      name_note: Name field of his own GitHub profile (jae-63). The README and BLUEPRINT.md name no one (they write 'my reading'). His profile blog link, JonathanEpstein9.com, did not load. Confirmed by the GitHub profile only; the weakest name basis in this batch (same standard as the Merten entry).
+      home: https://github.com/jae-63
+      role: null
+      role_source: null
+      role_note: None stated on the profile.
+      order_group: 2
+      photo: research/guides/photos-src/epstein.png
+      photo_source: https://github.com/jae-63
+      photo_url: https://avatars.githubusercontent.com/u/4911387?v=4
+      photo_note: GitHub profile avatar, a portrait photograph, 460 x 460 px.
+    title: RH (Alpöge) Blueprint
+    title_note: 'README title. Repository description: ''Human-readable blueprint of the Alpöge RH Lean formalization: top-layer statements, crux vs. library, dependency graphs''.'
+    posted_at:
+      url: https://github.com/jae-63/rh-alpoge-blueprint
+      date: '2026-11-20'
+      note: Repository created 2026-11-20 21:55 UTC; first commit 21:53 UTC. The README prints no date.
+    format: repo
+    licence: Apache-2.0
+    licence_note: 'README: ''The analysis, scripts and graphs here are Apache-2.0. The submission they describe belongs to its author and was published without a license.'''
+    host_copy: true
+    versions:
+    - version: commit 0434143d
+      date: '2026-11-20'
+      url: https://github.com/jae-63/rh-alpoge-blueprint/tree/0434143d80c94d491e2228e234507d38dfcb57d7
+      commit: 0434143d80c94d491e2228e234507d38dfcb57d7
+      note: Head of main, 2026-11-20 22:15 UTC. Nothing newer on main on 24 Nov.
+    status: explains
+    status_quote: Nothing here was compiled.
+    status_quote_url: https://github.com/jae-63/rh-alpoge-blueprint/blob/0434143d/BLUEPRINT.md
+    status_quote_also:
+    - This document is about **structure**, not correctness. (BLUEPRINT.md; markdown bold as written)
+    status_note: 'The README line ''> **Status: unverified.** At the time of writing, the kernel check (Comparator) ... has not finished'' is stale: written on 20 Nov before the checks finished. Quote it with its date if shown.'
+    ai_statement:
+      source: repository-history
+      quote: Commits are co-authored by Claude
+      url: https://github.com/jae-63/rh-alpoge-blueprint/commits/0434143d80c94d491e2228e234507d38dfcb57d7
+      note: 'Owner decision 24 Nov 2026: labelled from the commit trailers (''Co-Authored-By: Claude Opus 5.5'' on every commit), which are repository history, not a statement written by the author.'
+    ai_note: 'No statement about AI in the README or BLUEPRINT.md (both read in full). His commit messages carry the trailers ''Co-Authored-By: Claude Opus 5.5'' and ''Claude-Session: ...''. That is tool-generated attribution in the commit record, not a statement written by him, so it is not recorded as ai_statement; the lead may decide.'
+    retrieved: '2026-11-24'
+  - id: arledge-rh-verification-receipts
+    slug: arledge
+    page: true
+    listed: true
+    order: 16
+    author:
+      name: Elliot Arledge
+      name_source: https://elliotarledge.com/
+      name_note: Page title and heading 'Elliot Arledge'. His GitHub profile (Infatoshi), which owns the repository, has the name field 'Elliot Arledge' and blog 'elliotarledge.com'. The repository README names no person.
+      home: https://elliotarledge.com/
+      handle: Infatoshi
+      role: null
+      role_source: null
+      role_note: 'None stated. Home page: ''apart from teaching, building, or going down rabbit holes''. GitHub bio: ''making comfy spawn areas for superintelligences'' (not a post).'
+      order_group: 2
+      photo: research/guides/photos-src/arledge.jpg
+      photo_source: https://github.com/Infatoshi
+      photo_url: https://avatars.githubusercontent.com/u/59771030?v=4
+      photo_note: GitHub profile avatar, a portrait photograph, 460 x 460 px (his home page, linked from the profile, shows no portrait).
+    title: 'Independent Verification Receipts: Alpöge (2026) Lean 4.33.1 Proof of RH and Dirichlet GRH'
+    posted_at:
+      url: https://github.com/Infatoshi/rh-verification-receipts
+      date: '2026-11-20'
+      note: Repository created and pushed 2026-11-20 21:51 UTC (single commit). The README prints no date beyond "November 20, 2026" for the announcement.
+    format: repo
+    licence: none stated
+    licence_note: 'No LICENSE file (GitHub API: none).'
+    host_copy: false
+    versions:
+    - version: commit ac99f18c
+      date: '2026-11-20'
+      url: https://github.com/Infatoshi/rh-verification-receipts/tree/ac99f18c
+      commit: ac99f18c
+      note: 'Only commit: ''Add independent Lean 4.33.1 and nanoda verification receipts for RH/Dirichlet GRH'', 2026-11-20 21:51 UTC. Nothing newer on 24 Nov.'
+    status: checked
+    status_quote: Independent end-to-end compilation, statement pinning, axiom audit, and second-kernel (Rust `nanoda_bin`) verification of Levent Alpöge's November 20, 2026 formalization of the Riemann Hypothesis and Generalized Riemann Hypothesis for Dirichlet L-functions
+    status_quote_url: https://github.com/Infatoshi/rh-verification-receipts
+    status_note: 'Result row in the README: 1,484,729 declarations checked with 0 errors by nanoda_bin; all 175,187 modules compiled.'
+    ai_statement: null
+    ai_note: No statement about AI in the README, the result file or his home page.
+    retrieved: '2026-11-24'
+  - id: xu-alpoge-lean-exposition
+    slug: xu
+    page: true
+    listed: true
+    order: 17
+    author:
+      name: Yao Xu
+      name_source: https://github.com/cadamcat/riemann-hypothesis-exposition
+      name_note: 'README ''Author: Yao Xu''; the article title page reads ''Yao Xu''; GitHub profile (cadamcat) name ''Yao Xu''.'
+      home: https://github.com/cadamcat
+      handle: cadamcat
+      role: null
+      role_source: null
+      role_note: 'No post stated in the README or article. The GitHub profile lists the company ''Technical University of Denmark'' and the bio ''LLM inference on consumer hardware ...'': not a stated post.'
+      order_group: 2
+      photo: research/guides/photos-src/xu-avatar.jpg
+      photo_source: https://github.com/cadamcat
+      photo_note: 'His GitHub avatar is a cat-and-Creation-of-Adam meme image, not a photo of a person. Owner decision 24 Nov 2026: the avatar is used as the author''s image, cited like the others.'
+    title: 'How the alpo.ge Lean source states a proof of the Riemann hypothesis: an annotated map of its architecture'
+    title_note: Article title page. The README title is the shorter form; the release also carries an 8-minute narrated film.
+    posted_at:
+      url: https://github.com/cadamcat/riemann-hypothesis-exposition
+      date: '2026-11-20'
+      note: Release v1.0.0 published 2026-11-20 21:25 UTC (repository created the same minute). The README prints no date.
+    format: pdf
+    licence: CC BY 4.0 (article text, figures, LaTeX source, film, subtitles, narration text); Apache-2.0 (tools/)
+    licence_note: 'README: ''The article text, figures, LaTeX source, film, subtitles and narration text are licensed under CC BY 4.0 ... The scripts in tools/ are licensed under Apache-2.0''. Quoted Lean excerpts in article/quotes/ are not covered. GitHub API shows no licence (the files are LICENSE-CC-BY-4.0.txt and LICENSE-APACHE-2.0.txt).'
+    host_copy: true
+    versions:
+    - version: v1.2.0
+      date: '2026-11-21'
+      url: https://github.com/cadamcat/riemann-hypothesis-exposition/releases/tag/v1.2.0
+      pages: 29
+      sha256: 3c88a313ba7f909c5070ac84f59e38d9a4ad189673215e45c91394cd2467166b
+      md5: ac8bf073d96d5eb484636287b98fce7c
+      local: research/guides/sources/xu/riemann-hypothesis-exposition-article.pdf
+      file_url: https://github.com/cadamcat/riemann-hypothesis-exposition/releases/download/v1.2.0/riemann-hypothesis-exposition-article.pdf
+      note: 'Article PDF riemann-hypothesis-exposition-article.pdf; title page ''Version 1.2.0, 21 November 2026''; release published 2026-11-21 19:25 UTC; head commit b3e1e2df (same minute). Earlier: v1.1.0 (2026-11-21 10:56 UTC), v1.0.0 (2026-11-20 21:25 UTC).'
+    status: explains
+    status_quote: This article explains, from the source text, how that theorem is assembled.
+    status_quote_url: https://github.com/cadamcat/riemann-hypothesis-exposition/releases/tag/v1.2.0 (article PDF, abstract)
+    status_note: Section 10 reports the checks of others ('independent checkers accept it (§10)'); he ran none.
+    ai_statement:
+      quote: Prepared with the assistance of AI.
+      url: https://github.com/cadamcat/riemann-hypothesis-exposition (README; also the last page of the article PDF)
+      also:
+      - quote: The narration voice is synthesized with an OpenAI speech model.
+        url: https://github.com/cadamcat/riemann-hypothesis-exposition (README)
+    retrieved: '2026-11-24'
+  - id: plascencia-riemann-line-by-line
+    slug: plascencia
+    page: true
+    listed: true
+    order: 19
+    author:
+      name: Alexis Plascencia
+      name_source: https://alexisdpc.github.io/riemann/
+      name_note: Site header 'Created by Alexis Plascencia' (linked to alexisplascencia.com); the README says the same; his home page is titled 'Alexis Plascencia'.
+      home: https://alexisplascencia.com
+      home_note: alexisplascencia.com redirects to alexisplascencia.wordpress.com.
+      role: ML Quant Researcher
+      role_source: https://alexisplascencia.com
+      role_note: 'Home page title ''Alexis Plascencia – ML Quant Researcher'' and tagline; text: ''I am a Quant in the world of systematic trading ... In a previous life, I was a theoretical particle physicist''. Not a university post: group 2.'
+      order_group: 2
+      photo: research/guides/photos-src/plascencia.png
+      photo_crop: [150, 140, 160]
+      photo_source: https://alexisplascencia.com
+      photo_url: https://alexisplascencia.wordpress.com/wp-content/uploads/2024/01/screenshot.png
+      photo_note: 'The home page''s main image (also its og:image), 446 x 582 px, a full-length photo of a man in sunglasses outdoors; the page does not caption it, so that it is the author is assumed from its place on his own page. Face is small: crop or use initials if it does not read at 48 px.'
+    title: Riemann, line by line
+    title_note: 'Browser title ''Riemann, line by line — A mathematical field guide''. README: ''A human-readable field guide to the mathematics in Levent Alpöge''s released Lean argument.'''
+    posted_at:
+      url: https://alexisdpc.github.io/riemann/
+      date: '2026-11-20'
+      note: '''First edition · 20 November 2026'' printed on the page. Repository created 2026-11-20 17:59 UTC.'
+    format: web
+    licence: none stated
+    licence_note: 'No licence text on the pages; GitHub API: none.'
+    host_copy: false
+    versions:
+    - version: site as read
+      date: '2026-11-24'
+      url: https://alexisdpc.github.io/riemann/
+      commit: e985e0a7
+      note: Pages (overview, technical notes, sources) are overwritten in place; HTTP Last-Modified 24 Nov 2026 08:11 GMT; repository head e985e0a7, 2026-11-24 08:10 UTC. The page still says 'First edition'.
+    status: explains
+    status_quote: The Lean project has not been compiled or independently audited for this website.
+    status_quote_url: https://alexisdpc.github.io/riemann/technical.html
+    status_note: 'Overview page: ''the prose has been checked against the selected source statements; the full Lean project has not been compiled or independently audited here.'''
+    ai_statement: null
+    ai_note: No statement about AI or language models on the three pages, the README or his home page (searched).
+    retrieved: '2026-11-24'
+  - id: dial481-riemann-hypothesis-rosetta
+    slug: dial481
+    page: true
+    listed: true
+    order: 21
+    author:
+      name: dial481
+      name_source: https://github.com/dial481
+      handle: dial481
+      unconfirmed: false
+      name_note: Handle only, as the author presents it. The GitHub profile has no name field; the bio reads '888 was taken'. No real name found on his pages.
+      home: https://github.com/dial481
+      role: null
+      role_source: null
+      role_note: None stated.
+      order_group: 3
+      photo: research/guides/photos-src/dial481-avatar.jpg
+      photo_source: https://github.com/dial481
+      photo_note: 'His GitHub avatar is a generated-looking picture of a retro control console, not a photo of a person. Owner decision 24 Nov 2026: the avatar is used as the author''s image, cited like the others.'
+    title: Riemann Hypothesis Rosetta
+    title_note: 'README title. Description: ''Structural map of Alpoge’s Lean proof of the Riemann Hypothesis. 200 ranked modules with reading entry points, import graph, cross-validated against compiled datasets.'''
+    posted_at:
+      url: https://github.com/dial481/riemann-hypothesis-rosetta
+      date: '2026-11-22'
+      note: Repository created 2026-11-22 16:16 UTC. The README prints no posting date.
+    format: repo
+    licence: MIT
+    licence_note: 'LICENSE: ''MIT License. Copyright (c) 2026 Riemann Hypothesis Rosetta contributors''. README: the cited proof, datasets and peer publications carry their own terms. The repository is large (many result files): linking is enough.'
+    host_copy: true
+    versions:
+    - version: head
+      date: '2026-11-23'
+      url: https://github.com/dial481/riemann-hypothesis-rosetta/tree/5f0eda07
+      commit: 5f0eda079ffeb168a7d6455b017927b52f3e8e39
+      note: '''Merge the reviewed statement dependency audit'', 2026-11-23 23:02 UTC; last push 23:11 UTC. Baseline analysis is of upstream commit 40e56bab; counts also at the pruned e5ae821a.'
+    status: explains
+    status_quote: Rosetta is a reproducible source-only map of Levent Alpöge’s Lean formalization.
+    status_quote_url: https://github.com/dial481/riemann-hypothesis-rosetta
+    status_note: 'Same README: ''Descriptions here follow declaration and file names, which are not evidence of mathematical content.'' He ran no compile (''source-only''); a kernel check of anyGeometry is separate (results/anygeometry.md).'
+    ai_statement:
+      quote: The analysis pipeline, reader notes and this README were written with AI assistance. The structural results are mechanical and reproducible; the reader notes are starting points for expert review.
+      url: https://github.com/dial481/riemann-hypothesis-rosetta
+      also:
+      - quote: The reader notes in SPINE.md and `analysis/reader-notes.tsv` were generated by an AI inspecting source code without compiling it.
+        url: https://github.com/dial481/riemann-hypothesis-rosetta/blob/main/results/NOTICE.md
+    retrieved: '2026-11-24'
+  - id: qui-vincit-fable-account
+    slug: qui-vincit
+    page: true
+    listed: true
+    order: 23
+    author:
+      name: Qui Vincit and Fable
+      name_source: https://github.com/vincitamore/riemann-lean-account
+      unconfirmed: false
+      handle: vincitamore
+      name_note: 'README ''Authors and licence'': ''Qui Vincit and Fable. Fable is a language model (Claude, Anthropic)''. The PDF title page reads ''QUI VINCIT AND FABLE''; LICENSE ''Copyright (c) 2026 Qui Vincit and Fable''. ''Qui Vincit'' is the name the human author uses; no real name is stated and none is recorded. The GitHub account vincitamore has no name field.'
+      home: https://github.com/vincitamore
+      role: null
+      role_source: null
+      role_note: None stated.
+      order_group: 3
+      photo: research/guides/photos-src/qui-vincit-avatar.jpg
+      photo_source: https://github.com/vincitamore
+      photo_note: 'His GitHub avatar is a painted illustration (a Statue-of-Liberty figure), not a photo. Owner decision 24 Nov 2026: the avatar is used as the author''s image, cited like the others.'
+    title: 'The argument of Alpöge’s formal proof of the Riemann Hypothesis: an account read from the Lean source'
+    posted_at:
+      url: https://github.com/vincitamore/riemann-lean-account
+      date: '2026-11-21'
+      note: 'Repository created 2026-11-21 09:50 UTC; README ''Versions'': ''1.0, 21 November 2026. First version.'''
+    format: repo
+    licence: CC BY 4.0 (text and data); MIT (code)
+    licence_note: 'README: ''Text and data are under CC BY 4.0, code under the MIT licence; see LICENSE.'' LICENSE has two parts (code MIT; content CC BY 4.0). GitHub API shows NOASSERTION. The repository holds the 65-page paper (paper/main.pdf) and a one-page statement.'
+    host_copy: true
+    versions:
+    - version: '1.5'
+      date: '2026-11-23'
+      url: https://github.com/vincitamore/riemann-lean-account/tree/dd9bfc30
+      commit: dd9bfc30bf9fc605251a22aa41004d1e22cc303b
+      pages: 65
+      sha256: 802d16e339551439de6fec97308cbd4a88b0dd33c4a8d93265d4a6615c95fc75
+      md5: 58b688e013a2b2990c5f332c21d3d4f5
+      local: research/guides/sources/qui-vincit/repo-dd9bfc3/paper/main.pdf
+      file_url: https://github.com/vincitamore/riemann-lean-account/blob/dd9bfc30bf9fc605251a22aa41004d1e22cc303b/paper/main.pdf
+      note: 'Head, 2026-11-23 00:57 UTC; paper/main.pdf title page ''Date: 23 November 2026. Version 1.5.'' Earlier versions: 1.4 (23 Nov), 1.3 (22 Nov), 1.2 and 1.1 and 1.0 (21 Nov).'
+    status: checked
+    status_quote: We built the archive, twice. It compiles, the five top theorems depend on no axiom beyond the three on which Mathlib rests, and the kernel accepts every theorem, and every definition that is not marked unsafe or partial, of the import closure, 2.7 million declarations in all, replayed from an empty environment by Lean’s own checker and by a program of ours.
+    status_quote_url: https://github.com/vincitamore/riemann-lean-account (paper/main.pdf, abstract)
+    status_note: 'Same account: ''the replay program is ours and unreviewed'' (README, Version 1.2 notes). The repository also contains an exposition of the argument.'
+    ai_statement:
+      quote: Fable, a language model (Claude, Anthropic), ran the build, read the source and wrote the text, with further instances of the model reading bounded parts of the source; their reports are published with the paper.
+      url: https://github.com/vincitamore/riemann-lean-account (paper/main.pdf, Section 12 "Scope and method", page 29)
+      also:
+      - quote: Fable is a language model (Claude, Anthropic).
+        url: https://github.com/vincitamore/riemann-lean-account (README "Authors and licence"; also the PDF title page)
+      - quote: Qui Vincit directed the work and set its standards.
+        url: paper/main.pdf, Section 12
+    retrieved: '2026-11-24'

@@ -665,6 +665,20 @@ def _host(u):
 def _initials(name):
     ws = [w for w in re.split(r'[\s\-]+', re.sub(r'\(.*?\)', '', name or '')) if w[:1].isalpha()]
     return ((ws[0][0] + (ws[-1][0] if len(ws) > 1 else '')) if ws else '?').upper()
+def _gsrc(u, fb=None):   # an ai_statement 'url' ('https://… (page 2)', or only 'PDF page 6') -> (address, location note)
+    m = re.search(r'https?://[^\s)]+', str(u or ''))
+    rest = re.sub(r'https?://[^\s)]+', '', str(u or '')).strip()
+    rest = rest[1:-1].strip() if rest.startswith('(') and rest.endswith(')') else rest
+    return (m.group(0) if m else fb), rest or None
+def _gai(g):   # ai_statement -> {'src': 'author' | 'repo', 'quote', 'url', 'loc', 'also': [(quote, url, loc)]}; None: no label
+    s = g.get('ai_statement')
+    if not isinstance(s, dict) or not s.get('quote'):
+        return None
+    url, loc = _gsrc(s.get('url'))
+    assert url, f'guides.yaml {g.get("id")}: ai_statement needs a url'
+    also = [(' '.join(str(x['quote']).split()), *_gsrc(x.get('url'), url)) for x in (s.get('also') or []) if isinstance(x, dict) and x.get('quote')]
+    return {'src': 'repo' if s.get('source') == 'repository-history' else 'author', 'quote': ' '.join(str(s['quote']).split()),
+            'url': url, 'loc': loc, 'also': also}
 def gnorm(g, i):
     gid = g.get('id')
     a = g.get('author')
@@ -692,6 +706,8 @@ def gnorm(g, i):
             # cite_as: the short name in "cited on Jaswal, p. 12" (N3); default the last word of the author's name
             'cite_as': str(g.get('cite_as') or (name.split()[-1] if name and aok else title.split(':')[0][:30])),
             'role': (a.get('order_group') if isinstance(a, dict) else None) or g.get('role'),
+            'photo_crop': a.get('photo_crop') if isinstance(a, dict) else None,
+            'ai': _gai(g),
             'clusters': [k for k in (g.get('clusters') or []) if k in CL]}
 GD = [gnorm(g, i) for i, g in enumerate(GUIDES)]
 assert len({g['id'] for g in GD}) == len(GD), 'guides.yaml: two guides with the same id'
@@ -707,7 +723,7 @@ for i, g in enumerate(GD):
 def _pkey(p):
     return (0, int(p), '') if str(p).isdigit() else (1, 0, str(p))
 def _glabel(g, p):   # a guide-refs 'page' -> (is an audit note, the label shown)
-    if p.lower().endswith('.md') and ' ' not in p:   # an audit note: file name without .md, underscores as spaces
+    if p.lower().endswith('.md') and ' ' not in p and g.get('format') == 'pdf':   # an audit note (a PDF guide's repository Markdown file): file name without .md, underscores as spaces
         return True, p.rstrip('/').rsplit('/', 1)[-1][:-3].replace('_', ' ').strip()
     m = re.fullmatch(r'(?:p\.?\s*)?(\d+)', p)
     if m:                            # a PDF page: 'p. 44' or '44'
@@ -796,8 +812,9 @@ for g in GD:
     g['copy_plan'] = (f'{g["slug"]}-{tag}{os.path.splitext(v["local"])[1]}', v)
     cp = f'/guides/{g["slug"]}/files/{g["copy_plan"][0]}'
     blob = lambda u: re.sub(r'/blob/[0-9a-f]{7,40}/', '/blob/*/', re.sub(r'#.*$', '', u or ''))
-    if v.get('url') and '/blob/' in v['url']:
-        g['fix_url'] = (lambda cp, vu: lambda u: cp + u[u.index('#'):] if u and '#page=' in u and blob(u) == blob(vu) else u)(cp, v['url'])
+    vu = v.get('file_url') or v.get('url')   # file_url: the PDF the page links point at, where 'url' is a tree or release page
+    if vu and ('/blob/' in vu or vu.lower().endswith('.pdf')):
+        g['fix_url'] = (lambda cp, vu: lambda u: cp + u[u.index('#'):] if u and '#page=' in u and blob(u) == blob(vu) else u)(cp, vu)
         for k, ps in g['refs'].items():
             g['refs'][k] = [(p, g['fix_url'](u)) for p, u in ps]
 G_PMAX = 8   # pages listed per guide in a cluster's list; the rest are on the guide's own page ('m': how many more)
@@ -825,6 +842,7 @@ GC_NOTE = ('A guide page can cover several clusters, so a work listed here may c
 GC_CAP, GC_PMAX = 8, 4   # works shown before "Show all"; citing pages shown per work before "and N more"
 GC_F = os.path.join(REPO, 'data', 'guide-cited-refs.tsv')
 G_BY_ID = {g['id']: g for g in GD}
+G_BY_SLUG = {g['slug']: g for g in GD if g['slug']}
 GCITE = collections.defaultdict(list)
 _gc_skip = collections.Counter()
 if os.path.exists(GC_F):
@@ -879,12 +897,17 @@ def _gphoto(g, photo, base, sfx=''):   # writes the copies; sets g['ph48'+sfx], 
     from PIL import Image as _Img, ImageOps as _IOps
     im = _IOps.exif_transpose(_Img.open(src))
     im = im.convert('RGBA' if im.mode in ('RGBA', 'LA', 'P') else 'RGB')
+    if g.get('photo_crop'):   # author.photo_crop: [left, top, size] in the original, for a photo where the face is small
+        x0, y0, s = (int(v) for v in g['photo_crop'])
+        im = im.crop((x0, y0, x0 + s, y0 + s))
     s = min(im.size)
     im = im.crop(((im.width - s) // 2, max(0, (im.height - s) // 3), (im.width - s) // 2 + s, max(0, (im.height - s) // 3) + s))
+    im = _Img.frombytes(im.mode, im.size, im.tobytes())   # pixels only: no EXIF, GPS, XMP or comments travel to the copies
     for px in (48, 96):
         fn = f'{base}-{px}.webp'
         b = __import__('io').BytesIO()
-        im.resize((px, px), _Img.LANCZOS).save(b, 'WEBP', quality=78, method=6)
+        im.resize((px, px), _Img.LANCZOS).save(b, 'WEBP', quality=78, method=6, exif=b'', xmp=b'')
+        assert not re.search(rb'EXIF|XMP ', b.getvalue()), f'{fn}: metadata in the copy'
         dst = os.path.join(GPHOTO_OUT, fn)
         if not os.path.exists(dst) or open(dst, 'rb').read() != b.getvalue():
             open(dst, 'wb').write(b.getvalue())
@@ -904,9 +927,11 @@ for f in os.listdir(GPHOTO_OUT):
 # ph 48 px photo, in initials, k cluster numbers; each cluster file lists its guides and their pages ('guides')
 overview['guides'] = [{'id': g['id'], 's': g['slug'] or g['id'], **({'pg': 1} if g['page'] else {}), 'a': g['name'], 't': g['title'], 'u': g['url'],
                        'ph': g['ph48'], **({'ph2': g['ph48b']} if g['ph48b'] else {}), 'in': g['initials'],
-                       **({'pw': g['pdf_word']} if g['pdf_word'] else {}), 'k': [int(k[1:]) for k in g['refs']]} for g in G_MAP]
+                       **({'pw': g['pdf_word']} if g['pdf_word'] else {}), **({'ai': g['ai']['src'][0]} if g['ai'] else {}),
+                       'k': [int(k[1:]) for k in g['refs']]} for g in G_MAP]
 print(f'guides: {len(GD)} ({sum(g["page"] for g in GD)} with a page), refs read for {len(G_REFS_SEEN)}, '
-      f'{len(CGUIDES)} clusters cite a guide, {sum(1 for g in GD if g["ph48"])} photos or logos')
+      f'{len(CGUIDES)} clusters cite a guide, {sum(1 for g in GD if g["ph48"])} photos or logos, '
+      f'{sum(1 for g in GD if g["ai"])} AI-labelled, {sum(1 for g in GD if not g["refs"])} with 0 nodes')
 
 # ---------- #10: English readings of the core Lean files (spec: research/plans/core-lean-readings-process.md, section 5).
 # data/file-lines/<cluster>.yaml, written by scripts/readings/assemble.py from the reviewed drafts: per file the
@@ -1717,6 +1742,9 @@ def share_btn(path, title):   # a Share button (app.js copies the link or opens 
     return (f'<p class="sharebar"><button type="button" class="share" data-share="{H(SITE + path)}" data-title="{H(title)}">'
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0-4 4m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>'
             '<span>Share</span></button></p>')
+def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
+    m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
+    return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
 def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None, fm=False):
     """img: (og:image URL, alt text) for this page; default the site card /og.png. fm: title and description come from a
     content page's front matter (data/pages/*.md): over the caps only warns, as that text is reviewed separately."""
@@ -1732,6 +1760,9 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None,
     t = re.sub(r'<meta name="description" content="[^"]*">', lambda _: f'<meta name="description" content="{HA(desc)}">', t, count=1)
     t = between(t, '<!--head-->', '<!--/head-->', head(path, title, desc, list(lds), md=not is404, img=img))
     t = re.sub(r'<body data-route="[^"]*">', f'<body data-route="{H(route)}">', t, count=1)
+    nk = NAV_KEY(path)
+    if nk:   # the top bar's item for this section (app.js navKey: keep in step)
+        t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">', 1)
     t = between(t, '<!--prerender-->', '<!--/prerender-->', body).replace('{{UPDATED}}', date)
     if is404:  # 404.html: noindex, no canonical
         t = t.replace(f'<link rel="canonical" href="{H(SITE + path)}">\n', '<meta name="robots" content="noindex">\n')
@@ -2033,6 +2064,38 @@ def gversion(g):
 def gstatus(g):
     return (f'<span class="gst {g["status"]}">{G_STATUS_T[g["status"]]}</span>'
             + (f' <q>{H(" ".join(str(g["quote"]).split()))}</q>' if g.get('quote') else ''))
+# the AI label (owner decision, 24 Nov 2026): "AI-assisted (author's statement)" with the author's own words, or for the one
+# guide labelled from its commit trailers "AI-assisted (repository history)", saying that it is not the author's statement
+G_AI_T = {'author': "AI-assisted (author's statement)", 'repo': 'AI-assisted (repository history)'}
+G_AI_REPO = 'This label comes from the repository history (the commit trailers), not from a statement by the author.'
+G_ZERO = 'This guide does not name Lean declarations, so it is not linked to nodes on the map.'
+def gai_tag(g, link=True):   # the short tag (hub entry, cluster pages): links to the statement on the guide page
+    if not g['ai']:
+        return ''
+    t_ = 'AI-assisted' + (' (repository history)' if g['ai']['src'] == 'repo' else '')
+    tip = H(G_AI_T[g['ai']['src']] + ': ' + g['ai']['quote'])
+    return (f'<a class="gai" href="{GPATH[g["slug"]]}#ai" title="{tip}">{t_}</a>' if link and g['slug'] in GPATH
+            else f'<span class="gai" title="{tip}">{t_}</span>')
+def gai_src(url, loc):
+    return f'<a href="{H(url)}">{H(_host(url))}</a>' + (f' ({H(loc)})' if loc else '')
+def gai_html(g):   # the guide page's line: label, quote, link (and the author's further statements)
+    a = g['ai']
+    if not a:
+        return ''
+    if a['src'] == 'repo':
+        return (f'<div class="gailine" id="ai"><p><span class="gai">{G_AI_T["repo"]}</span> <q>{H(a["quote"])}</q> (repository history). '
+                f'<a href="{H(a["url"])}">Commit history</a>. {H(G_AI_REPO)}</p></div>')
+    also = ''.join(f'<li><q>{H(q)}</q> {gai_src(u, l)}</li>' for q, u, l in a['also'])
+    return (f'<div class="gailine" id="ai"><p><span class="gai">{G_AI_T["author"]}</span> <q>{H(a["quote"])}</q> {gai_src(a["url"], a["loc"])}</p>'
+            + (f'<ul class="gaialso">{also}</ul>' if also else '') + '</div>')
+def gai_md(g):
+    a = g['ai']
+    if not a:
+        return ''
+    if a['src'] == 'repo':
+        return f'{G_AI_T["repo"]}: "{a["quote"]}" (repository history, {a["url"]}). {G_AI_REPO}'
+    return (f'{G_AI_T["author"]}: "{a["quote"]}" ({a["url"]}' + (f', {a["loc"]}' if a['loc'] else '') + ')'
+            + ''.join(f'; "{q}" ({u}' + (f', {l}' if l else '') + ')' for q, u, l in a['also']))
 def gpages_html(pages):
     return ', '.join(f'<a href="{H(u)}">{H(l)}</a>' if u else H(l) for l, u in pages)
 def gnotes_n(n):
@@ -2060,7 +2123,7 @@ def gbox_html(k):   # the cluster page's list: each guide (photo, author, title 
         more = (f', <a href="{GPATH[g["slug"]]}#nodes">{x["m"]} more</a>' if x.get('m') and g['slug'] in GPATH else f' and {x["m"]} more' if x.get('m') else '')
         refs = grefs_html(g, x['p'], x.get('n', []), more)
         li.append(f'<li><a href="{H(GPATH.get(g["slug"], g["url"]))}">{gav(g, 24)}<span class="t">{gauthor(g, False)}<small>{H(g["title"])}</small></span></a>'
-                  + (f'<p class="gpages">{refs}</p>' if refs else '') + '</li>')
+                  + (f'<p class="gpages">{gai_tag(g)}</p>' if g['ai'] else '') + (f'<p class="gpages">{refs}</p>' if refs else '') + '</li>')
     return f'<h2 id="guides">{G_BOX_T}</h2><ul class="rows glist">{"".join(li)}</ul><p class="meta"><a href="/guides/">All guides</a></p>'
 def gcite_item(w):   # one guide-cited work: the citation (linked by DOI or arXiv), then "cited on Jaswal, p. 12, …"
     cit = f'<a href="{H(w["url"])}">{H(w["citation"])}</a>' if w['url'] else H(w['citation'])
@@ -2472,17 +2535,19 @@ def gentry_html(g):
     meta = ' · '.join(x for x in (gposted(g), H(gversion(g)), f'Licence: {H(g["licence"])}' if g['licence'] else '') if x)
     n = gnodes(g)
     nn = f'{n} {"node" if n == 1 else "nodes"}'
-    tail = ([f'On the map: <a href="{H(gmapq(g))}">{nn}</a>' if g['page'] else f'On the map: {nn}'] if n else [])   # page: false: the count only
+    tail = [f'On the map: <a href="{H(gmapq(g))}">{nn}</a>' if g['page'] else f'On the map: {nn}'] if n else ['0 nodes on the map']   # page: false: the count only
     if g['page']:
         tail.append(f'<a href="{GPATH[g["slug"]]}">Guide page ›</a>')
     return (f'<li class="gentry">{gav(g, 48)}<div class="gbody"><p class="gauth">{gauthor(g)}</p>'
             f'<a class="gtitle" href="{H(g["url"])}">{H(g["title"])}</a><p class="gmeta">{meta}</p>'
-            f'<p class="gstl">{gstatus(g)}</p>' + (f'<p class="gmeta">{" · ".join(tail)}</p>' if tail else '') + '</div></li>')
+            f'<p class="gstl">{gstatus(g)}</p>' + (f'<p class="gstl">{gai_tag(g)}</p>' if g['ai'] else '')
+            + (f'<p class="gmeta">{" · ".join(tail)}</p>' if tail else '') + '</div></li>')
 def gentry_md(g):
     n = gnodes(g)
     bits = [g['name'] or 'No author named on the page', f'originally posted at {_host(g["url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
             gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', G_STATUS_T[g['status']] + (f': "{" ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
-            (f'on the map: {n} {"node" if n == 1 else "nodes"}' + (f' ({SITE}{gmapq(g)})' if g['page'] else '')) if n else '', f'guide page: {SITE}{GPATH[g["slug"]]}' if g['page'] else '']
+            gai_md(g), (f'on the map: {n} {"node" if n == 1 else "nodes"}' + (f' ({SITE}{gmapq(g)})' if g['page'] else '')) if n else '0 nodes on the map',
+            f'guide page: {SITE}{GPATH[g["slug"]]}' if g['page'] else '']
     return f'- [{g["title"]}]({g["url"]}) · ' + ' · '.join(b for b in bits if b) + '\n'
 G_HTML = '<ul class="glistall">' + ''.join(gentry_html(g) for g in GD) + '</ul>'
 G_MD = ''.join(gentry_md(g) for g in GD)
@@ -2555,7 +2620,7 @@ for g in GD:
         acts.append(f'<a class="btn primary" href="{H(gmapq(g))}">On the map</a>')
     tbl = ('<div class="tablewrap"><table class="gnodes"><thead><tr><th>Node</th><th>Distance from Main</th><th>Pages</th></tr></thead><tbody>'
            + ''.join(f'<tr><td><a href="{CPATH[k]}">{H(ctitle(k))}</a></td><td>{dist_txt(k)}</td><td>{grefs_html(g, page_groups(ps), g["notes"].get(k, [])) or "–"}</td></tr>' for k, ps in rows)
-           + '</tbody></table></div>') if rows else '<p class="meta">No node of the map is cited by name yet.</p>'
+           + '</tbody></table></div>') if rows else '<p class="meta">0 nodes on the map.</p>'
     if g['from_refs']:
         how = ('Each node is a cluster of the map holding a Lean declaration or file that the guide names on that page, found by '
                'exact match of full names and file paths.')
@@ -2583,8 +2648,8 @@ for g in GD:
     body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span><a href="/guides/">Guides</a><span class="sep">/</span>{H(name)}</div>'
             f'<div class="eyebrow">Guide · Lean proof of the Riemann hypothesis</div>'
             f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
-            f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>'
-            f'<div class="cta gact">{"".join(acts)}</div>' + share_btn(path, g['title'])
+            f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
+            f'<div class="cta gact">{"".join(acts)}</div>' + ('' if nrow else f'<p class="meta gzero">{G_ZERO}</p>') + share_btn(path, g['title'])
             + f'<h2 id="nodes">Nodes in this guide <span class="n">{nrow}</span></h2>{tbl}'
             f'<h2 id="how">How we mapped it</h2><p>{H(how)}</p>'
             f'<p>Authors can correct this: post to <a href="{X_FEEDBACK}">@SomTheBuilder</a> on X.</p>{photo_credit}'
@@ -2598,7 +2663,8 @@ for g in GD:
           + (f' · posted {gdate(g["date"])}' if g['date'] else '') + (f' · versions read: {", ".join(vers)}' if vers else '')
           + (f' · licence: {g["licence"]}' if g['licence'] else '') + '\n\n'
           + G_STATUS_T[g['status']] + (f': "{" ".join(str(g["quote"]).split())}"' if g.get('quote') else '') + '\n\n'
-          + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else '')
+          + (gai_md(g) + '\n\n' if g['ai'] else '')
+          + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else f'{G_ZERO}\n\n')
           + f'## Nodes in this guide ({nrow})\n\n| Node | Distance from Main | Pages |\n|---|---|---|\n'
           + ''.join(f'| [{ctitle(k)}]({SITE}{CPATH[k]}) | {dist_txt(k)} | '
                     + (grefs_md(g, page_groups(ps), g['notes'].get(k, [])) or '–') + ' |\n' for k, ps in rows)
@@ -2945,6 +3011,12 @@ if TOLD:
 if COLD:
     REDIR += '\n# Renamed clusters: old address -> current address (permanent)\n' + ''.join(
         f'{o} {n} 301\n{o.rstrip("/")} {n} 301\n{o}index.md {n}index.md 301\n' for o, n in sorted(COLD.items()))
+# guides' earlier pinned copies (links already shared): old file -> the copy served now (permanent)
+G_OLD_COPIES = {'/guides/adriazola/files/adriazola-2026-11-23.pdf': 'adriazola'}
+_gold = {o: f'/guides/{s}/files/{G_BY_SLUG[s]["copy_plan"][0]}' for o, s in G_OLD_COPIES.items()
+         if s in G_BY_SLUG and G_BY_SLUG[s].get('copy_plan') and not o.endswith('/' + G_BY_SLUG[s]['copy_plan'][0])}
+if _gold:
+    REDIR += '\n# Guides: earlier pinned copies -> the copy served now (permanent)\n' + ''.join(f'{o} {n} 301\n' for o, n in sorted(_gold.items()))
 open(os.path.join(OUT, '_redirects'), 'w').write(REDIR)
 # G3: /data/ stays crawlable: app.js fetches it while a page renders, and Google's renderer obeys robots.txt (with it
 # blocked, every rendered page showed "Could not load the map data" and /learn/ lost two thirds of its text). The app

@@ -1,0 +1,3 @@
+cluster	page	page_url	basis	evidence
+k0677	README.md	https://github.com/Infatoshi/rh-verification-receipts/blob/ac99f18cef21952de094234fab95db342ed16638/README.md	exact-name	riemannHypothesis
+k0677	VERIFICATION_RESULT.txt	https://github.com/Infatoshi/rh-verification-receipts/blob/ac99f18cef21952de094234fab95db342ed16638/VERIFICATION_RESULT.txt	exact-name	LFunction_eq_zero_re; LFunction_eq_zero_re_of_isPrimitive; LFunction_ne_zero_of_half_lt_re; riemannHypothesis; +1 more
