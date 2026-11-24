@@ -3,8 +3,8 @@
 # "explained elsewhere" cluster box (69b) come later.
 #
 # Fields per entry:
-#   author         name as the page gives it (a note says where the page names no one)
-#   title          exact title on the page
+#   author         a mapping since 24 Nov 2026 (see "Fields added on 24 Nov 2026" below). as_listed keeps the 23 Nov text.
+#   title         exact title on the page
 #   url            the page that was opened
 #   date           ISO date printed on the page, or the first public date found; date_note says what the date is
 #   type           kind of page
@@ -20,9 +20,37 @@
 #                  names, not that it covers little. Tier B entries have none yet.
 #   clusters_basis one line on how the list was made. Evidence table: research/guides/cluster-map-2026-11-23.tsv
 #
+# Fields added on 24 Nov 2026 (lane 1, "guide facts"; design: research/plans/guides-design.md sections 1, 4, 6).
+# Every value comes from the author's own pages; the report with sources is research/guides/lane1-facts-2026-11-24.md.
+#   slug           short URL name: /guides/<slug>/ and /?guide=<slug>
+#   page           true: the guide has its own page. false: a line on /guides/ only (tamnd)
+#   listed         false: kept here but skipped by the build everywhere (hub, pages, sitemap, refs, photos); dropped_note says why
+#   order          hub order, 1 first. Rule: group 1 = authors with a university maths post, group 2 = other named
+#                  authors, group 3 = organisations and unnamed pages; newest first inside each group
+#   author.as_listed    the 23 Nov value, kept
+#   author.name         as the author writes it on a page they control
+#   author.name_source  that page; name_note says what else is there
+#   author.handle       GitHub handle, where the guide is a repository
+#   author.unconfirmed  false when the name is confirmed by the author's own page; true would mean a guess
+#   author.home         the author's home page (an organisation entry has home and home_also)
+#   author.role, role_source, role_note   the post as stated, where, and a caveat. null if none stated
+#   author.order_group  1, 2 or 3, as in the order rule
+#   author.photo        local copy of the original, research/guides/photos-src/<slug>.<ext>, not resized. null if none found
+#   author.photo_source the page the photo is on; photo_url the image file; photo_note size and caveats.
+#                       Organisations: the logo, with photo_also / photo_source_also for the second one
+#   posted_at      {url, date}: where and when first posted, date as printed (note says how it was found)
+#   format         pdf | web | repo: what the mapped object is
+#   licence        as stated, or "none stated"; licence_note quotes the source
+#   host_copy      true only if the licence allows redistribution (we may serve a pinned copy)
+#   versions       list of {version, date, url, ...}: versions read. md5, commit, pages, file where known
+#   title_latest   (Adriazola only) the title of the newest manuscript, when it differs from `title`
+#   changed_since_2026-11-23   what differed on 24 Nov from the 23 Nov entry. Existing fields are not edited, so a
+#                  field above (date, status_note, type) may be stale where this note says so
+#
 # A field that could not be confirmed is written as a mapping with `unconfirmed: true`, plus the best value known
-# and where it came from. Each page was opened on 23 Nov 2026 (read with a page-reading tool that returns a summary,
-# so quotes are as returned; GitHub details come from the GitHub API).
+# and where it came from. Pages were opened on 23 Nov 2026 (read with a page-reading tool that returns a summary,
+# so quotes are as returned; GitHub details come from the GitHub API) and again on 24 Nov 2026 (raw HTML, GitHub API,
+# a headless browser for pages that need scripts).
 #
 # Not added: the 15 "maybe" entries (tier C), and Terence Tao's blog post (labelled B in the candidates file
 # but "context, not an explainer"; the candidates file has 5 rows marked B, the tracker says 4).
@@ -32,7 +60,23 @@ guides:
   # ---------------- Tier A ----------------
 
   - id: rubinstein-zeta-guide
-    author: Michael Rubinstein (University of Waterloo)
+    slug: rubinstein-zeta
+    page: true
+    order: 2
+    author:
+      as_listed: Michael Rubinstein (University of Waterloo)
+      name: Michael Rubinstein
+      name_source: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/
+      name_note: The page is signed '— Michael Rubinstein'. The title page of the v2 PDF reads 'at the behest of Michael O. Rubinstein'.
+      home: https://www.math.uwaterloo.ca/~mrubinst/
+      role: Professor, Department of Pure Mathematics, University of Waterloo
+      role_source: https://uwaterloo.ca/pure-mathematics/about/people/michael-rubinstein
+      role_note: His own home page states no role. The role is from his department profile, which links back to the home page.
+      order_group: 1
+      photo: research/guides/photos-src/rubinstein-zeta.png
+      photo_source: https://uwaterloo.ca/math/michael-rubinstein
+      photo_url: https://uwaterloo.ca/math/sites/default/files/uploads/images/michaelrubinstein.png
+      photo_note: Faculty of Mathematics profile page. 144 x 184 px original.
     title: "Alpöge/Claude proof of the Generalized Riemann Hypothesis"
     guide_title: "The Alpöge–Claude proof of the Riemann hypothesis explained for the Riemann zeta function"
     url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/
@@ -45,6 +89,25 @@ guides:
     status: verified
     status_quote: "This page links to my own check of that Lean proof and to checks made by others. ... All four checks finished with no errors."
     status_note: "The guide itself only explains ('A working guide to the proof, specialised to the Riemann zeta function'; '(M) itself is not proved there'). The verification is the author's own checks, listed on the same page."
+    posted_at:
+      url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/
+      date: '2026-11-21'
+      note: Date of v1 as printed on the page. The page prints no date of its own.
+    format: pdf
+    licence: none stated
+    host_copy: false
+    versions:
+    - version: '1'
+      date: '2026-11-21'
+      url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/zeta-paper.pdf
+      pages: 164
+      note: PDF last-modified 21 Nov 2026 20:34 GMT
+    - version: '2'
+      date: '2026-11-22'
+      url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/zeta-paper_v2.pdf
+      pages: 265
+      note: 'Title page: ''Version 2. Working draft, 22 November 2026''. The file was rebuilt on 23 Nov 2026 (PDF creation date 23 Nov 05:10 GMT) with no change of version label.'
+    changed_since_2026-11-23: The v2 PDF carries a 23 Nov 2026 build date (file last-modified 23 Nov 05:10 GMT) under the same 'Version 2, 22 November' label. The landing page was last modified 23 Nov 13:08 GMT. Page text read on 24 Nov matches the 23 Nov entry. Re-pin the PDF by hash.
     tier: A
     clusters: [k0292, k0417, k0422, k0430, k0437, k0451, k0464, k0485, k0641, k0682, k0685,
       k0688, k0693, k0694, k0695, k0697, k0701, k0751, k0752, k0754, k0775, k0782, k0971, k1084,
@@ -53,7 +116,22 @@ guides:
     clusters_basis: "Lean files the guide cites in its text (version 2 PDF): full paths under lean/src/ and bare file names that occur once in the archive, each mapped to its cluster with site/data/modules.json. Cited names that match no file are left out. Declaration names are not mapped, so the list may be incomplete."
 
   - id: sutherland-grh-verification
-    author: Andrew Sutherland (MIT)
+    slug: sutherland
+    page: true
+    order: 6
+    author:
+      as_listed: Andrew Sutherland (MIT)
+      name: Andrew Sutherland
+      name_source: https://math.mit.edu/~drew/grh/
+      name_note: The page byline reads 'Andrew Sutherland (MIT), checks run with Claude Code.' His home page title and heading read 'Andrew V. Sutherland'.
+      home: https://math.mit.edu/~drew/
+      role: Senior Research Scientist, mathematics department, MIT; AI safety researcher at the Institute for Responsible Super Intelligence (RESI)
+      role_source: https://math.mit.edu/~drew/
+      order_group: 1
+      photo: research/guides/photos-src/sutherland.jpg
+      photo_source: https://math.mit.edu/~drew/
+      photo_url: https://math.mit.edu/~drew/AndrewSutherland.jpg
+      photo_note: The home page shows AndrewSutherlandSmall.jpg and links the larger AndrewSutherland.jpg (2454 x 3054 px), which is the file saved.
     title: "RH Lean proof: verification files"
     heading: "Verification files for the Lean proof of the Riemann Hypothesis"
     url: https://math.mit.edu/~drew/grh/
@@ -65,12 +143,50 @@ guides:
     status: verified
     status_quote: "The published Lean source compiles without errors"
     status_note: "Still pending at the last update: the Lean default and paranoid kernels on the full export, and the Lean-kernel stages of the end-to-end `lake comparator` run."
+    posted_at:
+      url: https://math.mit.edu/~drew/grh/
+      date:
+        value: '2026-11-20'
+        unconfirmed: true
+        note: 'The page prints no first-posting date: only ''Announced at alpo.ge/remark.pdf on 20 November 2026'' and a ''last updated'' stamp. 2026-11-20 is the date of the earliest Internet Archive snapshot (20 Nov 2026 19:57 UTC), not a date the author printed.'
+    format: web
+    licence: none stated
+    host_copy: false
+    versions:
+    - version: page as read on 23 Nov
+      date: '2026-11-22'
+      url: null
+      note: '''Last updated 2026-11-22 16:20 UTC'' (as recorded in the 23 Nov entry). The page is overwritten in place, so no URL pins this state.'
+    - version: page as read on 24 Nov
+      date: '2026-11-24'
+      url: https://math.mit.edu/~drew/grh/
+      note: '''Page last updated 2026-11-24 03:30 UTC''.'
+    changed_since_2026-11-23: 'Page last updated 2026-11-24 03:30 UTC (was 2026-11-22 16:20). Status stays ''verified''. The summary now says every module has been replayed through the Lean kernel, nanoda and con-leche accept the full export, Comparator v4.33.0 reports ''Your solution is okay!'', and Lean''s paranoid kernel accepts it. Still in progress: the lake comparator (v4.36.0) run. The status_note above (default and paranoid kernels pending) is out of date.'
     tier: A
     clusters: [k0677]
     clusters_basis: "The page names Main.lean and its five theorems (Main is in k0677). Its checks cover every module but name no other, so only k0677 is listed."
 
   - id: lean-community-statement
-    author: Lean FRO and Mathlib Initiative
+    slug: lean-statement
+    page: true
+    order: 11
+    author:
+      as_listed: Lean FRO and Mathlib Initiative
+      name: Lean FRO and Mathlib Initiative
+      name_source: https://leanprover-community.github.io/blog/posts/riemann-hypothesis/
+      name_note: 'Byline on the post: ''Lean FRO and Mathlib Initiative''. Text opens ''Joint statement by the Lean FRO and the Mathlib Initiative.'' Unchanged since 23 Nov.'
+      home: https://lean-lang.org/fro/
+      home_also: https://mathlib-initiative.org/
+      role: null
+      role_source: null
+      order_group: 3
+      photo: research/guides/photos-src/lean-statement-lean-fro.svg
+      photo_also: research/guides/photos-src/lean-statement-mathlib-initiative.svg
+      photo_source: https://lean-lang.org/fro/
+      photo_source_also: https://mathlib-initiative.org/
+      photo_url: 'inline <svg> in the site header of https://lean-lang.org/fro/ (extracted to the saved file; stroke colour #386EE0)'
+      photo_url_also: https://mathlib-initiative.org/static/svg/mathlib_initiative_logo.svg
+      photo_note: Logos, not photos. The post page itself shows no logo.
     author_note: "Byline read 23 Nov 2026: 'Joint statement by the Lean FRO and the Mathlib Initiative.' Until 23 Nov it read 'Joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative.'"
     title: "Lean verification of the Riemann Hypothesis"
     url: https://leanprover-community.github.io/blog/posts/riemann-hypothesis/
@@ -81,12 +197,39 @@ guides:
     parts_covered: "Verification: the four criteria (the statement is correct; the library compiles; the code proves the correct statement; the Lean proof is valid)."
     status: verified
     status_quote: "We have full confidence that Alpöge's proof of the Riemann Hypothesis is correct"
+    posted_at:
+      url: https://leanprover-community.github.io/blog/posts/riemann-hypothesis/
+      date: '2026-11-21'
+      note: '''2026-11-21 13:55'' on the post.'
+    format: web
+    licence: none stated
+    licence_note: 'Footer: ''Contents © 2026 The Lean prover community''.'
+    host_copy: false
+    versions:
+    - version: post
+      date: '2026-11-21'
+      url: https://leanprover-community.github.io/blog/posts/riemann-hypothesis/
+      note: No update note on the page. Wayback snapshots with different content digests exist for 21 to 24 Nov; text read on 24 Nov matches the 23 Nov entry.
     tier: A
     clusters: [k0677]
     clusters_basis: "The statement names no Lean file. It certifies that the theorem proved in the library is Mathlib's RiemannHypothesis, which Main.lean proves (cluster k0677). No other cluster is listed."
 
   - id: jaswal-zenodo-guide
-    author: Manvir Jaswal (independent researcher, Toronto; ORCID 0009-0001-2880-9528)
+    slug: jaswal
+    page: true
+    order: 7
+    author:
+      as_listed: Manvir Jaswal (independent researcher, Toronto; ORCID 0009-0001-2880-9528)
+      name: Manvir Jaswal
+      name_source: https://manvirjaswal.github.io/
+      name_note: Home page title and heading. Zenodo lists 'Jaswal, Manvir'.
+      home: https://manvirjaswal.github.io/
+      role: Independent researcher in number theory, Toronto, Canada
+      role_source: https://manvirjaswal.github.io/
+      order_group: 2
+      photo: null
+      photo_source: null
+      photo_note: No photo on his home page, his guide page, his ORCID record or the Zenodo record. Use initials.
     title: "The Riemann hypothesis for Dirichlet L-functions [after Levent Alpöge]"
     url: https://zenodo.org/records/24410057
     date: "2026-11-21"
@@ -97,6 +240,28 @@ guides:
     status: explains-only
     status_quote: "The theorems and their proofs are Alpöge's, and the guide is a reading of his archive."
     status_note: "The guide relays Sutherland's check ('A. Sutherland has compiled the archive and reports that Lean's kernel and two independent kernels accept it'); it ran none itself."
+    posted_at:
+      url: https://zenodo.org/records/24410057
+      date: '2026-11-21'
+      note: '''Published November 21, 2026'' (v1). His own page for the guide, https://manvirjaswal.github.io/papers/rh-dirichlet-after-alpoge/, also prints ''21 November 2026''.'
+    format: pdf
+    licence: CC BY 4.0
+    licence_note: 'Zenodo: ''Creative Commons Attribution 4.0 International''.'
+    host_copy: true
+    versions:
+    - version: v1
+      date: '2026-11-21'
+      url: https://zenodo.org/records/24410057
+      file: https://zenodo.org/records/24410057/files/jaswal-rh-dirichlet-after-alpoge.pdf
+      md5: 9ef0fd4d80d1806d21e5331cf9169ec6
+      doi: 10.5281/zenodo.24410057
+    - version: v2
+      date: '2026-11-21'
+      url: https://zenodo.org/records/24432579
+      file: https://zenodo.org/records/24432579/files/jaswal-rh-dirichlet-after-alpoge.pdf
+      md5: 3024933685553636c1f9b8e93af708a5
+      doi: 10.5281/zenodo.24432579
+      note: 'The v2 record prints ''Published November 21, 2026 | Version v2'' and lists ''Nov 21, 2026'' in its version table. Its technical metadata reads ''Created November 22, 2026''. All versions: DOI 10.5281/zenodo.24410056.'
     tier: A
     clusters: [k0040, k0158, k0162, k0173, k0212, k0248, k0286, k0296, k0302, k0417, k0419,
       k0430, k0437, k0443, k0462, k0463, k0464, k0466, k0477, k0484, k0485, k0525, k0630, k0641,
@@ -113,7 +278,23 @@ guides:
     clusters_basis: "Files the guide cites by path with line numbers (version 2 PDF, record 24432579): its folder abbreviations expanded, '.../' paths matched to one file, and bare file names that occur once in the archive, each mapped with site/data/modules.json. 310 of 329 checkable name-and-file pairs matched a declaration in the resolved file; the rest are parse noise. Cited paths that match no file are left out."
 
   - id: adriazola-reconstruction
-    author: Jimmie Adriazola (School of Mathematical and Statistical Sciences, Arizona State University)
+    slug: adriazola
+    page: true
+    order: 3
+    author:
+      as_listed: Jimmie Adriazola (School of Mathematical and Statistical Sciences, Arizona State University)
+      name: Jimmie Adriazola
+      name_source: https://jimjamzola.github.io/me/
+      name_note: 'Home page title: ''Jimmie Adriazola''. The repository README also says ''The manuscript is by Jimmie Adriazola''.'
+      home: https://jimjamzola.github.io/me/
+      role: Assistant Professor, School of Mathematical and Statistical Sciences, Arizona State University
+      role_source: https://search.asu.edu/profile/5123395
+      role_note: His home page names the school and the university but no rank. The rank is from his ASU directory profile, which his home page links to.
+      order_group: 1
+      photo: research/guides/photos-src/adriazola.png
+      photo_source: https://search.asu.edu/profile/5123395
+      photo_url: https://webapp4.asu.edu/photo-ws/directory_photo/jadriazo?size=medium
+      photo_note: ASU directory portrait, 240 x 240 px PNG. The photo on his home page is a picture of a lecture hall, not a portrait, so it was not used.
     title: "An End-to-End Reconstruction of the Alpöge–Claude Route to the Riemann Hypothesis"
     repo_title: "RH-Alpoge-Reconstruction: An attempt to make the proof of the Riemann hypothesis human readable"
     url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction
@@ -125,12 +306,54 @@ guides:
     status: explains-only
     status_quote: "This repository did not build or replay the archive itself."
     status_note: "Also: 'I cannot guarantee that everything in this repository is correct.' and 'The external boundary as a whole has not been verified.'"
+    title_latest: The Alpöge Proof of the Riemann Hypothesis
+    title_latest_note: Title of the 23 Nov manuscript (manuscript/main.pdf, 225 pages; also CITATION.cff). The 66-page 21 Nov manuscript, RH_Route_Notes.pdf, carries the title in the 'title' field above.
+    posted_at:
+      url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction
+      date: '2026-11-21'
+      note: 'First commit 2026-11-21 16:35 UTC; CITATION.cff ''date-released: 2026-11-21''. The README prints no posting date, only dated status notes.'
+    format: pdf
+    format_note: A repository whose object is a PDF manuscript. Mapping is by PDF page.
+    licence: CC BY 4.0
+    licence_note: 'LICENSE file and README: covers the manuscript, documentation and audit reports. The Lean archive is not covered.'
+    host_copy: true
+    versions:
+    - version: RH_Route_Notes (66 pages)
+      date: '2026-11-21'
+      url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/932c30f8c4d7eb5f36fd2f87438cd984bf7e553c/RH_Route_Notes.pdf
+      raw: https://raw.githubusercontent.com/jimjamzola/RH-Alpoge-Reconstruction/932c30f8c4d7eb5f36fd2f87438cd984bf7e553c/RH_Route_Notes.pdf
+      commit: 932c30f8
+      note: 'Last commit that touched the file, 2026-11-21 21:14 UTC. Earlier commits the same day also changed it. README: ''The earlier manuscript ... 66 pages, 21 November 2026 ... kept as a historical record''.'
+    - version: manuscript/main.pdf (225 pages)
+      date: '2026-11-23'
+      url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/6f4e8cb70bc6998bdf6e9d6193eda5427fa49017/manuscript/main.pdf
+      raw: https://raw.githubusercontent.com/jimjamzola/RH-Alpoge-Reconstruction/6f4e8cb70bc6998bdf6e9d6193eda5427fa49017/manuscript/main.pdf
+      commit: 6f4e8cb7
+      local: research/guides/sources/adriazola-reconstruction/repo/manuscript/main.pdf
+      md5: 46ad40ddc3d2ee0ee88ac03bd4ec9acd
+      note: 'Committed 2026-11-23 18:23 UTC. README: ''The Alpöge Proof of the Riemann Hypothesis (225 pages, 23 November 2026). It is a working document.'''
+    changed_since_2026-11-23: 'New 225-page manuscript (manuscript/main.pdf, 23 Nov) under a new title; the 66-page text the clusters were mapped from is now the ''earlier manuscript''. Repository head 33583b74 (2026-11-24 00:08 UTC). Status stays ''explains-only'': the status_quote is still in the README (''This repository did not build or replay the archive itself.''), and the README says the manuscript ''does not yet constitute a proof of the Riemann hypothesis independent of the Lean development''. The 23 Nov evening note says the open-statement list in the manuscript is incomplete.'
     tier: A
     clusters: [k0677]
     clusters_basis: "Prose reconstruction that mostly uses short, namespace-free Lean names, which cannot be matched to files exactly. It cites lean/src/Main.lean line 4 and the five Main.lean theorems by name (Main is in k0677). Only k0677 is listed."
 
   - id: naskrecki-riemann-rev
-    author: Bartosz Naskręcki
+    slug: naskrecki
+    page: true
+    order: 4
+    author:
+      as_listed: Bartosz Naskręcki
+      name: Bartosz Naskręcki
+      name_source: https://bnaskrecki.faculty.wmi.amu.edu.pl
+      name_note: 'Home page: ''Dr. Bartosz Naskręcki''. The repository LICENSE reads ''Copyright (c) 2026 Bartosz Naskręcki'' and every commit is authored ''Bartosz Naskręcki''. The site and README name no person. The link from the repository to the person: GitHub account nasqret has profile name ''Bartosz Naskręcki'' and ''blog'' set to his faculty home page; his home page links to nasqret.blogspot.com.'
+      home: https://bnaskrecki.faculty.wmi.amu.edu.pl
+      role: Dr., Faculty of Mathematics and Computer Science, Adam Mickiewicz University, Poznań
+      role_source: https://bnaskrecki.faculty.wmi.amu.edu.pl
+      order_group: 1
+      photo: research/guides/photos-src/naskrecki.jpg
+      photo_source: https://bnaskrecki.faculty.wmi.amu.edu.pl
+      photo_url: https://bnaskrecki.faculty.wmi.amu.edu.pl/lib/exe/fetch.php/alant_5_photo_bn_cut.jpg
+      photo_note: Greyscale, 671 x 900 px original.
     author_note: "The site and README name no person; they say 'prepared ... under the direction of the repository owner'. The owner is the GitHub account nasqret, whose public profile reads 'Bartosz Naskręcki', Adam Mickiewicz University (finding 53d in the candidates file)."
     title: "The announced proof of the Riemann hypothesis: map, guide and record of checks"
     short_name: riemann-rev
@@ -144,6 +367,27 @@ guides:
     status: explains-only
     status_quote: "It is not a proof, not a referee report and not an endorsement, and it is not an official companion to the announcement."
     status_note: "It does one small check of its own: the README says 'The logical skeleton of the argument compiles in Lean 4.35.0 with no axioms (10 axiom-free declarations)'. It runs no check of the archive; it reports checks by others."
+    posted_at:
+      url: https://nasqret.github.io/riemann-rev/
+      date: '2026-11-21'
+      note: First commit 2026-11-21 00:42 UTC. The site prints only 'Record of 2026-11-20 23:51 UTC' and 'imported here on 2026-11-21 00:17 UTC'.
+    format: web
+    format_note: Site and repository with PDFs (guide, notes, book).
+    licence: 0BSD
+    licence_note: 'LICENSE file (BSD Zero Clause) and the site: ''Everything original on this site may be used for any purpose''. ''The announcement and the Lean archive belong to their author.'''
+    host_copy: true
+    versions:
+    - version: commit e9bdf8f4
+      date: '2026-11-22'
+      url: https://github.com/nasqret/riemann-rev/tree/e9bdf8f4
+      note: The commit the cluster list was mapped from (data/model.json).
+    - version: commit 6ccea03b (head)
+      date: '2026-11-24'
+      url: https://github.com/nasqret/riemann-rev/tree/6ccea03b
+      local: research/guides/sources/naskrecki-riemann-rev/repo/guide/proof-guide.pdf
+      md5: b19e6bfb57ee72884b932df1fb533428
+      note: Committed 2026-11-24 05:14 UTC.
+    changed_since_2026-11-23: 'The site and repository grew after the mapped commit: a third deformalization note (Descent to a layer of the cyclotomic tower, 70 Lean declarations, commit ae05a37f, 24 Nov), a 17-chapter book, a link to a separate proof atlas (https://nasqret.github.io/riemann-proof-atlas/), and fixes to notes 1 and 2. The status_quote is still on the page. The 11-page guide is unchanged in description.'
     tier: A
     clusters: [k0302, k0415, k0595, k0641, k0677, k0682, k0688, k0694, k0695, k0697, k1091,
       k1092, k1108, k1112, k1114, k1148, k1209, k1633, k1636, k1703, k1989, k2342, k2358, k2401,
@@ -151,10 +395,28 @@ guides:
     clusters_basis: "All 107 Lean declarations in the atlas (data/model.json at e9bdf8f) matched to files by full name, or by suffix within the stated module for 4 private names (64 files). See research/lean-reader/xref/blueprint_matches.tsv."
 
   - id: merten-riemann-blueprint
+    slug: blueprint
+    page: true
+    order: 8
     author:
-      value: Christian Merten (GitHub chrisflav)
-      unconfirmed: true
-      note: "The repository page names only the account chrisflav and says nothing about the author's name. 'Christian Merten' comes from the candidates file, which took it from the GitHub profile."
+      as_listed:
+        value: Christian Merten (GitHub chrisflav)
+        unconfirmed: true
+        note: '23 Nov entry: the repository page names only the account chrisflav; ''Christian Merten'' came from the candidates file.'
+      name: Christian Merten
+      handle: chrisflav
+      name_source: https://github.com/chrisflav
+      name_note: The name is in the 'Name' field of his own GitHub profile, and every commit in the repository is authored 'Christian Merten'. The README, the repository page and the blueprint site (https://riemann.fuxi.merten.dev) name no person. No bio, company or personal site is on the profile. Confirmed by his GitHub profile only.
+      unconfirmed: false
+      name_basis: github-profile-name-field
+      home: https://github.com/chrisflav
+      role: null
+      role_source: null
+      role_note: Not stated on his profile.
+      order_group: 2
+      photo: null
+      photo_source: null
+      photo_note: The GitHub profile shows only the default generated avatar (an identicon). No photo found. Use initials.
     title: "riemann-blueprint: A reading blueprint of the Lean formalisation claiming RH and GRH for Dirichlet L-functions"
     url: https://github.com/chrisflav/riemann-blueprint
     date: "2026-11-21"
@@ -165,6 +427,21 @@ guides:
     status: explains-only
     status_quote: "This is a reader's account of Alpöge's proof, not his own exposition of it."
     status_note: "Also: 'A node here says nothing about whether the formal proof of it is correct.' and 'No build of the formal proof was used, because the project is too large to build on the machine where this was written.'"
+    posted_at:
+      url: https://github.com/chrisflav/riemann-blueprint
+      date: '2026-11-21'
+      note: Repository created 2026-11-21 15:15 UTC. The README prints no date.
+    format: repo
+    format_note: Blueprint site at https://riemann.fuxi.merten.dev built from the repository.
+    licence: none stated
+    licence_note: No LICENSE file; the GitHub API reports no licence.
+    host_copy: false
+    versions:
+    - version: commit 137d976
+      date: '2026-11-21'
+      url: https://github.com/chrisflav/riemann-blueprint/tree/137d9760
+      note: Head and last push, 2026-11-21 21:18 UTC. The clusters were mapped from this commit.
+    changed_since_2026-11-23: Repository unchanged since 21 Nov 21:18 UTC. The README still says 461 statements in four chapters; the live blueprint site (rendered on 24 Nov) lists ten chapters and 2,816 objects, and the last commits say 'nine chapters'. Re-check counts before quoting them.
     tier: A
     clusters: [k0029, k0030, k0032, k0040, k0105, k0107, k0131, k0155, k0162, k0164, k0172,
       k0173, k0174, k0194, k0203, k0210, k0218, k0223, k0226, k0233, k0240, k0241, k0250, k0251,
@@ -203,10 +480,25 @@ guides:
   # ---------------- Tier B ----------------
 
   - id: rubinstein-grh-lean-verification
+    slug: rubinstein-check
+    page: true
+    order: 5
     author:
-      value: Michael Rubinstein (University of Waterloo)
-      unconfirmed: true
-      note: "The page has no byline. It links to Rubinstein's page and to the repository mrubinst/grh-lean-verification, which it names as its source."
+      as_listed:
+        value: Michael Rubinstein (University of Waterloo)
+        unconfirmed: true
+        note: '23 Nov entry: the page has no byline.'
+      name: Michael Rubinstein
+      name_source: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/
+      name_note: 'Confirmed on 24 Nov by his own page: ''This page links to my own check of that Lean proof'' (signed ''— Michael Rubinstein''), linking to this site. The check page itself has no byline; it links back to ''Michael Rubinstein''s page'' and is hosted under his GitHub account mrubinst (repository mrubinst/grh-lean-verification).'
+      home: https://www.math.uwaterloo.ca/~mrubinst/
+      role: Professor, Department of Pure Mathematics, University of Waterloo
+      role_source: https://uwaterloo.ca/pure-mathematics/about/people/michael-rubinstein
+      order_group: 1
+      photo: research/guides/photos-src/rubinstein-check.png
+      photo_source: https://uwaterloo.ca/math/michael-rubinstein
+      photo_url: https://uwaterloo.ca/math/sites/default/files/uploads/images/michaelrubinstein.png
+      photo_note: Same file as rubinstein-zeta.png.
     title: "GRH Lean Check: An independent check of the Lean proof of RH and GRH"
     url: https://mrubinst.github.io/grh-lean-verification/
     date: "2026-11-21"
@@ -217,10 +509,39 @@ guides:
     status: verified
     status_quote: "All 175,187 modules compile with no errors"
     status_note: "Also: 'The checks are run by Claude Code (an AI agent) on the account owner's university compute allocation; every result here comes from our own runs.'"
+    posted_at:
+      url: https://mrubinst.github.io/grh-lean-verification/
+      date: '2026-11-20'
+      note: First log entry '2026-11-20 20:20 UTC'; repository created 2026-11-20 22:31 UTC. The 23 Nov entry gave 2026-11-21, the date of the last log entry.
+    format: web
+    licence: none stated
+    host_copy: false
+    versions:
+    - version: page
+      date: '2026-11-22'
+      url: https://mrubinst.github.io/grh-lean-verification/
+      note: 'One live page, no version numbers. Page last-modified 22 Nov 2026 13:03 GMT; status line ''At 10:10 UTC (21 Nov): all four checks are complete''. The exposition paper that was briefly in this repository moved to its own repository on 22 Nov.'
+    changed_since_2026-11-23: Author now confirmed (see name_note). Status and quote unchanged.
     tier: B
 
   - id: baez-azimuth-masullo
-    author: John Baez
+    slug: baez
+    listed: false
+    dropped_note: "24 Nov 2026: dropped for now; the post is about Masullo's claim, not this proof"
+    page: true
+    order: 1
+    author:
+      as_listed: John Baez
+      name: John Baez
+      name_source: https://johncarlosbaez.wordpress.com/2026/11/22/masullo-on-the-riemann-hypothesis/
+      name_note: Azimuth is his blog; in the post he writes 'my animations' and links his own page as 'John Baez, Riemann's explicit formulas'. His home page is headed 'John Baez's Stuff'.
+      home: https://math.ucr.edu/home/baez/
+      role: Emeritus professor in the mathematics department at U. C. Riverside; Maxwell Fellow in Public Engagement at the University of Edinburgh
+      role_source: https://math.ucr.edu/home/baez/
+      order_group: 1
+      photo: null
+      photo_source: null
+      photo_note: No portrait on his home page or the Azimuth About page (only generated commenter avatars). No photo found. Use initials.
     title: "Masullo on the Riemann Hypothesis"
     url: https://johncarlosbaez.wordpress.com/2026/11/22/masullo-on-the-riemann-hypothesis/
     date: "2026-11-22"
@@ -230,10 +551,39 @@ guides:
     status: explains-only
     status_quote: "If you also want a sketch of the Alpöge / Claude attempt, check out these:"
     status_note: "He neither verified the proof nor explains it in depth. He calls his own account 'very tentative' and says he is 'not an expert on number theory'. The Mathstodon post quoted in the candidates file ('I don't think anybody knows yet if it's right') was not re-opened on this pass."
+    posted_at:
+      url: https://johncarlosbaez.wordpress.com/2026/11/22/masullo-on-the-riemann-hypothesis/
+      date: '2026-11-22'
+      note: '''Sunday, November 22nd, 2026 at 12:47 am''.'
+    format: web
+    licence: none stated
+    host_copy: false
+    versions:
+    - version: post
+      date: '2026-11-22'
+      url: https://johncarlosbaez.wordpress.com/2026/11/22/masullo-on-the-riemann-hypothesis/
+      note: 'Page metadata: published 2026-11-22 00:47 UTC, modified 2026-11-22 20:16 UTC. No update note in the text.'
+    changed_since_2026-11-23: None. Status quote and the 'transplants Stepanov's proof' line are on the page. He links Adriazola's guide under the older title 'An end-to-end reconstruction of the Alpöge–Claude route to the Riemann hypothesis'.
     tier: B
 
   - id: aaronson-shtetl-optimized
-    author: Scott Aaronson
+    slug: aaronson
+    page: true
+    order: 9
+    author:
+      as_listed: Scott Aaronson
+      name: Scott Aaronson
+      name_source: https://www.scottaaronson.com/
+      name_note: Home page heading 'Scott Aaronson'; the blog subtitle reads 'The Blog of Scott Aaronson'.
+      home: https://www.scottaaronson.com/
+      role: Schlumberger Centennial Chair of Computer Science, The University of Texas at Austin; director of its Quantum Information Center
+      role_source: https://www.scottaaronson.com/
+      role_note: A computer-science post, not a mathematics post. Placed in group 2 on that reading. Move to group 1 if computer science counts as a university maths post.
+      order_group: 2
+      photo: research/guides/photos-src/aaronson.gif
+      photo_source: https://www.scottaaronson.com/
+      photo_url: https://www.scottaaronson.com/aarsmall.gif
+      photo_note: 192 x 192 px GIF on the home page.
     title: "The stochastic parrots have apparently proved the Riemann Hypothesis"
     url: https://scottaaronson.blog/?p=10344
     date: "2026-11-20"
@@ -244,13 +594,44 @@ guides:
     status: explains-only
     status_quote: "The proof has now been verified independently by the Lean community, using con-leche"
     status_note: "He reports verification by others and ran no check. The post explains no mathematics; it is here for the trust discussion. Only the first 100,000 of about 178,000 characters of the page were read."
+    posted_at:
+      url: https://scottaaronson.blog/?p=10344
+      date: '2026-11-20'
+      note: '''Friday, November 20th, 2026 at 12:29 pm''.'
+    format: web
+    licence: none stated
+    host_copy: false
+    versions:
+    - version: post with update
+      date: '2026-11-21'
+      url: https://scottaaronson.blog/?p=10344
+      note: 'Update dated ''Nov 21'' in the text. Page metadata: published 2026-11-20 18:29 UTC, modified 2026-11-22 01:25 UTC.'
+    changed_since_2026-11-23: None in status. The whole page was read on 24 Nov (about 181,000 characters); the status_quote is on it. Page was modified 2026-11-22 01:25 UTC.
     tier: B
 
   - id: tamnd-riemann-handbook
+    slug: tamnd
+    page: false
+    order: 10
     author:
-      value: tamnd (GitHub handle)
-      unconfirmed: true
-      note: "The site names no author ('Built by rh dev'). The GitHub repo tamnd/riemann (created 2026-11-20) matches the candidates file's attribution."
+      as_listed:
+        value: tamnd (GitHub handle)
+        unconfirmed: true
+        note: '23 Nov entry: the site named no author (''Built by rh dev'').'
+      name: Tam Nguyen Duc
+      handle: tamnd
+      name_source: https://riemann.tamnd.com/about/
+      name_note: 'About page: ''This site is a project of Tam Nguyen Duc.'' The repository CITATION.cff lists ''Nguyen Duc, Tam''; the GitHub profile name is ''Tam Nguyen Duc''. The home page and the ''Built by rh dev'' footer name no one.'
+      unconfirmed: false
+      home: https://github.com/tamnd
+      role: null
+      role_source: null
+      role_note: Not stated on the site or the GitHub profile.
+      order_group: 2
+      photo: research/guides/photos-src/tamnd.jpg
+      photo_source: https://github.com/tamnd
+      photo_url: https://avatars.githubusercontent.com/u/1218621?v=4
+      photo_note: GitHub profile avatar, a pencil caricature, not a photograph. 460 x 460 px. Replace by initials if a photograph is wanted.
     title: "A written proof of the Lean proof of the Riemann Hypothesis"
     url: https://riemann.tamnd.com
     date: "2026-11-21"
@@ -261,4 +642,18 @@ guides:
     status: explains-only
     status_quote: "This site has not checked the claim yet."
     status_note: "Trust report on 23 Nov: compile, axioms and second-kernel checks 'not run'; whether the written steps match the Lean code: 'No person has checked them yet.' The candidates file notes this text predates the 21 Nov certification: re-read before describing it."
+    posted_at:
+      url: https://riemann.tamnd.com
+      date: '2026-11-20'
+      note: Repository tamnd/riemann created 2026-11-20 18:28 UTC. The site prints 'Lean 4 · Mathlib · 2026-11-20' and 'Updated 2026-11-21'.
+    format: web
+    licence: text CC BY 4.0; data CC0 1.0; toolchain MIT
+    licence_note: 'Site footer: ''The text is under CC BY 4.0, the data under CC0 1.0 and the toolchain under MIT. The Lean code stays with its author.'''
+    host_copy: true
+    versions:
+    - version: site
+      date: '2026-11-21'
+      url: https://riemann.tamnd.com
+      note: '''Updated 2026-11-21'' on the page; repository last pushed 2026-11-23 11:04 UTC. Not pinned to a release.'
+    changed_since_2026-11-23: None. Status quote ('This site has not checked the claim yet.') and the 'not run' items are still on the page; the text still predates the 21 Nov certification.
     tier: B
