@@ -1,16 +1,14 @@
-# Reader's guide to the claimed Lean proof of the Riemann hypothesis
+# Reader's guide to the Lean proof of the Riemann hypothesis
 
-> **This is a map, not a check.** Nothing here was compiled and no proofs were read. The folder descriptions are guesses from file and folder names. In a spot check, one of two sampled guesses was wrong.
+On 20 Nov 2026 Levent Alpöge released a [Lean formalization and announcement note](https://alpo.ge/remark.pdf) for a proof of the Riemann hypothesis developed with Claude. On 21 Nov the [Lean FRO and Mathlib Initiative](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/) certified the formal statement and proof. [Andrew Sutherland's verification log](https://math.mit.edu/~drew/grh/) records independent builds, kernel checks, and comparisons with the target theorem.
 
-On 20 Nov 2026 an unsigned note appeared at [alpo.ge/remark.pdf](https://alpo.ge/remark.pdf), claiming a proof of the Riemann hypothesis formalised in Lean with Claude. The Lean source is linked from the note's footnote as `lean.tar.gz.part01`–`part14`. As of writing, no one independent has verified it.
-
-The source is hard to approach: 175,187 Lean files, 17.4 million lines, and not a single comment. This repo is a starting point for anyone who wants to read it.
+The release contains 175,187 Lean files and about 17.4 million lines. [RH Lean Explorer](https://riemannhypothesissolved.com/) maps the source, links to [reading guides](https://riemannhypothesissolved.com/guides/), and maintains a dated [verification status](https://riemannhypothesissolved.com/status/). This repository contains the site's generator and the original source-text audit. The original folder descriptions are inferred from file and folder names.
 
 ## What's here
 
 | File | What it is |
 |---|---|
-| [FINDINGS.md](FINDINGS.md) | Where the main theorem is, what it states in plain English, which definitions it relies on, and the keyword scan (no `sorry`, `axiom`, `native_decide`, …). Also lists what is still unchecked. |
+| [FINDINGS.md](FINDINGS.md) | The launch-day source audit, including the main theorem, its definitions, and a keyword scan. |
 | [FOLDERS.md](FOLDERS.md) | Best-guess guide to every folder. It goes deeper wherever a folder has more than 1,000 files, and gives word profiles for the huge flat folders. |
 | [evidence/](evidence/) | sha256 of the archive and its parts, plus raw search hits. |
 | [scripts/](scripts/) | The scripts that produced the above, so you can regenerate or improve it. |
@@ -18,9 +16,8 @@ The source is hard to approach: 175,187 Lean files, 17.4 million lines, and not 
 ## Key facts (details and file:line evidence in FINDINGS.md)
 
 - **The statement uses only Mathlib's own definitions.** The headline theorem is `riemannHypothesis : RiemannHypothesis` (`Main.lean:4`), using Mathlib's long-standing definition. The restated versions live in `Statements.lean`, which imports nothing but Mathlib.
-- **The text has no escape hatches.** There are zero hits for `sorry`, `axiom`, `admit`, `native_decide`, `implemented_by`, `extern`, `csimp`, `unsafe`, `opaque`, `skipKernelTC` and `ofReduceBool`. This is a text search, not a kernel check.
+- **The source-text audit found no matches for the scanned keywords.** The scan checked `sorry`, `axiom`, `admit`, `native_decide`, `implemented_by`, `extern`, `csimp`, `unsafe`, `opaque`, `skipKernelTC` and `ofReduceBool`.
 - **The last steps of the proof are short and readable.** "No zeros to the right of ½" implies RH via the functional equation (`Formalism/GammaFactorNonvanishing/`).
-- **The build has not been verified.** `#print axioms` has not been run by me. The project is several times the size of Mathlib.
 
 ## Get the same source
 
@@ -46,7 +43,6 @@ scripts/scan_keywords.sh lean/src                        # the keyword scan
 
 ## Help wanted
 
-- **Run a full build** and post `#print axioms riemannHypothesis`. Bonus: an independent kernel re-check (`lean4checker` or similar).
 - **Correct the folder guesses** in FOLDERS.md by opening an issue or PR, ideally with a file you actually read.
 - **Map the import graph,** especially for the flat folders with 40k files, where names don't help.
 

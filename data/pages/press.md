@@ -41,8 +41,8 @@ as_of: "24 Nov 2026"
 
 ### People who ran checks
 
-- **Updated 22 Nov 2026, 14:10 UTC. Andrew Sutherland (MIT), [verification files](https://math.mit.edu/~drew/grh/).** The most detailed log: compile, axioms, kernels, comparators, exports and hashes.
-- **21 Nov 2026. Michael Rubinstein (Waterloo), [landing page](https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/) and [GRH Lean check](https://mrubinst.github.io/grh-lean-verification/).** His own four checks, all reported complete on 21 Nov, and a 164-page working draft for the zeta case.
+- **Updated 24 Nov 2026, 05:25 UTC. Andrew Sutherland (MIT), [verification files](https://math.mit.edu/~drew/grh/).** Logs of the build, axiom audit, independent kernels, comparators, exports and hashes.
+- **Michael Rubinstein (Waterloo).** His [four Lean checks](https://mrubinst.github.io/grh-lean-verification/) finished on 21 Nov. His [265-page working draft for the zeta case](https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/) is dated 22 Nov (version 2).
 - **Elliot Arledge, [verification receipts](https://github.com/Infatoshi/rh-verification-receipts).** An independent rebuild, an axiom audit and nanoda check receipts.
 - **Bartosz Naskręcki, [riemann-rev](https://nasqret.github.io/riemann-rev/).** A community site with a map, an 11-page guide and a record of who checked what. It says it is "not an official companion".
 

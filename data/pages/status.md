@@ -1,5 +1,5 @@
 ---
-title: "Has the Riemann hypothesis been solved? Status 24 Nov 2026"
+title: "Has the Riemann hypothesis been solved? Proof status"
 description: "A Lean proof of the Riemann hypothesis was released on 20 Nov 2026 and certified on 21 Nov. What was checked, by whom, and what it covers."
 h1: "Has the Riemann hypothesis been solved?"
 path: /status/
@@ -41,8 +41,8 @@ Every check below has passed except one end-to-end `lake comparator` run, which 
 | con-leche on the full export | Sutherland | 1,468,418 declarations accepted |
 | Statement comparison (`--compare`), con-leche and con-ron | Sutherland | All five theorems accepted |
 | Lean default and paranoid kernels on the full export | Sutherland | Both accept |
-| Unmodified Comparator v4.33.0, end to end | Sutherland | "Your solution is okay!" |
-| `lake comparator` end to end (Lean v4.36.0) | Sutherland | In progress; last stage running |
+| Unmodified Comparator v4.33.0 on the original build files | Sutherland | Statement and axiom checks pass. Two kernels accept. The build step used a stub. |
+| `lake comparator` (Lean v4.36.0) on the submitted archive's exports | Sutherland | In progress at the final stage |
 | lean4lean, module by module | Sutherland | 175,187 of 175,187 accepted |
 | Axioms used | Sutherland | Only `propext`, `Classical.choice`, `Quot.sound` |
 

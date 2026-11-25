@@ -129,9 +129,9 @@ Source: [Verification notes](https://github.com/leanprover-community/riemann-hyp
 
 ### Is there a human-readable version of the proof?
 
-Alpöge released the proof as Lean code with a four-page note. He wrote "I decided to only present Lean" and says he intends to write the argument properly later. Michael Rubinstein has posted a 164-page working draft for the zeta case, which takes one key inequality from the Lean code.
+Alpöge released the proof as Lean code with a four-page note. He wrote "I decided to only present Lean" and says he intends to write the argument properly later. Michael Rubinstein's 265-page working draft for the zeta case (version 2, 22 Nov) reduces a key inequality to thirteen hypotheses and identifies inputs from the Lean development.
 
-Source: [Alpöge's note](https://alpo.ge/remark.pdf)
+[Alpöge's note](https://alpo.ge/remark.pdf) · [Rubinstein's guide and version history](https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/)
 
 ### Is there a prize?
 

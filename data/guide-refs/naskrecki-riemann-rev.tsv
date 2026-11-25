@@ -129,7 +129,6 @@ k0688	https://nasqret.github.io/riemann-rev/book/glossary.html	https://nasqret.g
 k0688	https://nasqret.github.io/riemann-rev/book/supply.html	https://nasqret.github.io/riemann-rev/book/supply.html	exact-name	QH.pairEx
 k0688	https://nasqret.github.io/riemann-rev/book/verification.html	https://nasqret.github.io/riemann-rev/book/verification.html	exact-name	Formalism.HermitianLattices.GL2a2.psi_zero_integral_constant; QH.pairEx
 k0688	proof-guide.pdf p. 8	https://nasqret.github.io/riemann-rev/guide/proof-guide.pdf#page=8	exact-name	QH.pairEx
-k0693	https://nasqret.github.io/riemann-rev/book/blueprint.html	https://nasqret.github.io/riemann-rev/book/blueprint.html	agent	". host . toHostAx _" -> Formalism.HC.CharData.toHostAx
 k0694	atlas#moment-target	https://nasqret.github.io/riemann-rev/atlas/	blueprint-label	moment-target: Formalism.HermitianLattices.GL2a2.PsiZeroConst
 k0694	atlas-blueprint.pdf p. 34	https://nasqret.github.io/riemann-rev/blueprint/atlas-blueprint.pdf#page=34	exact-name	Formalism.HermitianLattices.GL2a2.PsiZeroConst (line-joined); PrimeCountAsymptoticInProgressions.lean -> Formalism/GL3MeanSquares/PrimeCountAsymptoticInProgressions.lean
 k0694	atlas-blueprint.pdf p. 40	https://nasqret.github.io/riemann-rev/blueprint/atlas-blueprint.pdf#page=40	agent	"GL2a2.PsiZeroConst" -> Formalism.HermitianLattices.GL2a2.PsiZeroConst
