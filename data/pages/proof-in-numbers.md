@@ -27,7 +27,11 @@ as_of: "24 Nov 2026"
 - **175,027 files on the map.** The map covers every file that has a theorem or definition of its own. The other 160 are 150 files that only list imports, the 5 build helpers `BuildAid.D1` to `D5`, and 5 files with no theorem or definition (only `open`, `section`, `namespace` or `set_option` lines).
 - **14 parts, 239,275,554 bytes.** This is the size of the joined archive as posted. ([Sutherland](https://math.mit.edu/~drew/grh/))
 
-The released archive has 175,187 files. The community repository removes unused files; at commit [6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) (24 Nov 2026, 13:39 UTC) it had 60,156 `.lean` files. Every figure on this page is for the original archive. ([community repository](https://github.com/leanprover-community/riemann-hypothesis))
+### How much has the community version shrunk?
+
+The Lean community removes unused files and simplifies the code on the `main` branch of its [Riemann hypothesis repository](https://github.com/leanprover-community/riemann-hypothesis). At [commit 6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) on 24 Nov 2026 at 13:39 UTC, it had 60,156 Lean files, compared with 175,187 in the original release.
+
+Follow [RH Shrink’s live proof-size tracker](https://rh-shrink.github.io/) to see how the file and line counts change with each commit. Its code-line measure excludes blank lines, comment-only lines and the import block at the top of each file. The [tracker’s source code](https://github.com/rh-shrink/rh-shrink.github.io) measures the text directly. For checks that run Lean on the proof, see [how the proof was verified](/how-we-know/).
 
 ## Shape
 
