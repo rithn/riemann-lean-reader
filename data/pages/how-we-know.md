@@ -12,38 +12,42 @@ target_queries:
   - how does lean verify a proof
   - lean kernel soundness
 as_of: "24 Nov 2026"
+fold_sections:
+  - lean-statements
+  - checker-implementations
+  - expert-detail
 ---
 
 # How do we know the Riemann hypothesis proof is correct?
 
-*As of 24 Nov 2026. See [status](/status/) for the latest.*
+Independent programs accepted the exported Lean proof. Separate checks matched its main theorem to Mathlib’s definition of the Riemann hypothesis. [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).
 
-**A program called a kernel tests every step of a Lean proof against fixed logical rules. Several independent programs have repeated that check on the exported proof. People also confirmed that the theorem proved is the Riemann hypothesis as Mathlib states it. The proof runs to 17.4 million lines, so the checking is done by machine.**
+*Verification reports as of 24 November 2026. See [status](/status/) for later updates.*
 
-This page explains how that works for a reader new to Lean. An "Expert detail" section at the end gives the numbers.
+## What Lean checks {#what-lean-checks}
 
-## A proof that a machine can check
-
-Most proofs are written for people. A referee reads them and decides whether each step follows.
-
-A Lean proof is written as code. Lean is "an interactive theorem prover based on dependent type theory, designed for use both in cutting-edge mathematics and in software verification." ([Lean reference manual](https://lean-lang.org/doc/reference/latest/)) Mathlib is "a community-driven effort to build a unified library of mathematics formalized in the Lean proof assistant." ([Lean community](https://leanprover-community.github.io/)) Lean checks each step against fixed logical rules. If a step does not follow, Lean rejects the file.
+Lean represents a proof as code. A program called a kernel checks each step against fixed logical rules. Mathlib supplies the standard mathematical definitions used in the statements. [Lean reference manual](https://lean-lang.org/doc/reference/latest/) · [Lean community](https://leanprover-community.github.io/).
 
 Kevin Buzzard's Xena Project blog put it this way on 12 Nov, before this proof appeared: "“It’s true because it’s checked in Lean” can be made to make sense. But one has to do some work beyond “the Lean code compiles”." ([Xena](https://xenaproject.wordpress.com/2026/11/12/and-the-proof-is-checked-in-lean/))
 
-His post lists four questions to ask of a Lean repository. The joint statement by the Lean FRO and the Mathlib Initiative says all four are satisfied. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)) They are the frame for this page.
+Buzzard’s four questions give the order of the checks below. The Lean FRO and the Mathlib Initiative concluded that this proof satisfies all four. [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).
 
-## Question 1: what statement was checked?
+## 1. What statement was checked? {#statement}
 
-Mathlib's own definition of the Riemann hypothesis, `RiemannHypothesis`. It is part of Mathlib, and the joint statement says it "has been carefully vetted by experts in Lean and number theory." In Lean:
+Mathlib's own definition of the Riemann hypothesis, `RiemannHypothesis`. It is part of Mathlib, and the joint statement says it "has been carefully vetted by experts in Lean and number theory."
+
+Every zero of ζ that is not a trivial zero (−2, −4, −6, …) and is not s = 1 has real part ½. The condition `s ≠ 1` is there because Mathlib assigns ζ a conventional value at its pole. ([Mathlib source](https://github.com/leanprover-community/mathlib4/blob/0df444a3/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L185), [Sutherland](https://math.mit.edu/~drew/grh/))
+
+The generalised statement for Dirichlet L-functions is in a short file that imports only Mathlib. For every modulus N and every Dirichlet character χ mod N, every zero of the L-function L(χ, s) with 0 < Re s < 1 has real part ½. ([Sutherland](https://math.mit.edu/~drew/grh/))
+
+The statement in plain words is also on [what is the Riemann hypothesis](/what-is-the-riemann-hypothesis/).
+
+### Read the statements in Lean {#lean-statements}
 
 ```lean
 def RiemannHypothesis : Prop :=
   ∀ (s : ℂ) (_ : riemannZeta s = 0) (_ : ¬∃ n : ℕ, s = -2 * (n + 1)) (_ : s ≠ 1), s.re = 1 / 2
 ```
-
-In one sentence: every zero of ζ that is not a trivial zero (−2, −4, −6, …) and is not s = 1 has real part ½. The condition `s ≠ 1` is there because Mathlib assigns ζ a conventional value at its pole. ([Mathlib source](https://github.com/leanprover-community/mathlib4/blob/0df444a3/Mathlib/NumberTheory/LSeries/RiemannZeta.lean#L185), [Sutherland](https://math.mit.edu/~drew/grh/))
-
-The generalised statement for Dirichlet L-functions is in a short file that imports only Mathlib. One of its theorems, in Lean:
 
 ```lean
 theorem LFunction_eq_zero_re :
@@ -51,21 +55,17 @@ theorem LFunction_eq_zero_re :
     0 < s.re → s.re < 1 → DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2
 ```
 
-In one sentence: for every modulus N and every Dirichlet character χ mod N, every zero of the L-function L(χ, s) with 0 < Re s < 1 has real part ½. ([Sutherland](https://math.mit.edu/~drew/grh/))
-
-The statement in plain words is also on [what is the Riemann hypothesis](/what-is-the-riemann-hypothesis/).
-
-## Question 2: does it compile?
+## 2. Did the release compile? {#compile}
 
 Compiling means Lean reads every file and accepts it. All 175,187 files compile with zero errors. Andrew Sutherland at MIT and Michael Rubinstein at Waterloo reported this in detail. The joint statement says "dozens of people have reported correct compilation of the codebase, reproducing the same raw proof export file." ([Sutherland](https://math.mit.edu/~drew/grh/), [Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 
 Compiling is the first check. The proof also uses custom tools that can put a result in place without Lean's front end checking it first. For those, the verification notes say "the kernel is the only check." That is why the fourth question matters. ([notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
 
-## Question 3: does the library prove that statement?
+## 3. Did the proved theorem match? {#statement-match}
 
 The codebase "depends directly only on Mathlib". The community also added a short file that states the Riemann hypothesis and imports only Mathlib. A comparison tool checks that the theorem proved in Alpöge's library is exactly that statement. Two independent tools did this, comparator and `con-leche --compare`, and both confirmed the match. Sutherland also reports a pass from `con-ron --compare`. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Sutherland](https://math.mit.edu/~drew/grh/))
 
-## Question 4: does an independent check accept the proof?
+## 4. Did independent checkers accept the proof? {#independent-checks}
 
 Lean's kernel is the final check. In the reference manual's words: "The core type theory is implemented in a minimal kernel that does nothing other than check proof terms." Each tactic produces a term that the kernel checks, "so bugs in tactics do not threaten the soundness of Lean as a whole." ([Lean reference manual](https://lean-lang.org/doc/reference/latest/))
 
@@ -79,7 +79,7 @@ Con-leche and con-ron "come with a formal proof, relative to set theory, that th
 
 The checks ran on an "inert export of the proof, out of reach of hypothetical malicious code in the Lean proof sources." ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
 
-## "Did Claude just check its own work?"
+## Who ran the checks? {#who-ran-the-checks}
 
 - The checks were run by named people at several universities and by independent programs. Sutherland's page publishes file sizes and hashes, so anyone can confirm they are checking the same proof. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - Sutherland and Rubinstein both used Claude Code to help run their checks. The verdict comes from the checker programs.
@@ -87,18 +87,23 @@ The checks ran on an "inert export of the proof, out of reach of hypothetical ma
 
 Buzzard wrote on 12 Nov: "There may in theory be more soundness bugs in Lean’s kernel. However, this does not matter." His reason is that there are many independent kernels. Aaronson says Lean "still has issues, from kernel bugs ... to uncertain soundness of the underlying type theory". He adds: "I see zero indications that that’s happening right now."
 
-## What you have to trust
+## What you have to trust {#what-you-have-to-trust}
 
-- **Lean's kernel, cross-checked by independently implemented kernels.** Independent implementations reduce "the risk of bugs that affect soundness" ([Lean reference manual](https://lean-lang.org/doc/reference/latest/)). Each of these accepted the proof ([Sutherland](https://math.mit.edu/~drew/grh/)). What each adds, from the manual's [list of external kernels](https://lean-lang.org/doc/reference/latest/External-Kernels/):
-    - nanoda: an implementation of the Lean kernel in Rust, by Chris Bailey, developed independently of Lean.
-    - lean4lean: a port of the official kernel to Lean, by Mario Carneiro. Significant parts of it are formally verified against a specification of Lean's type theory.
-    - con-leche: an implementation of the Lean kernel in Lean, by the Lean FRO, with a machine-checked proof that every environment it accepts has a model in set theory, so it never accepts a proof of `False`.
-    - con-ron: a port of con-leche to Rust, by the Lean FRO.
+- **Lean's kernel, cross-checked by independently implemented kernels.** Independent implementations reduce "the risk of bugs that affect soundness" ([Lean reference manual](https://lean-lang.org/doc/reference/latest/)). Each of these accepted the proof ([Sutherland](https://math.mit.edu/~drew/grh/)).
 - **The three standard axioms.** The five theorems depend only on `propext`, `Classical.choice` and `Quot.sound`. The reference manual calls them "standard axioms of Lean's logic, and benign." ([Sutherland](https://math.mit.edu/~drew/grh/), [Lean reference manual](https://lean-lang.org/doc/reference/latest/ValidatingProofs/))
 - **Mathlib's definitions** of ζ (`riemannZeta`) and of `RiemannHypothesis`, and, for the GRH theorems, of Dirichlet L-functions. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **The hardware and the build.** A sandboxed `lake build` on a separate machine, with no network and a read-only source tree, produced an export byte-identical to the published one. Every check on the published export applies to it. ([Sutherland](https://math.mit.edu/~drew/grh/))
 
-## Understanding the proof
+### Independent checker implementations {#checker-implementations}
+
+The Lean reference manual describes the [independent kernel implementations](https://lean-lang.org/doc/reference/latest/External-Kernels/).
+
+- nanoda: an implementation of the Lean kernel in Rust, by Chris Bailey, developed independently of Lean.
+- lean4lean: a port of the official kernel to Lean, by Mario Carneiro. Significant parts of it are formally verified against a specification of Lean's type theory.
+- con-leche: an implementation of the Lean kernel in Lean, by the Lean FRO, with a machine-checked proof that every environment it accepts has a model in set theory, so it never accepts a proof of `False`.
+- con-ron: a port of con-leche to Rust, by the Lean FRO.
+
+## Understanding the proof {#understanding-the-proof}
 
 The formal check shows the proof is valid. Understanding why it holds is the work ahead.
 
@@ -108,7 +113,7 @@ The formal check shows the proof is valid. Understanding why it holds is the wor
 
 The joint statement says it looks forward to "all the activity in the mathematical community that will help explain the new ideas in this proof." Alpöge says he intends to write the argument up. See [status](/status/) and [press](/press/).
 
-## What the map adds
+## What the map adds {#what-the-map-adds}
 
 The map shows the shape of what was checked.
 
@@ -116,13 +121,13 @@ The map shows the shape of what was checked.
 - The longest import chain is 203 files. The median file is 13 imports from `Main`, and the farthest is 43.
 - By distance from the main-theorem cluster, the clusters fall into depth bands 0 to 8, with 1, 3, 22, 437, 1,443, 637, 76, 25 and 3 clusters.
 
-See [how the proof is structured](/route/), the [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) and the [full list](/list/). To learn the background, start with the [learning path](/learn/).
+See [how the proof is structured](/route/), the [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) and the [full list](/list/). The [proof in numbers](/proof-in-numbers/) gives the source counts. To learn the background, start with the [learning path](/learn/).
 
-## Expert detail
+Primary sources: [Sutherland](https://math.mit.edu/~drew/grh/), [Rubinstein](https://mrubinst.github.io/grh-lean-verification/), [verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md), [joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).
 
-**Statement.** Mathlib defines:
+## Expert detail {#expert-detail}
 
-The release proves `riemannHypothesis : RiemannHypothesis` (see question 1) and the same statement in its own wording, which Lean accepts as equal by definition. It also proves three theorems on Dirichlet L-functions. The proof is written without hypotheses: `Main.lean` proves `riemannHypothesis` as `Formalism.VW.rh_of_every allChi`, where `allChi` says no Dirichlet L-function vanishes for Re s > 1/2. ([Sutherland](https://math.mit.edu/~drew/grh/), [notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
+**Statement.** The release proves `riemannHypothesis : RiemannHypothesis` (see question 1) and the same statement in its own wording, which Lean accepts as equal by definition. It also proves three theorems on Dirichlet L-functions. The proof is written without hypotheses: `Main.lean` proves `riemannHypothesis` as `Formalism.VW.rh_of_every allChi`, where `allChi` says no Dirichlet L-function vanishes for Re s > 1/2. ([Sutherland](https://math.mit.edu/~drew/grh/), [notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
 
 **Axioms.** `propext`, `Classical.choice`, `Quot.sound` only. The environment has 15 axioms, all in `Init`. A static scan finds no `axiom`, `sorry`, `admit`, `native_decide`, `implemented_by`, `extern`, `unsafe`, `opaque`, `debug.*` or `skipKernelTC`. ([notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
 
@@ -155,5 +160,3 @@ The release proves `riemannHypothesis : RiemannHypothesis` (see question 1) and 
 **Size.** Every file is imported by `Main`. The theorem's dependency closure is 1,478,198 declarations, and Rubinstein notes that many statements in the 175,187 files are "parallel or earlier formulations that it never uses". ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 
 **Mirror.** The community repository's first commit, `40e56bab`, is the unmodified submission. The released archive has 175,187 files. Later clean-up removes unused files: at commit [6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) (24 Nov 2026, 13:39 UTC) the repository had 60,156 `.lean` files. Our "175,187 files" refers to the original archive.
-
-Primary sources: [Sutherland](https://math.mit.edu/~drew/grh/), [Rubinstein](https://mrubinst.github.io/grh-lean-verification/), [verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md), [joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).

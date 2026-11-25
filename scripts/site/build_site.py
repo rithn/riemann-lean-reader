@@ -2379,6 +2379,21 @@ def md_html(t):
     h = re.sub(r'<h([2-6])>(.*?)\s*\{#([\w-]+)\}</h\1>', r'<h\1 id="\3">\2</h\1>', h)
     h = h.replace('<table>', '<div class="tablewrap"><table>').replace('</table>', '</table></div>')
     return h.replace('<blockquote>', '<blockquote class="callout">').strip()
+def article_html(body, folded):
+    body = body.replace('<p>', '<p class="article-lead">', 1)
+    body = re.sub(r'</p>\n<p><em>(.*?)</em></p>', r'</p>\n<p class="meta article-date">\1</p>', body, count=1)
+    for anchor in folded:
+        heading = re.search(rf'<h([2-6]) id="{re.escape(anchor)}">(.*?)</h[2-6]>', body)
+        assert heading, f'article disclosure has no heading: {anchor}'
+        level, label = heading.groups()
+        next_heading = re.search(rf'\n<h[2-{level}][ >]', body[heading.end():])
+        end = heading.end() + next_heading.start() if next_heading else len(body)
+        detail = body[heading.end():end].strip()
+        body = (body[:heading.start()] + f'<details id="{H(anchor)}" class="article-detail">'
+                f'<summary>{label}</summary><div>{detail}</div></details>' + body[end:])
+    return body
+
+
 # ---------- the zeros figure: '{{figure:zeros}}' on a line of its own in a draft becomes an inline SVG of the critical strip
 # (no JS; one copy per level section, ids suffixed) in the HTML, and its text description in the Markdown copies.
 # Heights: the first ten non-trivial zeros of zeta, rounded to 4 places (LMFDB, https://www.lmfdb.org/zeros/zeta/).
@@ -2506,8 +2521,11 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             assert html_body.count(a_) == 1 and t.count(f'[Cluster page]({CPATH[k]})') == 1, f'core.md: no single "Cluster page" link for {k}'
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
-    body = (f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>{H(crumb)}</div><div class="eyebrow">{H(eb)}</div>'
-            f'<h1>{H(h1)}</h1>{html_body}')
+    breadcrumbs = f'<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>{H(crumb)}</div>'
+    if folded := fm.get('fold_sections'):
+        body = f'{breadcrumbs}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
+    else:
+        body = f'{breadcrumbs}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
     rel = RELATED.get(path, [])
     assert all(u in KNOWN_PATHS for u, _ in rel)
     if rel:
@@ -2765,6 +2783,7 @@ home = ('<div class="eyebrow">Interactive map · Lean 4</div><h1 class="hero">Th
         f'<ul class="rows"><li><a href="/status/">Has the Riemann hypothesis been solved? Status of the proof</a></li>'
         '<li><a href="/what-is-the-riemann-hypothesis/">What is the Riemann hypothesis? Simple, student and expert</a></li>'
         '<li><a href="/how-we-know/">How we know the proof is correct</a></li><li><a href="/faq/">Frequently asked questions</a></li>'
+        '<li><a href="/proof-in-numbers/#community-proof-size">Track community proof size</a></li>'
         f'<li><a href="/core/">{H(CORE_NAV)}</a></li><li><a href="/proof-in-numbers/">{H(NUMBERS_NAV)}</a></li>'
         f'<li><a href="{MAIN}">Start at the main theorem</a></li><li><a href="/learn/">Learning path: the proof step by step</a></li>'
         '<li><a href="/changelog/">Changelog</a></li></ul>'
