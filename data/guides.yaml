@@ -1302,3 +1302,95 @@ guides:
       - quote: Qui Vincit directed the work and set its standards.
         url: paper/main.pdf, Section 12
     retrieved: '2026-11-24'
+
+  - id: antieau-rh-after-alpoge
+    slug: antieau
+    page: true
+    order: 6.5
+    author:
+      as_listed: Benjamin Antieau
+      name: Benjamin Antieau
+      name_source: https://github.com/antieau/rh-after-alpoge
+      home: https://antieau.github.io/
+      role: Research Scientist at Resolution and Professor of Mathematics at Northwestern University (on leave)
+      role_source: https://antieau.github.io/
+      order_group: 1
+      photo: research/guides/photos-src/antieau.jpg
+      photo_source: https://antieau.github.io/
+      photo_url: https://antieau.github.io/assets/jpg/coverpic.jpg
+    title: The Riemann Hypothesis after Alpöge
+    url: https://rh.antieau.workers.dev/
+    type: Working draft
+    language: en
+    format: pdf
+    posted_at:
+      url: https://rh.antieau.workers.dev/
+      date: '2026-11-20'
+      note: The author's status log records the Gerby book going live on 20 November at 18:47 UTC.
+    licence: CC BY 4.0 (book text)
+    licence_note: The repository licenses the book text under CC BY 4.0 and the book code under MIT. Alpöge's Lean source is excluded.
+    host_copy: false
+    versions:
+    - version: Working draft
+      date: '2026-11-24'
+      url: https://rh.antieau.workers.dev/book/rh-after-alpoge-20261124-2210Z.pdf
+      commit: fdf90a072358c9ec4746266894beb328ba5c0405
+      pages: 4388
+      note: The PDF title page identifies build 24 November 2026 at 22:10 UTC from manuscript commit 5ecd23e419. The public GitHub snapshot fdf90a072358 identifies that manuscript revision.
+    status: explains
+    status_quote: Completion and independent mathematical review remain.
+    status_quote_url: https://rh.antieau.workers.dev/status.html
+    status_note: The author's book documents open steps and checks its Lean source links. The book's prose awaits independent mathematical review.
+    ai_statement:
+      quote: The chapter revisions left by the interrupted Claude session have been recovered for this checkpoint.
+      url: https://rh.antieau.workers.dev/status.html
+    parts_covered: A mathematical reading of Alpöge's Lean proof of classical RH and GRH for Dirichlet L-functions, with open steps marked in the draft and links to the original Lean archive.
+    clusters_basis: Exact Lean file paths in the PDF's pinned GitHub links, reconciled with the local archive and the map. Page numbers are physical PDF pages.
+    mapping_note: Page numbers follow the PDF viewer for the 24 November working draft.
+    retrieved: '2026-11-25'
+
+  - id: pei-rh-roadmap
+    slug: pei
+    page: true
+    order: 14.5
+    author:
+      as_listed: Yan Ru Pei
+      name: Yan Ru Pei
+      name_source: https://zenodo.org/records/24406135
+      home: https://peabrane.github.io/
+      role: Independent researcher
+      role_source: https://zenodo.org/records/24406135
+      order_group: 2
+      photo: research/guides/photos-src/pei.jpg
+      photo_source: https://peabrane.github.io/
+      photo_url: https://peabrane.github.io/profile_pic.jpg
+      photo_note: The illustrated avatar is from the author site, which uses Rudy Pei and provides papers published under Yan Ru Pei with the same ORCID as the Zenodo record.
+    title: A roadmap of the claimed Lean proof of the Riemann hypothesis and GRH for Dirichlet L-functions
+    url: https://zenodo.org/records/24406135
+    type: Reading guide
+    language: en
+    format: pdf
+    posted_at:
+      url: https://zenodo.org/records/24406135
+      date: '2026-11-20'
+      note: Zenodo records v1 (24405361) at 19:29 UTC and v2 at 19:47 UTC on the same day. The link opens v2.
+    licence: CC BY 4.0
+    licence_note: The licence is stated in the v2 Zenodo record.
+    host_copy: false
+    versions:
+    - version: v2
+      date: '2026-11-20'
+      url: https://zenodo.org/records/24406135
+      file_url: https://zenodo.org/records/24406135/files/pei-2026-claimed-lean-proof-rh-roadmap.pdf
+      md5: 03fe25e7c6ffc252a22012152265615c
+      pages: 23
+    status: explains
+    status_quote: We did not build or run anything.
+    status_quote_url: https://zenodo.org/records/24406135/files/pei-2026-claimed-lean-proof-rh-roadmap.pdf#page=2
+    status_note: Section 1.1 dates its verification snapshot to 20 November 2026. Section 8 dates the public commentary to 17:49 UTC that day.
+    ai_statement:
+      quote: Inspection of the Lean code and the writing of this note were done with substantial help from the AI models Claude Opus 5.5 and Claude Fable 5.2.
+      url: https://zenodo.org/records/24406135/files/pei-2026-claimed-lean-proof-rh-roadmap.pdf#page=18 (AI use, page 18)
+    parts_covered: A chain of named reductions from the arithmetic inputs through the windowed Landau argument to classical RH and GRH for Dirichlet L-functions.
+    clusters_basis: Exact file paths from the pinned links in Appendix A. The declaration index also includes names that match the local file and line and appear on the cited page.
+    retrieved: '2026-11-25'

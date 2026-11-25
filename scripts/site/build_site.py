@@ -708,6 +708,7 @@ def gnorm(g, i):
             'role': (a.get('order_group') if isinstance(a, dict) else None) or g.get('role'),
             'photo_crop': a.get('photo_crop') if isinstance(a, dict) else None,
             'companion_reading': g.get('companion_reading'),
+            'mapping_note': g.get('mapping_note'),
             'ai': _gai(g),
             'clusters': [k for k in (g.get('clusters') or []) if k in CL]}
 GD = [gnorm(g, i) for i, g in enumerate(GUIDES)]
@@ -2662,6 +2663,8 @@ for g in GD:
               f'{"One node is" if nm == 1 else f"{nm} nodes are"} listed by hand, from the guide\'s own words: {ev}' + ('' if ev.rstrip('"\'”').endswith('.') else '.')
     if any(g['notes'].values()):
         how += ' Audit notes are Markdown files in the guide\'s repository that name Lean files or declarations; they are listed by file name.'
+    if g['mapping_note']:
+        how += ' ' + g['mapping_note']
     if copy:
         l = vlabel(copy[1])
         d_ = gdate(_gdate(copy[1].get('date')))
