@@ -1,10 +1,10 @@
 {
 "submitted":"2026-11-25",
-"note":"1 of 1 URLs accepted",
+"note":"5 of 5 URLs accepted",
 "urls":{
 "/":"f9ab83cacb7b",
 "/about/":"ae12ebb95e7d",
-"/changelog/":"a8c36f993c4d",
+"/changelog/":"6a1cae31831a",
 "/cluster/k0001-gaussian-sums-over-lattices-and-height-kernels/":"ee4c1fa6b3b6",
 "/cluster/k0002-prime-sums-remainder-term-bounds-and-trivial-example-checks/":"e49ab0f15af5",
 "/cluster/k0003-symmetric-polynomials-with-block-structure-flags/":"d39e0057cd17",
@@ -2679,7 +2679,7 @@
 "/cluster/k2645-local-matching-from-howe-duality-and-regularised-comparison/":"5966dfa2f927",
 "/cluster/k2646-square-comparison-constants-and-tower-stage-factors/":"8ed618533332",
 "/cluster/k2647-published-inputs-for-theta-lifts-assumed-as-hypotheses/":"a36f7d932140",
-"/core/":"aa52327e9ad6",
+"/core/":"9276e43b91d4",
 "/faq/":"deaa5edcaf88",
 "/guides/":"7d203848a53c",
 "/guides/aaronson/":"9a7a4a39c88f",
@@ -2707,9 +2707,9 @@
 "/how-we-know/":"88cf2a795cbb",
 "/learn/":"2e118702fd56",
 "/press/":"77b5c3fc8879",
-"/proof-in-numbers/":"ddd828d1886a",
+"/proof-in-numbers/":"a07a9bbb14da",
 "/route/":"804c51236390",
-"/status/":"7ec132f9630a",
+"/status/":"2c7079f745d8",
 "/theme/th001-symmetric-polynomials-and-determinant-bounds-for-heights/":"49dd1a7055d2",
 "/theme/th002-wach-modules-and-hodgetate-cohomology-bounds/":"05b19a85e3de",
 "/theme/th003-functorial-embedded-resolution-of-singularities/":"9064c4972878",
@@ -2773,7 +2773,7 @@
 "/theme/th061-theta-lifts-and-whittaker-functions-for-adelic-gl2/":"dd6a12e0baa8",
 "/theme/th062-indefinite-row-side-hecke-models-in-theta-correspondence/":"abd95c68b706",
 "/theme/th063-twisted-theta-lifts-and-theta-kernel-bounds/":"856d3d2098d8",
-"/timeline/":"30e2edb440d6",
+"/timeline/":"39714168d434",
 "/what-is-the-riemann-hypothesis/":"ec3451be41ee",
 "/why-it-matters/":"ad12b374761a"
 }
