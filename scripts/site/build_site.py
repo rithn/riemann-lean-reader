@@ -1724,10 +1724,22 @@ URLS = []  # (path, priority, lastmod) for the sitemap
 ARTICLES = {'/learn/', '/route/'}   # pages with Article JSON-LD get og:type article (content pages add theirs below)
 def HA(s):   # title and description text in the head: escape only what HTML needs (an apostrophe stays one character)
     return html.escape(s, quote=False).replace('"', '&quot;')
+CLARITY_TAG = """<script>
+if (location.hostname === "riemannhypothesissolved.com") {
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "zj8viomivf");
+    window.clarity("consentv2", {ad_Storage: "denied", analytics_Storage: "denied"});
+}
+</script>
+"""
+
 def head(path, title, desc, lds, md=True, img=None):
     t, d, u = HA(title), HA(desc), H(SITE + path)
     img, alt = img or (f'{SITE}/og.png?v=2', None)
-    return ((ld({'@graph': lds}) if lds else '') + f'\n<link rel="canonical" href="{u}">\n' + alt_links(path)
+    return (CLARITY_TAG + (ld({'@graph': lds}) if lds else '') + f'\n<link rel="canonical" href="{u}">\n' + alt_links(path)
             + (f'<link rel="alternate" type="text/markdown" href="{H(mdpath(path))}">\n' if md else '')
             + f'<link rel="alternate" type="application/rss+xml" title="{SITE_NAME} changelog" href="/changelog/feed.xml">\n'
             f'<meta property="og:type" content="{"article" if path in ARTICLES else "website"}">\n'
@@ -2959,7 +2971,7 @@ API_BODY = ('<div class="crumbs"><a href="/">Map</a><span class="sep">/</span>AP
 _t = TPL
 _t = re.sub(r'<title>.*?</title>', f'<title>API · {SITE_NAME}</title>', _t, count=1)
 _t = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{H(API_INDEX["description"])}">', _t, count=1)
-_t = between(_t, '<!--head-->', '<!--/head-->', '\n<meta name="robots" content="noindex">\n'
+_t = between(_t, '<!--head-->', '<!--/head-->', CLARITY_TAG + '\n<meta name="robots" content="noindex">\n'
              f'<link rel="canonical" href="{SITE}/api/index.json">\n<link rel="alternate" type="application/json" href="/api/index.json">\n')
 _t = re.sub(r'<body data-route="[^"]*">', '<body data-route="page">', _t, count=1)
 _t = between(_t, '<!--prerender-->', '<!--/prerender-->', API_BODY)
