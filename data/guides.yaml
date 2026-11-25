@@ -82,6 +82,10 @@ guides:
 
   - id: rubinstein-zeta-guide
     slug: rubinstein-zeta
+    companion_reading:
+      title: From Chebyshev to the Riemann Hypothesis
+      url: https://az9713.github.io/chebyshev-in-RH-proof/tutorial.html
+      description: "In this illustrated tutorial, az9713 follows Dirac’s video from Chebyshev’s prime-counting argument to the lattice bound in Rubinstein’s guide."
     page: true
     order: 1
     author:

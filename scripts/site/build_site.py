@@ -707,6 +707,7 @@ def gnorm(g, i):
             'cite_as': str(g.get('cite_as') or (name.split()[-1] if name and aok else title.split(':')[0][:30])),
             'role': (a.get('order_group') if isinstance(a, dict) else None) or g.get('role'),
             'photo_crop': a.get('photo_crop') if isinstance(a, dict) else None,
+            'companion_reading': g.get('companion_reading'),
             'ai': _gai(g),
             'clusters': [k for k in (g.get('clusters') or []) if k in CL]}
 GD = [gnorm(g, i) for i, g in enumerate(GUIDES)]
@@ -2667,6 +2668,12 @@ for g in GD:
         how += (f' Our copy is version {l}.' if re.fullmatch(r'[\d.]+', l) else
                 f' Our copy is {l}' + (f', {d_}' if d_ else '') + '.' if os.path.basename(copy[1]['local']) in l else
                 f' Our copy is {os.path.basename(copy[1]["local"])} from {l}' + (f', {d_}' if d_ else '') + '.')
+    companion_html = companion_md = ''
+    if companion := g['companion_reading']:
+        title, url, description = companion['title'], companion['url'], companion['description']
+        assert url.startswith('https://'), f'guide {s}: invalid companion URL'
+        companion_html = f'<p><strong>Companion reading.</strong> <a href="{H(url)}">{H(title)}</a>. {H(description)}</p>'
+        companion_md = f'**Companion reading.** [{title}]({url}). {description}\n\n'
     psrcs = [x for x in (g['photo_source'], g['photo_source_also'] if g['ph96b'] else None) if x]
     photo_credit = (f'<p class="meta gcredit">{"Logos" if len(psrcs) > 1 else "Photo"}: '
                     + ', '.join(f'<a href="{H(x)}">{H(_host(x))}</a>' for x in psrcs) + '</p>' if g['ph96'] and psrcs else '')
@@ -2675,6 +2682,7 @@ for g in GD:
             f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
             f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
             f'<div class="cta gact">{"".join(acts)}</div>' + ('' if nrow else f'<p class="meta gzero">{G_ZERO}</p>') + share_btn(path, g['title'])
+            + companion_html
             + f'<h2 id="nodes">Nodes in this guide <span class="n">{nrow}</span></h2>{tbl}'
             f'<h2 id="how">How we mapped it</h2><p>{H(how)}</p>'
             f'<p>Authors can correct this: post to <a href="{X_FEEDBACK}">@SomTheBuilder</a> on X.</p>{photo_credit}'
@@ -2690,6 +2698,7 @@ for g in GD:
           + G_STATUS_T[g['status']] + (f': "{" ".join(str(g["quote"]).split())}"' if g.get('quote') else '') + '\n\n'
           + (gai_md(g) + '\n\n' if g['ai'] else '')
           + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else f'{G_ZERO}\n\n')
+          + companion_md
           + f'## Nodes in this guide ({nrow})\n\n| Node | Distance from Main | Pages | Found by |\n|---|---|---|---|\n'
           + ''.join(f'| [{ctitle(k)}]({SITE}{CPATH[k]}) | {dist_txt(k)} | '
                     + (grefs_md(g, page_groups(ps), g['notes'].get(k, [])) or '–') + f' | {gbasis(g, k)} |\n' for k, ps in rows)
