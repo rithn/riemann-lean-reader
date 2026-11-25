@@ -8,12 +8,12 @@ target_queries:
   - riemann hypothesis timeline
   - when was the riemann hypothesis proved
   - riemann hypothesis proof date
-as_of: "24 Nov 2026"
+as_of: "25 Nov 2026"
 ---
 
 # Timeline of the Riemann hypothesis
 
-*As of 24 Nov 2026. Times are UTC where a source gives UTC. Other clock times carry no stated time zone.*
+*As of 25 Nov 2026. Times are UTC where a source gives UTC. Other clock times carry no stated time zone.*
 
 **Riemann stated the hypothesis in 1859. Levent Alpöge released a Lean proof on 20 Nov 2026, and the Lean FRO and the Mathlib Initiative certified it on 21 Nov.**
 
@@ -64,21 +64,24 @@ For the current state, see [/status/](/status/).
 
 - **23 Nov.** The joint statement's byline is changed to "Joint statement by the Lean FRO and the Mathlib Initiative." It first read "Joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative." ([statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/))
 - **23 Nov, 01:44 UTC.** Chris Bailey answers a MathOverflow question on the trust assumptions behind the Lean checks. At 06:38 UTC he comments that "the definitions used in the proof are irrelevant as long as they produce a term of the correct type". ([MathOverflow](https://mathoverflow.net/questions/518109/after-the-lean-verification-of-the-riemann-hypothesis-proof-what-residual-trust))
-- **23 Nov, 09:10 UTC.** The unmodified Comparator v4.33.0 passes end to end: "Your solution is okay!" ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **23 Nov, 09:10 UTC.** Sutherland's standalone Comparator v4.33.0 passes the statement and axiom checks on files from the original build. Nanoda and Lean's default kernel accept. The comparator's build step uses a stub. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **23 Nov, 19:01 UTC.** Lean's paranoid kernel accepts the full export. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **By 23 Nov, 19:15 UTC.** The Clay Mathematics Institute's Riemann hypothesis page displays the label “Active”. A 21 Nov capture shows “Unsolved”. ([21 Nov capture](https://web.archive.org/web/20261121104538/https://www.claymath.org/millennium/riemann-hypothesis/), [23 Nov capture](https://web.archive.org/web/20261123191538/https://www.claymath.org/millennium/riemann-hypothesis/), [Clay's current page](https://www.claymath.org/millennium/Riemann-Hypothesis/))
 - **23 Nov, about 19:53 UTC.** The Lean paranoid kernel stage of Sutherland's end-to-end `lake comparator` run (Lean v4.36.0) accepts. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **23 Nov, about 21:31 UTC.** The nanoda stage of the same `lake comparator` run accepts. Its last stage, Lean's default kernel, starts. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **23 Nov, 22:03 UTC.** Alpöge posts a list headed "Stupid things I did" on X. It says that "250,000+ pages was a joke guys!" and that "The Lean is full of garbage obviously, but compiles". ([X](https://x.com/__alpoge__/status/2124987173439209561))
 
 ## 24 Nov 2026: more checks, and a clarification {#nov-24}
 
-- **24 Nov, 01:16 to 05:09 UTC.** Sutherland's checks of the proof combined with Robin1984, an independent formalisation of Robin's and Lagarias's criteria. The standalone Robin1984 build passes at 01:16 UTC, con-leche accepts its statement comparison at 01:27 UTC, Comparator v4.33.0 passes at 04:21 UTC, and `lake comparator` (Lean v4.36.0) passes at 05:09 UTC. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **24 Nov, 01:16 to 05:09 UTC.** On Robin1984 alone, the build passes at 01:16 UTC, con-leche accepts its statement comparison at 01:27 UTC, standalone Comparator v4.33.0 passes at 04:21 UTC, and `lake comparator` on Lean v4.36.0 passes at 05:09 UTC. Robin1984 is an independent formalisation of arithmetic criteria for RH and Dirichlet GRH. ([Sutherland](https://math.mit.edu/~drew/grh/#arithmetic-consequences))
 - **24 Nov, 01:45 to 01:48 UTC.** An X user posts that he has "formally verified in Lean 4" that the proof is broken. His repository's README says it "does not claim that Alpöge's theorem is false"; its `Disproof.lean` imports only Mathlib and the repository's own file. ([X](https://x.com/JackyReaps/status/2125043056479240501), [repository](https://github.com/jackyreaps/X-files/tree/main/riemann-hypothesis))
+- **24 Nov, 02:43 to 03:37 UTC.** The export combining Alpöge's proof with Robin1984 passes its arithmetic checks. Con-leche and con-ron match all three arithmetic statements at 02:43 and 03:08 UTC, respectively, and nanoda accepts the full combined export at 03:37 UTC. ([Sutherland](https://math.mit.edu/~drew/grh/#arithmetic-consequences))
 - **24 Nov, 02:52 to 04:02 UTC.** In replies on X, Alpöge links Sutherland's page ("Still compiles"), says he used the word "garbage" too liberally, and says of the page-count joke "I should’ve cut it". ([X](https://x.com/__alpoge__/status/2125063891034186070), [X](https://x.com/__alpoge__/status/2125077588263465075))
 - **24 Nov, 03:01 UTC.** Alpöge posts: "People seem to be reading this as me saying there’s something wrong with the proof. I’m pretty confused. No? It literally checked out days ago?" ([X](https://x.com/__alpoge__/status/2125062170207457583))
 - **24 Nov, 04:17 UTC.** The Wall Street Journal links a profile of Alpöge on X; its post says "One day after the company’s IPO, an Anthropic employee says Claude helped discover a proof." (paywalled; we could not read the article. [X](https://x.com/WSJ/status/2125081353641222615))
 - **24 Nov, 5:15 AM (no time zone stated).** WIRED publishes "AI Solved Math’s Most Famous Problem. Now Humans Are Struggling to Understand It" (Isabella Ward). ([WIRED](https://www.wired.com/story/ai-solved-maths-most-famous-problem/))
-- **24 Nov, 05:25 UTC.** Sutherland's page is last updated. One check is still in progress: the end-to-end `lake comparator` run on Lean v4.36.0, whose last stage is running. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **24 Nov, 05:25 UTC.** Sutherland's page reports that the original archive's `lake comparator` run on Lean v4.36.0 is still in progress at its final stage. ([Sutherland](https://math.mit.edu/~drew/grh/))
 - **24 Nov, 10:08 UTC.** Carlos Toledo stops the `comparator` run of his independent audit after 53 hours for cost, with no verdict either way. His `con-leche` comparison matched all five theorems. ([Toledo](https://carlostoledo.co/reports/alpoge-grh.html))
+- **24 Nov (date on the announcement).** Anurag Sahay, Will Sawin and Lior Silberman propose G.R.H. Polymath to coordinate work on Alpöge's Lean proof, develop a human-readable account of RH and Dirichlet GRH, and explore the mathematics behind the argument. ([G.R.H. Polymath announcement](https://terrytao.wordpress.com/2026/11/24/g-r-h-polymath/))
 
 For coverage and expert reactions, see [press](/press/). For the numbers, see [the proof in numbers](/proof-in-numbers/).

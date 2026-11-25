@@ -12,8 +12,8 @@
 "2026-11-23"
 ],
 "/changelog/":[
-"a8c36f993c4d",
-"2026-11-24"
+"6a1cae31831a",
+"2026-11-25"
 ],
 "/cluster/k0001-gaussian-sums-over-lattices-and-height-kernels/":[
 "ee4c1fa6b3b6",
@@ -10712,8 +10712,8 @@
 "2026-11-25"
 ],
 "/core/":[
-"aa52327e9ad6",
-"2026-11-24"
+"9276e43b91d4",
+"2026-11-25"
 ],
 "/faq/":[
 "deaa5edcaf88",
@@ -10824,7 +10824,7 @@
 "2026-11-25"
 ],
 "/proof-in-numbers/":[
-"ddd828d1886a",
+"a07a9bbb14da",
 "2026-11-25"
 ],
 "/route/":[
@@ -10832,7 +10832,7 @@
 "2026-11-24"
 ],
 "/status/":[
-"7ec132f9630a",
+"2c7079f745d8",
 "2026-11-25"
 ],
 "/theme/th001-symmetric-polynomials-and-determinant-bounds-for-heights/":[
@@ -11088,8 +11088,8 @@
 "2026-11-24"
 ],
 "/timeline/":[
-"30e2edb440d6",
-"2026-11-24"
+"39714168d434",
+"2026-11-25"
 ],
 "/what-is-the-riemann-hypothesis/":[
 "ec3451be41ee",

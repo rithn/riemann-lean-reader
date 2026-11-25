@@ -10,14 +10,14 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "24 Nov 2026"
+as_of: "25 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
-*As of 24 Nov 2026. The current answer, updated as news arrives. The dated record is on the [timeline](/timeline/); the changelog is at the end.*
+*As of 25 Nov 2026. The current answer, updated as news arrives. The dated record is on the [timeline](/timeline/); the changelog is at the end.*
 
-**Latest change, 24 Nov 2026, 05:25 UTC:** Sutherland's verification page reports one check still in progress, the end-to-end `lake comparator` run on Lean v4.36.0, whose last stage is running. ([Sutherland](https://math.mit.edu/~drew/grh/), [timeline](/timeline/#nov-24))
+**Latest verification update, 24 Nov 2026, 05:25 UTC.** Sutherland's verification page reports that the original archive's `lake comparator` run on Lean v4.36.0 is still in progress at its final stage. ([Sutherland](https://math.mit.edu/~drew/grh/), [timeline](/timeline/#nov-24))
 
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof of the Riemann hypothesis are correct. Independent checkers have compiled all 175,187 modules, replayed the proof through Lean's kernel and checked the exported proof with several independent programs.**
 
@@ -25,7 +25,7 @@ as_of: "24 Nov 2026"
 
 - On 20 Nov 2026 Levent Alpöge posted a four-page note and a 14-part archive of Lean files on his personal website. ([note](https://alpo.ge/remark.pdf))
 - The archive holds 175,187 Lean files and about 17.4 million lines (17,374,215). ([verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
-- Its `Main.lean` proves five theorems, stated without hypotheses: Mathlib's own statement of the Riemann hypothesis, and four that give the generalised Riemann hypothesis for Dirichlet L-functions, for all moduli and all characters. ([Sutherland](https://math.mit.edu/~drew/grh/), [verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md))
+- `Main.lean` proves five theorems, two formulations of the classical Riemann hypothesis and three statements about Dirichlet L-functions. The two RH formulations use Mathlib's statement and an explicit statement about zeta zeros. For Dirichlet characters of every modulus, the L-functions have no zeros to the right of the critical line, with the pole at `s = 1` excluded for the trivial character, and all zeros in the critical strip lie on the critical line. A third statement gives the critical-strip result for primitive characters. ([pinned `Main.lean`](https://github.com/leanprover-community/riemann-hypothesis/blob/40e56bab026552e089d7afcfeff08d2defb9c005/src/Main.lean), [Sutherland](https://math.mit.edu/~drew/grh/))
 - Alpöge is a mathematician at Anthropic and a junior fellow of the Harvard Society of Fellows. ([his site](https://alpo.ge/)) His note says: "I believe I have, working with Claude, discovered a proof of the Riemann Hypothesis." ([note](https://alpo.ge/remark.pdf))
 
 ## What was verified
@@ -59,7 +59,7 @@ The statement certifies four things:
 3. Two independent tools confirmed that the theorem proved, `riemannHypothesis`, is exactly Mathlib's statement of the Riemann hypothesis.
 4. Several independent proof checkers accepted the exported proof.
 
-The joint statement covers the Riemann hypothesis; [Sutherland's checks](https://math.mit.edu/~drew/grh/) also cover the four Dirichlet L-function theorems. See [how we know](/how-we-know/) for how the four checks work.
+The joint statement covers the Riemann hypothesis. Sutherland's checks also cover all three Dirichlet L-function statements. See [how we know](/how-we-know/) for how the four certification criteria work. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Sutherland](https://math.mit.edu/~drew/grh/))
 
 ## Publication and the Clay prize
 
@@ -117,6 +117,7 @@ riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropi
 
 ## Changelog
 
+- **25 Nov 2026.** Corrected the scope of the five theorems in `Main.lean` and clarified the scope of the verification runs on the [timeline](/timeline/#nov-24).
 - **24 Nov 2026, restructure.** This page now gives the current answer only. The dated log "What changed when" moved to the [timeline](/timeline/); repeated detail was shortened.
 - **24 Nov 2026, later.** Added Alpöge's two clarifying posts (23 Nov, 22:03 UTC; 24 Nov, 03:01 UTC), a short list of named reactions, and a short entry on the objection that the proof is a tautology, with the full text in the [FAQ](/faq/#tautology).
 - **24 Nov 2026.** Updated the checks to Sutherland's page as last updated 24 Nov 2026 at 05:25 UTC: Lean's default and paranoid kernels and the unmodified Comparator v4.33.0 accept; the `lake comparator` run on Lean v4.36.0 is still in progress. Corrected the date of Sutherland's con-leche runs to 20 Nov. Added a section on refereed publication and the Clay prize rules.

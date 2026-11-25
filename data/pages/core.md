@@ -9,18 +9,18 @@ target_queries:
   - riemann hypothesis lean code
   - what is in the lean proof of the riemann hypothesis
   - lean proof main theorem riemann hypothesis
-as_of: "22 Nov 2026"
+as_of: "25 Nov 2026"
 ---
 
 # The core of the proof
 
-*As of 22 Nov 2026.*
+*As of 25 Nov 2026.*
 
 **The proof is 2,647 clusters of Lean files. This page covers 16 core clusters, from the cluster that holds `Main.lean` outwards. The name of each was checked against the full Lean code.**
 
 ## How the last step works
 
-`Main.lean` proves five theorems. The first is Mathlib's own `RiemannHypothesis`. The other four are statements about Dirichlet L-functions. Three clusters carry the step, and each name was checked against the code.
+`Main.lean` proves five theorems, two formulations of the classical Riemann hypothesis and three statements about Dirichlet L-functions. Three clusters carry the step, and each name was checked against the code. ([pinned `Main.lean`](https://github.com/leanprover-community/riemann-hypothesis/blob/40e56bab026552e089d7afcfeff08d2defb9c005/src/Main.lean))
 
 1. **k0677, `Main.lean`.** `riemannHypothesis : RiemannHypothesis := rhOfAll`. Each of the five proofs is a one-line pointer to a theorem in `Supplements.Kernels.MainTheorems` (`rhOfAll`, `allChi`, `claimAll` or `critAll`).
 2. **k1091, the step from GRH to RH.** In `Supplements.Kernels.MainTheorems`, `rhOfAll := rh_of_every allChi`. `rh_of_every` takes "no Dirichlet L-function vanishes for Re s > 1/2" and, through the functional equation, returns the Riemann hypothesis. `critLine` returns the critical-line statement for primitive characters.
