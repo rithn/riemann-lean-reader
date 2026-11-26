@@ -276,43 +276,16 @@ def list_content(data):
 def reader_content(data):
     pins = "".join(f'<li>{link(t["github"], t["label"] + " (pinned source)")}</li>' for t in data["theorems"])
     return f"""
-<p class="sr-crumb" id="file-crumb">{link(MAP, "Sernau map")} <span aria-hidden="true">›</span> <span>Lean reader</span></p>
-<section class="sr-subhero sr-file-hero vhead">
-  <p class="sr-kicker">Sernau readable · Lean source</p>
-  <h1 class="vpath" id="file-title">Lean source reader</h1>
-  <p id="file-summary"></p>
-  <div class="sr-actions" id="file-actions" hidden>
-    <a class="sr-primary" id="file-raw">Raw source</a><a class="vbtn" id="file-github">View on GitHub</a>
-    <button class="vbtn" type="button" data-share>Share source</button>
-    <button type="button" class="vbtn sr-outline-link" id="reader-outline-link">Outline</button>
-    <a id="file-locate" href="{MAP}">Locate on map</a>
-    <a id="file-close" href="{MAP}">Return to map</a>
+<section id="reader" aria-busy="true" aria-label="Lean source workspace">
+  <div class="lx-miss">
+    <p class="sr-kicker">Sernau readable · Lean source</p>
+    <h1 id="file-title">Lean source reader</h1>
+    <p id="reader-status" class="meta" role="status"></p>
+    <p>{link(MAP, "Sernau map")} · {link(LIST, "Browse Lean files")}</p>
+    <noscript><p>Use JavaScript to open a file in the reader, or follow the
+    {link(ROUTE, "classical RH route")} for pinned sources.</p><ul class="rows">{pins}</ul></noscript>
   </div>
-  <p id="reader-status" class="sr-muted" role="status"></p>
-  <noscript><style>#reader {{ display: none; }}</style><p>The source reader requires JavaScript. Choose a group in the
-  {link(LIST, "text index")} for pinned GitHub links, or follow the {link(ROUTE, "classical RH route")}.</p><ul class="rows">{pins}</ul></noscript>
-</section>
-<section class="sr-reader" id="reader" inert aria-busy="true" aria-label="Lean source workspace">
-  <nav id="reader-tabs" class="sr-file-tabs" aria-label="Recently opened files"></nav>
-  <article class="sr-code-wrap">
-    <div class="sr-code-bar"><span id="file-location"></span>
-      <button type="button" class="vbtn" id="fold-code" aria-pressed="false" hidden>Fold proofs</button></div>
-    <div id="source-state" class="sr-source-state" role="status"></div>
-    <div id="reader-selection" hidden></div>
-    <div class="sr-code" id="reader-code" tabindex="0" aria-label="Lean source"></div>
-  </article>
-  <aside class="sr-reader-side" aria-label="Source navigation" aria-busy="true">
-    <details open id="outline-panel"><summary>Declaration outline</summary>
-      <label class="sr-screen" for="reader-filter">Search this group’s files and declarations</label>
-      <input type="search" id="reader-filter" data-clarity-mask="true" placeholder="Search this group" autocomplete="off">
-      <ul class="sr-rows" id="reader-outline"></ul>
-    </details>
-    <details id="reader-files-panel"><summary>Files in this group</summary><ul class="sr-rows" id="reader-files"></ul></details>
-    <details id="reader-imports-panel"><summary>Imports</summary><ul class="sr-rows" id="reader-imports"></ul></details>
-    <details id="reader-importers-panel"><summary>Imported by</summary><ul class="sr-rows" id="reader-importers"></ul></details>
-  </aside>
-</section>
-<section class="sr-card sr-file-evidence" id="file-evidence" hidden></section>"""
+</section>"""
 
 
 def readable_card(out, groups, edition):
