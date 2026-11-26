@@ -113,9 +113,9 @@ def map_filters(data):
     options = ''.join(f'<option value="{d}">{d}</option>' for d in depths)
     return f"""
 <div class="sr-map-selects">
-  <label>Source tree <select id="tree" aria-controls="map-graph map-count"><option value="">All groups</option><option value="main">Entry files</option><option value="new">Argument · New</option><option value="lib">Background · Lib</option></select></label>
-  <label>Group steps <select id="depth" aria-controls="map-graph map-count"><option value="">Any distance</option>{options}</select></label>
-  <label>Colour <select id="colour" aria-controls="map-graph"><option value="tree">Source tree</option><option value="depth">Group distance</option></select></label>
+  <label>Source tree <select id="tree" aria-controls="map-graph map-count" disabled><option value="">All groups</option><option value="main">Entry files</option><option value="new">Argument · New</option><option value="lib">Background · Lib</option></select></label>
+  <label>Group steps <select id="depth" aria-controls="map-graph map-count" disabled><option value="">Any distance</option>{options}</select></label>
+  <label>Colour <select id="colour" aria-controls="map-graph" disabled><option value="tree">Source tree</option><option value="depth">Group distance</option></select></label>
 </div>
 <p id="map-count" role="status"></p>
 <div id="map-legend" aria-label="File colours"></div>"""

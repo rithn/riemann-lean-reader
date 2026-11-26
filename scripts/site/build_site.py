@@ -1824,8 +1824,6 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
                    f'<small class="cshort">{H(status["short"])}</small></a>')
     switch = edition_switch(edition, view) if edition else ''
     panel_heading = switch if not overlay else ''
-    if readable and view == 'map':
-        panel_heading += '<p id="map-status" class="meta" hidden role="status"></p>'
     if overlay:
         body = switch + body
     if readable and view != 'map':
@@ -1864,7 +1862,6 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
         panel_content='' if overlay else body, panel_footer='' if overlay else footer, overlay_footer=footer if overlay else '',
         overlay_hidden=str(not overlay).lower(), active_map=map_url, overlay_content=body if overlay else '',
         list=list_url, route=route_url, filters=map_filters(sernau_data) if readable and view == 'map' else '',
-        loader_class=' class="done"', loader_text='Charting 803 Lean files…' if readable else f'Charting {TOTAL_FILES:,} Lean files…',
         scripts=scripts,
     )
     nk = NAV_KEY(path)
