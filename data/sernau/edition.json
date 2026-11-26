@@ -1,0 +1,69 @@
+{
+  "id": "sernau",
+  "label": "Sernau readable",
+  "title": "Sernau readable proof map",
+  "repository": "https://github.com/lsernau/grh-lean",
+  "revision": "72fead102f663d5c7a407964a13dc0cf9d977207",
+  "sourceRoot": "grh/src",
+  "sourceTree": "55fe9c6cb2e5be421c5871e772b6d736ecb5d164",
+  "leanToolchain": "leanprover/lean4:v4.35.0",
+  "mathlibRevision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+  "url": "/sernau/",
+  "verificationUrl": "https://math.mit.edu/~drew/shortgrh/",
+  "verificationAsOf": "2026-11-26T02:50:00Z",
+  "attribution": "Luke Sernau describes rewriting Levent Alpöge’s proof with colleagues at Anthropic and Claude. The readable release credits Claude for the Lean code and documentation. Copyright 2026 Anthropic, PBC. Apache License 2.0.",
+  "license": "Apache-2.0",
+  "grouping": "The first two dotted segments of each module name, or the entire name when it has fewer than two segments.",
+  "units": {
+    "modules": "Lean files under grh/src, excluding Mathlib",
+    "groups": "Sets of modules sharing the same source prefix",
+    "moduleEdges": "Distinct directed direct imports between project modules",
+    "groupEdges": "Distinct directed pairs of groups joined by a direct source import",
+    "physicalLines": "Physical lines including comments and blank lines",
+    "reach": "Distinct reachable project modules outside the starting module or group"
+  },
+  "features": {
+    "rawSource": true,
+    "directImports": true,
+    "sourceDeclarationOutline": true,
+    "namedReferences": "The five headline theorems only, with links checked against the readable source",
+    "upstreamGuide": true,
+    "upstreamReferenceAudit": true,
+    "englishLabels": "Attributed upstream titles and source-reviewed Explorer wording for 29 groups and 27 modules",
+    "fieldTags": false,
+    "eraTags": false,
+    "levelTags": false,
+    "originalityTags": false,
+    "guideMatches": false,
+    "reviewedEnglishReadings": false
+  },
+  "expected": {
+    "modules": 803,
+    "groups": 29,
+    "moduleEdges": 1733,
+    "groupEdges": 189,
+    "physicalLines": 477124,
+    "bytes": 30050271,
+    "maxModuleDepth": 21,
+    "maxGroupDepth": 5,
+    "groupDepthCounts": [
+      1,
+      1,
+      1,
+      8,
+      16,
+      2
+    ],
+    "upstreamLabels": 801
+  },
+  "compact": {
+    "sourceRoot": "grh-compact/src",
+    "sourceTree": "b834f80c6399db99d54ce171ba541c4a95a4f90f",
+    "modules": 794
+  },
+  "original": {
+    "repository": "https://github.com/leanprover-community/riemann-hypothesis",
+    "revision": "40e56bab026552e089d7afcfeff08d2defb9c005",
+    "sourceRoot": "src"
+  }
+}

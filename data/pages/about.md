@@ -1,6 +1,6 @@
 ---
 title: "About this map of the Lean Riemann hypothesis proof"
-description: "What the map is, how its clusters and names were made, who made it, the licence (CC BY 4.0), how to report a wrong name, and where AI was used."
+description: "How the original and readable Lean maps were made, which revisions they show, their author credits and licences, and how to report a correction."
 h1: "About this map"
 path: /about/
 target_queries:
@@ -11,11 +11,11 @@ as_of: "23 Nov 2026"
 
 # About this map
 
-*As of 23 Nov 2026.*
+*As of 26 Nov 2026.*
 
-**riemannhypothesissolved.com is an interactive map of the Lean proof of the Riemann hypothesis released by Levent Alpöge on 20 Nov 2026. It groups the proof's 175,187 Lean files into clusters and themes, names them in plain English, and shows how they depend on each other.** For what was checked and by whom, see [status](/status/).
+**RH Lean Explorer maps imports in two Lean editions of the Riemann hypothesis proof.** The original map covers the 20 November Alpöge–Claude archive. The readable map follows the source folders in Luke Sernau’s 25 November rewrite. [Original map](/) · [Readable map](/sernau/) · [Verification status](/status/)
 
-## What the map is
+## Alpöge original {#alpoge-original}
 
 - A reading guide to the Lean files: 2,647 clusters in 63 themes and 9 fields of mathematics. [The proof in numbers](/proof-in-numbers/) has the counts.
 - Every cluster has its own page. It shows the cluster's name and description, its distance from the main theorem, what it builds on and what needs it, and links to the Lean files.
@@ -25,13 +25,23 @@ as_of: "23 Nov 2026"
 - The source viewer shows the original archive as released: commit [`40e56bab`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005) of the community mirror.
 - Every page has a Markdown copy (add `index.md` to its address). Data for machines is at [/api/](/api/), and `llms.txt` lists the pages.
 
-## How it was made
+## How the original map was made
 
 1. **Clusters.** Files are grouped by the words in them and by their imports. This gives 2,647 clusters, 175,027 files in all.
 2. **Names and descriptions.** Claude drafted each cluster's name and description from a sample of about one tenth of the cluster's files. Theme names were drafted from the clusters and folders in each theme.
 3. **Tags.** Each cluster has a field, an era (the decade of the newest concept it needs) and a level (the highest maths level among its concepts). They are derived from the descriptions and concept tags, and they drive the map's colours and filters.
 4. **Core check.** The names of the 16 core clusters were checked against the full Lean code. Of the 16, 14 needed a minor fix and 2 were wrong. The corrected titles are on the [core page](/core/).
 5. **Distances.** Distance counts import steps from `Main.lean`.
+
+## Sernau readable {#sernau-readable}
+
+Sernau released the rewrite in his GitHub repository and credits his colleagues at Anthropic and Claude. The release credits Claude with writing the Lean code and upstream documentation. The Explorer uses the readable project’s `grh/src` at commit `72fead102f663d5c7a407964a13dc0cf9d977207`. [Release README](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/README.md) · [Readable source tree](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh/src)
+
+- The 29 groups follow the first two segments of the Lean module names, or the full module name when it has fewer segments. This follows the source folder structure. `Main` and `Statements` have their own groups.
+- The 803 project modules contribute 1,733 direct imports between project files. Every module can be reached from `Main` by following imports. A group-to-group edge means at least one source file in the first group directly imports a source file in the second.
+- The route follows specific imports and declarations in the readable edition. The upstream guide describes the background in `Lib/` and the argument in `New/`. [Readable source route](/sernau/route/) · [Pinned upstream guide](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/GUIDE.md)
+- Explorer wording for the 29 groups and 27 module labels was checked against the pinned guide or source. The other 776 module labels use the upstream wording. The label review covers how each name describes its source. [Independent proof checks](/status/#shorter-editions)
+- The compact project has its own source and checks in the same repository. [Edition comparison](/shorter-riemann-hypothesis-proof/) · [Independent shorter-edition checks](https://math.mit.edu/~drew/shortgrh/)
 
 ## Sources and method
 
@@ -53,7 +63,7 @@ Updates are posted on X by [@RiemannMap](https://x.com/RiemannMap). The [changel
 
 ## Licence
 
-Everything this site made (page text, cluster and theme names and descriptions, the map layout, images and the JSON files) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The Lean source keeps its own licence.
+Everything this site made (page text, cluster and theme names and descriptions, the map layout, images and the JSON files) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The Lean source and upstream documentation keep their own licences. The readable source and guide are Apache 2.0, copyright Anthropic, PBC, with project-specific notice and attribution. [Apache licence](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/LICENSE) · [Readable notice](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/NOTICE) · [Upstream attribution](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/ATTRIBUTION.md)
 
 ## Corrections we've made
 
@@ -67,7 +77,7 @@ Dated changes that fixed something this site had wrong or unclear. The [changelo
 ## Report a wrong name or a correction
 
 - On any cluster page, "Report a wrong name" opens an X post to @SomTheBuilder with the cluster id and address filled in.
-- For anything else, post to [@SomTheBuilder](https://x.com/SomTheBuilder) on X.
+- Post corrections to [@SomTheBuilder](https://x.com/SomTheBuilder) on X. For a readable-map correction, include the edition and the map or source URL, plus the Lean declaration or group if applicable.
 
 ## AI disclosure
 

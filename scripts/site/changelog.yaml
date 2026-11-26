@@ -3,8 +3,11 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-26
-  title: Original archive verification and controversies
+  title: Shorter Lean proof editions and verification
   items:
+    - "Compare Alpöge’s original archive with Sernau’s readable and compact editions, with pinned source links for all five theorems."
+    - "Status and Timeline record the independent checks of both shorter editions. How We Know gives the compact build and checker commands."
+    - "The readable edition has a map of its 29 source groups, a pinned Lean reader and a route from classical RH to Dirichlet nonvanishing."
     - "Status and Timeline record the completed Lean v4.36.0 Comparator run on the original archive’s exports."
     - "Press covers Jenny Lorraine Nielsen’s critique, the responses, and the open gaps in Alessandro Masullo’s separate manuscript."
 

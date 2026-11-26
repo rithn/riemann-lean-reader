@@ -1,6 +1,6 @@
 ---
 title: "Riemann hypothesis timeline: 1748 to the 2026 Lean proof"
-description: "Dated events from Euler's product in 1748 and Riemann's 1859 memoir to the Lean proof released on 20 Nov 2026, certified on 21 Nov, with a source for each."
+description: "Dated events from Euler and Riemann through Alpöge’s Lean release, its certification and the checks of Luke Sernau’s two shorter editions."
 h1: "Timeline of the Riemann hypothesis"
 path: /timeline/
 target_queries:
@@ -84,8 +84,15 @@ For the current state, see [/status/](/status/).
 - **24 Nov, 10:08 UTC.** Carlos Toledo stops the `comparator` run of his independent audit after 53 hours for cost, with no verdict either way. His `con-leche` comparison matched all five theorems. ([Toledo](https://carlostoledo.co/reports/alpoge-grh.html))
 - **24 Nov (date on the announcement).** Anurag Sahay, Will Sawin and Lior Silberman propose G.R.H. Polymath to coordinate work on Alpöge's Lean proof, develop a human-readable account of RH and Dirichlet GRH, and explore the mathematics behind the argument. ([G.R.H. Polymath announcement](https://terrytao.wordpress.com/2026/11/24/g-r-h-polymath/))
 
-## 25 Nov 2026: original archive check {#nov-25}
+## 25 Nov 2026 · Shorter editions and original archive check {#nov-25}
+
+- **25 Nov, 20:38 UTC.** Luke Sernau publishes the pinned commit of two shorter rewrites of the Alpöge–Claude proof in his GitHub repository. The readable and compact projects prove the same five headline theorems. Sernau credits colleagues at Anthropic and Claude for the rewrite. [Release commit](https://github.com/lsernau/grh-lean/commit/72fead102f663d5c7a407964a13dc0cf9d977207) · [Release README](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/README.md) · [Edition comparison](/shorter-riemann-hypothesis-proof/)
 
 - **25 Nov, 21:49 UTC.** Sutherland’s original-archive run of `lake comparator` on Lean v4.36.0 passes using the canonical challenge export. All five statements match, the axiom audit passes, and Lean’s paranoid kernel, nanoda and Lean’s default kernel accept. [MIT verification log](https://math.mit.edu/~drew/grh/)
+
+## 26 Nov 2026 · Shorter-edition checks finish {#nov-26}
+
+- **26 Nov, 00:49 and 01:39 UTC.** Sutherland’s full sandboxed `lake comparator --paranoid` passes for the compact edition on two separate machines at `72fead10` with Lean v4.35.0. [Machine B log](https://math.mit.edu/~drew/shortgrh/compact-lake-comparator-paranoid-remote.log) · [Machine A log](https://math.mit.edu/~drew/shortgrh/compact-lake-comparator-paranoid-local.log)
+- **26 Nov, 02:47 UTC.** The full paranoid run for the readable edition passes on the larger machine. The operator stopped lean4lean on the smaller machine when it reached a memory threshold, leaving that run without a verdict. [Passing log](https://math.mit.edu/~drew/shortgrh/readable-lake-comparator-paranoid-remote.log) · [MIT final results at 02:50 UTC](https://math.mit.edu/~drew/shortgrh/) · [Status by edition](/status/#shorter-editions)
 
 For coverage and expert reactions, see [press](/press/). For the numbers, see [the proof in numbers](/proof-in-numbers/).

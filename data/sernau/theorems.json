@@ -1,0 +1,48 @@
+[
+  {
+    "name": "riemannHypothesis",
+    "label": "The Riemann hypothesis",
+    "statement": "Every nontrivial zero of the Riemann zeta function has real part 1/2, as stated in Mathlib.",
+    "type": "RiemannHypothesis",
+    "originalLine": 4,
+    "references": [
+      {"name": "New.zeta_zeros_on_line", "module": "New.Main", "line": 47},
+      {"name": "New.grh", "module": "New.Reduction.OneSidedBound", "line": 239}
+    ]
+  },
+  {
+    "name": "riemannZeta_eq_zero_re",
+    "label": "Zeta zeros on the critical line",
+    "statement": "Every zero of the Riemann zeta function away from the negative even integers and the point 1 has real part 1/2.",
+    "type": "RiemannZetaZerosOnLine",
+    "originalLine": 6,
+    "references": [{"name": "riemannHypothesis", "module": "Main", "line": 5}]
+  },
+  {
+    "name": "LFunction_ne_zero_of_half_lt_re",
+    "label": "Dirichlet L-functions are zero-free to the right of the critical line",
+    "statement": "For every Dirichlet character of positive modulus, its L-function is nonzero when the real part of the argument exceeds 1/2. The point 1 is excepted for the principal character.",
+    "type": "DirichletLNonvanishingRightOfHalf",
+    "originalLine": 8,
+    "references": [{"name": "New.grh", "module": "New.Reduction.OneSidedBound", "line": 239}]
+  },
+  {
+    "name": "LFunction_eq_zero_re",
+    "label": "Dirichlet zeros in the critical strip",
+    "statement": "For every Dirichlet character of positive modulus, zeros of its L-function with real part strictly between 0 and 1 have real part 1/2.",
+    "type": "DirichletLZerosOnLine",
+    "originalLine": 10,
+    "references": [
+      {"name": "New.zeros_on_line", "module": "New.Main", "line": 28},
+      {"name": "New.grh", "module": "New.Reduction.OneSidedBound", "line": 239}
+    ]
+  },
+  {
+    "name": "LFunction_eq_zero_re_of_isPrimitive",
+    "label": "Critical-strip zeros for primitive Dirichlet characters",
+    "statement": "For every primitive Dirichlet character of positive modulus, zeros of its L-function with real part strictly between 0 and 1 have real part 1/2.",
+    "type": "PrimitiveDirichletLZerosOnLine",
+    "originalLine": 12,
+    "references": [{"name": "LFunction_eq_zero_re", "module": "Main", "line": 17}]
+  }
+]

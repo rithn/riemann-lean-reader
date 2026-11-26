@@ -1,6 +1,6 @@
 ---
 title: "Has the Riemann hypothesis been solved? Proof status"
-description: "A Lean proof of the Riemann hypothesis was released on 20 Nov 2026 and certified on 21 Nov. What was checked, by whom, and what it covers."
+description: "The 20 November Lean proof was certified on 21 November. See the independent verification results for the original archive and both Sernau rewrites."
 h1: "Has the Riemann hypothesis been solved?"
 path: /status/
 target_queries:
@@ -17,9 +17,9 @@ as_of: "26 Nov 2026"
 
 *As of 26 Nov 2026. See the [timeline](/timeline/) for the dated record.*
 
-**Latest verification update, 25 Nov 2026, 21:49 UTC.** Andrew Sutherland’s Lean v4.36.0 Comparator run on the original archive’s proof export passed. It matched all five statements against the canonical challenge, audited the axioms and accepted the proof in three kernel checks. [MIT verification log](https://math.mit.edu/~drew/grh/) · [Timeline](/timeline/#nov-25)
-
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof of the Riemann hypothesis are correct. Independent checkers have compiled all 175,187 modules, replayed the proof through Lean's kernel and checked the exported proof with several independent programs.**
+
+**Latest verification update, 26 Nov 2026, 02:50 UTC.** Andrew Sutherland reports a full paranoid Comparator pass for each of Luke Sernau’s two shorter editions. On 25 November at 21:49 UTC, his original-archive Comparator run separately matched all five statements, audited the axioms and accepted the proof in three kernel checks. [Shorter-edition checks](#shorter-editions) · [MIT original log](https://math.mit.edu/~drew/grh/) · [Timeline](/timeline/#nov-26)
 
 ## What was released
 
@@ -47,6 +47,18 @@ These checks cover the original 20 November release.
 | Axioms used | Sutherland | Only `propext`, `Classical.choice`, `Quot.sound` |
 
 Sutherland’s log was last updated on 25 November 2026 at 22:05 UTC. Sutherland and Rubinstein ran their checks with Claude Code. Elliot Arledge and Bartosz Naskręcki published their own results. [Sutherland](https://math.mit.edu/~drew/grh/) · [Rubinstein](https://mrubinst.github.io/grh-lean-verification/) · [Arledge](https://github.com/Infatoshi/rh-verification-receipts) · [Naskręcki](https://nasqret.github.io/riemann-rev/) · [Timeline](/timeline/)
+
+## Independent checks of the shorter editions {#shorter-editions}
+
+Luke Sernau released the readable and compact rewrites on 25 November. Both use Lean v4.35.0 and Mathlib at commit `56a00585`, and prove the same five theorems as the original. Sutherland’s independent checks used pinned commit `72fead10`. [Release and five-statement comparison](/shorter-riemann-hypothesis-proof/) · [Pinned source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207)
+
+| Check | Readable (`grh/`) | Compact (`grh-compact/`) |
+|---|---|---|
+| Sandboxed build and module replay | Passed, 803 of 803 modules replayed | Passed, 794 of 794 modules replayed |
+| Axiom audit and statement matching | Each theorem uses only `propext`, `Classical.choice` and `Quot.sound`. Con-leche and con-ron each matched all five statements to the challenge. | Same three axioms and all five matches in both checkers. |
+| Full sandboxed `lake comparator --paranoid` on 26 November | Passed on machine B at 02:47:54 UTC. On machine A, the operator stopped lean4lean at a memory threshold. That run has no verdict. | Passed on machine B at 00:49:14 UTC and on machine A at 01:39:22 UTC. |
+
+On both editions the proof exports were reproduced byte for byte across the two machines and accepted by nanoda, con-leche and con-ron. These results are Sutherland’s independent checks. The joint certification below concerns the original 20 November release. [MIT results, updated 26 November at 02:50 UTC](https://math.mit.edu/~drew/shortgrh/) · [Compact verification walkthrough](/how-we-know/#verify-compact)
 
 ## What was certified, and by whom
 

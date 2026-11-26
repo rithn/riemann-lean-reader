@@ -19,7 +19,7 @@ as_of: "26 Nov 2026"
 
 > **For journalists**
 >
-> **What the map offers.** An independent, interactive map of the submitted Lean archive: 175,187 Lean files (175,027 on the map) in 2,647 clusters and 63 themes, about 17.4 million lines. It shows how the proof is structured: the main theorem's cluster, and how far each cluster is from it. [How the proof is structured](/route/) · [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) · [browse the list](/list/) · [learning path](/learn/).
+> **What the original map offers.** An interactive map of Alpöge’s 20 November Lean archive: 175,187 Lean files (175,027 on the map) in 2,647 clusters and 63 themes, about 17.4 million lines. It shows how the proof is structured: the main theorem's cluster, and how far each cluster is from it. [How the proof is structured](/route/) · [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) · [browse the list](/list/) · [learning path](/learn/).
 >
 > **Numbers you can quote.** The longest import chain is 203 files. The median file is 13 imports from `Main`, and the farthest is 43. By import distance from the main-theorem cluster, the clusters fall into bands 0 to 8, with 1, 3, 22, 437, 1,443, 637, 76, 25 and 3 clusters. The 175,187 figure is for the submitted archive. The community repository has since removed most of those files: at its main commit [6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) (24 Nov 2026, 13:39 UTC) it has 60,156 `.lean` files, 60,147 of them under `src/`. The count changes with every merge.
 >
@@ -57,6 +57,8 @@ Chris Bailey explained on MathOverflow that the check depends on the proof term 
 ### Open gaps in Alessandro Masullo’s separate manuscript {#masullo-gaps}
 
 Masullo’s *The Music of the Primes* proposes a proof of GRH for Hecke L-functions. In its Lean formalization of this manuscript, Ryan McCorvie’s project records a counterexample to the uniform bound as printed in §1.4.3 and an unproved cancellation of zeros outside a strip in Theorem 12.5.1.1. The project shows that this cancellation for every strip width is equivalent to the manuscript’s main claim. These findings concern Masullo’s argument. Follow the [verification record](/status/) for Alpöge’s Lean release. [Manuscript v1](https://clopen.solutions/submissions/the-music-of-the-primes/v1/) · [Formalization README](https://github.com/mccorvie/riemann-masullo/blob/9c791d74a81f1191d900e6d96f1270acee9b033e/README.md) · [Open issue #5571](https://github.com/mccorvie/riemann-masullo/issues/5571)
+
+The objections above concern Alpöge’s original archive and Masullo’s separate manuscript. Luke Sernau’s 25 November rewrites have their own verification logs. [Edition comparison](/shorter-riemann-hypothesis-proof/) · [MIT shorter-edition checks](https://math.mit.edu/~drew/shortgrh/)
 
 ## News coverage, November 2026
 

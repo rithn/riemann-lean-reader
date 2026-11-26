@@ -4,6 +4,20 @@ On 20 Nov 2026 Levent Alpöge released a [Lean formalization and announcement no
 
 The release contains 175,187 Lean files and about 17.4 million lines. [RH Lean Explorer](https://riemannhypothesissolved.com/) maps the source, links to [reading guides](https://riemannhypothesissolved.com/guides/), and maintains a dated [verification status](https://riemannhypothesissolved.com/status/). This repository contains the site's generator and the original source-text audit. The original folder descriptions are inferred from file and folder names.
 
+## Building the readable edition
+
+The site generator builds Alpöge's original map and Sernau's readable edition together. The readable source, group inventory, English labels and theorem references are pinned in [data/sernau](data/sernau/edition.json). The first build fetches the exact upstream Git revision into a temporary object cache. Set `SERNAU_CACHE_DIR` to a durable location, or set `SERNAU_SOURCE_DIR` to a Git checkout at the pinned revision for an offline source build.
+
+Run the full build with the usual original archive and cluster data and with the paired site worktree containing `sernau.js` and `sernau.css`.
+
+```sh
+RH_N3=./data uv run -q --with pyyaml --with networkx --with scipy --with markdown-it-py --with pillow \
+  python -I scripts/site/build_site.py ../notes/cluster3 ../site
+python -I scripts/site/check_editions.py ../site
+```
+
+`RH_N3=./data` uses the checked-in guide citations. The checker validates the readable source bytes, generated URLs and group links, plus the distinct original and readable versions of `Main.lean`. Pass `--baseline-revision <site-revision>` to also compare the original sitemap, redirects, map data and API against the site before this preview.
+
 ## What's here
 
 | File | What it is |

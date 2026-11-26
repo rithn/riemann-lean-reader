@@ -1,0 +1,321 @@
+[
+  {
+    "id": "Lib.Adelic",
+    "slug": "lib-adelic",
+    "label": "Adeles, unitary groups and automorphic forms",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 453,
+      "endLine": 453
+    }
+  },
+  {
+    "id": "Lib.Analytic",
+    "slug": "lib-analytic",
+    "label": "Dirichlet L-function zeros and primes in progressions",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 534,
+      "endLine": 548
+    }
+  },
+  {
+    "id": "Lib.Base",
+    "slug": "lib-base",
+    "label": "Matrix adjoints for the Hermitian dot product",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 451,
+      "endLine": 451
+    }
+  },
+  {
+    "id": "Lib.CM",
+    "slug": "lib-cm",
+    "label": "Complex multiplication for elliptic curves and theta functions",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 550,
+      "endLine": 572
+    }
+  },
+  {
+    "id": "Lib.ClassField",
+    "slug": "lib-classfield",
+    "label": "Class field theory and Galois cohomology",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 578,
+      "endLine": 578
+    }
+  },
+  {
+    "id": "Lib.Cohomology",
+    "slug": "lib-cohomology",
+    "label": "Cohomology of schemes",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 650,
+      "endLine": 650
+    }
+  },
+  {
+    "id": "Lib.Cyclotomic",
+    "slug": "lib-cyclotomic",
+    "label": "Cyclotomic fields, Gauss sums and class bounds",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 698,
+      "endLine": 707
+    }
+  },
+  {
+    "id": "Lib.DiscreteSeries",
+    "slug": "lib-discreteseries",
+    "label": "Discrete series for unitary groups",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 709,
+      "endLine": 709
+    }
+  },
+  {
+    "id": "Lib.GLn",
+    "slug": "lib-gln",
+    "label": "Polynomial representations of general linear groups",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 776,
+      "endLine": 776
+    }
+  },
+  {
+    "id": "Lib.GaloisRep",
+    "slug": "lib-galoisrep",
+    "label": "Galois representations",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 795,
+      "endLine": 795
+    }
+  },
+  {
+    "id": "Lib.General",
+    "slug": "lib-general",
+    "label": "Background lemmas in algebra, geometry and analysis",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 838,
+      "endLine": 870
+    }
+  },
+  {
+    "id": "Lib.LocalGL",
+    "slug": "lib-localgl",
+    "label": "General linear groups over finite and local fields",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 930,
+      "endLine": 930
+    }
+  },
+  {
+    "id": "Lib.PadicComparison",
+    "slug": "lib-padiccomparison",
+    "label": "Comparing p-adic cohomology theories",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 955,
+      "endLine": 955
+    }
+  },
+  {
+    "id": "Lib.PadicHodge",
+    "slug": "lib-padichodge",
+    "label": "p-adic Hodge theory",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 991,
+      "endLine": 991
+    }
+  },
+  {
+    "id": "Lib.Shimura",
+    "slug": "lib-shimura",
+    "label": "Moduli spaces of abelian varieties",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 1030,
+      "endLine": 1030
+    }
+  },
+  {
+    "id": "Lib.SiegelWeil",
+    "slug": "lib-siegelweil",
+    "label": "The Siegel–Weil and Rallis formulas",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 1109,
+      "endLine": 1109
+    }
+  },
+  {
+    "id": "Lib.Speed",
+    "slug": "lib-speed",
+    "label": "Lean settings for faster simplification and instance search",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/src/Lib/Speed.lean",
+      "line": 3,
+      "endLine": 9
+    }
+  },
+  {
+    "id": "Lib.Weil",
+    "slug": "lib-weil",
+    "label": "The Weil representation and theta lifts",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 1151,
+      "endLine": 1151
+    }
+  },
+  {
+    "id": "Main",
+    "slug": "main",
+    "label": "The five theorems on zeta and Dirichlet L-functions",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/src/Main.lean",
+      "line": 4,
+      "endLine": 22
+    }
+  },
+  {
+    "id": "New.Appendix",
+    "slug": "new-appendix",
+    "label": "Discrete series with widely separated weights",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 28,
+      "endLine": 28
+    }
+  },
+  {
+    "id": "New.Congruences",
+    "slug": "new-congruences",
+    "label": "Lower bounds from congruences and twists",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 27,
+      "endLine": 27
+    }
+  },
+  {
+    "id": "New.Derivatives",
+    "slug": "new-derivatives",
+    "label": "Counting primes with derivatives of theta functions",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 22,
+      "endLine": 22
+    }
+  },
+  {
+    "id": "New.Determinant",
+    "slug": "new-determinant",
+    "label": "A lower bound from determinants of theta lifts",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 25,
+      "endLine": 25
+    }
+  },
+  {
+    "id": "New.Main",
+    "slug": "new-main",
+    "label": "From Dirichlet nonvanishing to zeros on the critical line",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/CONTENTS.md",
+      "line": 446,
+      "endLine": 446
+    }
+  },
+  {
+    "id": "New.OneLift",
+    "slug": "new-onelift",
+    "label": "A lower bound from a single theta lift",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 26,
+      "endLine": 26
+    }
+  },
+  {
+    "id": "New.Reduction",
+    "slug": "new-reduction",
+    "label": "One-sided prime-sum bounds for Dirichlet nonvanishing",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 21,
+      "endLine": 21
+    }
+  },
+  {
+    "id": "New.Spanning",
+    "slug": "new-spanning",
+    "label": "Using a second moment to span a space of forms",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 24,
+      "endLine": 24
+    }
+  },
+  {
+    "id": "New.UpperBound",
+    "slug": "new-upperbound",
+    "label": "An upper bound for a chain of theta lifts",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/GUIDE.md",
+      "line": 23,
+      "endLine": 23
+    }
+  },
+  {
+    "id": "Statements",
+    "slug": "statements",
+    "label": "The zeta and Dirichlet L-function propositions",
+    "labelReview": "reviewed",
+    "evidence": {
+      "path": "grh/src/Statements.lean",
+      "line": 3,
+      "endLine": 16
+    }
+  }
+]

@@ -12,16 +12,16 @@ target_queries:
   - riemann zeta function zeros critical line
   - generalized riemann hypothesis
   - riemann hypothesis statement
-as_of: "22 Nov 2026"
+as_of: "26 Nov 2026"
 ---
 
 # What is the Riemann hypothesis?
 
-*As of 22 Nov 2026. Pick the level that suits you: [Simple](#simple) · [Student](#student) · [Expert](#expert).*
+*As of 26 Nov 2026. Pick the level that suits you: [Simple](#simple) · [Student](#student) · [Expert](#expert).*
 
 **The Riemann hypothesis is a claim about where a famous function, the Riemann zeta function, equals zero. It says that every "non-trivial" zero lies on one straight line.** A Lean-checked proof was released on 20 Nov 2026. See [status](/status/) for what was checked.
 
-This page explains the claim. The proof is Lean code with a four-page note, and [how we know](/how-we-know/) explains how it was checked.
+Alpöge’s original release includes Lean code and a four-page note. Sernau’s two shorter rewrites prove the same statements. [How the proof was checked](/how-we-know/) · [Compare the editions](/shorter-riemann-hypothesis-proof/)
 
 ## Simple {#simple}
 
@@ -69,7 +69,7 @@ Euler gave it in 1748. ([Bombieri](https://www.claymath.org/wp-content/uploads/2
 
 **In Mathlib's words.** The Lean library Mathlib states it as: for every complex s with ζ(s) = 0, if s is not a trivial zero and s ≠ 1, then Re(s) = 1/2. ([Mathlib documentation](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/LSeries/RiemannZeta.html#RiemannHypothesis))
 
-**Where this sits on the map.** The main theorem is in the cluster ["Explicit formula, Perron kernel and zero-free conditions for Dirichlet L-functions"](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/). The clusters nearest to it are all classical number theory: [zero-free region for zeta and Dirichlet L-functions](/cluster/k0680-zero-free-region-for-zeta-and-dirichlet-l-functions/), [primes in progressions, Siegel–Walfisz and the exceptional zero](/cluster/k0683-primes-in-progressions-siegel-walfisz-and-exceptional-zero/) and [Mertens-type estimates and zero sums for Dirichlet L-functions](/cluster/k0694-mertens-type-estimates-and-zero-sums-for-dirichlet-l/). Cluster titles on the map were drafted by AI.
+**Where this sits on the original map.** The main theorem is in the cluster ["Explicit formula, Perron kernel and zero-free conditions for Dirichlet L-functions"](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/). The clusters nearest to it are all classical number theory: [zero-free region for zeta and Dirichlet L-functions](/cluster/k0680-zero-free-region-for-zeta-and-dirichlet-l-functions/), [primes in progressions, Siegel–Walfisz and the exceptional zero](/cluster/k0683-primes-in-progressions-siegel-walfisz-and-exceptional-zero/) and [Mertens-type estimates and zero sums for Dirichlet L-functions](/cluster/k0694-mertens-type-estimates-and-zero-sums-for-dirichlet-l/). Cluster titles on the map were drafted by AI.
 
 > **Visual B (to build): "Walking along the critical line".** A slider for t. Left panel: the point ζ(1/2 + it) traced as a curve in the plane as t increases. The curve passes through the origin at each zero. Right panel: the critical strip with a marker moving up the line Re(s) = 1/2 and a dot dropped at each zero found so far. Add a toggle to show a line at, say, Re(s) = 0.6 with the label "The hypothesis puts every zero on the middle line." Compute values client-side and check the zero heights against the [LMFDB list](https://www.lmfdb.org/zeros/zeta/).
 
@@ -101,7 +101,7 @@ Sutherland ran a cross-check that avoids Mathlib's ζ. Combined with an independ
 
 **What the author says about the method.** Alpöge describes the argument as "a descendant of Stepanov’s", with multiplicity supplied by chaining theta lifts. In his note, Claude's suggested chain length for a von Mangoldt sum of length X was √X. Terence Tao wrote that "from very initial analysis" it "appears to use the full power of modern developments on the Langlands program and arithmetic geometry". ([note](https://alpo.ge/remark.pdf), [Tao](https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/))
 
-**The nine fields on the map.** Our map groups the proof's 63 themes into nine fields. The shares are of the 175,027 mapped files. The grouping is our own and is AI-drafted.
+**The nine fields on the original map.** The Explorer groups the original archive’s 63 themes into nine fields. The shares are of the 175,027 mapped files. The grouping is our own and is AI-drafted.
 
 | Field | Files | Share | What it covers |
 |---|---|---|---|
@@ -123,4 +123,5 @@ Classical number theory is the smallest field by size, but it holds the main the
 - [How we know](/how-we-know/): how a computer-checked proof works.
 - [Why it matters](/why-it-matters/): what follows from the proof.
 - [Learning path](/learn/): where to start reading, by level.
-- [Browse the map](/list/): every theme and cluster as a list.
+- [Browse the original themes and clusters](/list/)
+- [Trace the statement in the readable edition](/sernau/route/)

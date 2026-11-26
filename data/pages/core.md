@@ -1,6 +1,6 @@
 ---
 title: "The core of the proof: 16 clusters, names checked"
-description: "The 16 core clusters of the Lean proof of the Riemann hypothesis, in route order from Main.lean, with names checked against the full Lean code."
+description: "The 16 core clusters of Alpöge’s original Lean proof, in route order from Main.lean, with names checked against the code and a link to the readable rewrite."
 h1: "The core of the proof"
 path: /core/
 target_queries:
@@ -16,7 +16,7 @@ as_of: "25 Nov 2026"
 
 *As of 25 Nov 2026.*
 
-**The proof is 2,647 clusters of Lean files. This page covers 16 core clusters, from the cluster that holds `Main.lean` outwards. The name of each was checked against the full Lean code.**
+**The original map groups Alpöge’s archive into 2,647 clusters. This page covers 16 core clusters, from the cluster that holds `Main.lean` outwards. The name of each was checked against the original Lean code.** The readable rewrite has a separate route from the same classical RH statement to its nonvanishing input. [Sernau readable source route](/sernau/route/)
 
 ## How the last step works
 

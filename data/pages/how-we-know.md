@@ -11,7 +11,7 @@ target_queries:
   - claude checked claude riemann proof
   - how does lean verify a proof
   - lean kernel soundness
-as_of: "24 Nov 2026"
+as_of: "26 Nov 2026"
 fold_sections:
   - lean-statements
   - checker-implementations
@@ -22,7 +22,7 @@ fold_sections:
 
 Independent programs accepted the exported Lean proof. Separate checks matched its main theorem to Mathlib’s definition of the Riemann hypothesis. [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/).
 
-*Verification reports as of 24 November 2026. See [status](/status/) for later updates.*
+*Verification reports as of 26 November 2026. The four checks below explain the original archive’s certification. The two Sernau rewrites have their own independent results and a compact build walkthrough. [Verification status](/status/) · [Compact walkthrough](#verify-compact)*
 
 ## What Lean checks {#what-lean-checks}
 
@@ -103,6 +103,34 @@ The Lean reference manual describes the [independent kernel implementations](htt
 - con-leche: an implementation of the Lean kernel in Lean, by the Lean FRO, with a machine-checked proof that every environment it accepts has a model in set theory, so it never accepts a proof of `False`.
 - con-ron: a port of con-leche to Rust, by the Lean FRO.
 
+## How to check the compact edition {#verify-compact}
+
+The commands below follow the release and Andrew Sutherland’s Linux instructions for commit `72fead102f663d5c7a407964a13dc0cf9d977207`. Start in `grh-compact/`. The readable sibling, `grh/`, is a separate Lake project with the same five statements. [Pinned compact README](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md) · [MIT reproduction instructions](https://math.mit.edu/~drew/shortgrh/)
+
+1. **Read the target.** `src/Statements.lean` gives four explicit propositions using Mathlib definitions, and `src/Main.lean` names and proves all five targets including Mathlib’s RH. The placeholders in `Challenge.lean` supply the target types for the judge. Lake’s normal build excludes that file. [Five statements](/shorter-riemann-hypothesis-proof/#five-statements) · [Pinned challenge](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/Challenge.lean)
+2. **Select the pin and build.** Install Git and elan, then run the commands below. The project specifies Lean v4.35.0 and Mathlib at `56a005855ea17e0b0958f73ec801ae140b0a1679`. The authors estimate one to two hours on 12 cores with 24 GB of RAM, plus about 85 minutes to build Mathlib from source if its cache is missing. A successful build can print linter and deprecation warnings. [elan](https://github.com/leanprover/elan) · [Build requirements](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md#build)
+
+   ```sh
+   git clone https://github.com/lsernau/grh-lean.git
+   cd grh-lean
+   git checkout --detach 72fead102f663d5c7a407964a13dc0cf9d977207
+   git rev-parse HEAD
+   cd grh-compact
+   lean --version
+   lake exe cache get
+   lake build
+   ```
+
+3. **Inspect the axioms.** Run `lake env lean scripts/PrintAxioms.lean`. Each of the five declarations should list `propext`, `Classical.choice` and `Quot.sound`. These let you equate logically equivalent propositions, select a witness whose existence is established, and identify equivalent representatives in a quotient. The audit tells you which axioms the proof uses. The statement comparison separately tests that the type of the proved theorem matches the challenge. [MIT axiom audit](https://math.mit.edu/~drew/shortgrh/) · [Lean axiom reference](https://lean-lang.org/theorem_proving_in_lean4/Axioms-and-Computation/)
+4. **Run the statement comparison and independent checker replay.** On Linux with bubblewrap installed, use the following commands from `grh-compact/`. The `PATH` setting selects the checkers shipped with the pinned Lean. Allow several hours. The compact README specifies 64 GB of RAM for Comparator and says the authors used a sandbox stand-in. MIT’s full runs used bubblewrap and independently produced exit 0 for compact on two machines. The readable edition’s standalone lean4lean check peaked at 332 GB on the larger machine. [Authors’ check record](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md#checks) · [MIT recipe and results](https://math.mit.edu/~drew/shortgrh/)
+
+   ```sh
+   ulimit -s unlimited
+   PATH="$(dirname "$(elan which lean)"):$PATH" lake comparator --paranoid
+   ```
+
+The MIT logs show the build, statement match, axiom check and each kernel result. The smaller machine’s readable run stopped at a memory threshold. The process code 143 records termination and that run has no verdict. If you share a run, record the commit, folder, toolchain, checker command, machine, exit status and logs. To inspect the proof with a browser, follow the readable edition’s source route. [MIT results by stage](https://math.mit.edu/~drew/shortgrh/) · [Readable source route](/sernau/route/)
+
 ## Understanding the proof {#understanding-the-proof}
 
 The formal check shows the proof is valid. Understanding why it holds is the work ahead.
@@ -115,9 +143,9 @@ The joint statement says it looks forward to "all the activity in the mathematic
 
 ## What the map adds {#what-the-map-adds}
 
-The map shows the shape of what was checked.
+The original map shows the shape of the 20 November archive. The readable rewrite has a separate source-group map and a walkthrough of the final RH step. [Readable map](/sernau/) · [Readable source route](/sernau/route/)
 
-- The proof is 175,187 files, 175,027 of them on the map, in 2,647 clusters and 63 themes.
+- The archive contains 175,187 files, 175,027 of them on the original map, in 2,647 clusters and 63 themes.
 - The longest import chain is 203 files. The median file is 13 imports from `Main`, and the farthest is 43.
 - By distance from the main-theorem cluster, the clusters fall into depth bands 0 to 8, with 1, 3, 22, 437, 1,443, 637, 76, 25 and 3 clusters.
 

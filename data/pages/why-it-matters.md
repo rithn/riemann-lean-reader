@@ -48,7 +48,7 @@ Mathematicians commented on the proof's ideas on 20 Nov, before the 21 Nov certi
 - **Terence Tao** (UCLA): from "very initial analysis", the proof "appears to use the full power of modern developments on the Langlands program and arithmetic geometry". ([Tao's blog](https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/))
 - **James Maynard** (Oxford): "assuming we do get the corresponding understanding, this will surely be viewed as one of the absolute pinnacles of mathematical results". ([Nature](https://www.nature.com/articles/d41586-026-03812-7))
 
-On the map, the proof's files fall into nine fields. Classical number theory, the field that holds the main theorem, is 3.2% of the mapped files. Automorphic forms (20.6%) and abelian varieties (19.8%) are the two largest. See [the nine fields](/what-is-the-riemann-hypothesis/#expert) and [how the proof is structured](/route/).
+On the original map, the archive’s files fall into nine fields. Classical number theory, the field that holds the main theorem, is 3.2% of the mapped files. Automorphic forms (20.6%) and abelian varieties (19.8%) are the two largest. See [the nine fields](/what-is-the-riemann-hypothesis/#expert) and [how the proof is structured](/route/).
 
 ## Cryptography
 
@@ -67,11 +67,12 @@ Scientific American wrote that the result "won’t upend global banking or make 
 
 **What happens next.** Alpöge says he intends "to understand and impart understanding of this argument", and he expects it to be "massively simplified, likely immediately". His note says he is "presenting the world with a complete argument before having mastered a massive neighbourhood around its mathematics." Tao wrote: "in this case at least we have a human author to communicate with". ([note](https://alpo.ge/remark.pdf), [Tao](https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/))
 
-**Size.** The proof is 17.4 million lines in 175,187 files. Every file is imported by `Main`, and the main theorem's dependency closure is 1,478,198 declarations. Many statements are "parallel or earlier formulations that it never uses". On our map the median file is 13 imports from `Main`, the farthest is 43, and the longest import chain is 203 files. The [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) is a good place to start. ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
+**Size.** The original archive is 17.4 million physical lines in 175,187 files. Every file is imported by `Main`, and the main theorem's dependency closure is 1,478,198 declarations. Many statements are "parallel or earlier formulations that it never uses". On our map the median file is 13 imports from `Main`, the farthest is 43, and the longest import chain is 203 files. The [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) is a good place to start. ([Rubinstein](https://mrubinst.github.io/grh-lean-verification/))
 
 ## See it in the map
 
-- [How the proof is structured](/route/)
+- [Original proof structure](/route/)
+- [Readable path from classical RH to the Dirichlet nonvanishing theorem](/sernau/route/)
 - [The main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/)
 - [Browse every cluster](/list/)
 - [A reading path by level](/learn/)

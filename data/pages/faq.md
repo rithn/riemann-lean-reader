@@ -13,12 +13,12 @@ target_queries:
   - riemann hypothesis cryptography
   - generalized riemann hypothesis proof
 structured_data: FAQPage
-as_of: "24 Nov 2026"
+as_of: "26 Nov 2026"
 ---
 
 # Frequently asked questions about the Lean proof of the Riemann hypothesis
 
-*As of 24 Nov 2026. Each answer links to its source. For dates and the latest checks, see [status](/status/).*
+*As of 26 Nov 2026. Each answer links to its source. For dates and the latest checks, see [status](/status/).*
 
 ### Has the Riemann hypothesis been solved?
 
@@ -64,9 +64,7 @@ Source: [Lean reference manual](https://lean-lang.org/doc/reference/latest/) and
 
 ### How do we know the proof is correct?
 
-Four checks were made. The statement is Mathlib's, which experts vetted. The library compiles, and dozens of people reproduced the same proof export. Two tools confirmed that the theorem proved is exactly Mathlib's statement. Lean's kernel and independent checkers, written in different languages, accepted the exported proof.
-
-Source: [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+For the original archive, experts vetted Mathlib’s statement, the library compiled, multiple people reproduced the same export, and separate tools matched the statement and accepted the proof. Independent checks of Sernau’s readable and compact rewrites matched all five statements, audited their axioms and accepted both proof exports. [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/) · [MIT shorter-edition checks](https://math.mit.edu/~drew/shortgrh/)
 
 ### Is the proof a tautology? (the `True` definitions) {#tautology}
 
@@ -121,17 +119,13 @@ Source: [Sutherland's verification page](https://math.mit.edu/~drew/grh/)
 
 ### How long is the proof?
 
-The submitted archive has 175,187 Lean files and 17,374,215 lines, about 17.4 million, in 1,030,531,854 bytes of source. The accompanying note is four pages. The main theorem's dependency closure is 1,478,198 declarations. For scale, Mathlib is about 2 million lines.
+The original archive has 175,187 Lean files and about 17.4 million physical lines. Sernau’s readable edition has about 477,000 physical lines, of which the release reports about 300,000 code lines. The compact edition has about 113,000 physical lines and about 76,000 code lines. These source totals exclude Mathlib. [Edition comparison](/shorter-riemann-hypothesis-proof/#size) · [Counting methods](/proof-in-numbers/#shorter-editions)
 
-Figures such as "60,790 files" that circulate on X count the community repository after clean-up, not the released archive. That repository's `src/` folder held 60,790 `.lean` files at commit [b4c6e71c](https://github.com/leanprover-community/riemann-hypothesis/commit/b4c6e71c073f053c1b78900a68dcdb07522cdcc7) on 24 Nov 2026 (04:22 UTC); the released archive has 175,187 files and 17,374,215 lines, all reachable from `Main.lean`.
-
-Source: [Verification notes](https://github.com/leanprover-community/riemann-hypothesis/blob/main/verification/NOTES.md) for the files, lines and bytes; [Rubinstein](https://mrubinst.github.io/grh-lean-verification/) for the dependency closure and the size of Mathlib
+RH Shrink tracks the community cleanup of the original. Its figures use an import-excluding code-line rule and describe a separate branch from Sernau’s rewrite. [Community proof-size series](/proof-in-numbers/#community-proof-size)
 
 ### Is there a human-readable version of the proof?
 
-Alpöge released the proof as Lean code with a four-page note. He wrote "I decided to only present Lean" and says he intends to write the argument properly later. Michael Rubinstein's 265-page working draft for the zeta case (version 2, 22 Nov) reduces a key inequality to thirteen hypotheses and identifies inputs from the Lean development.
-
-[Alpöge's note](https://alpo.ge/remark.pdf) · [Rubinstein's guide and version history](https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/)
+Sernau’s readable Lean edition comes with a guide and comments. Its release says a full human read-through and accompanying paper are still outstanding. Alpöge released the original as Lean code with a four-page note, and Michael Rubinstein’s 265-page working draft for the zeta case (version 2, 22 Nov) traces inputs from that original. [Pinned readable guide](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/GUIDE.md) · [Readable source route](/sernau/route/) · [Alpöge’s note](https://alpo.ge/remark.pdf) · [Rubinstein’s guide and versions](https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/)
 
 ### Is there a prize?
 
@@ -165,9 +159,7 @@ Source: [Ravi Vakil's blog](https://math216.wordpress.com/2026/11/20/hurried-ann
 
 ### Can I check the proof myself?
 
-The source is public. A plain build was estimated at roughly 17 hours, and Rubinstein's distributed build took 3 h 18 min on shared university servers. Checking needs roughly 100 GB of RAM and 70 GB of disk. The community repository says its build cache includes outputs from untrusted pull requests and volunteer machines.
-
-Source: [Community repository](https://github.com/leanprover-community/riemann-hypothesis)
+Yes. The compact edition is the smaller project to build. Its authors estimate one to two hours on 12 cores with 24 GB of memory for the build, and a full checker run takes additional time and memory. The original build and the readable edition’s full checker run have their own resource requirements and published logs. [Compact walkthrough](/how-we-know/#verify-compact) · [MIT original checks](https://math.mit.edu/~drew/grh/) · [MIT shorter-edition checks](https://math.mit.edu/~drew/shortgrh/)
 
 ### What happens next?
 

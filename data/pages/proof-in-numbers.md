@@ -1,6 +1,6 @@
 ---
 title: "The Lean proof of the Riemann hypothesis in numbers"
-description: "175,187 Lean files, 17.4 million lines, 2,647 clusters, 43 steps from the main theorem, 203-module longest chain: every figure of the proof, with sources."
+description: "Compare the 17.4-million-line Lean archive with the readable and compact Sernau rewrites. Includes counting methods, map figures and verification results."
 h1: "The proof in numbers"
 path: /proof-in-numbers/
 target_queries:
@@ -9,7 +9,7 @@ target_queries:
   - how long is the riemann hypothesis proof
   - riemann hypothesis lean proof lines of code
   - lean proof structure riemann hypothesis
-as_of: "24 Nov 2026"
+as_of: "26 Nov 2026"
 fold_sections:
   - release-figures
   - full-field-counts
@@ -19,15 +19,27 @@ fold_sections:
 
 # The proof in numbers
 
-The 20 November release contains **175,187 Lean files** and **17.4 million lines**. These figures show its size, how the map groups it and how independent teams checked it.
+The 20 November original archive contains **175,187 Lean files** and **17.4 million physical lines**. The readable and compact rewrites have about **477,000** and **113,000 physical lines** respectively. The original map’s cluster counts describe the archive.
 
 ## Size {#size}
 
 The release mirror is commit [`40e56bab`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005). The map figures reflect its 24 November 2026 data, recomputed from the Lean source.
 
+### Counting the shorter editions {#shorter-editions}
+
+Each physical line counts once, including blank and comment lines. The nonblank figures still include comments. The rewrite’s code-line figures are separately reported in its READMEs. These project-source counts exclude Mathlib. [Original archive counts](#release-figures) · [Readable README](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/README.md#layout) · [Compact README](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md#layout)
+
+| Edition | Physical lines | Nonblank lines including comments | Reported rewrite code lines |
+|---|---:|---:|---:|
+| Original, `40e56bab` | 17,374,215 | 15,531,759 | — |
+| Readable, `72fead10/grh/src` | ≈477,000 | ≈433,000 | ≈300,000 |
+| Compact, `72fead10/grh-compact/src` | ≈113,000 | ≈95,000 | ≈76,000 |
+
+For the physical-line comparison, divide the compact edition’s roughly 113,000 by the original’s 17,374,215. The result is about 0.65%. A code-line comparison across all three requires one counting rule for imports, blank lines and comments applied to every pinned source tree. [Which edition to open](/shorter-riemann-hypothesis-proof/)
+
 ### Community proof size {#community-proof-size}
 
-RH Shrink compares commits on the community repository’s main branch with the 20 November release. It counts Lean source lines under `src/`, excluding blank lines, comment-only lines and import headers.
+RH Shrink follows the community repository’s cleanup of the original archive. That work has its own revisions and counting rule, separate from the Sernau rewrites. The tracker compares commits on the community repository’s main branch with the 20 November release. It counts Lean source lines under `src/`, excluding blank lines, comment-only lines and import headers.
 
 RH Shrink counted **11,074,766 code lines** at [commit `91b27353`](https://github.com/leanprover-community/riemann-hypothesis/commit/91b273530883b723ef4422436e0dc3557749325a) on 25 November 2026 at 16:29 UTC, a **24.3% reduction** from the release’s **14,621,937**. [Commit-by-commit tracker](https://rh-shrink.github.io/) · [Counting code](https://github.com/rh-shrink/rh-shrink.github.io/blob/main/collect.py).
 
@@ -42,7 +54,9 @@ RH Shrink counted **11,074,766 code lines** at [commit `91b27353`](https://githu
 
 The Lean community removes unused files and simplifies the code on the `main` branch of its [Riemann hypothesis repository](https://github.com/leanprover-community/riemann-hypothesis). At [commit 6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) on 24 Nov 2026 at 13:39 UTC, it had 60,156 Lean files, compared with 175,187 in the original release.
 
-## Shape {#shape}
+## Shape of the original map {#shape}
+
+The figures below describe the original archive and the Explorer’s original clusters. The readable map follows source folders. [Sernau readable map](/sernau/)
 
 - **2,647 clusters.** The map groups files by the words in them and by their imports. This is the unit of the map: each cluster has its own page.
 - **63 themes.** A theme groups clusters on one topic, so a reader can browse by subject.
