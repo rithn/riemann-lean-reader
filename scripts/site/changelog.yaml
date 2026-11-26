@@ -1,8 +1,10 @@
 # Changelog for riemannhypothesissolved.com, rendered by build_site.py as /changelog/ and /changelog/feed.xml.
-# One entry per day, newest anywhere (the builder sorts). Dates are the day the change was made (site repo commits, IST).
+# Dates are the release day in IST. Use published_at for the recorded release timestamp and
+# links for the affected dated passage and supporting sources.
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-26
+  published_at: 2026-11-26T04:19:16Z
   title: Shorter Lean proof editions and verification
   items:
     - "Compare Alpöge’s original archive with Sernau’s readable and compact editions, with pinned source links for all five theorems."
@@ -10,13 +12,30 @@
     - "The readable edition has a map of its 29 source groups, a pinned Lean reader and a route from classical RH to Dirichlet nonvanishing."
     - "Status and Timeline record the completed Lean v4.36.0 Comparator run on the original archive’s exports."
     - "Press covers Jenny Lorraine Nielsen’s critique, the responses, and the open gaps in Alessandro Masullo’s separate manuscript."
+  links:
+    - label: Dated shorter-edition checks
+      url: /timeline/#nov-26
+    - label: MIT shorter-edition verification results
+      url: https://math.mit.edu/~drew/shortgrh/
+    - label: Dated original-archive check
+      url: /timeline/#nov-25
 
 - date: 2026-11-25
+  published_at: 2026-11-25T18:24:31Z
   title: The five theorems and the scope of the verification runs
   items:
     - "Status, Core and Proof in Numbers identify the two formulations of classical RH and the three statements about Dirichlet L-functions in Main.lean."
     - "Timeline clarifies the original-archive Comparator build stub and distinguishes the standalone Robin1984 runs from the combined export's arithmetic checks."
     - "Timeline records the G.R.H. Polymath proposal and Clay's website label as captured by 23 November."
+  links:
+    - label: Five theorems in the pinned Main.lean
+      url: https://github.com/leanprover-community/riemann-hypothesis/blob/40e56bab026552e089d7afcfeff08d2defb9c005/src/Main.lean
+    - label: Dated clarification of the Comparator build step
+      url: /timeline/#nov-23
+    - label: Dated standalone and combined arithmetic checks
+      url: /timeline/#nov-24
+    - label: MIT original-archive verification results
+      url: https://math.mit.edu/~drew/grh/
 
 - date: 2026-11-24
   title: Alpöge's posts, reactions and the tautology objection

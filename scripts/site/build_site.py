@@ -2630,7 +2630,9 @@ def keep_going(t):   # the closing links: a '## Keep going' / '## More' section,
 def faq_pairs(t):   # H3 question, then its first paragraph (the visible answer, rendered the same way)
     return [(q, MDIT.renderInline(a.strip()))
             for q, a in re.findall(r'(?m)^### (.+?)(?:\s*\{#[\w-]+\})?\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
-KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {'/', '/learn/', '/route/', '/list/', '/changelog/', '/api/'}
+KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {
+    '/', '/learn/', '/route/', '/list/', '/changelog/', '/changelog/feed.xml', '/api/',
+}
 DRAFTS = [(f, *read_draft(f), crumb, eb, pr) for f, crumb, eb, pr in CONTENT]
 OLD_PATHS = {**TOLD, **COLD}   # a draft linking to a renamed cluster or theme gets its current address
 for i, (f, fm, t, *rest) in enumerate(DRAFTS):
@@ -2890,10 +2892,22 @@ CHANGES = sorted(yaml.safe_load(open(os.path.join(HERE, 'changelog.yaml'))), key
 for e in CHANGES:
     e['anchor'] = f'd-{e["date"]}-{slug(e["title"], 40)}'
 assert len({e['anchor'] for e in CHANGES}) == len(CHANGES), 'changelog: two entries with the same date and title' 
-def rfc822(d):
-    return email.utils.format_datetime(datetime.datetime.combine(datetime.date.fromisoformat(str(d)), datetime.time(12), datetime.timezone.utc))
+def change_date(entry):
+    if 'published_at' in entry:
+        return entry['published_at']
+    date = datetime.date.fromisoformat(str(entry['date']))
+    return datetime.datetime.combine(date, datetime.time(12), datetime.timezone.utc)
 def change_html(e):
-    return f'<ul>{"".join(f"<li>{H(x)}</li>" for x in e["items"])}</ul>'
+    body = f'<ul>{"".join(f"<li>{H(x)}</li>" for x in e["items"])}</ul>'
+    if e.get('links'):
+        links = []
+        for link in e['links']:
+            url = link['url']
+            if url.startswith('/'):
+                url = SITE + url
+            links.append(f'<a href="{H(url)}">{H(link["label"])}</a>')
+        body += '<p>' + ' · '.join(links) + '</p>'
+    return body
 clog = ('<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Changelog</div><div class="eyebrow">Changelog</div>'
         '<h1>What changed on this site</h1><p class="lede">Dated changes to the map, its pages and the proof status it reports. '
         'Follow along with the <a href="/changelog/feed.xml">RSS feed</a> or <a href="' + X_SITE + '">@RiemannMap on X</a>.</p>'
@@ -2906,9 +2920,10 @@ open(os.path.join(OUT, 'changelog', 'feed.xml'), 'w').write(
     f'<title>{SITE_NAME} changelog</title><link>{SITE}/changelog/</link>\n'
     '<description>Dated changes to the map of the Lean proof of the Riemann hypothesis.</description><language>en</language>\n'
     f'<atom:link href="{SITE}/changelog/feed.xml" rel="self" type="application/rss+xml"/>\n'
-    f'<lastBuildDate>{rfc822(CHANGES[0]["date"])}</lastBuildDate>\n'
+    f'<lastBuildDate>{email.utils.format_datetime(max(map(change_date, CHANGES)))}</lastBuildDate>\n'
     + ''.join(f'<item><title>{H(e["title"])}</title><link>{SITE}/changelog/#{e["anchor"]}</link>'
-              f'<guid isPermaLink="false">rh-lean-explorer-changelog-{e["anchor"]}</guid><pubDate>{rfc822(e["date"])}</pubDate>'
+              f'<guid isPermaLink="false">rh-lean-explorer-changelog-{e["anchor"]}</guid>'
+              f'<pubDate>{email.utils.format_datetime(change_date(e))}</pubDate>'
               f'<description>{H(change_html(e))}</description></item>\n' for e in CHANGES)
     + '</channel></rss>\n')
 
