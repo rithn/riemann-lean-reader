@@ -10,6 +10,7 @@ Simplifications (see research/lean-reader/xref/report.md for what they cost):
 - Auxiliary `where` definitions, unnamed instances, `macro`/`notation` output and `export` are not indexed.
 """
 import re
+import unicodedata
 
 # Lean 4 identifier characters (Lean's isLetterLike + isSubScriptAlnum, ASCII letters, _ ' ! ?)
 _START = (r"A-Za-z_α-κμ-ωΑ-ΟΡΣ-Ωϊ-ϻ"
@@ -27,7 +28,7 @@ DECL_KINDS = {'theorem', 'lemma', 'def', 'abbrev', 'instance', 'structure', 'cla
 
 _STR = re.compile(r'"(?:\\.|[^"\\])*"')
 _LINECOM = re.compile(r'--[^\n]*')
-_SOURCE_TOKEN = re.compile(r'/-|--|"|«|(?<![\w\'])\'(?:\\.|[^\'\\\n])\'')
+_SOURCE_TOKEN = re.compile(r'/-|--|(?<![\w\'!?])r(?P<hashes>#+)"|"|«|(?<![\w\'])\'(?:\\.|[^\'\\\n])\'')
 _BLOCK_TOKEN = re.compile(r'/-|-/')
 _IMPORT_HEADER = re.compile(r'^(?:(?:public|private|meta)\s+)*import\s+(\S.*)$')
 _SOURCE_ATOM = rf"(?:[^\W\d][\w'!?]*|{ATOM})"
@@ -56,6 +57,10 @@ def mask_noncode(text, *, quoted_names=False):
         elif kind == '--':
             newline = text.find('\n', end)
             end = len(text) if newline < 0 else newline
+        elif hashes := token['hashes']:
+            marker = '"' + hashes
+            closing = text.find(marker, end)
+            end = len(text) if closing < 0 else closing + len(marker)
         elif kind == '"':
             string = _STR.match(text, start)
             end = string.end() if string else len(text)
@@ -69,6 +74,10 @@ def mask_noncode(text, *, quoted_names=False):
         chunks.append(re.sub(r'[^\n\r]', ' ', text[start:end]))
         cursor = end
     return ''.join((*chunks, text[cursor:]))
+
+
+def _source_name_char(char):
+    return bool(char and (IDCHAR.match(char) or char.isalnum() or unicodedata.category(char).startswith('M')))
 
 
 def statement_boundary(lines, start, end, kind):
@@ -87,7 +96,7 @@ def statement_boundary(lines, start, end, kind):
                     return line, column
                 if text.startswith('where', column):
                     after = text[column + 5:column + 6]
-                    if not IDCHAR.match(before) and not IDCHAR.match(after):
+                    if not _source_name_char(before) and not _source_name_char(after):
                         return line, column
     return None
 
