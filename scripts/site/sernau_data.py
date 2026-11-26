@@ -416,6 +416,7 @@ def build_sernau_data(out: Path):
     groups = {record["id"]: record for record in group_inputs}
     require(len(groups) == len(group_inputs) == len({group["slug"] for group in group_inputs}),
             "duplicate group IDs or slugs")
+    map_labels = {name: group.pop("mapLabel") for name, group in groups.items()}
 
     digest = hashlib.sha256()
     input_files = ("edition.json", "groups.json", "modules.tsv", "theorems.json")
@@ -425,6 +426,7 @@ def build_sernau_data(out: Path):
     base = f"/data/sernau/{build_id}/"
     edition.update(
         buildId=build_id, manifestUrl="/data/sernau/manifest.json", overviewUrl=base + "overview.json",
+        fileGraphUrl=base + "file-graph.json",
         modulesUrl=base + "modules.json", groupsBaseUrl=base + "groups/",
         rawBaseUrl=f"/src/sernau/{edition['revision']}/", apiUrl="/api/sernau/index.json",
     )
@@ -475,6 +477,16 @@ def build_sernau_data(out: Path):
     }
     json_output(out, edition["manifestUrl"], edition)
     json_output(out, edition["overviewUrl"], overview)
+    module_ids = {name: index for index, name in enumerate(modules)}
+    json_output(out, edition["fileGraphUrl"], {
+        "edition": {key: edition[key] for key in ("id", "revision", "buildId")},
+        "groupLabels": map_labels,
+        "files": [[name, module["label"], module["depth"]] for name, module in modules.items()],
+        "imports": [
+            [module_ids[edge["from"]], module_ids[edge["to"]], edge["line"]]
+            for module in modules.values() for edge in module["imports"]
+        ],
+    })
     json_output(out, edition["modulesUrl"], module_index)
     json_output(out, edition["apiUrl"], {
         "edition": edition,

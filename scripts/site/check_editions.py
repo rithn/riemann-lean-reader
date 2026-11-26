@@ -204,6 +204,17 @@ def check(site, baseline=None):
     assert covered.keys() == modules.keys()
     assert len(graph['edges']) == edition['totals']['groupEdges'] == 189
     assert sum(len(module['imports']) for module in covered.values()) == edition['totals']['moduleEdges']
+    file_graph = read_json(edition['fileGraphUrl'])
+    assert file_graph['edition'] == {key: edition[key] for key in ('id', 'revision', 'buildId')}
+    assert file_graph['groupLabels'].keys() == {group['id'] for group in graph['groups']}
+    names = [name for name, _, _ in file_graph['files']]
+    assert len(names) == len(modules) and set(names) == modules.keys()
+    assert all([label, depth] == [modules[name]['label'], modules[name]['depth']]
+               for name, label, depth in file_graph['files'])
+    imports = [(names[source], names[target], line) for source, target, line in file_graph['imports']]
+    assert len(imports) == len(set(imports)) == 1733
+    assert set(imports) == {(edge['from'], edge['to'], edge['line'])
+                            for module in covered.values() for edge in module['imports']}
     for edge in graph['edges']:
         assert edge['evidence'], edge
         for reference in edge['evidence']:

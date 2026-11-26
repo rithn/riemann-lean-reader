@@ -61,7 +61,7 @@ def overview_content(data, *, home=False):
     theorem = next(t for t in data["theorems"] if t["name"] == "riemannHypothesis")
     stats = "".join(
         f'<div><dt>{label}</dt> <dd>{number(total[key])}</dd></div>'
-        for label, key in (("Source groups", "groups"), ("Lean files", "modules"), ("Group imports", "groupEdges"))
+        for label, key in (("Source groups", "groups"), ("Lean files", "modules"), ("File imports", "moduleEdges"))
     )
     title = 'The <em>Lean</em> proof of the Riemann hypothesis, mapped' if home else 'Sernau’s <em>readable</em> Lean proof'
     introduction = (
@@ -97,7 +97,8 @@ def overview_content(data, *, home=False):
   <section class="glance" aria-label="The readable proof at a glance"><dl>{stats}</dl></section>
   <div class="dk">{actions}</div>
   <h2>Read the graph</h2>
-  <p>Each point represents a source group. An arrow goes from a group that imports a file to the group containing that file. Select a group to see the imports and their source lines.</p>
+  <p>Each dot is a Lean file. Select a dot to see its direct imports, or select a group label to see its files and connections. An arrow points from the importing file to the file it imports.</p>
+  <p class="meta">Zoom in for file labels. With a keyboard, Tab to a group, then use the arrow keys to move between its files and Enter to select.</p>
   <p>The readable release contains {number(total["physicalLines"])} physical lines under <code>grh/src/</code>. The pinned README gives its code-line estimate.</p>
   <p class="meta">Andrew Sutherland’s paranoid Comparator run passed on 26 November 2026 at 02:47:54 UTC. {link(MIT, "Independent verification record")}.</p>
   <h2>Explore the proof</h2>
@@ -117,7 +118,7 @@ def map_filters(data):
   <label>Colour <select id="colour" aria-controls="map-graph"><option value="tree">Source tree</option><option value="depth">Group distance</option></select></label>
 </div>
 <p id="map-count" role="status"></p>
-<div id="map-legend" aria-label="Group colours"></div>"""
+<div id="map-legend" aria-label="File colours"></div>"""
 
 
 def source_provenance(edition):
@@ -284,6 +285,7 @@ def reader_content(data):
     <a class="sr-primary" id="file-raw">Raw source</a><a class="vbtn" id="file-github">View on GitHub</a>
     <button class="vbtn" type="button" data-share>Share source</button>
     <button type="button" class="vbtn sr-outline-link" id="reader-outline-link">Outline</button>
+    <a id="file-locate" href="{MAP}">Locate on map</a>
     <a id="file-close" href="{MAP}">Return to map</a>
   </div>
   <p id="reader-status" class="sr-muted" role="status"></p>

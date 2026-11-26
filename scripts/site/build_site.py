@@ -1815,6 +1815,8 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
         attributes.update({'data-' + key: sernau_edition[field] for key, field in
                            [('revision', 'revision'), ('overview', 'overviewUrl'),
                             ('modules', 'modulesUrl'), ('groups', 'groupsBaseUrl')]})
+        if view == 'map':
+            attributes['data-file-graph'] = sernau_edition['fileGraphUrl']
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
     status = READABLE_STATUS if readable else ORIGINAL_STATUS
     status_html = (f'<a class="status-chip ok" href="{H(status["href"])}" title="{H(status["title"])}" aria-label="{H(status["label"])}">'
@@ -1844,10 +1846,12 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
     entry = EXPLORER_CONFIG[engine]
     if view == 'map' and path != '/':
         page_head += f'<link rel="preload" as="fetch" href="{H(entry["overview"])}" crossorigin="anonymous">\n'
+        if readable:
+            page_head += f'<link rel="preload" as="fetch" href="{H(sernau_edition["fileGraphUrl"])}" crossorigin="anonymous">\n'
         for key in ('dependency', 'map', 'src'):
             if key in entry:
                 page_head += f'<link rel="preload" as="script" href="{H(entry[key])}">\n'
-    viewport = ('<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable source groups"></svg>'
+    viewport = ('<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
                 if readable else '<canvas id="sky" aria-label="Map of clusters"></canvas>')
     t = fill_slots(
         TPL, title=H(title, quote=False), description=HA(desc), head=page_head, styles=styles,
