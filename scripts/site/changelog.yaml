@@ -4,6 +4,7 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-26
+  published_at: 2026-11-26T13:04:21Z
   title: Reading Sernau’s readable Lean edition
   items:
     - "Guides now points readers from the five theorem statements to the nonvanishing result and the main inequality in the pinned readable edition. It also links the upstream file contents, glossary and results index."
