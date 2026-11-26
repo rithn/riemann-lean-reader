@@ -21,7 +21,7 @@ On 25 November 2026, Luke Sernau published two shorter Lean reworkings of the pr
 
 - **Read the argument.** Start with the readable edition (`grh/`). The guide gives a reading order, and the Explorer’s source route follows the classical RH theorem to the result it uses. [Pinned reading guide](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/GUIDE.md) · [Follow the Lean source](/sernau/route/) · [Readable map](/sernau/)
 - **Build and check the smaller project.** Start with the compact edition (`grh-compact/`). Its proofs are written for brevity. [Pinned compact project](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact) · [Build and verification steps](/how-we-know/#verify-compact)
-- **Trace the first release.** Use the original archive for Alpöge’s 20 November submission and the Explorer’s original cluster references. [Original map](/) · [Pinned original mirror](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005) · [MIT original verification](https://math.mit.edu/~drew/grh/)
+- **Trace the first release.** Use the original archive for Alpöge’s 20 November submission and the Explorer’s original cluster references. [Original map](/alpoge/) · [Pinned original mirror](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005) · [MIT original verification](https://math.mit.edu/~drew/grh/)
 
 ## How much shorter is it? {#size}
 

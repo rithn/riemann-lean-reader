@@ -13,7 +13,7 @@ as_of: "23 Nov 2026"
 
 *As of 26 Nov 2026.*
 
-**RH Lean Explorer maps imports in two Lean editions of the Riemann hypothesis proof.** The original map covers the 20 November Alpöge–Claude archive. The readable map follows the source folders in Luke Sernau’s 25 November rewrite. [Original map](/) · [Readable map](/sernau/) · [Verification status](/status/)
+**RH Lean Explorer maps imports in two Lean editions of the Riemann hypothesis proof.** The original map covers the 20 November Alpöge–Claude archive. The readable map follows the source folders in Luke Sernau’s 25 November rewrite. [Original map](/alpoge/) · [Readable map](/sernau/) · [Verification status](/status/)
 
 ## Alpöge original {#alpoge-original}
 
