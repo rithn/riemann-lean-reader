@@ -2587,7 +2587,8 @@ def gentry_html(g):
     meta = ' · '.join(x for x in (gposted(g), H(gversion(g)), f'Licence: {H(g["licence"])}' if g['licence'] else '') if x)
     tail = ' · '.join(f'<a href="{H(url)}">{H(title)}</a>' if url else H(title) for title, url in ghub_tail(g))
     anchor = f' id="{H(g["id"])}"' if 'edition' in g else ''
-    aliases = ''.join(f'<span id="{H(alias)}"></span>' for alias in g.get('aliases', []))
+    # Match the card's fragment offset so its title clears the fixed header.
+    aliases = ''.join(f'<span id="{H(alias)}" style="scroll-margin-top:84px"></span>' for alias in g.get('aliases', []))
     detail = g.get('detail')
     return (f'<li class="gentry"{anchor}>{gav(g, 48)}<div class="gbody">{aliases}<p class="gauth">{gauthor(g)}</p>'
             f'<a class="gtitle" href="{H(g["url"])}">{H(g["title"])}</a><p class="gmeta">{meta}</p>'
