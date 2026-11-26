@@ -1380,6 +1380,7 @@ SERNAU_MAP_F, _ = version_asset('explorer-sernau-map.js')
 LEAN_READER_F = version_asset('lean-reader.js')[0] if (Path(OUT) / 'lean-reader.js').exists() else None
 
 # Sibling producers run against the staged output.
+from explorer_views import GUIDE_PRESENTATION, RESULT_ROW, breadcrumbs, guide_presentation, map_overview, route_intro, stats_row
 from sernau_data import build_sernau_data
 from sernau_pages import (build_sernau_pages, map_filters,
                           overview_content as readable_overview, readable_card, source_provenance)
@@ -1644,6 +1645,9 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
     if readable and view == 'reader':
         entry.update({key: sernau_edition[key] for key in ('repository', 'revision', 'sourceRoot')})
     scripts = json_script('explorer-config', config)
+    scripts += '\n' + json_script('result-row', RESULT_ROW)
+    if engine == 'alpoge':
+        scripts += '\n' + json_script('guide-presentation', GUIDE_PRESENTATION)
     if view == 'reader':
         scripts += '\n' + json_script('edition-theorems', sernau_data['theorems'])
     if view == 'map' and path != '/':
@@ -1928,7 +1932,7 @@ for t, th in TH.items():
     cs = sorted(th['clusters'], key=lambda k: (dist.get(k, 99), -fcount[k]))
     desc = meta_desc(f"{tn.get('blurb') or ''} {len(cs)} clusters of Lean files in the Lean proof of the Riemann hypothesis.")
     rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
-    body = (f'<div class="crumbs"><a href="/alpoge/">Alpöge original</a><span class="sep">/</span>Theme</div>'
+    body = (breadcrumbs([('Alpöge original', ALPOGE_MAP), ('Theme', '')]) +
             f'<div class="eyebrow">Alpöge original · Theme</div>'
             f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>' + share_btn(TPATH[t], TNAME[t])
             + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
@@ -1970,13 +1974,14 @@ def gav(g, px=48):   # the author's photo (alt: the name), or an initials badge;
     if src and src2:
         a1, a2 = (str(g['name'] or '').split(' and ', 1) + [''])[:2]
         q = max(16, px * 2 // 3)
-        return (f'<span class="gav2" style="--lg:{q}px"><img class="gav logo" src="{src}" width="{q}" height="{q}" alt="{H(a1.strip())} logo" loading="lazy" decoding="async">'
-                f'<img class="gav logo" src="{src2}" width="{q}" height="{q}" alt="{H(a2.strip())} logo" loading="lazy" decoding="async"></span>')
+        logos = ''.join(guide_presentation('logo', src=H(url), alt=H(author.strip()), size=q) for url, author in ((src, a1), (src2, a2)))
+        return guide_presentation('logos', size=q, content=logos)
     if src:
-        return f'<img class="gav" src="{src}" width="{px}" height="{px}" alt="{H(g["name"] or "")}" loading="lazy" decoding="async">'
-    hue = int(hashlib.sha256(g['id'].encode()).hexdigest()[:4], 16) % 360
-    return (f'<span class="gav ini" style="--gh:{hue};--gs:{px}px" role="img" aria-label="{H(g["name"] or "No author named")}">'
-            f'{H(g["initials"])}</span>')
+        return guide_presentation('portrait', src=H(src), alt=H(g['name'] or ''), size=px)
+    hue = 7
+    for c in g['id']:
+        hue = (hue * 31 + ord(c)) % 360
+    return guide_presentation('initials', hue=hue, size=px, alt=H(g['name'] or 'No author named'), initials=H(g['initials']))
 def gauthor(g, link=True):
     if not g['name']:
         return 'No author named on the page'
@@ -2050,7 +2055,7 @@ def gbox_html(k):   # the cluster page's list: each guide (photo, author, title 
         g = G_MAP[x['i']]
         more = (f', <a href="{GPATH[g["slug"]]}#nodes">{x["m"]} more</a>' if x.get('m') and g['slug'] in GPATH else f' and {x["m"]} more' if x.get('m') else '')
         refs = grefs_html(g, x['p'], x.get('n', []), more)
-        li.append(f'<li><a href="{H(GPATH.get(g["slug"], g["url"]))}">{gav(g, 24)}<span class="t">{gauthor(g, False)}<small>{H(g["title"])}</small></span></a>'
+        li.append('<li>' + guide_presentation('byline', href=H(GPATH.get(g['slug'], g['url'])), avatar=gav(g, 24), author=gauthor(g, False), title=H(g['title']))
                   + (f'<p class="gpages">{gai_tag(g)}</p>' if g['ai'] else '') + (f'<p class="gpages">{refs}</p>' if refs else '') + '</li>')
     return f'<h2 id="guides">{G_BOX_T}</h2><ul class="rows glist">{"".join(li)}</ul><p class="meta"><a href="/guides/">All guides</a></p>'
 def gcite_item(w):   # one guide-cited work: the citation (linked by DOI or arXiv), then "cited on Jaswal, p. 12, …"
@@ -2058,7 +2063,7 @@ def gcite_item(w):   # one guide-cited work: the citation (linked by DOI or arXi
     on = [f'<a href="{H(u)}">{H(G_BY_ID[gi]["cite_as"])}, {H(l)}</a>' if u else f'{H(G_BY_ID[gi]["cite_as"])}, {H(l)}'
           for gi, l, u in w['on'][:GC_PMAX]]
     more = len(w['on']) - GC_PMAX
-    return f'<div class="ref gc">{cit}<small>cited on {", ".join(on)}{f" and {more} more" if more > 0 else ""}</small></div>'
+    return guide_presentation('citation', citation=cit, pages=', '.join(on) + (f' and {more} more' if more > 0 else ''))
 def gcite_html(k):   # N3 tier 1: the subsection at the end of References
     ws = GCITE.get(k)
     if not ws:
@@ -2098,8 +2103,8 @@ for k, p in CPATH.items():
                          clink(x) for i, x in enumerate(up))
                + f'</ol><p class="meta">Each step is an import.' + (f' This is 1 of {"99+" if nr > 99 else nr} shortest routes.' if nr > 1 else '') + '</p>')
     on_route = set(up)
-    body = (f'<div class="crumbs"><a href="/alpoge/">Alpöge original</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
-            f'<span class="sep">/</span>{k}</div><div class="eyebrow">Alpöge original · Cluster {k}</div><h1>{H(title)}</h1>'
+    body = (breadcrumbs([('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (k, '')]) +
+            f'<div class="eyebrow">Alpöge original · Cluster {k}</div><h1>{H(title)}</h1>'
             f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + share_btn(p, title)
             + f'<p>{H(n.get("plain") or "")}</p>' + fl_link(k) + f'{route}<p class="meta">{H(feeds_txt(k))}</p>'
             + with_report(STATUS_CK if k in CHECKED else STATUS, k) + (checked_html(k) if k in CHECKED else '') + why
@@ -2163,8 +2168,8 @@ def _fl_pages():   # a function, so that its names do not leak into the build's 
                 pnav = ('<nav class="lparts" aria-label="Parts of this page">' + ' '.join(
                     (f'<span aria-current="page">Part {j + 1}</span>' if j == i else f'<a href="{fl_ppath(k, j)}">Part {j + 1}</a>')
                     for j in range(np_)) + f'<span class="meta">{rng}</span></nav>')
-            crumbs = (f'<div class="crumbs"><a href="/alpoge/">Alpöge original</a><span class="sep">/</span><a href="{TPATH[th]}">{H(TNAME[th])}</a>'
-                      f'<span class="sep">/</span><a href="{cp}">{k}</a><span class="sep">/</span>Lean files' + (f' (part {i + 1})' if i else '') + '</div>')
+            crumbs = breadcrumbs([('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (k, cp),
+                                  ('Lean files' + (f' (part {i + 1})' if i else ''), '')])
             body = (crumbs + f'<div class="eyebrow">Alpöge original · Cluster {k} · Lean files in plain English</div>'
                     f'<h1>{H(title)}: its Lean files in plain English</h1>' + share_btn(path, ptitle)
                     + f'<p class="lede lhow">{H(FL_HOW)}</p>'
@@ -2201,24 +2206,41 @@ STATUS_FACTS = [
 ]
 STATUS_VERIFICATION_AS_OF = STATUS_FACTS[-1]['date']
 
-# ---------- learning path: the hand-built outline as nested lists (keep the H1 in step with learn() in app.js)
-def tli(i, seen):
+# ---------- learning path: one disclosure tree for static and interactive navigation
+def tli(i, seen, depth=0):
     n = TT.get(i)
-    if not n or i in seen:
+    if not n:
         return ''
+    title = H(n['title'])
+    kind = f'<span class="kind {H(n["kind"])}">{H(n["kind"])}</span>'
+    if i in seen:
+        return f'<li class="learning-repeat"><a href="#{H(i)}">{kind} {title}</a></li>'
     seen.add(i)
-    on_map = ''.join(f' <a href="{CPATH[k]}">{H(NAMES[k]["title"] if k in NAMES else folder_label(CL[k]["folders"]))}</a>' for k in n['clusters'])
-    kids = ''.join(tli(k, seen) for k in n['needs'])
-    return (f'<li id="{H(i)}"><b>{H(n["title"])}</b> <small>{H(n["kind"])}</small><p>{H(n["plain"])}</p>'
-            + (f'<p class="meta">On the map:{on_map}</p>' if on_map else '') + (f'<ul>{kids}</ul>' if kids else '') + '</li>')
+    on_map = ', '.join(f'<a href="{CPATH[k]}">{H(ctitle(k))}</a>' for k in n['clusters'])
+    guidance = ' · '.join(H(r['title'] + (f' ({r["where"]})' if r.get('where') else '')) for r in n['learn'])
+    status = f' <small class="meta">{H(n["status"])}</small>' if n['status'] else ''
+    kids = ''.join(tli(k, seen, depth + 1) for k in n['needs'])
+    return (f'<li><details class="learning-node" id="{H(i)}"{" open" if depth == 0 else ""}>'
+            f'<summary>{kind} <strong>{title}</strong>{status}</summary><div class="learning-body"><p>{H(n["plain"])}</p>'
+            + (f'<p class="meta">Suggested reading: {guidance}</p>' if guidance else '')
+            + (f'<p class="meta">On the map: {on_map}</p>' if on_map else '')
+            + f'<p class="meta"><a href="/concept/{H(i)}">Open page →</a></p></div>'
+            + (f'<ul>{kids}</ul>' if kids else '') + '</details></li>')
 seen = set()
+learning_tree = ''.join(tli(r, seen) for r in core['roots'])
+more_concepts = sorted((n for n in TT.values() if n['kind'] == 'concept' and n['id'] not in seen),
+                       key=lambda n: -len(used_concepts[n['id']]))
 LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through its main steps '
            'down to background maths, linked to the code.')
-learn = ('<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Learning path</div><div class="eyebrow">Learning path</div>'
+learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyebrow">Learning path</div>'
          '<h1>The Riemann hypothesis proof, step by step</h1><p class="lede">From the Riemann hypothesis down to school maths: '
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
-         f'<ul class="tree">{"".join(tli(r, seen) for r in core["roots"])}</ul>'
+         f'<ul class="learning-tree">{learning_tree}</ul>'
+         f'<h2>More background concepts <span class="n">{len(more_concepts)}</span></h2><ul class="rows">'
+         + ''.join(f'<li><a href="/concept/{H(n["id"])}"><span class="kind concept">concept</span>'
+                   f'<span class="t">{H(n["title"])}</span><span class="end">{len(used_concepts[n["id"]])} clusters</span></a></li>'
+                   for n in more_concepts) + '</ul>'
          f'<p><a href="/sernau/route/">Follow the theorem in Sernau’s readable edition</a></p><p class="meta">See also: <a href="/status/">how the proof was checked</a> · <a href="/core/">the core of the proof</a> · <a href="{MAIN}">the main theorem on the map</a></p>')
 assert seen == ON_LEARN, 'learn_href() and the /learn/ page disagree on which entries the page draws'
 page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
@@ -2230,28 +2252,33 @@ DEPTHS = collections.Counter(dist.values())
 def _plural(n, w):
     return f'{n:,} {w}{"" if n == 1 else "s"}'
 DEPTH_KS = {d: sorted((k for k in CL if dist.get(k) == d), key=lambda k: -fcount[k]) for d in (1, 2)}
-# the app draws this page as rings (routeView() in app.js); this static copy is its text equivalent: depth counts as a
-# list, the first two steps as nested links (depth-2 clusters under the depth-1 cluster that imports them, as in par)
-route_body = ('<div class="crumbs"><a href="/alpoge/">Alpöge map</a><span class="sep">/</span>Route</div><div class="eyebrow">Alpöge original · Route</div>'
-              f'<h1>{H(ROUTE_T)}</h1>'
-              f'<p class="lede">The Lean proof of the Riemann hypothesis is a library of {FILES_TXT}, grouped on this map into '
-              f'{len(CL):,} clusters. A cluster\'s depth is the number of import steps from the main theorem\'s cluster to it.</p>'
-              f'{STATUS}'
-              '<h2>Clusters by depth</h2><p>Rings around the main theorem, from the centre out:</p><ul>'
-              + ''.join(f'<li><a href="/list/?depth={d}">{"Depth 0 (the main theorem)" if d == 0 else "Depth " + str(d)}</a>: {_plural(DEPTHS[d], "cluster")}</li>' for d in sorted(DEPTHS))
-              + (f'<li>Not reached from the main theorem: {_plural(len(CL) - len(dist), "cluster")}</li>' if len(dist) < len(CL) else '') + '</ul>'
-              '<h2>The first two steps</h2><ul class="rows">'
-              f'<li><a href="{CPATH[main]}"><span class="t">★ Main theorem: {H(ctitle(main))}</span></a><ul>'
-              + ''.join(f'<li><a href="{CPATH[k]}">{H(ctitle(k))}</a> <small>depth 1</small>'
-                        + (('<ul>' + ''.join(f'<li><a href="{CPATH[j]}">{H(ctitle(j))}</a> <small>depth 2</small></li>' for j in DEPTH_KS[2] if par.get(j) == k) + '</ul>')
-                           if any(par.get(j) == k for j in DEPTH_KS[2]) else '') + '</li>' for k in DEPTH_KS[1])
-              + '</ul></li></ul>'
-              '<h2>File by file</h2><ul>'
-              f'<li>{FSTATS["reached"]:,} Lean files, all reached from <code>Main</code> by imports</li>'
-              f'<li>Median {FSTATS["median"]} imports from <code>Main</code>; farthest {FSTATS["max"]}</li>'
-              f'<li>Longest import chain: {FSTATS["chain"]} files</li></ul>'
-              '<p class="meta">Distances are shortest import chains; the cluster graph has loops, the file graph does not.</p>'
-              f'<p><a href="/alpoge/">Open the Alpöge map</a> · <a href="{MAIN}">start at the main theorem</a> · <a href="/list/">every cluster as a list, by distance</a></p>')
+# The enhanced route mounts its rings over one text-backed document.
+def route_node(k, marker):
+    theme = CL[k]['theme']
+    color = fcol(FIELDS[FIDX[TFIELD[theme]]])
+    return (f'<a class="rnode {marker}" href="{CPATH[k]}" data-k="{k}">'
+            f'<span class="dot" style="color:{color}"></span><span>{H(ctitle(k))}</span></a>')
+
+def route_branch(k):
+    children = [route_node(j, 'd2') for j in DEPTH_KS[2] if par.get(j) == k]
+    return '<li>' + route_node(k, 'd1') + ('<ul>' + ''.join(f'<li>{x}</li>' for x in children) + '</ul>' if children else '') + '</li>'
+
+route_body = ('<div id="original-route">' + route_intro(
+    'Alpöge original', 'Route', 'The route to the main theorem',
+    'The main theorem ★ sits at the centre. Each ring holds the clusters that many import steps away, and its width shows how many there are. Hover or tap a ring to count it, and activate it to list those clusters.')
+    + f'{STATUS}<div data-route-graphic></div><div data-route-fallback>'
+    '<h2>Clusters by depth</h2><p>Rings around the main theorem, from the centre out:</p><ul>'
+    + ''.join(f'<li><a href="/list/?depth={d}">{"Depth 0 (the main theorem)" if d == 0 else "Depth " + str(d)}</a>: {_plural(DEPTHS[d], "cluster")}</li>' for d in sorted(DEPTHS))
+    + (f'<li>Not reached from the main theorem: {_plural(len(CL) - len(dist), "cluster")}</li>' if len(dist) < len(CL) else '') + '</ul></div>'
+    '<h2>The first two steps</h2><div class="rtree">'
+    f'<a class="rroot" href="{CPATH[main]}" data-k="{main}"><span class="star" aria-hidden="true">★</span>'
+    f'<span>Main theorem<small>{H(ctitle(main))}</small></span></a><ul class="rcols">'
+    + ''.join(route_branch(k) for k in DEPTH_KS[1]) + '</ul></div>'
+    '<h2>File by file</h2><dl class="rstats stat-row">'
+    + stats_row([('files', f'{FSTATS["reached"]:,}'), ('median imports from Main', FSTATS['median']),
+                 ('farthest', FSTATS['max']), ('longest import chain (files)', FSTATS['chain'])])
+    + '</dl><p class="meta">Distances are shortest import chains. The cluster graph has loops, while the file graph has none.</p>'
+    + f'<p><a href="/alpoge/">Open the Alpöge map</a> · <a href="{MAIN}">start at the main theorem</a> · <a href="/list/">every cluster as a list, by distance</a></p></div>')
 ROUTE_D = meta_desc(f'How the Lean proof of the Riemann hypothesis is structured, by import steps from the main theorem: {len(CL):,} clusters '
                f'holding {len(mod_cl):,} of its {TOTAL_FILES:,} Lean files. The deepest cluster is {max(DEPTHS)} steps down; the longest import chain is {FSTATS["chain"]} files.')
 page('/route/', ROUTE_TITLE, ROUTE_D, 'route', route_body,
@@ -2438,11 +2465,11 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             assert html_body.count(a_) == 1 and t.count(f'[Cluster page]({CPATH[k]})') == 1, f'core.md: no single "Cluster page" link for {k}'
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
-    breadcrumbs = f'<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>{H(crumb)}</div>'
+    trail = breadcrumbs([('Home', '/'), (crumb, '')])
     if folded := fm.get('fold_sections'):
-        body = f'{breadcrumbs}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
+        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
     else:
-        body = f'{breadcrumbs}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
+        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
     rel = RELATED.get(path, [])
     assert all(u in KNOWN_PATHS for u, _ in rel)
     if rel:
@@ -2518,7 +2545,7 @@ ARTICLES.add(gpath)
 ghtml = re.sub(r'^<p><em>', '<p class="meta asof"><em>', md_html(gt).replace('<p>{{guides}}</p>', G_HTML), count=1)
 assert G_HTML in ghtml
 page(gpath, gfm['title'], gfm['description'], 'page',
-     f'<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Guides</div><div class="eyebrow">Guides and explainers</div>'
+     breadcrumbs([('Home', '/'), ('Guides', '')]) + '<div class="eyebrow">Guides and explainers</div>'
      f'<h1>{H(gh1)}</h1>{ghtml}',
      [article_ld(gpath, gh1, gfm['description'], str(gfm.get('published', '2026-11-23'))), crumbs_ld(('Home', '/'), ('Guides', gpath)), ORG], .6, fm=True,
      md=md_abs(f'# {gh1}\n\n' + re.sub(r'(?m)^\{\{guides\}\}\n?', lambda m: G_MD, gt).rstrip() + '\n'))
@@ -2617,7 +2644,7 @@ for g in GD:
     psrcs = [x for x in (g['photo_source'], g['photo_source_also'] if g['ph96b'] else None) if x]
     photo_credit = (f'<p class="meta gcredit">{"Logos" if len(psrcs) > 1 else "Photo"}: '
                     + ', '.join(f'<a href="{H(x)}">{H(_host(x))}</a>' for x in psrcs) + '</p>' if g['ph96'] and psrcs else '')
-    body = (f'<div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/guides/">Guides</a><span class="sep">/</span>{H(name)}</div>'
+    body = (breadcrumbs([('Home', '/'), ('Guides', '/guides/'), (name, '')]) +
             f'<div class="eyebrow">Guide · Alpöge original proof</div>'
             f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
             f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
@@ -2674,7 +2701,7 @@ def rfc822(d):
     return email.utils.format_datetime(datetime.datetime.combine(datetime.date.fromisoformat(str(d)), datetime.time(12), datetime.timezone.utc))
 def change_html(e):
     return f'<ul>{"".join(f"<li>{H(x)}</li>" for x in e["items"])}</ul>'
-clog = ('<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>Changelog</div><div class="eyebrow">Changelog</div>'
+clog = (breadcrumbs([('Home', '/'), ('Changelog', '')]) + '<div class="eyebrow">Changelog</div>'
         '<h1>What changed on this site</h1><p class="lede">Dated changes to the map, its pages and the proof status it reports. '
         'Follow along with the <a href="/changelog/feed.xml">RSS feed</a> or <a href="' + X_SITE + '">@RiemannMap on X</a>.</p>'
         + ''.join(f'<h2 id="{e["anchor"]}">{H(e["title"])} <small>{datetime.date.fromisoformat(str(e["date"])).strftime("%-d %b %Y")}</small></h2>'
@@ -2698,26 +2725,44 @@ HOME_LONG = ('The RH Lean Explorer opens on Luke Sernau’s readable rewrite of 
              'Switch to the Alpöge map to explore the original Lean archive.')
 ORIGINAL_DESC = f'The original Lean proof of the Riemann hypothesis, mapped in {len(CL):,} clusters and {len(TH)} themes.'
 original_main = next(t['editions']['original'] for t in sernau_data['theorems'] if t['name'] == 'riemannHypothesis')
-original_map = (
-    '<!--phone-overview--><div class="mpeek"><h1 class="hero">Alpöge’s <em>original</em> Lean proof</h1>'
-    f'<div class="cta"><a class="btn primary" href="{MAIN}">Start at the main theorem <span class="arr">→</span></a>'
-    '<a class="btn" href="/route/">How it’s built</a></div>'
-    f'<a class="mstatus" href="/status/"><i></i>Lean proof {ST_CHIP} <span>· how it was checked ›</span></a>'
-    '<a class="proof-size-link" href="/proof-in-numbers/#community-proof-size">Track community proof size <span aria-hidden="true">›</span></a>'
-    '</div><!--/phone-overview-->'
-    '<div class="eyebrow dk">Alpöge original · Interactive map · Lean 4</div>'
-    '<h1 class="hero dk">Alpöge’s <em>original</em> Lean proof</h1>'
-    f'<p class="lede">Levent Alpöge released this Lean proof on 20 November 2026. The map groups its {FILES_TXT} '
-    f'into {len(CL):,} clusters in {len(TH)} themes. An arrow connects an importing cluster to one containing its imports.</p>'
-    f'<section class="glance" aria-label="The original proof at a glance"><dl><div><dt>Lean files</dt> <dd>{TOTAL_FILES:,}</dd></div>'
-    f'<div><dt>Clusters</dt> <dd>{len(CL):,}</dd></div><div><dt>Themes</dt><dd>{len(TH)}</dd></div></dl></section>{STATUS}'
-    f'<ul class="rows"><li><a href="{MAIN}">Start at the main theorem’s cluster</a></li>'
-    f'<li><a href="{original_main["href"]}">Read the Lean declaration</a></li>'
-    '<li><a href="/list/">Browse clusters</a></li><li><a href="/route/">Follow the original route</a></li>'
-    '<li><a href="/status/">Status of the proof</a></li><li><a href="/how-we-know/">How we know the proof is correct</a></li>'
-    f'<li><a href="/core/">{H(CORE_NAV)}</a></li><li><a href="/proof-in-numbers/">{H(NUMBERS_NAV)}</a></li>'
-    '<li><a href="/shorter-riemann-hypothesis-proof/">Compare the proof editions</a></li></ul>'
-    f'<h2>Themes</h2><ul class="rows">{"".join(f'<li><a href="{TPATH[t]}">{H(TNAME[t])}</a></li>' for t in TH)}</ul>'
+proof_size_link = '<a class="proof-size-link" href="/proof-in-numbers/#community-proof-size">Track community proof size <span aria-hidden="true">›</span></a>'
+original_primary = f'<a class="btn primary" href="{MAIN}">Start at the main theorem <span class="arr">→</span></a>'
+original_stats = [
+    ('Lean files', f'{TOTAL_FILES:,}'),
+    ('lines', f'<span aria-hidden="true">{TOTAL_LINES / 1e6:.1f}M</span><span class="sr">{TOTAL_LINES / 1e6:.1f} million</span>'),
+    ('clusters', f'{len(CL):,}'),
+    ('themes', str(len(TH))),
+]
+def overview_theme(theme):
+    ids = TH[theme]['clusters']
+    steps = min((dist[k] for k in ids if k in dist), default=None)
+    color = fcol(FIELDS[FIDX[TFIELD[theme]]])
+    glyph = route_glyph(steps, color) if steps is not None else ''
+    return (f'<a href="{TPATH[theme]}" data-t="{theme}" style="--c:{color}"><span class="tn">{H(TNAME[theme])}</span>'
+            f'<small>{len(ids)} clusters · {sum(fcount[k] for k in ids):,} files</small><span data-theme-glyph>{glyph}</span></a>')
+original_map = map_overview(
+    edition='Alpöge original', title='Alpöge’s <em>original</em> Lean proof',
+    lede=(f'On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis in Lean (<a href="{NOTE}">note</a>). '
+          f'{ST_SHORT} Its {TOTAL_FILES:,} Lean files ({len(mod_cl):,} mapped) carry no comments. '
+          'This map groups them into clusters of related work, so you can see what is where and how it connects. '
+          'An arrow connects an importing cluster to one containing its imports.'),
+    stats=original_stats, peek_actions=f'<div class="cta">{original_primary}<a class="btn" href="/route/">How it’s built</a></div>',
+    desktop_actions=f'<div class="cta dk">{original_primary}<a class="btn" href="/learn/">Learning path</a></div>',
+    verification=f'<a class="mstatus" href="/status/" title="{H(ST_META)}"><i></i>Lean proof {ST_CHIP} <span>· how it was checked ›</span></a>',
+    peek_extra=proof_size_link, stats_extra=proof_size_link,
+    body=('<h2>How to read the map</h2><div class="howto">'
+          '<div><span class="k">1</span><span>Each glowing point is a <b>cluster</b>: up to 50 related Lean files. Its colour is its <b>field</b> of mathematics; the soft clouds are <b>themes</b>.</span></div>'
+          '<div><span class="k">2</span><span>Click a cluster to see what it does, what it <span class="key-uses">uses</span>, what <span class="key-by">uses it</span>, and its <span class="key-route">route</span> from the main theorem.</span></div>'
+          f'<div><span class="k">3</span><span>{route_glyph(3, "var(--accent2)")} shows how many imports lead from a cluster to the main theorem ★.</span></div>'
+          '<div><span class="k">4</span><span>Tap a field <span class="dk-only">in the bar under the map</span><span class="ph-only">under <b>Filter</b></span> to show only that part of the proof, or filter by distance, era and maths level.</span></div>'
+          '<div><span class="k">5</span><span>Press <code>/</code> to search for a topic or any Lean file.</span></div></div>'
+          f'<h2>Themes <span class="n">{len(TH)}</span></h2><div class="themes">'
+          + ''.join(overview_theme(t) for t in sorted(TH, key=lambda t: -sum(fcount[k] for k in TH[t]['clusters']))) + '</div>'
+          + f'<h2>Explore the proof</h2><ul class="rows"><li><a href="{original_main["href"]}">Read the Lean declaration</a></li>'
+          '<li><a href="/list/">Browse clusters</a></li><li><a href="/route/">Follow the original route</a></li>'
+          '<li><a href="/status/">Status of the proof</a></li><li><a href="/how-we-know/">How we know the proof is correct</a></li>'
+          f'<li><a href="/core/">{H(CORE_NAV)}</a></li><li><a href="/proof-in-numbers/">{H(NUMBERS_NAV)}</a></li>'
+          '<li><a href="/shorter-riemann-hypothesis-proof/">Compare the proof editions</a></li></ul>'),
 )
 DATASET = {
     '@type': 'Dataset', '@id': SITE + '/#dataset', 'name': 'Map of Levent Alpöge’s original Lean proof of the Riemann hypothesis',
@@ -2889,7 +2934,7 @@ jdump('openapi.json', openapi_document(Path(OUT) / 'api', API_INDEX, API_STATUS,
 # scroll). Still noindex with its canonical on /api/index.json and not in the sitemap, as before: machines read the JSON
 def _apirow(u, d):   # a templated path ({cluster}) is not a link
     return (f'<tr><td><code>{H(u)}</code></td>' if '{' in u else f'<tr><td><a href="{H(u)}"><code>{H(u)}</code></a></td>') + f'<td>{H(d)}</td></tr>'
-API_BODY = ('<div class="crumbs"><a href="/">Home</a><span class="sep">/</span>API</div><div class="eyebrow">API</div>'
+API_BODY = (breadcrumbs([('Home', '/'), ('API', '')]) + '<div class="eyebrow">API</div>'
     f'<h1>{H(API_INDEX["name"])}</h1><p class="lede">{H(API_INDEX["description"])} Plain files: no key, no rate limit, '
     f'licensed <a href="{LICENSE}">{H(API_STATUS["license"]["name"])}</a>.</p>'
     '<h2 id="endpoints">Endpoints</h2><div class="tablewrap"><table><thead><tr><th>File</th><th>What it holds</th></tr></thead><tbody>'

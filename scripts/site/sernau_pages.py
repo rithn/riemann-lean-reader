@@ -7,6 +7,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from urllib.parse import quote
 
+from explorer_views import breadcrumbs, map_overview, result_link, route_intro
 from proof_editions import COMPARISON as COMPARE, ROUTES, SERNAU_PASS_UTC, VERIFICATION_URL as MIT
 from site_release import replace_file
 
@@ -45,6 +46,16 @@ def group_row(group):
     )
 
 
+def list_group_row(group):
+    count = group['moduleCount']
+    depth = group['depth']
+    tree = group['id'].split('.')[0]
+    color = {'New': 'var(--by)', 'Lib': 'var(--accent)'}.get(tree, 'var(--gold)')
+    detail = f'{group["id"]} · {number(count)} {"file" if count == 1 else "files"}'
+    end = f'{depth} group {"step" if depth == 1 else "steps"}'
+    return f'<li data-group-row="{esc(group["id"])}">{result_link(group["href"], group["label"], detail, color, end)}</li>'
+
+
 def module_row(module):
     return (
         f'<li data-module-row="{esc(module["name"])}">{link(module["href"], module["label"])}'
@@ -59,10 +70,10 @@ def overview_content(data, *, home=False):
     readme = f'{edition["repository"]}/blob/{edition["revision"]}/grh/README.md'
     guide = next(doc["github"] for doc in edition["documents"] if doc["id"] == "guide")
     theorem = next(t for t in data["theorems"] if t["name"] == "riemannHypothesis")
-    stats = "".join(
-        f'<div><dt>{label}</dt> <dd>{number(total[key])}</dd></div>'
+    stats = [
+        (label, number(total[key]))
         for label, key in (("Source groups", "groups"), ("Lean files", "modules"), ("File imports", "moduleEdges"))
-    )
+    ]
     title = 'The <em>Lean</em> proof of the Riemann hypothesis, mapped' if home else 'Sernau’s <em>readable</em> Lean proof'
     introduction = (
         'Explore Luke Sernau’s readable rewriting of Levent Alpöge’s proof, or switch to the original archive map.'
@@ -85,17 +96,7 @@ def overview_content(data, *, home=False):
         f'{link(theorem["href"], "Read the main theorem →", ' class="btn primary"')} '
         f'{link(ROUTE, "Proof route", ' class="btn"')}</div>'
     )
-    return f"""
-<div id="map-detail">
-  <!--phone-overview--><div class="mpeek">
-    <h1 class="hero">{title}</h1>{actions}
-    <a class="mstatus" href="{MIT}"><i></i>Comparator passed <span>· verification ›</span></a>
-  </div><!--/phone-overview-->
-  <div class="eyebrow dk">Sernau readable · Interactive map · Lean 4</div>
-  <h1 class="hero dk">{title}</h1>
-  <p class="lede">{introduction}</p>
-  <section class="glance" aria-label="The readable proof at a glance"><dl>{stats}</dl></section>
-  <div class="dk">{actions}</div>
+    body = f"""
   <h2>Read the graph</h2>
   <p>Each dot is a Lean file. Select a dot to see its direct imports, or select a group label to see its files and connections. An arrow points from the importing file to the file it imports.</p>
   <p class="meta">Zoom in for more labels. With a keyboard, Tab to a group, then use the arrow keys to move between its files and Enter to select.</p>
@@ -105,7 +106,11 @@ def overview_content(data, *, home=False):
   <ul class="rows">{browse_links}</ul>
   <p class="meta">{link(readme, "Pinned readable README")} · {link(guide, "Upstream reading guide")}</p>
   <h2 id="groups-title">Source groups</h2><ul class="rows">{"".join(group_row(g) for g in groups)}</ul>
-</div>"""
+"""
+    return map_overview(edition='Sernau readable', title=title, lede=introduction, stats=stats,
+                        peek_actions=actions, desktop_actions=f'<div class="dk">{actions}</div>',
+                        verification=f'<a class="mstatus" href="{MIT}"><i></i>Comparator passed <span>· verification ›</span></a>',
+                        body=body, id='map-detail')
 
 
 def map_filters(data):
@@ -165,9 +170,9 @@ def group_content(group, data):
         "Lib": "The upstream project puts background and supporting material under Lib.",
     }.get(folder, "One of the readable project’s two entry modules.")
     return f"""
-<p class="sr-crumb">{link(MAP, "Sernau map")} <span aria-hidden="true">›</span> <span>Source group</span></p>
+{breadcrumbs([('Sernau readable', MAP), ('Source group', '')])}
 <section class="sr-subhero">
-  <p class="sr-kicker">Sernau readable · Source group</p>
+  <div class="eyebrow">Sernau readable · Source group</div>
   <h1>{esc(group["label"])}</h1>
   <p><code>{esc(group["id"])}</code> · {provenance(group)}</p>
   <p>{scope}</p>
@@ -229,12 +234,7 @@ def route_content(data):
         for t in data["theorems"]
     )
     return f"""
-<p class="sr-crumb">{link(MAP, "Sernau map")} <span aria-hidden="true">›</span> <span>Route from Main</span></p>
-<section class="sr-subhero">
-  <p class="sr-kicker">Sernau readable · Source route</p>
-  <h1>From the theorem to its dependencies</h1>
-  <p>Start with classical RH and follow the two named references in its Lean proof.</p>
-</section>
+{route_intro('Sernau readable', 'Route', 'From the theorem to its dependencies', 'Start with classical RH and follow the two named references in its Lean proof.')}
 <ol class="sr-route-cards route-steps">{cards}</ol>
 <section class="sr-card">
   <h2>The file import path</h2>
@@ -255,7 +255,7 @@ def route_content(data):
 
 def list_content(data):
     return f"""
-<p class="sr-crumb">{link(MAP, "Sernau map")} <span aria-hidden="true">›</span> <span>List</span></p>
+{breadcrumbs([('Sernau readable', MAP), ('List', '')])}
 <div class="eyebrow">Sernau readable · List view</div>
 <h1 id="lv-h" tabindex="-1">Groups and Lean files</h1>
 <p class="meta">Browse {len(data["groups"])} groups or search the {len(data["modules"])} project files by English label or Lean name.</p>
@@ -269,7 +269,7 @@ def list_content(data):
   <label for="list-sort">Order <select id="list-sort" name="order"><option value="depth">By distance</option><option value="folder">By source folder</option><option value="name">By name</option></select></label>
 </form>
 <p class="meta lv-n" id="list-count" role="status" hidden></p>
-<section class="lv-out"><ul class="rows" id="list-rows">{"".join(group_row(g) for g in data["groups"])}</ul></section>
+<section class="lv-out"><ul class="rows" id="list-rows">{"".join(list_group_row(g) for g in data["groups"])}</ul></section>
 <p class="sr-muted">Source folder and import distance are available for every file. Field, era, level, new-work and guide-match filters have no readable-edition dataset.</p>"""
 
 
