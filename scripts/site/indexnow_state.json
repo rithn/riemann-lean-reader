@@ -1,11 +1,11 @@
 {
 "submitted":"2026-11-26",
-"note":"2809 of 2809 URLs accepted",
+"note":"2 of 2 URLs accepted",
 "urls":{
 "/":"724a9015116c",
 "/about/":"fa3853d78f2d",
 "/alpoge/":"442f841016cc",
-"/changelog/":"03e50e2f4efa",
+"/changelog/":"69453af0c8b7",
 "/cluster/k0001-gaussian-sums-over-lattices-and-height-kernels/":"69b82f4a7569",
 "/cluster/k0002-prime-sums-remainder-term-bounds-and-trivial-example-checks/":"54faaf4e2086",
 "/cluster/k0003-symmetric-polynomials-with-block-structure-flags/":"5ea5f839306f",
@@ -2744,7 +2744,7 @@
 "/sernau/group/statements/":"2159024f77fa",
 "/sernau/route/":"55bb899c424c",
 "/shorter-riemann-hypothesis-proof/":"b1a10b2015e3",
-"/status/":"c81b038431eb",
+"/status/":"1828719cbd95",
 "/theme/th001-symmetric-polynomials-and-determinant-bounds-for-heights/":"93e949d2afb3",
 "/theme/th002-wach-modules-and-hodgetate-cohomology-bounds/":"5e3da4497ecc",
 "/theme/th003-functorial-embedded-resolution-of-singularities/":"4d22e4168082",

@@ -21,6 +21,8 @@ as_of: "26 Nov 2026"
 
 **Latest verification update, 26 Nov 2026, 02:50 UTC.** Andrew Sutherland reports a full paranoid Comparator pass for each of Luke Sernau’s two shorter editions. On 25 November at 21:49 UTC, his original-archive Comparator run separately matched all five statements, audited the axioms and accepted the proof in three kernel checks. [Shorter-edition checks](#shorter-editions) · [MIT original log](https://math.mit.edu/~drew/grh/) · [Timeline](/timeline/#nov-26)
 
+[Follow updates via RSS](/changelog/feed.xml). Paste the link into your feed reader to get new updates.
+
 ## What was released
 
 - On 20 Nov 2026 Levent Alpöge posted a four-page note and a 14-part archive of Lean files on his personal website. ([note](https://alpo.ge/remark.pdf))
