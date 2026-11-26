@@ -2502,6 +2502,28 @@ def keep_going(t):   # the closing links: a '## Keep going' / '## More' section,
 def faq_pairs(t):   # H3 question, then its first paragraph (the visible answer, rendered the same way)
     return [(q, MDIT.renderInline(a.strip()))
             for q, a in re.findall(r'(?m)^### (.+?)(?:\s*\{#[\w-]+\})?\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
+
+guide_sections = {'guides': list(GD), 'readable_guides': [], 'compact_guides': []}
+guide_readings = []
+portraits = {g['slug']: g for g in GD}
+hub_ids = {g['id'] for g in GD}
+for item in GUIDE_CATALOGUE.get('hub_guides', []):
+    g = gnorm(item, len(hub_ids))
+    aliases = item.get('anchor_aliases', [])
+    for anchor in [g['id'], *aliases]:
+        assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', anchor) and anchor not in hub_ids
+        hub_ids.add(anchor)
+    edition = item['edition']
+    section = {'original': 'guides', 'readable': 'readable_guides', 'compact': 'compact_guides'}[edition]
+    portrait = portraits.get(item.get('portrait_from'), {})
+    for key in ('ph48', 'ph96', 'ph48b', 'ph96b', 'photo_source', 'photo_source_also'):
+        g[key] = portrait.get(key)
+    assert g['page'] and g['slug'] not in GPATH and g['slug'] not in portraits, f'{g["id"]}: needs a unique guide page slug'
+    GPATH[g['slug']] = f'/guides/{g["slug"]}/'
+    g.update(edition=edition, initials=_initials(g['name']), detail=item['detail'], links=item.get('links', []), aliases=aliases)
+    guide_sections[section].append(g)
+    guide_readings.append((g, item['reading']))
+
 KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {
     '/', '/learn/', '/route/', '/list/', '/changelog/', '/changelog/feed.xml', '/api/',
 }
@@ -2575,7 +2597,7 @@ def gmapq(g):
     return f'/alpoge/?guide={g["slug"] or g["id"]}'
 def ghub_tail(g):
     if 'edition' in g:
-        return [(link['title'], link['url']) for link in g['links']]
+        return [('Read at source', g['url']), *((link['title'], link['url']) for link in g['links'])]
     n = gnodes(g)
     nn = f'{n} {"node" if n == 1 else "nodes"}'
     tail = [(f'On the map: {nn}', gmapq(g) if g['page'] else None)] if n else [('0 nodes on the map', None)]
@@ -2590,8 +2612,9 @@ def gentry_html(g):
     # Match the card's fragment offset so its title clears the fixed header.
     aliases = ''.join(f'<span id="{H(alias)}" style="scroll-margin-top:84px"></span>' for alias in g.get('aliases', []))
     detail = g.get('detail')
+    href = GPATH[g['slug']] if 'edition' in g else g['url']
     return (f'<li class="gentry"{anchor}>{gav(g, 48)}<div class="gbody">{aliases}<p class="gauth">{gauthor(g)}</p>'
-            f'<a class="gtitle" href="{H(g["url"])}">{H(g["title"])}</a><p class="gmeta">{meta}</p>'
+            f'<a class="gtitle" href="{H(href)}">{H(g["title"])}</a><p class="gmeta">{meta}</p>'
             f'<p class="gstl">{gstatus(g, g["hub_status"])}</p>' + (f'<p class="gstl">{gai_tag(g)}</p>' if g['ai'] else '')
             + (f'<p>{H(detail)}</p>' if detail else '')
             + (f'<p class="gmeta">{tail}</p>' if tail else '') + '</div></li>')
@@ -2603,24 +2626,8 @@ def gentry_md(g):
             gai_md(g), g.get('detail')]
     bits.extend(f'[{title}]({url})' if url else title for title, url in ghub_tail(g))
     anchors = ''.join(f'<a id="{H(anchor)}"></a>' for anchor in [g['id'], *g['aliases']]) if 'edition' in g else ''
-    return f'- {anchors}[{g["title"]}]({g["url"]}) · ' + ' · '.join(b for b in bits if b) + '\n'
-
-guide_sections = {'guides': list(GD), 'readable_guides': [], 'compact_guides': []}
-portraits = {g['slug']: g for g in GD}
-hub_ids = {g['id'] for g in GD}
-for item in GUIDE_CATALOGUE.get('hub_guides', []):
-    g = gnorm(item, len(hub_ids))
-    aliases = item.get('anchor_aliases', [])
-    for anchor in [g['id'], *aliases]:
-        assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', anchor) and anchor not in hub_ids
-        hub_ids.add(anchor)
-    edition = item['edition']
-    section = {'original': 'guides', 'readable': 'readable_guides', 'compact': 'compact_guides'}[edition]
-    portrait = portraits.get(item.get('portrait_from'), {})
-    for key in ('ph48', 'ph96', 'ph48b', 'ph96b'):
-        g[key] = portrait.get(key)
-    g.update(edition=edition, initials=_initials(g['name']), detail=item.get('detail'), links=item.get('links', []), aliases=aliases)
-    guide_sections[section].append(g)
+    href = GPATH[g['slug']] if 'edition' in g else g['url']
+    return f'- {anchors}[{g["title"]}]({href}) · ' + ' · '.join(b for b in bits if b) + '\n'
 
 if os.path.exists(GUIDES_F):
     gfm, gt = read_draft('guides.md')
@@ -2670,6 +2677,26 @@ def gbasis(g, k):
 def dist_txt(k):
     d = dist.get(k)
     return 'not reached' if d is None else '0 (main theorem)' if d == 0 else str(d)
+
+def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
+    path = GPATH[g['slug']]
+    name = g['name'] or 'No author named'
+    trail = [('Home', '/'), ('Guides', '/guides/'), (name, path)]
+    sfx = f' · {name}'
+    title = g['title'] + sfx if len(g['title'] + sfx) <= TITLE_MAX else cut_title(g['title'], TITLE_MAX - len(sfx)) + sfx
+    body = (breadcrumbs([*trail[:-1], (name, '')]) +
+            f'<div class="eyebrow">Guide · {H(edition)}</div>'
+            f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
+            f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
+            f'<div class="cta gact">{"".join(acts)}</div>{notice}' + share_btn(path, g['title']) + content
+            + explore(('/guides/', 'All guides')))
+    about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
+             **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
+             **({'datePublished': g['date'].isoformat()} if g['date'] else {}), **({'license': g['licence']} if g['licence'] else {})}
+    page(path, title, desc, 'page', body,
+         [{'@type': 'WebPage', '@id': SITE + path, 'url': SITE + path, 'name': title, 'about': about, 'isPartOf': {'@id': SITE_ID}},
+          crumbs_ld(*trail), ORG], .5, md=md)
+
 G_DIR = os.path.join(OUT, 'guides')
 for d in os.listdir(G_DIR):   # pages of guides that no longer have one (only folders this build writes: index.html inside)
     p = os.path.join(G_DIR, d)
@@ -2766,18 +2793,9 @@ for g in GD:
     psrcs = [x for x in (g['photo_source'], g['photo_source_also'] if g['ph96b'] else None) if x]
     photo_credit = (f'<p class="meta gcredit">{"Logos" if len(psrcs) > 1 else "Photo"}: '
                     + ', '.join(f'<a href="{H(x)}">{H(_host(x))}</a>' for x in psrcs) + '</p>' if g['ph96'] and psrcs else '')
-    body = (breadcrumbs([('Home', '/'), ('Guides', '/guides/'), (name, '')]) +
-            f'<div class="eyebrow">Guide · Alpöge original proof</div>'
-            f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
-            f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
-            f'<div class="cta gact">{"".join(acts)}</div>' + ('' if nrow else f'<p class="meta gzero">{G_ZERO}</p>') + share_btn(path, g['title'])
-            + companion_html
-            + f'<h2 id="nodes">Nodes in this guide <span class="n">{nrow}</span></h2>{tbl}'
-            f'<h2 id="how">How we mapped it</h2><p>{H(how)}</p>'
-            f'<p>Authors can correct this: post to <a href="{X_FEEDBACK}">@SomTheBuilder</a> on X.</p>{photo_credit}'
-            + explore(('/guides/', 'All guides')))
-    sfx = f' · {name}'
-    title = g['title'] + sfx if len(g['title'] + sfx) <= TITLE_MAX else cut_title(g['title'], TITLE_MAX - len(sfx)) + sfx
+    content = (companion_html + f'<h2 id="nodes">Nodes in this guide <span class="n">{nrow}</span></h2>{tbl}'
+               f'<h2 id="how">How we mapped it</h2><p>{H(how)}</p>'
+               f'<p>Authors can correct this: post to <a href="{X_FEEDBACK}">@SomTheBuilder</a> on X.</p>{photo_credit}')
     desc = meta_desc((f'{name}: a guide to the Lean proof of the Riemann hypothesis, on the map: the {nrow} '
                       f'{"cluster" if nrow == 1 else "clusters"} it cites, with the pages that cite each. ' if nrow else
                       f'{name}: a guide to the Lean proof of the Riemann hypothesis, with a link to the original. ') + g['title'] + '.')
@@ -2794,12 +2812,30 @@ for g in GD:
                     + (grefs_md(g, page_groups(ps), g['notes'].get(k, [])) or '–') + f' | {gbasis(g, k)} |\n' for k, ps in rows)
           + f'\n## How we mapped it\n\n{how}\n\nAuthors can correct this: post to @SomTheBuilder on X ({X_FEEDBACK}).\n'
           + (f'\n{"Logos" if len(psrcs) > 1 else "Photo"}: {", ".join(psrcs)}\n' if photo_credit else ''))
-    about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
-             **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
-             **({'datePublished': g['date'].isoformat()} if g['date'] else {}), **({'license': g['licence']} if g['licence'] else {})}
-    page(path, title, desc, 'page', body,
-         [{'@type': 'WebPage', '@id': SITE + path, 'url': SITE + path, 'name': title, 'about': about, 'isPartOf': {'@id': SITE_ID}},
-          crumbs_ld(('Home', '/'), ('Guides', '/guides/'), (name, path)), ORG], .5, md=md)
+    guide_page(g, 'Alpöge original proof', desc, meta, acts, content, md,
+               notice='' if nrow else f'<p class="meta gzero">{G_ZERO}</p>')
+
+G_EDITION = {'original': 'Alpöge original proof', 'readable': 'Sernau readable edition', 'compact': 'Sernau compact edition'}
+for g, reading in guide_readings:
+    edition = G_EDITION[g['edition']]
+    meta = [gposted(g) + '.']
+    label = gversion(g)
+    if label:
+        meta.append(f'{H(label)}.')
+    if g['licence']:
+        meta.append(f'Licence: {H(g["licence"])}.')
+    acts = [f'<a class="btn primary" href="{H(g["url"])}">Read at source</a>']
+    sources = ''.join(f'- [{link["title"]}]({link["url"]})\n' for link in g['links'])
+    text = f'{g["detail"]}\n\n{reading.rstrip()}\n'
+    if sources:
+        text += '\n## Source links\n\n' + sources
+    bad = [url for url in re.findall(r'\]\((/[^)#\s]*)', text) if url not in KNOWN_PATHS]
+    assert not bad, f'{g["id"]}: links to pages that do not exist: {bad}'
+    md = md_abs(f'# {g["title"]}\n\n{g["name"]} · {edition} · {G_STATUS_T[g["status"]]}'
+                + (f' · {gdate(g["date"])}' if g['date'] else '') + (f' · {label}' if label else '')
+                + (f' · Licence: {g["licence"]}' if g['licence'] else '')
+                + f'\n\n[Read at source]({g["url"]})\n\n{text}\n[All guides](/guides/)\n')
+    guide_page(g, edition, meta_desc(f'{g["name"]}. {g["detail"]}'), meta, acts, md_html(text), md)
 
 # ---------- text list of original clusters by distance
 _lmd = [f'# Every cluster, as a list\n\nThe {len(CL):,} clusters of the map of the Lean proof of the Riemann hypothesis, by distance '

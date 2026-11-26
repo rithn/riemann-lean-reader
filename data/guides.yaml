@@ -404,7 +404,7 @@ guides:
     slug: naskrecki
     companion_reading:
       title: The condensed Lean proof of RH and GRH
-      url: https://riemannhypothesissolved.com/guides/#naskrecki-compact-writeup
+      url: https://riemannhypothesissolved.com/guides/naskrecki-sernau/
       description: "Naskręcki’s 26 November working draft follows Sernau’s compact edition and comes with source concordances."
     page: true
     order: 3
@@ -868,8 +868,8 @@ guides:
     slug: chojecki
     companion_reading:
       title: Covolumes and Dirichlet Zeros
-      url: https://riemannhypothesissolved.com/guides/#chojecki-complete-guide
-      description: "Chojecki’s 289-page exposition follows Sernau’s compact edition. His 19-page conditional overview is also in the catalogue."
+      url: https://riemannhypothesissolved.com/guides/chojecki-sernau/
+      description: "Chojecki’s 289-page exposition follows Sernau’s compact edition. The guide page also links to his 19-page conditional overview."
     page: true
     listed: true
     order: 9
@@ -1438,10 +1438,12 @@ guides:
     clusters_basis: Exact file paths from the pinned links in Appendix A. The declaration index also includes names that match the local file and line and appear on the cited page.
     retrieved: '2026-11-25'
 
-# Hub-only entries link to the work and its sources. Edition values select the
-# catalogue section. Original archive map citations stay in the guides above.
+# Reading guides share the catalogue and page layout. Their source links are
+# editorial references. Original archive map citations stay in the guides above.
 hub_guides:
   - id: sonoda-readable-analysis
+    slug: sonoda-readable
+    page: true
     edition: readable
     author: Sho Sonoda
     title: Readable edition analysis
@@ -1449,10 +1451,20 @@ hub_guides:
     date: '2026-11-26'
     status: explains
     detail: An English and Japanese guide to the readable edition, with a source-linked theorem graph and methods notes. Sonoda states that Claude generated most of the site.
+    reading: |
+      ## Where to start
+
+      Open the theorem graph to see how the final results fit together, then follow a source link to read the corresponding Lean declaration. The English and Japanese text appear side by side. For the Explorer’s walkthrough from the classical RH statement back to Dirichlet GRH, open the [route from Main](/sernau/route/).
+
+      ## Edition and scope
+
+      The analysis covers Sernau’s readable `grh/` project. Sonoda describes the role of Claude and the site’s methods in the linked notes. For the separately reported machine checks, see [verification of the shorter editions](/status/#shorter-editions).
     links:
       - {title: Methods, url: "https://shosonoda.github.io/lean-rh-alpoge/methods.html"}
 
   - id: tamnd-sernau-handbook
+    slug: grh-lean-handbook
+    page: true
     edition: readable
     author: {name: Tam Nguyen Duc, home: "https://github.com/tamnd"}
     portrait_from: tamnd
@@ -1462,10 +1474,20 @@ hub_guides:
     status: explains
     versions: [{version: '0.2.0'}]
     detail: A model-drafted handbook for graduate students reading Sernau’s proof. Volume 0 runs to 264 pages and Volume 1 lists 13 draft chapters. The release reports no human checking or Lean replay.
+    reading: |
+      ## Where to start
+
+      Open Volume 0 for the handbook’s overview of the argument. Follow the release page for the 13 draft chapters listed under Volume 1. The Explorer’s [route from Main](/sernau/route/) leads into the same readable Lean edition.
+
+      ## Edition and scope
+
+      This page covers the 26 November v0.2.0 release for Sernau’s readable `grh/` project. See the release for the project’s drafting and checking disclosure. Nguyen Duc’s [earlier written proof](https://riemann.tamnd.com/about/) follows Alpöge’s original archive.
     links:
       - {title: Volume 0 PDF, url: "https://github.com/tamnd/grh-lean-handbook/releases/download/v0.2.0/grh-lean-handbook-00-guide-0.2.0.pdf"}
 
   - id: chojecki-complete-guide
+    slug: chojecki-sernau
+    page: true
     edition: compact
     anchor_aliases: [chojecki-compact-guide]
     author: {name: Przemek Chojecki, home: "https://www.ulam.ai/team"}
@@ -1478,6 +1500,14 @@ hub_guides:
         date: '2026-11-26'
         sha256: 968da9149e803eeeaea62901ccf4f681ce98979b77369c9d0705570f35a0cb0d
     detail: A 289-page exposition of Alpöge’s Dirichlet GRH argument in Sernau’s compact edition at Lean revision 72fead10, shared on 26 November 2026. It develops three arithmetic estimates and uses them to derive right-half-plane nonvanishing. The earlier 19-page note shows how the conclusion follows if the estimates hold for compatible data.
+    reading: |
+      ## Where to start
+
+      Theorem 20.16 on pages 280–281 brings together the short forms, near-spanning and long integral forms estimates for compatible data. Pages 281–284 apply them to the nonvanishing argument. Appendix A connects this read-through to the [pinned compact Lean source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact). Use the 19-page note for a shorter account of the reduction under those three hypotheses.
+
+      ## Attribution and scope
+
+      Chojecki identified the unsigned publisher PDF as his work in a reply shared with the Explorer on 26 November. The PDF has no printed version or work-specific AI disclosure. See [verification of the shorter editions](/status/#shorter-editions) for the machine checks, or read Chojecki’s [guide to Alpöge’s original archive](/guides/chojecki/) for the corresponding Explorer map citations.
     links:
       - {title: "Arithmetic estimates, pages 280–281", url: "https://www.ulam.ai/research/grh_complete.pdf#page=280"}
       - {title: "Appendix A source concordance, page 284", url: "https://www.ulam.ai/research/grh_complete.pdf#page=284"}
@@ -1486,18 +1516,32 @@ hub_guides:
       - {title: Author’s announcement of the earlier note, url: "https://x.com/prz_chojecki/status/2125893524830687454"}
 
   - id: naskrecki-compact-writeup
+    slug: naskrecki-sernau
+    page: true
     edition: compact
     author: Bartosz Naskręcki
     portrait_from: naskrecki
     title: "The condensed Lean proof of RH and GRH: a reading"
     url: https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/handout.pdf
     date: '2026-11-26'
+    versions: [{version: '11'}]
+    licence: 0BSD for the text
     status: explains
     detail: Edition 11 is a 1,352-page working draft. Its 47 notes cover 24 units of the compact edition at 72fead10 and come with source concordances. The project credits Claude agents for the writing and reports program checks. Human refereeing is pending.
+    reading: |
+      ## Where to start
+
+      Begin with the five final theorems, then use the notes to follow their ingredients into the [pinned compact Lean source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact). A separate [concordance for the final theorems](https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/notes/final-theorems/concordance.json) names their files and lines.
+
+      ## Edition and scope
+
+      The methods describe automated checks of Lean citations and a separate AI reading of the prose. Naskręcki’s [earlier atlas of Alpöge’s original archive](/guides/naskrecki/) includes the Explorer’s original-archive citations.
     links:
       - {title: Methods and credits, url: "https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/README.md"}
 
   - id: eto-reading-alpoge
+    slug: eto
+    page: true
     edition: original
     author: Tokuhiro Eto
     title: Reading Alpöge’s Proof of the Riemann Hypothesis
@@ -1506,3 +1550,11 @@ hub_guides:
     status: explains
     versions: [{version: '1'}]
     detail: An illustrated, AI-assisted exposition using elementary examples to explain divisibility, amplification and cost control. Its appendix describes a conditional Lean reduction.
+    reading: |
+      ## Where to start
+
+      Begin with the illustrations and examples of divisibility, then follow the author’s explanation of how amplification and cost control enter the proof. The appendix describes checks of a conditional reduction. The v1 title page credits AI assistance.
+
+      ## Follow the Lean argument
+
+      Use the Explorer’s [route through Alpöge’s original archive](/route/) to follow the dependencies from the final Lean statements. For reports of checks of the archive, see [How we know](/how-we-know/).
