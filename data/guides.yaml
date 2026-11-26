@@ -114,6 +114,9 @@ guides:
     status: verified
     status_quote: "This page links to my own check of that Lean proof and to checks made by others. ... All four checks finished with no errors."
     status_note: "The guide itself only explains ('A working guide to the proof, specialised to the Riemann zeta function'; '(M) itself is not proved there'). The verification is the author's own checks, listed on the same page."
+    ai_statement:
+      quote: written with Claude, Codex and Gemini as an aid to studying it
+      url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/ (The proof explained for the Riemann zeta function)
     posted_at:
       url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/
       date: '2026-11-21'

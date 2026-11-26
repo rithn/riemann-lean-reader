@@ -4,6 +4,23 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-26
+  title: Reading Sernau’s readable Lean edition
+  items:
+    - "Guides now points readers from the five theorem statements to the nonvanishing result and the main inequality in the pinned readable edition. It also links the upstream file contents, glossary and results index."
+    - "Michael Rubinstein’s original-archive guide entry now includes his disclosure of AI assistance with the zeta-function exposition."
+  links:
+    - label: Sernau readable on Guides
+      url: /guides/#sernau-readable
+    - label: Pinned upstream reading guide
+      url: https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/GUIDE.md
+    - label: Pinned upstream results index
+      url: https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/INDEX.md#the-last-step
+    - label: Rubinstein’s disclosure on Guides
+      url: /guides/rubinstein-zeta/#ai
+    - label: Rubinstein’s source page
+      url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/
+
+- date: 2026-11-26
   published_at: 2026-11-26T04:19:16Z
   title: Shorter Lean proof editions and verification
   items:

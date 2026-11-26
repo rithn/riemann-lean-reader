@@ -28,7 +28,7 @@
 "2026-11-26"
 ],
 "/changelog/":[
-"0be5ddfefb52",
+"e65d6cd156af",
 "2026-11-26"
 ],
 "/cluster/k0001-gaussian-sums-over-lattices-and-height-kernels/":[
@@ -1020,7 +1020,7 @@
 "2026-11-26"
 ],
 "/cluster/k0248-critical-thresholds-and-size-bounds-in-the-fourier-decay/":[
-"a708d6d36689",
+"17606706d2e9",
 "2026-11-26"
 ],
 "/cluster/k0249-words-of-operators-insertion-exchange-and-residue-identities/":[
@@ -1202,7 +1202,7 @@
 "2026-11-26"
 ],
 "/cluster/k0292-counting-bad-polynomials-and-permutations-the-bad-share/":[
-"97245247192f",
+"6a607de7e926",
 "2026-11-26"
 ],
 "/cluster/k0293-characters-of-finite-groups-and-brauer-s-induction-theorem/":[
@@ -1254,7 +1254,7 @@
 "2026-11-26"
 ],
 "/cluster/k0302-green-s-parametrisation-of-cuspidal-characters-by-frobenius/":[
-"1a7edcb1c51e",
+"69a8f75a425d",
 "2026-11-26"
 ],
 "/cluster/k0303-harish-chandra-induction-frobenius-reciprocity-and-series/":[
@@ -1714,7 +1714,7 @@
 "2026-11-26"
 ],
 "/cluster/k0417-size-windows-prime-sums-and-2-adic-order-facts/":[
-"a1fa7c8f8b1c",
+"59f36a4387e9",
 "2026-11-26"
 ],
 "/cluster/k0418-local-lattice-bases-fourier-kernels-and-cartan-type-lattice/":[
@@ -1722,7 +1722,7 @@
 "2026-11-26"
 ],
 "/cluster/k0419-slopes-of-lattices-and-harder-narasimhan-filtrations/":[
-"4c61afe8d7c4",
+"5f3195acd1ba",
 "2026-11-26"
 ],
 "/cluster/k0420-dedekind-zeta-residue-bounds-and-minkowski-covering/":[
@@ -1734,7 +1734,7 @@
 "2026-11-26"
 ],
 "/cluster/k0422-log-vandermonde-hook-bounds-and-arithmetic-size-estimates/":[
-"d8b45108132c",
+"a6d3503f89bf",
 "2026-11-26"
 ],
 "/cluster/k0423-hermitian-lattice-volumes-and-primitive-tuple-counts-over/":[
@@ -1768,11 +1768,11 @@
 "2026-11-26"
 ],
 "/cluster/k0429-theta-function-sup-bounds-and-gaussian-lift-operator-norms/":[
-"8819c2b2bc62",
+"cb9ab2a66abf",
 "2026-11-26"
 ],
 "/cluster/k0430-theta-lift-independence-of-the-choice-of-class/":[
-"bab6703218ca",
+"ad3b3ae03626",
 "2026-11-26"
 ],
 "/cluster/k0431-hermitian-frames-orbit-sums-and-local-amplitude-bounds/":[
@@ -1800,11 +1800,11 @@
 "2026-11-26"
 ],
 "/cluster/k0437-chain-size-windows-and-a-bridge-to-a-growth-bound-with-rh/":[
-"ddf5659f7c0c",
+"17938aec4fce",
 "2026-11-26"
 ],
 "/cluster/k0438-mean-height-descent-divisor-inequalities-and-hook-log-bounds/":[
-"f82e311c0727",
+"2671bff9be2b",
 "2026-11-26"
 ],
 "/cluster/k0439-basic-facts-about-hermitian-terms-and-frame-moves/":[
@@ -1824,7 +1824,7 @@
 "2026-11-26"
 ],
 "/cluster/k0443-chain-parameters-weighted-means-and-grid-valuation-bounds/":[
-"c8ee4d000b90",
+"d5d20b1ca8b9",
 "2026-11-26"
 ],
 "/cluster/k0444-lattice-sum-bounds-transference-and-local-coordinate-counts/":[
@@ -1856,7 +1856,7 @@
 "2026-11-26"
 ],
 "/cluster/k0451-nuclear-norm-bounds-lattice-counting-and-slope-estimates/":[
-"823b00701c8f",
+"aa45e4d555d2",
 "2026-11-26"
 ],
 "/cluster/k0452-counting-sublattices-by-flag-degree/":[
@@ -1888,7 +1888,7 @@
 "2026-11-26"
 ],
 "/cluster/k0459-division-values-index-change-and-divisor-bounds/":[
-"4dd601bf9a03",
+"b79d13952b4b",
 "2026-11-26"
 ],
 "/cluster/k0460-basic-mass-facts-and-finiteness-of-class-representatives/":[
@@ -1900,15 +1900,15 @@
 "2026-11-26"
 ],
 "/cluster/k0462-size-bounds-for-lattices-from-sums-over-places/":[
-"501680de8608",
+"6102633740f8",
 "2026-11-26"
 ],
 "/cluster/k0463-unitary-group-mass-formula-flags-witt-extension-uniqueness/":[
-"3e88fc610973",
+"8a41b02eab9c",
 "2026-11-26"
 ],
 "/cluster/k0464-slopes-and-heights-of-lattices-harder-narasimhan-style/":[
-"2f54fe94a5b8",
+"068944b3784f",
 "2026-11-26"
 ],
 "/cluster/k0465-row-lattices-flags-and-terms-in-a-unitary-counting-argument/":[
@@ -1916,7 +1916,7 @@
 "2026-11-26"
 ],
 "/cluster/k0466-mass-of-hermitian-lattices-and-counting-sublattices/":[
-"4875d4b627f1",
+"906acb62a9e3",
 "2026-11-26"
 ],
 "/cluster/k0467-matrix-cells-triangular-shapes-and-last-row-facts/":[
@@ -1932,7 +1932,7 @@
 "2026-11-26"
 ],
 "/cluster/k0470-prime-by-prime-sums-logs-and-local-height-conditions/":[
-"8a78d0ee3bbb",
+"5856eb56d936",
 "2026-11-26"
 ],
 "/cluster/k0471-local-counts-of-lattices-via-matrices-and-determinants/":[
@@ -1960,7 +1960,7 @@
 "2026-11-26"
 ],
 "/cluster/k0477-dual-lattices-and-measures-from-embeddings-of-the-field/":[
-"b225db113844",
+"f6452a295551",
 "2026-11-26"
 ],
 "/cluster/k0478-unimodular-lattices-gluing-and-mass-lower-bounds/":[
@@ -1992,7 +1992,7 @@
 "2026-11-26"
 ],
 "/cluster/k0485-clearing-denominators-slopes-and-height-bounds-for-lattices/":[
-"e9a8b1697dfa",
+"68418a9ea1e2",
 "2026-11-26"
 ],
 "/cluster/k0486-counting-partners-and-star-frame-coherence-over-local-data/":[
@@ -2128,7 +2128,7 @@
 "2026-11-26"
 ],
 "/cluster/k0519-breuilkisin-datum-eisenstein-polynomials-and-the/":[
-"4148b7b79570",
+"62306bbdea9f",
 "2026-11-26"
 ],
 "/cluster/k0520-prisms-covers-descent-pushouts-and-the-crystalline-lattice/":[
@@ -2432,7 +2432,7 @@
 "2026-11-26"
 ],
 "/cluster/k0595-taylor-expansions-of-period-families-over-a-nilpotent-base/":[
-"8b4be7129192",
+"10dc9fee1558",
 "2026-11-26"
 ],
 "/cluster/k0596-periods-of-abelian-varieties-charts-and-crystalline-lifts/":[
@@ -2564,7 +2564,7 @@
 "2026-11-26"
 ],
 "/cluster/k0628-branching-for-weyl-characters-and-interlacing-patterns/":[
-"74a85a59d2b5",
+"da6bd158457f",
 "2026-11-26"
 ],
 "/cluster/k0629-irreducibility-of-tensor-products-and-stable-submodules/":[
@@ -2616,7 +2616,7 @@
 "2026-11-26"
 ],
 "/cluster/k0641-lifting-letters-column-systems-and-coefficient-dependence/":[
-"e9b2587ef8d2",
+"f45b8bc1c7a0",
 "2026-11-26"
 ],
 "/cluster/k0642-lattice-edges-dual-height-bases-and-hida-setting-estimates/":[
@@ -2644,7 +2644,7 @@
 "2026-11-26"
 ],
 "/cluster/k0648-binomial-ratios-share-product-bounds-and-lifted-partner/":[
-"c991fcad38e2",
+"9161f09b6f8b",
 "2026-11-26"
 ],
 "/cluster/k0649-polynomial-lattices-and-a-pairing-for-matrix-group/":[
@@ -2652,7 +2652,7 @@
 "2026-11-26"
 ],
 "/cluster/k0650-fock-space-gaussian-vectors-and-oscillator-style/":[
-"e506738f231d",
+"249fe9d557fa",
 "2026-11-26"
 ],
 "/cluster/k0651-lowest-k-types-and-discrete-series-for-real-unitary-groups/":[
@@ -2676,7 +2676,7 @@
 "2026-11-26"
 ],
 "/cluster/k0656-weight-indexed-polynomial-spaces-lattices-and-branching/":[
-"3c0327e15164",
+"7042f89a8396",
 "2026-11-26"
 ],
 "/cluster/k0657-fock-space-polynomials-howe-duality-and-real-theta-lifts/":[
@@ -2740,7 +2740,7 @@
 "2026-11-26"
 ],
 "/cluster/k0672-adelic-gaussians-mellin-transforms-and-euler-product/":[
-"5407999c0b2a",
+"72a58596092f",
 "2026-11-26"
 ],
 "/cluster/k0673-norms-traces-and-splitting-of-primes-in-quadratic-extensions/":[
@@ -2760,7 +2760,7 @@
 "2026-11-26"
 ],
 "/cluster/k0677-main-theorem-statements-plus-the-explicit-formula-for/":[
-"d76986535604",
+"173807cb541f",
 "2026-11-26"
 ],
 "/cluster/k0677-main-theorem-statements-plus-the-explicit-formula-for/lean/":[
@@ -2786,7 +2786,7 @@
 "2026-11-26"
 ],
 "/cluster/k0682-landau-s-theorem-and-nonvanishing-of-zeta-from-one-sided/":[
-"822791c43e8b",
+"f3a7fdf72066",
 "2026-11-26"
 ],
 "/cluster/k0683-primes-in-progressions-siegel-walfisz-and-exceptional-zero/":[
@@ -2798,7 +2798,7 @@
 "2026-11-26"
 ],
 "/cluster/k0685-frobenius-orbits-and-torsion-units-in-layered-cyclotomic/":[
-"558e22fbf641",
+"b3f137428624",
 "2026-11-26"
 ],
 "/cluster/k0686-roots-of-unity-p-adic-units-and-totient-bounds/":[
@@ -2810,7 +2810,7 @@
 "2026-11-26"
 ],
 "/cluster/k0688-mean-square-and-jacobi-symbol-estimates-for-prime-sums-in/":[
-"724dfcfd7f1b",
+"5cf8f63b993b",
 "2026-11-26"
 ],
 "/cluster/k0689-prime-ideal-counting-and-chebotarev-style-densities-for/":[
@@ -2830,15 +2830,15 @@
 "2026-11-26"
 ],
 "/cluster/k0693-host-fields-two-adic-cyclotomic-towers-and-frobenius-orbit/":[
-"aa2970c5a63f",
+"126c061ce28b",
 "2026-11-26"
 ],
 "/cluster/k0694-mertens-type-estimates-and-zero-sums-for-dirichlet-l/":[
-"a129c266d274",
+"54aa476ac08b",
 "2026-11-26"
 ],
 "/cluster/k0695-an-alternative-route-to-grh-for-dirichlet-l-functions-from/":[
-"1d54a41ac194",
+"bb2f57087265",
 "2026-11-26"
 ],
 "/cluster/k0695-an-alternative-route-to-grh-for-dirichlet-l-functions-from/lean/":[
@@ -2852,7 +2852,7 @@
 "2026-11-26"
 ],
 "/cluster/k0697-host-field-facts-on-thick-orbits-stabilizers-and-frobenius/":[
-"39abbaaac98a",
+"2308e1b02752",
 "2026-11-26"
 ],
 "/cluster/k0698-s-units-in-number-fields-and-hilbert-90-for-quadratic/":[
@@ -2868,7 +2868,7 @@
 "2026-11-26"
 ],
 "/cluster/k0701-host-field-data-class-number-lemmas-and-galois-descent-for/":[
-"925f1ba59eed",
+"4e634d110557",
 "2026-11-26"
 ],
 "/cluster/k0702-local-squares-quadratic-norms-and-s-unit-covering-in/":[
@@ -2928,7 +2928,7 @@
 "2026-11-26"
 ],
 "/cluster/k0713-number-field-set-ups-ideals-adeles-and-cm-data/":[
-"a0ec646b552b",
+"cad1b1da7823",
 "2026-11-26"
 ],
 "/cluster/k0714-sizes-of-number-fields-discriminants-class-numbers/":[
@@ -3080,11 +3080,11 @@
 "2026-11-26"
 ],
 "/cluster/k0751-dwork-style-weights-for-power-series-over-ultrametric-fields/":[
-"0277ea125d54",
+"9fbc9d1a3137",
 "2026-11-26"
 ],
 "/cluster/k0752-gauss-jet-bounds-and-one-letter-coefficient-estimates/":[
-"da3385ecb1fb",
+"a377e210bcc0",
 "2026-11-26"
 ],
 "/cluster/k0753-formal-group-laws-from-frobenius-lifts-honda-and-lazard/":[
@@ -3092,7 +3092,7 @@
 "2026-11-26"
 ],
 "/cluster/k0754-gauss-jet-theorems-with-dwork-weights-large-technical-bundle/":[
-"c7fef289f5d7",
+"3f32bbc6a27d",
 "2026-11-26"
 ],
 "/cluster/k0755-formal-group-laws-two-torsion-and-coboundary-conditions/":[
@@ -3100,7 +3100,7 @@
 "2026-11-26"
 ],
 "/cluster/k0756-uniform-gauss-models-and-the-one-letter-gauss-kernel-claim/":[
-"c780658e117d",
+"e146568f4ae6",
 "2026-11-26"
 ],
 "/cluster/k0757-theta-log-coordinates-and-dwork-style-integrality-of/":[
@@ -3176,7 +3176,7 @@
 "2026-11-26"
 ],
 "/cluster/k0775-orbit-and-jet-bounds-for-theta-kernels-large-technical/":[
-"d2bdf4404c5a",
+"dd85f17fcfe0",
 "2026-11-26"
 ],
 "/cluster/k0776-formal-group-computations-over-complex-p-adics-for-unitary/":[
@@ -3192,7 +3192,7 @@
 "2026-11-26"
 ],
 "/cluster/k0779-p-adic-power-series-formal-groups-and-gauss-sum-models/":[
-"a7d34c1968a0",
+"7067289713d8",
 "2026-11-26"
 ],
 "/cluster/k0780-formal-group-systems-and-lattice-tuples-growth-bounds/":[
@@ -3204,7 +3204,7 @@
 "2026-11-26"
 ],
 "/cluster/k0782-ideal-lattices-discriminants-and-theta-half-characteristics/":[
-"e66a33ad6bcc",
+"2ec796240c9d",
 "2026-11-26"
 ],
 "/cluster/k0783-witt-vector-fractions-formal-group-size-comparisons/":[
@@ -3212,7 +3212,7 @@
 "2026-11-26"
 ],
 "/cluster/k0784-theta-spaces-on-lattices-self-duality-and-unitarity/":[
-"87ac7199c008",
+"0dfb97819d6a",
 "2026-11-26"
 ],
 "/cluster/k0785-theta-translates-adelic-lattices-and-hecke-characters/":[
@@ -3480,7 +3480,7 @@
 "2026-11-26"
 ],
 "/cluster/k0851-zuckerman-functors-iwasawa-cartan-decompositions-and-smooth/":[
-"419bbdaa6e9e",
+"26e7de41b333",
 "2026-11-26"
 ],
 "/cluster/k0852-casimir-operator-on-k-types-of-mixed-sign-unitary-groups/":[
@@ -3580,7 +3580,7 @@
 "2026-11-26"
 ],
 "/cluster/k0876-number-field-splitting-and-lattice-counting-for-hermitian/":[
-"07ab28917b92",
+"ccbaedf60f00",
 "2026-11-26"
 ],
 "/cluster/k0877-haar-measures-and-quotients-on-matrix-groups-for-bessel/":[
@@ -3688,7 +3688,7 @@
 "2026-11-26"
 ],
 "/cluster/k0903-eventually-true-family-estimates-and-plancherel-bounds/":[
-"2c0909601f14",
+"ddadd5a5112e",
 "2026-11-26"
 ],
 "/cluster/k0904-lattice-index-volume-and-weight-bookkeeping-for-unitary/":[
@@ -3854,7 +3854,7 @@
 "2026-11-26"
 ],
 "/cluster/k0940-filtrations-with-finite-jumps-and-torsion-killing-invariants/":[
-"2a4b905446cc",
+"c3a84582773c",
 "2026-11-26"
 ],
 "/cluster/k0941-semisimple-letter-criterion-and-slot-hypotheses-for-lifting/":[
@@ -3922,7 +3922,7 @@
 "2026-11-26"
 ],
 "/cluster/k0957-tate-duality-for-crystalline-representations-and-hodge-tate/":[
-"a564dde02852",
+"ea47301454b6",
 "2026-11-26"
 ],
 "/cluster/k0958-integral-duality-wach-module-conclusions-and-lifting-theory/":[
@@ -3978,7 +3978,7 @@
 "2026-11-26"
 ],
 "/cluster/k0971-twisted-places-size-data-and-polynomial-bounds-for-design/":[
-"b2045e6e10ad",
+"075af6e182c6",
 "2026-11-26"
 ],
 "/cluster/k0972-small-primes-row-conditions-and-upper-theory-bounds/":[
@@ -4038,7 +4038,7 @@
 "2026-11-26"
 ],
 "/cluster/k0986-flow-and-counting-inequalities-with-odd-levels/":[
-"07a56d32e724",
+"5c61730d7021",
 "2026-11-26"
 ],
 "/cluster/k0987-gauge-exponentials-harmonic-vanishing-and-integrality-of/":[
@@ -4430,7 +4430,7 @@
 "2026-11-26"
 ],
 "/cluster/k1084-lie-models-with-cm-action-and-hermitian-log-norms/":[
-"861e37d44622",
+"f7c8d94e947b",
 "2026-11-26"
 ],
 "/cluster/k1085-sesquilinear-forms-and-local-bases-for-cm-periods/":[
@@ -4458,7 +4458,7 @@
 "2026-11-26"
 ],
 "/cluster/k1091-bernoulli-numbers-for-dirichlet-characters-plus-the-final/":[
-"f8f4cc2eabe1",
+"6899af1468b5",
 "2026-11-26"
 ],
 "/cluster/k1091-bernoulli-numbers-for-dirichlet-characters-plus-the-final/lean/":[
@@ -4492,7 +4492,7 @@
 "2026-11-26"
 ],
 "/cluster/k1098-selmer-groups-and-transport-of-cocycles-between-fields/":[
-"f794b93df030",
+"ab87a4301fa3",
 "2026-11-26"
 ],
 "/cluster/k1099-linked-unramified-chains-and-derivative-divisibility-claims/":[
@@ -4532,7 +4532,7 @@
 "2026-11-26"
 ],
 "/cluster/k1108-kummer-theory-torsion-modules-over-z-l-and-poitou-tate/":[
-"6619510dc3d7",
+"07e2a1b9ffec",
 "2026-11-26"
 ],
 "/cluster/k1109-prime-spectra-charts-and-gluing-of-irreducible-components/":[
@@ -4540,7 +4540,7 @@
 "2026-11-26"
 ],
 "/cluster/k1110-class-number-bounds-from-discriminants-and-ideal-counting/":[
-"a2c839424377",
+"6658929b0675",
 "2026-11-26"
 ],
 "/cluster/k1111-matrix-algebras-burnside-schur-and-determinant-patching/":[
@@ -4556,19 +4556,19 @@
 "2026-11-26"
 ],
 "/cluster/k1114-cyclotomic-fields-characters-and-prime-set-window-statements/":[
-"244b80d63209",
+"0d9b5edda31a",
 "2026-11-26"
 ],
 "/cluster/k1115-galois-cohomology-lengths-l-data-and-fields-of-totally-real/":[
-"627b9a174f89",
+"3496c3089818",
 "2026-11-26"
 ],
 "/cluster/k1116-height-and-vanishing-characters-orders-and-a-quadratic-field/":[
-"46a4f2c94d92",
+"365112faf228",
 "2026-11-26"
 ],
 "/cluster/k1117-selmer-and-sha-groups-with-conjugation-and-character-level/":[
-"78ba6bb13e43",
+"60cf234eaf69",
 "2026-11-26"
 ],
 "/cluster/k1118-universal-deformation-rings-and-locally-constant-cocycles/":[
@@ -4580,7 +4580,7 @@
 "2026-11-26"
 ],
 "/cluster/k1120-group-homology-of-gl-n-stable-range-and-class-counting/":[
-"532b6b9f859c",
+"a4515aa9c46c",
 "2026-11-26"
 ],
 "/cluster/k1121-local-rings-of-characteristic-p-and-frames-of-2-or-3/":[
@@ -4652,7 +4652,7 @@
 "2026-11-26"
 ],
 "/cluster/k1138-dirichlet-characters-tame-towers-and-the-grade-zero-main/":[
-"328bfe8d6216",
+"be02c533de6d",
 "2026-11-26"
 ],
 "/cluster/k1139-coboundary-criteria-duals-of-finite-modules-and-tangent/":[
@@ -4664,7 +4664,7 @@
 "2026-11-26"
 ],
 "/cluster/k1141-clifford-theory-for-unitary-three-groups-and-kato-characters/":[
-"57d3c9147208",
+"665af32cda4f",
 "2026-11-26"
 ],
 "/cluster/k1142-duality-pairs-and-archimedean-degree-counts-in-patching/":[
@@ -4672,7 +4672,7 @@
 "2026-11-26"
 ],
 "/cluster/k1143-ferrero-washington-as-a-claim-with-block-diagonal-gsp4/":[
-"858501d6981e",
+"ad796795e3d4",
 "2026-11-26"
 ],
 "/cluster/k1144-dual-numbers-and-tangent-vectors-of-deformations/":[
@@ -4692,7 +4692,7 @@
 "2026-11-26"
 ],
 "/cluster/k1148-weak-shimura-theory-potential-modularity-and-adjoint-lifting/":[
-"0344a77d7841",
+"f7e012fec375",
 "2026-11-26"
 ],
 "/cluster/k1149-cuspidal-twists-unipotent-idempotents-and-residue-towers/":[
@@ -4708,7 +4708,7 @@
 "2026-11-26"
 ],
 "/cluster/k1152-measure-and-finiteness-facts-for-adelic-unitary-group-mass/":[
-"d5f87910c545",
+"a34ef68c7536",
 "2026-11-26"
 ],
 "/cluster/k1153-lattices-inside-adelic-points-of-a-unitary-group/":[
@@ -4756,11 +4756,11 @@
 "2026-11-26"
 ],
 "/cluster/k1164-poincare-series-and-finiteness-in-the-hida-style-setting/":[
-"4b98588e2318",
+"253506f973aa",
 "2026-11-26"
 ],
 "/cluster/k1165-bessel-models-spectral-gaps-and-existence-of-the-hida/":[
-"cb1c32c5adc0",
+"df049224440d",
 "2026-11-26"
 ],
 "/cluster/k1166-rows-congruence-conditions-and-averaging-over-level/":[
@@ -4800,7 +4800,7 @@
 "2026-11-26"
 ],
 "/cluster/k1175-convolution-idempotents-and-finite-degree-conditions-for/":[
-"956af1e5f2ad",
+"1d44b00ce3b5",
 "2026-11-26"
 ],
 "/cluster/k1176-existence-of-the-full-hida-setting-via-neat-levels-and/":[
@@ -4832,7 +4832,7 @@
 "2026-11-26"
 ],
 "/cluster/k1183-weighted-bounds-bessel-choices-and-amplitude-positivity/":[
-"79ff0720e3d6",
+"8a4129858d51",
 "2026-11-26"
 ],
 "/cluster/k1184-lattice-dictionaries-and-covolumes-of-stabiliser-lattices/":[
@@ -4844,11 +4844,11 @@
 "2026-11-26"
 ],
 "/cluster/k1186-rows-degenerate-pairs-and-kloosterman-type-coset-sums/":[
-"cbfdd945c361",
+"620c73f9c738",
 "2026-11-26"
 ],
 "/cluster/k1187-normals-counts-nondegenerate-gram-tuples-and-generic-row/":[
-"edfa311d1439",
+"abf31d224c22",
 "2026-11-26"
 ],
 "/cluster/k1188-large-constant-row-bounds-and-the-theorem-s-recursion/":[
@@ -4892,7 +4892,7 @@
 "2026-11-26"
 ],
 "/cluster/k1198-discrete-series-classification-and-column-dictionary/":[
-"b03e1697f456",
+"9f8436a49ad0",
 "2026-11-26"
 ],
 "/cluster/k1199-cech-and-sheaf-cohomology-of-schemes/":[
@@ -5548,7 +5548,7 @@
 "2026-11-26"
 ],
 "/cluster/k1362-elliptic-curves-in-weierstrass-form-and-polarised-abelian/":[
-"073115139b91",
+"cb5c12c12fa6",
 "2026-11-26"
 ],
 "/cluster/k1363-eigenspace-splittings-lie-actions-and-hodge-tate-shifts/":[
@@ -6586,7 +6586,7 @@
 "2026-11-26"
 ],
 "/cluster/k1620-primes-in-short-intervals-with-prescribed-norm-conditions/":[
-"215f541796a4",
+"a56f046f5790",
 "2026-11-26"
 ],
 "/cluster/k1621-self-dual-lattices-and-adelic-frames-for-unitary-groups/":[
@@ -6594,7 +6594,7 @@
 "2026-11-26"
 ],
 "/cluster/k1622-real-analysis-inequalities-and-explicit-size-bounds-for/":[
-"5081c1e16dea",
+"251ee2dfe3c8",
 "2026-11-26"
 ],
 "/cluster/k1623-finiteness-of-lattice-class-sets-and-genus-mass-for/":[
@@ -6614,11 +6614,11 @@
 "2026-11-26"
 ],
 "/cluster/k1627-level-subgroups-coset-mass-and-index-formulas-for-unitary/":[
-"032923424b0f",
+"ed5951c6b004",
 "2026-11-26"
 ],
 "/cluster/k1628-host-number-field-data-genus-mass-and-family-derivation/":[
-"cb638df3f5c7",
+"5ef7805b9797",
 "2026-11-26"
 ],
 "/cluster/k1629-size-data-parameter-choices-and-lattice-length-bounds/":[
@@ -6626,7 +6626,7 @@
 "2026-11-26"
 ],
 "/cluster/k1630-local-formal-group-data-ties-and-served-orbits-at-inert/":[
-"58b2655b8936",
+"4d6e51a774ec",
 "2026-11-26"
 ],
 "/cluster/k1631-automorphic-forms-tied-to-lattices-hecke-identities-and/":[
@@ -6638,11 +6638,11 @@
 "2026-11-26"
 ],
 "/cluster/k1633-small-order-primes-thin-scales-and-family-conditions-on/":[
-"d1cb1320b270",
+"8bdf93405b69",
 "2026-11-26"
 ],
 "/cluster/k1634-numerical-comparison-mertens-type-bounds-and-sum-over/":[
-"f4f780c01146",
+"a3b9a8cfc55e",
 "2026-11-26"
 ],
 "/cluster/k1635-finite-class-sets-of-lattices-at-a-level-and-prime-counting/":[
@@ -6650,7 +6650,7 @@
 "2026-11-26"
 ],
 "/cluster/k1636-explicit-parameter-choices-scale-ranks-and-host-conditions/":[
-"70c33cd29b46",
+"414fbbaa3726",
 "2026-11-26"
 ],
 "/cluster/k1637-lattice-geometry-data-cm-types-and-shimura-sheaves-for/":[
@@ -6658,7 +6658,7 @@
 "2026-11-26"
 ],
 "/cluster/k1638-family-parameters-size-data-and-stable-lattices-for/":[
-"2c72097764a3",
+"5b5a78dc6d86",
 "2026-11-26"
 ],
 "/cluster/k1639-tied-families-comparison-maps-and-local-lattice-data-at/":[
@@ -6666,15 +6666,15 @@
 "2026-11-26"
 ],
 "/cluster/k1640-family-bounds-on-shares-degrees-and-admissible-constants/":[
-"6e5092a6969e",
+"66aeb627c8da",
 "2026-11-26"
 ],
 "/cluster/k1641-tied-hermitian-column-data-and-level-zero-joint-conditions/":[
-"a6f18f6e5d7f",
+"81fc7c5b8404",
 "2026-11-26"
 ],
 "/cluster/k1642-slope-lemma-link-log-bounds-and-bad-share-sizes-along/":[
-"be24139ad2f8",
+"f0e971d13c73",
 "2026-11-26"
 ],
 "/cluster/k1643-class-compatibility-hecke-relations-and-diamond-class/":[
@@ -6710,7 +6710,7 @@
 "2026-11-26"
 ],
 "/cluster/k1651-size-data-places-and-constants-for-families-of-lattices/":[
-"193d0755397a",
+"4743ec21b8e2",
 "2026-11-26"
 ],
 "/cluster/k1652-column-matrices-over-local-fields-and-chain-top-laws/":[
@@ -6726,7 +6726,7 @@
 "2026-11-26"
 ],
 "/cluster/k1655-standard-lattices-volumes-and-mass-ratios/":[
-"0e191685d814",
+"5759e76d25a3",
 "2026-11-26"
 ],
 "/cluster/k1656-unimodular-genus-weak-approximation-and-decorated-lattices/":[
@@ -6738,7 +6738,7 @@
 "2026-11-26"
 ],
 "/cluster/k1658-scale-parameters-and-existence-of-admissible-twist-data/":[
-"c4207ab3c0c7",
+"f09a65eabf4c",
 "2026-11-26"
 ],
 "/cluster/k1659-tied-hermitian-forms-block-actions-and-period-entries/":[
@@ -6770,7 +6770,7 @@
 "2026-11-26"
 ],
 "/cluster/k1666-divisibility-and-indefinite-realisation-error-bounds/":[
-"fae9c2695e2d",
+"d5cf958c75f8",
 "2026-11-26"
 ],
 "/cluster/k1667-true-columns-row-integrality-and-ambient-forms/":[
@@ -6814,7 +6814,7 @@
 "2026-11-26"
 ],
 "/cluster/k1677-divisor-bounds-weighted-norms-and-last-entries/":[
-"920fcc2a43ca",
+"0dabee8a920d",
 "2026-11-26"
 ],
 "/cluster/k1678-symmetric-twisted-forms-and-level-prime-hermitian-data/":[
@@ -6830,7 +6830,7 @@
 "2026-11-26"
 ],
 "/cluster/k1681-column-norms-log-theta-bounds-and-finite-lattice-classes/":[
-"4d36275aa440",
+"87e901a2ab73",
 "2026-11-26"
 ],
 "/cluster/k1682-points-of-decorations-and-moved-adelic-points/":[
@@ -6838,7 +6838,7 @@
 "2026-11-26"
 ],
 "/cluster/k1683-finite-sums-level-subgroups-and-lattice-normal-forms/":[
-"7e2a7008153c",
+"d657a447e009",
 "2026-11-26"
 ],
 "/cluster/k1684-level-charts-rebasing-and-norm-one-determinant-classes/":[
@@ -6918,7 +6918,7 @@
 "2026-11-26"
 ],
 "/cluster/k1703-third-place-theta-lifts-row-side-determination-and-selection/":[
-"12cca16449ac",
+"900ad5daea20",
 "2026-11-26"
 ],
 "/cluster/k1704-third-place-theta-lifts-alternate-realisations-and-ties/":[
@@ -6926,11 +6926,11 @@
 "2026-11-26"
 ],
 "/cluster/k1705-bundle-linkage-six-rows-at-members-and-langlands-inputs/":[
-"c2136af1cbb3",
+"82b9f907a15c",
 "2026-11-26"
 ],
 "/cluster/k1706-mixed-size-bounds-and-comparison-claims-for-divisor-families/":[
-"286064a3c421",
+"93473e2cc918",
 "2026-11-26"
 ],
 "/cluster/k1707-formal-power-series-invariant-derivatives-and-coefficient/":[
@@ -7470,7 +7470,7 @@
 "2026-11-26"
 ],
 "/cluster/k1841-haar-measure-and-mass-on-adelic-unitary-groups/":[
-"6fc92ca81f5b",
+"2bb88c58964e",
 "2026-11-26"
 ],
 "/cluster/k1842-tied-theta-families-and-embedding-frames/":[
@@ -7514,7 +7514,7 @@
 "2026-11-26"
 ],
 "/cluster/k1852-indefinite-data-packages-and-passage-statements/":[
-"9279a2e9a195",
+"d33f946094a3",
 "2026-11-26"
 ],
 "/cluster/k1853-topology-and-periods-on-adelic-unitary-groups/":[
@@ -7554,7 +7554,7 @@
 "2026-11-26"
 ],
 "/cluster/k1862-discrete-series-sobolev-bounds-and-bessel-uniqueness/":[
-"c25ba828c294",
+"c89673b9fb1c",
 "2026-11-26"
 ],
 "/cluster/k1863-haar-characters-of-adelic-maps-and-product-formula/":[
@@ -7574,7 +7574,7 @@
 "2026-11-26"
 ],
 "/cluster/k1867-block-data-base-change-and-period-identities/":[
-"1d5702d002c5",
+"092723168d84",
 "2026-11-26"
 ],
 "/cluster/k1868-class-presentations-and-hilbert-modules-of-adelic-forms/":[
@@ -7606,7 +7606,7 @@
 "2026-11-26"
 ],
 "/cluster/k1875-discrete-series-models-and-multiplicity-maps-at-real-places/":[
-"b7c1166c246e",
+"e2625e8725c7",
 "2026-11-26"
 ],
 "/cluster/k1876-theta-lifts-at-real-places-fock-vectors-and-highest-weights/":[
@@ -7634,7 +7634,7 @@
 "2026-11-26"
 ],
 "/cluster/k1882-adjoint-maps-inner-products-and-finiteness-inputs-for-lifts/":[
-"92770120ad3b",
+"6499a10a18ff",
 "2026-11-26"
 ],
 "/cluster/k1883-cuspidal-spectrum-trace-class-and-published-representation/":[
@@ -7726,7 +7726,7 @@
 "2026-11-26"
 ],
 "/cluster/k1905-down-lifts-lowest-k-types-and-joint-harmonic-vectors/":[
-"00e492b9ab5a",
+"ebdd1fef20cc",
 "2026-11-26"
 ],
 "/cluster/k1906-conjugation-and-adjoint-of-weil-data-dagger-map/":[
@@ -7754,7 +7754,7 @@
 "2026-11-26"
 ],
 "/cluster/k1912-chain-steps-levels-euler-factors-l-values-and-scalars/":[
-"924f74af6f0c",
+"dab0c7ce24e3",
 "2026-11-26"
 ],
 "/cluster/k1913-central-characters-fock-vectors-and-see-saw-for-definite/":[
@@ -7966,7 +7966,7 @@
 "2026-11-26"
 ],
 "/cluster/k1965-galois-cohomology-poitou-tate-duality-and-reciprocity/":[
-"9f53a8f85ff9",
+"92eaf3b3247c",
 "2026-11-26"
 ],
 "/cluster/k1966-bloch-kato-reduction-twisted-selmer-bounds-from-assumed/":[
@@ -8006,7 +8006,7 @@
 "2026-11-26"
 ],
 "/cluster/k1975-tame-inertia-frobenius-matches-and-label-conditions/":[
-"046d0a194b92",
+"ea48d4453276",
 "2026-11-26"
 ],
 "/cluster/k1976-direct-summand-cancellation-and-weil-deligne-data-at-places/":[
@@ -8014,7 +8014,7 @@
 "2026-11-26"
 ],
 "/cluster/k1977-hecke-eigenvalues-joint-eigenspaces-and-normalized-local/":[
-"232c9a451979",
+"22e402815852",
 "2026-11-26"
 ],
 "/cluster/k1978-depth-zero-local-data-brauer-nesbitt-over-finite-fields/":[
@@ -8046,7 +8046,7 @@
 "2026-11-26"
 ],
 "/cluster/k1985-admissible-galois-data-local-global-assembly-of-sum/":[
-"9054d7fcc351",
+"e6f03f16e8c5",
 "2026-11-26"
 ],
 "/cluster/k1986-conjugate-split-places-and-tame-type-at-places/":[
@@ -8062,7 +8062,7 @@
 "2026-11-26"
 ],
 "/cluster/k1989-admissible-parameters-p-adic-hodge-theory-hodge-jump/":[
-"abc82a82838c",
+"ea3c227a8838",
 "2026-11-26"
 ],
 "/cluster/k1990-satake-parameters-spherical-hecke-algebras-and-inert-places/":[
@@ -9080,7 +9080,7 @@
 "2026-11-26"
 ],
 "/cluster/k2236-finite-discrete-families-and-the-final-base-change-assembly/":[
-"1eb5518876b8",
+"5c261b429397",
 "2026-11-26"
 ],
 "/cluster/k2237-local-trace-and-match-claims-for-blocks-of-hecke-operators/":[
@@ -9256,7 +9256,7 @@
 "2026-11-26"
 ],
 "/cluster/k2280-unramified-points-covering-lattices-and-hilbert-samuel/":[
-"5db61b450caf",
+"8a9de76895fe",
 "2026-11-26"
 ],
 "/cluster/k2281-minimal-genus-weights-at-a-point-and-rank-growth-under/":[
@@ -9264,7 +9264,7 @@
 "2026-11-26"
 ],
 "/cluster/k2282-restated-size-lift-and-weight-conditions-for-the-final-cover/":[
-"e2d9acdf268e",
+"34b01a14addd",
 "2026-11-26"
 ],
 "/cluster/k2283-siegel-weil-unfolding-integrals-into-coset-sums/":[
@@ -9472,7 +9472,7 @@
 "2026-11-26"
 ],
 "/cluster/k2334-theta-lifts-cartan-conjugation-t-lift-and-real-vanishing/":[
-"202cd5d5c8fa",
+"e46dbc497b2d",
 "2026-11-26"
 ],
 "/cluster/k2335-base-statements-frame-conjugation-height-integrability/":[
@@ -9730,7 +9730,7 @@
 "2026-11-26"
 ],
 "/cluster/k2394-p-adic-hodge-theory-potentially-semistable-representations/":[
-"51568e217093",
+"d8a9c0add46d",
 "2026-11-26"
 ],
 "/cluster/k2395-local-and-global-galois-groups-of-number-fields-and-the/":[
@@ -9770,7 +9770,7 @@
 "2026-11-26"
 ],
 "/cluster/k2401-a-proved-depth-zero-local-langlands-map-for-gl-n-over-p/":[
-"d0d1f566fffc",
+"1d39067564b8",
 "2026-11-26"
 ],
 "/cluster/k2401-a-proved-depth-zero-local-langlands-map-for-gl-n-over-p/lean/":[
@@ -9794,7 +9794,7 @@
 "2026-11-26"
 ],
 "/cluster/k2404-local-langlands-for-gl-n-tempered-parameters-uniqueness-and/":[
-"8985cb8f3a8a",
+"0e11a170bf8a",
 "2026-11-26"
 ],
 "/cluster/k2404-local-langlands-for-gl-n-tempered-parameters-uniqueness-and/lean/":[
@@ -9892,7 +9892,7 @@
 "2026-11-26"
 ],
 "/cluster/k2427-global-artin-reciprocity-cuspidal-base-change-and-spherical/":[
-"9388537fc45b",
+"7ab02d01acf5",
 "2026-11-26"
 ],
 "/cluster/k2428-grade-zero-interpolating-elements-and-symmetric-cube/":[
@@ -9908,7 +9908,7 @@
 "2026-11-26"
 ],
 "/cluster/k2431-residual-representations-semisimple-calculus-and-unramified/":[
-"3c83554d1747",
+"9f0f25824155",
 "2026-11-26"
 ],
 "/cluster/k2432-ultrametric-distances-ribet-lattices-and-residual-automorphy/":[
@@ -10028,7 +10028,7 @@
 "2026-11-26"
 ],
 "/cluster/k2461-automorphy-with-unramified-coefficients-and-bloch-kato/":[
-"064e159a0b56",
+"ea7d7a31c7f0",
 "2026-11-26"
 ],
 "/cluster/k2462-cuspidal-descent-hodge-tate-weights-and-spherical-twists/":[
@@ -10036,7 +10036,7 @@
 "2026-11-26"
 ],
 "/cluster/k2463-final-assembly-grh-for-dirichlet-l-functions-then-the/":[
-"0ec76a18a53c",
+"84e6f385eb20",
 "2026-11-26"
 ],
 "/cluster/k2463-final-assembly-grh-for-dirichlet-l-functions-then-the/lean/":[
@@ -10046,7 +10046,7 @@
 "9a0df573a5b7"
 ],
 "/cluster/k2464-speh-base-change-and-literature-rank-n-hypothesis-bundle/":[
-"d9ec220a10f6",
+"6ec7d1d8efc5",
 "2026-11-26"
 ],
 "/cluster/k2465-residual-equality-for-rank-two-and-local-artin-reciprocity/":[
@@ -10062,7 +10062,7 @@
 "2026-11-26"
 ],
 "/cluster/k2468-bridge-between-automorphy-notions-with-the-hypotheses-prime/":[
-"59f1ba6d4133",
+"a91f528dc851",
 "2026-11-26"
 ],
 "/cluster/k2469-weil-deligne-flags-and-irreducible-principal-series/":[
@@ -10366,7 +10366,7 @@
 "2026-11-26"
 ],
 "/cluster/k2544-doubling-method-and-theta-lift-inner-products-with-named/":[
-"6d4953dff41a",
+"c2f301177460",
 "2026-11-26"
 ],
 "/cluster/k2545-witt-towers-and-regularised-integrals-in-the-doubling-method/":[
@@ -10794,10 +10794,10 @@
 "96ec656ad8d3"
 ],
 "/guides/":[
-"5c9934fdd1ea",
+"349c5f686a61",
 "2026-11-26",
-"409df3183d65",
-"a85fa28cfa39"
+"317f09c34b55",
+"d7e6dce9f030"
 ],
 "/guides/aaronson/":[
 "dbdd35c98063",
@@ -10908,10 +10908,10 @@
 "bc6f8f8a3673"
 ],
 "/guides/rubinstein-zeta/":[
-"1f1f2599122c",
+"faf991b2d240",
 "2026-11-26",
-"5cc8546e8951",
-"315ed31d9178"
+"764d8260b37e",
+"4b93ab01c126"
 ],
 "/guides/sutherland/":[
 "43ecd8318900",
@@ -11172,10 +11172,10 @@
 "63080c571dd6"
 ],
 "/shorter-riemann-hypothesis-proof/":[
-"e5c979624e03",
+"230d9caecba5",
 "2026-11-26",
-"2a805ca9a6a2",
-"44504043c080"
+"757aeebdb44b",
+"6c4de06ee2d3"
 ],
 "/status/":[
 "938d03a4d52a",
@@ -11454,7 +11454,7 @@
 "4d969558b3ed"
 ],
 "data:":[
-"7081ca509dac",
+"792137084648",
 "2026-11-26"
 ]
 }
