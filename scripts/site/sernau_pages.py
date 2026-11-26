@@ -289,10 +289,10 @@ def reader_content(data):
     <a id="file-close" href="{MAP}">Return to map</a>
   </div>
   <p id="reader-status" class="sr-muted" role="status"></p>
-  <noscript><p>The source reader requires JavaScript. Choose a group in the
+  <noscript><style>#reader {{ display: none; }}</style><p>The source reader requires JavaScript. Choose a group in the
   {link(LIST, "text index")} for pinned GitHub links, or follow the {link(ROUTE, "classical RH route")}.</p><ul class="rows">{pins}</ul></noscript>
 </section>
-<section class="sr-reader" id="reader" hidden aria-label="Lean source workspace">
+<section class="sr-reader" id="reader" inert aria-busy="true" aria-label="Lean source workspace">
   <nav id="reader-tabs" class="sr-file-tabs" aria-label="Recently opened files"></nav>
   <article class="sr-code-wrap">
     <div class="sr-code-bar"><span id="file-location"></span>
@@ -301,7 +301,7 @@ def reader_content(data):
     <div id="reader-selection" hidden></div>
     <div class="sr-code" id="reader-code" tabindex="0" aria-label="Lean source"></div>
   </article>
-  <aside class="sr-reader-side" aria-label="Source navigation">
+  <aside class="sr-reader-side" aria-label="Source navigation" aria-busy="true">
     <details open id="outline-panel"><summary>Declaration outline</summary>
       <label class="sr-screen" for="reader-filter">Search this group’s files and declarations</label>
       <input type="search" id="reader-filter" data-clarity-mask="true" placeholder="Search this group" autocomplete="off">

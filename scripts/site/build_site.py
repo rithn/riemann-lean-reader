@@ -1456,6 +1456,22 @@ for m, k in mod_cl.items():
     rows.append([fidx[a], b, int(k[1:])])
 json.dump({'folders': folders, 'rows': rows}, open(os.path.join(OUT, 'data', 'modules.json'), 'w'), separators=(',', ':'))
 
+# Direct reader entry needs a lookup for one module. Use the low byte of FNV-1a
+# on the UTF-8 name (see locateLeanFile in app.js) to keep the asset count bounded.
+locators = [{} for _ in range(256)]
+for module, cluster_id in sorted(mod_cl.items()):
+    bucket = 0x811c9dc5
+    for byte in module.encode('utf-8'):
+        bucket = ((bucket ^ byte) * 0x01000193) & 0xff
+    locators[bucket][module] = cluster_id
+locator_payloads = [json.dumps(bucket, separators=(',', ':'), ensure_ascii=False).encode('utf-8') for bucket in locators]
+locator_version = hashlib.sha256(b'\n'.join(locator_payloads)).hexdigest()[:16]
+LEAN_LOCATOR = f'/data/alpoge/files/{LEAN_SHA}/{locator_version}/'
+locator_dir = Path(OUT) / LEAN_LOCATOR.lstrip('/')
+locator_dir.mkdir(parents=True, exist_ok=True)
+for bucket, payload in enumerate(locator_payloads):
+    (locator_dir / f'{bucket:02x}.json').write_bytes(payload)
+
 # ---------- learning tree (core outline + concepts), with cluster links
 def tnode(x):
     cls = sorted({mod_cl[r.split(':')[0][:-5].replace('/', '.')] for r in x.get('lean') or []
@@ -1773,6 +1789,7 @@ READABLE_STATUS = {'href': SERNAU_VERIFICATION, 'title': 'Andrew Sutherland’s 
                    'label': 'Sernau readable verification at MIT', 'short': 'Checked', 'text': 'Comparator passed'}
 EXPLORER_CONFIG = {
     'alpoge': {'src': APP_F, 'version': OV_V, 'overview': f'/data/overview.json?v={OV_V}',
+               'fileLocator': LEAN_LOCATOR,
                'dependency': 'https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'},
     'sernau': {'src': SERNAU_F, 'map': SERNAU_MAP_F, 'overview': sernau_edition['overviewUrl']},
 }
@@ -1817,6 +1834,10 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
                             ('modules', 'modulesUrl'), ('groups', 'groupsBaseUrl')]})
         if view == 'map':
             attributes['data-file-graph'] = sernau_edition['fileGraphUrl']
+        if view == 'reader':
+            attributes['data-build-id'] = sernau_edition['buildId']
+            attributes['data-file-locator'] = sernau_data['readerFilesBaseUrl']
+            attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
     status = READABLE_STATUS if readable else ORIGINAL_STATUS
     status_html = (f'<a class="status-chip ok" href="{H(status["href"])}" title="{H(status["title"])}" aria-label="{H(status["label"])}">'
@@ -1838,6 +1859,9 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
     config = EXPLORER_CONFIG
     if engine == 'alpoge':
         config = {**config, 'alpoge': {**config['alpoge'], 'theorems': HEADLINE_CROSSWALK}}
+    if readable and view == 'reader':
+        pin = {key: sernau_edition[key] for key in ('repository', 'revision', 'sourceRoot')}
+        config = {**config, 'sernau': {**config['sernau'], **pin}}
     scripts = json_script('explorer-config', config)
     if view == 'reader':
         scripts += '\n' + json_script('edition-theorems', sernau_data['theorems'])
@@ -3281,7 +3305,7 @@ open(os.path.join(OUT, '_redirects'), 'w').write(REDIR)
 # /data/…json addresses are blocked using $ (end of URL). /api/ (the public data API) stays open.
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\nAllow: /\n'
     '# the app\'s data files are fetched with ?v=<version>; the bare addresses are never used by the site\n'
-    'Allow: /data/sernau/\nDisallow: /data/*.json$\n'
+    'Allow: /data/sernau/\nAllow: /data/alpoge/files/\nDisallow: /data/*.json$\n'
     'Disallow: /data/*.json.gz$\n\n'
     f'Sitemap: {SITE}/sitemap.xml\n')
 KEY_F = os.path.join(HERE, 'indexnow.key')   # IndexNow key (public by design: it is served at /<key>.txt)

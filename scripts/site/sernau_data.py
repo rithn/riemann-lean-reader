@@ -475,6 +475,16 @@ def build_sernau_data(out: Path):
             for key, module in modules.items()
         },
     }
+    # Reader entry knows the group from the module prefix, which build_modules
+    # validates against the inventory. Keep the full index for list and search.
+    reader_files = base + "files/"
+    file_fields = ("name", "group", "groupSlug", "href", "label", "lines", "depth",
+                   "raw", "upstreamRaw", "github", "sha256", "labelOrigin", "labelReview")
+    for group in groups_list:
+        json_output(out, reader_files + quote(group["id"]) + ".json", {
+            "edition": {key: edition[key] for key in ("id", "revision", "buildId")},
+            "modules": {name: {key: modules[name][key] for key in file_fields} for name in group["modules"]},
+        })
     json_output(out, edition["manifestUrl"], edition)
     json_output(out, edition["overviewUrl"], overview)
     module_ids = {name: index for index, name in enumerate(modules)}
@@ -497,7 +507,7 @@ def build_sernau_data(out: Path):
     json_output(out, "/api/sernau/groups.json", {"edition": edition, "groups": groups_list, "edges": edges})
     json_output(out, "/api/sernau/modules.json", module_index)
     json_output(out, "/api/sernau/theorems.json", {"edition": edition, "theorems": theorems})
-    return {**overview, "modules": modules}
+    return {**overview, "modules": modules, "readerFilesBaseUrl": reader_files}
 
 
 if __name__ == "__main__":
