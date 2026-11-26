@@ -14,9 +14,9 @@
 "7253b621e88c"
 ],
 "/alpoge/":[
-"e6bda938b181",
+"16bcf6f8fceb",
 "2026-11-26",
-"3d860bfd22b5",
+"506b64aef59c",
 "b605d039a7b5"
 ],
 "/alpoge/reader/":[
@@ -28,7 +28,7 @@
 "2026-11-26"
 ],
 "/changelog/":[
-"69453af0c8b7",
+"0be5ddfefb52",
 "2026-11-26"
 ],
 "/cluster/k0001-gaussian-sums-over-lattices-and-height-kernels/":[
@@ -11178,8 +11178,10 @@
 "44504043c080"
 ],
 "/status/":[
-"1828719cbd95",
-"2026-11-26"
+"938d03a4d52a",
+"2026-11-26",
+"7ef642df95d2",
+"9f9dfe3a0228"
 ],
 "/theme/th001-symmetric-polynomials-and-determinant-bounds-for-heights/":[
 "55a5aab49538",
