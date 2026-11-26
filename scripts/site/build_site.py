@@ -726,6 +726,7 @@ def gnorm(g, i):
             'photo_crop': a.get('photo_crop') if isinstance(a, dict) else None,
             'companion_reading': g.get('companion_reading'),
             'mapping_note': g.get('mapping_note'),
+            'detail': g.get('hub_detail'), 'hub_status': g.get('hub_status'),
             'ai': _gai(g),
             'clusters': [k for k in (g.get('clusters') or []) if k in CL]}
 GD = [gnorm(g, i) for i, g in enumerate(GUIDES)]
@@ -2048,8 +2049,8 @@ def gversion(g):
         return ''
     l = vlabel(v)
     return f'Version {l}' if re.fullmatch(r'[\d.]+', l) else ''   # a label such as 'post' shows on the guide page only
-def gstatus(g):
-    return (f'<span class="gst {g["status"]}">{G_STATUS_T[g["status"]]}</span>'
+def gstatus(g, label=None):
+    return (f'<span class="gst {g["status"]}">{H(label or G_STATUS_T[g["status"]])}</span>'
             + (f' <q>{H(" ".join(str(g["quote"]).split()))}</q>' if g.get('quote') else ''))
 # the AI label (owner decision, 24 Nov 2026): "AI-assisted (author's statement)" with the author's own words, or for the one
 # guide labelled from its commit trailers "AI-assisted (repository history)", saying that it is not the author's statement
@@ -2386,6 +2387,9 @@ def md_html(t):
 def article_html(body, folded):
     body = body.replace('<p>', '<p class="article-lead">', 1)
     body = re.sub(r'</p>\n<p><em>(.*?)</em></p>', r'</p>\n<p class="meta article-date">\1</p>', body, count=1)
+    return fold_sections(body, folded)
+
+def fold_sections(body, folded):
     for anchor in folded:
         heading = re.search(rf'<h([2-6]) id="{re.escape(anchor)}">(.*?)</h[2-6]>', body)
         assert heading, f'article disclosure has no heading: {anchor}'
@@ -2583,33 +2587,38 @@ def gentry_html(g):
     meta = ' · '.join(x for x in (gposted(g), H(gversion(g)), f'Licence: {H(g["licence"])}' if g['licence'] else '') if x)
     tail = ' · '.join(f'<a href="{H(url)}">{H(title)}</a>' if url else H(title) for title, url in ghub_tail(g))
     anchor = f' id="{H(g["id"])}"' if 'edition' in g else ''
+    aliases = ''.join(f'<span id="{H(alias)}"></span>' for alias in g.get('aliases', []))
     detail = g.get('detail')
-    return (f'<li class="gentry"{anchor}>{gav(g, 48)}<div class="gbody"><p class="gauth">{gauthor(g)}</p>'
+    return (f'<li class="gentry"{anchor}>{gav(g, 48)}<div class="gbody">{aliases}<p class="gauth">{gauthor(g)}</p>'
             f'<a class="gtitle" href="{H(g["url"])}">{H(g["title"])}</a><p class="gmeta">{meta}</p>'
-            f'<p class="gstl">{gstatus(g)}</p>' + (f'<p class="gstl">{gai_tag(g)}</p>' if g['ai'] else '')
+            f'<p class="gstl">{gstatus(g, g["hub_status"])}</p>' + (f'<p class="gstl">{gai_tag(g)}</p>' if g['ai'] else '')
             + (f'<p>{H(detail)}</p>' if detail else '')
             + (f'<p class="gmeta">{tail}</p>' if tail else '') + '</div></li>')
 
 def gentry_md(g):
+    status = g['hub_status'] or G_STATUS_T[g['status']]
     bits = [g['name'] or 'No author named on the page', f'originally posted at {_host(g["posted_url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
-            gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', G_STATUS_T[g['status']] + (f': "{ " ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
+            gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', status + (f': "{ " ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
             gai_md(g), g.get('detail')]
     bits.extend(f'[{title}]({url})' if url else title for title, url in ghub_tail(g))
-    return f'- [{g["title"]}]({g["url"]}) · ' + ' · '.join(b for b in bits if b) + '\n'
+    anchors = ''.join(f'<a id="{H(anchor)}"></a>' for anchor in [g['id'], *g['aliases']]) if 'edition' in g else ''
+    return f'- {anchors}[{g["title"]}]({g["url"]}) · ' + ' · '.join(b for b in bits if b) + '\n'
 
 guide_sections = {'guides': list(GD), 'readable_guides': [], 'compact_guides': []}
 portraits = {g['slug']: g for g in GD}
 hub_ids = {g['id'] for g in GD}
 for item in GUIDE_CATALOGUE.get('hub_guides', []):
     g = gnorm(item, len(hub_ids))
-    assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', g['id']) and g['id'] not in hub_ids
-    hub_ids.add(g['id'])
+    aliases = item.get('anchor_aliases', [])
+    for anchor in [g['id'], *aliases]:
+        assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', anchor) and anchor not in hub_ids
+        hub_ids.add(anchor)
     edition = item['edition']
     section = {'original': 'guides', 'readable': 'readable_guides', 'compact': 'compact_guides'}[edition]
     portrait = portraits.get(item.get('portrait_from'), {})
     for key in ('ph48', 'ph96', 'ph48b', 'ph96b'):
         g[key] = portrait.get(key)
-    g.update(edition=edition, initials=_initials(g['name']), detail=item.get('detail'), links=item.get('links', []))
+    g.update(edition=edition, initials=_initials(g['name']), detail=item.get('detail'), links=item.get('links', []), aliases=aliases)
     guide_sections[section].append(g)
 
 if os.path.exists(GUIDES_F):
@@ -2626,7 +2635,7 @@ if not re.search(r'(?m)^\{\{guides\}\}$', gt):   # the stub: the list after the 
 gpath, gh1 = gfm['path'], gfm['h1']
 CONTENT_PAGES.append((gpath, gfm['title'], gh1))
 ARTICLES.add(gpath)
-ghtml, gmd = md_html(gt), gt
+ghtml, gmd = fold_sections(md_html(gt), gfm.get('fold_sections', [])), gt
 for section, entries in guide_sections.items():
     marker = '{{' + section + '}}'
     if section != 'guides' and not entries:

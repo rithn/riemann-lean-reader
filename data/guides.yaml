@@ -113,6 +113,8 @@ guides:
     parts_covered: "Zeta case only. Deduces RH from inequality (M) plus two Dirichlet-character estimates; (M) is not proved there, its proof is taken from the Lean development. Part I strategy, Part II step checks. The page also links other people's checks."
     status: verified
     status_quote: "This page links to my own check of that Lean proof and to checks made by others. ... All four checks finished with no errors."
+    hub_status: Explains the proof and links separate verification
+    hub_detail: The 265-page v2 working draft covers the zeta-function case. It takes the main inequality from Lean. Rubinstein reports his separate machine checks of the original archive on the same site.
     status_note: "The guide itself only explains ('A working guide to the proof, specialised to the Riemann zeta function'; '(M) itself is not proved there'). The verification is the author's own checks, listed on the same page."
     ai_statement:
       quote: written with Claude, Codex and Gemini as an aid to studying it
@@ -170,7 +172,8 @@ guides:
     parts_covered: "Verification only, no explanation of the mathematics: compile, axioms, nanoda, con-leche, lean4lean, comparator. Scope: 'GRH here means Dirichlet L-functions: all moduli and all characters.'"
     status: verified
     status_quote: "The published Lean source compiles without errors"
-    status_note: "Still pending at the last update: the Lean default and paranoid kernels on the full export, and the Lean-kernel stages of the end-to-end `lake comparator` run."
+    status_note: The 25 November 2026 MIT update reports that all original-archive checks finished, including the default and paranoid kernels and the v4.36.0 Comparator run from exports against the canonical challenge.
+    hub_detail: The MIT log reports that Comparator v4.36.0 passed on the original archive on 25 November, using exported proof data and the canonical challenge export. Sutherland ran the checks with Claude Code.
     posted_at:
       url: https://math.mit.edu/~drew/grh/
       date:
@@ -307,6 +310,7 @@ guides:
     clusters_basis: "Files the guide cites by path with line numbers (version 2 PDF, record 24432579): its folder abbreviations expanded, '.../' paths matched to one file, and bare file names that occur once in the archive, each mapped with site/data/modules.json. 310 of 329 checkable name-and-file pairs matched a declaration in the resolved file; the rest are parse noise. Cited paths that match no file are left out."
 
   - id: adriazola-reconstruction
+    hub_detail: The revised 297-page manuscript is dated 25 November 2026. Its author describes the correspondence with the Lean archive as partial.
     slug: adriazola
     page: true
     order: 2
@@ -543,6 +547,7 @@ guides:
   # ---------------- Tier B ----------------
 
   - id: rubinstein-grh-lean-verification
+    hub_detail: Rubinstein reports a full build, axiom audit, Lean kernel replay and an independent nanoda check. The Waterloo overview credits Claude Code for the run.
     slug: rubinstein-check
     page: true
     order: 4
@@ -629,6 +634,7 @@ guides:
     tier: B
 
   - id: aaronson-shtetl-optimized
+    hub_status: Discusses verification by others
     slug: aaronson
     page: true
     order: 20
@@ -672,6 +678,7 @@ guides:
     tier: B
 
   - id: tamnd-riemann-handbook
+    hub_detail: The About page says the text is written by people or drafted by a model and reviewed by a person.
     slug: tamnd
     page: false
     cite_as: tamnd   # short name in "cited on tamnd, …" lists (N3); the author's name order is not stated on the site
@@ -817,6 +824,8 @@ guides:
         url: PDF page 6
     retrieved: '2026-11-24'
   - id: chu-geometry-true
+    hub_status: Inspected Lean source
+    hub_detail: Chu checked the definition and counted the files mentioning it. He left open whether that construction appears in the final theorem’s dependency path.
     slug: chu
     page: true
     listed: true
@@ -908,6 +917,8 @@ guides:
     ai_note: The statement is in his X post, not in the PDF (the PDF has no AI statement; its bibliography lists Alpöge "with Claude"). Text of the post read through the public fxtwitter mirror; a logged-out Chromium returned an empty page for x.com.
     retrieved: '2026-11-24'
   - id: toledo-alpoge-grh-check
+    hub_status: Ran build and proof checks
+    hub_detail: The audit reports successful compilation, kernel replay and con-leche statement comparisons. Its Comparator run ended without a verdict.
     slug: toledo
     page: true
     listed: true
@@ -1042,9 +1053,9 @@ guides:
       url: https://andrewodesky.com/rh/index.html
       note: 'HTTP Last-Modified 24 Nov 2026 15:20 GMT for index, overview and selection pages. Counters on 24 Nov: 1,723 Lean theorems stated; Tier 1 proofs 7 / 24; reviews recorded 1,387; proofs written 17. The pages change often: pin by hash only when mapping. The outline page says ''version of 21 November 2026''.'
     status: explains
-    status_quote: This page presents mathematical statements covering 1,723 theorems of the Lean proof.
+    status_quote: Theorems marked as Tier 1 were judged by LLMs to be significant for the proof, and the list is subject to change.
     status_quote_url: https://andrewodesky.com/rh/index.html
-    status_note: 'Same page: ''Theorems marked as Tier 1 were judged by LLMs to be significant for the proof, and the list is subject to change.'' The number in the quote changes as the catalogue grows.'
+    status_note: The live catalogue stated 1,740 Lean theorems on 26 November, up from 1,723 in the mapped 24 November snapshot.
     ai_statement:
       quote: Written by agents from the Lean and from the catalogue, and read against both by other agents; version of 21 November 2026.
       url: https://andrewodesky.com/rh/overview.html
@@ -1456,34 +1467,23 @@ hub_guides:
 
   - id: chojecki-complete-guide
     edition: compact
+    anchor_aliases: [chojecki-compact-guide]
     author: {name: Przemek Chojecki, home: "https://www.ulam.ai/team"}
     portrait_from: chojecki
     title: Covolumes and Dirichlet Zeros
     url: https://www.ulam.ai/research/grh_complete.pdf
-    date: '2026-11-26'
     status: explains
     versions:
       - pages: 289
         date: '2026-11-26'
         sha256: 968da9149e803eeeaea62901ccf4f681ce98979b77369c9d0705570f35a0cb0d
-    detail: A 289-page mathematical exposition of Alpöge’s Dirichlet GRH argument in Sernau’s compact edition at Lean revision 72fead10. It works through the three arithmetic estimates and how they fit together, then derives the zero-free half-plane.
+    detail: A 289-page exposition of Alpöge’s Dirichlet GRH argument in Sernau’s compact edition at Lean revision 72fead10, shared on 26 November 2026. It develops three arithmetic estimates and uses them to derive right-half-plane nonvanishing. The earlier 19-page note shows how the conclusion follows if the estimates hold for compatible data.
     links:
       - {title: "Arithmetic estimates, pages 280–281", url: "https://www.ulam.ai/research/grh_complete.pdf#page=280"}
       - {title: "Appendix A source concordance, page 284", url: "https://www.ulam.ai/research/grh_complete.pdf#page=284"}
-      - {title: Earlier 19-page conditional note, url: "/guides/#chojecki-compact-guide"}
-
-  - id: chojecki-compact-guide
-    edition: compact
-    author: {name: Przemek Chojecki, home: "https://www.ulam.ai/team"}
-    portrait_from: chojecki
-    title: A covolume criterion for GRH
-    url: https://www.ulam.ai/research/rh_compact.pdf
-    date: '2026-11-26'
-    status: explains
-    detail: A 19-page conditional reduction of Dirichlet GRH at Lean revision 72fead10. The note derives the implication from three arithmetic estimates for compatible data and matches them to the source in Appendix A.
-    links:
-      - {title: "Appendix A, page 17", url: "https://www.ulam.ai/research/rh_compact.pdf#page=17"}
-      - {title: Author’s announcement, url: "https://x.com/prz_chojecki/status/2125893524830687454"}
+      - {title: "Earlier note: A covolume criterion for GRH (19 pages)", url: "https://www.ulam.ai/research/rh_compact.pdf"}
+      - {title: "Earlier note’s Appendix A, page 17", url: "https://www.ulam.ai/research/rh_compact.pdf#page=17"}
+      - {title: Author’s announcement of the earlier note, url: "https://x.com/prz_chojecki/status/2125893524830687454"}
 
   - id: naskrecki-compact-writeup
     edition: compact
