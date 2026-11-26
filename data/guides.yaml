@@ -259,7 +259,8 @@ guides:
       photo_source: null
       photo_note: No photo on his home page, his guide page, his ORCID record or the Zenodo record. Use initials.
     title: "The Riemann hypothesis for Dirichlet L-functions [after Levent Alpöge]"
-    url: https://zenodo.org/records/24410057
+    url: https://zenodo.org/records/24432579
+    mapped_version: v2
     date: "2026-11-21"
     date_note: "Zenodo publication date of v1. The Zenodo API shows v2 (record 24432579), last updated 2026-11-22; the record page does not print the v2 date."
     type: preprint (Zenodo, CC BY 4.0)
@@ -286,7 +287,7 @@ guides:
     - version: v2
       date: '2026-11-21'
       url: https://zenodo.org/records/24432579
-      file: https://zenodo.org/records/24432579/files/jaswal-rh-dirichlet-after-alpoge.pdf
+      file_url: https://zenodo.org/records/24432579/files/jaswal-rh-dirichlet-after-alpoge.pdf
       md5: 3024933685553636c1f9b8e93af708a5
       doi: 10.5281/zenodo.24432579
       note: 'The v2 record prints ''Published November 21, 2026 | Version v2'' and lists ''Nov 21, 2026'' in its version table. Its technical metadata reads ''Created November 22, 2026''. All versions: DOI 10.5281/zenodo.24410056.'
@@ -857,9 +858,9 @@ guides:
   - id: chojecki-ulam-guide
     slug: chojecki
     companion_reading:
-      title: A covolume criterion for GRH
-      url: https://riemannhypothesissolved.com/guides/#chojecki-compact-guide
-      description: "Chojecki’s 26 November note gives a conditional reduction mainly following Sernau’s compact edition."
+      title: Covolumes and Dirichlet Zeros
+      url: https://riemannhypothesissolved.com/guides/#chojecki-complete-guide
+      description: "Chojecki’s 289-page exposition follows Sernau’s compact edition. His 19-page conditional overview is also in the catalogue."
     page: true
     listed: true
     order: 9
@@ -1452,6 +1453,24 @@ hub_guides:
     detail: A model-drafted handbook for graduate students reading Sernau’s proof. Volume 0 runs to 264 pages and Volume 1 lists 13 draft chapters. The release reports no human checking or Lean replay.
     links:
       - {title: Volume 0 PDF, url: "https://github.com/tamnd/grh-lean-handbook/releases/download/v0.2.0/grh-lean-handbook-00-guide-0.2.0.pdf"}
+
+  - id: chojecki-complete-guide
+    edition: compact
+    author: {name: Przemek Chojecki, home: "https://www.ulam.ai/team"}
+    portrait_from: chojecki
+    title: Covolumes and Dirichlet Zeros
+    url: https://www.ulam.ai/research/grh_complete.pdf
+    date: '2026-11-26'
+    status: explains
+    versions:
+      - pages: 289
+        date: '2026-11-26'
+        sha256: 968da9149e803eeeaea62901ccf4f681ce98979b77369c9d0705570f35a0cb0d
+    detail: A 289-page mathematical exposition of Alpöge’s Dirichlet GRH argument in Sernau’s compact edition at Lean revision 72fead10. It works through the three arithmetic estimates and how they fit together, then derives the zero-free half-plane.
+    links:
+      - {title: "Arithmetic estimates, pages 280–281", url: "https://www.ulam.ai/research/grh_complete.pdf#page=280"}
+      - {title: "Appendix A source concordance, page 284", url: "https://www.ulam.ai/research/grh_complete.pdf#page=284"}
+      - {title: Earlier 19-page conditional note, url: "/guides/#chojecki-compact-guide"}
 
   - id: chojecki-compact-guide
     edition: compact

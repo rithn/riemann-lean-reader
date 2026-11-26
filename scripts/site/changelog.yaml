@@ -4,6 +4,16 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-26
+  title: Covolumes and Dirichlet Zeros
+  items:
+    - "Guides adds Przemek Chojecki’s 289-page exposition of the compact Lean edition, alongside his earlier 19-page conditional note."
+  links:
+    - label: Chojecki’s compact-edition exposition
+      url: /guides/#chojecki-complete-guide
+    - label: Publisher PDF
+      url: https://www.ulam.ai/research/grh_complete.pdf
+
+- date: 2026-11-26
   published_at: 2026-11-26T16:14:48Z
   title: Compact-edition reading guides and revised reconstruction
   items:

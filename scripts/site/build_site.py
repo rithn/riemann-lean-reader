@@ -708,10 +708,15 @@ def gnorm(g, i):
     slug_ = g.get('slug') or None
     assert not slug_ or re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', slug_), f'guides.yaml {gid}: slug {slug_!r} must be lower-case words and hyphens'
     vers = [v for v in (g.get('versions') or []) if isinstance(v, dict)]
+    mapped_version = g.get('mapped_version')
+    mapped = next((v for v in vers if v.get('version') == mapped_version), None) if mapped_version else None
+    if mapped_version:
+        assert mapped and mapped.get('url') == g.get('url'), f'{gid}: mapped_version needs the guide URL of that version'
     ph2, ph2src = (a.get('photo_also'), a.get('photo_source_also')) if isinstance(a, dict) else (None, None)   # a second logo (joint statement)
     return {'photo_also': ph2, 'photo_source_also': ph2src, 'home_also': a.get('home_also') if isinstance(a, dict) else None,'id': gid, 'i': i, 'slug': slug_, 'page': bool(g.get('page')) and bool(slug_),
             'name': name if name and aok else None, 'home': home, 'photo': photo, 'photo_source': psrc,
-            'title': title + ('' if tok else ' (title not confirmed)'), 'url': url, 'date': _gdate(date) if dok else None,
+            'title': title + ('' if tok else ' (title not confirmed)'), 'url': mapped['url'] if mapped else url,
+            'posted_url': url, 'mapped_version': mapped_version, 'date': _gdate(date) if dok else None,
             'type': gfield(g, 'type')[0] if gfield(g, 'type')[1] else None, 'format': g.get('format'),
             'licence': g.get('licence') or g.get('license'), 'host_copy': bool(g.get('host_copy')), 'versions': vers,
             'status': st, 'quote': g.get('status_quote'), 'order': g.get('order'),
@@ -826,7 +831,8 @@ for g in GD:
     g['retained_copies'] = {}
     if not (g['host_copy'] and g['page']):
         continue
-    v = next(({**v, 'local': f} for v in reversed(g['versions']) for f in [_glocal(g, v)] if f), None)
+    versions = [v for v in g['versions'] if v.get('version') == g['mapped_version']] if g['mapped_version'] else g['versions']
+    v = next(({**v, 'local': f} for v in reversed(versions) for f in [_glocal(g, v)] if f), None)
     if not v:
         print(f'guides: {g["id"]} has host_copy: true but no local pinned file: link to the original only'); continue
     g['copy_plan'] = (_gcopy_name(g, v), v)
@@ -2034,7 +2040,8 @@ def gauthor(g, link=True):
         return 'No author named on the page'
     return f'<a href="{H(g["home"])}">{H(g["name"])}</a>' if link and g['home'] else H(g['name'])
 def gposted(g):
-    return (f'Originally posted at <a href="{H(g["url"])}">{H(_host(g["url"]))}</a>' + (f' on {gdate(g["date"])}' if g['date'] else ''))
+    url = g['posted_url']
+    return (f'Originally posted at <a href="{H(url)}">{H(_host(url))}</a>' + (f' on {gdate(g["date"])}' if g['date'] else ''))
 def gversion(g):
     v = g['versions'][-1] if g['versions'] else None
     if not v or v.get('version') is None:
@@ -2584,7 +2591,7 @@ def gentry_html(g):
             + (f'<p class="gmeta">{tail}</p>' if tail else '') + '</div></li>')
 
 def gentry_md(g):
-    bits = [g['name'] or 'No author named on the page', f'originally posted at {_host(g["url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
+    bits = [g['name'] or 'No author named on the page', f'originally posted at {_host(g["posted_url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
             gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', G_STATUS_T[g['status']] + (f': "{ " ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
             gai_md(g), g.get('detail')]
     bits.extend(f'[{title}]({url})' if url else title for title, url in ghub_tail(g))
@@ -2690,9 +2697,20 @@ for g in GD:
         meta.append(f'{"Version" if len(vers) == 1 else "Versions"} read: {H(", ".join(vers))}.')
     if g['licence']:
         meta.append(f'Licence: {H(g["licence"])}.')
-    acts = [f'<a class="btn" href="{H(g["url"])}">Read the original</a>']
+    mapped_version = g['mapped_version']
+    if mapped_version:
+        mapped_label = f'Mapped edition ({mapped_version}) on {_host(g["url"])}'
+        acts = [f'<a class="btn" href="{H(g["url"])}">{H(mapped_label)}</a>',
+                f'<a class="btn" href="{H(g["posted_url"])}">Read the first edition</a>']
+        mapped_md = f'[{mapped_label}]({g["url"]})\n\n'
+    else:
+        acts = [f'<a class="btn" href="{H(g["url"])}">Read the original</a>']
+        mapped_md = ''
     if copy:
-        acts += [f'<a class="btn" href="{copy[0]}">Read our copy</a>', f'<a class="btn" href="{copy[0]}" download>Download</a>']
+        copy_label = f'Read our copy ({mapped_version} PDF)' if mapped_version else 'Read our copy'
+        copy_act = f'<a class="btn" href="{copy[0]}">{H(copy_label)}</a>'
+        acts.insert(0 if mapped_version else len(acts), copy_act)
+        acts.append(f'<a class="btn" href="{copy[0]}" download>Download</a>')
     rows = sorted(g['refs'].items(), key=lambda kv: (dist.get(kv[0], 99), ctitle(kv[0])))
     nrow = len(rows)
     if nrow:   # a guide that cites no node has no map view
@@ -2753,12 +2771,13 @@ for g in GD:
     desc = meta_desc((f'{name}: a guide to the Lean proof of the Riemann hypothesis, on the map: the {nrow} '
                       f'{"cluster" if nrow == 1 else "clusters"} it cites, with the pages that cite each. ' if nrow else
                       f'{name}: a guide to the Lean proof of the Riemann hypothesis, with a link to the original. ') + g['title'] + '.')
-    md = (f'# {g["title"]}\n\nEdition covered: Alpöge original proof.\n\n{name}' + (f' ({g["home"]})' if g['home'] else '') + f'. Original: {g["url"]}'
+    original_label = 'First edition' if mapped_version else 'Original'
+    md = (f'# {g["title"]}\n\nEdition covered: Alpöge original proof.\n\n{name}' + (f' ({g["home"]})' if g['home'] else '') + f'. {original_label}: {g["posted_url"]}'
           + (f' · posted {gdate(g["date"])}' if g['date'] else '') + (f' · versions read: {", ".join(vers)}' if vers else '')
           + (f' · licence: {g["licence"]}' if g['licence'] else '') + '\n\n'
           + G_STATUS_T[g['status']] + (f': "{" ".join(str(g["quote"]).split())}"' if g.get('quote') else '') + '\n\n'
           + (gai_md(g) + '\n\n' if g['ai'] else '')
-          + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else f'{G_ZERO}\n\n')
+          + mapped_md + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else f'{G_ZERO}\n\n')
           + companion_md
           + f'## Nodes in this guide ({nrow})\n\n| Node | Distance from Main | Pages | Found by |\n|---|---|---|---|\n'
           + ''.join(f'| [{ctitle(k)}]({SITE}{CPATH[k]}) | {dist_txt(k)} | '
