@@ -417,6 +417,11 @@ def build_sernau_data(out: Path):
     require(len(groups) == len(group_inputs) == len({group["slug"] for group in group_inputs}),
             "duplicate group IDs or slugs")
     map_labels = {name: group.pop("mapLabel") for name, group in groups.items()}
+    map_centers = {name: group.pop("mapCenter") for name, group in groups.items()}
+    require(all(len(center) == 2 and all(type(value) is int for value in center)
+                for center in map_centers.values()), "invalid map centers")
+    require(len({tuple(center) for center in map_centers.values()}) == len(groups),
+            "map centers must be distinct")
 
     digest = hashlib.sha256()
     input_files = ("edition.json", "groups.json", "modules.tsv", "theorems.json")
@@ -491,6 +496,7 @@ def build_sernau_data(out: Path):
     json_output(out, edition["fileGraphUrl"], {
         "edition": {key: edition[key] for key in ("id", "revision", "buildId")},
         "groupLabels": map_labels,
+        "groupCenters": map_centers,
         "files": [[name, module["label"], module["depth"]] for name, module in modules.items()],
         "imports": [
             [module_ids[edge["from"]], module_ids[edge["to"]], edge["line"]]

@@ -98,7 +98,7 @@ def overview_content(data, *, home=False):
   <div class="dk">{actions}</div>
   <h2>Read the graph</h2>
   <p>Each dot is a Lean file. Select a dot to see its direct imports, or select a group label to see its files and connections. An arrow points from the importing file to the file it imports.</p>
-  <p class="meta">Zoom in for file labels. With a keyboard, Tab to a group, then use the arrow keys to move between its files and Enter to select.</p>
+  <p class="meta">Zoom in for more labels. With a keyboard, Tab to a group, then use the arrow keys to move between its files and Enter to select.</p>
   <p>The readable release contains {number(total["physicalLines"])} physical lines under <code>grh/src/</code>. The pinned README gives its code-line estimate.</p>
   <p class="meta">Andrew Sutherland’s paranoid Comparator run passed on 26 November 2026 at 02:47:54 UTC. {link(MIT, "Independent verification record")}.</p>
   <h2>Explore the proof</h2>

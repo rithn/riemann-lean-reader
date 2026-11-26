@@ -206,7 +206,9 @@ def check(site, baseline=None):
     assert sum(len(module['imports']) for module in covered.values()) == edition['totals']['moduleEdges']
     file_graph = read_json(edition['fileGraphUrl'])
     assert file_graph['edition'] == {key: edition[key] for key in ('id', 'revision', 'buildId')}
-    assert file_graph['groupLabels'].keys() == {group['id'] for group in graph['groups']}
+    group_ids = {group['id'] for group in graph['groups']}
+    assert file_graph['groupLabels'].keys() == file_graph['groupCenters'].keys() == group_ids
+    assert len({tuple(center) for center in file_graph['groupCenters'].values()}) == len(group_ids)
     names = [name for name, _, _ in file_graph['files']]
     assert len(names) == len(modules) and set(names) == modules.keys()
     assert all([label, depth] == [modules[name]['label'], modules[name]['depth']]
