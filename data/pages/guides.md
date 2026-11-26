@@ -28,18 +28,19 @@ Start with the conclusion, then work back to the estimate that the argument need
 3. **Find the estimate behind that result.** In `OneSidedBound.lean`, the argument uses `star_inequality` to help bound a remainder in a weighted sum over primes. Start with the top comment of `MainInequality.lean` for a list of the inputs and which terms cancel. The results index connects those inputs to Theorems A, B and C in the upstream guide. [Pinned MainInequality.lean](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/src/New/Reduction/MainInequality.lean) · [Results index](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/INDEX.md#the-last-step)
 4. **Look up a file or unfamiliar term.** Use the contents to see how `New/` groups the steps of the argument and how `Lib/` groups background results. The upstream guide gives a fuller reading order and a glossary that pairs mathematical terms with Lean names. [File contents](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/CONTENTS.md) · [Upstream reading guide](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/GUIDE.md)
 
-### Outside reading guides {#sernau-outside-guides}
+## Sernau readable · Outside guides {#sernau-outside-guides}
 
-- **tamnd · The GRH Lean Handbook, v0.2.0, 26 November 2026.** A model-drafted textbook project for graduate students reading Sernau’s proof. Its Volume 0 reading guide is 264 pages. Volume 1 lists 13 draft chapters. The release says none has been human-checked, and the project did not rerun Lean verification. [Versioned release](https://github.com/tamnd/grh-lean-handbook/releases/tag/v0.2.0) · [Volume 0 PDF](https://github.com/tamnd/grh-lean-handbook/releases/download/v0.2.0/grh-lean-handbook-00-guide-0.2.0.pdf)
-- **Sho Sonoda · Readable edition analysis, 26 November 2026.** A source-linked English/Japanese guide to Sernau’s readable edition, with a theorem graph and methods notes. Sonoda states that Claude generated most of the site. [Guide](https://shosonoda.github.io/lean-rh-alpoge/grh-proof.html) · [Methods](https://shosonoda.github.io/lean-rh-alpoge/methods.html)
+{{readable_guides}}
 
-See the dated verification reports for checks of the readable `grh/` and compact `grh-compact/` editions. [Shorter-edition verification](/status/#shorter-editions)
+## Sernau compact {#sernau-compact-guides}
+
+[Pinned compact source at 72fead10](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact) · [Shorter-edition verification](/status/#shorter-editions)
+
+{{compact_guides}}
 
 ## Alpöge original {#alpoge-original}
 
-These outside guides and checks cover Levent Alpöge’s original proof. Cluster links and guide filters refer to the original map. Each entry describes the guide’s scope and the version read where it is known. We list public guides from named authors or consistent public handles, with the scope of any checks the authors report. [Verification status](/status/)
-
-- **Tokuhiro Eto · Reading Alpöge’s Proof of the Riemann Hypothesis, v1, 26 November 2026.** Eto’s illustrated, AI-assisted exposition uses elementary examples to explain divisibility, amplification and cost control. Its appendix describes a conditional Lean reduction. [Version 1](https://hexagonmath.org/2611.01087v1)
+Map links and node counts refer to the original archive. [Verification status](/status/)
 
 {{guides}}
 
@@ -49,7 +50,7 @@ These outside guides and checks cover Levent Alpöge’s original proof. Cluster
 
 ## Suggest a guide
 
-Post to [@SomTheBuilder](https://x.com/SomTheBuilder) on X with the link. We add guides that meet the bar above. Authors can ask us to correct how their guide is described.
+Post to [@SomTheBuilder](https://x.com/SomTheBuilder) on X with the link. We list public guides from named authors or consistent public handles. Authors can ask us to correct how their guide is described.
 
 ## Changelog
 

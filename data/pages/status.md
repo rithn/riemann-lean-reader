@@ -112,7 +112,7 @@ J. L. Nielsen's preprint grants that the code typechecks but argues that its geo
 Three examples; the rest are on [guides](/guides/).
 
 - **Michael Rubinstein (Waterloo):** a 265-page [working guide](https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/) to the proof for the zeta function (version 2, 22 Nov 2026).
-- **Jimmie Adriazola (Arizona State):** a 66-page [reconstruction](https://github.com/jimjamzola/RH-Alpoge-Reconstruction) in conventional mathematics, which "did not build or replay the archive itself".
+- **Jimmie Adriazola (Arizona State):** a 297-page [reconstruction](/guides/adriazola/) in conventional mathematics. The author reports that the correspondence between the manuscript and the archive remains partial.
 - **verifytask.cn:** a [board](https://riemann.verifytask.cn/) ([GitHub](https://github.com/Osgood001/riemann-hypothesis)) tracking how far contributors can shorten parts of the proof while Lean still accepts them.
 
 ## Primary sources

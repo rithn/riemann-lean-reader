@@ -4,6 +4,20 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-26
+  published_at: 2026-11-26T16:14:48Z
+  title: Compact-edition reading guides and revised reconstruction
+  items:
+    - "Guides adds Przemek Chojecki’s 19-page conditional reduction and Bartosz Naskręcki’s 1,352-page working draft for Sernau’s compact Lean edition."
+    - "Jimmie Adriazola’s guide now links to the revised 297-page manuscript and keeps its earlier dated PDF available."
+  links:
+    - label: Chojecki’s covolume criterion
+      url: /guides/#chojecki-compact-guide
+    - label: Naskręcki’s compact-edition handout
+      url: /guides/#naskrecki-compact-writeup
+    - label: Adriazola’s revised reconstruction
+      url: /guides/adriazola/
+
+- date: 2026-11-26
   published_at: 2026-11-26T15:00:51Z
   title: Outside reading guides and shorter-edition checks
   items:

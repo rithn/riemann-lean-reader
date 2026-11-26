@@ -658,7 +658,8 @@ GUIDES_Y = os.environ.get('RH_GUIDES_YAML') or os.path.join(REPO, 'data', 'guide
 GREFS_D = os.environ.get('RH_GUIDE_REFS') or os.path.join(REPO, 'data', 'guide-refs')
 GPHOTO_SRC = os.environ.get('RH_GUIDE_PHOTOS') or os.path.join(ROOT, 'research', 'guides', 'photos-src')
 GPHOTO_OUT = os.path.join(OUT, 'guides', 'photos')
-GUIDES = yaml.safe_load(open(GUIDES_Y, encoding='utf-8'))['guides']
+GUIDE_CATALOGUE = yaml.safe_load(open(GUIDES_Y, encoding='utf-8'))
+GUIDES = GUIDE_CATALOGUE['guides']
 GUIDES = [g for g in GUIDES if g.get('listed', True) is not False]   # listed: false (with dropped_note): kept in guides.yaml, skipped everywhere (hub, pages, sitemap, refs, photos)
 G_STATUS_OF = {'verified': 'checked', 'checked': 'checked', 'explains-only': 'explains', 'explains': 'explains'}
 G_ROLE = {'academic': 0, 'university': 0, 'named': 1, 'person': 1, 'organisation': 2, 'organization': 2, 'org': 2, 'unnamed': 3}
@@ -815,16 +816,26 @@ def _glocal(g, v):
             if v.get('md5') and hashlib.md5(open(os.path.join(ROOT, f), 'rb').read()).hexdigest() != v['md5']:
                 print(f'guides: {f} does not match the md5 of {g["id"]} version {v.get("version")}: not served'); continue
             return f
+def _gcopy_name(g, v):
+    l = vlabel(v)
+    tag = f'v{l}' if re.fullmatch(r'[\d.]+', l) else (str(_gdate(v.get('date')) or '') or re.sub(r'[^a-z0-9.]+', '-', l.lower()).strip('-'))
+    return f'{g["slug"]}-{tag}{os.path.splitext(v["local"])[1]}'
+
 for g in GD:
     g['copy_plan'] = None
+    g['retained_copies'] = {}
     if not (g['host_copy'] and g['page']):
         continue
     v = next(({**v, 'local': f} for v in reversed(g['versions']) for f in [_glocal(g, v)] if f), None)
     if not v:
         print(f'guides: {g["id"]} has host_copy: true but no local pinned file: link to the original only'); continue
-    l = vlabel(v)
-    tag = f'v{l}' if re.fullmatch(r'[\d.]+', l) else (str(_gdate(v.get('date')) or '') or re.sub(r'[^a-z0-9.]+', '-', l.lower()).strip('-'))
-    g['copy_plan'] = (f'{g["slug"]}-{tag}{os.path.splitext(v["local"])[1]}', v)
+    g['copy_plan'] = (_gcopy_name(g, v), v)
+    for version in g['versions']:
+        if version.get('keep_hosted') and (local := _glocal(g, version)):
+            retained = {**version, 'local': local}
+            filename = _gcopy_name(g, retained)
+            if filename != g['copy_plan'][0]:
+                g['retained_copies'][filename] = retained
     cp = f'/guides/{g["slug"]}/files/{g["copy_plan"][0]}'
     blob = lambda u: re.sub(r'/blob/[0-9a-f]{7,40}/', '/blob/*/', re.sub(r'#.*$', '', u or ''))
     vu = v.get('file_url') or v.get('url')   # file_url: the PDF the page links point at, where 'url' is a tree or release page
@@ -2538,10 +2549,8 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
                 md_abs(zeros_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
 LEVEL_PAGES = [p for f, fm, t, *_ in DRAFTS if level_split(t) for p in [fm['path']]]
 
-# ---------- /guides/ (design section 1) and /guides/<slug>/ (section 2). The hub's intro is data/pages/guides.md (a copy
-# of research/content/pages/guides.md) when it exists, else the stub below. The list is always generated from guides.yaml:
-# one list, no groups, in hub order (GD), at the line '{{guides}}' of guides.md (stub: after the intro). The rest of
-# guides.md is shown as written.
+# ---------- /guides/ and /guides/<slug>/. The hub uses the same listing for
+# each edition. Only the original-archive catalogue has map citations.
 GUIDES_F = os.path.join(PAGES_DIR, 'guides.md')
 GUIDES_STUB = ({'title': 'Guides to the Lean proof of the Riemann hypothesis',
                 'description': 'Guides, explainers and verification pages about the Lean proof of the Riemann hypothesis, by other '
@@ -2553,26 +2562,49 @@ def gnodes(g):
     return len(g['refs'])
 def gmapq(g):
     return f'/alpoge/?guide={g["slug"] or g["id"]}'
-def gentry_html(g):
-    meta = ' · '.join(x for x in (gposted(g), H(gversion(g)), f'Licence: {H(g["licence"])}' if g['licence'] else '') if x)
+def ghub_tail(g):
+    if 'edition' in g:
+        return [(link['title'], link['url']) for link in g['links']]
     n = gnodes(g)
     nn = f'{n} {"node" if n == 1 else "nodes"}'
-    tail = [f'On the map: <a href="{H(gmapq(g))}">{nn}</a>' if g['page'] else f'On the map: {nn}'] if n else ['0 nodes on the map']   # page: false: the count only
+    tail = [(f'On the map: {nn}', gmapq(g) if g['page'] else None)] if n else [('0 nodes on the map', None)]
     if g['page']:
-        tail.append(f'<a href="{GPATH[g["slug"]]}">Guide page ›</a>')
-    return (f'<li class="gentry">{gav(g, 48)}<div class="gbody"><p class="gauth">{gauthor(g)}</p>'
+        tail.append(('Guide page ›', GPATH[g['slug']]))
+    return tail
+
+def gentry_html(g):
+    meta = ' · '.join(x for x in (gposted(g), H(gversion(g)), f'Licence: {H(g["licence"])}' if g['licence'] else '') if x)
+    tail = ' · '.join(f'<a href="{H(url)}">{H(title)}</a>' if url else H(title) for title, url in ghub_tail(g))
+    anchor = f' id="{H(g["id"])}"' if 'edition' in g else ''
+    detail = g.get('detail')
+    return (f'<li class="gentry"{anchor}>{gav(g, 48)}<div class="gbody"><p class="gauth">{gauthor(g)}</p>'
             f'<a class="gtitle" href="{H(g["url"])}">{H(g["title"])}</a><p class="gmeta">{meta}</p>'
             f'<p class="gstl">{gstatus(g)}</p>' + (f'<p class="gstl">{gai_tag(g)}</p>' if g['ai'] else '')
-            + (f'<p class="gmeta">{" · ".join(tail)}</p>' if tail else '') + '</div></li>')
+            + (f'<p>{H(detail)}</p>' if detail else '')
+            + (f'<p class="gmeta">{tail}</p>' if tail else '') + '</div></li>')
+
 def gentry_md(g):
-    n = gnodes(g)
     bits = [g['name'] or 'No author named on the page', f'originally posted at {_host(g["url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
-            gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', G_STATUS_T[g['status']] + (f': "{" ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
-            gai_md(g), (f'on the map: {n} {"node" if n == 1 else "nodes"}' + (f' ({SITE}{gmapq(g)})' if g['page'] else '')) if n else '0 nodes on the map',
-            f'guide page: {SITE}{GPATH[g["slug"]]}' if g['page'] else '']
+            gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', G_STATUS_T[g['status']] + (f': "{ " ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
+            gai_md(g), g.get('detail')]
+    bits.extend(f'[{title}]({url})' if url else title for title, url in ghub_tail(g))
     return f'- [{g["title"]}]({g["url"]}) · ' + ' · '.join(b for b in bits if b) + '\n'
-G_HTML = '<ul class="glistall">' + ''.join(gentry_html(g) for g in GD) + '</ul>'
-G_MD = ''.join(gentry_md(g) for g in GD)
+
+guide_sections = {'guides': list(GD), 'readable_guides': [], 'compact_guides': []}
+portraits = {g['slug']: g for g in GD}
+hub_ids = {g['id'] for g in GD}
+for item in GUIDE_CATALOGUE.get('hub_guides', []):
+    g = gnorm(item, len(hub_ids))
+    assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', g['id']) and g['id'] not in hub_ids
+    hub_ids.add(g['id'])
+    edition = item['edition']
+    section = {'original': 'guides', 'readable': 'readable_guides', 'compact': 'compact_guides'}[edition]
+    portrait = portraits.get(item.get('portrait_from'), {})
+    for key in ('ph48', 'ph96', 'ph48b', 'ph96b'):
+        g[key] = portrait.get(key)
+    g.update(edition=edition, initials=_initials(g['name']), detail=item.get('detail'), links=item.get('links', []))
+    guide_sections[section].append(g)
+
 if os.path.exists(GUIDES_F):
     gfm, gt = read_draft('guides.md')
 else:
@@ -2587,13 +2619,26 @@ if not re.search(r'(?m)^\{\{guides\}\}$', gt):   # the stub: the list after the 
 gpath, gh1 = gfm['path'], gfm['h1']
 CONTENT_PAGES.append((gpath, gfm['title'], gh1))
 ARTICLES.add(gpath)
-ghtml = re.sub(r'^<p><em>', '<p class="meta asof"><em>', md_html(gt).replace('<p>{{guides}}</p>', G_HTML), count=1)
-assert G_HTML in ghtml
+ghtml, gmd = md_html(gt), gt
+for section, entries in guide_sections.items():
+    marker = '{{' + section + '}}'
+    if section != 'guides' and not entries:
+        ghtml = ghtml.replace(f'<p>{marker}</p>', '')
+        gmd = gmd.replace(marker, '')
+        continue
+    if section != 'guides' and not os.path.exists(GUIDES_F):
+        ghtml += f'<p>{marker}</p>'
+        gmd += f'\n{marker}\n'
+    assert ghtml.count(f'<p>{marker}</p>') == 1, f'guides.md: needs one {marker} marker'
+    cards = '<ul class="glistall">' + ''.join(gentry_html(g) for g in entries) + '</ul>'
+    ghtml = ghtml.replace(f'<p>{marker}</p>', cards)
+    gmd = gmd.replace(marker, ''.join(gentry_md(g) for g in entries).rstrip())
+ghtml = re.sub(r'^<p><em>', '<p class="meta asof"><em>', ghtml, count=1)
 page(gpath, gfm['title'], gfm['description'], 'page',
      breadcrumbs([('Home', '/'), ('Guides', '')]) + '<div class="eyebrow">Guides and explainers</div>'
      f'<h1>{H(gh1)}</h1>{ghtml}',
      [article_ld(gpath, gh1, gfm['description'], str(gfm.get('published', '2026-11-23'))), crumbs_ld(('Home', '/'), ('Guides', gpath)), ORG], .6, fm=True,
-     md=md_abs(f'# {gh1}\n\n' + re.sub(r'(?m)^\{\{guides\}\}\n?', lambda m: G_MD, gt).rstrip() + '\n'))
+     md=md_abs(f'# {gh1}\n\n' + gmd.rstrip() + '\n'))
 
 # /guides/<slug>/: one page per guide with page: true. "Read our copy" and "Download" only for host_copy: true with a pinned
 # local file (the last version with 'local', a path under the project root), copied to site/guides/<slug>/files/
@@ -2624,15 +2669,19 @@ for g in GD:
     copy = None
     if g.get('copy_plan'):
         fn, v = g['copy_plan']
+        copies = {**g['retained_copies'], fn: v}
         os.makedirs(fdir, exist_ok=True)
-        src, dst = os.path.join(ROOT, v['local']), os.path.join(fdir, fn)
-        if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(src) or open(dst, 'rb').read() != open(src, 'rb').read():
-            shutil.copyfile(src, dst)
-        assert os.path.getsize(dst) < 25 * 2**20, f'{dst}: over the Cloudflare Pages limit of 25 MiB per file'
+        for filename, version in copies.items():
+            src, dst = os.path.join(ROOT, version['local']), os.path.join(fdir, filename)
+            if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(src) or open(dst, 'rb').read() != open(src, 'rb').read():
+                shutil.copyfile(src, dst)
+            assert os.path.getsize(dst) < 25 * 2**20, f'{dst}: over the Cloudflare Pages limit of 25 MiB per file'
         copy = (f'{path}files/{fn}', v)
+    else:
+        copies = {}
     if os.path.isdir(fdir):
         for f in os.listdir(fdir):
-            if not copy or f != os.path.basename(copy[0]):
+            if f not in copies:
                 os.remove(os.path.join(fdir, f))
     name = g['name'] or 'No author named'
     vers = [vlabel(v) + (f' ({gdate(_gdate(v.get("date")))})' if _gdate(v.get('date')) else '') for v in g['versions'] if v.get('version') is not None]
