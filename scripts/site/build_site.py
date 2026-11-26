@@ -364,7 +364,8 @@ ST_CHECKS = [   # the joint statement's four criteria, in its order, worded as o
 ST_VERIFIED = (f'All {TOTAL_FILES:,} modules compile with zero errors. Every module has been replayed through Lean\'s kernel, and the '
                'exported proof has been accepted by nanoda, con-leche and con-ron, and by Lean\'s own kernel in its default and paranoid '
                'modes. lean4lean accepts every module. A sandboxed rebuild on a separate machine produced an export identical to the '
-               'published one.')
+               'published one. On 25 November at 21:49 UTC, Lean v4.36.0 Comparator matched all five statements against the canonical '
+               'challenge export, passed the axiom check and accepted the proof in three kernel checks.')
 ST_ONGOING = (f'Andrew Sutherland\'s verification page at MIT keeps the full, live list of independent checks: '
               f'<a href="{DREW}">math.mit.edu/~drew/grh</a>.')
 ST_SCOPE = ('The proof covers Mathlib\'s <code>RiemannHypothesis</code> and GRH for Dirichlet L-functions, all moduli and characters. '
@@ -2284,7 +2285,9 @@ if FL_PAGES:
 STATUS_FACTS = [
     {'date': '2026-11-20', 'event': plain(ST_RELEASE), 'source': NOTE},
     {'date': '2026-11-21', 'event': plain(ST_CERT), 'source': STMT},
+    {'date': '2026-11-25', 'event': 'Lean v4.36.0 Comparator passed on the original archive’s exports and canonical challenge.', 'source': DREW},
 ]
+STATUS_VERIFICATION_AS_OF = STATUS_FACTS[-1]['date']
 
 # ---------- learning path: the hand-built outline as nested lists (keep the H1 in step with learn() in app.js)
 def tli(i, seen):
@@ -2816,7 +2819,7 @@ def jdump(name, obj):
     json.dump(obj, open(os.path.join(OUT, 'api', name), 'w'), ensure_ascii=False, separators=(',', ':'))
 API_STATUS = {
     'updated': NEW_STATE['/status/'][1], 'question': 'Has the Riemann hypothesis been solved?',
-    'as_of': STATUS_AS_OF, 'status': plain(ST_SHORT), 'timeline': STATUS_FACTS,
+    'as_of': STATUS_VERIFICATION_AS_OF, 'status': plain(ST_SHORT), 'timeline': STATUS_FACTS,
     'certification': {'text': plain(ST_CERT), 'quote': plain(ST_QUOTE), 'source': STMT},
     'verified': plain(ST_VERIFIED), 'verified_sources': [DREW, RUBINSTEIN],
     'checks': [plain(x) for x in ST_CHECKS], 'checks_source': STMT,
@@ -3012,7 +3015,7 @@ open(os.path.join(OUT, 'api', 'index.html'), 'w').write(_t)
 llms = (f'# {SITE_NAME}\n\n> {HOME_LONG}\n\n'
         f'An interactive map of the Lean proof of the Riemann hypothesis: {FILES_TXT} in {len(CL):,} clusters and {len(TH)} themes. '
         f'Names and descriptions are written by Claude from samples of the code and may be wrong, except the {len(CHECKED)} core clusters marked "Checked against the code". Every page has a Markdown copy at <page>index.md.\n\n'
-        f'## Status (as of {STATUS_AS_OF})\n\n'
+        f'## Status (as of {STATUS_VERIFICATION_AS_OF})\n\n'
         + ''.join(f'- {e["date"]}: {e["event"]} Source: {e["source"]}\n' for e in STATUS_FACTS)
         + f'- {plain(ST_QUOTE)}\n- Verified: {mdtext(ST_VERIFIED)}\n- The joint statement certifies four criteria:\n'
         + ''.join(f'  {i}. {mdtext(x)}\n' for i, x in enumerate(ST_CHECKS, 1))

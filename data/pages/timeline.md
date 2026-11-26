@@ -8,12 +8,12 @@ target_queries:
   - riemann hypothesis timeline
   - when was the riemann hypothesis proved
   - riemann hypothesis proof date
-as_of: "25 Nov 2026"
+as_of: "26 Nov 2026"
 ---
 
 # Timeline of the Riemann hypothesis
 
-*As of 25 Nov 2026. Times are UTC where a source gives UTC. Other clock times carry no stated time zone.*
+*As of 26 Nov 2026. Times are UTC where a source gives UTC. Other clock times carry no stated time zone.*
 
 **Riemann stated the hypothesis in 1859. Levent Alpöge released a Lean proof on 20 Nov 2026, and the Lean FRO and the Mathlib Initiative certified it on 21 Nov.**
 
@@ -80,8 +80,12 @@ For the current state, see [/status/](/status/).
 - **24 Nov, 03:01 UTC.** Alpöge posts: "People seem to be reading this as me saying there’s something wrong with the proof. I’m pretty confused. No? It literally checked out days ago?" ([X](https://x.com/__alpoge__/status/2125062170207457583))
 - **24 Nov, 04:17 UTC.** The Wall Street Journal links a profile of Alpöge on X; its post says "One day after the company’s IPO, an Anthropic employee says Claude helped discover a proof." (paywalled; we could not read the article. [X](https://x.com/WSJ/status/2125081353641222615))
 - **24 Nov, 5:15 AM (no time zone stated).** WIRED publishes "AI Solved Math’s Most Famous Problem. Now Humans Are Struggling to Understand It" (Isabella Ward). ([WIRED](https://www.wired.com/story/ai-solved-maths-most-famous-problem/))
-- **24 Nov, 05:25 UTC.** Sutherland's page reports that the original archive's `lake comparator` run on Lean v4.36.0 is still in progress at its final stage. ([Sutherland](https://math.mit.edu/~drew/grh/))
+- **24 Nov, 05:25 UTC.** At that update, the original archive’s `lake comparator` run on Lean v4.36.0 had reached its final stage. [Completion on 25 November](#nov-25)
 - **24 Nov, 10:08 UTC.** Carlos Toledo stops the `comparator` run of his independent audit after 53 hours for cost, with no verdict either way. His `con-leche` comparison matched all five theorems. ([Toledo](https://carlostoledo.co/reports/alpoge-grh.html))
 - **24 Nov (date on the announcement).** Anurag Sahay, Will Sawin and Lior Silberman propose G.R.H. Polymath to coordinate work on Alpöge's Lean proof, develop a human-readable account of RH and Dirichlet GRH, and explore the mathematics behind the argument. ([G.R.H. Polymath announcement](https://terrytao.wordpress.com/2026/11/24/g-r-h-polymath/))
+
+## 25 Nov 2026: original archive check {#nov-25}
+
+- **25 Nov, 21:49 UTC.** Sutherland’s original-archive run of `lake comparator` on Lean v4.36.0 passes using the canonical challenge export. All five statements match, the axiom audit passes, and Lean’s paranoid kernel, nanoda and Lean’s default kernel accept. [MIT verification log](https://math.mit.edu/~drew/grh/)
 
 For coverage and expert reactions, see [press](/press/). For the numbers, see [the proof in numbers](/proof-in-numbers/).

@@ -10,14 +10,14 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "25 Nov 2026"
+as_of: "26 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
-*As of 25 Nov 2026. The current answer, updated as news arrives. The dated record is on the [timeline](/timeline/); the changelog is at the end.*
+*As of 26 Nov 2026. See the [timeline](/timeline/) for the dated record.*
 
-**Latest verification update, 24 Nov 2026, 05:25 UTC.** Sutherland's verification page reports that the original archive's `lake comparator` run on Lean v4.36.0 is still in progress at its final stage. ([Sutherland](https://math.mit.edu/~drew/grh/), [timeline](/timeline/#nov-24))
+**Latest verification update, 25 Nov 2026, 21:49 UTC.** Andrew Sutherland’s Lean v4.36.0 Comparator run on the original archive’s proof export passed. It matched all five statements against the canonical challenge, audited the axioms and accepted the proof in three kernel checks. [MIT verification log](https://math.mit.edu/~drew/grh/) · [Timeline](/timeline/#nov-25)
 
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof of the Riemann hypothesis are correct. Independent checkers have compiled all 175,187 modules, replayed the proof through Lean's kernel and checked the exported proof with several independent programs.**
 
@@ -30,7 +30,7 @@ as_of: "25 Nov 2026"
 
 ## What was verified
 
-Every check below has passed except one end-to-end `lake comparator` run, which is still in progress.
+These checks cover the original 20 November release.
 
 | Check | Who | Result |
 |---|---|---|
@@ -42,11 +42,11 @@ Every check below has passed except one end-to-end `lake comparator` run, which 
 | Statement comparison (`--compare`), con-leche and con-ron | Sutherland | All five theorems accepted |
 | Lean default and paranoid kernels on the full export | Sutherland | Both accept |
 | Unmodified Comparator v4.33.0 on the original build files | Sutherland | Statement and axiom checks pass. Two kernels accept. The build step used a stub. |
-| `lake comparator` (Lean v4.36.0) on the submitted archive's exports | Sutherland | In progress at the final stage |
+| `lake comparator` (Lean v4.36.0) on the submitted archive’s exports | Sutherland | Passes with the canonical challenge export. Statement and axiom checks pass. Lean’s paranoid kernel, nanoda and Lean’s default kernel accept. |
 | lean4lean, module by module | Sutherland | 175,187 of 175,187 accepted |
 | Axioms used | Sutherland | Only `propext`, `Classical.choice`, `Quot.sound` |
 
-Sources: [Sutherland's page](https://math.mit.edu/~drew/grh/) (last updated 24 Nov 2026, 05:25 UTC), which keeps the full, live list, and [Rubinstein's check](https://mrubinst.github.io/grh-lean-verification/); both ran their checks with Claude Code. [Elliot Arledge](https://github.com/Infatoshi/rh-verification-receipts) and [Bartosz Naskręcki](https://nasqret.github.io/riemann-rev/) have published their own results. When each check finished: [timeline](/timeline/).
+Sutherland’s log was last updated on 25 November 2026 at 22:05 UTC. Sutherland and Rubinstein ran their checks with Claude Code. Elliot Arledge and Bartosz Naskręcki published their own results. [Sutherland](https://math.mit.edu/~drew/grh/) · [Rubinstein](https://mrubinst.github.io/grh-lean-verification/) · [Arledge](https://github.com/Infatoshi/rh-verification-receipts) · [Naskręcki](https://nasqret.github.io/riemann-rev/) · [Timeline](/timeline/)
 
 ## What was certified, and by whom
 
@@ -86,7 +86,7 @@ Named reactions from 20 to 21 Nov. None reports a failed check; the doubts are a
 
 ## Objections and responses
 
-J. L. Nielsen's preprint grants that the code typechecks but argues that its geometric part is "a manufactured witness" (p. 1). ([preprint](https://philarchive.org/rec/NIEIOT-2)) The verifiers answer that the theorem proved is stated with Mathlib's own definition of the Riemann hypothesis and was compared with it by two tools, so definitions inside the proof cannot make the checkers accept a wrong statement. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Bailey on MathOverflow](https://mathoverflow.net/questions/518109/after-the-lean-verification-of-the-riemann-hypothesis-proof-what-residual-trust#comment1354173_518119), [Toledo](https://carlostoledo.co/reports/alpoge-grh.html), [Bloom](https://x.com/thomasfbloom/status/2124221582105014284)) In full: [Is the proof a tautology?](/faq/#tautology)
+J. L. Nielsen's preprint grants that the code typechecks but argues that its geometric part is "a manufactured witness" (p. 1). ([preprint](https://philarchive.org/rec/NIEIOT-2)) The verifiers answer that the theorem proved is stated with Mathlib's own definition of the Riemann hypothesis and was compared with it by two tools, so definitions inside the proof cannot make the checkers accept a wrong statement. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Bailey on MathOverflow](https://mathoverflow.net/questions/518109/after-the-lean-verification-of-the-riemann-hypothesis-proof-what-residual-trust#comment1354173_518119), [Toledo](https://carlostoledo.co/reports/alpoge-grh.html), [Bloom](https://x.com/thomasfbloom/status/2124221582105014284)) [Detailed FAQ](/faq/#tautology) · [Controversies and responses](/press/#controversies)
 
 ## Community work on the proof
 
@@ -117,6 +117,7 @@ riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropi
 
 ## Changelog
 
+- **26 Nov 2026.** Recorded the completed v4.36.0 Comparator run on the original archive’s exports.
 - **25 Nov 2026.** Corrected the scope of the five theorems in `Main.lean` and clarified the scope of the verification runs on the [timeline](/timeline/#nov-24).
 - **24 Nov 2026, restructure.** This page now gives the current answer only. The dated log "What changed when" moved to the [timeline](/timeline/); repeated detail was shortened.
 - **24 Nov 2026, later.** Added Alpöge's two clarifying posts (23 Nov, 22:03 UTC; 24 Nov, 03:01 UTC), a short list of named reactions, and a short entry on the objection that the proof is a tautology, with the full text in the [FAQ](/faq/#tautology).

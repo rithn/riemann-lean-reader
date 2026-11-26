@@ -2,6 +2,12 @@
 # One entry per day, newest anywhere (the builder sorts). Dates are the day the change was made (site repo commits, IST).
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
+- date: 2026-11-26
+  title: Original archive verification and controversies
+  items:
+    - "Status and Timeline record the completed Lean v4.36.0 Comparator run on the original archive’s exports."
+    - "Press covers Jenny Lorraine Nielsen’s critique, the responses, and the open gaps in Alessandro Masullo’s separate manuscript."
+
 - date: 2026-11-25
   title: The five theorems and the scope of the verification runs
   items:
