@@ -1429,19 +1429,6 @@ guides:
 # Hub-only entries link to the work and its sources. Edition values select the
 # catalogue section. Original archive map citations stay in the guides above.
 hub_guides:
-  - id: tamnd-sernau-handbook
-    edition: readable
-    author: {name: tamnd, home: "https://github.com/tamnd"}
-    portrait_from: tamnd
-    title: The GRH Lean Handbook
-    url: https://github.com/tamnd/grh-lean-handbook/releases/tag/v0.2.0
-    date: '2026-11-26'
-    status: explains
-    versions: [{version: '0.2.0'}]
-    detail: A model-drafted handbook for graduate students reading Sernau’s proof. Volume 0 runs to 264 pages and Volume 1 lists 13 draft chapters. The release reports no human checking or Lean replay.
-    links:
-      - {title: Volume 0 PDF, url: "https://github.com/tamnd/grh-lean-handbook/releases/download/v0.2.0/grh-lean-handbook-00-guide-0.2.0.pdf"}
-
   - id: sonoda-readable-analysis
     edition: readable
     author: Sho Sonoda
@@ -1452,6 +1439,19 @@ hub_guides:
     detail: An English and Japanese guide to the readable edition, with a source-linked theorem graph and methods notes. Sonoda states that Claude generated most of the site.
     links:
       - {title: Methods, url: "https://shosonoda.github.io/lean-rh-alpoge/methods.html"}
+
+  - id: tamnd-sernau-handbook
+    edition: readable
+    author: {name: Tam Nguyen Duc, home: "https://github.com/tamnd"}
+    portrait_from: tamnd
+    title: The GRH Lean Handbook
+    url: https://github.com/tamnd/grh-lean-handbook/releases/tag/v0.2.0
+    date: '2026-11-26'
+    status: explains
+    versions: [{version: '0.2.0'}]
+    detail: A model-drafted handbook for graduate students reading Sernau’s proof. Volume 0 runs to 264 pages and Volume 1 lists 13 draft chapters. The release reports no human checking or Lean replay.
+    links:
+      - {title: Volume 0 PDF, url: "https://github.com/tamnd/grh-lean-handbook/releases/download/v0.2.0/grh-lean-handbook-00-guide-0.2.0.pdf"}
 
   - id: chojecki-compact-guide
     edition: compact
