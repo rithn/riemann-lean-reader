@@ -19,7 +19,7 @@ as_of: "26 Nov 2026"
 
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof of the Riemann hypothesis are correct. Independent checkers have compiled all 175,187 modules, replayed the proof through Lean's kernel and checked the exported proof with several independent programs.**
 
-**Latest verification update, 26 Nov 2026, 02:50 UTC.** Andrew Sutherland reports a full paranoid Comparator pass for each of Luke Sernau’s two shorter editions. On 25 November at 21:49 UTC, his original-archive Comparator run separately matched all five statements, audited the axioms and accepted the proof in three kernel checks. [Shorter-edition checks](#shorter-editions) · [MIT original log](https://math.mit.edu/~drew/grh/) · [Timeline](/timeline/#nov-26)
+**Verification update, 26 Nov 2026.** Andrew Sutherland reports a full paranoid Comparator pass for each of Luke Sernau’s two shorter editions. Michael Rubinstein’s Waterloo team reports a compact-edition paranoid pass, and Sho Sonoda reports standard Comparator passes for both editions. [Shorter-edition checks](#shorter-editions) · [Timeline](/timeline/#nov-26)
 
 [Follow updates via RSS](/changelog/feed.xml). Paste the link into your feed reader to get new updates.
 
@@ -61,6 +61,11 @@ Luke Sernau released the readable and compact rewrites on 25 November. Both use 
 | Full sandboxed `lake comparator --paranoid` on 26 November | Passed on machine B at 02:47:54 UTC. On machine A, the operator stopped lean4lean at a memory threshold. That run has no verdict. | Passed on machine B at 00:49:14 UTC and on machine A at 01:39:22 UTC. |
 
 On both editions the proof exports were reproduced byte for byte across the two machines and accepted by nanoda, con-leche and con-ron. These results are Sutherland’s independent checks. The joint certification below concerns the original 20 November release. [MIT results, updated 26 November at 02:50 UTC](https://math.mit.edu/~drew/shortgrh/) · [Compact verification walkthrough](/how-we-know/#verify-compact)
+
+### Additional verification reports {#additional-shorter-checks}
+
+- **Waterloo · 26 November, 05:34 UTC.** Michael Rubinstein’s Waterloo team reports compiling and replaying all 794 compact-edition modules at `72fead10` and completing paranoid Comparator on 26 November at 05:34 UTC. Its cluster run disabled the sandbox. MIT’s separate run used a sandbox. [Waterloo report](https://mrubinst.github.io/grh-lean-compact-check/)
+- **Sho Sonoda · 26 November.** Sonoda reports building both editions at `72fead10` (803 readable modules and 794 compact modules) and running standard Comparator v4.35.0. Lean’s default kernel and nanoda accepted both. His report describes the sandbox setup and a seccomp wrapper. [Report and run details](https://shosonoda.github.io/lean-rh-alpoge/grh.html#grh-comparator)
 
 ## What was certified, and by whom
 

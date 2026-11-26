@@ -2222,10 +2222,17 @@ if FL_PAGES:
           f'{sum(_szs) / 1e6:.2f} MB HTML, largest {max(_szs) / 1e3:.0f} kB')
 
 # ---------- /api/status.json timeline (the About page is now data/pages/about.md; the status text is on /status/)
+SHORTER_VERIFICATION_REPORTS = [
+    {'date': '2026-11-26', 'event': 'Michael Rubinstein’s Waterloo team reports compiling and replaying all 794 compact-edition modules at 72fead10 and completing paranoid Comparator at 05:34 UTC with the sandbox disabled.',
+     'source': 'https://mrubinst.github.io/grh-lean-compact-check/'},
+    {'date': '2026-11-26', 'event': 'Sho Sonoda reports building 803 readable and 794 compact modules at 72fead10 and passing standard Comparator v4.35.0 with Lean’s default kernel and nanoda. His report documents the sandbox setup and a seccomp wrapper.',
+     'source': 'https://shosonoda.github.io/lean-rh-alpoge/grh.html#grh-comparator'},
+]
 STATUS_FACTS = [
     {'date': '2026-11-20', 'event': plain(ST_RELEASE), 'source': NOTE},
     {'date': '2026-11-21', 'event': plain(ST_CERT), 'source': STMT},
     {'date': '2026-11-25', 'event': 'Lean v4.36.0 Comparator passed on the original archive’s exports and canonical challenge.', 'source': DREW},
+    *SHORTER_VERIFICATION_REPORTS,
 ]
 STATUS_VERIFICATION_AS_OF = STATUS_FACTS[-1]['date']
 
@@ -2878,7 +2885,7 @@ def jdump(name, obj):
 jdump('editions.json', edition_api(sernau_edition))
 API_STATUS = {
     'edition': 'alpoge',
-    'shorter_editions': verification_api(sernau_edition),
+    'shorter_editions': {**verification_api(sernau_edition), 'additional_reports': SHORTER_VERIFICATION_REPORTS},
     'updated': NEW_STATE['/status/'][1], 'question': 'Has the Riemann hypothesis been solved?',
     'as_of': STATUS_VERIFICATION_AS_OF, 'status': plain(ST_SHORT), 'timeline': STATUS_FACTS,
     'certification': {'text': plain(ST_CERT), 'quote': plain(ST_QUOTE), 'source': STMT},

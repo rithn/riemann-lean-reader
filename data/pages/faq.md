@@ -64,7 +64,7 @@ Source: [Lean reference manual](https://lean-lang.org/doc/reference/latest/) and
 
 ### How do we know the proof is correct?
 
-For the original archive, experts vetted Mathlib’s statement, the library compiled, multiple people reproduced the same export, and separate tools matched the statement and accepted the proof. Independent checks of Sernau’s readable and compact rewrites matched all five statements, audited their axioms and accepted both proof exports. [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/) · [MIT shorter-edition checks](https://math.mit.edu/~drew/shortgrh/)
+For the original archive, experts vetted Mathlib’s statement, the library compiled, multiple people reproduced the same export, and separate tools matched the statement and accepted the proof. MIT’s checks of Sernau’s readable and compact rewrites matched all five statements, audited their axioms and accepted both proof exports. Waterloo and Sho Sonoda report additional runs. [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/) · [Shorter-edition checks by verifier](/status/#shorter-editions)
 
 ### Is the proof a tautology? (the `True` definitions) {#tautology}
 

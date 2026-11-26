@@ -105,6 +105,8 @@ The Lean reference manual describes the [independent kernel implementations](htt
 
 ## How to check the compact edition {#verify-compact}
 
+The verification record includes the MIT runs below, Waterloo’s compact paranoid run and Sho Sonoda’s standard runs for both shorter editions. [Compare the reported runs and sandbox setups](/status/#shorter-editions)
+
 The commands below follow the release and Andrew Sutherland’s Linux instructions for commit `72fead102f663d5c7a407964a13dc0cf9d977207`. Start in `grh-compact/`. The readable sibling, `grh/`, is a separate Lake project with the same five statements. [Pinned compact README](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md) · [MIT reproduction instructions](https://math.mit.edu/~drew/shortgrh/)
 
 1. **Read the target.** `src/Statements.lean` gives four explicit propositions using Mathlib definitions, and `src/Main.lean` names and proves all five targets including Mathlib’s RH. The placeholders in `Challenge.lean` supply the target types for the judge. Lake’s normal build excludes that file. [Five statements](/shorter-riemann-hypothesis-proof/#five-statements) · [Pinned challenge](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/Challenge.lean)

@@ -4,6 +4,26 @@
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
 - date: 2026-11-26
+  published_at: 2026-11-26T15:00:51Z
+  title: Outside reading guides and shorter-edition checks
+  items:
+    - "Guides adds tamnd’s draft handbook and Sho Sonoda’s bilingual analysis for Sernau’s readable edition, and Tokuhiro Eto’s exposition of Alpöge’s original proof."
+    - "Status and Timeline record Waterloo’s compact paranoid Comparator run and Sho Sonoda’s standard Comparator runs on both shorter editions."
+  links:
+    - label: Outside guides to the readable edition
+      url: /guides/#sernau-outside-guides
+    - label: Guides to the original archive
+      url: /guides/#alpoge-original
+    - label: Additional verification reports on Status
+      url: /status/#additional-shorter-checks
+    - label: Dated verifier reports on Timeline
+      url: /timeline/#nov-26
+    - label: Waterloo compact-edition report
+      url: https://mrubinst.github.io/grh-lean-compact-check/
+    - label: Sonoda’s Comparator report
+      url: https://shosonoda.github.io/lean-rh-alpoge/grh.html#grh-comparator
+
+- date: 2026-11-26
   published_at: 2026-11-26T13:04:21Z
   title: Reading Sernau’s readable Lean edition
   items:
