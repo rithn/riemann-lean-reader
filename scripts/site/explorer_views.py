@@ -44,7 +44,7 @@ def route_intro(edition, label, title, lede):
 
 
 def stats_row(items):
-    return ''.join(f'<div><dt>{escape(label)}</dt><dd>{value}</dd></div>' for label, value in items)
+    return ''.join(f'<div><dt>{escape(label)}</dt> <dd>{value}</dd></div>' for label, value in items)
 
 
 def map_overview(*, edition, title, lede, stats, peek_actions, desktop_actions, verification,

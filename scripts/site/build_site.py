@@ -1517,9 +1517,27 @@ class _MD(HTMLParser):
             s.buf += d
 def to_md(body):
     body = re.sub(r'</span>(?=<span class="?chip)', '</span>, ', body)
-    body = body.replace('<span class="sep">/</span>', ' / ')
+    body = re.sub(r'<span class="sep"(?: aria-hidden="true")?>/</span>', ' / ', body)
     p = _MD(); p.feed(body); p.flush()
     return re.sub(r'\n{3,}', '\n\n', '\n'.join(p.lines)).strip() + '\n'
+
+
+def overview_markdown(body):
+    """Project the original map's rich overview into a single reading order."""
+    body = re.sub(r'<!--phone-overview-->.*?<!--/phone-overview-->', '', body, flags=re.S)
+    body = re.sub(r'<span aria-hidden="true">[^<]*</span>|<span class="ph-only">.*?</span>', '', body)
+    body = re.sub(r'<span class="k">(\d+)</span>', r'\1. ', body)
+    body = re.sub(r'<svg\b(?:(?!</svg>).)*</svg>(?= shows how many imports)', 'The import-step marker', body, flags=re.S)
+    body = body.replace('</a><a class="btn"', '</a> · <a class="btn"')
+
+    def theme_list(match):
+        links = re.findall(r'<a\b.*?</a>', match[1], flags=re.S)
+        return '<ul>' + ''.join(f'<li>{link}</li>' for link in links) + '</ul>'
+
+    body = re.sub(r'<div class="themes">(.*?)</div>', theme_list, body, flags=re.S)
+    return re.sub(r'\*\* ([,.:;])', r'**\1', to_md(body))
+
+
 def mdpath(path):
     return path + 'index.md' if path.endswith('/') else path + '.md'
 
@@ -2271,7 +2289,7 @@ route_body = ('<div id="original-route">' + route_intro(
     + ''.join(f'<li><a href="/list/?depth={d}">{"Depth 0 (the main theorem)" if d == 0 else "Depth " + str(d)}</a>: {_plural(DEPTHS[d], "cluster")}</li>' for d in sorted(DEPTHS))
     + (f'<li>Not reached from the main theorem: {_plural(len(CL) - len(dist), "cluster")}</li>' if len(dist) < len(CL) else '') + '</ul></div>'
     '<h2>The first two steps</h2><div class="rtree">'
-    f'<a class="rroot" href="{CPATH[main]}" data-k="{main}"><span class="star" aria-hidden="true">★</span>'
+    f'<a class="rroot" href="{CPATH[main]}" data-k="{main}"><span class="star" aria-hidden="true">★</span> '
     f'<span>Main theorem<small>{H(ctitle(main))}</small></span></a><ul class="rcols">'
     + ''.join(route_branch(k) for k in DEPTH_KS[1]) + '</ul></div>'
     '<h2>File by file</h2><dl class="rstats stat-row">'
@@ -2795,7 +2813,7 @@ readable_image = (SITE + sernau_card, f'Sernau readable map showing {readable_to
 page('/', HOME_T, HOME_DESC, '', readable_overview(sernau_data, home=True),
      [WEBSITE, ORG, DATASET, READABLE_DATASET], 1.0, img=readable_image, edition=DEFAULT)
 page(ALPOGE_MAP, 'Alpöge original · Lean proof of the Riemann hypothesis', ORIGINAL_DESC,
-     '', original_map, [WEBSITE, ORG, DATASET], .85, edition='alpoge')
+     '', original_map, [WEBSITE, ORG, DATASET], .85, md=overview_markdown(original_map), edition='alpoge')
 page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
      '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
      '<a href="/alpoge/">Open the Alpöge map</a>, <a href="/sernau/">open the Sernau map</a> or <a href="/status/">read how the proof was checked</a>.</p>')
