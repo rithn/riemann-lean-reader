@@ -27,6 +27,7 @@ from proof_editions import (COMPARISON, DEFAULT, NAMES as EDITION_NAMES, ORIGINA
                             VERIFICATION_URL as SERNAU_VERIFICATION, VIRTUAL_ENTRIES,
                             edition_api, verification_api)
 from site_dates import chash, content_revision
+from alpoge_layout import pack_constellation
 
 D, OUT = sys.argv[1], sys.argv[2]
 # 80a: --src-bundles[=DIR] also writes one Lean source bundle per cluster (default DIR: <out>/src/c). Off by default:
@@ -518,7 +519,7 @@ def theme_name(t):
     titles = [NAMES[k]['title'] for k in t['clusters'] if k in NAMES]
     return name, len(titles)
 
-# ---------- layout: themes, then clusters inside each theme
+# ---------- original theme and cluster positions, used as layout anchors
 TG = nx.Graph()
 TG.add_nodes_from(TH)
 w = collections.Counter()
@@ -1362,6 +1363,18 @@ if STATE.get('data:', [None])[0] != chash(DATA_V):   # the data changed (overvie
     DATA_V = hfiles(DATA_FILES)
 DATA_DATE = lastmod('data:', DATA_V)   # = overview['updated']
 assert DATA_DATE == overview['updated']
+# Hash the original anchor representation for content dates so a layout pass
+# does not appear as a new proof revision. Cache versions use the actual layout.
+packed_themes, envelopes, packed_clusters = pack_constellation(
+    {t: th['clusters'] for t, th in TH.items()}, P, R, pos_c,
+    {k: len(c['files']) for k, c in CL.items()}, main)
+for theme in overview['themes']:
+    t = theme['id']
+    theme['x'], theme['y'] = map(r2, packed_themes[t])
+    theme['r'] = r2(envelopes[t])
+for cluster in overview['clusters']:
+    cluster['x'], cluster['y'] = map(r2, packed_clusters[cluster['id']])
+write_overview()
 OV_V = hfiles([os.path.join(OUT, 'data', 'overview.json')])   # data-v: the version of overview.json alone (G3)
 # Keep the published hashed files for cached documents from preceding releases.
 def version_asset(name):
@@ -2811,10 +2824,10 @@ original_map = map_overview(
     verification=f'<a class="mstatus" href="/status/" title="{H(ST_META)}"><i></i>Lean proof {ST_CHIP} <span>· how it was checked ›</span></a>',
     peek_extra=proof_size_link, stats_extra=proof_size_link,
     body=('<h2>How to read the map</h2><div class="howto">'
-          '<div><span class="k">1</span><span>Each glowing point is a <b>cluster</b>: up to 50 related Lean files. Its colour is its <b>field</b> of mathematics; the soft clouds are <b>themes</b>.</span></div>'
+          '<div><span class="k">1</span><span>Each glowing point is a <b>cluster</b>: up to 50 related Lean files. Its colour shows its <b>field</b> of mathematics. Clouds group clusters by <b>theme</b>.</span></div>'
           '<div><span class="k">2</span><span>Click a cluster to see what it does, what it <span class="key-uses">uses</span>, what <span class="key-by">uses it</span>, and its <span class="key-route">route</span> from the main theorem.</span></div>'
           f'<div><span class="k">3</span><span>{route_glyph(3, "var(--accent2)")} shows how many imports lead from a cluster to the main theorem ★.</span></div>'
-          '<div><span class="k">4</span><span>Tap a field <span class="dk-only">in the bar under the map</span><span class="ph-only">under <b>Filter</b></span> to show only that part of the proof, or filter by distance, era and maths level.</span></div>'
+          '<div><span class="k">4</span><span>Tap a field <span class="dk-only">in the bar under the map</span><span class="ph-only">under <b>Filter</b></span> to show only that part of the proof. The distance filter counts import steps. You can also filter by era and maths level.</span></div>'
           '<div><span class="k">5</span><span>Press <code>/</code> to search for a topic or any Lean file.</span></div></div>'
           f'<h2>Themes <span class="n">{len(TH)}</span></h2>{theme_marker_defs}<div class="themes">'
           + ''.join(overview_theme(t) for t in sorted(TH, key=lambda t: -sum(fcount[k] for k in TH[t]['clusters']))) + '</div>'
