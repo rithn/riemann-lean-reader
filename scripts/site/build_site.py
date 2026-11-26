@@ -1527,7 +1527,7 @@ def overview_markdown(body):
     body = re.sub(r'<!--phone-overview-->.*?<!--/phone-overview-->', '', body, flags=re.S)
     body = re.sub(r'<span aria-hidden="true">[^<]*</span>|<span class="ph-only">.*?</span>', '', body)
     body = re.sub(r'<span class="k">(\d+)</span>', r'\1. ', body)
-    body = re.sub(r'<svg\b(?:(?!</svg>).)*</svg>(?= shows how many imports)', 'The import-step marker', body, flags=re.S)
+    body = body.replace(route_glyph(3, 'var(--accent2)') + ' shows', 'The import-step marker shows', 1)
     body = body.replace('</a><a class="btn"', '</a> · <a class="btn"')
 
     def theme_list(match):
