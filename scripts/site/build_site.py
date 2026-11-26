@@ -1861,7 +1861,7 @@ def neighbours(title, ids, on_route):
 MAIN = CPATH[main]
 # route glyph: the import route to the main theorem, as inline SVG (keep in step with routeGlyph() in app.js).
 # 1-3 steps: one dot per step, then the gold star; 4 or more: two dots, an ellipsis, the count in a ring, the star.
-def route_glyph(d, color):
+def route_glyph_shapes(d, color):
     import math
     parts = ['star'] if d == 0 else (['dot'] * d if d <= 3 else ['dot', 'dot', 'gap', 'num']) + ['star']
     wd, G, cy, x, out = {'dot': 7, 'gap': 10, 'num': 15, 'star': 14}, 5, 8, 1, []
@@ -1881,8 +1881,13 @@ def route_glyph(d, color):
                            for a, q in [(-math.pi / 2 + j * math.pi / 5, 6.8 if j % 2 == 0 else 6.8 * .45)])
             out.append(f'<polygon points="{pts}" fill="#f5c46b"/>')
         x += wd[p]
-    return (f'<span class="rg"><svg viewBox="0 0 {x + 1:g} 16" width="{x + 1:g}" height="16" aria-hidden="true" focusable="false">'
-            + ''.join(out) + '</svg></span>')
+    return x + 1, ''.join(out)
+
+
+def route_glyph(d, color):
+    width, shapes = route_glyph_shapes(d, color)
+    return (f'<span class="rg"><svg viewBox="0 0 {width:g} 16" width="{width:g}" height="16" aria-hidden="true" focusable="false">'
+            + shapes + '</svg></span>')
 def steps_txt(d):
     return 'The main theorem' if d == 0 else f'{d} import step{"" if d == 1 else "s"} to the main theorem'
 STATUS = (f'<p class="meta">Proof status as of {AS_OF_TXT}: {ST_SHORT[0].lower()}{ST_SHORT[1:]} Names and descriptions on this map '
@@ -2766,11 +2771,26 @@ original_stats = [
     ('clusters', f'{len(CL):,}'),
     ('themes', str(len(TH))),
 ]
+theme_steps = {t: min((dist[k] for k in TH[t]['clusters'] if k in dist), default=None) for t in TH}
+theme_marker_shapes = {d: route_glyph_shapes(d, 'currentColor') for d in sorted({d for d in theme_steps.values() if d is not None})}
+theme_marker_defs = (
+    '<svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute"><defs>'
+    + ''.join(f'<symbol id="theme-marker-{d}" viewBox="0 0 {width:g} 16">{shapes}</symbol>'
+              for d, (width, shapes) in theme_marker_shapes.items())
+    + '</defs></svg>'
+)
+
+
 def overview_theme(theme):
     ids = TH[theme]['clusters']
-    steps = min((dist[k] for k in ids if k in dist), default=None)
+    steps = theme_steps[theme]
     color = fcol(FIELDS[FIDX[TFIELD[theme]]])
-    glyph = route_glyph(steps, color) if steps is not None else ''
+    glyph = ''
+    if steps is not None:
+        width, _ = theme_marker_shapes[steps]
+        title = 'Holds the main theorem' if steps == 0 else f'Closest cluster: {steps_txt(steps)}'
+        glyph = (f'<span class="rg" role="img" aria-label="{H(title)}" title="{H(title)}">'
+                 f'<svg width="{width:g}" height="16" aria-hidden="true" focusable="false"><use href="#theme-marker-{steps}"></use></svg></span>')
     return (f'<a href="{TPATH[theme]}" data-t="{theme}" style="--c:{color}"><span class="tn">{H(TNAME[theme])}</span>'
             f'<small>{len(ids)} clusters · {sum(fcount[k] for k in ids):,} files</small><span data-theme-glyph>{glyph}</span></a>')
 original_map = map_overview(
@@ -2789,7 +2809,7 @@ original_map = map_overview(
           f'<div><span class="k">3</span><span>{route_glyph(3, "var(--accent2)")} shows how many imports lead from a cluster to the main theorem ★.</span></div>'
           '<div><span class="k">4</span><span>Tap a field <span class="dk-only">in the bar under the map</span><span class="ph-only">under <b>Filter</b></span> to show only that part of the proof, or filter by distance, era and maths level.</span></div>'
           '<div><span class="k">5</span><span>Press <code>/</code> to search for a topic or any Lean file.</span></div></div>'
-          f'<h2>Themes <span class="n">{len(TH)}</span></h2><div class="themes">'
+          f'<h2>Themes <span class="n">{len(TH)}</span></h2>{theme_marker_defs}<div class="themes">'
           + ''.join(overview_theme(t) for t in sorted(TH, key=lambda t: -sum(fcount[k] for k in TH[t]['clusters']))) + '</div>'
           + f'<h2>Explore the proof</h2><ul class="rows"><li><a href="{original_main["href"]}">Read the Lean declaration</a></li>'
           '<li><a href="/list/">Browse clusters</a></li><li><a href="/route/">Follow the original route</a></li>'
