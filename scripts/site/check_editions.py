@@ -10,8 +10,12 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import subprocess
+import sys
 from urllib.parse import unquote, urlsplit
 from xml.etree import ElementTree
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from site_release import retained
 
 
 VIRTUAL_REWRITES = {
@@ -40,6 +44,8 @@ class PageLinks(HTMLParser):
         self.canonical = None
         self.robots = ''
         self.description = ''
+        self.config = {}
+        self.in_config = False
 
     def handle_starttag(self, tag, attributes):
         attrs = dict(attributes)
@@ -51,6 +57,8 @@ class PageLinks(HTMLParser):
             self.editions[edition] = (attrs['href'], attrs.get('aria-current'))
         if tag == 'script' and 'src' in attrs:
             self.scripts.append(attrs['src'])
+        if tag == 'script' and attrs.get('id') == 'explorer-config':
+            self.in_config = True
         if tag == 'link' and attrs.get('rel') == 'canonical':
             self.canonical = urlsplit(attrs['href']).path
         if tag == 'meta' and attrs.get('name') == 'robots':
@@ -60,6 +68,14 @@ class PageLinks(HTMLParser):
         url = attrs.get('href') if tag in ('a', 'link') else attrs.get('src') if tag in ('img', 'script') else None
         if url:
             self.links.append(url)
+
+    def handle_data(self, data):
+        if self.in_config:
+            self.config = json.loads(data)
+
+    def handle_endtag(self, tag):
+        if tag == 'script':
+            self.in_config = False
 
 
 def load_page(site, page):
@@ -115,6 +131,12 @@ def check_shells(site):
             descriptions.add(html.description)
         if view in ('list', 'reader'):
             assert 'noindex' in html.robots, page
+        if 'routes' in html.config:
+            inactive = 'alpoge' if edition == 'sernau' else 'sernau'
+            assert edition in html.config and inactive not in html.config, page
+            assert ('legacyOverview' in html.config) == (page == '/'), page
+            if reader := html.config.get('reader'):
+                assert reader not in html.links and (site / reader.lstrip('/')).is_file(), page
 
     home = load_page(site, '/')
     assert {'/sernau/', '/alpoge/', '/sernau/list/', '/list/', '/sernau/route/', '/route/',
@@ -152,12 +174,48 @@ def check_original_baseline(site, revision, paths, rules):
     assert old_overview == new_overview, 'Original map overview changed'
     for name in ('api/clusters.json', 'api/themes.json', 'api/references.json', 'api/file-lines/index.json'):
         assert (site / name).read_bytes() == original(name), f'Original map output changed: {name}'
-    assets = subprocess.check_output(['git', '-C', str(site), 'ls-tree', '--name-only', revision], text=True)
-    for name in assets.splitlines():
-        if name.count('.') == 2 and name.startswith(('app.', 'style.', 'sernau.')):
-            assert (site / name).read_bytes() == original(name), f'Cached release asset changed: {name}'
+    assets = subprocess.check_output(['git', '-C', str(site), 'ls-tree', '-r', revision], text=True)
+    cached = []
+    for row in assets.splitlines():
+        heading, name = row.split('\t', 1)
+        if retained(Path(name)):
+            cached.append((name, heading.split()[-1]))
+    if cached:
+        actual = subprocess.check_output(['git', '-C', str(site), 'hash-object', '--no-filters', '--stdin-paths'],
+                                         input=''.join(f'{name}\n' for name, _ in cached), text=True).splitlines()
+        for (name, expected_hash), actual_hash in zip(cached, actual, strict=True):
+            assert actual_hash == expected_hash, f'Cached release asset changed: {name}'
     subprocess.run(['git', '-C', str(site), 'diff', '--exit-code', '--quiet', revision, '--',
                     'data/c', 'data/lean', 'api/file-lines', 'src', ':(exclude)src/sernau'], check=True)
+
+
+def check_locators(site, modules, groups, edition, read_json):
+    original = load_page(site, '/alpoge/reader/').config['alpoge']
+    search = read_json('/data/modules.json')
+    expected = {}
+    for folder, leaf, number in search['rows']:
+        prefix = search['folders'][folder]
+        expected[f'{prefix}.{leaf}' if prefix else leaf] = f'k{number:04d}'
+    lookup = {}
+    for number in range(256):
+        bucket = read_json(original['fileLocator'] + f'{number:02x}.json')
+        assert not bucket.keys() & lookup.keys()
+        for module in bucket:
+            hashed = 0x811c9dc5
+            for byte in module.encode('utf-8'):
+                hashed = ((hashed ^ byte) * 0x01000193) & 0xffffffff
+            assert hashed & 255 == number, module
+        lookup.update(bucket)
+    assert lookup == expected, 'Original source locator differs from mapped inventory'
+
+    body = load_page(site, '/sernau/reader/').body
+    assert set(body['data-file-groups'].split()) == {group['id'] for group in groups}
+    for group in groups:
+        shard = read_json(body['data-file-locator'] + group['id'] + '.json')
+        assert shard['edition'] == {key: edition[key] for key in ('id', 'revision', 'buildId')}
+        assert set(shard['modules']) == set(group['modules'])
+        for module, record in shard['modules'].items():
+            assert all(modules[module][key] == value for key, value in record.items()), module
 
 
 def check(site, baseline=None):
@@ -262,6 +320,7 @@ def check(site, baseline=None):
         assert (site / target.strip('/') / 'index.html').is_file(), target
     assert len(rules) <= 100
     check_shells(site)
+    check_locators(site, modules, graph['groups'], edition, read_json)
     check_generated_links(site, [
         '/', '/alpoge/', '/shorter-riemann-hypothesis-proof/', '/sernau/', '/sernau/list/', '/sernau/route/',
         '/sernau/reader/', *(group['href'] for group in graph['groups']),

@@ -22,33 +22,6 @@ import leansrc
 import resolve
 
 IX = SRC = None
-OPEN_BR, CLOSE_BR = set('([{⦃⟨'), set(')]}⦄⟩')
-
-
-def stmt_end(c):
-    """Line offset (0-based, within the command) of the first top-level `:=`, `where` or `|`."""
-    t = c.text
-    depth = 0
-    line = 0
-    i, n = 0, len(t)
-    while i < n:
-        ch = t[i]
-        if ch == '\n':
-            line += 1
-        elif ch in OPEN_BR:
-            depth += 1
-        elif ch in CLOSE_BR:
-            depth = max(0, depth - 1)
-        elif depth == 0:
-            if ch == ':' and t.startswith(':=', i):
-                return line
-            if ch == '|' and (i == 0 or t[i - 1] in ' \n') and c.kind in ('inductive',):
-                return line
-            if ch == 'w' and t.startswith('where', i) and (i == 0 or not leansrc.IDCHAR.match(t[i - 1])) \
-                    and (i + 5 >= n or not leansrc.IDCHAR.match(t[i + 5])):
-                return line
-        i += 1
-    return None
 
 
 def one(mod):
@@ -56,6 +29,7 @@ def one(mod):
     cnt, nclo = resolve.process(SRC, IX, mod, rows)
     text = open(os.path.join(SRC, *mod.split('.')) + '.lean', encoding='utf-8', errors='replace').read()
     p = leansrc.parse(text)
+    source_lines = text.split('\n')
     spans = []
     for c in p['cmds']:
         if not c.full:
@@ -65,9 +39,9 @@ def one(mod):
         while k > 1 and not lines[k - 1].strip():
             k -= 1
         end = c.line + k - 1
-        se = stmt_end(c)
+        boundary = leansrc.statement_boundary(source_lines, c.line, end, c.kind)
         fl = ('p' if 'private' in c.mods else '') + ('P' if 'protected' in c.mods else '')
-        spans.append((c.full, c.kind, c.line, end, c.line + se if se is not None else end, fl))
+        spans.append((c.full, c.kind, c.line, end, boundary[0] if boundary else end, fl))
     starts = sorted((s[2], s[0]) for s in spans)
     keys = [s[0] for s in starts]
     out = []

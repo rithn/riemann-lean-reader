@@ -2,15 +2,15 @@
 
 from hashlib import sha256
 from html import escape
+from datetime import datetime
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from urllib.parse import quote
 
+from proof_editions import COMPARISON as COMPARE, ROUTES, SERNAU_PASS_UTC, VERIFICATION_URL as MIT
+from site_release import replace_file
 
-MAP = "/sernau/"
-ROUTE = MAP + "route/"
-LIST = MAP + "list/"
-READER = MAP + "reader/"
-COMPARE = "/shorter-riemann-hypothesis-proof/"
-MIT = "https://math.mit.edu/~drew/shortgrh/"
+MAP, ROUTE, LIST, READER = (ROUTES['sernau'][name] for name in ('map', 'route', 'list', 'reader'))
 
 
 def esc(value):
@@ -100,7 +100,7 @@ def overview_content(data, *, home=False):
   <p>Each dot is a Lean file. Select a dot to see its direct imports, or select a group label to see its files and connections. An arrow points from the importing file to the file it imports.</p>
   <p class="meta">Zoom in for more labels. With a keyboard, Tab to a group, then use the arrow keys to move between its files and Enter to select.</p>
   <p>The readable release contains {number(total["physicalLines"])} physical lines under <code>grh/src/</code>. The pinned README gives its code-line estimate.</p>
-  <p class="meta">Andrew Sutherland’s paranoid Comparator run passed on 26 November 2026 at 02:47:54 UTC. {link(MIT, "Independent verification record")}.</p>
+  <p class="meta">Andrew Sutherland’s paranoid Comparator run passed on {datetime.fromisoformat(SERNAU_PASS_UTC).strftime('%-d %B %Y at %H:%M:%S UTC')}. {link(MIT, "Independent verification record")}.</p>
   <h2>Explore the proof</h2>
   <ul class="rows">{browse_links}</ul>
   <p class="meta">{link(readme, "Pinned readable README")} · {link(guide, "Upstream reading guide")}</p>
@@ -315,17 +315,19 @@ def reader_content(data):
 <section class="sr-card sr-file-evidence" id="file-evidence" hidden></section>"""
 
 
-def readable_card(out, groups, revision):
+def readable_card(out, groups, edition):
     from PIL import ImageDraw
     from og_cards import GOLD, FG, FG2, background, font, star
 
+    revision, totals = edition['revision'], edition['totals']
     img = background(GOLD, int(revision[:8], 16))
     canvas = ImageDraw.Draw(img)
     canvas.text((75, 82), "RH LEAN EXPLORER  /  SERNAU READABLE", font=font("semi", 25), fill=GOLD)
     canvas.text((75, 161), "The shorter Riemann", font=font("serif", 69), fill=FG)
     canvas.text((75, 247), "hypothesis proof", font=font("serif", 69), fill=FG)
     canvas.text((79, 380), "A source map of the readable Lean edition", font=font("reg", 31), fill=FG2)
-    canvas.text((79, 472), "803 Lean files   ·   29 source groups   ·   " + revision[:8], font=font("med", 23), fill=GOLD)
+    canvas.text((79, 472), f'{totals["modules"]:,} Lean files   ·   {totals["groups"]:,} source groups   ·   {revision[:8]}',
+                font=font("med", 23), fill=GOLD)
     cx, cy = 1000, 225
     star(canvas, cx, cy, 16, GOLD)
     from math import cos, sin, tau
@@ -339,7 +341,11 @@ def readable_card(out, groups, revision):
             canvas.circle((x, y), 3, fill=(115, 201, 188))
     dest = out / "og" / "sernau.png"
     dest.parent.mkdir(exist_ok=True)
-    img.quantize(colors=256).save(dest, optimize=True)
+    with TemporaryDirectory(prefix='sernau-card-') as tmp:
+        rendered = Path(tmp) / dest.name
+        img.quantize(colors=256).save(rendered, optimize=True)
+        if not dest.is_file() or dest.read_bytes() != rendered.read_bytes():
+            replace_file(rendered, dest)
     return "/og/sernau.png?v=" + sha256(dest.read_bytes()).hexdigest()[:10]
 
 
@@ -349,7 +355,7 @@ def build_sernau_pages(data, render):
     totals = data["edition"]["totals"]
     render(
         MAP, "Sernau readable · Map of the Riemann hypothesis proof",
-        "Explore Luke Sernau’s readable Lean rewrite in 29 source groups, trace file imports, and open the pinned proofs.",
+        f'Explore Luke Sernau’s readable Lean rewrite in {totals["groups"]:,} source groups, trace file imports, and open the pinned proofs.',
         "map", overview_content(data),
         f"[Follow the classical RH route]({ROUTE}) · [Browse groups and Lean files]({LIST}) · [Compare editions]({COMPARE})\n\n"
         f'{number(totals["modules"])} Lean files and {number(totals["moduleEdges"])} direct project-internal module imports at the readable revision.\n\n'

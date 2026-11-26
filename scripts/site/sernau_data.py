@@ -41,12 +41,6 @@ DOCUMENTS = (
     ("axioms", "Axiom inspection script", "grh/scripts/PrintAxioms.lean"),
 )
 CONTENTS_ENTRY = re.compile(r"^- `([^`]+)` \((\d+)\):\s+(.+)$")
-IMPORT = re.compile(r"^(?:(?:public|private|meta)\s+)*import\s+(\S.*)$")
-NAME_ATOM = r"(?:[^\W\d][\w'!?]*|«[^»]*»)"
-DECLARATION_HEADER = re.compile(
-    rf"\b(?:class\s+(?:abbrev|inductive)|{'|'.join(sorted(leansrc.DECL_KINDS - {'example'}))})"
-    rf"\s+(?:\(priority\s*:=\s*[^)]+\)\s*)?(?P<name>{NAME_ATOM}(?:\.{NAME_ATOM})*)"
-)
 
 
 def require(condition, message):
@@ -179,38 +173,9 @@ def module_label(edition, files, inventory, contents):
     return record
 
 
-def source_declarations(source):
-    records = []
-    for command in leansrc.parse(source)["cmds"]:
-        if command.kind not in leansrc.DECL_KINDS or command.kind == "example":
-            continue
-        # Recover the spelling from the command header. The original parser's identifier
-        # alphabet omits accented letters found in this edition and predates class abbrev.
-        head = leansrc.strip_attrs(command.text)
-        match = DECLARATION_HEADER.search(head.split("\n", 1)[0])
-        if not match:
-            continue
-        name = match["name"]
-        full = name.removeprefix("_root_.") if name.startswith("_root_.") else ".".join((*command.ns, name))
-        prefix = len(command.text) - len(head)
-        line = command.line + command.text.count("\n", 0, prefix + match.start())
-        end = command.line + command.text.rstrip().count("\n")
-        records.append({"name": full, "kind": command.kind, "line": line, "endLine": end})
-    return records
-
-
-def import_statements(source):
-    for line, text in enumerate(leansrc.clean(source).splitlines(), 1):
-        match = IMPORT.fullmatch(text.strip())
-        if match:
-            for module in match[1].split():
-                require(leansrc.IDENT.fullmatch(module), f"unrecognized import on line {line}: {text}")
-                yield module, line
-
-
 def build_modules(edition, files, inventory, groups):
     contents = files["grh/CONTENTS.md"].decode().splitlines()
-    modules = {}
+    modules, import_sites = {}, {}
     root = edition["sourceRoot"] + "/"
     lean_files = {path for path in files if path.startswith(root) and path.endswith(".lean")}
     require(len(inventory) == len(lean_files) and {row["path"] for row in inventory} == lean_files,
@@ -233,13 +198,15 @@ def build_modules(edition, files, inventory, groups):
         require(len(raw) == int(row["bytes"]) and hashlib.sha256(raw).hexdigest() == row["sha256"],
                 f"pinned bytes fail inventory validation for {path}")
         lines = len(source.split("\n")) - source.endswith("\n")
-        declarations = source_declarations(source)
+        parsed = leansrc.parse(source, source_locations=True)
+        declarations = parsed['declaration_sites']
+        import_sites[name] = parsed['import_sites']
         require(len({item["name"] for item in declarations}) == len(declarations)
                 and all(1 <= item["line"] <= item["endLine"] <= lines for item in declarations),
                 f"invalid declaration outline for {path}")
         modules[name] = {
             "name": name, "group": group, "groupSlug": groups[group]["slug"], "path": path,
-            "href": f"/sernau/file/{quote(name)}",
+            "href": f"{edition['url']}file/{quote(name)}",
             "raw": edition["rawBaseUrl"] + quote(relative),
             "upstreamRaw": f"https://raw.githubusercontent.com/lsernau/grh-lean/{edition['revision']}/{quote(path)}",
             "github": github(edition, path),
@@ -254,7 +221,8 @@ def build_modules(edition, files, inventory, groups):
     mathlib = f"https://github.com/leanprover-community/mathlib4/blob/{edition['mathlibRevision']}/"
     for name, module in modules.items():
         seen = set()
-        for target, line in import_statements(files[module["path"]].decode()):
+        for target, line in import_sites[name]:
+            require(leansrc.IDENT.fullmatch(target), f"unrecognized import {target} at {name}:{line}")
             if target in seen:
                 continue
             seen.add(target)
@@ -302,7 +270,7 @@ def build_groups(edition, files, groups, modules, grouped_evidence):
     for id_, group in groups.items():
         provenance = group.pop("evidence")
         group.update(
-            href=f"/sernau/group/{group['slug']}/",
+            href=f"{edition['url']}group/{group['slug']}/",
             labelOrigin="AI-assisted Explorer wording",
             labelEvidence=[evidence(edition, files, provenance["path"], provenance["line"], provenance["endLine"])],
             modules=[], imports=[], importers=[],
@@ -356,7 +324,8 @@ def build_theorems(edition, files, modules):
     require(files[f"{edition['sourceRoot']}/Statements.lean"] == files[f"{compact_root}/Statements.lean"],
             "readable and compact statement definitions differ")
     readable_declarations = {record["name"]: record for record in modules["Main"]["declarations"]}
-    compact_declarations = {record["name"]: record for record in source_declarations(files[compact_path].decode())}
+    compact_outline = leansrc.parse(files[compact_path].decode(), source_locations=True)['declaration_sites']
+    compact_declarations = {record['name']: record for record in compact_outline}
     require(set(readable_declarations) == set(compact_declarations) == set(names),
             "headline theorem names differ between the shorter editions")
 

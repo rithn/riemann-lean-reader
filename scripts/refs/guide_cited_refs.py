@@ -32,8 +32,9 @@ import argparse, csv, html, json, os, re, subprocess, sys, tempfile, unicodedata
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
 ROOT = os.path.dirname(REPO)
-OUT_TSV = os.path.join(REPO, 'data', 'guide-cited-refs.tsv')
-OUT_YAML = os.path.join(REPO, 'data', 'references-n3.yaml')
+OUT_DIR = os.environ.get('_RH_SITE_STAGE_STATE', os.path.join(REPO, 'data'))
+OUT_TSV = os.path.join(OUT_DIR, 'guide-cited-refs.tsv')
+OUT_YAML = os.path.join(OUT_DIR, 'references-n3.yaml')
 COLS = ['cluster', 'ref_id', 'n_guides', 'citation', 'url', 'cited_on']
 
 

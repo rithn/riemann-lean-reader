@@ -27,6 +27,69 @@ DECL_KINDS = {'theorem', 'lemma', 'def', 'abbrev', 'instance', 'structure', 'cla
 
 _STR = re.compile(r'"(?:\\.|[^"\\])*"')
 _LINECOM = re.compile(r'--[^\n]*')
+_SOURCE_TOKEN = re.compile(r'/-|--|"|«|(?<![\w\'])\'(?:\\.|[^\'\\\n])\'')
+_BLOCK_TOKEN = re.compile(r'/-|-/')
+_IMPORT_HEADER = re.compile(r'^(?:(?:public|private|meta)\s+)*import\s+(\S.*)$')
+_SOURCE_ATOM = rf"(?:[^\W\d][\w'!?]*|{ATOM})"
+_DECLARATION_SPELLING = re.compile(
+    rf"\b(?:class\s+(?:abbrev|inductive)|{'|'.join(sorted(DECL_KINDS - {'example'}))})"
+    rf"\s+(?:\(priority\s*:=\s*[^)]+\)\s*)?(?P<name>{_SOURCE_ATOM}(?:\.{_SOURCE_ATOM})*)"
+)
+
+
+def mask_noncode(text, *, quoted_names=False):
+    """Mask non-code immediately, retaining exact code-point columns and newlines."""
+    chunks, cursor = [], 0
+    while token := _SOURCE_TOKEN.search(text, cursor):
+        start, end = token.span()
+        chunks.append(text[cursor:start])
+        kind = token[0]
+        if kind == '/-':
+            depth = 1
+            for delimiter in _BLOCK_TOKEN.finditer(text, end):
+                depth += 1 if delimiter[0] == '/-' else -1
+                if not depth:
+                    end = delimiter.end()
+                    break
+            else:
+                end = len(text)
+        elif kind == '--':
+            newline = text.find('\n', end)
+            end = len(text) if newline < 0 else newline
+        elif kind == '"':
+            string = _STR.match(text, start)
+            end = string.end() if string else len(text)
+        elif kind == '«':
+            closing = text.find('»', end)
+            end = len(text) if closing < 0 else closing + 1
+            if not quoted_names:
+                chunks.append(text[start:end])
+                cursor = end
+                continue
+        chunks.append(re.sub(r'[^\n\r]', ' ', text[start:end]))
+        cursor = end
+    return ''.join((*chunks, text[cursor:]))
+
+
+def statement_boundary(lines, start, end, kind):
+    """Return (1-based line, 0-based code-point column) of the first proof/body marker."""
+    depth = 0
+    body = mask_noncode('\n'.join(lines[start - 1:end]), quoted_names=True)
+    for line, text in enumerate(body.split('\n'), start):
+        for column, char in enumerate(text):
+            if char in '([{⦃⟨':
+                depth += 1
+            elif char in ')]}⦄⟩':
+                depth = max(0, depth - 1)
+            elif not depth:
+                before = text[column - 1:column] if column else ''
+                if text.startswith(':=', column) or (char == '|' and kind == 'inductive' and not before.strip()):
+                    return line, column
+                if text.startswith('where', column):
+                    after = text[column + 5:column + 6]
+                    if not IDCHAR.match(before) and not IDCHAR.match(after):
+                        return line, column
+    return None
 
 
 def _strip_block_comments(t):
@@ -196,8 +259,8 @@ class Cmd:
         self.mods, self.members = set(), []
 
 
-def parse(text):
-    """Parse a file. Returns dict with imports, cmds (list of Cmd), namespaces, sections, opens (raw)."""
+def parse(text, *, source_locations=False):
+    """Return the existing xref records, optionally with import and declaration locations."""
     lines = clean(text).split('\n')
     stack = []                  # (kind, components, saved_opens, saved_vars)
     ns = []                     # current namespace components
@@ -276,8 +339,39 @@ def parse(text):
         else:
             c.kind = 'other:' + k
         cmds.append(c)
-    return {'imports': imports, 'cmds': cmds, 'namespaces': namespaces, 'sections': sections,
-            'opens': raw_opens, 'variables': variables}
+    result = {'imports': imports, 'cmds': cmds, 'namespaces': namespaces, 'sections': sections,
+              'opens': raw_opens, 'variables': variables}
+    if source_locations:
+        result.update(_source_locations(text, cmds))
+    return result
+
+
+def _source_locations(text, commands):
+    lines = mask_noncode(text).split('\n')
+    imports = []
+    for line_no, line in enumerate(lines, 1):
+        if match := _IMPORT_HEADER.fullmatch(line.strip()):
+            imports.extend((module, line_no) for module in match[1].split())
+    declarations = []
+    for command in commands:
+        if command.kind not in DECL_KINDS or command.kind == 'example':
+            continue
+        raw = '\n'.join(lines[command.line - 1:command.line - 1 + command.nlines])
+        head = strip_attrs(raw)
+        if head.startswith('open '):
+            prefix = re.match(r'open\s+.+?\s+in\s+', head.split('\n', 1)[0])
+            if prefix:
+                head = head[prefix.end():]
+        match = _DECLARATION_SPELLING.search(head.split('\n', 1)[0])
+        if not match:
+            continue
+        name = match['name']
+        full = name.removeprefix('_root_.') if name.startswith('_root_.') else '.'.join((*command.ns, name))
+        offset = len(raw) - len(head) + match.start()
+        line_no = command.line + raw.count('\n', 0, offset)
+        end = command.line + command.text.rstrip().count('\n')
+        declarations.append({'name': full, 'kind': command.kind, 'line': line_no, 'endLine': end})
+    return {'import_sites': imports, 'declaration_sites': declarations}
 
 
 def members(kind, cl):

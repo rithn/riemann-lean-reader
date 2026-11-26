@@ -10,10 +10,24 @@ No Lean source text is copied: files appear by module name and path only.
 import os, re, sys, json, glob, shutil, datetime, collections
 import yaml, networkx as nx
 from pathlib import Path
+from urllib.parse import quote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
 ROOT = os.path.dirname(REPO)
+if __name__ == '__main__' and '_RH_SITE_STAGE_STATE' not in os.environ:
+    sys.path.insert(0, HERE)
+    from site_release import run
+
+    run(sys.argv[1:])
+    sys.exit()
+STAGE_STATE = os.environ['_RH_SITE_STAGE_STATE']
+sys.path.insert(0, HERE)
+from proof_editions import (COMPARISON, DEFAULT, NAMES as EDITION_NAMES, ORIGINAL, ROUTES, SERNAU_PASS_UTC,
+                            VERIFICATION_URL as SERNAU_VERIFICATION, VIRTUAL_ENTRIES,
+                            edition_api, verification_api)
+from site_dates import chash, content_revision
+
 D, OUT = sys.argv[1], sys.argv[2]
 # 80a: --src-bundles[=DIR] also writes one Lean source bundle per cluster (default DIR: <out>/src/c). Off by default:
 # the full set is ~1 GB (the whole archive once more), see the note at SRC_BUNDLE below
@@ -42,16 +56,11 @@ TH = {t['id']: t for t in M['themes']}
 # same hashes to submit only the pages that changed since its last submission.
 import hashlib
 today = datetime.date.today().isoformat()
-STATE_F = os.path.join(HERE, 'lastmod.json')
+STATE_F = os.path.join(STAGE_STATE, 'lastmod.json')
 STATE = json.load(open(STATE_F)) if os.path.exists(STATE_F) else {}
 NEW_STATE = {}
-NOISE_RE = re.compile(r'\?v=[0-9a-f]+|\s?data-v="[^"]*"|(?<=/app)\.[0-9a-f]{10}(?=\.js)|(?<=/style)\.[0-9a-f]{10}(?=\.css)')
-def chash(*parts):
-    return hashlib.sha256('\x00'.join(NOISE_RE.sub('', x) for x in parts).encode()).hexdigest()[:12]
-def lastmod(key, *parts):
-    h = chash(*parts)
-    old = STATE.get(key)
-    NEW_STATE[key] = [h, old[1] if old and old[0] == h else today]
+def lastmod(key, *parts, mirror=None):
+    NEW_STATE[key] = content_revision(STATE.get(key), today, parts, mirror=mirror)
     return NEW_STATE[key][1]
 
 # ---------- fields and tags: copies of research/content/fields.yaml and research/content/tags/cluster-tags.json, kept in
@@ -238,7 +247,7 @@ for x in SPINE_Y['clusters']:
 # the same). Shown exactly as the spine's checked references, after them, on spine and other clusters alike. CHECKED_REFS:
 # cluster -> {'refs', 'evidence', 'date'}, the spine's and N3's together, by precision. A non-spine cluster keeps its
 # automatic book reference: N3 did not assess it.
-N3_F = os.path.join(REPO, 'data', 'references-n3.yaml')
+N3_F = os.path.join(STAGE_STATE, 'references-n3.yaml')
 N3_Y = yaml.safe_load(open(N3_F, encoding='utf-8')) if os.path.exists(N3_F) else {'meta': {}, 'clusters': []}
 N3_DATE = str(N3_Y['meta'].get('written') or SPINE_DATE)
 CHECKED_REFS = {k: {'refs': list(v['refs']), 'evidence': list(v['evidence']), 'date': SPINE_DATE} for k, v in SPINE.items()}
@@ -336,8 +345,7 @@ AS_OF_TXT = datetime.date.fromisoformat(STATUS_AS_OF).strftime('%-d %b %Y')
 STMT = 'https://leanprover-community.github.io/blog/posts/riemann-hypothesis/'
 NOTE, DREW = 'https://alpo.ge/remark.pdf', 'https://math.mit.edu/~drew/grh/'
 MATHLIB_RH = 'https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/LSeries/RiemannZeta.html#RiemannHypothesis'
-LEAN_REPO = 'https://github.com/leanprover-community/riemann-hypothesis'
-LEAN_SHA = '40e56bab026552e089d7afcfeff08d2defb9c005'   # unchanged mirror of the 175,187-file archive; app.js GH_SHA must match
+LEAN_REPO, LEAN_SHA = ORIGINAL['repository'], ORIGINAL['revision']
 def plain(h):
     return _html.unescape(re.sub(r'<[^>]+>', '', h))
 def mdtext(h):   # links and code only, which is all the status HTML uses
@@ -575,7 +583,7 @@ TPATH = {t: f'/theme/{t}-{TSLUG[t]}/' for t in TH}
 CPATH = {k: f'/cluster/{k}-{CSLUG[k]}/' for k in CL}
 # every slug a theme has ever had (scripts/site/theme_slugs_history.json: id -> [slug, ...], oldest first); a renamed
 # theme keeps its old slugs here, and _redirects 301s each old /theme/<id>-<old>/ straight to the current path
-TSLUG_F = os.path.join(HERE, 'theme_slugs_history.json')
+TSLUG_F = os.path.join(STAGE_STATE, 'theme_slugs_history.json')
 TSLUG_HIST = json.load(open(TSLUG_F)) if os.path.exists(TSLUG_F) else {}
 for t in TH:
     if TSLUG[t] not in TSLUG_HIST.setdefault(t, []):
@@ -585,7 +593,7 @@ TOLD = {f'/theme/{t}-{s}/': TPATH[t] for t, ss in TSLUG_HIST.items() if t in TPA
 assert not set(TOLD) & set(TPATH.values()), 'an old theme path is also a current one'
 # the same for clusters (scripts/site/cluster_slugs_history.json): a renamed cluster's old /cluster/<id>-<old>/ 301s
 # to its current path
-CSLUG_F = os.path.join(HERE, 'cluster_slugs_history.json')
+CSLUG_F = os.path.join(STAGE_STATE, 'cluster_slugs_history.json')
 CSLUG_HIST = json.load(open(CSLUG_F)) if os.path.exists(CSLUG_F) else {}
 for k in CL:
     if CSLUG[k] not in CSLUG_HIST.setdefault(k, []):
@@ -846,7 +854,7 @@ GC_LABEL = 'Cited on a guide page that covers this node (automatic, not checked)
 GC_NOTE = ('A guide page can cover several clusters, so a work listed here may concern another part of that page. '
            'Checked references, where there are any, are listed above.')
 GC_CAP, GC_PMAX = 8, 4   # works shown before "Show all"; citing pages shown per work before "and N more"
-GC_F = os.path.join(REPO, 'data', 'guide-cited-refs.tsv')
+GC_F = os.path.join(STAGE_STATE, 'guide-cited-refs.tsv')
 G_BY_ID = {g['id']: g for g in GD}
 G_BY_SLUG = {g['slug']: g for g in GD if g['slug']}
 GCITE = collections.defaultdict(list)
@@ -1006,23 +1014,6 @@ if FL:
 # is no command of its own (a structure field) shows its line from decls.tsv. Same rule as lxStmtEnd / lxStatement in app.js.
 sys.path.insert(0, os.path.join(REPO, 'scripts', 'xref'))
 import leansrc as _leansrc
-def _fl_stmt_end(lines, a, b, kind):
-    depth = 0
-    for n in range(a, min(b, len(lines)) + 1):
-        L = lines[n - 1]
-        for i, ch in enumerate(L):
-            if ch in '([{⦃⟨':
-                depth += 1
-            elif ch in ')]}⦄⟩':
-                depth = max(0, depth - 1)
-            elif not depth:
-                if ch == ':' and L[i + 1:i + 2] == '=':
-                    return n, i
-                if ch == '|' and kind == 'inductive' and (not i or L[i - 1] == ' '):
-                    return n, i
-                if ch == 'w' and L.startswith('where', i) and not re.match(r"[\w'.]", L[i - 1] if i else ' ') and not re.match(r"[\w']", L[i + 5:i + 6] or ' '):
-                    return n, i
-    return None
 FL_STMT_MAX = 40   # lines of one statement shown on the page; longer ones end with a note and the link to the file
 def fl_statements(m, names):
     """{name: (first line number, [lines])} for the names declared in module m."""
@@ -1039,7 +1030,7 @@ def fl_statements(m, names):
         while k > 1 and not cl[k - 1].strip():
             k -= 1
         a, b = c.line, c.line + k - 1
-        se = _fl_stmt_end(lines, a, b, c.kind)
+        se = _leansrc.statement_boundary(lines, a, b, c.kind)
         whole = (c.kind in ('def', 'abbrev') and b - a < 8) or (c.kind in ('structure', 'class', 'inductive') and b - a < 16)
         if not se or whole:
             st = lines[a - 1:b]
@@ -1067,8 +1058,6 @@ if os.path.exists(os.path.join(_xd, 'merten.json')):
 _E = _html.escape
 def fl_anchor(m):   # the file's id on its /lean/ page: the module name itself
     return m
-def fl_short(name):
-    return name.rsplit('.', 1)[-1]
 def fl_pre(a, st):
     return ('<pre class="lst"><code>' + ''.join(f'<span class="l"><span class="n">{a + i}</span>{_E(L) or ' '}</span>' for i, L in enumerate(st[:FL_STMT_MAX]))
             + (f'<span class="l more">… {len(st) - FL_STMT_MAX} more lines of the statement in the full file</span>' if len(st) > FL_STMT_MAX else '')
@@ -1095,8 +1084,8 @@ def fl_section(k, e):
         h.append(f'<h4>Key declarations</h4>')
         md += ['Key declarations:', '']
         for x in kd:
-            nm, s = x['name'], fl_short(x['name'])
-            h.append(f'<div class="lkd"><p><a href="{_E(fh)}#{_E(s)}"><code>{_E(nm)}</code></a>'
+            nm = x['name']
+            h.append(f'<div class="lkd"><p><a href="{_E(fh)}#{quote(nm, safe="")}"><code>{_E(nm)}</code></a>'
                      + (f': {_E(x["gloss"])}' if e['status'] != 'cut' else '') + '</p>')
             md.append(f'- `{nm}`' + (f': {x["gloss"]}' if e['status'] != 'cut' else ''))
             if nm in st:
@@ -1124,16 +1113,26 @@ SITE_URL = 'https://riemannhypothesissolved.com'
 FL_SEC, FL_PARTS, FL_PART = {}, {}, {}
 def fl_ppath(k, i):
     return CPATH[k] + 'lean/' + (f'part-{i + 1}/' if i else '')
+
+
+def fl_partition_size(section):
+    entry, markup, _ = section
+    # Keep the already-published part boundaries when upgrading declaration fragments.
+    fragment_growth = sum(len(quote(d['name'], safe='')) - len(_E(d['name'].rsplit('.', 1)[-1]).encode())
+                          for d in entry['key_decls'] or [])
+    return len(markup.encode()) - fragment_growth
+
+
 def _fl_split():   # a function, so that its names do not leak into the build's globals
     for k, es in FL.items():
         secs = [(e, *fl_section(k, e)) for e in es]
         # every part repeats the full contents list (about 2 module names and the line per file)
         budget = FL_MAX - FL_FRAME - sum(len((2 * e['module'] + e['line']).encode()) + 160 for e in es)
-        tot = sum(len(x[1].encode()) for x in secs)
+        tot = sum(map(fl_partition_size, secs))
         target = min(budget, tot / -(-tot // budget) * 1.02)   # ceil(tot / budget) parts of about equal size
         parts, cur, size = [], [], 0
         for s in secs:
-            n = len(s[1].encode())
+            n = fl_partition_size(s)
             if cur and size + n > target:
                 parts.append(cur); cur, size = [], 0
             cur.append(s); size += n
@@ -1217,235 +1216,14 @@ for k, c in CL.items():
 #   by per file, up to 5 importers: >= 0 a file of this node, < 0 x[-i - 1]
 XREF_D = os.path.join(os.environ.get('RH_XREF') or os.path.join(ROOT, 'research', 'lean-reader', 'xref'))
 LV_OUT = os.path.join(OUT, 'data', 'lean')
-os.makedirs(os.path.join(LV_OUT, 'x'), exist_ok=True)
-for f in glob.glob(os.path.join(LV_OUT, '*.json')) + glob.glob(os.path.join(LV_OUT, '*.json.gz')) + glob.glob(os.path.join(LV_OUT, 'x', '*.json.gz')):
-    os.remove(f)
-LEAN_HOVER = None
-if os.path.exists(os.path.join(OUT, 'data', 'lean-hover.json')):
-    os.remove(os.path.join(OUT, 'data', 'lean-hover.json'))
-# name links, compressed: per file the list of targets its names resolve to, plus overrides. The app links a token to
-# the one target in that list whose full name is the token or ends with '.' + token (else it drops the token's last
-# dotted part, as Lean reads a projection, and tries again); lvMatch() in app.js, keep in step. A token for which that
-# rule gives another answer, or none, or whose target has a short name that could be a local (not _lv_safe), or that
-# resolves differently on different lines, is written out: overrides {token: t index | {line: t index}}.
-def _lv_safe(short):
-    return len(short) >= 8 or (len(short) >= 4 and bool(re.search(r'[_0-9]|.[A-Z]', short)))
-def _lv_index(cand, full):   # every dotted suffix of each candidate's full name -> candidates
-    ix = collections.defaultdict(list)
-    for c in cand:
-        p = full[c].split('.')
-        for i in range(len(p)):
-            ix['.'.join(p[i:])].append(c)
-    return ix
-def _lv_match(tok, ix):
-    s = tok
-    while True:
-        hits = ix.get(s, ())
-        if len(hits) == 1:
-            return hits[0]
-        if hits or '.' not in s:
-            return None
-        s = s.rsplit('.', 1)[0]
-def _lv_links(links, full):   # targets >= 0 are in this node (full names known); < 0 elsewhere: always written out
-    cand = sorted({t for v in links.values() for t in ([v] if isinstance(v, int) else v.values()) if t >= 0})
-    ix = _lv_index(cand, full)
-    over = {}
-    for tok, v in links.items():
-        if isinstance(v, int) and v >= 0 and _lv_safe(full[v].rsplit('.', 1)[-1]) and _lv_match(tok, ix) == v:
-            continue
-        over[tok] = v
-    return [cand, over] if over else [cand]
-def _lean_viewer():   # a function, so that none of its names leak into the build's globals (par, order, …)
-    LEAN_HOVER = None
-    import gzip, csv
-    _t0 = __import__('time').time()
-    LVK = {'theorem': 't', 'lemma': 'l', 'def': 'd', 'abbrev': 'a', 'instance': 'i', 'structure': 's', 'class': 'c',
-           'inductive': 'n', 'alias': 'A', 'opaque': 'o', 'axiom': 'x', 'irreducible_def': 'd'}
-    DSTAT = {}          # (name, module) -> [kind, start, end, stmt_end, flags, used, chain]
-    MDECL = collections.defaultdict(list)
-    with gzip.open(os.path.join(XREF_D, 'full', 'decl_stats.tsv.gz'), 'rt', encoding='utf-8') as fh:
-        next(fh)
-        for ln in fh:
-            n, m, k, a, b, se, fl, u, ch = ln.rstrip('\n').split('\t')
-            if m in mod_cl:
-                r = (LVK.get(k, k[:1]), int(a), int(b), int(se), fl, int(u), int(ch))
-                DSTAT[(n, m)] = r
-                MDECL[m].append(n)
-    # English titles from the blueprints (real sources only): Merten's statement title, else Naskręcki's atlas title
-    _bt = {}
-    _mer = {s['label']: s.get('title') for s in json.load(open(os.path.join(XREF_D, 'merten.json')))['statements']}
-    _nas = {s['label']: s.get('title') for s in json.load(open(os.path.join(XREF_D, 'naskrecki.json')))['declarations']}
-    # which title, when both name a declaration: a Merten statement about this declaration alone, else the atlas entry
-    # (one declaration each), else a Merten statement that covers several declarations
-    _rows = [r for r in csv.DictReader(open(os.path.join(XREF_D, 'blueprint_matches.tsv')), delimiter='\t') if r['status'] == 'matched']
-    _nper = collections.Counter(r['label'] for r in _rows if r['source'] == 'merten')
-    _rank = {}
-    for r in _rows:
-        t = (_mer if r['source'] == 'merten' else _nas).get(r['label'])
-        key = (r['lean_name'], r['module'])
-        rk = 2 if r['source'] == 'naskrecki' else 1 if _nper[r['label']] == 1 else 3
-        if t and rk < _rank.get(key, 9):
-            _rank[key] = rk
-            _bt[key] = [t, 'b' if r['source'] == 'merten' else 'a', r['label']]
-    # guide citations, unshortened (guide-decls.tsv.gz): per declaration the guides on the map that name it, per file
-    # the citations (guide, page, declaration)
-    _goi = {g['id']: g for g in G_MAP}
-    DGUIDES = collections.defaultdict(set)
-    FCITES = collections.defaultdict(list)
-    def _gpage(g, k, raw):
-        note, l = _glabel(g, raw)
-        if note:
-            return l, next((u for x, u in g['notes'].get(k, []) if x == l), None)
-        url = next((u for x, u in g['refs'].get(k, []) if x == l), None)
-        return ('p. ' + l if l.isdigit() else l), url
-    with gzip.open(os.path.join(REPO, 'data', 'guide-decls.tsv.gz'), 'rt', encoding='utf-8') as fh:
-        for r in csv.DictReader(fh, delimiter='\t'):
-            g = _goi.get(r['guide'])
-            if not g or r['cluster'] not in CL:
-                continue
-            m = r['module']
-            if r['kind'] == 'd':
-                if (r['name'], m) not in DSTAT:
-                    continue
-                DGUIDES[(r['name'], m)].add(g['oi'])
-            elif m not in mod_cl:
-                continue
-            l, u = _gpage(g, r['cluster'], r['page'])
-            e = [g['oi'], l, u, r['name'].rsplit('.', 1)[-1] if r['kind'] == 'd' else '']
-            if e not in FCITES[m]:
-                FCITES[m].append(e)
-    _ord = {g['oi']: i for i, g in enumerate(G_MAP)}
-    def _pk(e):
-        mm = re.match(r'p\. (\d+)', e[1])
-        return (e[0], 0 if mm else 1, int(mm.group(1)) if mm else 0, e[1], e[3])
-    LEAN_HOVER = {}
-    _hsz = []
-    for k in CL:
-        # explorer order: unit heads by steps from Main (then name), each followed by its helpers along the fold tree
-        mems = members[k]
-        kids = collections.defaultdict(list)
-        heads = []
-        for m in mems:
-            p = parent.get(m)
-            if m in unit_cl or p not in mod_cl or mod_cl.get(p) != k:
-                heads.append(m)
-            else:
-                kids[p].append(m)
-        heads.sort(key=lambda m: (fdist.get(m) is None, fdist.get(m) or 0, m.rsplit('.', 1)[-1].lower(), m))
-        order, par = [], {}
-        def walk(m, pi):
-            par[m] = pi
-            i = len(order); order.append(m)
-            for c in sorted(kids.get(m, []), key=lambda x: (x.rsplit('.', 1)[-1].lower(), x)):
-                walk(c, i)
-        for h in heads:
-            walk(h, -1)
-        OWN = {m: i for i, m in enumerate(order)}
-        NS, NSI = [], {}       # namespaces of this cluster's declarations (main file)
-        XNS, XNSI = [], {}     # namespaces of declarations elsewhere (lazy file)
-        XM, XMI = [], {}       # modules elsewhere (lazy file)
-        def tab(lst, idx, v):
-            if v not in idx:
-                idx[v] = len(lst); lst.append(v)
-            return idx[v]
-        def split(name, lst, idx):
-            a, _, b = name.rpartition('.')
-            return (tab(lst, idx, a) if a else -1), b
-        try:
-            REFS = json.load(gzip.open(os.path.join(XREF_D, 'full', 'refs', k + '.json.gz'), 'rt', encoding='utf-8'))
-        except FileNotFoundError:
-            REFS = {}
-        # this cluster's declarations (the link targets inside the node point at them by [file, declaration] index)
-        DIDX, DS = {}, []
-        allD = []
-        for fi_, m in enumerate(order):
-            ds = []
-            for n in sorted(MDECL.get(m, []), key=lambda n: DSTAT[(n, m)][1]):
-                st = DSTAT[(n, m)]
-                a, b = split(n, NS, NSI)
-                g = len(DGUIDES.get((n, m), ()))
-                row = [a, b, st[0], st[1], st[2], st[5], g, _bt.get((n, m), 0), st[6]]
-                while len(row) > 6 and not row[-1]:   # trailing zeros (no title, not on the chain) are left out
-                    row.pop()
-                DIDX[(n, m)] = [fi_, len(ds)]
-                ds.append(row)
-                allD.append((n, m, st, g, (n, m) in _bt, fi_))
-            DS.append(ds)
-        T, TI, TF = [], {}, []   # link targets inside the node: [file, declaration]; full names for the matching rule
-        E, EI = [], {}           # link targets in other nodes (lazy file); a link to one is written as -(index + 1)
-        def ti(tgt, tm):
-            key = (tgt, tm)
-            if key in DIDX:
-                if key not in TI:
-                    TI[key] = len(T); T.append(DIDX[key]); TF.append(tgt)
-                return TI[key]
-            st = DSTAT.get(key)
-            if not st:
-                return None
-            if key not in EI:
-                a, b = split(tgt, XNS, XNSI)
-                EI[key] = len(E); E.append([tab(XM, XMI, tm), a, b, st[0], st[1], st[2]])
-            return -EI[key] - 1
-        F, BY = [], []
-        for fi_, m in enumerate(order):
-            links = {}
-            for tok, v in REFS.get(m, {}).items():
-                if isinstance(v, list):
-                    t = ti(*v)
-                    if t is not None:
-                        links[tok] = t
-                else:
-                    per = {l: ti(*x) for l, x in v.items()}
-                    per = {l: t for l, t in per.items() if t is not None}
-                    if per:
-                        links[tok] = per
-            links = _lv_links(links, TF)
-            by = sorted(importers.get(m, []), key=lambda x: (fdist.get(x) is None, fdist.get(x) or 0, x))
-            kd = 'u' if m in unit_cl else ('w' if kind.get(m) == 'wrapper' else 'h')
-            F.append([par[m], kd, fdist.get(m), len(by), DS[fi_], links, sorted(FCITES.get(m, []), key=_pk)])
-            BY.append([OWN[x] if x in OWN else -tab(XM, XMI, x) - 1 for x in by[:5]])
-        def mods(ms):   # [folders, [[folder index, last part]]]
-            fd, fdi = [], {}
-            return fd, [[tab(fd, fdi, mm.rpartition('.')[0]), mm.rpartition('.')[2]] for mm in ms]
-        d1, x1 = mods(order)
-        d2, x2 = mods(XM)
-        main = {'d': d1, 'x': x1, 'ns': NS, 'f': F, 't': T}
-        if FL.get(k):   # #10 readings (core clusters only): r.p the /lean/ page parts; r.f [file index, line, reading, part, [[declaration index, gloss]]]
-            rf = []
-            for e in FL[k]:
-                fi_ = OWN[e['module']]
-                gl = [[DIDX[(x['name'], e['module'])][1], x['gloss']] for x in e['key_decls'] or [] if (x['name'], e['module']) in DIDX]
-                rf.append([fi_, e['line'] if e['status'] != 'cut' else '', (e.get('reading') or '') if e['status'] != 'cut' else '',
-                           FL_PART[(k, e['module'])], gl if e['status'] != 'cut' else []])
-            main['r'] = {'p': [fl_ppath(k, i) for i in range(len(FL_PARTS[k]))], 'f': rf}
-        lazy = {'d': d2, 'x': x2, 'ns': XNS, 'e': E, 'by': BY}
-        for path, obj in ((os.path.join(LV_OUT, k + '.json.gz'), main), (os.path.join(LV_OUT, 'x', k + '.json.gz'), lazy)):
-            raw = json.dumps(obj, separators=(',', ':'), ensure_ascii=False).encode()
-            open(path, 'wb').write(gzip.compress(raw, 9, mtime=0))
-            _hsz.append((k, path.endswith(os.path.join('x', k + '.json.gz')), len(raw), os.path.getsize(path)))
-        # the top 3 ("main") declarations (decision 5, simplified 24 Nov): (a) cited by guides or blueprints, more
-        # guides first; then (b) on the chain to Main, the file closer to Main first. Ties: theorems and lemmas before
-        # definitions, then source order (explorer order, then line). Nothing in (a) or (b): no "main:" list.
-        THM = ('t', 'l')
-        ca = [x for x in allD if x[3] or x[4]]
-        cb = [x for x in allD if not (x[3] or x[4]) and x[2][6]]
-        ca.sort(key=lambda x: (-x[3], x[2][0] not in THM, x[5], x[2][1]))
-        cb.sort(key=lambda x: (fdist.get(x[1]) if fdist.get(x[1]) is not None else 999, x[2][0] not in THM, x[5], x[2][1]))
-        LEAN_HOVER[k] = [len(allD)] + [x[0].rsplit('.', 1)[-1] for x in (ca + cb)[:3]]
-    for lazy in (False, True):
-        r = sorted(x[2] for x in _hsz if x[1] == lazy); z = sorted(x[3] for x in _hsz if x[1] == lazy)
-        print(f'Lean viewer data ({"lazy x/" if lazy else "main"}): {len(z)} files, {sum(z) / 1e6:.1f} MB gzipped '
-              f'({sum(r) / 1e6:.1f} MB raw), median {z[len(z) // 2] / 1e3:.0f} kB, max {z[-1] / 1e3:.0f} kB gzipped '
-              f'({r[-1] / 1e3:.0f} kB raw)')
-    print(f'Lean viewer data built in {__import__("time").time() - _t0:.0f}s')
-    json.dump({'k': [LEAN_HOVER.get(c['id'], [0]) for c in overview['clusters']]},
-              open(os.path.join(OUT, 'data', 'lean-hover.json'), 'w'), separators=(',', ':'), ensure_ascii=False)
-    del DSTAT, MDECL
-    return LEAN_HOVER
-if not os.path.exists(os.path.join(XREF_D, 'full', 'decl_stats.tsv.gz')):
-    print(f'Lean viewer data: no P4 output in {XREF_D}/full, skipped')
-else:
-    LEAN_HOVER = _lean_viewer()
+from alpoge_reader_data import build_reader_artifacts
+
+LEAN_HOVER = build_reader_artifacts(
+    OUT=OUT, LV_OUT=LV_OUT, XREF_D=XREF_D, REPO=REPO, CL=CL,
+    overview_clusters=[cluster['id'] for cluster in overview['clusters']],
+    mod_cl=mod_cl, members=members, unit_cl=unit_cl, module_kind=kind, parent=parent, fdist=fdist, importers=importers,
+    FL=FL, FL_PART=FL_PART, FL_PARTS=FL_PARTS, fl_ppath=fl_ppath, G_MAP=G_MAP, _glabel=_glabel,
+)
 
 # ---------- search index: folders + leaf names
 folders, fidx, rows = [], {}, []
@@ -1599,18 +1377,18 @@ SHELL_F, _ = version_asset('explorer-shell.js')
 SERNAU_F, _ = version_asset('sernau.js')
 SERNAU_CSS_F, _ = version_asset('sernau.css')
 SERNAU_MAP_F, _ = version_asset('explorer-sernau-map.js')
+LEAN_READER_F = version_asset('lean-reader.js')[0] if (Path(OUT) / 'lean-reader.js').exists() else None
 
-# The script runs with Python -I. Import sibling producers from the tracked script directory.
-sys.path.insert(0, HERE)
+# Sibling producers run against the staged output.
 from sernau_data import build_sernau_data
-from sernau_pages import (MIT as SERNAU_VERIFICATION, build_sernau_pages, map_filters,
+from sernau_pages import (build_sernau_pages, map_filters,
                           overview_content as readable_overview, readable_card, source_provenance)
 
 shutil.rmtree(os.path.join(OUT, 'api'), ignore_errors=True)
 sernau_data = build_sernau_data(Path(OUT))
 sernau_edition = sernau_data['edition']
-sernau_card = readable_card(Path(OUT), sernau_data['groups'], sernau_edition['revision'])
-ALPOGE_MAP, SERNAU_MAP = '/alpoge/', '/sernau/'
+sernau_card = readable_card(Path(OUT), sernau_data['groups'], sernau_edition)
+ALPOGE_MAP, SERNAU_MAP = (ROUTES[key]['map'] for key in ('alpoge', 'sernau'))
 assert f"GH_SHA = '{LEAN_SHA}'" in open(os.path.join(OUT, 'app.js')).read(), 'app.js GH_SHA differs from LEAN_SHA'
 # 80b: the source viewer (/file/) serves the files of the proof's last step from this site, /src/<module>.lean, copied
 # byte for byte from the local tree (src/lean/src, the archive at LEAN_SHA); every other file still comes from the pinned
@@ -1785,7 +1563,8 @@ def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · 
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
 ORIGINAL_STATUS = {'href': '/status/', 'title': f'{ST_META} How it was checked.',
                    'label': f'Lean proof {ST_CHIP}: status of the proof', 'short': ST_CHIP_SHORT, 'text': ST_CHIP}
-READABLE_STATUS = {'href': SERNAU_VERIFICATION, 'title': 'Andrew Sutherland’s readable paranoid Comparator run passed on 26 November 2026 at 02:47:54 UTC.',
+SERNAU_PASS_TIME = datetime.datetime.fromisoformat(SERNAU_PASS_UTC).strftime('%-d %B %Y at %H:%M:%S UTC')
+READABLE_STATUS = {'href': SERNAU_VERIFICATION, 'title': f'Andrew Sutherland’s readable paranoid Comparator run passed on {SERNAU_PASS_TIME}.',
                    'label': 'Sernau readable verification at MIT', 'short': 'Checked', 'text': 'Comparator passed'}
 EXPLORER_CONFIG = {
     'alpoge': {'src': APP_F, 'version': OV_V, 'overview': f'/data/overview.json?v={OV_V}',
@@ -1806,9 +1585,8 @@ def fill_slots(template, **values):
     return re.sub(r'@([A-Z_]+)@', lambda match: values[match[1].lower()], template)
 
 def edition_switch(edition, view):
-    original = {'list': '/list/', 'route': '/route/'}.get(view, ALPOGE_MAP)
-    readable = {'list': '/sernau/list/', 'route': '/sernau/route/'}.get(view, SERNAU_MAP)
-    pairs = [('sernau', readable, 'Sernau'), ('alpoge', original, 'Alpöge')]
+    target_view = view if view in ('map', 'list', 'route') else 'map'
+    pairs = [(key, ROUTES[key][target_view], EDITION_NAMES[key]) for key in ROUTES]
     links = []
     for key, href, label in pairs:
         current = ' aria-current="page"' if key == edition else ''
@@ -1822,20 +1600,17 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
     readable = edition == 'sernau'
     engine = edition or 'alpoge'
     overlay = view in ('page', 'learn', 'route', 'reader') or (readable and view == 'group')
-    map_url = SERNAU_MAP if readable else ALPOGE_MAP
-    list_url = '/sernau/list/' if readable else '/list/'
-    route_url = '/sernau/route/' if readable else '/route/'
+    map_url, list_url, route_url = (ROUTES[engine][name] for name in ('map', 'list', 'route'))
     attributes = {'data-route': route, 'data-edition': edition, 'data-engine': engine, 'data-view': view}
     if overlay:
         attributes['class'] = 'paged'
     if readable:
         attributes.update({'data-' + key: sernau_edition[field] for key, field in
                            [('revision', 'revision'), ('overview', 'overviewUrl'),
-                            ('modules', 'modulesUrl'), ('groups', 'groupsBaseUrl')]})
+                            ('modules', 'modulesUrl'), ('groups', 'groupsBaseUrl'), ('build-id', 'buildId')]})
         if view == 'map':
             attributes['data-file-graph'] = sernau_edition['fileGraphUrl']
         if view == 'reader':
-            attributes['data-build-id'] = sernau_edition['buildId']
             attributes['data-file-locator'] = sernau_data['readerFilesBaseUrl']
             attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
@@ -1856,16 +1631,21 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
     styles = f'<link rel="stylesheet" href="{CSS_F}">'
     if readable:
         styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
-    config = EXPLORER_CONFIG
+    entry = EXPLORER_CONFIG[engine].copy()
+    config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), engine: entry}
+    if path == '/':
+        config['legacyOverview'] = EXPLORER_CONFIG['alpoge']['overview']
+    if LEAN_READER_F:
+        config['reader'] = LEAN_READER_F
     if engine == 'alpoge':
-        config = {**config, 'alpoge': {**config['alpoge'], 'theorems': HEADLINE_CROSSWALK}}
+        entry['theorems'] = HEADLINE_CROSSWALK
+    elif view != 'map':
+        entry.pop('map')
     if readable and view == 'reader':
-        pin = {key: sernau_edition[key] for key in ('repository', 'revision', 'sourceRoot')}
-        config = {**config, 'sernau': {**config['sernau'], **pin}}
+        entry.update({key: sernau_edition[key] for key in ('repository', 'revision', 'sourceRoot')})
     scripts = json_script('explorer-config', config)
     if view == 'reader':
         scripts += '\n' + json_script('edition-theorems', sernau_data['theorems'])
-    entry = EXPLORER_CONFIG[engine]
     if view == 'map' and path != '/':
         page_head += f'<link rel="preload" as="fetch" href="{H(entry["overview"])}" crossorigin="anonymous">\n'
         if readable:
@@ -1906,7 +1686,7 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None,
             assert fm, msg
             print('WARNING (reviewed page metadata):', msg)
 
-    date = lastmod(path, title, desc, SHARE_RE.sub('', body))
+    date = lastmod(path, title, desc, SHARE_RE.sub('', body), mirror=md)
     body = body.replace('{{UPDATED}}', date)
     has_md = not is404 and (not noindex or md is not None)
     if canonical:
@@ -2964,15 +2744,17 @@ READABLE_DATASET = {
     'distribution': [{'@type': 'DataDownload', 'encodingFormat': 'application/json',
                       'contentUrl': SITE + '/api/sernau/index.json'}],
 }
-readable_image = (SITE + sernau_card, 'Sernau readable map showing 803 Lean files and 29 source groups')
+readable_totals = sernau_edition['totals']
+readable_image = (SITE + sernau_card, f'Sernau readable map showing {readable_totals["modules"]:,} Lean files '
+                  f'and {readable_totals["groups"]:,} source groups')
 page('/', HOME_T, HOME_DESC, '', readable_overview(sernau_data, home=True),
-     [WEBSITE, ORG, DATASET, READABLE_DATASET], 1.0, img=readable_image, edition='sernau')
+     [WEBSITE, ORG, DATASET, READABLE_DATASET], 1.0, img=readable_image, edition=DEFAULT)
 page(ALPOGE_MAP, 'Alpöge original · Lean proof of the Riemann hypothesis', ORIGINAL_DESC,
      '', original_map, [WEBSITE, ORG, DATASET], .85, edition='alpoge')
 page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
      '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
      '<a href="/alpoge/">Open the Alpöge map</a>, <a href="/sernau/">open the Sernau map</a> or <a href="/status/">read how the proof was checked</a>.</p>')
-page('/alpoge/reader/', 'Lean source reader · Alpöge original', 'Open a Lean source file or concept from the original Alpöge archive.',
+page(ROUTES['alpoge']['reader'], 'Lean source reader · Alpöge original', 'Open a Lean source file or concept from the original Alpöge archive.',
      'page', '<h1>Alpöge original reader</h1><p>Use JavaScript to open a file or concept in the reader.</p>'
      f'<p><a href="{H(original_main["github"])}">Read the pinned main theorem</a> · <a href="/learn/">Browse the learning path</a></p>',
      edition='alpoge', view='reader', noindex=True)
@@ -2995,21 +2777,10 @@ build_sernau_pages(sernau_data, render_readable)
 os.makedirs(os.path.join(OUT, 'api'), exist_ok=True)
 def jdump(name, obj):
     json.dump(obj, open(os.path.join(OUT, 'api', name), 'w'), ensure_ascii=False, separators=(',', ':'))
-jdump('editions.json', {'default': 'sernau', 'editions': [
-    {'id': 'alpoge', 'label': 'Alpöge original', 'map': ALPOGE_MAP, 'revision': LEAN_SHA,
-     'source': LEAN_REPO, 'api': '/api/clusters.json', 'unit': 'Explorer cluster'},
-    {'id': 'sernau', 'label': 'Sernau readable', 'map': SERNAU_MAP, 'revision': sernau_edition['revision'],
-     'source': sernau_edition['repository'], 'api': '/api/sernau/index.json', 'unit': 'source group'},
-    {'id': 'sernau-compact', 'label': 'Sernau compact', 'revision': sernau_edition['revision'],
-     'source': f"https://github.com/lsernau/grh-lean/tree/{sernau_edition['revision']}/grh-compact",
-     'comparison': '/shorter-riemann-hypothesis-proof/'}
-]})
+jdump('editions.json', edition_api(sernau_edition))
 API_STATUS = {
     'edition': 'alpoge',
-    'shorter_editions': {'revision': sernau_edition['revision'], 'as_of_utc': '2026-11-26T02:50:00Z',
-                         'source': 'https://math.mit.edu/~drew/shortgrh/',
-                         'readable': 'Paranoid Comparator passed on machine B. Machine A stopped at its memory threshold.',
-                         'compact': 'Paranoid Comparator passed on machines A and B.'},
+    'shorter_editions': verification_api(sernau_edition),
     'updated': NEW_STATE['/status/'][1], 'question': 'Has the Riemann hypothesis been solved?',
     'as_of': STATUS_VERIFICATION_AS_OF, 'status': plain(ST_SHORT), 'timeline': STATUS_FACTS,
     'certification': {'text': plain(ST_CERT), 'quote': plain(ST_QUOTE), 'source': STMT},
@@ -3108,93 +2879,12 @@ API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the m
                          '<page>simple.md, student.md and expert.md, e.g. /what-is-the-riemann-hypothesis/student.md',
              'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH,
              'openapi': '/api/openapi.json', 'license': API_STATUS['license']}
-edition_endpoints = [
-    ('editions.json', 'getEditions', 'Proof editions and source revisions. Home defaults to Sernau readable. Use /sernau/ or /alpoge/ for explicit maps.'),
-    ('sernau/index.json', 'getSernauIndex', 'Readable edition data and provenance'),
-    ('sernau/groups.json', 'getSernauGroups', 'Readable source groups and their dependencies'),
-    ('sernau/modules.json', 'getSernauModules', 'Readable Lean modules and source links'),
-    ('sernau/theorems.json', 'getSernauTheorems', 'Five headline theorem declarations in the readable edition'),
-]
-API_INDEX['endpoints'].update({'/api/' + name: description for name, _, description in edition_endpoints})
+from api_catalogue import openapi_document, register_edition_endpoints
+
+register_edition_endpoints(API_INDEX)
 jdump('index.json', API_INDEX)
-
-# /api/openapi.json: an OpenAPI 3.1 description of the files above, its schemas inferred from the JSON as written (every
-# value at a position is merged: types, required keys, enums for the tag fields), so it cannot drift from the real files
-def _jtype(v):
-    return ('null' if v is None else 'boolean' if isinstance(v, bool) else 'integer' if isinstance(v, int) else 'number'
-            if isinstance(v, float) else 'string' if isinstance(v, str) else 'array' if isinstance(v, list) else 'object')
-OA_ENUMS = {'era', 'level', 'field'}   # string fields of a cluster or theme with a small fixed set of values: listed as enums
-OA_NULL = {'dist', 'title', 'blurb', 'url', 'doi', 'locator', 'match', 'note', 'text'}    # item fields the code can set to null even when today's data has none
-def oa_schema(vals, key=None, desc=None, item=False):
-    """desc: the file's own 'fields' notes; they (and enums, nullables) apply to the fields of array items only."""
-    ts = {_jtype(v) for v in vals}
-    if {'integer', 'number'} <= ts: ts.discard('integer')
-    if item and key in OA_NULL: ts.add('null')
-    s = {'type': sorted(ts)[0] if len(ts) == 1 else sorted(ts)}
-    if item and desc and key in desc: s['description'] = desc[key]
-    objs = [v for v in vals if isinstance(v, dict)]
-    if objs:
-        keys = list(dict.fromkeys(k for o in objs for k in o))
-        s['properties'] = {k: oa_schema([o[k] for o in objs if k in o], k, desc, item and key is None) for k in keys}
-        req = [k for k in keys if all(k in o for o in objs)]
-        if req: s['required'] = req
-    arrs = [v for v in vals if isinstance(v, list)]
-    if arrs:
-        items = [x for a in arrs for x in a]
-        s['items'] = oa_schema(items, None, desc, True) if items else {}
-    strs = sorted({v for v in vals if isinstance(v, str)})
-    if item and key in OA_ENUMS and strs and len(strs) <= 20: s['enum'] = strs + ([None] if 'null' in ts else [])
-    return s
-OA_FILES = [('index.json', 'getIndex', 'API index: the endpoints, tag meanings and licence', API_INDEX['description'], {}),
-            ('status.json', 'getStatus', 'Dated status of the proof, with primary sources', API_INDEX['endpoints']['/api/status.json'], {}),
-            ('clusters.json', 'getClusters', 'Every cluster', API_INDEX['endpoints']['/api/clusters.json'],
-             json.load(open(os.path.join(OUT, 'api', 'clusters.json')))['fields']),
-            ('themes.json', 'getThemes', 'Every theme', API_INDEX['endpoints']['/api/themes.json'],
-             json.load(open(os.path.join(OUT, 'api', 'themes.json')))['fields']),
-            ('references.json', 'getReferences', 'Checked references, and works cited by guides (not checked)', API_INDEX['endpoints']['/api/references.json'],
-             json.load(open(os.path.join(OUT, 'api', 'references.json')))['fields'])]
-if FL:
-    OA_FILES.append(('file-lines/index.json', 'getFileLinesIndex', 'Core clusters with English readings of their Lean files',
-                     API_INDEX['endpoints']['/api/file-lines/index.json'], {}))
-OA_FILES.extend((name, op, description, description, {}) for name, op, description in edition_endpoints)
-
-def endpoint_schema(filename, descriptions):
-    with (Path(OUT) / 'api' / filename).open() as stream:
-        payload = json.load(stream)
-    if filename == 'sernau/modules.json':
-        modules = payload.pop('modules')
-        schema = oa_schema([payload], desc=descriptions)
-        schema['properties']['modules'] = {'type': 'object', 'additionalProperties': oa_schema(list(modules.values()))}
-        schema['required'].append('modules')
-        return schema
-    return oa_schema([payload], desc=descriptions)
-
-OPENAPI = {
-    'openapi': '3.1.0',
-    'info': {'title': SITE_NAME + ' API', 'version': DATA_DATE,
-             'summary': 'Static JSON about the map of the Lean proof of the Riemann hypothesis.',
-             'description': ('Read-only static files, no key, no rate limit beyond normal caching (max-age 3600, CORS open). '
-                             + API_STATUS['note'] + ' Era, level and new_in_proof are ' + API_INDEX['tags']['note'] + '.'),
-             'license': {'name': 'CC BY 4.0', 'url': LICENSE}},
-    'servers': [{'url': SITE}],
-    'externalDocs': {'description': 'API index', 'url': SITE + '/api/index.json'},
-    'paths': {f'/api/{f}': {'get': {'operationId': op, 'summary': summ, 'description': d,
-                                    'responses': {'200': {'description': 'OK', 'content': {'application/json': {
-                                        'schema': {'$ref': f'#/components/schemas/{op[3:]}'}}}}}}}
-              for f, op, summ, d, _ in OA_FILES},
-    'components': {'schemas': {op[3:]: endpoint_schema(f, desc)
-                               for f, op, _, _, desc in OA_FILES}},
-}
-if FL:   # one templated path for the 16 files; the schema merges all of them
-    OPENAPI['paths']['/api/file-lines/{cluster}.json'] = {'get': {
-        'operationId': 'getFileLines', 'summary': "A core cluster's Lean files in plain English",
-        'description': API_INDEX['endpoints']['/api/file-lines/{cluster}.json'],
-        'parameters': [{'name': 'cluster', 'in': 'path', 'required': True, 'description': 'core cluster id',
-                        'schema': {'type': 'string', 'enum': list(FL)}}],
-        'responses': {'200': {'description': 'OK', 'content': {'application/json': {'schema': {'$ref': '#/components/schemas/FileLines'}}}}}}}
-    OPENAPI['components']['schemas']['FileLines'] = oa_schema(
-        [json.load(open(os.path.join(OUT, 'api', 'file-lines', k + '.json'))) for k in FL], None, FL_FIELDS)
-jdump('openapi.json', OPENAPI)
+jdump('openapi.json', openapi_document(Path(OUT) / 'api', API_INDEX, API_STATUS, date=DATA_DATE,
+                                      site=SITE, license_url=LICENSE, reading_clusters=FL, reading_fields=FL_FIELDS))
 # /api/ for people (QA16): the site's own template and CSS, the endpoints as a table and the index JSON wrapped (no sideways
 # scroll). Still noindex with its canonical on /api/index.json and not in the sitemap, as before: machines read the JSON
 def _apirow(u, d):   # a templated path ({cluster}) is not a link
@@ -3252,9 +2942,9 @@ llms = (f'# {SITE_NAME}\n\n> {HOME_LONG}\n\n'
         f'## Updates\n\n- [Changelog]({SITE}/changelog/index.md) · [RSS]({SITE}/changelog/feed.xml)\n'
         f'- Full text of the key pages: {SITE}/llms-full.txt\n')
 llms += (f'\n## Proof editions\n\n'
-         f'- [Alpöge original map]({SITE}/alpoge/index.md) · [cluster list]({SITE}/list/index.md) · [original route]({SITE}/route/index.md)\n'
-         f'- [Sernau readable map]({SITE}/sernau/index.md) · [group and file list]({SITE}/sernau/list/index.md) · [readable route]({SITE}/sernau/route/index.md)\n'
-         f'- [Compare all three editions]({SITE}/shorter-riemann-hypothesis-proof/index.md)\n'
+         f'- [Alpöge original map]({SITE}{ALPOGE_MAP}index.md) · [cluster list]({SITE}{ROUTES["alpoge"]["list"]}index.md) · [original route]({SITE}{ROUTES["alpoge"]["route"]}index.md)\n'
+         f'- [Sernau readable map]({SITE}{SERNAU_MAP}index.md) · [group and file list]({SITE}{ROUTES["sernau"]["list"]}index.md) · [readable route]({SITE}{ROUTES["sernau"]["route"]}index.md)\n'
+         f'- [Compare all three editions]({SITE}{COMPARISON}index.md)\n'
          f'- [Edition API]({SITE}/api/editions.json) · [readable source data]({SITE}/api/sernau/index.json)\n')
 open(os.path.join(OUT, 'llms.txt'), 'w').write(llms)
 # llms-full.txt: the content pages, About, Learn, /route/, and every cluster within two steps of the main theorem, in full
@@ -3274,7 +2964,7 @@ REDIR = ('# Generated by scripts/site/build_site.py; edit there, not here.\n'
          '# Cloudflare Pages rewrites serve the named reader shell at the requested URL.\n'
          '# Clusters, themes, /about/, /learn/ and /changelog/ are real static pages; only these app views have none.\n'
          '# Any other unknown path still gets the real 404 (404.html).\n'
-         '/sernau/file/* /sernau/reader/ 200\n/file/* /alpoge/reader/ 200\n/concept/* /alpoge/reader/ 200\n/list /list/ 200\n')
+         + ''.join(f'{path} {target} 200\n' for path, target in VIRTUAL_ENTRIES))
 # Cloudflare Pages applies only the first 100 rules of _redirects and silently ignores the rest (found live on 24 Nov:
 # rules 101-113 returned 404). So the rules are written by priority, and the build stops at REDIR_MAX: the rewrites,
 # then the 301s people follow (guides' old pinned copies; renamed themes and clusters, with and without the trailing
@@ -3308,7 +2998,7 @@ open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nContent-Signal
     'Allow: /data/sernau/\nAllow: /data/alpoge/files/\nDisallow: /data/*.json$\n'
     'Disallow: /data/*.json.gz$\n\n'
     f'Sitemap: {SITE}/sitemap.xml\n')
-KEY_F = os.path.join(HERE, 'indexnow.key')   # IndexNow key (public by design: it is served at /<key>.txt)
+KEY_F = os.path.join(STAGE_STATE, 'indexnow.key')   # IndexNow key (public by design: it is served at /<key>.txt)
 if not os.path.exists(KEY_F):
     open(KEY_F, 'w').write(secrets.token_hex(16) + '\n')
 KEY = open(KEY_F).read().strip()

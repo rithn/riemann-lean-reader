@@ -18,6 +18,8 @@ python -I scripts/site/check_editions.py ../site
 
 `RH_N3=./data` uses the checked-in guide citations. The checker validates the readable source bytes, generated URLs and group links, plus the distinct original and readable versions of `Main.lean`. Pass `--baseline-revision <site-revision>` to also compare the original sitemap, redirects, map data and API against the site before this preview.
 
+The build stages the site and generator state, verifies the sitemap and retained assets, then updates the paired checkout. For an existing site with original reader data, supply the original cross-reference inputs at the usual workspace path or through `RH_XREF`. A failed build keeps the previous release available.
+
 ## What's here
 
 | File | What it is |
