@@ -1603,11 +1603,8 @@ def head(path, title, desc, lds, md=True, img=None):
             f'<meta name="twitter:site" content="@RiemannMap">\n'
             f'<meta name="twitter:title" content="{t}">\n<meta name="twitter:description" content="{d}">\n'
             f'<meta name="twitter:image" content="{H(img)}">\n')
-SHARE_RE = re.compile(r'<p class="sharebar">.*?</p>| <span class="report">.*?</span>')   # QA23a: the report link is left out too
-def share_btn(path, title):   # a Share button (app.js copies the link or opens the phone's share sheet); not part of lastmod
-    return (f'<p class="sharebar"><button type="button" class="share" data-share="{H(SITE + path)}" data-title="{H(title)}">'
-            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0-4 4m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>'
-            '<span>Share</span></button></p>')
+SHARE_RE = re.compile(r'<p class="sharebar" data-share-slot></p>| <span class="report">.*?</span>')
+SHARE_SLOT = '<p class="sharebar" data-share-slot></p>'
 def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
     m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
@@ -1988,7 +1985,7 @@ for t, th in TH.items():
     rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
     body = (breadcrumbs([('Alpöge original', ALPOGE_MAP), ('Theme', '')]) +
             f'<div class="eyebrow">Alpöge original · Theme</div>'
-            f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>' + share_btn(TPATH[t], TNAME[t])
+            f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>' + SHARE_SLOT
             + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
             f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k, sub=oneline(k)) for k in cs)}</ul>'
             + (f'<h2>Related themes</h2><ul class="rows">' + ''.join(
@@ -2160,7 +2157,7 @@ for k, p in CPATH.items():
     on_route = set(up)
     body = (breadcrumbs([('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (k, '')]) +
             f'<div class="eyebrow">Alpöge original · Cluster {k}</div><h1>{H(title)}</h1>'
-            f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + share_btn(p, title)
+            f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + SHARE_SLOT
             + f'<p>{H(n.get("plain") or "")}</p>' + fl_link(k) + f'{route}<p class="meta">{H(feeds_txt(k))}</p>'
             + with_report(STATUS_CK if k in CHECKED else STATUS, k) + (checked_html(k) if k in CHECKED else '') + why
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
@@ -2226,7 +2223,7 @@ def _fl_pages():   # a function, so that its names do not leak into the build's 
             crumbs = breadcrumbs([('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (k, cp),
                                   ('Lean files' + (f' (part {i + 1})' if i else ''), '')])
             body = (crumbs + f'<div class="eyebrow">Alpöge original · Cluster {k} · Lean files in plain English</div>'
-                    f'<h1>{H(title)}: its Lean files in plain English</h1>' + share_btn(path, ptitle)
+                    f'<h1>{H(title)}: its Lean files in plain English</h1>' + SHARE_SLOT
                     + f'<p class="lede lhow">{H(FL_HOW)}</p>'
                     + f'<p class="meta">{nf} Lean {"file" if nf == 1 else "files"}, by distance from <code>Main.lean</code>. Each file links to the '
                     f'Lean viewer; the statements below are cut from the source up to <code>:=</code>. '
@@ -2295,7 +2292,7 @@ more_concepts = sorted((n for n in TT.values() if n['kind'] == 'concept' and n['
 LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through its main steps '
            'down to background maths, linked to the code.')
 learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyebrow">Learning path</div>'
-         '<h1>The Riemann hypothesis proof, step by step</h1><p class="lede">From the Riemann hypothesis down to school maths: '
+         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT + '<p class="lede">From the Riemann hypothesis down to school maths: '
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          f'<ul class="learning-tree">{learning_tree}</ul>'
@@ -2555,10 +2552,11 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
     trail = breadcrumbs([('Home', '/'), (crumb, '')])
+    share = SHARE_SLOT if path == '/status/' else ''
     if folded := fm.get('fold_sections'):
-        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
+        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{share}{article_html(html_body, folded)}</article>'
     else:
-        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
+        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{share}{html_body}'
     rel = RELATED.get(path, [])
     assert all(u in KNOWN_PATHS for u, _ in rel)
     if rel:
@@ -2660,7 +2658,7 @@ for section, entries in guide_sections.items():
 ghtml = re.sub(r'^<p><em>', '<p class="meta asof"><em>', ghtml, count=1)
 page(gpath, gfm['title'], gfm['description'], 'page',
      breadcrumbs([('Home', '/'), ('Guides', '')]) + '<div class="eyebrow">Guides and explainers</div>'
-     f'<h1>{H(gh1)}</h1>{ghtml}',
+     f'<h1>{H(gh1)}</h1>{SHARE_SLOT}{ghtml}',
      [article_ld(gpath, gh1, gfm['description'], str(gfm.get('published', '2026-11-23'))), crumbs_ld(('Home', '/'), ('Guides', gpath)), ORG], .6, fm=True,
      md=md_abs(f'# {gh1}\n\n' + gmd.rstrip() + '\n'))
 
@@ -2688,7 +2686,7 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
             f'<div class="eyebrow">Guide · {H(edition)}</div>'
             f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
             f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
-            f'<div class="cta gact">{"".join(acts)}</div>{notice}' + share_btn(path, g['title']) + content
+            f'<div class="cta gact">{"".join(acts)}</div>{notice}' + SHARE_SLOT + content
             + explore(('/guides/', 'All guides')))
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
              **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
@@ -3005,7 +3003,7 @@ def render_readable(path, title, desc, kind, body, md=None, noindex=False):
     page(path, title, desc, '' if kind == 'map' else kind, body, ld_graph, .85 if kind == 'map' else .6, md=md,
          img=readable_image, edition='sernau', view=kind, noindex=noindex)
 
-build_sernau_pages(sernau_data, render_readable)
+build_sernau_pages(sernau_data, render_readable, share_slot=SHARE_SLOT)
 
 # ---------- /api/: small JSON files for machines (short cache; /data/ is the app's own versioned format)
 os.makedirs(os.path.join(OUT, 'api'), exist_ok=True)

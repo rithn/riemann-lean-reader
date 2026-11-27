@@ -59,12 +59,23 @@
   <button id="zreset" type="button" title="Show everything" disabled><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
   <a id="zlist" class="zbtn" href="@LIST@" title="List view" aria-label="List view: the map as a list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></a>
   <a id="zroute" class="zbtn" href="@ROUTE@" title="Route from Main" aria-label="Route from Main: how the proof is structured"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="18" r="2"/><path d="M7 18h4a3 3 0 0 0 3-3V9a3 3 0 0 1 3-3h1"/><path d="m18 3 3 3-3 3"/></svg></a>
-  <button id="zshare" type="button" data-share-view title="Share this view" aria-label="Share this view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0-4 4m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></button>
+  <span data-share-slot="toolbar" hidden></span>
 </div>
 
 <div id="fbar" class="fbar" role="region" aria-label="Map colours and filters">@FILTERS@</div>
 <div id="fmob" class="fmob"></div>
 <dialog id="fsheet" class="fsheet" aria-labelledby="fs-h"></dialog>
+<dialog id="share-menu" class="share-menu" aria-labelledby="share-heading">
+  <div class="share-options">
+    <div class="share-head"><h2 id="share-heading">Share</h2><button type="button" data-share-close aria-label="Close share options">×</button></div>
+    <button type="button" data-share-copy autofocus>Copy link</button>
+    <a data-share-network="x" target="_blank" rel="noopener noreferrer">X</a>
+    <a data-share-network="reddit" target="_blank" rel="noopener noreferrer">Reddit</a>
+    <a data-share-network="email">Email</a>
+    <a data-share-network="linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <p role="status"></p>
+  </div>
+</dialog>
 
 <div id="loader" class="done"><p id="map-status" class="meta map-status" role="status"></p></div><noscript><style>
 #loader, #grip, .topbar .search, .topbar .sbtn, .mapctl button, #fbar, #fmob { display: none; }
