@@ -1,5 +1,37 @@
 group: New.OneLift
-overview: null
+overview:
+  group: New.OneLift
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: TestedForms studies algebraic forms on the definite space of a descent pair, including point forms,
+      their inner products and descents, and adjoints of Hecke polynomials.
+    citations:
+    - module: New.OneLift.TestedForms
+      line: 5
+      endLine: 15
+  - sentence: FalseLifts.BottomOfTower extends vanishing of descents from block data to a wider class of data, assuming
+      nontriviality of certain characters and annihilation by hyperplane sums.
+    citations:
+    - module: New.OneLift.FalseLifts.BottomOfTower
+      line: 5
+      endLine: 13
+  - sentence: LiftVolumeHeight studies comparison operators that take lifts to forms orthogonal to false lifts and
+      uses eigenvalue bounds to control a height ratio of lift determinants.
+    citations:
+    - module: New.OneLift.LiftVolumeHeight
+      line: 5
+      endLine: 12
+  - sentence: Its comparison operators are written as sums of rank-one operators using a tight frame of integral
+      tuples.
+    citations:
+    - module: New.OneLift.LiftVolumeHeight
+      line: 7
+      endLine: 10
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   New.OneLift.ComparisonOperator.DeterminantProducts:
     group: New.OneLift

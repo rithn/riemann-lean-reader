@@ -1,5 +1,33 @@
 group: Lib.Adelic
-overview: null
+overview:
+  group: Lib.Adelic
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "Begin with Adeles.Basic for finite adeles of a number field and their integral subring, together with their topology, maps induced by field embeddings, and base change."
+    citations:
+    - module: Lib.Adelic.Adeles.Basic
+      line: 6
+      endLine: 13
+  - sentence: "Its account includes compactness and openness of the integral adeles and density of the field in the finite adeles."
+    citations:
+    - module: Lib.Adelic.Adeles.Basic
+      line: 21
+      endLine: 23
+  - sentence: "Adeles.AdditiveCharacter imports Basic and introduces additive characters and measures for Fourier analysis on the adeles."
+    citations:
+    - module: Lib.Adelic.Adeles.AdditiveCharacter
+      line: 1
+      endLine: 13
+  - sentence: "For a totally complex field, it shows that the diagonally embedded field is a cocompact lattice of covolume one, and gives corresponding results for vectors and matrices."
+    citations:
+    - module: Lib.Adelic.Adeles.AdditiveCharacter
+      line: 8
+      endLine: 13
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.Adelic.Adeles.AdditiveCharacter:
     group: Lib.Adelic

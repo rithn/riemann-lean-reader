@@ -1,5 +1,39 @@
 group: New.Derivatives
-overview: null
+overview:
+  group: New.Derivatives
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: FormalGroup.ThetaProducts studies products of theta functions at primes that do not split in the quadratic
+      field, using vectors that resolve the identity.
+    citations:
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      line: 7
+      endLine: 14
+  - sentence: It obtains a normal form from congruences relating powers at a place to conjugation at its partner.
+    citations:
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      line: 13
+      endLine: 16
+  - sentence: Vacuum.Divisibility bounds valuations of derivatives of Taylor series of standard data along homogeneous
+      integral polynomials, and describes a normal form at non-split primes.
+    citations:
+    - module: New.Derivatives.Vacuum.Divisibility
+      line: 6
+      endLine: 9
+    - module: New.Derivatives.Vacuum.Divisibility
+      line: 21
+      endLine: 26
+  - sentence: Sharpness.BoundAttained gives upper bounds for valuations of suitable Taylor coefficients of indicator
+      data, including a statement that works simultaneously at every prime.
+    citations:
+    - module: New.Derivatives.Sharpness.BoundAttained
+      line: 4
+      endLine: 13
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   New.Derivatives.Divisibility.Count:
     group: New.Derivatives

@@ -1,5 +1,37 @@
 group: New.Appendix
-overview: null
+overview:
+  group: New.Appendix
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: The GaussianShape module studies a discrete series coefficient near the identity, where it is close
+      to a phase times a number between zero and one.
+    citations:
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 5
+      endLine: 10
+  - sentence: It describes the coefficient as a mean over a compact group of a quotient of products of minors and
+      combines estimates for individual minors.
+    citations:
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 9
+      endLine: 12
+  - sentence: Localization shows decay away from the maximal compact subgroup and finds a near-identity representative
+      with the same integrand value under its stated smallness assumptions.
+    citations:
+    - module: New.Appendix.DiscreteSeries.Localization
+      line: 7
+      endLine: 12
+  - sentence: Periods imports both modules and uses Laplace’s method to bound a ball volume in terms of the norm
+      of an integral of the product of coefficients.
+    citations:
+    - module: New.Appendix.DiscreteSeries.Periods
+      line: 1
+      endLine: 11
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   New.Appendix.DiscreteSeries.GaussianShape:
     group: New.Appendix

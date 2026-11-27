@@ -1,5 +1,37 @@
 group: New.Main
-overview: null
+overview:
+  group: New.Main
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: This group contains the single module New.Main, which imports New.Reduction.OneSidedBound and carries
+      out the final passage from half-plane nonvanishing to zeros on the critical line.
+    citations:
+    - module: New.Main
+      line: 1
+      endLine: 8
+  - sentence: Its first deduction assumes nonvanishing to the right of one half, with the stated exception at the
+      pole, and places Dirichlet L-function zeros in the open critical strip on the line.
+    citations:
+    - module: New.Main
+      line: 25
+      endLine: 28
+  - sentence: The argument reflects a zero across the line using the functional equation, then applies nonvanishing
+      to both the original and reflected zeros.
+    citations:
+    - module: New.Main
+      line: 30
+      endLine: 43
+  - sentence: The second deduction gives the corresponding statement for zeta zeros outside the listed negative
+      even integers and 1.
+    citations:
+    - module: New.Main
+      line: 44
+      endLine: 47
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   New.Main:
     group: New.Main

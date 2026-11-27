@@ -1,5 +1,33 @@
 group: Lib.ClassField
-overview: null
+overview:
+  group: Lib.ClassField
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "Global.ArtinMap studies local and global Artin maps into the abelianized absolute Galois group of a number field."
+    citations:
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 4
+      endLine: 10
+  - sentence: "Its results describe the global symbol as a product of local symbols, establish continuity, and relate Artin maps across an extension through the norm."
+    citations:
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 17
+      endLine: 20
+  - sentence: "Global.ArtinReciprocity addresses reciprocity on finite ideles and presents results from class field theory and local duality."
+    citations:
+    - module: Lib.ClassField.Global.ArtinReciprocity
+      line: 5
+      endLine: 12
+  - sentence: "For a totally complex field, its factorization result takes a continuous homomorphism on finite ideles that is trivial on field units and factors it continuously through the Artin map."
+    citations:
+    - module: Lib.ClassField.Global.ArtinReciprocity
+      line: 20
+      endLine: 21
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.ClassField.Avatar.HeckeBaseChange:
     group: Lib.ClassField

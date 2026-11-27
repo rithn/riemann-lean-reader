@@ -1,5 +1,37 @@
 group: New.Congruences
-overview: null
+overview:
+  group: New.Congruences
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: The FirstOrder.RibetMethod module derives Ribet’s method from Cayley–Hamilton and proves a formula
+      for characteristic polynomials of block matrices.
+    citations:
+    - module: New.Congruences.FirstOrder.RibetMethod
+      line: 4
+      endLine: 11
+  - sentence: Its final construction concerns a matrix of tied rows whose relations modulo a left ideal have controlled
+      traces.
+    citations:
+    - module: New.Congruences.FirstOrder.RibetMethod
+      line: 9
+      endLine: 11
+  - sentence: Under its hypotheses, Selmer.GeneralTheorem finds one anticyclotomic character whose first powers
+      have short Selmer groups and satisfy specified valuation and tame-generator conditions.
+    citations:
+    - module: New.Congruences.Selmer.GeneralTheorem
+      line: 5
+      endLine: 12
+  - sentence: 'FitTwistsExist states the conclusion of the Selmer group argument: a regular family of twists with
+      bounds on inverse L-value ratios and projection denominators.'
+    citations:
+    - module: New.Congruences.FitTwistsExist
+      line: 8
+      endLine: 16
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   New.Congruences.FirstOrder.AuxiliaryPrimeTie:
     group: New.Congruences

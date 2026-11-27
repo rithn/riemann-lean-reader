@@ -1,5 +1,76 @@
 group: Lib.Shimura
-overview: null
+overview:
+  group: Lib.Shimura
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "`Lib.Shimura.ComplexTheta.DimensionFormula` is an entry point for theta
+      functions on complex tori with positive Appell–Humbert data."
+    citations:
+    - module: Lib.Shimura.ComplexTheta.DimensionFormula
+      line: 5
+      endLine: 8
+  - sentence: It proves convergence and existence of a nonzero theta function, and
+      relates the square of the dimension of the theta-function space to the index
+      of the lattice in its dual.
+    citations:
+    - module: Lib.Shimura.ComplexTheta.DimensionFormula
+      line: 7
+      endLine: 10
+  - sentence: It also studies twisted translations and shows that suitable multiples
+      of a positive type have no common zero.
+    citations:
+    - module: Lib.Shimura.ComplexTheta.DimensionFormula
+      line: 10
+      endLine: 12
+    - module: Lib.Shimura.ComplexTheta.DimensionFormula
+      line: 20
+      endLine: 21
+  - sentence: "`Lib.Shimura.CongruenceRelation.EichlerShimura` instead transfers a
+      relation on characteristic-p points to pullbacks and Galois action on ℓ-adic
+      cohomology, including triviality of inertia under its hypotheses."
+    citations:
+    - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+      line: 4
+      endLine: 15
+    - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+      line: 44
+      endLine: 49
+  declarations: []
+  routeToMain:
+  - module: Lib.Shimura.AbelianScheme.Basic
+    importer: Lib.General.Geometry.PointsOfProperSchemes
+    line: 3
+  - module: Lib.General.Geometry.PointsOfProperSchemes
+    importer: Lib.Shimura.AbelianScheme.TangentCoordinates
+    line: 1
+  - module: Lib.Shimura.AbelianScheme.TangentCoordinates
+    importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+    line: 4
+  - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+    importer: New.Derivatives.Vacuum.TightFrames
+    line: 3
+  - module: New.Derivatives.Vacuum.TightFrames
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 3
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.Shimura.AbelianScheme.Basic:
     group: Lib.Shimura

@@ -1,5 +1,40 @@
 group: New.Determinant
-overview: null
+overview:
+  group: New.Determinant
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: Chain.SquareLaw develops linear algebra over a finite ring with a multiplicative character, relating
+      functions on two matrix spaces through matched functions.
+    citations:
+    - module: New.Determinant.Chain.SquareLaw
+      line: 4
+      endLine: 14
+  - sentence: It also derives an identity for Fourier transforms under the stated primitive-character and shape
+      conditions.
+    citations:
+    - module: New.Determinant.Chain.SquareLaw
+      line: 18
+      endLine: 21
+  - sentence: Exchange.OneSquare compares paths of theta lifts going up then down and down then up, with an equality
+      up to a scalar for matched functions.
+    citations:
+    - module: New.Determinant.Exchange.OneSquare
+      line: 6
+      endLine: 17
+  - sentence: Twist.FitTwists defines L-value ratios and records conditions on families of twists, including small
+      ratio heights and small denominators for projections to lifts.
+    citations:
+    - module: New.Determinant.Twist.FitTwists
+      line: 6
+      endLine: 12
+    - module: New.Determinant.Twist.FitTwists
+      line: 20
+      endLine: 27
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   New.Determinant.AuxiliaryForms.DeepLevelPoincarePeriod:
     group: New.Determinant

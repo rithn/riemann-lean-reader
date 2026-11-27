@@ -1,5 +1,36 @@
 group: Lib.DiscreteSeries
-overview: null
+overview:
+  group: Lib.DiscreteSeries
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "Haar.CayleyChart constructs a Haar measure on a unitary group using a Cayley chart and real coordinates on skew-hermitian matrices."
+    citations:
+    - module: Lib.DiscreteSeries.Haar.CayleyChart
+      line: 5
+      endLine: 10
+    - module: Lib.DiscreteSeries.Haar.CayleyChart
+      line: 19
+      endLine: 24
+  - sentence: "Haar.GramCoordinates imports that chart and develops coordinates and measure-preserving decompositions for the Gram map on complex matrices."
+    citations:
+    - module: Lib.DiscreteSeries.Haar.GramCoordinates
+      line: 1
+      endLine: 17
+  - sentence: "Bessel.Basic also imports the chart and describes a real unitary group, its unipotent coordinates and measures, and Bessel functions on the group."
+    citations:
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      line: 1
+      endLine: 13
+  - sentence: "The Bessel functions are bounded measurable functions on the real unitary group with specified transformation laws under a unipotent group and a unitary group."
+    citations:
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      line: 24
+      endLine: 27
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.DiscreteSeries.Bessel.Basic:
     group: Lib.DiscreteSeries
@@ -1994,8 +2025,29 @@ files:
   Lib.DiscreteSeries.Haar.GramCoordinates:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: "For a hermitian matrix, the Gram map takes the columns of a complex matrix to their matrix of pairings; the file uses Lebesgue measures on the input and on hermitian coordinates."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 4
+        endLine: 8
+    - sentence: "It defines maps joining groups of columns and establishes that joining preserves volume."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 10
+        endLine: 11
+    - sentence: "Real coordinates describe hermitian matrices and the Gram map, while a decomposition into skew-hermitian and hermitian parts gives a measure factor of two to the negative matrix size."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 12
+        endLine: 15
+    - sentence: "The file also gives measure-preserving coordinates for splitting a hermitian matrix into blocks or separating a corner."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 16
+        endLine: 17
     mechanical: true
     declarations:
     - module: Lib.DiscreteSeries.Haar.GramCoordinates
@@ -2067,7 +2119,6 @@ files:
         * `New.skewOfReal`: the skew-hermitian matrix with given real coordinates, normalised so that\n  Lebesgue\
         \ measure in the coordinates is that of the entries on and above the diagonal.\n* `New.skewCoords`: the\
         \ real-linear left inverse of `New.skewOfReal`, inverse to it on\n  skew-hermitian matrices.\n"
-    needs_draft: true
     reason: Only introduces the Gram map and measures; it states no result of the file.
     standaloneReview:
       verdict: needs-draft

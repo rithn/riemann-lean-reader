@@ -1,5 +1,33 @@
 group: Lib.Analytic
-overview: null
+overview:
+  group: Lib.Analytic
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "DirichletTheta studies a Gaussian-weighted theta series and relates its Mellin transform to a Dirichlet series."
+    citations:
+    - module: Lib.Analytic.DirichletTheta
+      line: 4
+      endLine: 8
+  - sentence: "For a nonprincipal character of the appropriate parity, Poisson summation gives the formula in the right half-plane; for a primitive character it also gives a transformation formula in absolute value."
+    citations:
+    - module: Lib.Analytic.DirichletTheta
+      line: 8
+      endLine: 11
+  - sentence: "EntireLFunction treats quadratic twists, a meromorphic continuation condition for transforms of error terms, and logarithmic derivatives of Dirichlet L-functions."
+    citations:
+    - module: Lib.Analytic.EntireLFunction
+      line: 4
+      endLine: 11
+  - sentence: "It relates the residues of the logarithmic derivative to zero orders, using an entire function adjusted at the principal character."
+    citations:
+    - module: Lib.Analytic.EntireLFunction
+      line: 20
+      endLine: 27
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.Analytic.DirichletTheta:
     group: Lib.Analytic

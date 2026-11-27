@@ -586,8 +586,33 @@ files:
   New.Spanning.Bessel.MeanValue:
     group: New.Spanning
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: This file studies the Gram matrix of a fixed frame and its translate in a real unitary group, over an
+        open set of invertible matrices.
+      citations:
+      - module: New.Spanning.Bessel.MeanValue
+        line: 6
+        endLine: 12
+    - sentence: It bounds a fibre measure from below by a measure over Gram matrices and frames with prescribed products
+        against the fixed frame.
+      citations:
+      - module: New.Spanning.Bessel.MeanValue
+        line: 14
+        endLine: 18
+    - sentence: The calculation compares fibre measures for pairs of frames and for single frames, using a directly
+        computed lower bound in coordinates.
+      citations:
+      - module: New.Spanning.Bessel.MeanValue
+        line: 20
+        endLine: 24
+    - sentence: The resulting mean value inequality integrates a function over two frame fixers and the open set of
+        Gram matrices.
+      citations:
+      - module: New.Spanning.Bessel.MeanValue
+        line: 26
+        endLine: 31
     mechanical: true
     declarations:
     - module: New.Spanning.Bessel.MeanValue
@@ -4181,8 +4206,32 @@ files:
   New.Spanning.RemainingTerms.Box:
     group: New.Spanning
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: For admissible filling data, this file considers a measurable domain of representatives modulo the level,
+        with each coordinate bounded in modulus.
+      citations:
+      - module: New.Spanning.RemainingTerms.Box
+        line: 7
+        endLine: 10
+    - sentence: A point is reduced when the entries above the diagonal of its rational triangular matrix lie in that
+        domain.
+      citations:
+      - module: New.Spanning.RemainingTerms.Box
+        line: 12
+        endLine: 13
+    - sentence: It is boxed when it is reduced and also satisfies a Bessel length bound at every infinite place.
+      citations:
+      - module: New.Spanning.RemainingTerms.Box
+        line: 12
+        endLine: 14
+    - sentence: The file establishes existence of such a representative domain, invariance of boxed points under unipotent
+        frame fixers, and a bound on the lengths of their frame vectors.
+      citations:
+      - module: New.Spanning.RemainingTerms.Box
+        line: 24
+        endLine: 30
     mechanical: true
     declarations:
     - module: New.Spanning.RemainingTerms.Box

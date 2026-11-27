@@ -1,5 +1,74 @@
 group: Lib.LocalGL
-overview: null
+overview:
+  group: Lib.LocalGL
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: Start with `Lib.LocalGL.Iwahori.SortedExponents`, where exponents for
+      smooth representations of a general linear group can, under the stated fixed-vector
+      conditions, be reordered by the sizes of their characters.
+    citations:
+    - module: Lib.LocalGL.Iwahori.SortedExponents
+      line: 5
+      endLine: 16
+  - sentence: For unitary representations with a finite-dimensional fixed part in
+      the relevant span of translates, the file also constructs eigenvectors with
+      sorted characters.
+    citations:
+    - module: Lib.LocalGL.Iwahori.SortedExponents
+      line: 11
+      endLine: 16
+  - sentence: "`Lib.LocalGL.Iwahori.SphericalExponents` studies when an exponent with
+      unramified, size-ordered characters is nonzero on spherical vectors."
+    citations:
+    - module: Lib.LocalGL.Iwahori.SphericalExponents
+      line: 4
+      endLine: 11
+  - sentence: It also treats the action of a Hecke operator on a parahoric eigenspace;
+      `Lib.GaloisRep.LocalGlobal.IwahoriCompatibility` imports both files for its
+      local-global results.
+    citations:
+    - module: Lib.LocalGL.Iwahori.SphericalExponents
+      line: 13
+      endLine: 17
+    - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
+      line: 1
+      endLine: 7
+  declarations: []
+  routeToMain:
+  - module: Lib.LocalGL.Green.CuspidalFunctions
+    importer: Lib.LocalGL.Shintani.CosetDescent
+    line: 2
+  - module: Lib.LocalGL.Shintani.CosetDescent
+    importer: Lib.LocalGL.Green.LabelCharacters
+    line: 2
+  - module: Lib.LocalGL.Green.LabelCharacters
+    importer: New.UpperBound.Objects.LabelsAndIndexTypes
+    line: 1
+  - module: New.UpperBound.Objects.LabelsAndIndexTypes
+    importer: New.Spanning.MainTerm.BadTypes
+    line: 3
+  - module: New.Spanning.MainTerm.BadTypes
+    importer: New.Spanning.SecondMoment.SpanningTheorem
+    line: 2
+  - module: New.Spanning.SecondMoment.SpanningTheorem
+    importer: New.Reduction.ShortAndEnough
+    line: 2
+  - module: New.Reduction.ShortAndEnough
+    importer: New.Reduction.MainInequality
+    line: 2
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.LocalGL.Green.CuspidalFunctions:
     group: Lib.LocalGL
@@ -710,8 +779,37 @@ files:
   Lib.LocalGL.Iwahori.SphericalExponents:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: For a general linear group over a valued field with compact ring of integers,
+        this file studies linear forms that are exponents for a torus character.
+      citations:
+      - module: Lib.LocalGL.Iwahori.SphericalExponents
+        line: 6
+        endLine: 9
+    - sentence: It shows that a nonzero exponent with unramified characters, ordered by
+        non-increasing absolute value at a uniformiser, is nonzero on the vectors fixed
+        by the integral general linear group.
+      citations:
+      - module: Lib.LocalGL.Iwahori.SphericalExponents
+        line: 9
+        endLine: 11
+    - sentence: The proof uses orbit sums for parahoric subgroups and permutation matrices.
+      citations:
+      - module: Lib.LocalGL.Iwahori.SphericalExponents
+        line: 11
+        endLine: 13
+    - sentence: For completions of number fields, the file also shows that a specified
+        Hecke operator preserves a parahoric eigenspace associated with the stabiliser
+        of a line.
+      citations:
+      - module: Lib.LocalGL.Iwahori.SphericalExponents
+        line: 13
+        endLine: 17
+      - module: Lib.LocalGL.Iwahori.SphericalExponents
+        line: 21
+        endLine: 25
     mechanical: true
     declarations:
     - module: Lib.LocalGL.Iwahori.SphericalExponents

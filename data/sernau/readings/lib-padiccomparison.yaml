@@ -1,5 +1,97 @@
 group: Lib.PadicComparison
-overview: null
+overview:
+  group: Lib.PadicComparison
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: Begin with `Lib.PadicComparison.Primitive.ComparisonTheorem`, which
+      compares mod-p cohomology after tensoring with the tilt of the p-adic integers
+      to cohomology on p-adic tests with tilted coefficients for proper, charted schemes.
+    citations:
+    - module: Lib.PadicComparison.Primitive.ComparisonTheorem
+      line: 4
+      endLine: 10
+  - sentence: For proper, charted schemes and the stated acyclicity hypothesis, it
+      gives finite mod-p cohomology and a bijective comparison map.
+    citations:
+    - module: Lib.PadicComparison.Primitive.ComparisonTheorem
+      line: 14
+      endLine: 16
+  - sentence: "`Lib.PadicComparison.Crystalline.ComparisonMap` studies another comparison,
+      involving a divided-power reduction and period coefficients."
+    citations:
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 7
+      endLine: 12
+  - sentence: It establishes the comparison for suitable étale charts and, under its
+      stated hypotheses, a spanning result for finite period cohomology over the period
+      ring.
+    citations:
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 13
+      endLine: 19
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 30
+      endLine: 40
+  declarations: []
+  routeToMain:
+  - module: Lib.PadicComparison.Completion
+    importer: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+    line: 1
+  - module: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+    importer: Lib.PadicComparison.Crystalline.ComparisonMap
+    line: 1
+  - module: Lib.PadicComparison.Crystalline.ComparisonMap
+    importer: Lib.PadicComparison.CrystallineFrobenius
+    line: 1
+  - module: Lib.PadicComparison.CrystallineFrobenius
+    importer: Lib.Shimura.Eigenspace
+    line: 2
+  - module: Lib.Shimura.Eigenspace
+    importer: Lib.GaloisRep.Main.SeedRepresentation
+    line: 4
+  - module: Lib.GaloisRep.Main.SeedRepresentation
+    importer: Lib.GaloisRep.Main.SplitCase
+    line: 2
+  - module: Lib.GaloisRep.Main.SplitCase
+    importer: Lib.GaloisRep.Main.OddRank
+    line: 2
+  - module: Lib.GaloisRep.Main.OddRank
+    importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+    line: 1
+  - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+    importer: Lib.GaloisRep.Main.AllRanks
+    line: 1
+  - module: Lib.GaloisRep.Main.AllRanks
+    importer: Lib.GaloisRep.TaylorWiles
+    line: 2
+  - module: Lib.GaloisRep.TaylorWiles
+    importer: New.Congruences.FirstOrder.TrianglePrimes
+    line: 2
+  - module: New.Congruences.FirstOrder.TrianglePrimes
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 4
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.PadicComparison.Completion:
     group: Lib.PadicComparison
@@ -123,8 +215,34 @@ files:
   Lib.PadicComparison.Crystalline.ComparisonMap:
     group: Lib.PadicComparison
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: This file studies a crystalline comparison between cohomology on divided-power
+        reductions with period coefficients and cohomology on p-adic tests.
+      citations:
+      - module: Lib.PadicComparison.Crystalline.ComparisonMap
+        line: 7
+        endLine: 12
+    - sentence: It specifies the period-algebra structure needed for the comparison and
+        defines the condition that the comparison be bijective in every degree.
+      citations:
+      - module: Lib.PadicComparison.Crystalline.ComparisonMap
+        line: 23
+        endLine: 29
+    - sentence: The comparison holds in particular for the stated étale charts, where
+        adjoining roots of the chart coordinates reduces the claim to another comparison
+        result.
+      citations:
+      - module: Lib.PadicComparison.Crystalline.ComparisonMap
+        line: 30
+        endLine: 37
+    - sentence: Under further hypotheses on the base and a charting, pulled-back classes
+        span the period cohomology when that cohomology is finite.
+      citations:
+      - module: Lib.PadicComparison.Crystalline.ComparisonMap
+        line: 13
+        endLine: 19
     mechanical: true
     declarations:
     - module: Lib.PadicComparison.Crystalline.ComparisonMap

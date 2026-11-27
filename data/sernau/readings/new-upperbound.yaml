@@ -1,5 +1,39 @@
 group: New.UpperBound
-overview: null
+overview:
+  group: New.UpperBound
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: ElementaryDivisors.ElementaryDivisorTheorem bounds the mean exponent of elementary divisors of an
+      edge Hecke operator outside a small proportion, under size conditions.
+    citations:
+    - module: New.UpperBound.ElementaryDivisors.ElementaryDivisorTheorem
+      line: 7
+      endLine: 13
+  - sentence: Divisibility.LocalDivisibility bounds the gauge of a composite lift prime by prime, using a chain
+      expansion away from one prime and elementary-divisor bounds at exceptional primes.
+    citations:
+    - module: New.UpperBound.Divisibility.LocalDivisibility
+      line: 8
+      endLine: 14
+  - sentence: Size.Estimates supplies numerical bounds used for heights and indices, including bounds for class
+      counts and the weighted sum of allowed losses.
+    citations:
+    - module: New.UpperBound.Size.Estimates
+      line: 4
+      endLine: 10
+    - module: New.UpperBound.Size.Estimates
+      line: 18
+      endLine: 22
+  - sentence: It also groups the von Mangoldt sum prime by prime and bounds diagram rows and jet sizes.
+    citations:
+    - module: New.UpperBound.Size.Estimates
+      line: 6
+      endLine: 9
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   New.UpperBound.Divisibility.ChainDatumExpansion:
     group: New.UpperBound

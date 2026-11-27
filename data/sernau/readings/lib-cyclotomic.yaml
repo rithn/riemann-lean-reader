@@ -1,5 +1,39 @@
 group: Lib.Cyclotomic
-overview: null
+overview:
+  group: Lib.Cyclotomic
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "Stickelberger studies Gauss sums over prime fields and builds a family of Jacobi-type quotients with Galois and distribution relations."
+    citations:
+    - module: Lib.Cyclotomic.Stickelberger
+      line: 5
+      endLine: 15
+    - module: Lib.Cyclotomic.Stickelberger
+      line: 31
+      endLine: 34
+  - sentence: "For these Jacobi-type quotients, the product relation in this treatment holds only up to a root of unity."
+    citations:
+    - module: Lib.Cyclotomic.Stickelberger
+      line: 31
+      endLine: 34
+  - sentence: "OddSha describes how the Jacobi family and derivative cocycles contribute to bounds on cocycles over cyclotomic fields."
+    citations:
+    - module: Lib.Cyclotomic.OddSha
+      line: 26
+      endLine: 39
+    - module: Lib.Cyclotomic.OddSha
+      line: 40
+      endLine: 49
+  - sentence: "Its model of the odd part of the relevant Tate–Shafarevich group comes with a uniform length bound; the file states that no comparison with the actual group is proved."
+    citations:
+    - module: Lib.Cyclotomic.OddSha
+      line: 14
+      endLine: 22
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.Cyclotomic.Kolyvagin.DerivativeCocycles:
     group: Lib.Cyclotomic

@@ -1,5 +1,66 @@
 group: Lib.SiegelWeil
-overview: null
+overview:
+  group: Lib.SiegelWeil
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: Begin with `Lib.SiegelWeil.Formula.WeilRange`, which develops reduction
+      theory for a split hermitian space and proves the Siegel–Weil formula when the
+      other space has rank greater than twice the number of hyperbolic planes.
+    citations:
+    - module: Lib.SiegelWeil.Formula.WeilRange
+      line: 5
+      endLine: 12
+  - sentence: Its Siegel sets and summable bounds on zero terms enter the proof, whose
+      formula expresses a theta mean as a sum of zero terms.
+    citations:
+    - module: Lib.SiegelWeil.Formula.WeilRange
+      line: 16
+      endLine: 25
+  - sentence: "`Lib.SiegelWeil.Tower.ConstantTerm` studies the constant terms of the
+      theta kernel and theta integral along an isotropic line."
+    citations:
+    - module: Lib.SiegelWeil.Tower.ConstantTerm
+      line: 7
+      endLine: 10
+  - sentence: Under vanishing and integrability hypotheses, it unfolds the sum over
+      isotropic lines into an integral in Iwasawa coordinates.
+    citations:
+    - module: Lib.SiegelWeil.Tower.ConstantTerm
+      line: 20
+      endLine: 22
+  declarations: []
+  routeToMain:
+  - module: Lib.SiegelWeil.Formula.LagrangianZeroTerms
+    importer: New.OneLift.FalseLifts.HyperbolicPlaneStep
+    line: 2
+  - module: New.OneLift.FalseLifts.HyperbolicPlaneStep
+    importer: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+    line: 1
+  - module: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+    importer: New.OneLift.ComparisonOperator.GluingMaps
+    line: 4
+  - module: New.OneLift.ComparisonOperator.GluingMaps
+    importer: New.OneLift.LiftVolumeHeight
+    line: 1
+  - module: New.OneLift.LiftVolumeHeight
+    importer: New.Determinant.Twist.LongForms
+    line: 3
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.SiegelWeil.Formula.LagrangianZeroTerms:
     group: Lib.SiegelWeil

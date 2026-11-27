@@ -1,5 +1,80 @@
 group: Lib.GaloisRep
-overview: null
+overview:
+  group: Lib.GaloisRep
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: Begin with `Lib.GaloisRep.LocalGlobal.IwahoriCompatibility`, which studies
+      an attached representation at a split place and relates level information on
+      an eigenform to polynomials killing Frobenius and inertia.
+    citations:
+    - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
+      line: 7
+      endLine: 18
+  - sentence: At pro-p Iwahori level the characters are tamely ramified, and sorting
+      them supplies roots of these polynomials; the file also treats certain parahoric
+      types.
+    citations:
+    - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
+      line: 9
+      endLine: 18
+  - sentence: "`Lib.GaloisRep.LocalGlobal.LabelCompatibility` imports that file and
+      a base-change construction, then treats labels at split places."
+    citations:
+    - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+      line: 1
+      endLine: 5
+    - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+      line: 22
+      endLine: 30
+  - sentence: Its argument reduces the labelled case by prime-degree base changes
+      to one where the label polynomial splits into linear factors, then uses the
+      Iwahori compatibility result for local units.
+    citations:
+    - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+      line: 22
+      endLine: 30
+  declarations: []
+  routeToMain:
+  - module: Lib.GaloisRep.BaseChange.CommutingHeckeFamilies
+    importer: Lib.GaloisRep.BaseChange.CongruenceLevelMatching
+    line: 2
+  - module: Lib.GaloisRep.BaseChange.CongruenceLevelMatching
+    importer: Lib.GaloisRep.BaseChange.PrimeDegreeTransfer
+    line: 1
+  - module: Lib.GaloisRep.BaseChange.PrimeDegreeTransfer
+    importer: Lib.GaloisRep.BaseChange.ShintaniLift
+    line: 1
+  - module: Lib.GaloisRep.BaseChange.ShintaniLift
+    importer: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+    line: 1
+  - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+    importer: New.Congruences.GaloisRepresentations.SelmerHypotheses
+    line: 1
+  - module: New.Congruences.GaloisRepresentations.SelmerHypotheses
+    importer: New.OneLift.HeckeValues.TwistedValueHeights
+    line: 1
+  - module: New.OneLift.HeckeValues.TwistedValueHeights
+    importer: New.OneLift.LiftVolumeHeight
+    line: 2
+  - module: New.OneLift.LiftVolumeHeight
+    importer: New.Determinant.Twist.LongForms
+    line: 3
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.GaloisRep.BaseChange.CommutingHeckeFamilies:
     group: Lib.GaloisRep
@@ -1106,8 +1181,34 @@ files:
   Lib.GaloisRep.LocalGlobal.LabelCompatibility:
     group: Lib.GaloisRep
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: This file defines a tame exponent using the action of an inertia element
+        on a root of a uniformiser, read through a multiplicative character.
+      citations:
+      - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+        line: 7
+        endLine: 14
+    - sentence: It describes a labelled condition using a polynomial over the residue
+        field and the images of its roots under powers of that character.
+      citations:
+      - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+        line: 15
+        endLine: 18
+    - sentence: For an eigenform with the specified product label at a split place, it
+        relates inertia on the attached Galois representation to the tame characters from
+        the label polynomial.
+      citations:
+      - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+        line: 22
+        endLine: 27
+    - sentence: The proof uses prime-degree base changes to reduce to a split polynomial
+        and then applies local-global compatibility for an eigencharacter to local units.
+      citations:
+      - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
+        line: 27
+        endLine: 30
     mechanical: true
     declarations:
     - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility

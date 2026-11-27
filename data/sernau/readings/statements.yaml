@@ -1,11 +1,60 @@
 group: Statements
-overview: null
+overview:
+  group: Statements
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: Start with `RiemannZetaZerosOnLine`, which asks that a zero of the Riemann zeta function, outside the listed negative even integers and away from 1, have real part one half.
+    citations:
+    - module: Statements
+      line: 3
+      endLine: 4
+  - sentence: '`DirichletLNonvanishingRightOfHalf` states nonvanishing for Dirichlet L-functions to the right of one half, except for the principal character at 1.'
+    citations:
+    - module: Statements
+      line: 6
+      endLine: 8
+  - sentence: '`DirichletLZerosOnLine` puts zeros in the open critical strip on the line, while `PrimitiveDirichletLZerosOnLine` restricts the same assertion to primitive characters.'
+    citations:
+    - module: Statements
+      line: 10
+      endLine: 16
+  declarations: []
+  routeToMain:
+  - module: Statements
+    importer: New.Reduction.OneSidedBound
+    line: 5
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Statements:
     group: Statements
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: '`RiemannZetaZerosOnLine` is the proposition that a zero of the Riemann zeta function has real part one half if it is not one of the listed negative even integers and is not 1.'
+      citations:
+      - module: Statements
+        line: 3
+        endLine: 4
+    - sentence: '`DirichletLNonvanishingRightOfHalf` asks for nonvanishing to the right of one half, with the principal character at 1 excluded.'
+      citations:
+      - module: Statements
+        line: 6
+        endLine: 8
+    - sentence: The two remaining propositions place Dirichlet L-function zeros in the open critical strip on the line, with `PrimitiveDirichletLZerosOnLine` restricted to primitive characters.
+      citations:
+      - module: Statements
+        line: 10
+        endLine: 16
     mechanical: true
     declarations:
     - module: Statements
@@ -24,6 +73,3 @@ files:
       line: 2
     - module: Main
     outsideReadings: []
-    needs_draft: true
-    reason: Missing opening module comment
-needs_draft: true

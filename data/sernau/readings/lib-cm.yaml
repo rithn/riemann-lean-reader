@@ -1,5 +1,36 @@
 group: Lib.CM
-overview: null
+overview:
+  group: Lib.CM
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "Start with KroneckerLimit, which computes the first two terms at one of the Epstein zeta function of a complex lattice in terms of its area and discriminant."
+    citations:
+    - module: Lib.CM.KroneckerLimit
+      line: 4
+      endLine: 8
+  - sentence: "The stated result uses real values approaching one from the right, rather than an analytic continuation of the Epstein function."
+    citations:
+    - module: Lib.CM.KroneckerLimit
+      line: 6
+      endLine: 8
+  - sentence: "ChowlaSelberg imports this file and treats imaginary quadratic fields associated with primes congruent to seven modulo eight."
+    citations:
+    - module: Lib.CM.ChowlaSelberg
+      line: 4
+      endLine: 4
+    - module: Lib.CM.ChowlaSelberg
+      line: 11
+      endLine: 16
+  - sentence: "It includes oddness of the class number, a zeta factorization, a complex multiplication law for theta translates, and a formula for areas of conjugate lattices."
+    citations:
+    - module: Lib.CM.ChowlaSelberg
+      line: 11
+      endLine: 16
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.CM.ChowlaSelberg:
     group: Lib.CM

@@ -1,5 +1,68 @@
 group: Lib.General
-overview: null
+overview:
+  group: Lib.General
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: This group contains general-purpose results in several areas; `Lib.General.Analysis.FiniteFourier`
+      develops finite Fourier analysis on matrices over a finite commutative ring
+      with a primitive additive character.
+    citations:
+    - module: Lib.General.Analysis.FiniteFourier
+      line: 3
+      endLine: 7
+  - sentence: It includes orthogonality for nonzero linear forms, an unnormalised
+      matrix Fourier transform and its inversion formula, and an expansion of functions
+      in characters.
+    citations:
+    - module: Lib.General.Analysis.FiniteFourier
+      line: 12
+      endLine: 17
+  - sentence: For a linear algebra entry point, `Lib.General.LinearAlgebra.GramDeterminant`
+      studies extending an independent family to a basis and how a Gram determinant
+      changes under a linear map.
+    citations:
+    - module: Lib.General.LinearAlgebra.GramDeterminant
+      line: 3
+      endLine: 9
+  - sentence: It also records determinant bounds for a positive semidefinite form,
+      using Hadamard and Cauchy–Schwarz inequalities.
+    citations:
+    - module: Lib.General.LinearAlgebra.GramDeterminant
+      line: 13
+      endLine: 15
+  declarations: []
+  routeToMain:
+  - module: Lib.General.Algebra.AbsIntegrallyClosed
+    importer: Lib.General.Algebra.SeriesBounds
+    line: 2
+  - module: Lib.General.Algebra.SeriesBounds
+    importer: New.Congruences.FirstOrder.HeckeStrings
+    line: 1
+  - module: New.Congruences.FirstOrder.HeckeStrings
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 2
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.General.Algebra.AbsIntegrallyClosed:
     group: Lib.General

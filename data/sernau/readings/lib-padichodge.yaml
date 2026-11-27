@@ -1,5 +1,93 @@
 group: Lib.PadicHodge
-overview: null
+overview:
+  group: Lib.PadicHodge
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: Start with `Lib.PadicHodge.Crystalline.Basic` for the definitions of
+      crystalline and potentially crystalline representations in terms of fixed vectors
+      spanning after extension to the period ring B-max.
+    citations:
+    - module: Lib.PadicHodge.Crystalline.Basic
+      line: 7
+      endLine: 10
+    - module: Lib.PadicHodge.Crystalline.Basic
+      line: 19
+      endLine: 22
+  - sentence: The file also introduces Hodge–Tate maps and the multiset of their weights,
+      together with linear Frobenius operators and polynomials that annihilate them.
+    citations:
+    - module: Lib.PadicHodge.Crystalline.Basic
+      line: 23
+      endLine: 27
+  - sentence: "`Lib.PadicHodge.Crystalline.Regularity` proves regularity of the period
+      ring and closure properties for crystalline and potentially crystalline representations."
+    citations:
+    - module: Lib.PadicHodge.Crystalline.Regularity
+      line: 4
+      endLine: 10
+  - sentence: 'It also gives a descent result: a potentially crystalline representation
+      is crystalline when the linear Frobenius operators are trivial on inertia.'
+    citations:
+    - module: Lib.PadicHodge.Crystalline.Regularity
+      line: 6
+      endLine: 10
+  declarations: []
+  routeToMain:
+  - module: Lib.PadicHodge.ArtinSchreierSequence
+    importer: Lib.PadicHodge.Kisin.Modules
+    line: 2
+  - module: Lib.PadicHodge.Kisin.Modules
+    importer: Lib.PadicHodge.Kisin.FrameTheorem
+    line: 1
+  - module: Lib.PadicHodge.Kisin.FrameTheorem
+    importer: New.Congruences.Lifting.ExponentLattices
+    line: 1
+  - module: New.Congruences.Lifting.ExponentLattices
+    importer: New.Congruences.Lifting.HodgeExpansion
+    line: 2
+  - module: New.Congruences.Lifting.HodgeExpansion
+    importer: New.Congruences.Lifting.CupProductBound
+    line: 1
+  - module: New.Congruences.Lifting.CupProductBound
+    importer: New.Congruences.Lifting.TameCharts
+    line: 1
+  - module: New.Congruences.Lifting.TameCharts
+    importer: New.Congruences.Lifting.CupOrthogonalityBounds
+    line: 4
+  - module: New.Congruences.Lifting.CupOrthogonalityBounds
+    importer: New.Congruences.LocalLoss.CrystallineCocycles
+    line: 1
+  - module: New.Congruences.LocalLoss.CrystallineCocycles
+    importer: New.Congruences.LocalLoss.LocalLattices
+    line: 2
+  - module: New.Congruences.LocalLoss.LocalLattices
+    importer: New.Congruences.Selmer.MainSummands
+    line: 2
+  - module: New.Congruences.Selmer.MainSummands
+    importer: New.Congruences.Selmer.TwistingTheorem
+    line: 5
+  - module: New.Congruences.Selmer.TwistingTheorem
+    importer: New.Congruences.FitTwistsExist
+    line: 3
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.PadicHodge.ArtinSchreierSequence:
     group: Lib.PadicHodge

@@ -1,5 +1,36 @@
 group: Lib.Cohomology
-overview: null
+overview:
+  group: Lib.Cohomology
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "Etale.Basic models cohomology of a space represented by a functor using Ext groups in a category of abelian-group-valued functors."
+    citations:
+    - module: Lib.Cohomology.Etale.Basic
+      line: 4
+      endLine: 10
+  - sentence: "In its main setting, test rings and locally constant functions on their spectra supply the test category and coefficients; the file also develops functoriality and dimension shifting."
+    citations:
+    - module: Lib.Cohomology.Etale.Basic
+      line: 9
+      endLine: 13
+    - module: Lib.Cohomology.Etale.Basic
+      line: 25
+      endLine: 30
+  - sentence: "Hodge.CupProduct develops products for this Ext-based cohomology, including a direct sum over degrees with Yoneda composition."
+    citations:
+    - module: Lib.Cohomology.Hodge.CupProduct
+      line: 4
+      endLine: 14
+  - sentence: "Its external product is natural both in the spaces and in comparisons of sites, relating the cohomology constructions across those settings."
+    citations:
+    - module: Lib.Cohomology.Hodge.CupProduct
+      line: 15
+      endLine: 17
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.Cohomology.Etale.Basic:
     group: Lib.Cohomology

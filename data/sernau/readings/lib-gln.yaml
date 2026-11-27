@@ -1,5 +1,33 @@
 group: Lib.GLn
-overview: null
+overview:
+  group: Lib.GLn
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: "SchurModule.Basic sets up a polynomial model for representations of products of general linear groups over a commutative ring."
+    citations:
+    - module: Lib.GLn.SchurModule.Basic
+      line: 4
+      endLine: 8
+  - sentence: "It describes semi-invariants, a chosen basis built from products of minors, the dual Weyl module, and Schur and Gram matrices."
+    citations:
+    - module: Lib.GLn.SchurModule.Basic
+      line: 8
+      endLine: 16
+  - sentence: "Branching.IntegralMap constructs an integral branching map from a general linear group of rank one higher to a block subgroup, with a norm bound and a spanning property for unitary equivariant maps."
+    citations:
+    - module: Lib.GLn.Branching.IntegralMap
+      line: 4
+      endLine: 8
+  - sentence: "Its stated branching result does not include nonvanishing of the map."
+    citations:
+    - module: Lib.GLn.Branching.IntegralMap
+      line: 37
+      endLine: 40
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.GLn.Branching.IntegralMap:
     group: Lib.GLn

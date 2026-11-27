@@ -1,11 +1,103 @@
 group: Lib.Speed
-overview: null
+overview:
+  group: Lib.Speed
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: This group has one member, `Lib.Speed`, which imports Mathlib and sets
+      options intended to speed instance search and simplification across the development.
+    citations:
+    - module: Lib.Speed
+      line: 1
+      endLine: 8
+  - sentence: It lowers the priority of a list of instances so that instance search
+      tries them late, avoiding long searches that fail when tried early.
+    citations:
+    - module: Lib.Speed
+      line: 11
+      endLine: 16
+  - sentence: It also removes a collection of lemmas from the default simplifier set
+      in importing files because they match many terms before failing a side condition.
+    citations:
+    - module: Lib.Speed
+      line: 49
+      endLine: 58
+  - sentence: Finally, it introduces a synonym for emptiness and a simplification
+      lemma intended to end attempts to establish an unavailable emptiness instance
+      promptly.
+    citations:
+    - module: Lib.Speed
+      line: 71
+      endLine: 77
+  declarations: []
+  routeToMain:
+  - module: Lib.Speed
+    importer: Lib.Base
+    line: 1
+  - module: Lib.Base
+    importer: Lib.General.Groups.IndexOfProduct
+    line: 1
+  - module: Lib.General.Groups.IndexOfProduct
+    importer: New.Spanning.Unfolding.FillingAdmissible
+    line: 1
+  - module: New.Spanning.Unfolding.FillingAdmissible
+    importer: New.UpperBound.Size.ArchimedeanSize
+    line: 2
+  - module: New.UpperBound.Size.ArchimedeanSize
+    importer: New.Determinant.Twist.LongForms
+    line: 5
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
 files:
   Lib.Speed:
     group: Lib.Speed
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
-    origin: upstream
+    origin: explorer-draft
     review: pending
+    draft:
+    - sentence: This file imports Mathlib and adjusts settings intended to make instance
+        search and simplification faster throughout the development.
+      citations:
+      - module: Lib.Speed
+        line: 1
+        endLine: 8
+    - sentence: It assigns low priority to selected instances because trying them early
+        can start long searches that fail.
+      citations:
+      - module: Lib.Speed
+        line: 11
+        endLine: 16
+    - sentence: It removes selected lemmas from the default simplifier set in importing
+        files, where they can match many terms and then fail on a side condition.
+      citations:
+      - module: Lib.Speed
+        line: 49
+        endLine: 58
+    - sentence: A synonym for emptiness and a simplification lemma help end attempts to
+        prove an unavailable emptiness instance.
+      citations:
+      - module: Lib.Speed
+        line: 71
+        endLine: 77
+    - sentence: The source states that these settings add no axiom and that the other
+        files still compile without them, though more slowly.
+      citations:
+      - module: Lib.Speed
+        line: 6
+        endLine: 8
     mechanical: true
     declarations:
     - module: Lib.Speed

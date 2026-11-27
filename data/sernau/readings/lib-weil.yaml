@@ -1,5 +1,37 @@
 group: Lib.Weil
-overview: null
+overview:
+  group: Lib.Weil
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: pending
+  draft:
+  - sentence: The WeilOperators module constructs operators on a vacuum model, shows their cocycle relation and
+      inner product preservation, and treats orthogonal sums and transport along isomorphisms.
+    citations:
+    - module: Lib.Weil.Construction.WeilOperators
+      line: 6
+      endLine: 11
+  - sentence: When the cocycle is trivial, it also constructs a Weil representation that intertwines the Heisenberg
+      operators and is continuous.
+    citations:
+    - module: Lib.Weil.Construction.WeilOperators
+      line: 6
+      endLine: 9
+  - sentence: The Fock.Basic module builds a real-place Fock model, with polynomial times Gaussian vectors and compatibility
+      with products over coordinate splittings and real places.
+    citations:
+    - module: Lib.Weil.Fock.Basic
+      line: 7
+      endLine: 12
+  - sentence: The Lift module studies theta lifts between spaces of automorphic forms on unitary groups, using edges
+      and finite data to describe when a global lift sends forms to forms.
+    citations:
+    - module: Lib.Weil.Lift
+      line: 9
+      endLine: 15
+  declarations: []
+  routeToMain: []
+  outsideReadings: []
 files:
   Lib.Weil.CompactLift.DefiniteThetaLift:
     group: Lib.Weil
