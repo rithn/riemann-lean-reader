@@ -8,12 +8,12 @@ target_queries:
   - riemann hypothesis timeline
   - when was the riemann hypothesis proved
   - riemann hypothesis proof date
-as_of: "27 Nov 2026"
+as_of: "28 Nov 2026"
 ---
 
 # Timeline of the Riemann hypothesis
 
-*As of 27 Nov 2026. Times are UTC where a source gives UTC. Other clock times carry no stated time zone.*
+*As of 28 Nov 2026. Times are UTC where a source gives UTC. Other clock times carry no stated time zone.*
 
 **Riemann stated the hypothesis in 1859. Levent Alpöge released a Lean proof on 20 Nov 2026, and the Lean FRO and the Mathlib Initiative certified it on 21 Nov.**
 
@@ -98,5 +98,8 @@ For the current state, see [/status/](/status/).
 - **26 Nov.** Sho Sonoda reports building the 803 readable and 794 compact modules at `72fead10` and running standard Comparator v4.35.0. Lean’s default kernel and nanoda accepted both. His report describes the sandbox setup and a seccomp wrapper. [Report and run details](https://shosonoda.github.io/lean-rh-alpoge/grh.html#grh-comparator)
 - **26 Nov, 17:23 and 19:51 UTC.** Andrew Sutherland reports paranoid Comparator passes first for a Lean equivalence between RH and Schoenfeld’s bound |ψ(x) − x| < √x log²x / (8π) for x ≥ 73.2, then for the bound itself using Sernau’s compact edition at `72fead10` and the equivalence repository at `0e52d7b1`. Both projects were compiled from source for the latter run; Mathlib came from its cache. The bound depends on the compact proof; the equivalence project was written by AI agents and has passed machine checks only. MIT’s report was updated 27 November at 14:04 UTC. [MIT report and run logs](https://math.mit.edu/~drew/shortgrh/#schoenfeld) · [Equivalence repository](https://github.com/AndrewVSutherland/schoenfeld-rh-lean/tree/0e52d7b1)
 
+## 27 Nov 2026 · Coverage on X {#nov-27}
+
+- **27 Nov.** X covered the compact-edition checks in [Independent Checks Confirm AI-Assisted Riemann Hypothesis Proof in Lean](https://x.com/i/trending/2126251902145069527) (about 4,000 posts).
 
 For coverage and expert reactions, see [press](/press/). For the numbers, see [the proof in numbers](/proof-in-numbers/).

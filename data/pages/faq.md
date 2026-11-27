@@ -1,6 +1,6 @@
 ---
 title: "Riemann hypothesis proof FAQ: Claude, Lean, prize, crypto"
-description: "Short, sourced answers to 23 common questions on the Lean proof of the Riemann hypothesis: who, how it was checked, how long, the prize and cryptography."
+description: "Short, sourced answers to 24 common questions on the Lean proof of the Riemann hypothesis: who, how it was checked, how long, the prize and cryptography."
 h1: "Frequently asked questions about the Lean proof of the Riemann hypothesis"
 path: /faq/
 target_queries:
@@ -13,12 +13,12 @@ target_queries:
   - riemann hypothesis cryptography
   - generalized riemann hypothesis proof
 structured_data: FAQPage
-as_of: "26 Nov 2026"
+as_of: "28 Nov 2026"
 ---
 
 # Frequently asked questions about the Lean proof of the Riemann hypothesis
 
-*As of 26 Nov 2026. Each answer links to its source. For dates and the latest checks, see [status](/status/).*
+*As of 28 Nov 2026. Each answer links to its source. For dates and the latest checks, see [status](/status/).*
 
 ### Has the Riemann hypothesis been solved?
 
@@ -65,6 +65,12 @@ Source: [Lean reference manual](https://lean-lang.org/doc/reference/latest/) and
 ### How do we know the proof is correct?
 
 For the original archive, experts vetted Mathlib’s statement, the library compiled, multiple people reproduced the same export, and separate tools matched the statement and accepted the proof. MIT’s checks of Sernau’s readable and compact rewrites matched all five statements, audited their axioms and accepted both proof exports. Waterloo and Sho Sonoda report additional runs. [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/) · [Shorter-edition checks by verifier](/status/#shorter-editions)
+
+### Do mathematicians still need to confirm that the Lean code proves the real Riemann hypothesis? {#real-riemann-hypothesis}
+
+No. On 21 Nov 2026 the Lean FRO and the Mathlib Initiative certified that the formal statement is the Riemann hypothesis as Mathlib states it. Two independent tools confirmed that the theorem proved in the Lean archive matches that statement. The [joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/) records those checks, and [How we know](/how-we-know/) explains how they were carried out.
+
+What remains is to understand why the proof works. A readable mathematical account would explain the ideas in the argument and how they fit together. See [Publication and the Clay prize](/status/#publication-and-the-clay-prize) for the status of the write-up.
 
 ### Is the proof a tautology? (the `True` definitions) {#tautology}
 

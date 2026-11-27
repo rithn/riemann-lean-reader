@@ -11,12 +11,12 @@ target_queries:
   - what if the riemann hypothesis was solved
   - what is the riemann hypothesis used for
   - riemann hypothesis solved what does it mean
-as_of: "22 Nov 2026"
+as_of: "28 Nov 2026"
 ---
 
 # Why does the Riemann hypothesis matter?
 
-*As of 22 Nov 2026. The proof's status is on the [status page](/status/).*
+*As of 28 Nov 2026. The proof's status is on the [status page](/status/).*
 
 **With the proof certified in Lean, the Riemann hypothesis is a theorem. Results that were stated "assuming the Riemann hypothesis" no longer need the assumption.**
 
@@ -52,7 +52,7 @@ On the original map, the archive’s files fall into nine fields. Classical numb
 
 ## Cryptography
 
-Scientific American wrote that the result "won’t upend global banking or make the internet run faster." ([Scientific American](https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/)) The security of RSA is related to the difficulty of factoring the product of two large primes. ([RSA](https://en.wikipedia.org/wiki/RSA_cryptosystem)) Diffie–Hellman key exchange rests on the discrete logarithm problem. ([Diffie–Hellman](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)) The proof concerns where the zeros of the zeta function and of Dirichlet L-functions lie.
+Scientific American wrote that the result "won’t upend global banking or make the internet run faster." ([Scientific American](https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/)) The security of RSA is related to the difficulty of factoring the product of two large primes. ([RSA](https://en.wikipedia.org/wiki/RSA_cryptosystem)) Diffie–Hellman key exchange rests on the discrete logarithm problem. ([Diffie–Hellman](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)) The proof concerns where the zeros of the zeta function and of Dirichlet L-functions lie. Peter Hall explains [why solving the Riemann hypothesis won’t break encryption](https://www.scientificamerican.com/article/why-solving-the-riemann-hypothesis-wont-break-encryption/) in Scientific American.
 
 ## What a formal proof means for mathematics
 

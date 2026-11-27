@@ -2817,9 +2817,9 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
     related += [(READABLE_GROUPS[group]['label'], READABLE_GROUPS[group]['href'])
                 for group, slugs in READABLE_GROUP_GUIDES.items() if g['slug'] in slugs]
     if related:
-        links = '\n## Related reading\n\n' + ''.join(f'- [{label}]({href})\n' for label, href in related)
-        content += md_html(links)
-        md += md_abs(links)
+        content += ('<h2>Related reading</h2><ul class="rows">' +
+                    ''.join(f'<li><a href="{H(href)}">{H(label)}</a></li>' for label, href in related) + '</ul>')
+        md += md_abs('\n## Related reading\n\n' + ''.join(f'- [{label}]({href})\n' for label, href in related))
     name = g['name'] or 'No author named'
     trail = [('Home', '/'), ('Guides', '/guides/'), (name, path)]
     sfx = f' · {name}'
