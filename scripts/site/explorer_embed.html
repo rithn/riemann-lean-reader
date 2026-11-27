@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>@TITLE@</title>
+<meta name="description" content="@DESCRIPTION@">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="@CANONICAL@">
+@STYLES@
+@SHELL_SCRIPT@
+</head>
+<body @BODY_ATTRIBUTES@>
+<header class="topbar">
+  <a id="embed-open" href="@OPEN_URL@" target="_blank" rel="noopener">Open in RH Lean Explorer</a>
+</header>
+@MAP@
+<div id="tip" role="tooltip"></div>
+<aside id="panel" hidden inert><div id="content"></div></aside>
+<div class="mapctl">
+  <button id="zin" type="button" aria-label="Zoom in" title="Zoom in" disabled>+</button>
+  <button id="zout" type="button" aria-label="Zoom out" title="Zoom out" disabled>−</button>
+  <button id="zreset" type="button" aria-label="Reset map view" title="Reset map view" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
+<div id="fbar" hidden>@FILTERS@</div>
+<div id="fmob" hidden></div>
+<div id="loader" class="done"><p class="meta map-status" role="status"></p></div>
+<noscript><p class="embed-noscript">Enable JavaScript to use the map here.</p></noscript>
+@SCRIPTS@
+</body>
+</html>

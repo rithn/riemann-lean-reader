@@ -1359,6 +1359,7 @@ import html, hashlib, secrets, email.utils
 from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = (Path(HERE) / 'explorer_shell.html').read_text(encoding='utf-8')
+EMBED_TPL = (Path(HERE) / 'explorer_embed.html').read_text(encoding='utf-8')
 FOOTER_TPL = (Path(HERE) / 'explorer_footer.html').read_text(encoding='utf-8')
 H = html.escape
 GH = 'https://github.com/rithn/riemann-lean-reader'
@@ -1421,6 +1422,7 @@ sernau_data = build_sernau_data(Path(OUT))
 sernau_edition = sernau_data['edition']
 sernau_card = readable_card(Path(OUT), sernau_data['groups'], sernau_edition)
 ALPOGE_MAP, SERNAU_MAP = (ROUTES[key]['map'] for key in ('alpoge', 'sernau'))
+EMBED_PATHS = {'/': '/embed/', SERNAU_MAP: '/embed/sernau/', ALPOGE_MAP: '/embed/alpoge/'}
 assert f"GH_SHA = '{LEAN_SHA}'" in open(os.path.join(OUT, 'app.js')).read(), 'app.js GH_SHA differs from LEAN_SHA'
 # 80b: the source viewer (/file/) serves the files of the proof's last step from this site, /src/<module>.lean, copied
 # byte for byte from the local tree (src/lean/src, the archive at LEAN_SHA); every other file still comes from the pinned
@@ -1642,13 +1644,15 @@ def edition_switch(edition, view):
         links.append(f'<a href="{href}" data-edition="{key}" data-edition-link{current}>{label}</a>')
     return f'<nav class="edition-switch" aria-label="Proof edition">{"".join(links)}</nav>'
 
-def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
+def shell(path, title, desc, route, body, page_head, *, edition='', view=None, embed_target=None):
     view = view or route.split('/')[0] or 'map'
     readable = edition == 'sernau'
     engine = edition or 'alpoge'
     overlay = view in ('page', 'learn', 'route', 'reader') or (readable and view == 'group')
     map_url, list_url, route_url = (ROUTES[engine][name] for name in ('map', 'list', 'route'))
     attributes = {'data-route': route, 'data-edition': edition, 'data-engine': engine, 'data-view': view}
+    if embed_target:
+        attributes['data-embed'] = embed_target
     if overlay:
         attributes['class'] = 'paged'
     if readable:
@@ -1661,6 +1665,23 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
             attributes['data-file-locator'] = sernau_data['readerFilesBaseUrl']
             attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
+    styles = f'<link rel="stylesheet" href="{CSS_F}">'
+    viewport = '<canvas id="sky" aria-label="Map of clusters"></canvas>'
+    if readable:
+        styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
+        viewport = '<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
+    entry = EXPLORER_CONFIG[engine].copy()
+    config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), 'embedPaths': EMBED_PATHS, engine: entry}
+    if embed_target:
+        if not readable:
+            entry['dependency'] = '/vendor/d3.v7.9.0.min.js'
+        return fill_slots(
+            EMBED_TPL, title=H(title), description=HA(desc), canonical=H(SITE + embed_target),
+            open_url=H(embed_target + '?utm_source=embed&utm_medium=iframe'), styles=styles,
+            shell_script=f'<script src="{SHELL_F}" defer></script>', body_attributes=body_attributes,
+            map=viewport, filters=map_filters(sernau_data) if readable else '',
+            scripts=json_script('explorer-config', config),
+        )
     status = READABLE_STATUS if readable else ORIGINAL_STATUS
     status_html = (f'<a class="status-chip ok" href="{H(status["href"])}" title="{H(status["title"])}" aria-label="{H(status["label"])}">'
                    f'<i></i><span>{"Sernau readable" if readable else "Lean proof"} · <b>{H(status["text"])}</b></span>'
@@ -1675,11 +1696,6 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
                         list_label='List view' if edition else 'Alpöge cluster list',
                         route_label='Route from Main' if edition else 'Alpöge route',
                         provenance=source_provenance(sernau_edition) if readable else '')
-    styles = f'<link rel="stylesheet" href="{CSS_F}">'
-    if readable:
-        styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
-    entry = EXPLORER_CONFIG[engine].copy()
-    config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), engine: entry}
     if path == '/':
         config['legacyOverview'] = EXPLORER_CONFIG['alpoge']['overview']
     if LEAN_READER_F:
@@ -1703,8 +1719,6 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
         for key in ('dependency', 'map', 'src'):
             if key in entry:
                 page_head += f'<link rel="preload" as="script" href="{H(entry[key])}">\n'
-    viewport = ('<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
-                if readable else '<canvas id="sky" aria-label="Map of clusters"></canvas>')
     t = fill_slots(
         TPL, title=H(title, quote=False), description=HA(desc), head=page_head, styles=styles,
         body_attributes=body_attributes, shell_script=f'<script src="{SHELL_F}" defer></script>',
@@ -3004,6 +3018,16 @@ def render_readable(path, title, desc, kind, body, md=None, noindex=False):
          img=readable_image, edition='sernau', view=kind, noindex=noindex)
 
 build_sernau_pages(sernau_data, render_readable, share_slot=SHARE_SLOT)
+
+# Embed shells are static. The selected view and filters live in the query string.
+for normal, embed_path in EMBED_PATHS.items():
+    edition = 'alpoge' if normal == ALPOGE_MAP else 'sernau'
+    title = 'Alpöge original map' if edition == 'alpoge' else 'Sernau readable map'
+    folder = Path(OUT) / embed_path.strip('/')
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / 'index.html').write_text(shell(
+        embed_path, f'{title} · RH Lean Explorer', 'Interactive map of the Lean proof of the Riemann hypothesis.',
+        '', '', '', edition=edition, embed_target=normal), encoding='utf-8')
 
 # ---------- /api/: small JSON files for machines (short cache; /data/ is the app's own versioned format)
 os.makedirs(os.path.join(OUT, 'api'), exist_ok=True)
