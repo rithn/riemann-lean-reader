@@ -1,0 +1,1188 @@
+group: Lib.GLn
+overview:
+  group: Lib.GLn
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: "SchurModule.Basic sets up a polynomial model for representations of products of general linear groups over a commutative ring."
+    citations:
+    - module: Lib.GLn.SchurModule.Basic
+      line: 4
+      endLine: 8
+  - sentence: "It describes semi-invariants, a chosen basis built from products of minors, the dual Weyl module, and Schur and Gram matrices."
+    citations:
+    - module: Lib.GLn.SchurModule.Basic
+      line: 8
+      endLine: 16
+  - sentence: "Branching.IntegralMap constructs an integral branching map from a general linear group of rank one higher to a block subgroup, with a norm bound and a spanning property for unitary equivariant maps."
+    citations:
+    - module: Lib.GLn.Branching.IntegralMap
+      line: 4
+      endLine: 8
+  - sentence: "Its stated branching result does not include nonvanishing of the map."
+    citations:
+    - module: Lib.GLn.Branching.IntegralMap
+      line: 37
+      endLine: 40
+  declarations:
+  - module: Lib.GLn.SchurModule.Basic
+    name: New.fockPairing_star_self_pos
+    line: 726
+    signature: "lemma fockPairing_star_self_pos [PartialOrder R] [StarRing R] [StarOrderedRing R] [IsDomain R]\n \
+      \   (hp : p ≠ 0) :\n    0 < fockPairing R (MvPolynomial.map (starRingEnd R) p) p"
+  - module: Lib.GLn.Branching.IntegralMap
+    name: New.exists_branching_matrix
+    line: 472
+    signature: "lemma _root_.New.exists_branching_matrix (κ₀ : Φ → ℕ → ℕ) (q : ℕ) (e e₀ : Φ → ℤ) (hκ : γ + κ' = κ)\n\
+      \    (hκ₀ : ∀ τ : Φ, ∀ h ∈ Ioo 0 (rankAt n τ), κ₀ τ h = κ' τ h + γ τ (h + 1))\n    (hq : ∀ τ : Φ, ∀ i < q, κ'\
+      \ τ i = 0) (he₀ : ∀ τ : Φ, e₀ τ = e τ + κ' τ (rankAt n τ)) :\n    ∃ br : Matrix (WeylIndexFamily n κ₀) (WeylIndexFamily\
+      \ N κ) ℤ,\n      -- (a)\n      (∀ (R : Type) [Field R] [CharZero R] (g : (τ : Φ) → GL (n τ) R) (s : Φ → Rˣ)\n\
+      \        (x : (τ : Φ) → GL (N τ) R),\n        (∀ τ : Φ, (x τ).val = blockScalar ι (fun τ : Φ ↦ (g τ).val) (fun\
+      \ τ : Φ ↦ (s τ).val) τ) →\n        br.map (Int.cast : ℤ → R) * weylRep κ e x =\n          (∏ τ : Φ, s τ ^ (diagramWeight\
+      \ (rankAt N) γ (τ, 0) + e τ)) •\n            (weylRep κ₀ e₀ g * br.map (Int.cast : ℤ → R))) ∧\n      -- (b)\n\
+      \      (∀ L : ℕ, ∑ τ : Φ, ∑ h ∈ Ico q (rankAt n τ), h * κ₀ τ h ≤ L →\n        ∀ ξ : WeylIndexFamily N κ → ℂ,\n\
+      \          weylNormSq (br.map (Int.cast : ℤ → ℂ) *ᵥ ξ) ≤ ((L ^ L) ^ 3) ^ 2 * weylNormSq ξ) ∧\n      -- (c)\n\
+      \      SpansBranchingMaps ι e₀ e (br.map (Int.cast : ℤ → ℂ))"
+  routeToMain:
+  - module: Lib.GLn.SchurModule.Basic
+    importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+    line: 1
+  - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+    importer: New.Derivatives.Vacuum.TightFrames
+    line: 3
+  - module: New.Derivatives.Vacuum.TightFrames
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 3
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  Lib.GLn.Branching.IntegralMap:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.Branching.IntegralMap
+      name: New.exists_branching_matrix
+      line: 472
+      signature: "lemma _root_.New.exists_branching_matrix (κ₀ : Φ → ℕ → ℕ) (q : ℕ) (e e₀ : Φ → ℤ) (hκ : γ + κ'\
+        \ = κ)\n    (hκ₀ : ∀ τ : Φ, ∀ h ∈ Ioo 0 (rankAt n τ), κ₀ τ h = κ' τ h + γ τ (h + 1))\n    (hq : ∀ τ : Φ,\
+        \ ∀ i < q, κ' τ i = 0) (he₀ : ∀ τ : Φ, e₀ τ = e τ + κ' τ (rankAt n τ)) :\n    ∃ br : Matrix (WeylIndexFamily\
+        \ n κ₀) (WeylIndexFamily N κ) ℤ,\n      -- (a)\n      (∀ (R : Type) [Field R] [CharZero R] (g : (τ : Φ)\
+        \ → GL (n τ) R) (s : Φ → Rˣ)\n        (x : (τ : Φ) → GL (N τ) R),\n        (∀ τ : Φ, (x τ).val = blockScalar\
+        \ ι (fun τ : Φ ↦ (g τ).val) (fun τ : Φ ↦ (s τ).val) τ) →\n        br.map (Int.cast : ℤ → R) * weylRep κ\
+        \ e x =\n          (∏ τ : Φ, s τ ^ (diagramWeight (rankAt N) γ (τ, 0) + e τ)) •\n            (weylRep κ₀\
+        \ e₀ g * br.map (Int.cast : ℤ → R))) ∧\n      -- (b)\n      (∀ L : ℕ, ∑ τ : Φ, ∑ h ∈ Ico q (rankAt n τ),\
+        \ h * κ₀ τ h ≤ L →\n        ∀ ξ : WeylIndexFamily N κ → ℂ,\n          weylNormSq (br.map (Int.cast : ℤ →\
+        \ ℂ) *ᵥ ξ) ≤ ((L ^ L) ^ 3) ^ 2 * weylNormSq ξ) ∧\n      -- (c)\n      SpansBranchingMaps ι e₀ e (br.map\
+        \ (Int.cast : ℤ → ℂ))"
+    routeToMain:
+    - module: Lib.GLn.Branching.IntegralMap
+      importer: New.UpperBound.Objects.Columns
+      line: 3
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/Branching/IntegralMap.lean
+      line: 6
+      endLine: 11
+      text: 'This file constructs the integral branching map from `GL(n + 1)` to `GL(n) × GL(1)` from its
+
+        value at one point, proves its norm bound, and shows that it spans the maps that are equivariant
+
+        for the unitary block group. Vectors are coordinates indexed by `New.WeylIndexFamily n κ`
+
+        (standard fillings), and `New.schur κ z` is the matrix of `z` in these coordinates. `New.weylRep κ
+
+        e` is its twist by `det ^ e` on invertible matrices, `New.weylNormSq` is the squared norm for the
+
+        Gram matrix, and `New.GL.blockScalar ι g s` is the matrix `diag(g, s)`.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/Branching/IntegralMap.lean
+      line: 12
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.SpansBranchingMaps`: a matrix spans the maps that are equivariant\
+        \ for the unitary block\n  group.\n* `New.GL.exists_int_branching_of_weylKernel`: an integral equivariant\
+        \ matrix from its value at one\n  point.\n* `New.exists_branching_matrix`: the branching map, its norm bound\
+        \ and its uniqueness.\n\nNotions from other files:\n* `New.rankAt`: The number of elements of the finite\
+        \ row type n_τ at the place τ;\n  `New.GL.rowEquivFin n τ : n τ ≃ Fin (rankAt n τ)` is the fixed numbering\
+        \ of these rows, and a\n  row's position is its number.\n* `New.permArray`: For maps e_τ from rows to natural\
+        \ numbers, the array over R whose entry at row\n  (τ,a), column i is 1 if e_τ(a)=i and 0 otherwise.\n* `New.toPoly`:\
+        \ The linear map from coordinate vectors ξ to polynomials, ξ ↦ Σ_i (Gξ)_i b_i, with G\n  the Gram matrix\
+        \ `New.weylGram` (`New.weylGramOver` is its image over another ring) and b_i the\n  basis `New.nablaBasis`\
+        \ of products of minors; `New.GL.nablaCombination` is ξ ↦ Σ_i ξ_i b_i.\n* `New.weylEval`: For an array y,\
+        \ the evaluation vector `ev_y` with entries b_i(y); its polynomial\n  under `New.toPoly` is `New.weylKernel\
+        \ n κ y`.\n* `New.GL.branchVector`: the product of the leading minors to the powers `γ` with the new row\
+        \ first\n  and to the powers `κ'` with the new row last.\n\n## Relation to the literature\n\nBranching from\
+        \ GL(n+1) to GL(n) with multiplicity one. Here the branching map is given for one\ninterlacing pair as an\
+        \ integer matrix that is equivariant over every field of characteristic 0 and\nsatisfies an explicit norm\
+        \ bound, and every unitarily equivariant map is a multiple of it. That it\nis non-zero is not part of the\
+        \ statement. Source: Goodman, Wallach 2009, Theorem 8.1.1;\nZhelobenko, Compact Lie Groups and their Representations,\
+        \ 1973, ch. X; Molev, Gelfand-Tsetlin bases\nfor classical Lie algebras, arXiv math/0211289.\n"
+  Lib.GLn.Branching.NormBound:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.Branching.NormBound
+      name: New.GL.weylNormSq_mulVec_le_of_equivariant
+      line: 656
+      signature: "lemma weylNormSq_mulVec_le_of_equivariant {c : ℤ}\n    (hκ₀ : ∀ τ : Φ, ∀ h ∈ Ioo 0 (rankAt n τ),\
+        \ κ₀ τ h = κ' τ h + γ τ (h + 1))\n    {B : Matrix (WeylIndexFamily n κ₀) (WeylIndexFamily N (γ + κ')) ℤ}\n\
+        \    (B_top : nablaCombination (γ + κ') ((weylGramOver *ᵥ weylEval n κ₀\n        (permArray fun (τ : Φ)\
+        \ (i : n τ) ↦ (rowEquivFin n τ i : ℕ))) ᵥ*\n          B.map (Int.cast : ℤ → ℂ)) =\n      (c : ℂ) • branchVector\
+        \ ℂ ι γ κ')\n    (B_block : ∀ g : ∀ τ : Φ, Matrix (n τ) (n τ) ℂ,\n      B.map (Int.cast : ℤ → ℂ) * schur\
+        \ (γ + κ') (blockScalar ι g 1) =\n        (∏ τ : Φ, (g τ).det ^ κ' τ (rankAt n τ)) • (schur κ₀ g * B.map\
+        \ (Int.cast : ℤ → ℂ)))\n    (ξ : WeylIndexFamily N (γ + κ') → ℂ) :\n    weylNormSq (B.map (Int.cast : ℤ\
+        \ → ℂ) *ᵥ ξ) ≤ (c : ℝ) ^ 2 * weylNormSq ξ"
+    routeToMain:
+    - module: Lib.GLn.Branching.NormBound
+      importer: Lib.GLn.Branching.IntegralMap
+      line: 1
+    - module: Lib.GLn.Branching.IntegralMap
+      importer: New.UpperBound.Objects.Columns
+      line: 3
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/Branching/NormBound.lean
+      line: 6
+      endLine: 11
+      text: 'This file treats the branching from `GL(n + 1)` to `GL(n) × GL(1)` for the representations of
+
+        `∏ τ, GL (N τ)`. The rows `N τ` are the rows `n τ` together with one new row, given by `ι τ`. A
+
+        weight `κ` is given by the numbers `κ τ h` of columns of height `h` at the place `τ`. This file
+
+        defines the branching vector and writes products of kernels as the minors of one filling. It
+
+        proves the norm bound for an equivariant matrix through the transposed contraction
+
+        `New.GL.extendedTensor`.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/Branching/NormBound.lean
+      line: 12
+      endLine: 37
+      text: "\n## Main definitions and results\n\n* `New.GL.branchVector`: the product of the leading minors to\
+        \ the powers `γ`, with the new row\n  first, so that every column of positive height contains it, and to\
+        \ the powers `κ`, with the new\n  row last, so that no column contains it.\n* `New.GL.weylNormSq_mulVec_le_of_equivariant`:\
+        \ the norm bound for an equivariant matrix whose\n  transpose sends the extremal vector to a multiple of\
+        \ the branching vector.\n\nNotions from other files:\n* `New.MatrixPoly`: Polynomials over `R` in an array\
+        \ of variables `X (a, i)`, with rows `a : m` and\n  columns `i : ℕ`.\n* `New.rankAt`: The number of elements\
+        \ of the finite row type n_τ at the place τ;\n  `New.GL.rowEquivFin n τ : n τ ≃ Fin (rankAt n τ)` is the\
+        \ fixed numbering of these rows, and a\n  row's position is its number.\n* `New.permArray`: For maps e_τ\
+        \ from rows to natural numbers, the array over R whose entry at row\n  (τ,a), column i is 1 if e_τ(a)=i\
+        \ and 0 otherwise.\n* `New.toPoly`: The linear map from coordinate vectors ξ to polynomials, ξ ↦ Σ_i (Gξ)_i\
+        \ b_i, with G\n  the Gram matrix `New.weylGram` (`New.weylGramOver` is its image over another ring) and\
+        \ b_i the\n  basis `New.nablaBasis` of products of minors; `New.GL.nablaCombination` is ξ ↦ Σ_i ξ_i b_i.\n\
+        * `New.weylEval`: For an array y, the evaluation vector `ev_y` with entries b_i(y); its polynomial\n  under\
+        \ `New.toPoly` is `New.weylKernel n κ y`.\n\n## Relation to the literature\n\nKnown; see `Lib.GLn.Branching.IntegralMap`\
+        \ for sources.\n"
+  Lib.GLn.Dual:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.Dual
+      name: New.exists_isDualPairing_of_isHCParam
+      line: 1079
+      signature: "lemma exists_isDualPairing_of_isHCParam [Nonempty n] (hl : IsHCParam κ e l)\n    (hl_neg : IsHCParam\
+        \ κ' e' (-l)) :\n    ∃ A : Matrix (WeylIndex n κ') (WeylIndex n κ) ℤ, IsDualPairing κ κ' e e' l A"
+    routeToMain:
+    - module: Lib.GLn.Dual
+      importer: New.UpperBound.Size.ShortColumns
+      line: 2
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/Dual.lean
+      line: 8
+      endLine: 17
+      startOffset: 224
+      endOffset: 1143
+      text: 'The integral representations of `∏_τ GL(n_τ)` act on lattices with bases of products of minors, and
+
+        a weight `κ` counts the columns of each height. For the reversed weight `κ''_τ(h) = κ_τ(|n_τ| - h)`,
+
+        the representation of weight `κ` composed with `g ↦ g⁻¹ᵀ` is that of weight `κ''` twisted by a power
+
+        of the determinant, through a unimodular, isometric, equivariant integer matrix. With this matrix,
+
+        the representation of mixed weight with positive part `kp` and negative part `km` embeds integrally
+
+        into the tensor product of the representation of weight `kp` with that of weight `km` composed with
+
+        `g ↦ g⁻¹ᵀ`. For a splitting `ε : N ⊕ m ≃ n` of the letters, this embedding sends the Cartan product
+
+        of vectors of weights `kp` and `km` to their tensor, and the squared norm of the product is
+
+        multiplicative. Finally, the representations of `GL n` with parameters `l` and `-l` are paired
+
+        invariantly by an integer matrix.'
+    remainder:
+      path: grh/src/Lib/GLn/Dual.lean
+      line: 17
+      endLine: 56
+      startOffset: 1143
+      endOffset: 3820
+      text: "\n\n## Main definitions and results\n\n* `New.GL.exists_star_matrix`: the product of the Hodge stars\
+        \ of the columns, a signed bijection\n  between basis tensors that replaces each column by its complement.\n\
+        * `New.GL.exists_int_duality_matrix`: the integer matrix by which the star maps one Weyl module to\n  the\
+        \ other.\n* `New.GL.IsDualIsometry`, `New.exists_isDualIsometry`: this matrix is unimodular, isometric and\n\
+        \  equivariant; `New.exists_dual_isometry` states these properties as one conjunction.\n* `New.GL.MixedCartanEmbedding`:\
+        \ the integer matrix of the embedding and the four properties asked\n  of it; `New.GL.weylEvalAt` is the\
+        \ evaluation vector at the array `New.permArray` of a map of rows.\n* `New.mixedWeight`: the weight with\
+        \ `kp τ i + km τ (card n - i)` columns of height `i`.\n* `New.nonempty_mixedCartanEmbedding`, `New.mixedCartan`:\
+        \ such an embedding exists for this weight,\n  and a chosen one.\n* `New.Rows.cartanProduct`: the product;\
+        \ `New.Rows.mixedCartan_mulVec_cartanProduct`: `mixedCartan`\n  sends it to the tensor of the factors.\n\
+        * `New.exists_isDualPairing_of_isHCParam`: the pairing is invariant and computes `New.ofAlgForm` at\n  `-l`.\
+        \ It is invertible up to the hook number. It is isometric for the Gram norms `New.weylNormSq`.\n\nNotions\
+        \ from other files:\n* `New.permArray`: For maps e_τ from rows to natural numbers, the array over R whose\
+        \ entry at row\n  (τ,a), column i is 1 if e_τ(a)=i and 0 otherwise.\n* `New.nablaFamily`: The module of\
+        \ Borel semi-invariant polynomials of weight `New.diagramWeight`,\n  in which `New.nablaBasis` gives coordinates\
+        \ (`New.sum_coords_nablaBasis`).\n* `New.weylRep`: The monoid homomorphism from ∏_τ GL(n_τ,R) to square\
+        \ matrices sending g to ∏_τ\n  det(g_τ)^{e_τ} times the Schur matrix of g, for integers e_τ.\n* `New.schur`:\
+        \ The Schur matrix S_κ(z) of matrices z_τ of size n'_τ×n_τ. Row i holds chosen\n  coordinates of b'_i(zy)\
+        \ in the family b_j(y)·∏_τ det(y_τ)^{d_τ}. Here b'_i and b_j are the\n  standard basis polynomials in the\
+        \ rows n' and n, and d is given by `New.schurDetExp`.\n* `New.weylEval`: The vector of values of the basis\
+        \ minor products at an array y.\n\n## Relation to the literature\n\nKnown result: Dual of a Weyl module\
+        \ by Jacobi's complementary minors, and the Cartan component. Here\nthe results are stated for products\
+        \ of GL_n. The duality and the Cartan map are given by integer\nmatrices that are isometric and equivariant\
+        \ over fields of characteristic 0. The duality has an\nintegral inverse and the Cartan map has an integral\
+        \ left inverse. Source: Fulton, Harris,\nRepresentation Theory, 1991, section 15.5; Jantzen 2003; for Jacobi's\
+        \ identity, Grinberg, An\nIntroduction to Algebraic Combinatorics, Thm 6.4.48.\n"
+  Lib.GLn.SchurModule.Basic:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.Basic
+      name: New.fockPairing_star_self_pos
+      line: 726
+      signature: "lemma fockPairing_star_self_pos [PartialOrder R] [StarRing R] [StarOrderedRing R] [IsDomain R]\n\
+        \    (hp : p ≠ 0) :\n    0 < fockPairing R (MvPolynomial.map (starRingEnd R) p) p"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.Basic
+      importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      line: 1
+    - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 3
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/Basic.lean
+      line: 6
+      endLine: 8
+      startOffset: 102
+      endOffset: 331
+      text: 'This file sets up a polynomial model of the representations of products of general linear groups
+
+        over any commutative ring `R`. The variables `X (a, i)` of `New.MatrixPoly m R` form an array with
+
+        rows `a : m` and columns `i : ℕ`.'
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/Basic.lean
+      line: 8
+      endLine: 37
+      startOffset: 331
+      endOffset: 2212
+      text: " A colour map `c` assigns each row a place `τ`, and a weight `κ`\ngives the number `κ τ h` of columns\
+        \ of height `h` at `τ`. `New.nabla R c l` consists of the `f` with\n`f(y b) = ∏ b(τ, i, i) ^ l(τ, i) · f(y)`\
+        \ for upper triangular `b`, one matrix for each colour, and a\nchosen set of products of minors is taken\
+        \ as its basis. The Weyl module is the dual module, written\nin the dual basis as `New.WeylIndexFamily n\
+        \ κ → R`; `Lib.GLn.SchurModule.TensorModel` embeds it into\na tensor product of exterior powers. Left substitution\
+        \ `f ↦ f(z y)` and the Fock pairing\n`⟨p, q⟩ = p(∂) q (0)` are the main tools. The rows of the Schur matrix\
+        \ expand the substituted basis\nelements, so it acts on the Weyl module, and the Gram matrix is the coefficient\
+        \ matrix of the kernel\n`New.weylKernel` in the basis.\n\n## Main definitions and results\n\n* `New.jet`,\
+        \ `New.fockPairing`: the pairing `P(∂) F` at `0`, with power series and with polynomials;\n  `New.fockPairing_linSubst`\
+        \ computes adjoints of linear substitutions.\n* `New.nabla`, `New.nablaFamily`: the semi-invariants under\
+        \ upper triangular matrices acting on\n  columns.\n* `New.tableauPoly`, `New.IsTableauBasis`, `New.nablaBasis`:\
+        \ products of minors, and a chosen basis\n  among them.\n* `New.schur`, `New.weylGram`, `New.weylEval`:\
+        \ the matrix of `f ↦ f(z y)`, the Gram matrix and the\n  evaluation vectors in that basis.\n* `New.mem_nabla`,\
+        \ `New.minor_mem_nabla`, `New.rowSubst_mem_nabla`: membership as an identity over\n  all algebras; minors\
+        \ are members; left substitution `f ↦ f(z y)` (`New.rowSubst`) keeps the\n  weight.\n* `New.fockPairing_comm`,\
+        \ `New.fockPairing_rowSubst`, `New.fockPairing_star_self_pos`: the pairing\n  `⟨p, q⟩ = p(∂) q (0)` is symmetric,\
+        \ the adjoint of `New.rowSubst z` is substitution by the\n  transposes, and `⟨p̄, p⟩ > 0` for `p ≠ 0`.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.GLn.SchurModule.MinorBasis` for sources.\n"
+  Lib.GLn.SchurModule.GramMatrix:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.GramMatrix
+      name: New.GL.hasLeftInv_comulMatrix
+      line: 637
+      signature: 'lemma hasLeftInv_comulMatrix : HasLeftInv (comulMatrix ℤ n κ κ'')'
+    routeToMain:
+    - module: Lib.GLn.SchurModule.GramMatrix
+      importer: Lib.General.LinearAlgebra.MatrixNormBounds
+      line: 1
+    - module: Lib.General.LinearAlgebra.MatrixNormBounds
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 2
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/GramMatrix.lean
+      line: 7
+      endLine: 10
+      text: 'This file uses the Fock pairing `⟨P, Q⟩ = P(∂) Q (0)` (`New.fockPairing`) and Schur''s lemma to show
+
+        that the Gram matrix `G = New.weylGram` times the matrix of the Fock pairings of the basis
+
+        `b_i = New.nablaBasis` (products of minors) of the semi-invariants `New.nablaFamily` is the hook
+
+        number `New.hookNumber κ N = ⟨f, f⟩`, the Fock pairing of `f = New.highestPoly` with itself.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/GramMatrix.lean
+      line: 11
+      endLine: 40
+      text: "It treats weights with one row at each place. It defines the squared\nnorm `New.weylNormSq ξ = re (ξ*\
+        \ G ξ)` and builds a tight frame of integral vectors. It shows that\nthis norm is submultiplicative under\
+        \ Cartan multiplication of polynomials of weights `κ` and `κ'`,\nand defines the products of determinants\
+        \ `New.pairedDetProd`.\n\n## Main definitions and results\n\n* `New.weylGram_mul_fockPairing`, `New.fockPairing_toPoly_nablaBasis`:\
+        \ by Schur's lemma, `G` times\n  the matrix of the Fock pairings `⟨b_i, b_j⟩` is the hook number `New.hookNumber`.\n\
+        * `New.GL.comulMatrix`: the matrix `C`, in the bases `New.nablaBasis`, of multiplication of\n  polynomials\
+        \ of weights `κ` and `κ'` into those of weight `κ + κ'`;\n  `New.GL.vecMul_comulMatrix_eq_iff`: acting on\
+        \ row vectors, `C` multiplies polynomials;\n  `New.GL.comulMatrix_mulVec_weylEval`: acting on columns, it\
+        \ sends an evaluation vector to a tensor\n  product of two.\n* `New.GL.comulMatrix_isometry`, `New.GL.comulMatrix_equivariant`,\
+        \ `New.GL.hasLeftInv_comulMatrix`:\n  `C` is an isometry for the Gram matrices, intertwines the Schur matrices,\
+        \ and has a left inverse\n  over `ℤ`.\n\nNotions from other files:\n* `New.WeylIndexFamily n κ`: families\
+        \ that choose, for each place `τ`, a standard filling with rows\n  `n τ`; they index the basis `b_i`.\n\
+        * `New.schur κ z`: the Schur matrix `S_κ(z)` of matrices `z τ` of size `n' τ × n τ`. Row `i`\n  holds the\
+        \ coordinates of `b'_i(z y)` in the products `b_j(y) · ∏_τ det(y_τ)^{d_τ}`, where `b'` is\n  the basis for\
+        \ the rows `n'` and `d = New.schurDetExp n n' κ`.\n* `New.mem_range_scalar_of_commute_schur` (`Lib.GLn.SchurModule.WeylKernel`):\
+        \ Schur's lemma, a\n  matrix that commutes with `New.schur κ g` for all unitary `g` is scalar.\n\n## Relation\
+        \ to the literature\n\nKnown; see `Lib.GLn.SchurModule.SchurNorm` and `Lib.GLn.Dual` for sources.\n"
+  Lib.GLn.SchurModule.LeadingRows:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.LeadingRows
+      name: New.exists_toPoly_eq_hookNumber_smul_leadingWedge
+      line: 476
+      signature: "theorem exists_toPoly_eq_hookNumber_smul_leadingWedge\n    (h_rank : ∀ τ : Φ, q τ + rankAt m τ\
+        \ = rankAt n τ) (T₀ : ColumnFilling m (flatColumns q κ)) :\n    ∃ η : WeylIndexFamily n κ → ℤ, toPoly n\
+        \ κ η =\n      hookNumber (flatColumns q κ) (rankAt m) • fillingPoly ℤ (leadingWedge h_rank T₀)"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.LeadingRows
+      importer: Lib.GLn.Branching.NormBound
+      line: 1
+    - module: Lib.GLn.Branching.NormBound
+      importer: Lib.GLn.Branching.IntegralMap
+      line: 1
+    - module: Lib.GLn.Branching.IntegralMap
+      importer: New.UpperBound.Objects.Columns
+      line: 3
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/LeadingRows.lean
+      line: 6
+      endLine: 10
+      text: 'At each place `τ` the rows `n τ`, in the order `rowEquivFin`, are `q τ` leading rows followed by as
+
+        many later rows as `m τ` has. A filling of the later rows, for the diagram without its first `q τ`
+
+        rows, becomes a filling of all rows: the leading rows go on top of each column, and a column of
+
+        height `h < q τ` gets the first `h` rows. The hook number of the smaller diagram times the product
+
+        of minors of this filling is the polynomial of an integral vector of the Weyl module.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/LeadingRows.lean
+      line: 11
+      endLine: 40
+      text: "\n* `New.leadingWedge`: puts the first `q τ` rows on top of a filling of the later rows.\n* `New.aeval_fillingPoly_leadingWedge`:\
+        \ where the top blocks of `y` are invertible, its product of\n  minors at `y` is a factor independent of\
+        \ the filling times the product of minors of the given\n  filling at the Schur complement of `y`.\n* `New.leadingWedgeMatrix_mulVec_weylEval`:\
+        \ the induced map on tensors sends the tensor of the\n  evaluation vector at an integer array `y` to that\
+        \ at `diag(1, y)`.\n* `New.exists_fillingMatrix_mulVec_eq_leadingWedgeMatrix_mulVec`: hence it maps the\
+        \ smaller Weyl\n  module into the larger one.\n* `New.exists_toPoly_eq_hookNumber_smul_leadingWedge`: the\
+        \ integrality statement.\n\nThe integrality statement follows from `New.GL.exists_toPoly_eq_hookNumber_smul`\
+        \ for the smaller\ndiagram, carried over by the map of tensors above, and the formula for the determinant\
+        \ of a block\nmatrix by the Schur complement (`Matrix.det_fromBlocks₁₁`).\n\nNotions from other files:\n\
+        * `rankAt n τ` is the number of rows at `τ`, and `rowEquivFin n τ` numbers them by\n  `Fin (rankAt n τ)`.\n\
+        * `ColumnFilling n κ`: for each of the `κ τ h` columns of height `h < rankAt n τ`, an\n  `IncreasingMap\
+        \ (rankAt n τ) h`, that is a strictly increasing sequence of `h` row numbers.\n* `fillingPoly ℤ T`: the\
+        \ product of the minors that the columns of the filling `T` cut out of the\n  array of variables `X (row,\
+        \ column)`, as an element of `MatrixPoly`.\n* `WeylIndexFamily n κ` indexes the standard basis of the Weyl\
+        \ module for the column counts `κ`,\n  `toPoly n κ` sends a coordinate vector in this basis to its polynomial,\
+        \ `fillingMatrix n κ`\n  embeds this module into the tensors, and `hookNumber` is the Fock pairing of the\
+        \ product of\n  leading minors with itself.\n\n## Relation to the literature\n\nPart of a known result,\
+        \ the branching rule from GL(n+1) to GL(n), for any number of removed rows.\n"
+  Lib.GLn.SchurModule.MinorBasis:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.MinorBasis
+      name: New.GL.exists_isStdMinorFamily
+      line: 807
+      signature: "lemma exists_isStdMinorFamily {Φ J m : Type} [Fintype m] [Fintype J] (c : m → Φ)\n    (τ : J →\
+        \ Φ) (h : J → ℕ) :\n    ∃ (ι : Type) (_ : Fintype ι) (I : ι → ColouredTableau c τ h), IsStdMinorFamily I"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.MinorBasis
+      importer: Lib.GLn.SchurModule.SchurMatrix
+      line: 1
+    - module: Lib.GLn.SchurModule.SchurMatrix
+      importer: Lib.GLn.SchurModule.TensorModel
+      line: 1
+    - module: Lib.GLn.SchurModule.TensorModel
+      importer: Lib.GLn.SchurModule.WeylKernel
+      line: 2
+    - module: Lib.GLn.SchurModule.WeylKernel
+      importer: Lib.GLn.SchurModule.GramMatrix
+      line: 2
+    - module: Lib.GLn.SchurModule.GramMatrix
+      importer: Lib.General.LinearAlgebra.MatrixNormBounds
+      line: 1
+    - module: Lib.General.LinearAlgebra.MatrixNormBounds
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 2
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/MinorBasis.lean
+      line: 6
+      endLine: 10
+      text: 'Polynomials are in variables `X (a, i)`, where `a` is a row with colour `c a` and `i : ℕ` is a
+
+        column (`New.MatrixPoly`). For finitely many rows and `l = New.GL.columnWeight τ h`, the module
+
+        `New.nabla R c l` of Borel semi-invariants has a basis of products of minors that does not depend on
+
+        the ring `R`. The proof takes leading terms in one row: bordering lifts a family of minor products,
+
+        and a leading-term analysis describes the leading term of a semi-invariant.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/MinorBasis.lean
+      line: 11
+      endLine: 49
+      text: "\n## Main definitions and results\n\n* `New.GL.HasLeadingTerm F γ G`: `F` is `G` times the monomial\
+        \ of exponent `γ` plus smaller terms;\n  `New.GL.rowExpansion x` expands in row `x`.\n* `New.GL.columnWeight`,\
+        \ `New.GL.ColouredTableau`, `New.GL.minorProduct`: the weight of a family of\n  coloured columns, its fillings\
+        \ by rows, and the product of the minors of a filling.\n* `New.GL.interlacing l`: the exponents `γ` with\
+        \ `γ i ≤ l i - l (i + 1)` (truncated subtraction).\n  For antitone `l`, these are the `γ ≤ l` such that\
+        \ `l - γ` interlaces `l`.\n* `New.GL.exists_bordering`: a filling that avoids `x` is lifted to one whose\
+        \ product of minors has,\n  in the variables of row `x`, leading term `X ^ γ` times the old product.\n*\
+        \ `New.GL.degree_rowExpansion_mem_interlacing`: the leading exponent of a Borel semi-invariant in\n  the\
+        \ variables of one row `x` lies in `New.GL.interlacing` of its weight at the colour of `x`.\n* `New.GL.HasLeadingTerm.leadingCoeff_mem_nabla`:\
+        \ the leading coefficient of a semi-invariant in row\n  `x` is a semi-invariant in the other rows, of the\
+        \ weight lowered by that exponent.\n* `New.GL.exists_isStdMinorFamily`: some finite family of fillings has\
+        \ products of minors that are\n  linearly independent and span the semi-invariants of its weight over every\
+        \ ring, recorded as\n  `New.GL.IsStdMinorFamily`.\n\nNotions from other files:\n* `New.nabla`: For a row\
+        \ colouring c and weight l, the module of Borel semi-invariants: polynomials\n  f with f(yβ) = ∏β_{τ,ii}^{l(τ,i)}\
+        \ f(y) for generic upper triangular matrices β_τ, one per colour.\n* `New.minor`: For an h-tuple I of rows,\
+        \ the polynomial determinant of the h×h matrix of variables\n  in rows I and the first h columns.\n* `New.GL.alternant`:\
+        \ For x in ℂ^N and l : ℕ → ℕ, the alternant det(x_i^{l(N−1−j)+j}), 0 ≤ i, j < N,\n  if l(N) = 0, and zero\
+        \ otherwise.\n\n## Relation to the literature\n\nKnown result: The standard basis theorem for Schur (dual\
+        \ Weyl) modules over any ring, with their\ncharacter. Here the module is the space of polynomials on matrices\
+        \ that are semi-invariant under a\ntriangular group, for several row colours at once. It lies in the span\
+        \ of a set of products of\nminors built one row at a time rather than the semistandard tableaux, and this\
+        \ set is linearly\nindependent over every ring. For a single colour its character is given by Weyl's quotient\
+        \ of\nalternants. Source: De Concini, Eisenbud, Procesi, Young diagrams and determinantal varieties,\nInvent.\
+        \ Math. 56 (1980); Akin, Buchsbaum, Weyman, Schur functors and Schur complexes, Adv. Math. 44\n(1982), II.2.16,\
+        \ II.4.11.\n\nSee also `Lib.DiscreteSeries.Character.WeylCharacterFormula`.\n"
+  Lib.GLn.SchurModule.Polarisation:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.Polarisation
+      name: New.exists_forall_eq_mul_map_det_pow
+      line: 286
+      signature: "lemma exists_forall_eq_mul_map_det_pow (c : Φ → ℕ) (q : MvPolynomial (Φ × n × n) ℂ) :\n    ∃ a\
+        \ : ℂ, ∀ (M : MvPolynomial (Φ × n × n) ℂ →ₗ[ℂ] ℂ) (t : ℂ),\n      (∀ u : Φ → USign (1 : n → ℤˣ),\n     \
+        \   M (aeval (fun ((τ, j, k) : Φ × n × n) ↦ ∑ i : n, (u τ).val.val i j • X (τ, i, k)) q) =\n          t\
+        \ * ∏ τ : Φ, (u τ).val.val.det ^ c τ) →\n      t = a * M (∏ τ : Φ, variableMinor τ id id ^ c τ)"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.Polarisation
+      importer: New.Determinant.Exchange.ExplicitMatching
+      line: 1
+    - module: New.Determinant.Exchange.ExplicitMatching
+      importer: New.OneLift.ComparisonOperator.ThreeExchanges
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ThreeExchanges
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 3
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/Polarisation.lean
+      line: 6
+      endLine: 15
+      text: "The representations `New.conjWeylRep κ e` of the compact group U(n)^Φ are irreducible, and so is the\n\
+        module `New.nablaFamily` of semi-invariant polynomials.\n\n## Main definitions and results\n\n* `New.span_conjWeylRep_eq_top`,\
+        \ `New.mem_span_rowSubst_unitary`: irreducibility under U(n)^Φ, for\n  coordinate vectors and for semi-invariant\
+        \ polynomials.\n* `New.exists_pairedDetProd_eq_sum_unitary`: for `card p < card n`, a product of determinants\n\
+        \  `det (η τ k * Y τ)` is a combination of unitary translates of one product of powers of minors,\n  with\
+        \ coefficients independent of `Y`.\n"
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/Polarisation.lean
+      line: 16
+      endLine: 35
+      text: "* `New.exists_forall_eq_mul_map_det_pow`: a linear form `M` that takes the unitary translates of a\n\
+        \  polynomial `q` in square matrices to `t * ∏ τ, det (u τ) ^ c τ` has\n  `t = a * M (∏ τ, det (z τ) ^ c\
+        \ τ)`, with `a` depending only on `q` and `c`.\n\nNotions from other files:\n* `New.conjWeylRep κ e`: the\
+        \ action of U(n)^Φ on the coordinate vectors `WeylIndex n κ → ℂ` by the\n  Schur matrices of the conjugate\
+        \ matrices, times the powers `e` of their determinants;\n  `USign (1 : n → ℤˣ)` is the unitary group U(n).\n\
+        * `New.nablaFamily`: the module of Borel semi-invariant polynomials in rows (τ,a), coloured by τ,\n  whose\
+        \ weight has `κ τ h` columns of height `h` at τ, for the heights below |n_τ|.\n* `New.rowSubst`: for matrices\
+        \ z_τ, the substitution f ↦ f(zy).\n* `New.pairedDetProd`: the element ∏_τ ∏_k det(η_{τk} Y_τ) of a ℂ-algebra\
+        \ S, for n×p matrices Y_τ\n  over S and complex p×n matrices η_{τk}.\n* `New.Rows.variableMinor`: the minor\
+        \ det(x_{τ,i(a),j(b)}) of the matrix of variables at τ, in rows\n  i and columns j.\n\n## Relation to the\
+        \ literature\n\nIrreducibility under U(n) is part of the known theory of the contravariant form on Weyl's\
+        \ lattice.\nSee `Lib.GLn.SchurModule.SchurNorm`.\n"
+  Lib.GLn.SchurModule.SchurMatrix:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.SchurMatrix
+      name: New.map_nablaBasis_eq_map_weylKernel_mul_weylEval
+      line: 875
+      signature: "lemma map_nablaBasis_eq_map_weylKernel_mul_weylEval [DecidableEq Φ]\n    (e : ∀ τ : Φ, n τ ≃ Fin\
+        \ (rankAt n τ))\n    (i : WeylIndexFamily n κ) (φ : MatrixPoly (Σ τ : Φ, n τ) R →ₗ[R] R)\n    (h_wt :\n\
+        \      φ (nablaBasis R n κ i) ≠ 0 →\n      ∀ (τ : Φ) (a : n τ), diagramWeight (rankAt n) κ (τ, e τ a) ≤\
+        \ tableauWeight i τ a) :\n    φ (nablaBasis R n κ i) =\n      φ (weylKernel n κ (permArray fun (τ : Φ) (a\
+        \ : n τ) ↦ (e τ a : ℕ))) *\n        weylEval n κ (permArray fun (τ : Φ) (a : n τ) ↦ (e τ a : ℕ)) i"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.SchurMatrix
+      importer: Lib.GLn.SchurModule.TensorModel
+      line: 1
+    - module: Lib.GLn.SchurModule.TensorModel
+      importer: Lib.GLn.SchurModule.WeylKernel
+      line: 2
+    - module: Lib.GLn.SchurModule.WeylKernel
+      importer: Lib.GLn.SchurModule.GramMatrix
+      line: 2
+    - module: Lib.GLn.SchurModule.GramMatrix
+      importer: Lib.General.LinearAlgebra.MatrixNormBounds
+      line: 1
+    - module: Lib.General.LinearAlgebra.MatrixNormBounds
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 2
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/SchurMatrix.lean
+      line: 7
+      endLine: 15
+      startOffset: 168
+      endOffset: 927
+      text: 'Polynomials are taken in the entries of an array y with rows (τ, a). Here κ_τ(h) is the number of
+
+        columns of height h at the place τ; `New.rankAt n τ` = |n_τ|, and
+
+        λ = `New.diagramWeight (rankAt n) κ` has λ(τ, k) = Σ_{k<h<|n_τ|} κ_τ(h). The products
+
+        b_i = `New.nablaBasis` of minors of y along standard fillings form a basis of the module
+
+        ∇ = `New.nablaFamily` of Borel semi-invariants. The Schur matrix S_κ(z) = `New.schur κ z` of a
+
+        family of matrices z_τ records the expansion of b''_i(zy); for square z this gives a polynomial
+
+        representation of ∏_τ GL(n_τ), which `New.weylRep` twists by integer powers of determinants. For one
+
+        place and a one-row shape, S_κ over ℂ is a symmetric power, and, over a topological ring, S_κ(z) is
+
+        continuous in z for square z.'
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/SchurMatrix.lean
+      line: 15
+      endLine: 52
+      startOffset: 927
+      endOffset: 3371
+      text: "\n\n## Main definitions and results\n\n* `New.linearIndependent_nablaBasis`, `New.range_nablaCombination`:\
+        \ the b_i form a basis of ∇ over\n  every commutative ring.\n* `New.sum_schur_smul_nablaBasis`, `New.GL.schur_eq_of_expansion`:\
+        \ row i of S_κ(z) is characterised\n  by the expansion of b'_i(zy) in the products b_j(y) ∏_τ det(y_τ)^{d_τ},\
+        \ with\n  d = `New.schurDetExp`.\n* `New.schur_map`, `New.schur_mul_left`, `New.schur_mul_right`, `New.schur_apply_eq_prod`:\
+        \ base\n  change, multiplicativity, and the product over the places τ.\n* `New.schur_diagonal`, `New.weyl_character`:\
+        \ diagonal matrices and Weyl's character formula.\n* `New.weylRep κ e` is the matrix representation of `∏\
+        \ τ, GL (n τ) R` of weight `(κ, e)`: the Schur\n  matrix `New.schur κ g` twisted by the powers `det (g τ)\
+        \ ^ e τ`, with integer exponents `e τ`.\n* `New.map_nablaBasis_eq_map_weylKernel_mul_weylEval`: fix enumerations\
+        \ e_τ of the rows. Let φ be a\n  linear form with φ(b_i) ≠ 0 only if λ(τ, e_τ(a)) ≤ `New.tableauWeight`\
+        \ i τ a for every row (τ, a).\n  Then φ(b_i) = φ(k)·b_i(y). Here y is the permutation array of e (`New.permArray`),\
+        \ and k is the\n  kernel `New.weylKernel` at y, a substitution (`New.rowSubst`) of the product `New.highestPoly`\
+        \ of\n  leading minors, with value k(y) = 1. So on the span of the b_i, φ is determined by its value on\
+        \ k.\n\nNotions from other files:\n* `New.schur`: The Schur matrix S_κ(z) of matrices z_τ of size n'_τ×n_τ.\
+        \ Row i holds chosen\n  coordinates of b'_i(zy) in the family b_j(y)·∏_τ det(y_τ)^{d_τ}. Here b'_i and b_j\
+        \ are the\n  standard basis polynomials in the rows n' and n, and d is given by `New.schurDetExp`.\n* `New.rowSubst`:\
+        \ For matrices z_τ of size n'_τ×n_τ, the algebra homomorphism f ↦ f(zy) sending\n  variable y_{(τ,b),i}\
+        \ to Σ_a z_τ(b,a) y_{(τ,a),i}.\n* `New.WeylIndexFamily`: The type of families choosing, for each place τ,\
+        \ a filling in the chosen\n  standard set with rows n_τ, heights below |n_τ| and multiplicities κ_τ.\n*\
+        \ `New.schurDetExp`: The natural number κ_τ(|n_τ|) if |n_τ| < |n'_τ|, and 0 otherwise, as a function\n \
+        \ of the place τ.\n* `New.FitsRanks`: For row families n and n', the condition, at every place τ, that |n_τ|\
+        \ ≤ |n'_τ|\n  and κ_τ(h) = 0 for |n_τ| < h < |n'_τ|.\n* `New.detPow`: The product over places τ of the determinant\
+        \ of the variables in all rows of block τ\n  (fixed enumeration) and first |n_τ| columns, raised to e_τ.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.GLn.SchurModule.MinorBasis` for sources.\n"
+  Lib.GLn.SchurModule.SchurNorm:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.SchurNorm
+      name: New.gramForm_map_weightRep
+      line: 360
+      signature: "lemma gramForm_map_weightRep (σ : ℂ →+* ℂ) (γ : U (stdSpace E n).J) (u v : WeylIndex n κ → ℂ)\
+        \ :\n    gramForm (σ ∘ (stdSpace E n).weightRep κ e γ u) (σ ∘ (stdSpace E n).weightRep κ e γ v) =\n    \
+        \  gramForm (σ ∘ u) (σ ∘ v)"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.SchurNorm
+      importer: Lib.Adelic.AutomorphicForms.HeckeEigenforms
+      line: 1
+    - module: Lib.Adelic.AutomorphicForms.HeckeEigenforms
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 1
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/SchurNorm.lean
+      line: 6
+      endLine: 11
+      text: 'Let `S(z) = New.schur κ z` be the Schur matrix of rectangular complex matrices `z τ` of size
+
+        `n'' τ × n τ`, assuming `New.FitsRanks n n'' κ`. Let `G` and `G''` be the integral Gram matrices
+
+        `New.weylGram` for `n` and for `n''`. The file gives a formula for `S(w)ᴴ G'' S(z)` and bounds the
+
+        norm of `S(z)` for these forms. It then proves base change, integrality and invariance of the Gram
+
+        pairing for the matrices `New.weylRep` and the action `New.Space.weightRep` of the rational unitary
+
+        group of `New.stdSpace`.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/SchurNorm.lean
+      line: 12
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.GL.schur_conjTranspose_weylGram_schur`: `S(w)ᴴ G' S(z)\
+        \ = ∏ det(wᴴ z) ^ d · G S(wᴴ z)`, with\n  `d = New.schurDetExp n n' κ` the number of columns of height `#(n\
+        \ τ)` if `#(n τ) < #(n' τ)`, and\n  `0` otherwise.\n* `New.weylNormSq_schur_le`: there are numbers `ρ τ\
+        \ i ≥ 0` (in the proof, the squares of the sorted\n  singular values). Their sum over `i < #(n τ)` is at\
+        \ most the sum of the squared absolute values of\n  the entries of `z τ`. The Schur matrix multiplies the\
+        \ squared norm by at most the product of the\n  `ρ τ i`, to the powers given by the weight `New.diagramWeight`.\n\
+        * `New.stdSpace_weightRep_apply`, `New.map_weightRep`: γ acts by `New.weylRep` at the matrices\n  Φ_τ(γ̄),\
+        \ also after a ring map σ out of ℂ. Here Φ_τ is the embedding that the CM type chooses at\n  τ.\n* `New.gramForm_conjWeylRep`,\
+        \ `New.gramForm_map_weightRep`: the Gram pairing `New.gramForm` is\n  invariant under the compact unitary\
+        \ groups, and under rational γ after any ring endomorphism σ of\n  ℂ.\n\nNotions from other files:\n* `New.schur`:\
+        \ The Schur matrix S_κ(z) of matrices z_τ of size n'_τ×n_τ. Row i holds chosen\n  coordinates of b'_i(zy)\
+        \ in the family b_j(y)·∏_τ det(y_τ)^{d_τ}. Here b'_i and b_j are the\n  standard basis polynomials in the\
+        \ rows n' and n, and d is given by `New.schurDetExp`.\n* `New.conjWeylRep`: The action of ∏_τ U(s) on coordinate\
+        \ vectors of weight κ by `New.weylRep` at\n  the complex conjugate matrices; `New.Space.weightRep` is its\
+        \ restriction to rational points.\n\n## Relation to the literature\n\nKnown result: The contravariant form\
+        \ on Weyl's lattice, the Fischer product, and irreducibility\nunder U(n). This file treats only the contravariant\
+        \ form: its adjoint formula, its invariance under\nU(n), and a bound of operator norms by singular values.\
+        \ Source: Jantzen, Representations of\nAlgebraic Groups, 2nd ed. 2003; Goodman, Wallach, Symmetry, Representations,\
+        \ and Invariants, 2009,\nch. 5; Howe, Perspectives on invariant theory, 1995.\n"
+  Lib.GLn.SchurModule.SchurOrthogonality:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.SchurOrthogonality
+      name: New.schur_orthogonality
+      line: 281
+      signature: "lemma schur_orthogonality (e : Φ → ℤ) (f : (WeylIndex n κ → ℂ) →ₗ[ℂ] ℂ)\n    (a b c : WeylIndex\
+        \ n κ → ℂ) :\n    ∫ x : Φ → USign (1 : n → ℤˣ),\n        f (conjWeylRep κ e x c) * gramForm a (conjWeylRep\
+        \ κ e x⁻¹ b) =\n      (Fintype.card (WeylIndex n κ) : ℂ)⁻¹ * gramForm a c * f b"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.SchurOrthogonality
+      importer: Lib.GLn.SchurModule.Polarisation
+      line: 1
+    - module: Lib.GLn.SchurModule.Polarisation
+      importer: New.Determinant.Exchange.ExplicitMatching
+      line: 1
+    - module: New.Determinant.Exchange.ExplicitMatching
+      importer: New.OneLift.ComparisonOperator.ThreeExchanges
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ThreeExchanges
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 3
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/SchurOrthogonality.lean
+      line: 7
+      endLine: 12
+      text: 'A weight `(κ, e)` consists of the numbers `κ τ h` of columns of height `h` and an exponent `e τ` of
+
+        the determinant. Only the heights below `card n` enter the index type `New.WeylIndex n κ` and, for
+
+        square matrices, `New.schur`. `New.weylRep κ e g` is `∏ τ, det (g τ) ^ e τ` times `schur κ g`. These
+
+        representations are restricted to products of unitary groups `U(s)^Φ`. The file defines the
+
+        hermitian Gram form, which is invariant when all signs are `1` (`New.gramForm_conjWeylRep`, in
+
+        `Lib.GLn.SchurModule.SchurNorm`), and the highest vectors.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/SchurOrthogonality.lean
+      line: 13
+      endLine: 40
+      text: "\n## Main definitions and results\n\n* `New.conjWeylMatrix`, `New.conjWeylRep`: the conjugate action\
+        \ of weight `(κ, e)`, as matrices and\n  as a representation: `g` acts by `New.weylRep κ e` at the entrywise\
+        \ complex conjugate of `g`.\n* `New.gramForm`: the hermitian form `ξ* G η` of the Gram matrix `G = weylGramOver`.\n\
+        * `New.decreasingPosition`, `New.highestVector`: the order that a vector `l` puts on the rows, and\n  the\
+        \ evaluation vector at the frame of that order.\n* `New.weylRep_coeff_eq_prod_weightMinors`: the matrix\
+        \ coefficient of `New.weylRep κ e` at a highest\n  vector is a product of the functions `New.weightMinors`,\
+        \ products of principal minors.\n* `New.schur_orthogonality`: Schur's orthogonality relations on the compact\
+        \ group U(n)^Φ.\n\nNotions from other files:\n* `New.schur`: The Schur matrix S_κ(z) of matrices z_τ of\
+        \ size n'_τ×n_τ. Row i holds chosen\n  coordinates of b'_i(zy) in the family b_j(y)·∏_τ det(y_τ)^{d_τ}.\
+        \ Here b'_i and b_j are the\n  standard basis polynomials in the rows n' and n, and d is given by `New.schurDetExp`.\n\
+        * `New.WeylIndex`: The type of families of chosen standard fillings over the places, in the case\n  where\
+        \ the row type is the same finite type n at every place, that is\n  `WeylIndexFamily (fun _ ↦ n) κ`; `WeylIndexFamily`\
+        \ allows a row type n_τ at each place τ.\n* `New.nablaBasis`: For a family i of chosen standard fillings,\
+        \ the polynomial b_i, the product over\n  the places τ of the minor products of the fillings i_τ.\n* `New.weylEval`:\
+        \ For an array y, the vector of the values b_i(y).\n* `New.weightMinors`: For a matrix `g` and integer weights\
+        \ `l`, the product over integers `t` of the\n  principal minor of `g` on `{i | t ≤ l i}`, each factor with\
+        \ `t ≤ 0` divided by `det g`.\n\n## Relation to the literature\n\nKnown; see `Lib.GLn.SchurModule.SchurNorm`\
+        \ and `Lib.GLn.SchurModule.MinorBasis` for sources.\n"
+  Lib.GLn.SchurModule.TensorModel:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.TensorModel
+      name: New.exists_fillingMatrix_mulVec_eq_iff_mem_span
+      line: 323
+      signature: "lemma exists_fillingMatrix_mulVec_eq_iff_mem_span (v : ColumnFilling n κ → ℤ) :\n    (∃ ξ : WeylIndexFamily\
+        \ n κ → ℤ, fillingMatrix n κ *ᵥ ξ = v) ↔\n      (fun T : ColumnFilling n κ ↦ (v T : ℚ)) ∈\n        Submodule.span\
+        \ ℚ (Set.range fun (y : (Σ τ : Φ, n τ) × ℕ → ℚ) (T : ColumnFilling n κ) ↦\n          eval y (fillingPoly\
+        \ ℚ T))"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.TensorModel
+      importer: Lib.GLn.SchurModule.WeylKernel
+      line: 2
+    - module: Lib.GLn.SchurModule.WeylKernel
+      importer: Lib.GLn.SchurModule.GramMatrix
+      line: 2
+    - module: Lib.GLn.SchurModule.GramMatrix
+      importer: Lib.General.LinearAlgebra.MatrixNormBounds
+      line: 1
+    - module: Lib.General.LinearAlgebra.MatrixNormBounds
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 2
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/TensorModel.lean
+      line: 7
+      endLine: 12
+      text: "A tensor in the product of exterior powers, one factor for each column of the diagram, is written as\n\
+        a function on the column fillings `New.ColumnFilling`, which index the basis tensors.\n\n* `New.fillingMatrix`:\
+        \ the integral matrix that embeds the Weyl module into tensors. Its row at a\n  column filling holds the\
+        \ coordinates, in the standard basis, of the product of minors\n  `New.fillingPoly` of that filling.\n"
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/TensorModel.lean
+      line: 13
+      endLine: 38
+      text: "* `New.fillingMatrixOver_mul_schur`: the Schur matrix of a family of square matrices, one for each\n\
+        \  place `τ`, is the restriction of their action `New.minorsMatrix` on tensors.\n* `New.span_fillingPoly`:\
+        \ the products of minors span the module of Borel semi-invariants, whose\n  dual is the Weyl module.\n*\
+        \ `New.exists_fillingMatrix_leftInverse`: the Weyl module is a direct summand of the integral\n  tensors.\n\
+        * `New.exists_fillingMatrix_mulVec_eq_iff_mem_span`: the Weyl module over `ℤ` consists of the\n  integral\
+        \ tensors in the span over `ℚ` of the tensors of rational matrices.\n\nNotions from other files:\n* A `Tableau`\
+        \ lists the entries of each column; `tableauPoly R e T` is the product, over the columns\n  of the tableau\
+        \ `T`, of the `minor` whose rows are the images under `e` of the entries. Here\n  `minor R I` is the determinant\
+        \ of the variables `y` in the rows `I` and the first columns;\n  `MatrixPoly ι R` is the ring of polynomials\
+        \ in these variables `y`, indexed by `ι × ℕ` (a row and\n  a column number).\n* `nablaBasis R n κ`, the\
+        \ standard basis, is a chosen basis of products of minors of the module\n  `nablaFamily R n κ`, indexed\
+        \ by `WeylIndexFamily n κ`; `nablaCombination κ` takes a coordinate\n  vector to its combination of this\
+        \ basis. A vector of the Weyl module is given by its coordinates\n  `WeylIndexFamily n κ → R` in the dual\
+        \ basis.\n* `rowSubst z` substitutes `z y` for `y`, and row `i` of `schur κ z` holds the coordinates of\n\
+        \  `rowSubst z` of the basis element `i`; so `schur κ z` acts on the Weyl module.\n\n## Relation to the\
+        \ literature\n\nKnown result: the Weyl module over `ℤ` as a direct summand as a ℤ-module of a tensor product\
+        \ of\nexterior powers. Source: Akin, Buchsbaum and Weyman, Schur functors and Schur complexes.\n"
+  Lib.GLn.SchurModule.WeylKernel:
+    group: Lib.GLn
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.GLn.SchurModule.WeylKernel
+      name: New.mem_range_scalar_of_commute_schur
+      line: 647
+      signature: "lemma mem_range_scalar_of_commute_schur {T : Matrix (WeylIndexFamily n κ) (WeylIndexFamily n κ)\
+        \ ℂ}\n    (hT : ∀ g : (τ : Φ) → Matrix (n τ) (n τ) ℂ,\n      (∀ τ : Φ, (g τ)ᴴ * g τ = 1) → Commute T (schur\
+        \ κ g)) :\n    T ∈ Set.range (scalar (WeylIndexFamily n κ))"
+    routeToMain:
+    - module: Lib.GLn.SchurModule.WeylKernel
+      importer: Lib.GLn.SchurModule.GramMatrix
+      line: 2
+    - module: Lib.GLn.SchurModule.GramMatrix
+      importer: Lib.General.LinearAlgebra.MatrixNormBounds
+      line: 1
+    - module: Lib.General.LinearAlgebra.MatrixNormBounds
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 2
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/GLn/SchurModule/WeylKernel.lean
+      line: 8
+      endLine: 14
+      text: 'This file studies the reproducing kernel `K(x, y) = f(yᵀ x)` (`New.weylKernel`), where
+
+        `f = New.highestPoly` is the product of leading principal minors. `G = New.weylGram` is the integer
+
+        Gram matrix of `K` in the basis `b_i = New.nablaBasis` (products of minors) of the semi-invariants
+
+        `New.nablaFamily`. The hook number `New.hookNumber κ N = ⟨f, f⟩ = f(∂) f(0)` is the Fock pairing
+
+        of `f` with itself. It is positive and at most `(L ^ L) ^ 3` when the diagrams have at most `L`
+
+        boxes in total (`New.hookNumber_pos`, `New.hookNumber_le`). This file also proves that the unitary
+
+        group is Zariski dense, and derives Schur''s lemma for the Schur matrices.
+
+        '
+    remainder:
+      path: grh/src/Lib/GLn/SchurModule/WeylKernel.lean
+      line: 15
+      endLine: 37
+      text: "\n## Main definitions and results\n\n* `New.toPoly_weylEval`, `New.toPoly_schur`: `New.toPoly`, `ξ\
+        \ ↦ ∑ (G ξ)_i b_i`, sends the vector\n  `ev_y = (b_i(y))` (`New.weylEval`) to `K(·, y)`. It turns the Schur\
+        \ matrix of `z` into\n  substitution of `zᵀ`, applied after multiplying by the determinant powers `New.detPow`\
+        \ with\n  exponents `New.schurDetExp`.\n* `New.fillingMatrix_transpose_mul_self`: `G` is the matrix of the\
+        \ form restricted from tensors.\n  Hence `G` is symmetric, positive definite, and makes the Schur matrices\
+        \ of `g` and `gᵀ` adjoint\n  (`New.weylGram_isSymm`, `New.weylGramOver_posDef`, `New.weylGramOver_mul_schur`).\n\
+        * `New.mem_range_scalar_of_commute_schur`: a matrix that commutes with `New.schur κ g` for all\n  unitary\
+        \ `g` is scalar.\n\nNotions from other files:\n* `New.WeylIndexFamily n κ`: families that choose, for each\
+        \ place `τ`, a standard filling with rows\n  `n τ`; they index the basis `b_i`.\n* `New.schur κ z`: the\
+        \ Schur matrix `S_κ(z)` of matrices `z τ` of size `n' τ × n τ`. Row `i`\n  holds the coordinates of `b'_i(z\
+        \ y)` in the products `b_j(y) · ∏_τ det(y_τ)^{d_τ}`, where `b'` is\n  the basis for the rows `n'` and `d\
+        \ = New.schurDetExp n n' κ`.\n\n## Relation to the literature\n\nKnown; see `Lib.GLn.SchurModule.SchurNorm`\
+        \ and `Lib.GLn.Dual` for sources.\n"
+needs_draft: true

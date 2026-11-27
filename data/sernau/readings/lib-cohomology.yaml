@@ -1,0 +1,3263 @@
+group: Lib.Cohomology
+overview:
+  group: Lib.Cohomology
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: "Etale.Basic models cohomology of a space represented by a functor using Ext groups in a category of abelian-group-valued functors."
+    citations:
+    - module: Lib.Cohomology.Etale.Basic
+      line: 4
+      endLine: 10
+  - sentence: "In its main setting, test rings and locally constant functions on their spectra supply the test category and coefficients; the file also develops functoriality and dimension shifting."
+    citations:
+    - module: Lib.Cohomology.Etale.Basic
+      line: 9
+      endLine: 13
+    - module: Lib.Cohomology.Etale.Basic
+      line: 25
+      endLine: 30
+  - sentence: "Hodge.CupProduct develops products for this Ext-based cohomology, including a direct sum over degrees with Yoneda composition."
+    citations:
+    - module: Lib.Cohomology.Hodge.CupProduct
+      line: 4
+      endLine: 14
+  - sentence: "Under the flatness hypotheses, the external product is natural in both space arguments. Pullback along a site comparison commutes with the product when the comparison respects coefficient multiplication."
+    citations:
+    - module: Lib.Cohomology.Hodge.CupProduct
+      line: 451
+      endLine: 464
+    - module: Lib.Cohomology.Hodge.CupProduct
+      line: 528
+      endLine: 541
+  declarations:
+  - module: Lib.Cohomology.Etale.Basic
+    name: New.Variety.H.dimension_shift_induction
+    line: 714
+    signature: "lemma H.dimension_shift_induction {P : ∀ {F : AbFunctor C} {n : ℕ}, H N F n → Prop}\n    (h₀ : ∀ (F\
+      \ : AbFunctor C) (f : N ⟶ F), P (F"
+  - module: Lib.Cohomology.Hodge.CupProduct
+    name: New.Variety.Comparison.pull_cup
+    line: 533
+    signature: "lemma Comparison.pull_cup {F : AbFunctor C} {a b n : ℕ} {A : Type _} [Category A]\n    {N N' : AbFunctor\
+      \ A} {Θ : C ⥤ A} {Θ' : C' ⥤ A} {F' : AbFunctor C'} {c : Comparison F F'}\n    {η : Θ' ⟶ c.functor ⋙ Θ} [HasFlatValues\
+      \ F] [HasFlatValues F'] [HasFlatValues N]\n    {μ : (abTensor.obj F).obj F ⟶ F} {μ' : (abTensor.obj F').obj\
+      \ F' ⟶ F'} (hμ :\n      (abTensor.map c.coeffHom).app (c.functor ⋙ F) ≫ (abTensor.obj F').map c.coeffHom ≫ μ'\
+      \ =\n        c.functor.whiskerLeft μ ≫ c.coeffHom)\n    (x : H (Θ ⋙ N) F a) (y : H (Θ ⋙ N') F b) (h : b + a\
+      \ = n) :\n    c.pull (whiskerRight η ((abTensor.obj N).obj N')) n (cup μ x y h :) =\n      cup μ' (c.pull (whiskerRight\
+      \ η N) a x) (c.pull (whiskerRight η N') b y) h"
+  routeToMain:
+  - module: Lib.Cohomology.Etale.Basic
+    importer: Lib.PadicComparison.Descent.TestCategory
+    line: 1
+  - module: Lib.PadicComparison.Descent.TestCategory
+    importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+    line: 3
+  - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+    importer: New.Derivatives.Vacuum.TightFrames
+    line: 1
+  - module: New.Derivatives.Vacuum.TightFrames
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 3
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  Lib.Cohomology.Etale.Basic:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Etale.Basic
+      name: New.Variety.H.dimension_shift_induction
+      line: 714
+      signature: "lemma H.dimension_shift_induction {P : ∀ {F : AbFunctor C} {n : ℕ}, H N F n → Prop}\n    (h₀ :\
+        \ ∀ (F : AbFunctor C) (f : N ⟶ F), P (F"
+    routeToMain:
+    - module: Lib.Cohomology.Etale.Basic
+      importer: Lib.PadicComparison.Descent.TestCategory
+      line: 1
+    - module: Lib.PadicComparison.Descent.TestCategory
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 3
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Etale/Basic.lean
+      line: 6
+      endLine: 13
+      startOffset: 134
+      endOffset: 855
+      text: 'Fix a category `C` of test objects and a coefficient functor `F : C ⥤ Ab`. A space is a functor
+
+        `Y : C ⥤ Type 1`, and its cohomology is `New.Variety.H N F n = Extⁿ(N, F)` with `N = ℤ[Y]`, computed
+
+        in the category `New.Variety.AbFunctor C` of functors `C ⥤ Ab`. Here `H.map` is pull-back in `N` and
+
+        `H.push` is push-forward in `F`. In the main case `C` is the category of test rings, a scheme is
+
+        replaced by its functor of points, and `F` sends `A` to the locally constant functions `Spec A → Λ`
+
+        for an abelian group `Λ`. The file proves stability properties of test rings, formal functoriality
+
+        of `H` and the additive Yoneda lemma, and it fixes vocabulary for fixed point formulas and
+
+        congruence relations with Frobenius.'
+    remainder:
+      path: grh/src/Lib/Cohomology/Etale/Basic.lean
+      line: 13
+      endLine: 38
+      startOffset: 855
+      endOffset: 2291
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.H N F n = Extⁿ(N, F)` and `New.Variety.freeAb`\
+        \ (the functor `Y ↦ ℤ[Y]`), with\n  pull-back `New.Variety.H.map` in `N` and push-forward `New.Variety.H.push`\
+        \ in `F`.\n* `New.Variety.IsCohomEquiv F α`: `α` is bijective on all `Extⁿ(-, F)`.\n  `New.Variety.IsCohomDense\
+        \ F U`: the subfunctor `U` gives such an equivalence over every point\n  `New.Variety.pointMap y`.\n* `New.Variety.IsTest`,\
+        \ `New.Variety.TestRing`: test rings and their category. A test ring is\n  reduced and absolutely integrally\
+        \ closed, and divisibility in it is total after a partition by an\n  idempotent.\n* `New.Variety.locConstCoeff`,\
+        \ `New.Variety.TestCohomology.map`: the coefficients A ↦ {locally\n  constant Spec A → Λ} on test rings,\
+        \ and pull-back on cohomology.\n* `New.Variety.IsTest.pi`, `New.Variety.IsTest.localization`, `New.Variety.IsTest.quotient`:\n\
+        \  products, localisations and quotients by radical ideals of test rings are test rings.\n* `New.Variety.H.dimension_shift_induction`:\
+        \ induction on classes by dimension shifting. Identities\n  between maps of `Ext` groups are checked in\
+        \ degree zero and on connecting maps.\n\nNotions from other files:\n* `New.Variety.IsAbsIntegrallyClosed`:\
+        \ A is absolutely integrally closed: every monic polynomial\n  over A of positive degree has a root in A.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Etale.FilteredLimits` and `Lib.Cohomology.WoodsHole`\
+        \ for sources.\n"
+  Lib.Cohomology.Etale.BijectiveComparisons:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Etale.BijectiveComparisons
+      name: New.Variety.Comparison.isBijective_of_adj
+      line: 908
+      signature: "lemma isBijective_of_adj {U : C ⥤ C'} (a : φ ⊣ U) :\n    IsBijective (F"
+    routeToMain:
+    - module: Lib.Cohomology.Etale.BijectiveComparisons
+      importer: Lib.Cohomology.Etale.DenseSubfunctors
+      line: 1
+    - module: Lib.Cohomology.Etale.DenseSubfunctors
+      importer: Lib.General.Geometry.EtaleCharts
+      line: 1
+    - module: Lib.General.Geometry.EtaleCharts
+      importer: Lib.General.Geometry.PointsOfProperSchemes
+      line: 2
+    - module: Lib.General.Geometry.PointsOfProperSchemes
+      importer: Lib.Shimura.AbelianScheme.TangentCoordinates
+      line: 1
+    - module: Lib.Shimura.AbelianScheme.TangentCoordinates
+      importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      line: 4
+    - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 3
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Etale/BijectiveComparisons.lean
+      line: 6
+      endLine: 14
+      startOffset: 139
+      endOffset: 978
+      text: 'For a set-valued functor of points `Y` on a category `C` with coefficients `F`, cohomology is
+
+        `Hⁿ(Y, F) = New.Variety.H (freeAb.obj Y) F n`, an `Ext` group in functors to abelian groups, where
+
+        `ℤ[Y]` is the free abelian functor on `Y`; `reprBy A` is the functor `B ↦ (A ⟶ B)` (lifted), and a
+
+        point `y` of `Y A` gives `pointMap y : reprBy A ⟶ Y`, `f ↦ Y.map f y`. A comparison `c = (φ, β)`
+
+        with `φ : C'' ⥤ C` and `β : φ ⋙ F ⟶ F''`, together with a map `u : Y'' ⟶ φ ⋙ Y`, gives maps
+
+        `c.pull (freeAbMap u) n : Hⁿ(Y, F) → Hⁿ(Y'', F'')`. The file gives criteria for these maps to be
+
+        bijective. The tools are dévissage and Čech descent along covers, and pointwise descriptions of
+
+        bijections and pull-back squares. The file also builds cocycle classes from witnesses of a relation
+
+        `R ⊆ V × L`, relative to a subfunctor `U ⊆ V`, by a Čech-type complex.'
+    remainder:
+      path: grh/src/Lib/Cohomology/Etale/BijectiveComparisons.lean
+      line: 14
+      endLine: 54
+      startOffset: 978
+      endOffset: 3437
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.witnessed.universalClass`, `New.Variety.witnessed.cocycleClass`:\
+        \ splicing the short\n  exact sequences into which the complex of points with witnesses splits gives a universal\
+        \ class;\n  its push-forward along a cocycle with values in `F` is a class in `Extⁿ(ℤ[V]/ℤ[U], F)`.\n* `New.Variety.cech_descent_step`,\
+        \ `New.Variety.Devissage.allBijective_freeAb_range_of_cech`: Čech\n  descent of bijectivity from `E` and\
+        \ its fibre powers `New.Variety.cech p m` to the image of\n  `p : E ⟶ Y`.\n* `New.Variety.IsCover`: `p`\
+        \ is a cover for `F`, that is, the inclusion of its image induces\n  bijections on all `Extⁿ(ℤ[-], F)`;\
+        \ pointwise surjections are covers\n  (`New.Variety.IsPointwiseSurjective.isCover`).\n* `New.Variety.Comparison.IsBijective`:\
+        \ for a natural map `α : N' ⟶ c.functor ⋙ N`, the maps\n  `c.pull α n : Extⁿ(N, F) → Extⁿ(N', F')` are bijective\
+        \ in all degrees; for `α = freeAbMap u` these\n  are the maps `Hⁿ(Y, F) → Hⁿ(Y', F')`.\n* `New.Variety.Comparison.isBijective_of_fibres`:\
+        \ it is enough to test on the fibres over the points\n  of `Y`; the proof is Čech descent (`New.Variety.Comparison.bijectiveUpTo_of_cech_pred`),\
+        \ one\n  condition of `New.Variety.BijectiveUpTo` at a time.\n* `New.Variety.Comparison.HasUniversalPoints.isBijective`:\
+        \ representable fibres with equal\n  coefficients (`New.Variety.Comparison.IsUnivPoint`) suffice;\n  `New.Variety.Comparison.isBijective_of_adj`\
+        \ is the case of an adjunction.\n\nNotions from other files:\n* `New.Variety.H`: The group Ext^n(N,F) in\
+        \ the category of functors from C to abelian groups;\n  `H.map F α n` is the pull-back along α: N' → N and\
+        \ `H.push N β n` the push-forward along β:\n  F → F'.\n* `New.Variety.Comparison`: A comparison from F on\
+        \ C to F' on C' is a functor φ: C' → C with a map\n  β: F∘φ → F'. For α: N' → N∘φ, `Comparison.pull` is\
+        \ the map Ext^n(N,F) → Ext^n(N',F') that\n  restricts along φ, pushes by β and pulls by α.\n* `New.Variety.BijectiveUpTo`:\
+        \ For maps f_n: A_n → B_n, the first r of the conditions: f₀ injective,\n  f₀ surjective, f₁ injective,\
+        \ f₁ surjective, and so on.\n* `New.Variety.IsCohomEquiv`: α: N' → N is an equivalence for F: the pull-back\n\
+        \  Ext^n(N,F) → Ext^n(N',F) is bijective for every n.\n* `New.Variety.freeAbMap`: For u: Y' → Y∘φ, the induced\
+        \ map of free abelian group functors\n  Z[Y'] → Z[Y]∘φ.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Hodge.FixedPointFormula`\
+        \ and `Lib.Cohomology.Etale.FilteredLimits` for\nsources.\n"
+  Lib.Cohomology.Etale.DenseSubfunctors:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Etale.DenseSubfunctors
+      name: New.Variety.IsCohomDense.isCohomEquiv_of_fromPreimage
+      line: 531
+      signature: "lemma IsCohomDense.isCohomEquiv_of_fromPreimage {u : X ⟶ Y} (hd : IsCohomDense F W)\n    (h :\
+        \ IsCohomEquiv F (freeAb.map (W.fromPreimage u))) :\n    IsCohomEquiv F (freeAb.map u)"
+    routeToMain:
+    - module: Lib.Cohomology.Etale.DenseSubfunctors
+      importer: Lib.General.Geometry.EtaleCharts
+      line: 1
+    - module: Lib.General.Geometry.EtaleCharts
+      importer: Lib.General.Geometry.PointsOfProperSchemes
+      line: 2
+    - module: Lib.General.Geometry.PointsOfProperSchemes
+      importer: Lib.Shimura.AbelianScheme.TangentCoordinates
+      line: 1
+    - module: Lib.Shimura.AbelianScheme.TangentCoordinates
+      importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      line: 4
+    - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 3
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Etale/DenseSubfunctors.lean
+      line: 6
+      endLine: 11
+      text: 'This file studies the cohomology Hⁿ(Y) = Extⁿ(ℤ[Y], F) of a set-valued functor Y on a category C
+
+        with coefficients in a functor F : C → Ab, where ℤ[Y] = `New.Variety.freeAb` Y. A map is an
+
+        equivalence for F (`New.Variety.IsCohomEquiv`) if it induces bijections on all Extⁿ(-, F). A
+
+        subfunctor U of Y is dense (`New.Variety.IsCohomDense`) if, over every point h_A → Y with h_A =
+
+        Hom(A,−), the inclusion of the preimage of U is an equivalence. The Mayer–Vietoris sequence, the
+
+        calculus of dense subfunctors and closed classes of functors are used to cut functors into pieces.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/Etale/DenseSubfunctors.lean
+      line: 12
+      endLine: 41
+      text: "When ι attaches commutative rings to objects and `New.Variety.HasPartitions ι F` holds, partitions\n\
+        along idempotents are dense. Locally constant coefficients on test rings satisfy\n`New.Variety.HasPartitions`.\n\
+        \n## Main definitions and results\n\n* `New.Variety.mayer_vietoris_shortExact`: 0 → ℤ[U ∩ V] → ℤ[U] ⊕ ℤ[V]\
+        \ → ℤ[U ∪ V] → 0 is short exact.\n* `New.Variety.IsCohomDense.isCohomEquiv`: the inclusion of a dense subfunctor\
+        \ is an equivalence.\n* `New.Variety.IsClosedClass.freeAb_iSup`: if a closed class contains ℤ[V] for all\
+        \ V in a set of\n  subfunctors closed under intersection, it contains ℤ[-] of their finite unions (Mayer–Vietoris).\n\
+        * `New.Variety.HasPartitions.isCohomDense_partition`: for an idempotent `e`, the maps that kill `e`\n  or\
+        \ `1 - e` are dense.\n* `New.Variety.HasPartitions.hasZariskiDescent`: Zariski descent for rings `κ` that\
+        \ receive an\n  injective map from `ι`, when any two elements of `κ` are comparable for divisibility after\
+        \ a cut\n  along an idempotent of `ι`.\n* `New.Variety.IsCohomDense.isCohomEquiv_of_fromPreimage`: a map\
+        \ is an equivalence if it is one over\n  a dense subfunctor.\n\nNotions from other files:\n* `New.Variety.freeAb`:\
+        \ The functor sending a set-valued functor Y to ℤ[Y], whose value at A is the\n  free abelian group on Y(A).\n\
+        * `New.Variety.IsClosedClass`: a class of functors C → Ab that contains every zero functor and, for\n  a\
+        \ short exact sequence whose first term lies in it, contains the middle term exactly when it\n  contains\
+        \ the last.\n* `New.Variety.HasPartitions`: Each idempotent e ≠ 1 of ι(A) has a `New.Variety.IsQuotientByElem`\n\
+        \  A → B, and ι(A) ≅ ι(B₁) × ι(B₂) via maps A → B₁, B₂ implies F(A) ≅ F(B₁) × F(B₂).\n\n## Relation to the\
+        \ literature\n\nKnown; see `Lib.Cohomology.Etale.FilteredLimits` for sources.\n"
+  Lib.Cohomology.Etale.EllAdicCohomology:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Etale.EllAdicCohomology
+      name: New.Variety.IsCohomEquiv.bijective_ellAdicPull
+      line: 189
+      signature: "lemma IsCohomEquiv.bijective_ellAdicPull {M N : AbFunctor TestRing} {α : M ⟶ N}\n    (h_equiv\
+        \ : IsCohomEquiv (locConstCoeff ⟨ZMod ℓ⟩) α) :\n    Bijective (ellAdicPull (ℓ"
+    routeToMain:
+    - module: Lib.Cohomology.Etale.EllAdicCohomology
+      importer: Lib.PadicComparison.Primitive.Periods
+      line: 1
+    - module: Lib.PadicComparison.Primitive.Periods
+      importer: Lib.PadicComparison.HodgeTate.PeriodMap
+      line: 4
+    - module: Lib.PadicComparison.HodgeTate.PeriodMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 2
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Etale/EllAdicCohomology.lean
+      line: 7
+      endLine: 15
+      text: "`ℓ`-adic cohomology is defined as `Ext` on test rings, with coefficients in the Witt vectors of the\n\
+        locally constant `\U0001D53D_ℓ`-valued functions on the spectrum.\n\n* `New.Variety.ellAdicCoeff`: the coefficient\
+        \ `ℤ_ℓ`; `New.Variety.ellAdicPull`: pull-back on\n  cohomology, over `ℚ_ℓ`.\n* `New.Variety.ellAdicCohom`,\
+        \ `New.Variety.ellAdicCohom.galoisAction`: cohomology of the base change\n  to `Ω`, and the action of `Γ`.\n\
+        * `New.Variety.exists_ellAdicCoeff_modShortExact_pow`,\n  `New.Variety.exists_ellAdicCoeff_modShortExact`:\
+        \ reduction modulo `ℓ ^ k` and `ℓ`; completeness.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/Etale/EllAdicCohomology.lean
+      line: 16
+      endLine: 28
+      text: "* `New.Variety.finite_H_ellAdicCoeff`, `New.Variety.IsCohomEquiv.bijective_ellAdicPull`: finiteness\n\
+        \  and bijectivity lift from `\U0001D53D_ℓ`.\n\nNotions from other files:\n* `New.Variety.ModShortExact`:\
+        \ `ModShortExact a q` says that `0 → Φ → Φ → G → 0`, formed by\n  multiplication by `a` and by `q`, is short\
+        \ exact.\n* `New.Variety.TestRing`: The category of test rings (`New.Variety.IsTest`), as a full subcategory\n\
+        \  of commutative rings; `New.Variety.testIncl` is its inclusion functor.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.Cohomology.Etale.FilteredLimits`, `Lib.PadicComparison.Completion` and\n`Lib.PadicComparison.Primitive.ComparisonTheorem`\
+        \ for sources.\n"
+  Lib.Cohomology.Etale.FilteredLimits:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Etale.FilteredLimits
+      name: New.Variety.IsCohomContinuous.of_hasCohomDenseImage
+      line: 843
+      signature: "lemma IsCohomContinuous.of_hasCohomDenseImage {T : CommRingCat} {q : reprBy T ⟶ Y}\n    (hq_rep\
+        \ : IsRelAffine (X"
+    routeToMain:
+    - module: Lib.Cohomology.Etale.FilteredLimits
+      importer: Lib.Cohomology.ProperBaseChange.PlaceSpace
+      line: 1
+    - module: Lib.Cohomology.ProperBaseChange.PlaceSpace
+      importer: Lib.General.Geometry.PointsOfProperSchemes
+      line: 1
+    - module: Lib.General.Geometry.PointsOfProperSchemes
+      importer: Lib.Shimura.AbelianScheme.TangentCoordinates
+      line: 1
+    - module: Lib.Shimura.AbelianScheme.TangentCoordinates
+      importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      line: 4
+    - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 3
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Etale/FilteredLimits.lean
+      line: 6
+      endLine: 11
+      text: 'The cohomology of a set-valued functor `Y` on rings is Hⁿ(Y) = Extⁿ(ℤ[Y], F). Here ℤ[Y] is the free
+
+        abelian group functor, and h_A = Hom(A, −) is the functor represented by `A`. The question is when
+
+        Hⁿ turns a cofiltered limit of functors into a filtered colimit of groups. Cohomology is computed on
+
+        test rings, with coefficients the locally constant functions to an abelian group Λ. Test rings have
+
+        no higher cohomology, and their cohomology commutes with filtered colimits. Relatively affine maps
+
+        are maps whose pull-backs to representable functors are representable.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/Etale/FilteredLimits.lean
+      line: 12
+      endLine: 51
+      text: "\n## Main definitions and results\n\n* `New.Variety.ContinuousUpTo`: for a cone `c` over a cofiltered\
+        \ diagram `D` of set-valued functors,\n  the maps colim_j Hⁿ(D j) → Hⁿ(c.pt) satisfy the first `r` conditions\
+        \ of\n  `New.Variety.BijectiveUpTo`.\n* `New.Variety.ContinuousUpTo.of_cech`: the property descends along\
+        \ covers, by\n  `New.Variety.cech_descent_step`.\n* `New.Variety.continuousUpTo_locConstCoeff`: the cohomology\
+        \ of test rings, with locally constant\n  coefficients, commutes with filtered colimits.\n* `New.Variety.Envelope.exists_natTrans_isTest_and_factors`:\
+        \ a functorial map θ : A → E(A) to a test\n  ring through which, for A in a given family, every map to a\
+        \ test ring factors.\n* `New.Variety.IsCohomContinuous`: continuity over X, for coefficients Λ. On a filtered\
+        \ inverse\n  system of functors affine over X, the cohomology of the limit is the colimit of the cohomologies.\n\
+        \  `New.Variety.IsCohomContinuous.of_isRelAffine` passes it to functors affine over X.\n* `New.Variety.IsCohomContinuous.of_hasCohomDenseImage`:\
+        \ continuity holds over Y if a representable\n  functor h_T maps to Y by a map that is affine and has dense\
+        \ image.\n\nNotions from other files:\n* `New.Variety.IsTest`: A is a test ring: reduced, absolutely integrally\
+        \ closed, and any a, b admit\n  an idempotent e with a ∣ eb and b ∣ (1 − e)a. `New.Variety.TestRing` is\
+        \ their category.\n* `New.Variety.IsCover`: p: E → Y is a cover for F: the inclusion of the image of p in\
+        \ Y induces\n  bijections on Ext^n(Z[−],F) for all n.\n* `New.Variety.locConstCoeff`: For an abelian group\
+        \ Λ, the coefficient functor on test rings sending\n  A to the group of locally constant functions Spec\
+        \ A → Λ.\n* `New.Variety.BijectiveUpTo`: for maps f_n : A_n → B_n, the first r of the conditions f₀\n  injective,\
+        \ f₀ surjective, f₁ injective, f₁ surjective, and so on.\n\n## Relation to the literature\n\nKnown result:\
+        \ Descent of torsion étale cohomology along v-covers, with excision, transfer and\nlimits. Here cohomology\
+        \ is defined as Ext of presheaves on test rings. The local rings of a test\nring are valuation rings of\
+        \ algebraically closed fields. Descent, excision, transfer and limits are\nproved from this definition,\
+        \ while equality with étale cohomology is neither proved nor used.\nSource: Scholze, Berkovich Motives,\
+        \ arXiv 2412.03382 (2024), Thm 4.1 and Lemmas 4.7, 4.8 (descent\nand limits from finitary functors on test\
+        \ rings); Bhatt, Mathew, The arc-topology, Duke Math. J. 170\n(2021), Prop 5.2, Thm 5.4; Stacks project,\
+        \ Tag 09YQ; Scholze, Étale cohomology of diamonds,\n7.15-7.16.\n\nSee also `Lib.Cohomology.ProperBaseChange.Theorem`.\n"
+  Lib.Cohomology.Etale.ProperFunctors:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Etale.ProperFunctors
+      name: New.Variety.ellAdicCohom.transfer
+      line: 961
+      signature: "lemma New.Variety.ellAdicCohom.transfer {R : CommRingCat} [Algebra R.carrier Ω]\n    {W Y : Over\
+        \ (Spec R)} {c : W ⟶ Y} {Δ : FiniteGrp.{0}} {a : Δ.toGrp →* End W} [IsProper W.hom]\n    [IsProper Y.hom]\
+        \ (h : IsGaloisCovering c a) (ℓ : ℕ) [ThePrime ℓ] (n : ℕ) :\n    Function.Injective ((ellAdicCohom (ℓ"
+    routeToMain:
+    - module: Lib.Cohomology.Etale.ProperFunctors
+      importer: Lib.Cohomology.ProperBaseChange.Theorem
+      line: 1
+    - module: Lib.Cohomology.ProperBaseChange.Theorem
+      importer: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      line: 2
+    - module: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 3
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Etale/ProperFunctors.lean
+      line: 9
+      endLine: 20
+      text: "This file studies the cohomology `Hⁿ(Y) = Extⁿ(ℤ[Y], F)` of set-valued functors `Y` on rings,\ncomputed\
+        \ on test rings, with `F = New.Variety.locConstCoeff Λ` the locally constant `Λ`-valued\nfunctions. Two\
+        \ criteria for density, for affine maps and for finitely many affine subfunctors, are\ntested on points\
+        \ in valuation rings of algebraically closed fields.\n\n## Main definitions and results\n\n* `New.Variety.IsTestCohomEquiv.of_connected`:\
+        \ the local-to-global principle. A map\n  `u : X ⟶ Y` that induces isomorphisms on cohomology (`New.Variety.IsTestCohomEquiv`)\
+        \ over every\n  connected piece of `Y` induces them over `Y`. This needs `X` and `Y` cohomologically continuous\n\
+        \  (`New.Variety.IsCohomContinuous`). The pieces are loci `U a` of a zero-locus family `U` with\n  `U (span\
+        \ {e}) ⊔ U (span {1 - e})` dense for every idempotent `e`.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/Etale/ProperFunctors.lean
+      line: 21
+      endLine: 52
+      text: "* `New.Variety.IsRelAffine.hasCohomDenseImage_of_lifts`: an affine map that is onto on such points\n\
+        \  has dense image.\n* `New.Variety.IsCohomDense.of_affine_cover`: `U` is dense if each such point lies\
+        \ in one of\n  finitely many affine subfunctors whose points in test rings belong to `U`.\n* `New.Variety.IsProperOver.hasCohomDenseImage_of_surjective`:\
+        \ a map of proper functors, onto on\n  geometric points, has dense image (`New.Variety.IsCohomDense`) for\
+        \ locally constant coefficients\n  `New.Variety.locConstCoeff Λ`.\n* A density criterion for finitely many\
+        \ maps `P i : Y ⟶ Z` into a proper functor:\n  `New.Variety.IsProperOver.isCohomDense_of_coincidences`.\
+        \ It is\n  `New.Variety.IsCohomDense.of_affine_cover` for the closed loci on which prescribed pairs of the\n\
+        \  maps agree.\n* `New.Variety.ellAdicCohom.transfer`: let `c : W ⟶ Y` be a Galois covering of proper schemes\
+        \ with\n  finite group `Δ`. Then the `ℓ`-adic cohomology of `Y` embeds in that of `W` and reaches all\n\
+        \  `Δ`-invariant classes.\n\nNotions from other files:\n* `New.Variety.IsRelAffine`: The property of a map\
+        \ X → Y of set-valued functors on rings that its\n  pull-back along every point h_A → Y is representable,\
+        \ of the form h_B → h_A.\n* `New.Variety.IsCohomDense`: The subfunctor U of Y is dense for F: for every\
+        \ point h_A → Y, the\n  inclusion of the preimage of U in h_A is an equivalence for F.\n* `New.Variety.reprBy`:\
+        \ The functor h_A = Hom(A,−) represented by the object A.\n* `New.Variety.IsTest`: a test ring A is reduced\
+        \ and absolutely integrally closed, and any a, b ∈ A\n  admit an idempotent e with a ∣ eb and b ∣ (1 − e)a.\n\
+        * `New.Variety.IsProperOver`: The functor Z on rings is proper over D: its diagonal is closed, and\n  it\
+        \ satisfies a valuative criterion for valuation rings of algebraically closed fields.\n* `New.Variety.locConstCoeff`:\
+        \ For an abelian group Λ, the coefficient functor on test rings sending\n  A to the group of locally constant\
+        \ functions Spec A → Λ.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Etale.FilteredLimits`\
+        \ and `Lib.Cohomology.ProperBaseChange.Theorem` for\nsources.\n"
+  Lib.Cohomology.Etale.RelativeChains:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Etale.RelativeChains
+      name: New.Variety.relFreeAb.exists_glued_class
+      line: 459
+      signature: "lemma relFreeAb.exists_glued_class {r : ℕ} {F : AbFunctor C} {d : ℕ} (S : Set (Subfunctor V))\n\
+        \    (hS : InfClosed S)\n    (h_vanish : ∀ A ∈ S, ∀ n < d, Subsingleton (H (relFreeAb (U.preimage A.ι))\
+        \ F n))\n    (W : Fin r → Subfunctor V) (hW : ∀ i : Fin r, W i ∈ S) (hd : IsCohomDense F (iSup W ⊔ U))\n\
+        \    (x : ∀ i : Fin r, H (relFreeAb (U.preimage (W i).ι)) F d)\n    (hx : ∀ i j : Fin r,\n      H.map F\
+        \ (restrict U inf_le_left) d (x i) = H.map F (restrict U inf_le_right) d (x j)) :\n    ∃ y : H (relFreeAb\
+        \ U) F d, ∀ i : Fin r, H.map F (map (W i).ι le_rfl) d y = x i"
+    routeToMain:
+    - module: Lib.Cohomology.Etale.RelativeChains
+      importer: Lib.Cohomology.TorsionTheories
+      line: 2
+    - module: Lib.Cohomology.TorsionTheories
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 1
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Etale/RelativeChains.lean
+      line: 7
+      endLine: 14
+      text: 'This file provides tools for computing the groups Ext^n(N, F) (`New.Variety.H`) of functors from a
+
+        category C to abelian groups. For a subfunctor U of a set-valued functor V,
+
+        `New.Variety.relFreeAb U` is the quotient ℤ[V]/ℤ[U] of free abelian groups (`New.Variety.freeAb`).
+
+        Its Ext^n into F is the relative cohomology H^n(V, U). A map is an equivalence for F
+
+        (`New.Variety.IsCohomEquiv`) if it is bijective on all Ext^n(·, F). A subfunctor U of Y is dense
+
+        (`New.Variety.IsCohomDense`) if over every point h_A → Y its preimage gives an equivalence; with
+
+        these notions the file proves vanishing for locally zero functors, transfer, excision and gluing of
+
+        relative classes over finite covers.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/Etale/RelativeChains.lean
+      line: 15
+      endLine: 39
+      text: "\n## Main definitions and results\n\n* `New.Variety.cohomology_eq_zero_of_locallyZero`, `New.Variety.isCohomEquiv_of_locallyZero`:\
+        \ a\n  functor whose sections all die on dense sieves has no cohomology, so a map with such a kernel and\n\
+        \  cokernel is an equivalence.\n* `New.Variety.exists_transfer_map`: the transfer attached to finitely many\
+        \ locally permuted maps\n  (`New.Variety.permutedPairs`: the pairs on which they are permuted).\n* `New.Variety.relFreeAb.shortExact_triple`,\
+        \ `New.Variety.relFreeAb.isCohomEquiv_of_le`,\n  `New.Variety.relFreeAb.excision`: the exact sequence of\
+        \ a monomorphism, invariance under enlarging\n  U′ to U when U′ is dense in U, and excision.\n* `New.Variety.relFreeAb.exists_glued_class`:\
+        \ in the lowest degree where it may be nonzero, relative\n  cohomology glues over a finite cover (a Mayer–Vietoris\
+        \ induction).\n* `New.Variety.relFreeAb.prod`: the map of pairs that gives exterior products of relative\
+        \ classes.\n\nNotions from other files:\n* `New.Variety.isCohomEquiv_iff_subsingleton`, `New.Variety.isCohomEquiv_quotient_of_acyclic`:\
+        \ for\n  0 → X₁ → X₂ → X₃ → 0 short exact, X₁ → X₂ is an equivalence for F exactly when all Ext^n(X₃, F)\n\
+        \  vanish, and X₂ → X₃ is one when all Ext^n(X₁, F) vanish.\n* `New.Variety.pointMap`: The map h_A → Y from\
+        \ h_A = Hom(A,−) corresponding to a point y of Y(A) by\n  the Yoneda lemma.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.Cohomology.Etale.FilteredLimits` for sources.\n"
+  Lib.Cohomology.Hodge.CupProduct:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Hodge.CupProduct
+      name: New.Variety.Comparison.pull_cup
+      line: 533
+      signature: "lemma Comparison.pull_cup {F : AbFunctor C} {a b n : ℕ} {A : Type _} [Category A]\n    {N N' :\
+        \ AbFunctor A} {Θ : C ⥤ A} {Θ' : C' ⥤ A} {F' : AbFunctor C'} {c : Comparison F F'}\n    {η : Θ' ⟶ c.functor\
+        \ ⋙ Θ} [HasFlatValues F] [HasFlatValues F'] [HasFlatValues N]\n    {μ : (abTensor.obj F).obj F ⟶ F} {μ'\
+        \ : (abTensor.obj F').obj F' ⟶ F'} (hμ :\n      (abTensor.map c.coeffHom).app (c.functor ⋙ F) ≫ (abTensor.obj\
+        \ F').map c.coeffHom ≫ μ' =\n        c.functor.whiskerLeft μ ≫ c.coeffHom)\n    (x : H (Θ ⋙ N) F a) (y :\
+        \ H (Θ ⋙ N') F b) (h : b + a = n) :\n    c.pull (whiskerRight η ((abTensor.obj N).obj N')) n (cup μ x y\
+        \ h :) =\n      cup μ' (c.pull (whiskerRight η N) a x) (c.pull (whiskerRight η N') b y) h"
+    routeToMain:
+    - module: Lib.Cohomology.Hodge.CupProduct
+      importer: Lib.Cohomology.Etale.RelativeChains
+      line: 2
+    - module: Lib.Cohomology.Etale.RelativeChains
+      importer: Lib.Cohomology.TorsionTheories
+      line: 2
+    - module: Lib.Cohomology.TorsionTheories
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 1
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Hodge/CupProduct.lean
+      line: 6
+      endLine: 13
+      startOffset: 148
+      endOffset: 626
+      text: "Products in the cohomology `New.Variety.H N F n = Ext^n(N, F)` of functors from `C` to abelian\ngroups\
+        \ (`New.Variety.AbFunctor C`).\n\n* `New.Variety.abTensor`, `New.Variety.HasFlatValues`: the pointwise tensor\
+        \ product, exact for flat\n  values.\n* `New.Variety.TotalH`: the direct sum of all `Ext^n(N, F)`, with\
+        \ the Yoneda product\n  `New.Variety.TotalH.comp` and the action `New.Variety.TotalH.map` of exact functors\n\
+        \  (`IsExactFunctor`: sending exact sequences to exact sequences)."
+    remainder:
+      path: grh/src/Lib/Cohomology/Hodge/CupProduct.lean
+      line: 13
+      endLine: 33
+      startOffset: 626
+      endOffset: 1784
+      text: " Pull-back and push-forward become\n  products with classes of degree zero, so degrees need no tracking.\n\
+        * `New.Variety.TotalH.exact_triangle`: the long exact sequence, as an exact triangle.\n* `New.Variety.cup`:\
+        \ the external product, natural in the spaces (`New.Variety.cup_map`) and in the\n  site (`New.Variety.Comparison.pull_cup`).\n\
+        \n`comp x y` is written in diagram order: `x` in `TotalH M N`, `y` in `TotalH N F`.\n\nNotions from other\
+        \ files:\n* `New.Variety.H.map`, `New.Variety.H.push`: the maps Ext^n(N,F) → Ext^n(N',F) and\n  Ext^n(N,F)\
+        \ → Ext^n(N,F') given by α: N' → N and β: F → F'.\n* `New.Variety.Comparison`: a comparison from F on C\
+        \ to F' on C' is a functor φ: C' → C with a\n  natural transformation β: F∘φ → F' (the field `coeffHom`).\n\
+        * `New.Variety.Comparison.pull`: for a comparison (φ,β) and α: N' → N∘φ, the homomorphism\n  Ext^n(N,F)\
+        \ → Ext^n(N',F') obtained by restricting along φ, pushing by β and pulling by α.\n* `New.Variety.restrictAlong`:\
+        \ for a functor φ: C' → C and a category D, the functor N ↦ N∘φ from\n  functors C → D to functors C' →\
+        \ D.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Hodge.FixedPointFormula` for sources.\n"
+    standaloneReview:
+      verdict: clear
+      reason: Identifies the cohomology products and the pointwise tensor and Yoneda constructions.
+  Lib.Cohomology.Hodge.DepthVanishing:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Hodge.DepthVanishing
+      name: New.Variety.hasZariskiDescent_hodgeCoeff
+      line: 320
+      signature: "lemma hasZariskiDescent_hodgeCoeff :\n    HasZariskiDescent (HodgeTest.sqZeroExt (k"
+    routeToMain:
+    - module: Lib.Cohomology.Hodge.DepthVanishing
+      importer: Lib.Cohomology.Hodge.Kunneth
+      line: 1
+    - module: Lib.Cohomology.Hodge.Kunneth
+      importer: Lib.Cohomology.Hodge.FixedPointFormula
+      line: 3
+    - module: Lib.Cohomology.Hodge.FixedPointFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 1
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Hodge/DepthVanishing.lean
+      line: 7
+      endLine: 12
+      text: "* `New.Variety.depth_vanishing`: the abstract induction on a regular sequence.\n* `New.Variety.DepthVanishing.subsingleton_of_isWeaklyRegular`:\
+        \ for a pair `c = (A, M)`, the\n  cohomology of `h_c` relative to the locus `New.Variety.someUnitLocus f`\
+        \ where some `f i` is a unit\n  vanishes below the depth of the ideal `(f)`.\n* `New.Variety.hodge_vanishing_along_diagonal`:\
+        \ on a chart with étale coordinates `x_1, …, x_{2d}`\n  and the ideal of the `x_i - x_{d+i}` (the diagonal),\
+        \ it vanishes in degrees below `d`.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/Hodge/DepthVanishing.lean
+      line: 13
+      endLine: 27
+      text: "* `New.Variety.isCohomEquiv_someUnitLocus_of_span_eq_top`,\n  `New.Variety.hasZariskiDescent_hodgeCoeff`:\
+        \ for the unit ideal it vanishes in all degrees, which\n  gives Zariski descent for Hodge cohomology.\n\n\
+        `New.Variety.H N F n` is `Ext^n(N, F)` in functors to abelian groups, `New.Variety.relFreeAb U` is\n`ℤ[V]\
+        \ / ℤ[U]` for `U ⊆ V`, and `New.Variety.hodgeCoeff` is the coefficient functor `(A, M) ↦ ⋀_A M`.\n\nNotions\
+        \ from other files:\n* `New.Variety.HodgeTest`: a test for Hodge cohomology over k, namely a commutative\
+        \ k-algebra A and\n  a finite index set ι, standing for the pair (A, M) with M = A^ι.\n* `New.Variety.reprBy`:\
+        \ the functor h_A = Hom(A,−) represented by the object A.\n\n## Relation to the literature\n\nKnown; see\
+        \ `Lib.Cohomology.Hodge.FixedPointFormula` for sources.\n"
+  Lib.Cohomology.Hodge.DiagonalClass:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Hodge.DiagonalClass
+      name: New.Variety.exists_diagonal_class
+      line: 245
+      signature: "lemma exists_diagonal_class [CharZero k] (hX : HasAtlas d X) :\n    ∃ δ : HodgeH (relFreeAb (offDiagonal\
+        \ X)) d,\n      ∀ (K : CommAlg k) (z : X.obj K), IsField K.carrier →\n        ∃ (a : EtaleChart d X) (O\
+        \ : Subfunctor (X ⊗ X)),\n          IsOpenSubfunctor O ∧\n          (z, z) ∈ O.obj K ∧\n          IsDiagonalSymbolOn\
+        \ δ a O"
+    routeToMain:
+    - module: Lib.Cohomology.Hodge.DiagonalClass
+      importer: Lib.Cohomology.Hodge.FixedPointFormula
+      line: 2
+    - module: Lib.Cohomology.Hodge.FixedPointFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 1
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Hodge/DiagonalClass.lean
+      line: 6
+      endLine: 11
+      text: "The class of the diagonal in Hodge cohomology, for a functor of points `X` on `k`-algebras.\n\n* `New.Variety.exists_diagonal_class`:\
+        \ if `k` has characteristic zero and `X` has an atlas of\n  dimension `d`, there is a class `δ` of degree\
+        \ `d` on `X × X` relative to the complement of the\n  diagonal that is, near the diagonal, the symbol `[df\
+        \ / f]` of the differences of chart\n  coordinates. It is glued from such symbols.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/Hodge/DiagonalClass.lean
+      line: 12
+      endLine: 39
+      text: "\n`New.Variety.HasAtlas d X`: `X` is separated and its field points lie in finitely many affine charts\n\
+        `New.Variety.EtaleChart d X` with `d` étale coordinates. `HodgeH (relFreeAb U) q` is Hodge\ncohomology relative\
+        \ to the subfunctor `U`. `New.Variety.IsLocalSymbol ξ y P g m` says three things:\n`g` cuts out `P` at the\
+        \ point `y`; `y` maps the part of `Spec R` off the preimage of `P` into `U`;\nand `ξ` pulls back along `y`\
+        \ to `m • [dg / g]`. Here `[dg / g]` is the pull-back of\n`New.Variety.symbolClass` along `g`. `P` is a\
+        \ predicate on points, not the subfunctor that `ξ` is\nrelative to; that subfunctor is the implicit `U`.\
+        \ For the diagonal class, `P` is the diagonal\n`x.1 = x.2`, while `δ` is relative to its complement.\n\n\
+        Notions from other files:\n* `New.Variety.CutsOutLocus`: The elements `f i` of `R` cut out the locus where\
+        \ the point `x` of\n  `X(R)` satisfies `P`: a map `α : R ⟶ C` kills every `f i` exactly when the image of\
+        \ `x` in `X(C)`\n  satisfies `P`.\n* `New.Variety.IsOpenSubfunctor`: V is an open subfunctor of X: each\
+        \ x ∈ X(A) has an ideal I of A\n  such that, for φ: A → B, φ(x) ∈ V(B) iff φ(I)B = B.\n* `New.Variety.EtaleChart`:\
+        \ A chart of X: a k-algebra R with finitely many étale coordinates and a\n  point y in X(R) that embeds\
+        \ Spec R as an open subfunctor, its `locus`.\n* `New.Variety.offDiagonal`: The complement of the diagonal\
+        \ in X × X: pairs of points whose values\n  in every field are distinct.\n* `New.Variety.relFreeAb`: For\
+        \ a subfunctor U of a set-valued functor V, the functor to abelian\n  groups ℤ[V]/ℤ[U].\n* `New.Variety.HodgeH`:\
+        \ Hodge cohomology: for a functor N from k-algebras to abelian groups, Ext^q\n  from (A, M) ↦ N(A ⊕ M) to\
+        \ (A, M) ↦ ⋀_A M, in functors on pairs.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Hodge.FixedPointFormula`\
+        \ for sources.\n"
+  Lib.Cohomology.Hodge.FixedPointFormula:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Hodge.FixedPointFormula
+      name: New.Variety.IsPointSum.cup_pointClass
+      line: 977
+      signature: "lemma New.Variety.IsPointSum.cup_pointClass {k : Type} [Field k] [CharZero k] {d : ℕ}\n    {X\
+        \ Y : CommAlg k ⥤ Type 1} [HasAtlas d X] [HasAtlas 1 Y] (z : (X ⊗ Y).obj (CommAlgCat.of k k)) :\n    HodgeH.map\
+        \ (freeAb.prod X Y)\n        (cup (exteriorAlg (k"
+    routeToMain:
+    - module: Lib.Cohomology.Hodge.FixedPointFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 1
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Hodge/FixedPointFormula.lean
+      line: 9
+      endLine: 16
+      startOffset: 237
+      endOffset: 983
+      text: 'Let `W`, `X` be functors from `k`-algebras to sets (`New.Variety.CommAlg k ⥤ Type 1`), standing for
+
+        schemes, and let `u c : W ⟶ X` be two maps. A coincidence is a point `x` of `W` with `c x = u x`.
+
+        The file proves the fixed point formula in Hodge cohomology `Hdg^d(W)`, that is
+
+        `HodgeH (freeAb.obj W) d`, computed on square-zero extensions `A ⊕ M`: a pulled-back diagonal class
+
+        is a sum of point classes `New.Variety.pointClass d w` over the coincidences, weighted by Jacobian
+
+        determinants. If `k` is algebraically closed, `X` is separated, every `k[ε]`-valued coincidence is
+
+        constant and finitely many charts of `W` contain all field-valued coincidences, then the
+
+        coincidences form a finite set of rational points, which carry these local terms.'
+    remainder:
+      path: grh/src/Lib/Cohomology/Hodge/FixedPointFormula.lean
+      line: 16
+      endLine: 68
+      startOffset: 983
+      endOffset: 4500
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.ConstIfCoincident`, `New.Variety.IsCoincidenceSet`:\
+        \ reduced coincidences, and a\n  finite set of rational points that lists them all.\n* `New.Variety.HasJacobianRatio`:\
+        \ the local term, the determinant of `(t du - dc) (du - dc)⁻¹`.\n* `New.Variety.IsTangentPoly.hasJacobianRatio_eval_div`:\
+        \ a tangent polynomial `P` with `P 1 ≠ 0`\n  gives this term as `P t / P 1`; by `New.Variety.IsTangentPoly.constIfCoincident`\
+        \ the coincidences\n  at that point are then reduced.\n* `New.Variety.scaledGraph`: the graph of `(u, c)`\
+        \ twisted by the scaling of `M` by `t` in the first\n  factor.\n* `New.Variety.exists_diagonal_local_terms`:\
+        \ the class `δ` of the diagonal, pulled back along this\n  twisted graph, is `∑ n w • pointClass d w` over\
+        \ the coincidences `w` of `u` and `c`, where `n w`\n  is the determinant of a matrix `N` with `t du - dc\
+        \ = N (du - dc)` at `w`\n  (`New.Variety.HasJacobianRatio`).\n* `New.Variety.IsPointSum.cup_pointClass`:\
+        \ the external product of the class of a point of `X` and\n  the class of a point of a curve is the class\
+        \ of the product point.\n\nNotions from other files:\n* `New.Variety.HodgeH`: Hodge cohomology: for a functor\
+        \ N from k-algebras to abelian groups, Ext^q\n  from (A, M) ↦ N(A ⊕ M) to (A, M) ↦ ⋀_A M, in functors on\
+        \ pairs.\n* `New.Variety.symbolClass`: The Grothendieck symbol [dT/T] in Hdg^d(\U0001D538^d, \U0001D538\
+        ^d ∖ 0); its pull-back\n  along a tuple f of functions is the symbol [df/f].\n* `New.Variety.IsPointSum`:\
+        \ A relative class has multiplicity n z at each z in s: on some chart\n  containing z it restricts to n\
+        \ z times the symbol [dg / g] of functions g that cut out z.\n* `New.Variety.IsTangentPoly`: at a point\
+        \ `y ∈ W(k)`, the tangent map `dc` on the tangent space of\n  dimension `d` is injective, `du = dc ∘ B`,\
+        \ and `P t = P 0 * det (1 - t B)`.\n* `New.Variety.HasAtlas`: X is separated and has finitely many charts,\
+        \ each with exactly d étale\n  coordinates, that contain every field-valued point.\n* `New.Variety.offPoints`:\
+        \ for a set s of k-points of X, the subfunctor of the points none of whose\n  values in fields comes from\
+        \ s.\n* `New.Variety.exteriorAlg`, `CategoryTheory.Functor.mulPairing`: the exterior algebra ⋀_A M of a\n\
+        \  pair (A, M), and the pairing given by its multiplication (the wedge product of coefficients in the\n\
+        \  cup product).\n* `New.Variety.freeAb.prod`: for set-valued functors X, Y, the map ℤ[X × Y] → ℤ[X] ⊗ ℤ[Y],\
+        \ [(x,\n  y)] ↦ [x] ⊗ [y].\n\n## Relation to the literature\n\nKnown result: the fixed point formula in\
+        \ Hodge cohomology, with local terms computed by\nGrothendieck symbols. Here the setting is characteristic\
+        \ 0 and smooth separated varieties with a\nfinite atlas, with cohomology taken as Ext of functors. The class\
+        \ of the diagonal and Künneth\nsurjectivity for X×X are not proved here; they come from `exists_diagonal_class`\
+        \ and `kunneth` in\nother files. Here the point classes are multiplied for a product with a curve, and the\
+        \ pull-back of\nthe diagonal class along reduced coincidences is given as a weighted sum of point classes.\
+        \ Source:\nStacks Project, tags 0BEC (Künneth) and 0G82 (Gysin maps); A. Chatzistamatiou, K. Rülling, Higher\n\
+        direct images of the structure sheaf in positive characteristic, Algebra & Number Theory 5 (2011)\n693-775,\
+        \ sections 2-3; V. Srinivas, Gysin maps and cycle classes for Hodge cohomology, Proc. Indian\nAcad. Sci.\
+        \ Math. Sci. 103 (1993) 209-247; Hartshorne, Residues and Duality (1966) III.9 for the\nsymbol.\n\nSee also\
+        \ `Lib.Cohomology.WoodsHole` and `Lib.Cohomology.PointClass.LinearIndependence`.\n"
+  Lib.Cohomology.Hodge.GrothendieckSymbol:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Hodge.GrothendieckSymbol
+      name: New.Variety.IsPointSum.map_eq_sum_pointClass
+      line: 1006
+      signature: "lemma IsPointSum.map_eq_sum_pointClass {s : Finset (X (CommAlgCat.of k k))}\n    {n : X.obj (CommAlgCat.of\
+        \ k k) → k} (h_mult : IsPointSum s n ξ) (hU : U = offPoints s) :\n    HodgeH.map (π U) ξ = ∑ z ∈ s, n z\
+        \ • pointClass d z"
+    routeToMain:
+    - module: Lib.Cohomology.Hodge.GrothendieckSymbol
+      importer: Lib.Cohomology.Hodge.DiagonalClass
+      line: 1
+    - module: Lib.Cohomology.Hodge.DiagonalClass
+      importer: Lib.Cohomology.Hodge.FixedPointFormula
+      line: 2
+    - module: Lib.Cohomology.Hodge.FixedPointFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 1
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Hodge/GrothendieckSymbol.lean
+      line: 8
+      endLine: 13
+      text: 'Let `k` be a field (of characteristic zero for `symbolClass_succ`). Spaces are functors `X` from
+
+        `k`-algebras to sets. `New.Variety.HodgeH (relFreeAb U) d` is the Hodge cohomology of `X` relative
+
+        to a subfunctor `U`, and `New.Variety.offPoints s` is the complement of a set `s` of `k`-points;
+
+        `ComesFromPoints s K x` says that `x ∈ X(K)` is the image of some `z ∈ s`. Grothendieck''s symbol
+
+        `New.Variety.symbolClass` is a class in the Hodge cohomology of affine d-space relative to the
+
+        complement of the origin. `[dg / g]` denotes its pull-back along a tuple of functions `g`.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/Hodge/GrothendieckSymbol.lean
+      line: 14
+      endLine: 50
+      text: "\n## Main definitions and results\n\n* `New.Variety.CutsOutLocus X P x f` says that the elements `f\
+        \ i` of `R` cut out the locus of\n  `Spec R` where the point `x` of `X(R)` satisfies `P`.\n* `New.Variety.symbolClass`:\
+        \ the class, given by the cocycle (v, l_1, …, l_d) ↦ det(l) · dT(v).\n* `New.Variety.symbolClass_transformation`:\
+        \ the transformation law between the pull-backs along two\n  tuples.\n* `New.Variety.symbolClass_succ`:\
+        \ the class in degree d + 1 restricts to the product of the classes\n  in degrees d and 1.\n* `New.Variety.IsPointSum`:\
+        \ near each `z ∈ s`, a relative class is `n z • [dg / g]` for functions\n  `g` that cut out `z`; `New.Variety.pointClass`\
+        \ is the image of a chosen class of multiplicity `1`.\n* `New.Variety.IsPointSum.map_eq_smul_pointClass`,\
+        \ `New.Variety.IsPointSum.map_eq_sum_pointClass`:\n  on a separated `X`, a class with support in a finite\
+        \ set `s` and multiplicities `n` maps to\n  `∑ z ∈ s, n z • pointClass d z`. The proof is by excision for\
+        \ one point and by Mayer–Vietoris for\n  several.\n\nNotions from other files:\n* `New.Variety.unimodular`:\
+        \ The subfunctor of affine d-space of vectors whose entries generate the\n  unit ideal.\n* `New.Variety.pointMap`:\
+        \ The map Hom(A, −) → Y given by a point y of Y(A) (Yoneda).\n* `New.Variety.IsSeparatedFunctor`: X is separated:\
+        \ for x, y in X(A) there is an ideal J of A such\n  that φ: A → B makes x and y equal exactly when φ kills\
+        \ J.\n* `New.Variety.HodgeTest`: a test for Hodge cohomology over k, namely a commutative k-algebra A and\n\
+        \  a finite index set ι, standing for the pair (A, M) with M = A^ι.\n* `New.Variety.HodgeTest.sqZeroExt`:\
+        \ The functor sending a pair (A, M) to the square-zero extension\n  A ⊕ M, as a k-algebra.\n* `New.Variety.hodgeCoeff`:\
+        \ The functor (A, M) ↦ ⋀_A M to abelian groups, the coefficients.\n* `New.Variety.EtaleChart`: A chart of\
+        \ X: a k-algebra R with finitely many étale coordinates and a\n  point of X(R) that embeds Spec R as an\
+        \ open subfunctor (its image is `a.locus`).\n* `New.Variety.HodgeH`: Hodge cohomology: for a functor N from\
+        \ k-algebras to abelian groups, Ext^q\n  from (A, M) ↦ N(A ⊕ M) to (A, M) ↦ ⋀_A M, in functors on pairs.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Hodge.FixedPointFormula` and\n`Lib.Cohomology.PointClass.LinearIndependence`\
+        \ for sources.\n"
+  Lib.Cohomology.Hodge.Kunneth:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Hodge.Kunneth
+      name: New.Variety.kunneth
+      line: 287
+      signature: "lemma kunneth {k : Type} [Field k] [CharZero k] {X : CommAlg k ⥤ Type 1} {d n : ℕ}\n    [hX :\
+        \ HasAtlas d X] (z : HodgeH (freeAb.obj (X ⊗ X)) n) :\n    z ∈ AddSubmonoid.closure\n      {w : HodgeH (freeAb.obj\
+        \ (X ⊗ X)) n |\n        ∃ (a b : ℕ) (e : b + a = n), ∃ (x : HodgeH (freeAb.obj X) a) (y : HodgeH (freeAb.obj\
+        \ X) b),\n          w = HodgeH.map (freeAb.prod X X) (cup (exteriorAlg (k"
+    routeToMain:
+    - module: Lib.Cohomology.Hodge.Kunneth
+      importer: Lib.Cohomology.Hodge.FixedPointFormula
+      line: 3
+    - module: Lib.Cohomology.Hodge.FixedPointFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 1
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Hodge/Kunneth.lean
+      line: 7
+      endLine: 15
+      text: "The Künneth formula for Hodge cohomology `New.Variety.HodgeH`, in the weak form that the fixed-point\n\
+        formula needs: cross products span.\n\n* `New.Variety.kunneth`: over a field of characteristic 0, if `X`\
+        \ has an atlas, every class on\n  `X × X` is a sum of cross products of classes on `X`.\n\nHodge cohomology\
+        \ is an Ext group in functors on pairs `(A, M)`, where `M` is a finite free\n`A`-module (`New.Variety.HodgeTest`).\
+        \ It is taken from `(A, M) ↦ ℤ[X(A ⊕ M)]` to the exterior\nalgebra `(A, M) ↦ ⋀ M` (`New.Variety.hodgeCoeff`).\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/Hodge/Kunneth.lean
+      line: 16
+      endLine: 36
+      text: "\nThe proof first treats a product of two represented functors through the Leray–Hirsch map. It then\n\
+        passes to the general case by dévissage in each factor.\n\nNotions from other files:\n* `CategoryTheory.Functor.mulPairing`:\
+        \ For a functor Φ to k-algebras with underlying functor F to\n  abelian groups, the pairing F ⊗ F → F given\
+        \ by multiplication.\n* `New.Variety.exteriorAlg`: The functor sending a pair (A, M) to the exterior algebra\
+        \ ⋀_A M, as a\n  k-algebra.\n* `New.Variety.lerayHirsch`: For an exact functor Φ and classes θ_i in Ext^{d_i}(ΦG,\
+        \ F), the map\n  w ↦ Σ θ_i∘Φ(w_i) from finitely supported families in total Ext(S, G) to total Ext(ΦS, F).\n\
+        * `New.Variety.freeAb`: The functor sending a set-valued functor Y to Z[Y], whose value at A is the\n  free\
+        \ abelian group on Y(A).\n* `New.Variety.abTensor`: The pointwise tensor product over ℤ of two functors\
+        \ from C to abelian\n  groups, as a bifunctor.\n* `New.Variety.H`, `New.Variety.TotalH`: The group Ext^n(N,\
+        \ F) in functors to abelian groups, and\n  the direct sum of these groups over n.\n\n## Relation to the\
+        \ literature\n\nKnown; see `Lib.Cohomology.Hodge.FixedPointFormula` for sources.\n"
+  Lib.Cohomology.Hodge.Site:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.Hodge.Site
+      name: New.Variety.EtaleChart.exists_univPoint
+      line: 387
+      signature: "lemma EtaleChart.exists_univPoint :\n    ∃ u : a.coordRing ⟶ HodgeTest.sqZeroExt ⟨a.coordRing,\
+        \ Fin d⟩,\n      LeftInverse fst u ∧\n        AllBijective fun c : HodgeTest k ↦\n          pointMap (Y"
+    routeToMain:
+    - module: Lib.Cohomology.Hodge.Site
+      importer: Lib.PadicComparison.HodgeTate.ExtCocycles
+      line: 1
+    - module: Lib.PadicComparison.HodgeTate.ExtCocycles
+      importer: Lib.Cohomology.TorsionTheories
+      line: 5
+    - module: Lib.Cohomology.TorsionTheories
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 1
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/Hodge/Site.lean
+      line: 7
+      endLine: 10
+      text: 'This file makes the pairs (A, M) of a k-algebra A and a free module M = A^ι
+
+        (`New.Variety.HodgeTest`) into a category and defines Hodge cohomology on it. A morphism is a
+
+        k-algebra map a together with an a-semilinear map of the modules. A functor of points N on
+
+        k-algebras is evaluated on the square-zero extension A ⊕ M, which sees tangent vectors.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/Hodge/Site.lean
+      line: 11
+      endLine: 36
+      text: "\n* `New.Variety.HodgeTest.sqZeroExt`, `New.Variety.exteriorAlg`: the functors (A, M) ↦ A ⊕ M\n  and\
+        \ (A, M) ↦ ⋀_A M.\n* `New.Variety.HodgeH`: Hodge cohomology, Ext^q from N(A ⊕ M) to ⋀_A M in functors on\
+        \ pairs, with\n  pull-back `New.Variety.HodgeH.map`, scaling `New.Variety.HodgeH.scale` and base change\n\
+        \  `New.Variety.HodgeH.baseChange`.\n* `New.Variety.HodgeTest.existsUnique_lift_away`: maps out of (A[1/g],\
+        \ A[1/g]^ι) are the maps\n  out of (A, A^ι) that invert g.\n* `New.Variety.EtaleChart.univPoint`, `New.Variety.EtaleChart.exists_univPoint`:\
+        \ for a chart with\n  ring R and d étale coordinates, the point through which the pair (R, R^d) represents\n\
+        \  (A, M) ↦ Hom(R, A ⊕ M).\n\nNotions from other files:\n* `New.Variety.HodgeTest`: a pair (A, M) as above,\
+        \ given by A and a finite ordered index set ι.\n* `New.Variety.moduleCoeff`: a functor F from C to k-modules,\
+        \ regarded as a functor to abelian\n  groups, so that it can serve as the coefficients of cohomology.\n\
+        * `New.Variety.Comparison`: a functor φ : C' ⥤ C with a map φ ⋙ F ⟶ F' of coefficients; its `pull`\n  along\
+        \ α : N' ⟶ φ ⋙ N maps Ext^n(N, F) to Ext^n(N', F').\n* `New.Variety.EtaleChart`: a chart of X: a k-algebra\
+        \ R with finitely many étale coordinates and a\n  point y in X(R) that embeds Spec R as an open subfunctor.\n\
+        * `New.Variety.pointMap`: the map h_A → Y corresponding to a point y of Y(A) by the Yoneda lemma;\n  here\
+        \ h_A = `New.Variety.reprBy A` is the functor of maps out of A.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.Cohomology.Hodge.FixedPointFormula` for sources.\n"
+  Lib.Cohomology.LerayHirsch:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.LerayHirsch
+      name: New.Variety.lerayHirsch
+      line: 51
+      signature: 'def lerayHirsch (S : AbFunctor A) : (I →₀ TotalH S G) →ₗ[ℤ] TotalH (Φ S) F'
+    routeToMain:
+    - module: Lib.Cohomology.LerayHirsch
+      importer: Lib.Cohomology.TorsionTheories
+      line: 3
+    - module: Lib.Cohomology.TorsionTheories
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 1
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/LerayHirsch.lean
+      line: 6
+      endLine: 10
+      text: "A family θ of classes θ_i in Ext^{d_i}(Φ G, F), for an exact functor Φ, defines the Leray–Hirsch map\n\
+        w ↦ Σ Φ(w_i) · θ_i. The file shows that its bijectivity at S can be proved by dévissage in S.\n\n* `New.Variety.lerayHirsch`,\
+        \ `New.Variety.IsLerayHirschBasis`: the map, from finitely supported\n  families in Ext(S, G) to Ext(Φ S,\
+        \ F), and its bijectivity.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/LerayHirsch.lean
+      line: 11
+      endLine: 33
+      text: "* `New.Variety.isLerayHirschBasis_iff_allBijective_truncMap`: it is bijective iff its truncations to\n\
+        \  total degree below n all are.\n* `New.Variety.Devissage.allBijective_of_allBijective_sigma_reprBy`: from\
+        \ disjoint unions of\n  representable functors to all functors.\n* `New.Variety.isLerayHirschBasis_of_reprBy`:\
+        \ from representable functors to all functors, for\n  finitely many classes and Φ the restriction along\
+        \ a functor.\n\nNotions from other files:\n* `New.Variety.H`: The group Ext^n(N,F) in the category of functors\
+        \ from C to abelian groups;\n  `TotalH N F` is their direct sum over n, `x.toTotalH` is x placed in its\
+        \ degree, and\n  `mapThenComp Φ t x` is the Yoneda product t ∘ Φ(x).\n* `New.Variety.freeAb`: The functor\
+        \ sending a set-valued functor Y to ℤ[Y], whose value at A is the\n  free abelian group on Y(A).\n* `New.Variety.Devissage`:\
+        \ The five and four lemmas for a family of maps f_{N,n} : A N n → B N n,\n  indexed by functors N : D →\
+        \ Ab and degrees n, as for a map of contravariant δ-functors.\n\n## Relation to the literature\n\nKnown\
+        \ result: Leray–Hirsch theorem that a local basis of cohomology classes is a global basis. The\ntheorem\
+        \ is stated abstractly for Ext groups of functors and finitely many classes. It says that if\nthe Leray–Hirsch\
+        \ map is bijective on ℤ[h_c] for every representable functor h_c, then it is\nbijective on every functor.\
+        \ Source: Leray, Hirsch; Hatcher, Algebraic Topology, Thm 4D.1; SGA 5 VII\n(projective bundle formula).\n"
+  Lib.Cohomology.PointClass.LinearIndependence:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      name: New.Variety.linearIndepOn_hodgeTateMap_pointClass
+      line: 629
+      signature: "lemma New.Variety.linearIndepOn_hodgeTateMap_pointClass {p : ℕ} {k : Type} [Field k]\n    [EmbeddedInQpBar\
+        \ p k] [IsAlgClosed k] {R : CommRingCat} [Algebra R.carrier k]\n    {Y : Over (AlgebraicGeometry.Spec R)}\
+        \ {d : ℕ} [hX : HasAtlas d (algPointsOf k R Y)]\n    (hE : HasProjEmbedding Y.hom) :\n    LinearIndepOn\
+        \ k (hodgeTateMap d) (Set.range (pointClass (X"
+    routeToMain:
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/PointClass/LinearIndependence.lean
+      line: 6
+      endLine: 11
+      text: 'Let `k` be an algebraically closed field with a map to `Q̄_p`, and let `Y` be a projectively
+
+        embedded scheme whose points over `k`-algebras (`New.Variety.algPointsOf`; `PointsIn Y A` is the set
+
+        of points of `Y` with values in a `k`-algebra `A`, and `structureMap` is the map `k ⟶ A`) are
+
+        covered by charts with `d` étale coordinates (`New.Variety.HasAtlas`). The Hodge–Tate map
+
+        `New.Variety.hodgeTateMap d` sends the distinct classes of `k`-points of `Y` to linearly independent
+
+        elements.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/PointClass/LinearIndependence.lean
+      line: 12
+      endLine: 46
+      text: "\n* `New.Variety.linearIndepOn_hodgeTateMap_pointClass`: the main result.\n* `New.Variety.exists_map_separating_class`:\
+        \ for a `k`-point `z₀` and finitely many other points, a\n  map `j` to `Y` whose pull-back kills the classes\
+        \ that differ from that of `z₀` and keeps the\n  Hodge–Tate image of the class of `z₀` non-zero.\n\nThe\
+        \ map `j` is an open part of the graph of a linear projection of the component of `z₀` to\nprojective space,\
+        \ chosen by Noether normalisation (`New.Variety.exists_generic_chart`,\n`New.Variety.exists_etale_projection`).\
+        \ Over a suitable `k`-point `Q` of projective space the\nprojection is étale and its fibre consists of points\
+        \ with the class of `z₀`. Pull-back along the\nprojection is injective and the Hodge–Tate image of the class\
+        \ of `Q` is non-zero, so the Hodge–Tate\nimage of the class of `z₀` is non-zero too.\n\nNotions from other\
+        \ files:\n* `New.Variety.pointClass d z`: the class of the `k`-point `z` in the Hodge cohomology of degree\n\
+        \  `d`.\n* `New.Variety.IsCoordsWithUnit L x v`: `v` is a vector of homogeneous coordinates of the point\
+        \ `x`\n  for the embedding `L`, and some entry of `v` is a unit.\n* `New.Variety.CutsOutLocus.IsHomogeneousSolution\
+        \ k g v`: every homogeneous polynomial over `k` that\n  vanishes at `g` vanishes at `v`, that is, `v` lies\
+        \ on the cone cut out at `g`.\n* `New.Variety.CutsOutLocus.IsNoetherNormalization Λ g`: the values `evalForms\
+        \ Λ g` of the linear\n  forms `Λ j` satisfy no non-zero homogeneous relation, and the cone of `g` is integral\
+        \ over them.\n* `New.Variety.EtaleChart d X`: a `k`-algebra `c.coordRing` with `d` étale coordinates and\
+        \ a point\n  `c.point` of `X` with values in `c.coordRing`, whose images `c.locus` (the points\n  `X.map\
+        \ φ c.point`) make its spectrum an open subfunctor of `X`.\n\n## Relation to the literature\n\nKnown result:\
+        \ Hodge–Tate images of point classes are non-zero and detect degrees of zero-cycles.\nThis file proves only\
+        \ that the Hodge–Tate images of the distinct point classes are linearly\nindependent, without duality or\
+        \ a trace map. Non-vanishing on projective space is imported\n(`New.Variety.projSpace.hodgeTateMap_pointClass_ne_zero`)\
+        \ and carried to a smooth projective variety\nby transfer along a finite linear projection. Source: Faltings,\
+        \ p-adic Hodge theory, JAMS 1 (1988)\n(compatibility with traces and cycle classes); for transfer, Suslin–Voevodsky,\
+        \ Singular homology of\nabstract algebraic varieties, Invent. Math. 123 (1996), §§4–6.\n"
+  Lib.Cohomology.PointClass.NoetherNormalization:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.PointClass.NoetherNormalization
+      name: New.Variety.IsCoordsWithUnit.exists_mem_open_of_isUnit
+      line: 788
+      signature: "lemma IsCoordsWithUnit.exists_mem_open_of_isUnit (hξ : IsCoordsWithUnit L ξ g)\n    {V : Subfunctor\
+        \ (algPointsOf k R Y)} (hV : IsOpenSubfunctor V) (hξV : ξ ∈ V (of k F)) :\n    ∃ b : MvPolynomial ι k,\n\
+        \      aeval g b ≠ 0 ∧\n      ∀ {C : CommAlg k} {w : ι → C},\n        CutsOutLocus.IsHomogeneousSolution\
+        \ k g w →\n        IsUnit (aeval w b) →\n        ∃ z ∈ V C, IsCoordsWithUnit L z w"
+    routeToMain:
+    - module: Lib.Cohomology.PointClass.NoetherNormalization
+      importer: Lib.Cohomology.PointClass.ProjectiveSpace
+      line: 1
+    - module: Lib.Cohomology.PointClass.ProjectiveSpace
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 2
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/PointClass/NoetherNormalization.lean
+      line: 9
+      endLine: 18
+      text: "Let k be a field. For a tuple `g : ι → L`, `New.Variety.CutsOutLocus.IsHomogeneousSolution k g w`\n\
+        says that every homogeneous polynomial over k that vanishes at g also vanishes at w. The file proves\nprojective\
+        \ Noether normalisation by linear forms in characteristic zero and constructs its Galois\nclosure.\n\n##\
+        \ Main definitions and results\n\n* `New.Variety.CutsOutLocus.IsNoetherNormalization Λ g`: the linear forms\
+        \ `Λ₀, …, Λ_d` are a Noether\n  normalisation of the cone, that is, their values at `g` are independent\
+        \ and the cone is integral\n  over them.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/PointClass/NoetherNormalization.lean
+      line: 19
+      endLine: 40
+      text: "* `New.Variety.CutsOutLocus.exists_isNoetherNormalization`: such forms exist for a non-zero finite\n\
+        \  tuple `g` over a field `k` of characteristic zero.\n* `New.Variety.CutsOutLocus.IsNoetherNormalization.GaloisClosure`,\n\
+        \  `New.Variety.CutsOutLocus.IsNoetherNormalization.nonempty_galoisClosure`: the Galois closure of\n  the\
+        \ normalisation, a finite algebra `B` over `k[X₀, …, X_d]` with points `b σ` of the cone,\n  indexed by\
+        \ a finite group.\n* `New.Variety.IsCoordsWithUnit.exists_universal_chart`,\n  `New.Variety.IsCoordsWithUnit.exists_mem_open_of_isUnit`:\
+        \ a point ξ over a field F with\n  coordinates g spreads out and specialises to the vectors w with w i (resp.\
+        \ aeval w b) a unit that\n  satisfy the homogeneous relations of g.\n* `New.Variety.IsCoordsWithUnit.exists_app_eq_algebraMap_of_isHomogeneousSolution`:\
+        \ over an\n  algebraically closed k, a global function takes one constant value on all such specialisations.\n\
+        \nNotions from other files:\n* `New.LineBundle.IsHomogeneousCoords`: v is a vector of homogeneous coordinates\
+        \ of the point t for\n  L: t lands in U_j exactly when v_j is a unit, and then g_jk(t) = v_k/v_j.\n* `New.Variety.IsOpenSubfunctor`:\
+        \ V is an open subfunctor of X: each x ∈ X(A) has an ideal I of A\n  such that, for φ: A → B, φ(x) ∈ V(B)\
+        \ iff φ(I)B = B.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.PointClass.LinearIndependence`\
+        \ for sources.\n"
+  Lib.Cohomology.PointClass.ProjectiveNonvanishing:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      name: New.Variety.projSpace.hodgeTateMap_pointClass_ne_zero
+      line: 871
+      signature: "lemma New.Variety.projSpace.hodgeTateMap_pointClass_ne_zero {p : ℕ} {k : Type} [Field k]\n   \
+        \ [EmbeddedInQpBar p k] {d : ℕ} (z : (projSpace k d).obj (of k k)) :\n    hodgeTateMap d (pointClass d z)\
+        \ ≠ 0"
+    routeToMain:
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/PointClass/ProjectiveNonvanishing.lean
+      line: 9
+      endLine: 16
+      text: "Let `k` be a field with an embedding in `ℚ̄_p`, and let `λ_h = New.Variety.hodgeTateMap h` be the\n\
+        Hodge–Tate map of weight `h`, from Hodge cohomology to `p`-adic cohomology. We compute `λ₁` of the\nsymbol\
+        \ `[dT / T]` of the pair `(\U0001D538¹, \U0001D538¹ ∖ 0)` through the extension `0 → T → Bˣ → Tˣ → 0`.\n\
+        \n## Main definitions and results\n\n* `New.Variety.thickeningOver.oneSubMu`, `New.Variety.thickeningOver.shortExact_oneSubMu`:\
+        \ the short\n  exact sequence `0 → T → Bˣ → Tˣ → 0` whose first map is `t ↦ 1 - μ t`.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/PointClass/ProjectiveNonvanishing.lean
+      line: 17
+      endLine: 43
+      text: "* `New.Variety.hodgeTateMap_symbolClass`: the image of `[dT / T]` comes from the product of the\n \
+        \ boundary class of the pair with the class of this extension.\n* `New.Variety.projSpace.exists_hodgeTateMap_pointClass_line`:\
+        \ `λ₁` of the class of `[1 : 0]` in\n  `ℙ¹` comes from a degree-two class `η` on `p`-adic tests such that\
+        \ `x ↦ x × η` is injective on\n  functors with flat values.\n* `New.Variety.projSpace.hodgeTateMap_pointClass_ne_zero`:\
+        \ the class of a point of `ℙ^d` has a\n  nonzero image under the Hodge–Tate map of weight `d`.\n\nNotions\
+        \ from other files:\n* `New.Variety.PadicTest`: a `p`-adic test, a non-empty family of cells (`New.Variety.IsCell`)\
+        \ with\n  a ring map from `O_C` to their product; `R` denotes its ring.\n* `New.Variety.thickeningOver`:\
+        \ the functor sending a `p`-adic test with ring `R` to the `k`-algebra\n  `B = W(R♭)[1/p] / (ker θ)²`. `New.Variety.genericOver`\
+        \ sends it to `T = R[1/p]`, and\n  `New.Variety.thickeningOver.proj : B → T` is the projection; its kernel\
+        \ is `μ T`, `μ = [ε] - 1`.\n* `New.Variety.hodgeTateMap`: `λ_h` sends a Hodge class to a class on Hodge–Tate\
+        \ pairs (a `p`-adic\n  test with a finite free module `M` over `T`). It restricts along `B ×_T (T ⊕ M) →\
+        \ T ⊕ M`, applies\n  the `h`-th power of the contraction class, and projects `⋀M` to degree zero.\n  `New.Variety.restrictToPairs`\
+        \ maps cohomology on `p`-adic tests to the same target.\n* `New.Variety.symbolClass`: the class `[dT / T]`\
+        \ in the Hodge cohomology of the pair\n  `(\U0001D538^d, \U0001D538^d ∖ 0)`.\n* `New.Variety.pointClass`:\
+        \ the class of a `k`-point `z` in Hodge cohomology of degree `d`, the\n  image of a chosen class with support\
+        \ `z` and multiplicity `1` at `z`. Projective space\n  `New.Variety.projSpace k d` sends `A` to the unimodular\
+        \ vectors in `A ^ (d + 1)` modulo units.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.PointClass.LinearIndependence`\
+        \ for sources.\n"
+  Lib.Cohomology.PointClass.ProjectiveSpace:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.PointClass.ProjectiveSpace
+      name: New.Variety.CutsOutLocus.IsNoetherNormalization.pullback_injective
+      line: 547
+      signature: "lemma New.Variety.CutsOutLocus.IsNoetherNormalization.pullback_injective {p : ℕ} {k ι F : Type}\n\
+        \    [Field k] [EmbeddedInQpBar p k] [Field F] {R : CommRingCat} [Algebra R.carrier k] [Finite ι]\n    [Algebra\
+        \ k F] {g : ι → CommAlgCat.of k F} {d n : ℕ} {Y : Over (AlgebraicGeometry.Spec R)}\n    {Λ : Fin (d + 1)\
+        \ → ↥(homogeneousSubmodule ι k 1)} {L : LineBundle Y.left ι}\n    [Fact (L.IsProjEmbedding Y.hom)] {ξ :\
+        \ PointsIn Y (CommAlgCat.of k F)}\n    (hξ : IsCoordsWithUnit L ξ g) (hΛ : IsNoetherNormalization (k"
+    routeToMain:
+    - module: Lib.Cohomology.PointClass.ProjectiveSpace
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 2
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/PointClass/ProjectiveSpace.lean
+      line: 7
+      endLine: 14
+      text: "Projective space `ℙ^d` over a field `k` is defined as a functor on `k`-algebras. It is the test\nvariety\
+        \ on which the Hodge–Tate map is shown not to kill the class of a point.\n\n## Main definitions and results\n\
+        \n* `New.Variety.projSpace`: `A ↦` unimodular vectors in `A ^ (d + 1)` modulo units of `A`.\n* `New.Variety.projSpace.stdChart`,\
+        \ `New.Variety.projSpace.hasAtlas`: the `d + 1` standard charts\n  form an atlas.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/PointClass/ProjectiveSpace.lean
+      line: 15
+      endLine: 37
+      text: "* `New.Variety.projSpace.lineProductMap`: a map `ℙ^d × ℙ¹ → ℙ^(d+1)`, used for induction on the\n \
+        \ dimension; `New.Variety.projSpace.isUnit_mul_sum_of_mul_eq_zero` and\n  `New.Variety.projSpace.exists_eq_map_affinePoint_of_mul_eq_zero`\
+        \ describe the points where all\n  its coordinates but the first vanish.\n* `New.Variety.CutsOutLocus.IsNoetherNormalization.pullback_injective`:\
+        \ pull-back along the\n  projection to `ℙ^d` of a subfunctor of `Y × ℙ^d` that contains the graph of a Noether\n\
+        \  normalisation is injective on cohomology of `p`-adic tests.\n\nNotions from other files:\n* `New.Variety.unimodular`:\
+        \ the subfunctor of affine `d`-space of vectors whose entries generate\n  the unit ideal.\n* `New.Variety.IsCoordsWithUnit\
+        \ L x v`: `v` is a vector of homogeneous coordinates, for the line\n  bundle `L`, of the point `x` of `Y`,\
+        \ and some entry of `v` is a unit.\n* `New.Variety.CutsOutLocus.IsHomogeneousSolution k g v`: every homogeneous\
+        \ polynomial over `k` that\n  vanishes at `g` vanishes at `v`.\n* `New.Variety.CutsOutLocus.IsNoetherNormalization\
+        \ Λ g`: the values at `g` of the linear forms\n  `Λ 0, …, Λ d` satisfy no non-zero homogeneous relation,\
+        \ and the cone of `g` is integral over them.\n* `New.Variety.IsTest`: a test ring: reduced, absolutely integrally\
+        \ closed, and any `a`, `b`\n  admit an idempotent `e` with `a ∣ e * b` and `b ∣ (1 - e) * a`.\n\n## Relation\
+        \ to the literature\n\nKnown; see `Lib.Cohomology.PointClass.LinearIndependence` for sources.\n"
+  Lib.Cohomology.ProjectiveLine.ChernClass:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProjectiveLine.ChernClass
+      name: New.Variety.TorsionCoeff.tateAction_comm
+      line: 329
+      signature: "lemma TorsionCoeff.tateAction_comm :\n    mapThenComp (restrictAlong φ) T K.tateAction.toTotalH\
+        \ =\n      TotalH.comp (TotalH.map (abTensor.flip.obj (tateModule (φ ⋙ g))) T)\n        M'.tateAction.toTotalH"
+    routeToMain:
+    - module: Lib.Cohomology.ProjectiveLine.ChernClass
+      importer: Lib.PadicComparison.Duality.LineIntegration
+      line: 1
+    - module: Lib.PadicComparison.Duality.LineIntegration
+      importer: Lib.Cohomology.ProjectiveLine.ConstantLineFormula
+      line: 2
+    - module: Lib.Cohomology.ProjectiveLine.ConstantLineFormula
+      importer: Lib.Cohomology.SmoothBaseChange
+      line: 1
+    - module: Lib.Cohomology.SmoothBaseChange
+      importer: Lib.Shimura.CongruenceRelation.EichlerShimura
+      line: 1
+    - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+      importer: Lib.Shimura.Eigenspace
+      line: 4
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/ChernClass.lean
+      line: 6
+      endLine: 11
+      text: 'Let `g` be a functor from `C` to tests over a ring `A`, and let `ℓ` be a prime. The Tate module `𝕋`
+
+        of `G_m` along `g` sits in the Kummer sequence. When `A` is local and absolutely integrally closed
+
+        and `ℓ` is invertible in `A`, a section `ε` of `𝕋` makes `𝕋` act on every coefficient `M`
+
+        (`New.Variety.TorsionCoeff`: killed by `ℓ`, with Zariski descent). On the projective line `ℙ¹`, the
+
+        cocycle of `O(1)` and the Kummer class give the first Chern class `η ∈ H²(ℙ¹, 𝕋)`, and the
+
+        projective line formula `H(ℙ¹ × S) = H(S) ⊕ η H(S)` is stated as a property of a coefficient.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/ChernClass.lean
+      line: 12
+      endLine: 40
+      text: "\n## Main definitions and results\n\n* `New.Variety.shortExact_kummerSeq`: the Kummer sequence 0 →\
+        \ \U0001D54B → Hom(ℚ, G_m) → G_m → 0 is exact.\n* `New.Variety.tateGen`, `New.Variety.isCohomEquiv_tensorPoint_tateGen`:\
+        \ a section ε of \U0001D54B such that\n  S → S ⊗ \U0001D54B, x ↦ x ⊗ ε, is bijective on Ext(−, F) for S\
+        \ killed by ℓ and F with Zariski descent. Here\n  A is local and absolutely integrally closed, and the prime\
+        \ ℓ is invertible in A\n  (`New.Variety.InvertsPrime`).\n* `New.Variety.TorsionCoeff.tateAction`: the class\
+        \ in Ext⁰(M ⊗ \U0001D54B, M) inverse to x ↦ x ⊗ ε; it\n  commutes with all classes between coefficients\
+        \ (`New.Variety.TorsionCoeff.tateAction_comm`).\n* `New.Variety.TorsionCoeff.mulClass`: the product y ·\
+        \ ξ of a class y in M with a class ξ in \U0001D54B,\n  natural in M.\n* `New.Variety.etaClass`: the class\
+        \ `η ∈ H²(ℙ¹, \U0001D54B)`, the cocycle class times the Kummer class.\n* `New.Variety.TorsionCoeff.etaAt`,\
+        \ `New.Variety.TorsionCoeff.HasLineFormula`: product with `η`;\n  `H(ℙ¹ × S) = H(S) ⊕ η H(S)`.\n\nNotions\
+        \ from other files:\n* `New.Variety.IsTest`: a test ring A is reduced and absolutely integrally closed,\
+        \ and any a, b ∈ A\n  admit an idempotent e with a ∣ eb and b ∣ (1 − e)a.\n* `New.Variety.TestOver`: The\
+        \ category of tests over A: the full subcategory of commutative\n  A-algebras whose underlying rings are\
+        \ test rings.\n* `New.Variety.H`: The group Ext^n(N,F) in the category of functors from C to abelian groups.\n\
+        * `New.Variety.Cocycle`: A 1-cocycle from F to G: homomorphisms D(f): F(c) → G(d) for f: c → d with\n  D(gf)\
+        \ = G(g)D(f) + D(g)F(f). It defines an extension of F by G.\n\n## Relation to the literature\n\nKnown; see\
+        \ `Lib.Cohomology.ProjectiveLine.ConstantLineFormula` and\n`Lib.PadicComparison.Duality.GoodPairs` for sources.\n"
+  Lib.Cohomology.ProjectiveLine.ConstantLineFormula:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProjectiveLine.ConstantLineFormula
+      name: New.Variety.hasLineFormula_locallyConstant
+      line: 454
+      signature: "lemma hasLineFormula_locallyConstant {ℓ : ℕ} (A : Type) [CommRing A] [InvertsPrime A ℓ]\n    [PreValuationRing\
+        \ A] [Algebra A ℂ_[ℓ]] [FaithfulSMul A ℂ_[ℓ]] :\n    (Theory.locallyConstant (A"
+    routeToMain:
+    - module: Lib.Cohomology.ProjectiveLine.ConstantLineFormula
+      importer: Lib.Cohomology.SmoothBaseChange
+      line: 1
+    - module: Lib.Cohomology.SmoothBaseChange
+      importer: Lib.Shimura.CongruenceRelation.EichlerShimura
+      line: 1
+    - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+      importer: Lib.Shimura.Eigenspace
+      line: 4
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/ConstantLineFormula.lean
+      line: 7
+      endLine: 13
+      text: 'The projective line formula H(ℙ¹ × S) = H(S) ⊕ η H(S) (`New.Variety.TorsionCoeff.HasLineFormula`) is
+
+        proved for the theory `New.Variety.Theory.locallyConstant` of locally constant ℤ/ℓ-valued functions
+
+        on tests over an absolutely integrally closed valuation ring A, with ℓ invertible, that embeds into
+
+        ℂ_ℓ. Here H is total Ext of functors to abelian groups, η is the degree two class
+
+        `New.Variety.TorsionCoeff.cupClass`, and `New.Variety.lerayHirsch θ S` is the Leray–Hirsch map w ↦ Σ
+
+        θ_i · w_i of a family θ of classes; θ is a Leray–Hirsch basis at S
+
+        (`New.Variety.IsLerayHirschBasis`) when this map is bijective.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/ConstantLineFormula.lean
+      line: 14
+      endLine: 43
+      text: "\n* `New.Variety.isLerayHirschBasis_lineBasis_of_basis`: the formula over a flat S follows from any\n\
+        \  family θ that contains η and is a Leray–Hirsch basis over S and over S ⊗ ℤ[ℙ¹].\n* `New.Variety.hasLineFormula_of_lerayHirsch_ne_zero`:\
+        \ over a valuation ring A the formula holds as\n  soon as η acts non-trivially on the point for one coefficient\
+        \ whose tests lie over the generic\n  point of A.\n* `New.Variety.hasLineFormula_locallyConstant`: the formula\
+        \ for a valuation ring A with an injective\n  ring map to ℂ_ℓ.\n\nThe formula is reduced to algebraically\
+        \ closed fields k over A\n(`New.Variety.hasUniversalPoints_structurePt`), where a Künneth basis contains\
+        \ η unless η · 1 = 0.\nThat vanishing would spread to the generic point of A; the tilted theory of\n`New.Variety.hasLineFormula_tiltTheory`\
+        \ shows that it does not occur for A in ℂ_ℓ.\n\nNotions from other files:\n* `New.Variety.TestOver`: The\
+        \ category of tests over A: the commutative A-algebras that are reduced,\n  absolutely integrally closed,\
+        \ and in which any a, b admit an idempotent e with a ∣ eb and\n  b ∣ (1 − e)a.\n* `New.Variety.TorsionCoeff`:\
+        \ A coefficient along g: a functor to abelian groups, killed by ℓ, with\n  Zariski descent; a `New.Variety.Theory`\
+        \ is one that also behaves well on closed loci.\n* `New.Variety.projLine`: The projective line as a functor\
+        \ on rings; `New.Variety.onePointFunctor`\n  is the constant one-point functor and `New.Variety.reprBy A`\
+        \ the functor Hom(A, −).\n\n## Relation to the literature\n\nKnown result: the projective line formula for\
+        \ ℤ/ℓ coefficients, where the degree two class is the\nChern class of O(1) given by the Kummer sequence.\
+        \ Here the formula H(ℙ¹ × S) = H(S) ⊕ η H(S) is\nstated in Leray–Hirsch form for locally constant ℤ/ℓ coefficients\
+        \ on test rings; the tilted\ncoefficients serve only to show that η acts non-trivially. Source: SGA 4½ [Cycle];\
+        \ SGA 5\n(Jouanolou); Milne, Étale Cohomology; Scholze, p-adic Hodge theory for rigid-analytic varieties.\n"
+  Lib.Cohomology.ProjectiveLine.PerfectLine:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProjectiveLine.PerfectLine
+      name: New.Variety.PerfectLine.subsingleton_H_cokernel_gluing
+      line: 447
+      signature: "lemma subsingleton_H_cokernel_gluing {F : AbFunctor PadicTest}\n    (h_rep : ∀ c : PadicTest,\
+        \ IsCohomEquiv F (gluing (tensorLeft (tilt c))))\n    (S : AbFunctor PadicTest) [HasFlatValues S] :\n  \
+        \  ∀ n : ℕ, Subsingleton (H (abTensor S (Limits.cokernel (gluing (\U0001D7ED (CommAlg OFlat))))) F n)"
+    routeToMain:
+    - module: Lib.Cohomology.ProjectiveLine.PerfectLine
+      importer: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      line: 1
+    - module: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 3
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/PerfectLine.lean
+      line: 6
+      endLine: 10
+      text: "The perfect projective line on p-adic tests S is a model on which classes on ℙ¹ are computed. Its\n\
+        two discs are represented in the tilt S^♭ by O^♭[ℚ≥0], and its torus by O^♭[ℚ].\n\n* `New.Variety.PerfectLine.gluing`:\
+        \ the gluing map ℤ[torus ⊔ point] → ℤ[two discs]; it is injective\n  (a monomorphism). Its cokernel plays\
+        \ the role of the perfect line with the point ∞ killed.\n"
+    remainder:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/PerfectLine.lean
+      line: 11
+      endLine: 33
+      text: "* `New.Variety.PerfectLine.oneSub_comp_gluing`: the operators 1 − (T^s ↦ χ(s) T^s) commute with the\n\
+        \  gluing map.\n* `New.Variety.PerfectLine.isCohomEquiv_gluing_tilt`,\n  `New.Variety.PerfectLine.isCohomEquiv_gluing_generic`:\
+        \ over each test c the gluing map induces\n  bijections on cohomology. This holds for coefficients G(S^♭),\
+        \ where G is built from an O^♭-module\n  N and is assumed acyclic on perfect rings. It also holds for S[1/p].\n\
+        * `New.Variety.PerfectLine.subsingleton_H_cokernel_gluing`: then M ⊗ cokernel has no cohomology, for\n \
+        \ every M with flat values.\n\nIdea: all cohomology is in degree 0, where the map is the splitting of a\
+        \ Laurent polynomial into two\nparts according to the sign of the exponent. `New.Period.OFlat` is O^♭, the\
+        \ tilt of the ring of\nintegers O_C of ℂ_p.\n\nNotions from other files:\n* `New.Variety.PadicTest`: A p-adic\
+        \ test: a non-empty family of cells (`New.Variety.IsCell`) with a\n  ring map from O_C to their product.\n\
+        * `New.Variety.freeAb`: The functor sending a set-valued functor Y to Z[Y], whose value at A is the\n  free\
+        \ abelian group on Y(A). ℤ[Y] has flat base change (`HasFlatBaseChange`) when tensoring by a\n  flat module\
+        \ M commutes with its cohomology with module coefficients.\n\n## Relation to the literature\n\nKnown; see\
+        \ `Lib.Cohomology.ProjectiveLine.ConstantLineFormula` for sources.\n"
+  Lib.Cohomology.ProjectiveLine.TiltedLineFormula:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      name: New.Variety.hasLineFormula_tiltTheory
+      line: 1041
+      signature: "lemma hasLineFormula_tiltTheory (M : ModuleCat OFlat) [Algebra A ℂ_[ℓ]]\n    (h_acyclic_perfect\
+        \ : IsAcyclicOnPerfect (moduleCoeff (tensorCoeff M))) :\n    (tiltTheory A M h_acyclic_perfect).HasLineFormula"
+    routeToMain:
+    - module: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 3
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/TiltedLineFormula.lean
+      line: 7
+      endLine: 13
+      text: 'The first part works over the tests `New.Variety.TestOver A` with coefficients killed by `ℓ`. Here
+
+        `A` is an absolutely integrally closed local domain in which the prime `ℓ` is invertible (the
+
+        instance `New.Variety.InvertsPrime A ℓ`). The projective line formula
+
+        (`New.Variety.TorsionCoeff.HasLineFormula`) says that the classes 1 and η identify Ext(S,
+
+        F) ⊕ Ext(S, F) with Ext(S, F) taken over the category of points of ℙ¹; here η is
+
+        `New.Variety.TorsionCoeff.cupClass`, the product with `New.Variety.etaClass` at the tautological
+
+        point of ℙ¹.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/ProjectiveLine/TiltedLineFormula.lean
+      line: 14
+      endLine: 54
+      text: "\n## Main definitions and results\n\n* `New.Variety.isLerayHirschBasis_of_forall_isField`: bijectivity\
+        \ passes from the fields under a\n  test to the test, given `New.Variety.IsDetectedAtPoints` (zero sets\
+        \ of classes are open;\n  invariance under field extension).\n* `New.Variety.exists_isLerayHirschBasis_of_isCohomDense`:\
+        \ a basis exists on the special fibre\n  `New.Variety.IdealFamily.ofMaximalIdeal`.\n* `New.Variety.isDetectedAtPoints_projLine`:\
+        \ the locally constant `ℤ/ℓ`-valued functions on pairs\n  (test over `A`, point of ℙ¹) satisfy `New.Variety.IsDetectedAtPoints`.\n\
+        * `New.Variety.exists_isTodaCancellation`: from a square `δ' ≫ i = i ≫ δ` with `i` a monomorphism,\n  the\
+        \ product η of the classes of two short exact sequences is cancelled\n  (`New.Variety.IsTodaCancellation`):\
+        \ after an exact functor that makes the cokernel of `i` acyclic,\n  the product with a class ω is onto,\
+        \ and the pull-back of η m along `j` determines the pull-back of\n  m along `ε`.\n* `New.Variety.isLerayHirschBasis_lineBasis_of_injective`:\
+        \ two conditions on the product with η that\n  give the formula at S.\n* `New.Variety.hasLineFormula_tiltTheory`:\
+        \ the formula, from the cover of the perfect ℙ¹ by two\n  discs.\n\nNotions from other files:\n* `New.Variety.TestOver`:\
+        \ The category of tests over A: the full subcategory of commutative\n  A-algebras whose underlying rings\
+        \ are test rings.\n* `New.Variety.lerayHirsch`: For classes θ_i in Ext^{d_i}(ΦG, F), the Leray–Hirsch map\
+        \ w ↦ Σ\n  θ_i∘Φ(w_i) from finitely supported families in total Ext(S, G) to total Ext(ΦS, F);\n  `New.Variety.IsLerayHirschBasis`\
+        \ says that it is bijective.\n* `New.Variety.H`: The group Ext^n(N,F) in the category of functors from C\
+        \ to abelian groups.\n* `New.Variety.projLine`: The projective line as a functor on rings: B goes to the\
+        \ set of points\n  (1 + uv : v) with u, v in B, that is, pairs (u, v) modulo `New.Variety.projLineSetoid`.\n\
+        * `New.Variety.freeAb`: The functor sending a set-valued functor Y to ℤ[Y], whose value at A is the\n  free\
+        \ abelian group on Y(A).\n\n## Relation to the literature\n\nKnown result: Künneth formula over a field\
+        \ for mod-ℓ étale cohomology, in Leray–Hirsch form. It is\nproved here only over the special fibre of an\
+        \ absolutely integrally closed local domain. It states\nthat a basis of the cohomology over the residue\
+        \ field that contains a given non-zero class stays a\nbasis over every test ring of the special fibre. Source:\
+        \ SGA 4 XVII 5.4.3; Milne, Étale Cohomology\nVI.8.\n\nSee also `Lib.Cohomology.ProjectiveLine.ConstantLineFormula`.\n"
+  Lib.Cohomology.ProperBaseChange.LineCharts:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProperBaseChange.LineCharts
+      name: New.Variety.exists_eq_locConstSpec_map_sub_map
+      line: 589
+      signature: "lemma exists_eq_locConstSpec_map_sub_map (hts : (t * s : D) = 1)\n    (hD : ∀ x : D, IsIntegral\
+        \ A[(t : D), (s : D)] x)\n    [IsDomain A] [IsDomain D] {ℓ : ℕ} [ThePrime ℓ] (hℓ : IsUnit (ℓ : A))\n   \
+        \ [IsAbsIntegrallyClosed A] [IsAbsIntegrallyClosed B] [IsAbsIntegrallyClosed C]\n    (h_cases : (∃ a : A,\
+        \ algebraMap A B a * (1 - t) = 1 ∧ (algebraMap A C a - 1) * (s - 1) = 1 ∧\n      Away a B ∧ IsLineChartCase\
+        \ I a) ∨ IsAbsIntegrallyClosedLocal A)\n    (hI : ∀ {E : Type} [CommRing E] (ψ : A →+* E), ∀ x ∈ I.map ψ,\
+        \ ∃ i ∈ I, ψ i ∣ x)\n    {J : Ideal B} {L : Ideal C} {K : Ideal D} (hJ : I.map (algebraMap A B) = J)\n \
+        \   (hL : I.map (algebraMap A C) = L) (hK : I.map (algebraMap A D) = K)\n    (hJK : J ≤ K.comap (algebraMap\
+        \ B D)) (hLK : L ≤ K.comap (algebraMap C D))\n    (u : (locConstSpec ⟨ZMod ℓ⟩).obj (.of (D ⧸ K))) :\n  \
+        \  ∃ (a : (locConstSpec ⟨ZMod ℓ⟩).obj (.of (B ⧸ J)))\n      (b : (locConstSpec ⟨ZMod ℓ⟩).obj (.of (C ⧸ L))),\n\
+        \      u = (locConstSpec ⟨ZMod ℓ⟩).map (ofHom (J.quotientMap K (algebraMap B D) hJK)) a -\n        (locConstSpec\
+        \ ⟨ZMod ℓ⟩).map (ofHom (L.quotientMap K (algebraMap C D) hLK)) b"
+    routeToMain:
+    - module: Lib.Cohomology.ProperBaseChange.LineCharts
+      importer: Lib.Cohomology.ProperBaseChange.SubringSplitting
+      line: 1
+    - module: Lib.Cohomology.ProperBaseChange.SubringSplitting
+      importer: Lib.Cohomology.ProperBaseChange.Theorem
+      line: 3
+    - module: Lib.Cohomology.ProperBaseChange.Theorem
+      importer: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      line: 2
+    - module: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 3
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/LineCharts.lean
+      line: 7
+      endLine: 12
+      text: 'This file gives the commutative algebra behind a Mayer–Vietoris sequence of locally constant
+
+        `ZMod ℓ`-valued functions for two charts of a line. The setting is two charts `Spec B`, `Spec C`
+
+        over `A` with overlap `Spec D`, where `D = B[1 / t] = C[1 / s]`, `t * s = 1` in `D`, and `D` is
+
+        integral over `A[t, s]`. Everything is read modulo an ideal `I` of `A`. Under further hypotheses,
+
+        compatible clopens of the charts come from the base, and every locally constant function on the
+
+        overlap is a difference of functions from the charts.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/LineCharts.lean
+      line: 13
+      endLine: 33
+      text: "\n## Main definitions and results\n\n* `New.Variety.exists_eq_basicOpen_of_isClopen_of_preimage_eq`:\
+        \ compatible clopens of the charts\n  come from `A`, assuming every pair in `B × C` agreeing in `D` comes\
+        \ from `A` (`hA_onto`) and `hI`.\n* `New.Variety.exists_eq_locConstSpec_map_sub_map`: under further hypotheses\
+        \ (`A`, `D` domains; `ℓ`\n  prime and a unit in `A`; `A`, `B`, `C` absolutely integrally closed; `hI`; `h_cases`),\
+        \ every\n  locally constant `ZMod ℓ`-valued function on the overlap is a difference of functions from the\n\
+        \  charts.\n\nNotions from other files:\n* `New.Variety.IsAbsIntegrallyClosed`: A is absolutely integrally\
+        \ closed: every monic polynomial\n  over A of positive degree has a root in A.\n* `New.ThePrime`: `ThePrime\
+        \ ℓ` fixes the prime `ℓ` (it extends `Fact ℓ.Prime`).\n* `New.Variety.locConstSpec`: For an abelian group\
+        \ Λ, the functor on commutative rings sending A to\n  the group of locally constant functions Spec A → Λ;\
+        \ it sends a ring map to pull-back along the map\n  of spectra.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.Cohomology.ProperBaseChange.Theorem` for sources.\n"
+  Lib.Cohomology.ProperBaseChange.PlaceSpace:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProperBaseChange.PlaceSpace
+      name: New.Variety.ResiduePlace.placeSpace
+      line: 202
+      signature: "def placeSpace : PointFunctor where\n  obj C"
+    routeToMain:
+    - module: Lib.Cohomology.ProperBaseChange.PlaceSpace
+      importer: Lib.General.Geometry.PointsOfProperSchemes
+      line: 1
+    - module: Lib.General.Geometry.PointsOfProperSchemes
+      importer: Lib.Shimura.AbelianScheme.TangentCoordinates
+      line: 1
+    - module: Lib.Shimura.AbelianScheme.TangentCoordinates
+      importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      line: 4
+    - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 3
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/PlaceSpace.lean
+      line: 6
+      endLine: 11
+      text: 'Spaces are functors from rings to sets (`New.Variety.PointFunctor`). For `s : Z ⟶ reprBy D` and a
+
+        point `x ∈ Z(C)`, the ring map under `x` is `baseRingMap s x : D ⟶ C`. The space of places is a form
+
+        of the Riemann–Zariski space. It is used to cover a proper functor `Z` over `D`.
+
+
+        A place of a `D`-algebra `P` is a prime `q` of `P` together with a valuation ring of `κ(q)` over
+
+        `D`. For `α : D ⟶ P`, the ring `T = prodValuationRing α` is the product of these valuation rings.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/PlaceSpace.lean
+      line: 12
+      endLine: 28
+      text: "Each `t ∈ P` is a ratio `a t / b t` in it, with `a = numerator` and `b = denominator`. The space of\n\
+        places `W` of a valuative lift `z`, with `z.point ∈ Z(T)`, has as points over `C` the classes of\nmaps `f\
+        \ : T → C`. Two maps are identified if they give the same point `Z.map f z.point` of `Z(C)`\nand the same\
+        \ ratios `(f (a t) : f (b t))`.\n\n* `New.Variety.IsProperOver`: properness, as a closed diagonal and a\
+        \ valuative criterion.\n* `New.Variety.ResiduePlace.placeSpace`: the space of places `W`.\n* `New.Variety.ResiduePlace.exists_isLocalHom_eq_projHom_comp`:\
+        \ a point of `W` in a local ring comes\n  from one place.\n* `New.Variety.ResiduePlace.isProperOver_placeSpace`:\
+        \ the space of places is proper over `D`.\n\nNotions from other files:\n* `New.Variety.reprBy D`: the functor\
+        \ `Hom(D, −)` represented by `D`.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.ProperBaseChange.Theorem`\
+        \ for sources.\n"
+  Lib.Cohomology.ProperBaseChange.SubringSplitting:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProperBaseChange.SubringSplitting
+      name: New.Variety.absIntegrallyClosedSubrings.exists_isSplitting_isMayerVietorisExact
+      line: 458
+      signature: "lemma absIntegrallyClosedSubrings.exists_isSplitting_isMayerVietorisExact [IsAlgClosed K]\n  \
+        \  [PreValuationRing D] (hℓ : IsUnit (ℓ : D)) (B : absIntegrallyClosedSubrings γ)\n    (hB : ¬∀ x : K, x\
+        \ ∈ B.val ∨ x⁻¹ ∈ B.val) :\n    ∃ (B₁ B₂ B₃ : absIntegrallyClosedSubrings γ) (h_split : IsSplitting B B₁\
+        \ B₂ B₃),\n      IsMayerVietorisExact (quotientFunctor J γ ⋙ locConstSpec ⟨ZMod ℓ⟩)\n        h_split.lt_left.le\
+        \ h_split.lt_right.le h_split.left_le h_split.right_le"
+    routeToMain:
+    - module: Lib.Cohomology.ProperBaseChange.SubringSplitting
+      importer: Lib.Cohomology.ProperBaseChange.Theorem
+      line: 3
+    - module: Lib.Cohomology.ProperBaseChange.Theorem
+      importer: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      line: 2
+    - module: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 3
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/SubringSplitting.lean
+      line: 6
+      endLine: 10
+      text: 'This file gives a splitting step in an induction over the absolutely integrally closed subrings of
+
+        an algebraically closed field `K` that contain the image of `γ : D →+* K`. A subring `B` of this
+
+        kind that is not a valuation ring is replaced by the integral closures of `B[t]` and `B[1 / t]`,
+
+        as in the cover of a projective line by two charts. These two larger rings fit into a short exact
+
+        Mayer–Vietoris sequence of locally constant `ZMod ℓ`-valued functions on the spectra modulo `J`.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/SubringSplitting.lean
+      line: 11
+      endLine: 34
+      text: "\n## Main definitions and results\n\n* `New.Variety.absIntegrallyClosedSubrings`: the absolutely integrally\
+        \ closed subrings of `K`\n  containing the image of `γ`.\n* `New.Variety.absIntegrallyClosedSubrings.quotientFunctor`:\
+        \ the functor `B ↦ B / J B` on these\n  subrings.\n* `New.Variety.absIntegrallyClosedSubrings.exists_isSplitting_isMayerVietorisExact`:\
+        \ the two larger\n  rings and a short exact Mayer–Vietoris sequence of locally constant `ZMod ℓ`-valued\
+        \ functions on\n  the spectra modulo `J`.\n\nNotions from other files:\n* `New.Variety.IsAbsIntegrallyClosed`:\
+        \ A is absolutely integrally closed: every monic polynomial\n  over A of positive degree has a root in A.\n\
+        * `New.ThePrime`: `ThePrime ℓ` fixes the prime `ℓ` (it extends `Fact ℓ.Prime`).\n* `New.Variety.locConstSpec`:\
+        \ For an abelian group Λ, the functor on commutative rings sending A to\n  the group of locally constant\
+        \ functions Spec A → Λ; it sends a ring map to pull-back along the map\n  of spectra.\n* `New.Variety.IsLineChartCase`\
+        \ (in `Lib.Cohomology.ProperBaseChange.LineCharts`): the condition on\n  the chart `R[1 / a]` of a line\
+        \ modulo an ideal `I` of `R`.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.ProperBaseChange.Theorem`\
+        \ for sources.\n"
+  Lib.Cohomology.ProperBaseChange.Theorem:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.ProperBaseChange.Theorem
+      name: New.Variety.IdealFamily.isDetectedAtPoints_of_proper
+      line: 1119
+      signature: "lemma IdealFamily.isDetectedAtPoints_of_proper [InvertsPrime A ℓ]\n    {p : X ⟶ reprBy (CommRingCat.of\
+        \ ℤ)} (hX : IsProperOver p)\n    {F : (ringOf (\U0001D7ED (TestOver A)) ⋙ X).Elements ⥤ AddCommGrpCat}\n\
+        \    (β : locConstAlong (testOfPoint A X) ⟶ F)\n    (hβ : ∀ a : (ringOf (\U0001D7ED (TestOver A)) ⋙ X).Elements,\
+        \ I.pullToTests.ideal a = ⊥ → Bijective (β a))\n    (h_dense : IsCohomDense F I.pullToTests.botLocus) :\n\
+        \    IsDetectedAtPoints (testOfPoint A X) F"
+    routeToMain:
+    - module: Lib.Cohomology.ProperBaseChange.Theorem
+      importer: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      line: 2
+    - module: Lib.Cohomology.ProjectiveLine.TiltedLineFormula
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 3
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/Theorem.lean
+      line: 8
+      endLine: 18
+      startOffset: 239
+      endOffset: 1281
+      text: 'Spaces are functors on rings. A space is proper over `A` (`New.Variety.IsProperOver`) if its
+
+        diagonal is cut out by ideals and a valuative criterion holds with one universal point.
+
+        `New.Variety.TestOver` A is the category of A-algebras that are test rings (absolutely integrally
+
+        closed reduced rings where any two elements are comparable for divisibility after splitting by an
+
+        idempotent; `testIncl` includes them in rings), `New.Variety.H` N F n is Extⁿ(N, F) among functors
+
+        to abelian groups, and the coefficients are ℤ/ℓ for a prime ℓ invertible in the base. The file
+
+        proves proper base change over an absolutely integrally closed local domain that is a valuation ring
+
+        and derives three consequences: injectivity of restriction to the residue fibre, invariance of
+
+        cohomology under extension of algebraically closed fields, and openness of zero sets of classes.
+
+        These results then give detection at points for coefficients that are ℤ/ℓ on the zero locus of a
+
+        family of ideals, in the form used to prove that Leray–Hirsch maps are bijective.'
+    remainder:
+      path: grh/src/Lib/Cohomology/ProperBaseChange/Theorem.lean
+      line: 18
+      endLine: 65
+      startOffset: 1281
+      endOffset: 4646
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.IsProperOver.proper_base_change`: for `Y` proper\
+        \ over an absolutely integrally closed\n  valuation ring `A` in which `ℓ` is invertible, the closed fibre\
+        \ of `Y` has the cohomology of `Y`.\n* `New.Variety.IsProperOver.injective_map_residue`: over an absolutely\
+        \ integrally closed local\n  domain that is a valuation ring, a class is determined by its restriction to\
+        \ the fibre over the\n  residue field.\n* `New.Variety.IsProperOver.isTestCohomEquiv_field_extension`: cohomology\
+        \ does not change under an\n  extension `S → T` of algebraically closed fields over `R`.\n* `New.Variety.IsProperOver.isOpen_zero_set_and_eq_zero`:\
+        \ over a test ring, the primes at which a\n  class vanishes form an open set, and a class that vanishes\
+        \ at every prime is zero.\n* `New.Variety.IsDetectedAtPoints`: the property of a coefficient F that classes\
+        \ over a test are\n  detected at the residue fields of its primes (zero sets are open, and a class that\
+        \ vanishes at\n  every prime is zero), and that extending a field test changes nothing; a structure with\
+        \ one field\n  for each of these two properties.\n* `New.Variety.IdealFamily.isDetectedAtPoints_of_proper`:\
+        \ for X proper over ℤ and I a family of\n  ideals on X × Spec A, a coefficient that is ℤ/ℓ on the locus\
+        \ I = 0, this locus being dense, has\n  that property. Idea: the locus W = {I = 0} is proper over A, and\
+        \ over a test c the cohomology with\n  coefficients F is that of W_c with coefficients ℤ/ℓ.\n\nNotions from\
+        \ other files:\n* `New.Variety.IsAbsIntegrallyClosedLocal`: A is an absolutely integrally closed local domain:\
+        \ a\n  local domain in which every monic polynomial of positive degree has a root.\n* `New.Variety.IsCohomEquiv`:\
+        \ α : N' → N induces bijections Extⁿ(N, F) → Extⁿ(N', F) for all n.\n* `New.Variety.locConstCoeff` Λ: the\
+        \ coefficient on test rings given by the locally constant\n  functions Spec B → Λ.\n* `New.Variety.IsTestCohomEquiv`\
+        \ Λ u: the map u of functors on rings, restricted to test rings,\n  induces such bijections for the coefficient\
+        \ `locConstCoeff Λ`.\n* `New.Variety.reprBy`: the functor h_A = Hom(A, −) represented by A.\n* `New.Variety.IsCohomDense`:\
+        \ U ⊆ Y is dense for F if for every point h_A → Y the inclusion of the\n  preimage of U in h_A is such an\
+        \ equivalence.\n* `New.Variety.IdealFamily`: For a functor ι from C to commutative rings, ideals I_c of\
+        \ ι(c) such\n  that I_b is generated by the image of I_a for every morphism a → b.\n* `New.Variety.zeroPoints`:\
+        \ For s: X → h_R and a subset I of R, the subfunctor of points x ∈ X(B)\n  whose structure map R → B sends\
+        \ I to 0; `New.Variety.unitPoints`: those whose structure map sends\n  every element of I to a unit.\n\n\
+        ## Relation to the literature\n\nKnown result: Proper base change and invariance under extension of algebraically\
+        \ closed fields. Here\nthe coefficients are constant F_ℓ, the base is an absolutely integrally closed valuation\
+        \ ring, and\nproperness of a functor (`New.Variety.IsProperOver`) means a closed diagonal and a valuative\n\
+        criterion. The proof reduces to spaces of places of a field and then uses Zorn's lemma on subrings\nwith\
+        \ a Mayer–Vietoris splitting, together with Kummer theory. Source: Artin, SGA 4 Exp. XII 5.1,\n5.4, 5.5\
+        \ (1973); Stacks Project Tag 095S; reduction to spaces of places as in Scholze, Étale\ncohomology of diamonds\
+        \ (2017), Thm 19.2 and Lemma 19.4, after Huber, Math. Ann. 295 (1993).\n"
+  Lib.Cohomology.SmoothBaseChange:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.SmoothBaseChange
+      name: New.Variety.isTestCohomEquiv_baseChangeTransition
+      line: 266
+      signature: "lemma isTestCohomEquiv_baseChangeTransition [ThePrime ℓ]\n    {A : ClosurePlace} {p : ℕ} [Fact\
+        \ p.Prime] (hp : A.valuation p < 1)\n    (hℓ : IsUnit (ℓ : A)) [Algebra R A] (Y : Over (Spec R)) [IsCharted\
+        \ Y R] :\n    IsTestCohomEquiv ⟨ZMod ℓ⟩ (Y"
+    routeToMain:
+    - module: Lib.Cohomology.SmoothBaseChange
+      importer: Lib.Shimura.CongruenceRelation.EichlerShimura
+      line: 1
+    - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+      importer: Lib.Shimura.Eigenspace
+      line: 4
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/SmoothBaseChange.lean
+      line: 7
+      endLine: 14
+      startOffset: 196
+      endOffset: 740
+      text: "From local charts to whole varieties, for cohomology computed on test rings.\n\n* `New.Variety.algToBaseChange`,\
+        \ `New.Variety.isBijective_algToBaseChange`: the cohomology of the\n  base change `Y_A` on all test rings\
+        \ agrees with that of `Y` on tests over `A`\n  (`New.Variety.TestOver`).\n* `New.Variety.ComparedTheory.mem_of_isClosedClass_of_isCharting`:\
+        \ a class of functors governed by\n  `New.Variety.ComparedTheory.IsFiniteLerayHirsch` that contains the\
+        \ point contains every functor\n  charted by pieces étale over tori (`New.Variety.IsCharting`)."
+    remainder:
+      path: grh/src/Lib/Cohomology/SmoothBaseChange.lean
+      line: 14
+      endLine: 42
+      startOffset: 740
+      endOffset: 2542
+      text: "\n* `New.Variety.isTestCohomEquiv_baseChangeTransition`: let `A` be a valuation ring of an algebraic\n\
+        \  closure `Ω` of `ℚ`, of residue characteristic `p ≠ ℓ`, and let `Y` be charted; then the mod `ℓ`\n  cohomology\
+        \ of `Y_A` and of `Y_Ω` agree.\n\n`D.IsFiniteLerayHirsch N` says that the cohomology of `N` with locally\
+        \ constant `ZMod ℓ`\ncoefficients is finite and computes that of the theory `D`. The functor\n`relFreeAb\
+        \ (offClosedFibre X)` is `ℤ[X] / ℤ[U]`, where `U` consists of the points over the tests in\nwhich the maximal\
+        \ ideal of `A` generates the unit ideal.\n\nNotions from other files:\n* `New.Variety.freeAb`: The functor\
+        \ sending a set-valued functor Y to Z[Y], whose value at A is the\n  free abelian group on Y(A).\n* `New.Variety.IsClosedClass`:\
+        \ A closed class P of functors D → Ab: (a) P contains every zero\n  functor N (written `\U0001D7D9 N = 0`);\
+        \ (b) for a short exact sequence 0 → X₁ → X₂ → X₃ → 0 with X₁ in P,\n  the middle term X₂ is in P exactly\
+        \ when the quotient X₃ is.\n* `New.Variety.geomPoints`: The functor of points of the base change `X ×_R\
+        \ Ω` of a scheme `X` over\n  `R`.\n\n## Relation to the literature\n\nKnown result: Smooth base change,\
+        \ with restriction to the generic fibre bijective on cohomology.\nHere it is proved for schemes that are\
+        \ covered by finitely many pieces étale over tori and are not\nassumed proper. The base is the valuation\
+        \ ring of a place above p of an algebraic closure of Q, the\ncoefficients are the constant F_ℓ with ℓ invertible,\
+        \ and the result is deduced from proper base\nchange and duality on products of projective lines. Source:\
+        \ Artin, SGA 4 Exp. XV 2.1, XVI 1.2\n(1973); Stacks Project Tag 0EYQ; for the route through the class of\
+        \ the diagonal, Zavyalov, Poincaré\nduality in abstract 6-functor formalisms (arXiv 2301.03821) and Li-Reinecke-Zavyalov\
+        \ (arXiv\n2410.08200).\n"
+    standaloneReview:
+      verdict: clear
+      reason: States the base-change comparison and charting result.
+  Lib.Cohomology.TorsionTheories:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.TorsionTheories
+      name: New.Variety.TorsionCoeff.pullbackAlong_oneLocConst_surjective
+      line: 964
+      signature: "lemma TorsionCoeff.pullbackAlong_oneLocConst_surjective :\n    Surjective (pullbackAlong (G"
+    routeToMain:
+    - module: Lib.Cohomology.TorsionTheories
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 1
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/TorsionTheories.lean
+      line: 10
+      endLine: 15
+      text: 'The file works in categories of functors to abelian groups. First, a class in `Ext² (N, K)` between
+
+        functors with flat values is restricted along any functor and tensored with any abelian-group-valued
+
+        functor, compatibly (`New.Variety.exists_isTensorClass`). Then the cohomology of a space over `X` is
+
+        computed on the category of elements of `X`. Last, the file treats cohomology theories with
+
+        `ℓ`-torsion coefficients on categories over the test rings, families of ideals, and the theory of
+
+        locally constant functions.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cohomology/TorsionTheories.lean
+      line: 16
+      endLine: 63
+      text: "\n## Main definitions and results\n\n* `New.Variety.IsTensorClass`, `New.Variety.exists_isTensorClass`:\
+        \ a family of classes that extends\n  `S ⊗ ξ` from functors `S` with flat values to all functors, and its\
+        \ existence.\n* `New.Variety.hasUniversalPoints_elements`,\n  `New.Variety.isBijective_relFreeAb_tautologicalSection`,\
+        \ `New.Variety.sliceEquiv`: cohomology of a\n  space over `X` is computed on the category of elements of\
+        \ `X` (`New.Variety.elementsProj`).\n* `New.Variety.InvertsPrime`, `New.Variety.TestOver`: a local absolutely\
+        \ integrally closed ring `A`\n  in which `ℓ` is invertible, and the category of test rings over `A`.\n*\
+        \ `New.Variety.TorsionCoeff`, `New.Variety.Theory`: coefficients with Zariski descent, and theories,\n \
+        \ where classes also extend from closed loci. `New.Variety.Theory.locallyConstant` is the theory of\n  locally\
+        \ constant functions.\n* `New.Variety.IdealFamily`, `New.Variety.Theory.onZeros`: a compatible family of\
+        \ ideals, and the\n  coefficient that sees only the locus where it is zero.\n* `New.Variety.IdealFamily.isCohomEquiv_constToZeros`,\n\
+        \  `New.Variety.TorsionCoeff.pullbackAlong_oneLocConst_surjective`: the map from `ℤ/ℓ` relative to\n  the\
+        \ locus where the ideal is the unit ideal to the locally constant functions on the zero locus is\n  an equivalence\
+        \ for coefficients with Zariski descent, provided the locally constant functions\n  along `g` underlie a\
+        \ theory `Θ`; hence every class on the constant functor `ℤ` with coefficients\n  in a `TorsionCoeff g` (killed\
+        \ by `ℓ`, with Zariski descent) comes from one on the locally constant\n  functions to `ℤ/ℓ`.\n\nNotions\
+        \ from other files:\n* `New.Variety.HasFlatValues F`: every value of `F` is a flat `ℤ`-module.\n* `New.Variety.restrictAlong\
+        \ φ`, `New.Variety.freeAb`: the functor `N ↦ N ∘ φ`, and the functor\n  sending a set-valued functor `Y`\
+        \ to `ℤ[Y]`, the free abelian group on `Y(A)` at each `A`.\n* `New.Variety.relFreeAb U`, `New.Variety.abCoker\
+        \ α`: the functor `ℤ[V]/ℤ[U]` for `U ⊆ V`, whose Ext\n  groups are the relative cohomology of `(V, U)`;\
+        \ the cokernel of `α`, formed objectwise.\n* `New.Variety.IsTest`: a test ring A is reduced and absolutely\
+        \ integrally closed, and any a, b ∈ A\n  admit an idempotent e with a ∣ eb and b ∣ (1 − e)a.\n* `New.Variety.Comparison`:\
+        \ a functor φ : C' → C with a map F∘φ → F'; it `IsBijective` along α :\n  N' → N∘φ if Ext^n(N, F) → Ext^n(N',\
+        \ F') is bijective for all n. `HasUniversalPoints u`, a\n  sufficient condition: the fibres of u over points\
+        \ are representable, with the same coefficients.\n* `New.Variety.IsCohomDense`, `New.Variety.HasZariskiDescent`:\
+        \ `U ⊆ Y` is dense for `F` if, for\n  every point `h_A → Y`, the inclusion of the preimage of `U` induces\
+        \ bijections on Ext with\n  coefficients `F`; `F` has Zariski descent if every `U` that contains `Y` near\
+        \ each maximal ideal\n  (`New.Variety.IsZariskiLocallyTop`) is dense for `F`.\n\n## Relation to the literature\n\
+        \nKnown result: Cup product with a degree-two class and closed supports, for mod-ℓ cohomology as Ext.\n\
+        Only the formal set-up is given, for Ext on test rings. It consists of ℓ-torsion coefficient\ntheories with\
+        \ closed supports cut out by families of ideals, and a degree-two class between flat\nfunctors tensored\
+        \ with every functor. No Chern class, Künneth formula, Gysin map or Poincaré duality\nis stated here. Source:\
+        \ for the setting, Milne, Étale Cohomology, Ch. VI.\n\nSee also `Lib.Cohomology.Etale.FilteredLimits` and\
+        \ `Lib.PadicComparison.Duality.GoodPairs`.\n"
+  Lib.Cohomology.WoodsHole:
+    group: Lib.Cohomology
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cohomology.WoodsHole
+      name: New.Variety.ellAdicCohom.woods_hole
+      line: 214
+      signature: "lemma New.Variety.ellAdicCohom.woods_hole {p : ℕ} {A : Type*} {E k : Type} {d h : ℕ} {I : Type}\n\
+        \    [CommRing A] [Field E] [CharZero E] [Algebra A E] [Field k] [IsAlgClosed k]\n    [EmbeddedInQpBar p\
+        \ k] [Algebra E k] {R : Subalgebra A E}\n    {W Y : Over (Spec (CommRingCat.of R))} [IsProper Y.hom] {u\
+        \ : I → (W ⟶ Y)} {b : I →₀ k}\n    (hY_atlas : HasAtlas d (algPointsOf E (CommRingCat.of R) Y))\n    (hW_atlas\
+        \ : HasAtlas d (algPointsOf k (CommRingCat.of R) W))\n    (h_proj : HasProjEmbedding W.hom)\n    (h_null\
+        \ : h ≤ d → ∀ q : ℕ, q ≤ d →\n      ∀ x : HodgeH (freeAb.obj ((algPoints E (CommRingCat.of R)).obj Y)) q,\n\
+        \        (b.linearCombination k fun i : I ↦\n          hodgeTateMap h (x.map (freeAb.map\n            ((algPoints\
+        \ E (CommRingCat.of R)).map (u i)))).baseChange) = 0) :\n    IsNullFamily u b d h"
+    routeToMain:
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cohomology/WoodsHole.lean
+      line: 6
+      endLine: 16
+      startOffset: 144
+      endOffset: 1118
+      text: 'The main theorem, `New.Variety.ellAdicCohom.woods_hole`: if a combination `∑ b_i u_i` of maps
+
+        `W → Y` kills all Hodge classes of `Y` under the Hodge–Tate map `λ_h` (`New.Variety.hodgeTateMap`),
+
+        then for every `c : W → Y` the local terms of weight `h` at the coincidences of `c` and the `u_i`
+
+        add up to zero (`New.Variety.IsNullFamily`). The proof pulls back the diagonal class of
+
+        `New.Variety.exists_diagonal_local_terms`, writes it as a sum of cross products
+
+        (`New.Variety.kunneth`) and takes the coefficient of `t ^ h` in the scaling parameter `t`: a linear
+
+        form does this (`Polynomial.exists_dual_eval_mul_eq_coeff_mul`), the pull-back of a cross product is
+
+        `New.Variety.map_scaledGraph_baseChange_cross`, and
+
+        `New.Variety.sum_mul_hodgeTateMap_scaledGraph_eq_zero` is the vanishing of the weighted sum.
+
+        `New.Variety.HodgeH` is Hodge cohomology, `New.Variety.algPoints` the functor of points, and
+
+        `New.Variety.HasAtlas` a finite cover by charts with `d` étale coordinates.'
+    remainder:
+      path: grh/src/Lib/Cohomology/WoodsHole.lean
+      line: 16
+      endLine: 74
+      startOffset: 1118
+      endOffset: 5146
+      text: "\n\n## Overview of this theory\n\nThroughout, `ℓ` is a fixed prime. Cohomology of a functor `X` to\
+        \ sets, with coefficients in a\nfunctor `F` to abelian groups, is `Extⁿ(ℤ[X], F)`. Here `ℤ[X]` is the free\
+        \ abelian group functor on\n`X`, and the Ext is taken in functors on test objects: rings, or pairs of a\
+        \ ring and a module.\n\nOn absolutely integrally closed rings `A` (every monic polynomial of positive degree\
+        \ has a root),\nlocally constant functions on `Spec A` give `\U0001D53D_ℓ`-cohomology. Their Witt vectors\
+        \ give\n`ℤ_ℓ`-cohomology. `New.Variety.ellAdicCohom` is `X ↦ ℚ_ℓ ⊗ Hⁿ(X ×_R Ω, ℤ_ℓ)`, for `X` over a ring\n\
+        `R` and an `R`-algebra `Ω`. Test objects may also be pairs `(B, M)` of a `k`-algebra `B` and a\n`B`-module\
+        \ `M`. On these, `New.Variety.HodgeH` of a functor `N` in degree `q` is `Ext^q` from\n`(B, M) ↦ N(B ⊕ M)`\
+        \ to `(B, M) ↦ ⋀_B M`.\n\n* `New.Variety.IsProperOver.proper_base_change`: let `A` be an absolutely integrally\
+        \ closed local\n  domain that is a valuation ring, with `ℓ` a unit in `A`. Let `Y` be proper over `Spec\
+        \ A`. Then\n  restriction from `Y` to its closed fibre is bijective on `\U0001D53D_ℓ`-cohomology in every\
+        \ degree.\n* `New.Variety.isTestCohomEquiv_baseChangeTransition`: let `A` be a valuation ring of an algebraic\n\
+        \  closure `ℚ̄` of `ℚ`, with a prime `p` in its maximal ideal and `ℓ` a unit. Let `A` be an algebra\n  over\
+        \ a ring `R`, and let `Y` over `R` be built from charts étale over tori\n  (`New.Variety.IsCharted`). Then\
+        \ pull-back `Hⁿ(Y_A, \U0001D53D_ℓ) → Hⁿ(Y_ℚ̄, \U0001D53D_ℓ)` is bijective for all `n`.\n* `New.Variety.ellAdicCohom.woods_hole`:\
+        \ let `R ⊆ E → k ⊆ ℚ̄_p`, with `E` a field of characteristic\n  0 and `k` algebraically closed. Let `Y`\
+        \ be proper and `W` projective over `R`. Let `Y` over `E`\n  and `W` over `k` have atlases of dimension\
+        \ `d`. Let `uᵢ : W ⟶ Y` be maps, and let `bᵢ ∈ k` be\n  almost all zero. Let `λ_h` be the Hodge–Tate map\
+        \ `New.Variety.hodgeTateMap h`. Assume that\n  `h > d`, or that `∑ bᵢ λ_h(uᵢ^* x) = 0`, read over `k`, for\
+        \ all `x` of degree at most `d` in\n  `HodgeH` of `Y` over `E`. Then `New.Variety.IsNullFamily` holds: for\
+        \ `c : W ⟶ Y`, if each\n  coincidence `c y = uᵢ y`, `y ∈ W(k)`, has a tangent polynomial `P` with `P(1)\
+        \ ≠ 0`, the terms\n  `bᵢ · (coefficient of degree h of P) / P(1)` add up to zero.\n\nThese replace proper\
+        \ base change (SGA 4, XII) and smooth base change (SGA 4), here with coefficients\n`\U0001D53D_ℓ` over such\
+        \ rings. They also replace half of the holomorphic Lefschetz (Woods Hole) formula of\nAtiyah and Bott, for\
+        \ `h`-forms and correspondences. No comparison with étale or coherent cohomology\nis stated.\n\nStructure\
+        \ of the development. `Etale`: descent, Mayer–Vietoris, limits, `ℓ`-adic coefficients.\n`ProperBaseChange`:\
+        \ cover `X` by points with values in valuation rings, and reduce to the valuation\nrings of a single field.\
+        \ `LerayHirsch`, `TorsionTheories`, `ProjectiveLine`: `1` and the first Chern\nclass of `O(1)` form a basis\
+        \ of the cohomology of `ℙ¹`. With duality from `Lib.PadicComparison`,\n`SmoothBaseChange` follows. `Hodge`:\
+        \ point classes, the Künneth formula, local terms of the\ndiagonal. `PointClass`: the Hodge–Tate map of\
+        \ `Lib.PadicComparison` keeps distinct point classes\nindependent, by reduction to `ℙᵈ` and `ℙ¹`.\n\n##\
+        \ This file\n\nNotions from other files:\n* `New.Variety.HodgeH.baseChange`: Base change: for an E-algebra\
+        \ k, the additive map from the Hodge\n  cohomology over E of N to that over k of N restricted to k-algebras.\n\
+        \n## Relation to the literature\n\nKnown result: Half of the holomorphic Lefschetz (Woods Hole) formula\
+        \ for h-forms and\ncorrespondences. No trace is computed here. The statement is that if a combination of\
+        \ pull-backs\nkills the Hodge classes of degree at most the dimension d under the Hodge–Tate map λ_h, then\
+        \ the z^h\ncoefficients of the local terms det(1−zA)/det(1−A) at simple coincidences add up to zero. Source:\n\
+        M. F. Atiyah, R. Bott, A Lefschetz fixed point formula for elliptic complexes II, Ann. of Math. 88\n(1968)\
+        \ 451-491; G. Kondyrev, A. Prikhodko, Holomorphic Atiyah-Bott formula for correspondences,\nArnold Math.\
+        \ J. (2022); SGA5 III 6.12.\n"
+needs_draft: true

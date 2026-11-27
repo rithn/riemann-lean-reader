@@ -1,0 +1,1897 @@
+group: New.Derivatives
+overview:
+  group: New.Derivatives
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: FormalGroup.ThetaProducts studies products of theta functions at primes that do not split in the quadratic
+      field, using vectors that resolve the identity.
+    citations:
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      line: 7
+      endLine: 14
+  - sentence: It obtains a normal form from congruences relating powers at a place to conjugation at its partner.
+    citations:
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      line: 13
+      endLine: 16
+  - sentence: "`Vacuum.Divisibility` gives lower bounds on valuations of Taylor derivatives along homogeneous integral polynomials and proves a normal form at non-split primes for the scaled theta Taylor series of level-one standard data on a standard space."
+    citations:
+    - module: New.Derivatives.Vacuum.Divisibility
+      line: 21
+      endLine: 26
+    - module: New.Derivatives.Vacuum.Divisibility
+      line: 156
+      endLine: 175
+  - sentence: "`Sharpness.BoundAttained` gives upper valuation bounds for scaled Taylor coefficients of indicator data. In its all-primes result, one nonzero number with bounded conjugates works at every prime, with a suitable coefficient and indicator datum chosen at each prime and scaling by factorials and the vacuum factor."
+    citations:
+    - module: New.Derivatives.Sharpness.BoundAttained
+      line: 6
+      endLine: 13
+    - module: New.Derivatives.Sharpness.BoundAttained
+      line: 381
+      endLine: 390
+  declarations:
+  - module: New.Derivatives.Vacuum.Divisibility
+    name: New.Parameters.norm_schurJet_jetSeries_le_of_charges
+    line: 246
+    signature: "theorem norm_schurJet_jetSeries_le_of_charges\n    {f : \U0001D4AE ((stdSpace (E P s) n).hom (stdSpace\
+      \ (E P s) n'))} {c : ℂ}\n    (hp_nonsplit : chiK P.d p ≠ 1) (hκ : FitsRanks (fun _ : P.Φ s ↦ n) (fun _ : P.Φ\
+      \ s ↦ n') κ)\n    (hf : f ∈ standardData ((stdSpace (E P s) n).hom (stdSpace (E P s) n')) 1) (hc : ‖ιₚ c‖ ≤\
+      \ 1)\n    (erasedPlaces : Finset (P.Φ s)) (chargeExp : P.Φ s → ℕ → n' → ℕ)\n    (h_charge : ∀ e ∈ partnerExponents\
+      \ P.d p,\n      IsChargeExponent (P.partner s p e) erasedPlaces chargeExp)\n    (i' : WeylIndex n' κ) (i : WeylIndex\
+      \ n κ) :\n    let N : ℕ"
+  - module: New.Derivatives.Sharpness.BoundAttained
+    name: New.Data.exists_rpow_neg_localPrimeSumTotal_le_norm_coeff
+    line: 381
+    signature: "theorem exists_rpow_neg_localPrimeSumTotal_le_norm_coeff {P : Parameters} (D : Data P) (l : D.Φ →\
+      \ ℕ)\n    (hl : ∀ τ : D.Φ, (D.weight τ : ℝ) ≤ l τ ∧ l τ ≤ (D.weight τ : ℝ) + D.x ^ 42) :\n    ∃ t : ℂ, t ≠ 0\
+      \ ∧\n      (∀ σ : ℂ ≃+* ℂ, ‖σ t‖ ≤ exp (D.f * D.m / D.k * D.b)) ∧\n      ∀ \U0001D52A : Modulus D.E, \U0001D52A\
+      .ideal = .span {D.piM} → ∀ (p : ℕ) [Fact p.Prime] [PadicPlace p],\n        ∃ (γ : D.Φ × Fin 12 × Unit →₀ ℕ)\
+      \ (y₀ : Matrix (Fin 12) Unit \U0001D52A.ResidueRing),\n          (∀ τ : D.Φ, ∑ b : Fin 12, γ (τ, b, ()) = l\
+      \ τ) ∧\n          p ^ (-D.localPrimeSumTotal p) ≤ ‖ιₚ\n            (P.vacuumScale D.towerExp ^ 12 / t * (∏ τ\
+      \ : D.Φ, (l τ)!) *\n            coeff γ (D.twelveTaylor (D.indicatorDatum \U0001D52A y₀)))‖"
+  routeToMain:
+  - module: New.Derivatives.Vacuum.Divisibility
+    importer: New.UpperBound.Kernels.ThetaLiftGauge
+    line: 2
+  - module: New.UpperBound.Kernels.ThetaLiftGauge
+    importer: New.UpperBound.Divisibility.ChainValuation
+    line: 2
+  - module: New.UpperBound.Divisibility.ChainValuation
+    importer: New.UpperBound.Seesaw.SeesawIdentity
+    line: 2
+  - module: New.UpperBound.Seesaw.SeesawIdentity
+    importer: New.Reduction.ShortAndEnough
+    line: 4
+  - module: New.Reduction.ShortAndEnough
+    importer: New.Reduction.MainInequality
+    line: 2
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  New.Derivatives.Divisibility.Count:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Divisibility.Count
+      name: New.exists_norm_schurJet_le_norm_jet_minorProd
+      line: 800
+      signature: "lemma exists_norm_schurJet_le_norm_jet_minorProd\n    (hκ : FitsRanks (fun _ : Φ ↦ n) (fun _ :\
+        \ Φ ↦ n') κ)\n    (F : MvPowerSeries (Φ × n' × n) ℂ_[p]) (i' : WeylIndex n' κ) (i : WeylIndex n κ) :\n \
+        \   ∃ y : Φ → n → ℕ → valRingCp p,\n      ‖schurJet κ F i' i‖ ≤ ‖jet ℂ_[p]\n        (minorProd i' fun (τ\
+        \ : Φ) (a : n) (k : ℕ) ↦ (y τ a k : ℂ_[p])) F‖"
+    routeToMain:
+    - module: New.Derivatives.Divisibility.Count
+      importer: New.UpperBound.Divisibility.JetExponent
+      line: 1
+    - module: New.UpperBound.Divisibility.JetExponent
+      importer: New.UpperBound.Divisibility.MarkedPrimes
+      line: 1
+    - module: New.UpperBound.Divisibility.MarkedPrimes
+      importer: New.UpperBound.Divisibility.ChainValuation
+      line: 1
+    - module: New.UpperBound.Divisibility.ChainValuation
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 2
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Divisibility/Count.lean
+      line: 7
+      endLine: 18
+      startOffset: 187
+      endOffset: 1170
+      text: "* `New.norm_jet_le_of_isHomogeneous`: Legendre's bound for the jet of an integral series along a\n\
+        \  homogeneous integral polynomial.\n* `New.minorProd`, `New.predictedDivisibility`: products of minors,\
+        \ and the divisibility predicted\n  by their shape.\n* `New.Parameters.norm_jet_minorProd_le_of_hasNormalForm`:\
+        \ the count. The jet of a series with the\n  normal form along a product of minors has the predicted divisibility,\
+        \ up to an error term.\n* `New.Parameters.norm_jet_minorProd_le_of_charges`: the count with charges. The\
+        \ columns of height\n  one at a set of marked places are removed from the prediction, and powers `p ^ w`\
+        \ of `p` on the\n  rows, the charges, pay for them. The exponents `w` satisfy the condition of `New.IsChargeExponent`\n\
+        \  for pairs of columns that occur in `κ`, and `New.fillingCharge` is their sum over the boxes.\n* `New.exists_norm_schurJet_le_norm_jet_minorProd`:\
+        \ an entry of the Schur matrix may be replaced by\n  a product of minors of `z y` with `y` integral."
+    remainder:
+      path: grh/src/New/Derivatives/Divisibility/Count.lean
+      line: 18
+      endLine: 56
+      startOffset: 1170
+      endOffset: 3847
+      text: "\n\nA linear substitution makes the couplings that matter in the degree of the jet divisible by `π_p`,\n\
+        so that the series becomes integral in that degree. Legendre's bound applies, and the chain rule\ngives\
+        \ the factor whose valuation is deducted. Each box gains about `γ_p`, and the deduction is\n`v(π_p)` times\
+        \ a sum of numbers `New.deductionTerm`. The argument is carried out once, with charges\n(`New.Parameters.norm_jet_minorProd_le_of_isChargeExponent`);\
+        \ the count itself is the case without\nmarked places and with all charges equal to one.\n\nNotions from\
+        \ other files:\n* `valRingCp p`: the valuation ring of `ℂ_[p]`; its elements are called integral, and a\
+        \ lower bound\n  for a valuation is written as an upper bound for the norm.\n* `New.jet R Q F`: the number\
+        \ `(Q(∂) F)(0)`, for a polynomial `Q` and a power series `F`.\n* `New.WeylIndex n κ`, `New.schur`, `New.schurJet`:\
+        \ `κ τ h` is the number of columns of height `h`\n  of a diagram at the place `τ`. The standard fillings\
+        \ of these diagrams index the Schur matrix of a\n  family of matrices `z_τ`, and `schurJet κ F` is the matrix\
+        \ of jets of `F` along its entries.\n* `New.coupling pr e`: the series `Γ_e = ∑ z_(τ, c) ^ p ^ e * z_(pr\
+        \ e τ, c)`, where `pr e τ` is the\n  partner of the place `τ`. `New.deductionTerm p κ N marked τ τ' e` is\
+        \ the real number\n  `min (t / p ^ e) (r' + t') + r / p ^ e + min (B / p ^ e) B'`. Only heights below `N`\
+        \ count: `t`\n  is the number of columns of height one at `τ` (zero if `τ ∈ marked`), `r` that of the low\
+        \ columns\n  (the other ones) and `B` that of their boxes. The primed letters refer to `τ'`.\n* For `K =\
+        \ ℚ(√-d)`: `χ_K = New.chiK d`, `π_p = New.piPrimeInt d` has valuation\n  `v(π_p) = New.piPrimeValuation\
+        \ d p`, `ρ_p = New.varpiValuation d p`, and\n  `γ_p = New.gammaPrime d p = 1 / (p - 1) - ρ_p`. The set `I_p°\
+        \ = New.partnerExponents d p` consists\n  of the odd numbers if `p` is inert and of all numbers if `p =\
+        \ d`, and\n  `I_p = New.positivePartnerExponents d p` of its positive elements. `New.Parameters.partner`\
+        \ is the\n  partner `-p ^ e τ` of `τ`.\n* `New.HasNormalForm`: `F(ϖ z)` is an integral series times the\
+        \ exponential of `ϖ ^ (p + 1) / p`\n  times an integral combination of the powers `Γ_e ^ p ^ j`.\n\n## Relation\
+        \ to the literature\n\nOne- and two-variable divisibility at inert `p` over an imaginary quadratic field\
+        \ is known in the\nliterature.\n\nRelated work: Katz, Divisibilities, congruences, and Cartier duality,\
+        \ 1981; Chellali, Congruences\nentre nombres de Bernoulli–Hurwitz dans le cas supersingulier, 1990; Fujiwara,\
+        \ On divisibilities of\nspecial values of real analytic Eisenstein series, 1988; Bannai–Kobayashi–Yasuda,\
+        \ Radius of\nconvergence of the p-adic sigma function, 2017.\n"
+    standaloneReview:
+      verdict: clear
+      reason: States the jet divisibility count and its charged version.
+  New.Derivatives.Divisibility.NormalForm:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Divisibility.NormalForm
+      name: New.dvd_pderiv_couplingSum_sub
+      line: 355
+      signature: "lemma dvd_pderiv_couplingSum_sub (hS : 0 ∉ S) (y : Φ × c) :\n    C (p : valRingCp p) ∣\n     \
+        \ pderiv y (couplingSum S pr l) - ∑' e : S, l e 0 • partnerPowerSum pr e y"
+    routeToMain:
+    - module: New.Derivatives.Divisibility.NormalForm
+      importer: New.Derivatives.FormalGroup.ThetaProducts
+      line: 1
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      importer: New.Derivatives.Sharpness.NearPairs
+      line: 1
+    - module: New.Derivatives.Sharpness.NearPairs
+      importer: New.Derivatives.Sharpness.Cases
+      line: 2
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Divisibility/NormalForm.lean
+      line: 8
+      endLine: 13
+      text: "* `New.coupling`, `New.couplingSum`, `New.HasNormalForm`: the couplings `Γ_e` and the normal form\n\
+        \  `F(ϖ z) = W exp (c_ϖ Ξ)` with `W` integral, `c_ϖ = ϖ ^ (p + 1) / p` and\n  `Ξ = ∑_{e ∈ S} ∑_j λ_{e j}\
+        \ Γ_e ^ p ^ j`, for any rule that assigns partners to places.\n* `New.HasNormalForm.rescale`: the normal\
+        \ form is kept, with other numbers `λ_{e j}`, under\n  `z ↦ α z` with `α` integral; so its existence depends\
+        \ only on the valuation of `ϖ`\n  (`New.HasNormalForm.exists_of_norm_eq`).\n"
+    remainder:
+      path: grh/src/New/Derivatives/Divisibility/NormalForm.lean
+      line: 14
+      endLine: 27
+      text: "* `New.HasNormalForm.norm_coeff_subst_le_one`: if `F` has the normal form and `Z` is integral\n  without\
+        \ constant term, then `F(ϖ Z)` is integral in degrees at most `B` if the couplings `Γ_e(Z)`\n  with `e ∈\
+        \ S`, `e ≤ log_p B` are divisible by some `π` with `‖c_ϖ π‖ ≤ p ^ (-1 / (p - 1))`.\n* `New.HasNormalForm.of_dvd_sub`:\
+        \ it is enough to know the exponent modulo such a `π`.\n* `New.dvd_pderiv_couplingSum_sub`: the derivatives\
+        \ of `Ξ` modulo `p`, if `0 ∉ S`. They are not\n  needed for the divisibility bound, only for its sharpness.\n\
+        \n## Notation\n\n* `valRingCp p` is the valuation ring `\U0001D4AA` of `ℂ_[p]`; a series over it is called\
+        \ integral.\n* `seriesToCp W` is the series `W` over `\U0001D4AA`, seen as a series over `ℂ_[p]`.\n* `expSubst\
+        \ g` is the series `exp g`, for `g` without constant term.\n* The variables `z_x` are indexed by pairs `x\
+        \ = (τ, i)` in `Φ × c`, for finite types `Φ` and `c`;\n  the elements `τ` of `Φ` are called places.\n"
+  New.Derivatives.Divisibility.NullFrames:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Divisibility.NullFrames
+      name: New.exists_newDirection_dvd
+      line: 361
+      signature: "lemma New.exists_newDirection_dvd {p : ℕ} [Fact p.Prime] {Φ n : Type} [Fintype Φ] [DecidableEq\
+        \ Φ]\n    [Fintype n] {π : valRingCp p} (hπ : π ∣ p) (pr : ℕ → Φ → Φ) (S : Finset ℕ) (N : ℕ)\n    (κ : Φ\
+        \ → ℕ → ℕ) (marked : Finset Φ) (y : Φ → n → ℕ → valRingCp p) :\n    ∃ g : Φ → ∀ h : ℕ, Matrix (Fin h) (Fin\
+        \ h) (valRingCp p),\n      (∀ e ∈ S, ∀ (τ : Φ) (h : ℕ) (k : Fin h) (h' : ℕ) (k' : Fin h'),\n        ¬IsExemptPair\
+        \ marked τ (pr e τ) h h' →\n          π ∣ ∑ a : n, newDirection g y τ h k a ^ p ^ e * newDirection g y (pr\
+        \ e τ) h' k' a) ∧\n      ‖(π : ℂ_[p])‖ ^ ∑ e ∈ S, ∑ τ : Φ, deductionTerm p κ N marked τ (pr e τ) e ≤\n \
+        \       ∏ τ : Φ, ∏ h : Fin N, ‖((g τ h).det : ℂ_[p])‖ ^ κ τ h"
+    routeToMain:
+    - module: New.Derivatives.Divisibility.NullFrames
+      importer: New.Derivatives.Divisibility.Count
+      line: 1
+    - module: New.Derivatives.Divisibility.Count
+      importer: New.UpperBound.Divisibility.JetExponent
+      line: 1
+    - module: New.UpperBound.Divisibility.JetExponent
+      importer: New.UpperBound.Divisibility.MarkedPrimes
+      line: 1
+    - module: New.UpperBound.Divisibility.MarkedPrimes
+      importer: New.UpperBound.Divisibility.ChainValuation
+      line: 1
+    - module: New.UpperBound.Divisibility.ChainValuation
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 2
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Divisibility/NullFrames.lean
+      line: 7
+      endLine: 11
+      text: 'This file gives matrices over the integers of `ℂ_p`, one for each place and height, that change
+
+        given directions. For a divisor `π` of `p`, the pairings `∑ β_a ^ p ^ e * β''_a` of new directions at
+
+        a place and at its partner become divisible by `π`, apart from the exempt pairs of heights, which
+
+        involve a marked place. The valuations of the determinants, one for each column, add up to at most
+
+        the deduction: `v(π)` times the sum of the numbers `New.deductionTerm`.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Divisibility/NullFrames.lean
+      line: 12
+      endLine: 24
+      text: "\n## Main definitions and results\n\n* `New.deductionTerm`: the term of the deduction for a place,\
+        \ a partner and an exponent `e`.\n* `New.CongruenceChoice`, `New.exists_congruenceChoice_cost_eq_and_covers`:\
+        \ which congruences are\n  imposed for a place and a partner; a choice of cost `New.deductionTerm` covers\
+        \ the pairs of\n  heights that are not exempt (`New.IsExemptPair`).\n* `New.newDirection`, `New.exists_newDirection_dvd`:\
+        \ integral changes of direction at each place\n  and height that make the pairings that are not exempt divisible\
+        \ by `π`, and whose determinants\n  cost at most the deduction.\n\nNotions from other files:\n* `New.valRingCp\
+        \ p`: the integers of `ℂ_p`.\n"
+  New.Derivatives.Field.ChosenPlaces:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Field.ChosenPlaces
+      name: New.Data.rootDisc_mem_Icc
+      line: 433
+      signature: 'lemma rootDisc_mem_Icc : D.rootDisc ∈ Set.Icc (D.x ^ 10) (D.x ^ 12)'
+    routeToMain:
+    - module: New.Derivatives.Field.ChosenPlaces
+      importer: New.Reduction.Data.LevelAndTwists
+      line: 2
+    - module: New.Reduction.Data.LevelAndTwists
+      importer: New.Reduction.Data.Sizes
+      line: 1
+    - module: New.Reduction.Data.Sizes
+      importer: New.Reduction.PrimeSums
+      line: 1
+    - module: New.Reduction.PrimeSums
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 1
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Field/ChosenPlaces.lean
+      line: 6
+      endLine: 13
+      text: 'Fix admissible data `D` (`New.Data`) with primes p₀, p₁ (p_i is `D.levelPrime i`) and an integer
+
+        `D.piMBar` of K of norm p₀p₁. The chosen places are the finite places of E that divide the complex
+
+        conjugate of `D.piMBar`.
+
+
+        The file defines residue characters at the chosen places, characters of U(1)(𝔸) of given weight and
+
+        pairs, and proves that there are finitely many pairs. It also bounds the generator of the different
+
+        of E and the root discriminant at the infinite places between `x ^ 10` and `x ^ 12`, where `log x`
+
+        is `D.logX`.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Field/ChosenPlaces.lean
+      line: 14
+      endLine: 47
+      text: "\n## Main definitions and results\n\n* `New.Data.IsChosen`, `New.Data.ChosenPlace`: the chosen places,\
+        \ and those above p_i. Each lies\n  above p₀ or p₁ (`New.Data.exists_levelPrime_mem_of_isChosen`). A place\
+        \ above p_i has norm p_i\n  (`New.Data.q_eq_levelPrime`).\n* `New.Data.chiMLocal`: residue characters of\
+        \ order q₂ at the chosen places, trivial elsewhere. At a\n  chosen place it is the q₂-th power of a character\
+        \ `New.Data.chiMLocalRoot` of order q₂².\n* `New.Data.chiZero`, `New.Data.chiM`: characters of U(1)(\U0001D538\
+        ) of weight -w₀ and trivial tame part,\n  and of weight 0 and tame part `New.Data.chiMLocal`. By\n  `New.AutChar.exists_hasWeight_of_prod_eq_one`\
+        \ they exist because the formula of\n  `New.AutChar.HasWeight` gives 1 on the integral rational points of\
+        \ U(1), which are q₁-th roots of\n  unity (`New.Data.exists_char_hasWeight`).\n* `New.Data.CriticalPair`:\
+        \ a character of weight -c with tame part trivial off the chosen places,\n  and an integer z with 1 ≤ z\
+        \ ≤ t and z ≤ c ≤ 4b. There are finitely many\n  (`New.Data.finite_criticalPair`).\n* `New.Data.hasLogBound_deltaE`:\
+        \ at every infinite place the generator `New.Parameters.deltaE` of\n  the different has absolute value in\
+        \ `[x ^ 10, x ^ 12]`.\n* `New.Data.rootDisc_mem_Icc`, `New.Data.hasLogBound_rootDisc`: so does the root\
+        \ discriminant\n  `New.Data.rootDisc`, their geometric mean. The class `D.HasLogBound u F l` says `|F| ≤\
+        \ exp l` for\n  `u = true` and `exp l ≤ F` for `u = false`; so `(if u then 12 else 10) * log x` gives both\
+        \ bounds\n  at once.\n\nNotions from other files:\n* `New.Data.E`: The field E = K(ζ), ζ a primitive root\
+        \ of unity of order q₁, a multiple of q₀ that\n  depends on the exponent s = `D.towerExp` of the data; `New.Data.Φ`\
+        \ is the type of its infinite\n  places.\n* `New.AutChar`: The group of continuous circle-valued characters\
+        \ of U(1)(\U0001D538), the norm-one adeles of\n  the CM field E, trivial on elements coming from E.\n* `New.AutChar.HasWeight`:\
+        \ μ has weight e and tame part ψ: almost all residue characters ψ_w are\n  trivial, and μ(u) = ∏_v u_v^{e(v)}\
+        \ · ∏_w ψ_w(u mod w) whenever u has integral finite part.\n* `New.Parameters.q₂`: The natural number q₂\
+        \ = (q₀d)^(s+6); q₂² divides p_i - 1.\n* `New.Data.liftWeight`: The number w_j(σ) = κ(σ) + (j + 1/2) Δ,\
+        \ with κ = `New.Data.weight`, the gap\n  Δ = `New.Data.gap` and Δ/2 = `New.Data.halfGap`.\n"
+  New.Derivatives.Field.PrimeDecomposition:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Field.PrimeDecomposition
+      name: New.Parameters.q_eq_pow_orderOf_frobElem
+      line: 649
+      signature: "lemma q_eq_pow_orderOf_frobElem (hp_mem : (p : \U0001D4DE (P.E s)) ∈ w.asIdeal)\n    (hp_not_dvd\
+        \ : ¬p ∣ P.q₁ s * P.d) :\n    w.q = p ^ orderOf (P.frobElem s p)"
+    routeToMain:
+    - module: New.Derivatives.Field.PrimeDecomposition
+      importer: New.Derivatives.Field.WeilData
+      line: 3
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Field/PrimeDecomposition.lean
+      line: 7
+      endLine: 13
+      text: 'Let `K = ℚ(√-d) ⊆ ℂ` and `E = P.E s = K(ζ)`, with `ζ` a primitive root of unity of order `q₁`.
+
+        `star` is complex conjugation on `E`. This file computes the different of `E`, gives it a purely
+
+        imaginary generator, and describes how the primes `p ∤ q₁ d` decompose in `E`. The infinite
+
+        places `v` of `E` form a group isomorphic to `Gal(E/K)` and to `(ℤ/q₁)ˣ`, and `v • w` is the
+
+        pullback of a finite place `w` along the automorphism `P.galOfPlace s v`. In the comments P''(ζ)
+
+        stands for `New.Parameters.relDifferentGen`, the value at `ζ` of the derivative of the cyclotomic
+
+        polynomial of order `q₁`; this letter P is not the parameters.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Field/PrimeDecomposition.lean
+      line: 14
+      endLine: 29
+      text: "\n## Main definitions and results\n\n* `New.Parameters.deltaE`, `New.Parameters.star_deltaE`,\n  `New.Parameters.differentIdeal_eq_span_deltaE`:\
+        \ the imaginary generator of the different of `E`.\n* `New.Parameters.smul_eq_iff_exists_frobElem_pow`:\
+        \ for a prime `p ∤ q₁ d` and `w` above `p`, the\n  place `v` sends `w` to `w` exactly when `(v, 1)` is a\
+        \ power of the Frobenius element\n  `New.Parameters.frobElem` in the monoid `P.Φ s × ℤ`, and to `w̄` exactly\
+        \ when `(v, -1)` is. For\n  such `p`, `New.Parameters.q_eq_pow_orderOf_frobElem` gives the norm of `w`.\n\
+        \nNotions from other files:\n* `New.Parameters`: a multiple `q₀` of `18480 = 16 · 3 · 5 · 7 · 11` and a\
+        \ prime `d` with\n  `d ≡ q₀/2 - 1 mod q₀`.\n* `New.Parameters.q₁`: the number `q₁ = 3 ^ c * 2 ^ s * q₀`,\
+        \ with `c = ⌊log₃ s⌋ + 5`.\n* `New.Parameters.Φ`: `P.Φ s` is the group of infinite places of `E`. It is\
+        \ distinct from the bare\n  `Φ` of the CM type of `E` (`New.CMType`): `Φ v : E →+* ℂ` is the embedding over\
+        \ `K` inducing `v`.\n"
+  New.Derivatives.Field.WeilData:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Field.WeilData
+      name: New.Parameters.norm_gal_vacuumRoot
+      line: 518
+      signature: "lemma norm_gal_vacuumRoot (P : Parameters) (s : ℕ) (σ : Gal(ℂ/K P)) :\n    ‖σ (vacuumRoot P s)‖\
+        \ ^ 2 = rootDiscr (P.E s) / √P.d"
+    routeToMain:
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Field/WeilData.lean
+      line: 8
+      endLine: 14
+      text: 'Let `K = ℚ(√-d) ⊆ ℂ` and `E = P.E s = K(ζ)`, with `ζ` a primitive root of unity of order `q₁`;
+
+        `star` is complex conjugation on `E`. The infinite places `v` of `E` form a group isomorphic to
+
+        `Gal(E/K)` and to `(ℤ/q₁)ˣ`, and `v • w` is the pullback of a finite place `w` along the
+
+        automorphism `P.galOfPlace s v`. This file describes the places of `E` above a prime
+
+        `p ≡ 1` mod `q₁ d` and builds the Weil data of `E`. From the idele α of these data it defines the
+
+        number s₀ = `New.Parameters.vacuumRoot`, a root of `(chiFin α)⁻¹`, and computes the absolute
+
+        values of its conjugates over `K`.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Field/WeilData.lean
+      line: 15
+      endLine: 36
+      text: "\n## Main definitions and results\n\n* `New.Parameters.q_eq_of_modEq_one`, `New.Parameters.nonempty_infinitePlace_equiv_finPlace`:\
+        \ for\n  `p ≡ 1` mod `q₁ d` the places above `p` have norm `p`. If `a ∈ \U0001D4DE E` has `a ā = p c` with\
+        \ `c : ℕ`\n  prime to `p`, those that divide `a` are in bijection with the infinite places.\n* `New.Parameters.α`:\
+        \ the idele with component 1/P'(ζ) at the places that divide\n  `New.Parameters.betaKInE` and 1 elsewhere.\n\
+        * `New.Parameters.instWeilDataE`: the Weil data, with ȷ = −1/√−d.\n* `New.Parameters.norm_gal_vacuumRoot`:\
+        \ for every automorphism `σ` of `ℂ` over `K`, ‖σ s₀‖ ^ 2 is\n  the root discriminant of `E` divided by `√d`.\n\
+        \nNotions from other files:\n* `New.Parameters`: a multiple `q₀` of `18480 = 16 · 3 · 5 · 7 · 11` and a\
+        \ prime `d` with\n  `d ≡ q₀/2 - 1 mod q₀`; `New.Parameters.q₁` is `3 ^ c * 2 ^ s * q₀`, with `c = ⌊log₃\
+        \ s⌋ + 5`.\n* `New.Parameters.Φ`: `P.Φ s` is the group of infinite places of `E`. It is distinct from the\
+        \ bare\n  `Φ` of the CM type of `E` (`New.CMType`): `Φ v : E →+* ℂ` is the embedding over `K` inducing `v`.\n\
+        * `New.WeilData`: an imaginary element ȷ, a finite idele α and a splitting character υ.\n* `New.chiFin`:\
+        \ the character x ↦ υ(x)|x|^(−1/2) of the finite ideles of `E`, x being extended by\n  1 at infinity.\n\
+        * `New.Parameters.relDifferentGen`: P'(ζ), the value at `ζ` of the derivative of the cyclotomic\n  polynomial\
+        \ of order `q₁`; it generates the different of `E/K`.\n"
+  New.Derivatives.FormalGroup.Exponent:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.FormalGroup.Exponent
+      name: New.CMLattice.exists_exponent_tsum
+      line: 702
+      signature: "theorem CMLattice.exists_exponent_tsum (hp : chiK d p ≠ 1) :\n    ∃ (ϖ : ℂ_[p]) (Ξ W : (valRingCp\
+        \ p)⟦X⟧) (l : ℕ → ℕ → valRingCp p),\n      ‖ϖ‖ = p ^ (-varpiValuation d p) ∧\n      constantCoeff Ξ = 0\
+        \ ∧\n      rescale ϖ (taylorVia ιₚ C.θ) = seriesToCp W * expSubst ((ϖ ^ (p + 1) / p) • seriesToCp Ξ) ∧\n\
+        \      PowerSeries.C (piPrimeInt d) ∣ Ξ - ∑' x : partnerExponents d p × ℕ,\n        l x.1 x.2 • (X ^ p ^\
+        \ (x.1 : ℕ) * X) ^ p ^ x.2 ∧\n      (chiK d p = -1 → ∀ e : ℕ, Odd e → IsUnit (l e 0))"
+    routeToMain:
+    - module: New.Derivatives.FormalGroup.Exponent
+      importer: New.Derivatives.FormalGroup.ThetaProducts
+      line: 2
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      importer: New.Derivatives.Sharpness.NearPairs
+      line: 1
+    - module: New.Derivatives.Sharpness.NearPairs
+      importer: New.Derivatives.Sharpness.Cases
+      line: 2
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/FormalGroup/Exponent.lean
+      line: 7
+      endLine: 14
+      text: "Let `d ≡ 7` mod `8` be a prime (`PrimeSevenModEight d`), let `p` be a prime that does not split in\n\
+        `ℚ(√-d)`, and let `\U0001D4AA` (`valRingCp p`) be the ring of integers of `ℂ_p`; a series is integral if\
+        \ its\ncoefficients lie in `\U0001D4AA`.\n\n* `New.CMLattice.exists_exponent_tsum`: for some `ϖ` of valuation\
+        \ `ρ_p` the series `θ(ϖ z)` is\n  integral up to one exponential `exp (c_ϖ Ξ₁)`, where `c_ϖ = ϖ ^ (p + 1)\
+        \ / p`, the series `Ξ₁` is\n  integral, and modulo `π_p` it has only terms `(z ^ p ^ e * z) ^ p ^ j` with\
+        \ `e ∈ I_p°`\n  (`partnerExponents d p`: the odd numbers, and all numbers if `p = d`).\n"
+    remainder:
+      path: grh/src/New/Derivatives/FormalGroup/Exponent.lean
+      line: 15
+      endLine: 43
+      text: "\nThe proof has four steps.\n\n1. Averaging `ζ ^ (-p - 1) g(ζ z)` over the `(q_p - 1)`-th roots of\
+        \ unity `ζ` replaces `g = -log θ`\n   by its part `g^♭` in the degrees `≡ p + 1` mod `q_p - 1`.\n2. The\
+        \ Frobenius congruence gives a functional equation for `Ξ₁ = -g^♭(ϖ z) / c_ϖ`.\n3. The equation is solved\
+        \ degree by degree. With `Y = T(ϖ z) / ϖ ≡ ∑_j z ^ q_p ^ j` and a number\n   `λ ∈ \U0001D4AA` one has `Ξ₁\
+        \ ≡ λ Y ^ (p + 1)` for inert `p` and `Ξ₁ ≡ λ (Y ^ 2 - z ^ 2 / 2)` for `p = d`.\n   The coefficients of the\
+        \ terms are `λ` in the first case, and `λ / 2`, `λ` or `2 λ` in the second.\n4. For inert `p` the coefficient\
+        \ of `z ^ (p + 1)` in `Ξ₁` is a unit, and so is `λ`.\n\nNotions from other files:\n* `chiK d p` is the Legendre\
+        \ symbol `(p / d)`; the prime `p` is non-split if `chiK d p ≠ 1`.\n* `q_p = primeNorm d p` is the norm of\
+        \ a prime above `p`, `π_p = piPrime d p` is `√-d` if `p = d`\n  and `p` otherwise, and `ρ_p = varpiValuation\
+        \ d p` is `v(π_p) / (q_p - 1)` with `v(p) = 1`.\n* `C : CMLattice d` is a lattice in `ℂ` that is stable\
+        \ under the ring of integers of `ℚ(√-d)`, with\n  a chosen point `t` of order two.\n* `taylorVia ιₚ C.θ`\
+        \ is the Taylor series over `ℂ_p` of the theta function `θ` of `C`, along the\n  embedding `ιₚ : ℂ →+* ℂ_[p]`\
+        \ fixed by `PadicPlace p`, and `C.negLogTheta` is `g = -log θ`.\n* `C.integralSeriesRing` is the ring `\U0001D4AA\
+        [[y]] = \U0001D4AA[[T]]`, where `y` is the Taylor series of\n  `C.translatedY` and `T = C.formalParam` is\
+        \ the formal parameter.\n\n## Relation to the literature\n\nEarlier bounds for one curve at inert primes,\
+        \ which are not used: Bannai–Kobayashi, Algebraic theta\nfunctions and the p-adic interpolation of Eisenstein–Kronecker\
+        \ numbers (first arXiv version, Theorem\n4.1); Bannai–Kobayashi, Integral structures on p-adic Fourier theory;\
+        \ Bannai–Kobayashi–Yasuda, The\nradius of convergence of the p-adic sigma function; Fujiwara, On divisibilities\
+        \ of special values of\nreal analytic Eisenstein series.\n"
+  New.Derivatives.FormalGroup.FrobeniusCongruence:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.FormalGroup.FrobeniusCongruence
+      name: New.CMLattice.norm_coeff_taylorVia_translatedX_eq_one
+      line: 416
+      signature: "lemma norm_coeff_taylorVia_translatedX_eq_one (hp : chiK d p = -1) :\n    ‖coeff (p - 1) (taylorVia\
+        \ ιₚ C.translatedX)‖ = 1"
+    routeToMain:
+    - module: New.Derivatives.FormalGroup.FrobeniusCongruence
+      importer: New.Derivatives.FormalGroup.Exponent
+      line: 2
+    - module: New.Derivatives.FormalGroup.Exponent
+      importer: New.Derivatives.FormalGroup.ThetaProducts
+      line: 2
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      importer: New.Derivatives.Sharpness.NearPairs
+      line: 1
+    - module: New.Derivatives.Sharpness.NearPairs
+      importer: New.Derivatives.Sharpness.Cases
+      line: 2
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/FormalGroup/FrobeniusCongruence.lean
+      line: 6
+      endLine: 11
+      text: 'Let `d ≡ 7` modulo `8` be a prime, `C` a lattice with complex multiplication by the integers of
+
+        `K = ℚ(√-d)`, and `p` a prime that does not split in `K`. This file proves that
+
+        `θ(π_p z) / θ(z) ^ q_p` is `1` modulo `π_p` in `𝒪[[y]]`. For `g = -log θ` it follows that
+
+        `q_p g(z) - g(π_p z)` lies in `π_p 𝒪[[y]]`. Independently of this congruence, it shows by a
+
+        recursion that at an inert prime the coefficient of `z ^ (p - 1)` in `x` is a unit; this is used in
+
+        the last step for the exponent on one curve (`New.CMLattice.norm_coeff_exponentSeries_eq_one`).
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/FormalGroup/FrobeniusCongruence.lean
+      line: 12
+      endLine: 34
+      text: "\nNotions from other files:\n* `chiK d p` is the Legendre symbol `(p / d)`: it is `1`, `-1`, `0` when\
+        \ `p` is split, inert,\n  ramified in `K`.\n* `π_p = piPrime d p` is `√-d` for `p = d` and `p` otherwise;\
+        \ `q_p = primeNorm d p` is `p ^ 2` for\n  inert `p` and `p` otherwise.\n* `PadicPlace p` is the choice of\
+        \ a ring homomorphism `ιₚ : ℂ →+* ℂ_[p]`, and `taylorVia ιₚ f` is\n  the Taylor series of `f` at `0`, with\
+        \ coefficients sent to `ℂ_[p]` by `ιₚ`.\n* `θ`, `x`, `y` are the series of the theta function `C.θ`, of\
+        \ `C.translatedX z = ℘(z + t) - ℘(t)`\n  and of `C.translatedY z = (℘'(z + t) - a₁ x(z)) / 2`. Here `t =\
+        \ C.t` is the chosen point of order\n  two, the lattice is scaled so that `℘''(t) = 2`, and `a₁ = C.a₁`\
+        \ satisfies `a₁ ^ 2 = 12 ℘(t)`;\n  moreover `g = C.negLogTheta = -log θ`.\n* `C.integralSeriesRing = \U0001D4AA\
+        [[y]]` is the ring of power series in `y` with coefficients in the\n  valuation ring `\U0001D4AA` of `ℂ_[p]`.\n\
+        \n## Main definitions and results\n\n* `New.CMLattice.exists_rescale_theta_eq_pow_mul_one_add_smul`: at\
+        \ a non-split prime `p` the\n  quotient `θ(π_p z) / θ(z) ^ q_p` is `1` modulo `π_p` in `\U0001D4AA[[y]]`.\n\
+        * `New.CMLattice.exists_negLogTheta_frobenius_congruence`: `q_p g(z) - g(π_p z) ∈ π_p \U0001D4AA[[y]]` for\n\
+        \  `g = -log θ`.\n* `New.CMLattice.norm_coeff_taylorVia_translatedX_eq_one`: at an inert prime `p` the coefficient\n\
+        \  of `z ^ (p - 1)` in the series `x` is a unit.\n"
+  New.Derivatives.FormalGroup.Resolution:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.FormalGroup.Resolution
+      name: New.CMLattice.pderiv_mem_multiSeriesRing
+      line: 236
+      signature: "lemma pderiv_mem_multiSeriesRing [PrimeSevenModEight d]\n    {μ : I → X → ℂ_[p]} {H : MvPowerSeries\
+        \ X ℂ_[p]}\n    (hμ : ∀ (i : I) (x : X), ‖μ i x‖ ≤ 1) (hH : H ∈ C.multiSeriesRing μ) (x : X) :\n    pderiv\
+        \ x H ∈ C.multiSeriesRing μ"
+    routeToMain:
+    - module: New.Derivatives.FormalGroup.Resolution
+      importer: New.Derivatives.Vacuum.Scale
+      line: 1
+    - module: New.Derivatives.Vacuum.Scale
+      importer: New.Derivatives.Sharpness.Cases
+      line: 3
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/FormalGroup/Resolution.lean
+      line: 7
+      endLine: 11
+      text: 'This file is about families of vectors `u j` in `Eⁿ`, taken `m j` times, with
+
+        `z = ∑ m j (u j† z) u j` for all complex vectors `z` indexed by `InfinitePlace E × n`, where `u j`
+
+        is read as such a vector through the CM type, and about power series composed with linear forms
+
+        `μ_i z`: products of the series `θ(μ_i z)`, for the theta function `θ` of a lattice `C`, and
+
+        integral series in the `y(μ_i z)`, for the parameter `y` of the elliptic curve of `C`.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/FormalGroup/Resolution.lean
+      line: 12
+      endLine: 38
+      text: "\nThe following imported notions occur in the statements.\n\n* `Φ w` is the complex embedding of the\
+        \ CM type at the infinite place `w` of `E`.\n* `ιₚ` is a fixed embedding of `ℂ` into `ℂ_p`, and `valRingCp\
+        \ p` is the closed unit ball of `ℂ_p`.\n* `C.multiSeriesRing μ` is the ring of power series with integral\
+        \ coefficients in the series\n  `y(μ_i z)`, where `y` is the Taylor series of the parameter `C.translatedY`\
+        \ of the curve.\n\n## Main definitions and results\n\n* `New.dagger`: the coefficients of the linear form\
+        \ `y† z` of a vector `y` in `Eⁿ`;\n  `New.daggerForms`: the same for a family of vectors, read in `ℂ_p`.\n\
+        * `New.IsResolution`: families of vectors `u j`, taken `m j` times, with\n  `z = ∑ m j (u j† z) u j` (Parseval\
+        \ frames).\n* `New.IsIntegralAbove`: elements of `E` that are integral at all places above `p`; they are\n\
+        \  quotients of elements of `\U0001D4DE E` by natural numbers prime to `p`\n  (`New.IsIntegralAbove.exists_mul_eq`).\n\
+        * `New.CMLattice.thetaProd`: the product of copies of `θ` along linear forms.\n* `New.CMLattice.rescale_thetaProd`,\
+        \ `New.CMLattice.rescale_mem_multiSeriesRing`: scaling the\n  variables scales the linear forms in a product\
+        \ of copies of `θ` and in an integral series in\n  copies of the parameter.\n* `New.CMLattice.pderiv_mem_multiSeriesRing`:\
+        \ for integral linear forms, partial derivatives\n  preserve the ring of such series.\n\n## Relation to\
+        \ the literature\n\nA resolution of the identity is a Parseval frame.\n"
+  New.Derivatives.FormalGroup.ThetaProducts:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      name: New.Parameters.exists_hasNormalForm
+      line: 443
+      signature: "lemma exists_hasNormalForm (P : Parameters) (s : ℕ) [PadicPlace p] (hp : chiK P.d p ≠ 1) :\n \
+        \   ∃ (ϖ : ℂ_[p]) (l : ℕ → ℕ → valRingCp p),\n    ‖ϖ‖ = p ^ (-varpiValuation P.d p) ∧\n    (chiK P.d p =\
+        \ -1 → ∀ e : ℕ, Odd e → IsUnit (l e 0)) ∧\n    ∀ {n J : Type} [Fintype n] [DecidableEq n] [Fintype J] (u\
+        \ : J → n → P.E s) (m : J → ℕ),\n      IsResolution u m → (∀ (j : J) (i : n), IsIntegralAbove p (u j i))\
+        \ →\n        ∀ H ∈ P.cmCurve.multiSeriesRing (daggerForms u),\n          HasNormalForm (partnerExponents\
+        \ P.d p) (P.partner s p) ϖ l\n            (P.cmCurve.thetaProd (daggerForms u) m * H)"
+    routeToMain:
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      importer: New.Derivatives.Sharpness.NearPairs
+      line: 1
+    - module: New.Derivatives.Sharpness.NearPairs
+      importer: New.Derivatives.Sharpness.Cases
+      line: 2
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/FormalGroup/ThetaProducts.lean
+      line: 9
+      endLine: 11
+      startOffset: 241
+      endOffset: 508
+      text: 'The file treats products of theta functions at a prime `p` that is not split in `K = ℚ(√-d)`. Here
+
+        `θ` is the theta function of the CM curve, `y` the parameter `C.translatedY` of the curve, composed
+
+        with the forms `u† z`, and `E` is `K` with a root of unity adjoined.'
+    remainder:
+      path: grh/src/New/Derivatives/FormalGroup/ThetaProducts.lean
+      line: 11
+      endLine: 37
+      startOffset: 508
+      endOffset: 2296
+      text: "\n\nThe vectors `u` of `Eⁿ` form a resolution of the identity and are integral above `p`. The partner\
+        \ of\nan infinite place `τ` of `E` is `-p ^ e τ`, and `Γ_e` is the coupling of the places with their\npartners.\
+        \ Congruences modulo `π_p` between powers at a place and conjugation at its partner lead to\na normal form\
+        \ for `∏ θ(u_j† z) ^ m j` times an integral series in the `y(u† z)`.\n\n## Main definitions and results\n\
+        \n* `New.Parameters.norm_pow_sub_conj_partner_le`: for `e` in `I_p°`, modulo `π_p`, the `p ^ e`-th\n  power\
+        \ at a place `τ` is complex conjugation at its partner `-p ^ e τ`.\n* `New.Parameters.piPrimeInt_dvd_sum_linearSeries_sub_coupling`:\
+        \ at a non-split `p`, for a\n  resolution of the identity by vectors `u` integral above `p`, the sum\n \
+        \ `∑ m j * (u_j† z) ^ p ^ e * (u_j† z)` is the coupling `Γ_e` modulo `π_p` for `e` in `I_p°`.\n* `New.Parameters.exists_hasNormalForm`:\
+        \ at a non-split prime `p`, for a resolution of the identity\n  by vectors `u` integral above `p`, the product\
+        \ `∏ θ(u_j† z) ^ m j` times an integral series in the\n  `y(u† z)` has the normal form.\n\nNotions from\
+        \ other files:\n* `New.piPrime`, `New.piPrimeInt`: the number `π_p`, which is `√-d` if `p = d` and `p` otherwise,\
+        \ in\n  `ℂ` and in the valuation ring (through the embedding `ιₚ : ℂ → ℂ_p`).\n* `New.chiK`, `New.partnerExponents`:\
+        \ the character `χ_K`, with `χ_K(p) ≠ 1` at non-split `p`, and\n  the set `I_p°` of exponents `e`: the odd\
+        \ ones if `p` is inert, all if `p = d`, none if `p` splits.\n* `New.IsResolution`: the vectors `u` with\
+        \ multiplicities `m` satisfy `z = ∑ m j (u_j† z) u_j`,\n  where `u† z = ∑ conj (τ(u_c)) z_(τ,c)`.\n* `New.coupling`,\
+        \ `New.HasNormalForm`: `Γ_e = ∑ z_(τ,c) ^ p ^ e * z_(τ',c)` with `τ'` the partner\n  of `τ`, and `F(ϖ z)\
+        \ = W exp (c_ϖ ∑ λ_{e j} Γ_e ^ p ^ j)` with `W` integral.\n"
+  New.Derivatives.Sharpness.BoundAttained:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Sharpness.BoundAttained
+      name: New.Data.exists_rpow_neg_localPrimeSumTotal_le_norm_coeff
+      line: 381
+      signature: "theorem exists_rpow_neg_localPrimeSumTotal_le_norm_coeff {P : Parameters} (D : Data P) (l : D.Φ\
+        \ → ℕ)\n    (hl : ∀ τ : D.Φ, (D.weight τ : ℝ) ≤ l τ ∧ l τ ≤ (D.weight τ : ℝ) + D.x ^ 42) :\n    ∃ t : ℂ,\
+        \ t ≠ 0 ∧\n      (∀ σ : ℂ ≃+* ℂ, ‖σ t‖ ≤ exp (D.f * D.m / D.k * D.b)) ∧\n      ∀ \U0001D52A : Modulus D.E,\
+        \ \U0001D52A.ideal = .span {D.piM} → ∀ (p : ℕ) [Fact p.Prime] [PadicPlace p],\n        ∃ (γ : D.Φ × Fin\
+        \ 12 × Unit →₀ ℕ) (y₀ : Matrix (Fin 12) Unit \U0001D52A.ResidueRing),\n          (∀ τ : D.Φ, ∑ b : Fin 12,\
+        \ γ (τ, b, ()) = l τ) ∧\n          p ^ (-D.localPrimeSumTotal p) ≤ ‖ιₚ\n            (P.vacuumScale D.towerExp\
+        \ ^ 12 / t * (∏ τ : D.Φ, (l τ)!) *\n            coeff γ (D.twelveTaylor (D.indicatorDatum \U0001D52A y₀)))‖"
+    routeToMain:
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Sharpness/BoundAttained.lean
+      line: 6
+      endLine: 13
+      text: "* `New.Data.exists_le_norm_coeff_indicatorDatum`: the reduction to the curve. Some Taylor\n  coefficient\
+        \ of degree `l` of an indicator datum, times the factor `vacuumScale ^ 12` of the\n  integral vacuum, has\
+        \ valuation at most `val₁₂(l) + v(M ^ (12 f) c₀)`, where `c₀` is a value of the\n  integral vacuum.\n* `New.Data.exists_rpow_neg_localPrimeSumTotal_le_norm_coeff`:\
+        \ for degrees `l` between the weights\n  `κ` and `κ + x ^ 42`, with `x = D.x`, there is one number `t ≠\
+        \ 0` with small conjugates such that\n  at every prime some Taylor coefficient of degree `l` of an indicator\
+        \ datum, times `∏ l!` and the\n  factor `vacuumScale ^ 12` of the integral vacuum, has valuation at most\
+        \ `S_p + v(t)`.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Sharpness/BoundAttained.lean
+      line: 14
+      endLine: 41
+      text: "\nThe theta product times monomials in the function `y` along the forms of a tight frame is the Taylor\n\
+        series of a vector with integral values, and Fourier inversion expands that vector in translates of\nthe\
+        \ vacuum. Each translate is a sum of indicator data times roots of unity.\n\nNotions from other files:\n\
+        * A tight frame of length `M` with multiplicities `c` is a family `w` of lattice vectors with\n  `∑ c i\
+        \ Φ_σ(w i) conj(Φ_τ(w i)) = M δ_{σ τ}` (`New.IsTightFrame`). Here `M = D.M`.\n* `val_n(l) ≤ r` (`CMLattice.LeastValLE`)\
+        \ says that some coefficient of degree `l` in some product\n  over `n` copies of `H Θ` has valuation at\
+        \ most `r`. Here `Θ` is the theta product of the frame and\n  `H` is an integral series in the functions\
+        \ `y` along the forms of the frame.\n* `intVacuum V` is the vacuum `V.vacElem` times `vacuumScale ^ n`,\
+        \ where `n` is the rank of `V`.\n* `π_M = D.piM` is the conjugate of the integer `π̄_M = D.piMBar` of `K`,\
+        \ of norm `M`.\n* `D.localPrimeSumTotal p` is the forced divisibility `S_p` at the weights of `D`, the sum\
+        \ of\n  `D.localPrimeSum p (D.weight τ) τ` over the infinite places `τ`.\n* `α` is the finite idele of the\
+        \ Weil data of `D.E`, `\U0001D51E₀ = E ∩ α Ô` its lattice, `finVec x` the\n  adelic vector `(0, α x)` with\
+        \ zero part at infinity, and `D.f` the number of infinite places\n  of `D.E`.\n\n## Relation to the literature\n\
+        \nSharpness for one curve (slope `p / (p² - 1)`, attained in infinitely many degrees) is known in the\n\
+        literature.\n\nRelated work: Bannai–Kobayashi, Algebraic theta functions and the p-adic interpolation of\n\
+        Eisenstein–Kronecker numbers (arXiv v1), 2006; Bannai–Kobayashi–Yasuda, Radius of convergence of the\np-adic\
+        \ sigma function, 2017; Schneider–Teitelbaum, p-adic Fourier theory, 2001; Bannai–Kobayashi,\nIntegral structures\
+        \ on p-adic Fourier theory, 2016.\n"
+  New.Derivatives.Sharpness.Cases:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Sharpness.Cases
+      name: New.Data.leastValLE_twelve
+      line: 672
+      signature: "lemma leastValLE_twelve (D : Data P) {p : ℕ} [Fact p.Prime] {l : D.Φ × Unit →₀ ℕ}\n    (hl : D.IsNearWeights\
+        \ l) [PadicPlace p] {J : Type} [Fintype J] {w : J → D.E} {c : J → ℕ}\n    (hw : IsTightFrame w c D.M)\n\
+        \    {i₀ : J} (h_unit : ∀ x : D.Φ × Unit, ‖(P.resolutionForms D.towerExp w i₀ x : ℂ_[p])‖ = 1) :\n    P.cmCurve.LeastValLE\
+        \ (p"
+    routeToMain:
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Sharpness/Cases.lean
+      line: 8
+      endLine: 12
+      text: 'Let `w` be a tight frame of length `M` with a linear form of unit coefficients, and let `val₆` and
+
+        `val₁₂` be the least valuations on six and twelve copies along `w`. This file proves the bound
+
+        `v(l!) + val₁₂(l) ≤ S_p + 2 ∑ v(B_τ)` for every prime `p` and every degree `l` near the weights,
+
+        that is, with `κ(τ) ≤ l_τ ≤ κ(τ) + x ^ 42` at all places `τ`. Here `v` is the `p`-adic valuation,
+
+        `l! = ∏ l_τ!`, and `x = D.x` is the length of the prime sum.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Sharpness/Cases.lean
+      line: 13
+      endLine: 38
+      text: "\n## Main definitions and results\n\n* `New.Parameters.resolutionForms`: the linear forms of a resolution,\
+        \ read in `ℂ_p`.\n* `New.Data.isResolution_resolutionVectors`: a tight frame of length `M`, divided by an\
+        \ integer of\n  `K` of norm `M`, is a resolution of the identity.\n* `New.Data.leastValLE_six_zero_of_inert`:\
+        \ at an inert prime, `val₆(ν) ≤ 0` in all degrees.\n* `New.Data.exists_hasNormalForm_resolutionForms`: at\
+        \ an inert prime the theta product along the\n  frame has a normal form with unit leading coefficients.\n\
+        * `New.Data.leastValLE_twelve`: `v(l!) + val₁₂(l) ≤ S_p + 2 ∑ v(B_τ)` for every prime `p`.\n\nNotions from\
+        \ other files:\n* `IsTightFrame w c M`: the `w_i` lie in the lattice `\U0001D51E₀` of `E` and satisfy\n\
+        \  `∑ c_i σ(w_i) conj (τ(w_i)) = M δ_(σ τ)` for all places `σ`, `τ` of the CM type.\n* `C.LeastValLE μ c\
+        \ n ν r`: `val_n(ν) ≤ r`, where `val_n(ν)` is the least valuation of a coefficient\n  of degree `ν` in a\
+        \ product of `n` copies of `Θ = ∏ θ(μ_i z) ^ c_i` times integral series.\n* `chiK P.d p`: the character\
+        \ of `K = ℚ(√-d)`; it is `1`, `-1`, `0` for split, inert, ramified `p`.\n* `gammaPrime P.d p`, `partnerExponents\
+        \ P.d p`: the rate `γ_p`, and the set `I_p°` of exponents (the\n  odd numbers if `p` is inert, all numbers\
+        \ if `p = d`); `I_p` consists of its positive elements.\n* `D.weight τ`, `P.partner D.towerExp p e τ`: the\
+        \ weight `κ(τ)` and the partner `-p ^ e * τ` of a\n  place `τ`.\n* `l₀ = New.l₀ D.towerExp`: the range of\
+        \ exponents in which the `b`-places are sparse.\n* `D.localPrimeSumTotal p`, `D.lossProduct l_τ`: the predicted\
+        \ valuation\n  `S_p = ∑ D.localPrimeSum p κ(τ) τ`, and the product `B_τ` of the `n♯ = D.lossFactorCount`\
+        \ integers\n  after `(l_τ - n♯)₊`.\n* `P.cmCurve`: the curve `ℂ / Ω₀ \U0001D4DE_K`, whose theta series is\
+        \ `θ`.\n"
+  New.Derivatives.Sharpness.Couplings:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Sharpness.Couplings
+      name: New.CMLattice.leastValLE_six_of_isCouplingFamily
+      line: 581
+      signature: "lemma leastValLE_six_of_isCouplingFamily [PadicPlace p] {J Φ : Type}\n    [Fintype J] [Fintype\
+        \ Φ] {μ : J → Φ × Unit → ℂ_[p]} {m : J → ℕ} {pr : ℕ → Φ → Φ} {ϖ : ℂ_[p]}\n    {l : ℕ → ℕ → valRingCp p}\
+        \ {Φ₀ : Finset Φ} {e : Φ → ℕ} (h_inert : chiK d p = -1) (hp : 2 < p)\n    (hμ : ∀ (i : J) (x : Φ × Unit),\
+        \ ‖μ i x‖ ≤ 1) (hϖ : ‖ϖ‖ = p ^ (-varpiValuation d p))\n    (hl : ∀ a : ℕ, Odd a → IsUnit (l a 0))\n    (hΘ\
+        \ : HasNormalForm (partnerExponents d p) pr ϖ l (C.thetaProd μ m))\n    (he : IsCouplingFamily pr Φ₀ e)\
+        \ (j : Φ → ℕ) :\n    C.LeastValLE μ m 6 (powerDegree p Φ₀ e j + partnerDegree pr Φ₀ e j) (-∑ τ ∈ Φ₀, (j\
+        \ τ : ℝ)) ∧\n    C.LeastValLE μ m 6 (powerDegree p Φ₀ e j + partnerDegree pr Φ₀ e j)\n      (gammaPrime\
+        \ d p * (powerDegree p Φ₀ e j + partnerDegree pr Φ₀ e j).degree -\n        ∑ τ ∈ Φ₀, (j τ : ℝ) -\n     \
+        \   ∑ x : Φ × Unit, (padicValNat p (powerDegree p Φ₀ e j x)! : ℝ) -\n        ∑ x : Φ × Unit, (padicValNat\
+        \ p (partnerDegree pr Φ₀ e j x)! : ℝ))"
+    routeToMain:
+    - module: New.Derivatives.Sharpness.Couplings
+      importer: New.Derivatives.Sharpness.Cases
+      line: 1
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Sharpness/Couplings.lean
+      line: 6
+      endLine: 13
+      text: "Throughout, `v` is the valuation of `ℂ_[p]` with `‖x‖ = p ^ (-v x)`, a series is integral if its\n\
+        coefficients lie in the valuation ring `valRingCp p`, and `seriesToCp` views an integral series as a\nseries\
+        \ over `ℂ_[p]`.\n\n## Main definitions and results\n\n* `New.IsCouplingFamily`: each selected coupling `z_τ\
+        \ ^ p ^ e τ * z_(τ⁺)` has `e τ` odd and has\n  strictly the lowest exponent among such couplings of selected\
+        \ places with the same partner.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Sharpness/Couplings.lean
+      line: 14
+      endLine: 38
+      text: "* `New.powerDegree`, `New.partnerDegree`: the degrees `ν'` and `ν''` of the two parts of a product\n\
+        \  of couplings, with their values at a place and their total degrees.\n* `New.pairExponent`, `New.couplingSubst`:\
+        \ the exponent of `z' ^ ν' * z'' ^ ν''`, and the\n  substitution `z_0 = δ_0 z' + z''`, `z_c = δ_c z'`.\n\
+        * `New.IsCouplingFamily.norm_coeff_pairExponent`: the valuation of the coefficient of\n  `z' ^ ν' * z''\
+        \ ^ ν''` in `F(z' + z'') ∏_(c ≠ 0) F(δ_c z')` for `F = W exp (κ Ξ)`, where `κ` is a\n  scalar of negative\
+        \ valuation.\n* `New.CMLattice.leastValLE_six_of_isCouplingFamily`: at an inert prime `p > 2` the least\
+        \ valuation\n  `val₆` on six copies satisfies `val₆(ν) ≤ -|j|` and `v(ν'! ν''!) + val₆(ν) ≤ γ_p |ν| - |j|`,\
+        \ where\n  `ν = ν' + ν''` and `γ_p = gammaPrime d p = 1 / (p - 1) - varpiValuation d p`.\n\nThe variable\
+        \ `z'` that is raised to the power `p ^ e` is separated from the variable `z''` that\noccurs linearly; the\
+        \ term in which every derivative in `z''` brings down `κ` dominates.\n\nNotions from other files:\n* `couplingSum\
+        \ S pr l` is the series `Ξ = ∑ l a b • Γ_a ^ p ^ b` over `a ∈ S` and `b : ℕ`, where\n  `Γ_a` is the sum\
+        \ of the couplings `z_τ ^ p ^ a * z_(pr a τ)` over all `τ`.\n* `copySubst a` substitutes `z ↦ ∑ a_k z_k`\
+        \ in copies `z_k` of the variables.\n* `C : CMLattice d` is a lattice with multiplication by the integers\
+        \ of `ℚ(√-d)` and a chosen point\n  `t` of order two; `C.θ` is the twisted translate by `t` of its sigma\
+        \ function, normalized to `1`\n  at `0`, and `C.thetaProd μ m = ∏ θ(μ_i z) ^ m i`, read over `ℂ_[p]` through\
+        \ the embedding of `ℂ`\n  that `PadicPlace p` fixes.\n* `C.LeastValLE μ m n ν r` says `val_n(ν) ≤ r` for\
+        \ the least valuation `val_n(ν)` of a coefficient\n  of degree `ν` in a product `∏ (H_c Θ)(z_c)` over `n`\
+        \ copies, where `Θ = C.thetaProd μ m` and the\n  `H_c` run through the ring `C.multiSeriesRing μ`.\n"
+  New.Derivatives.Sharpness.LeastValuation:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Sharpness.LeastValuation
+      name: New.CMLattice.leastValLE_zero_of_span
+      line: 548
+      signature: "lemma leastValLE_zero_of_span [DecidableEq X] (C : CMLattice d) {μ : J → X → ℂ_[p]}\n    (m :\
+        \ J → ℕ) {a : X → J → valRingCp p} {s : ℂ_[p]} (hs : ‖s‖ = 1)\n    (ha : ∀ x x' : X, ∑ i : J, (a x i : ℂ_[p])\
+        \ * μ i x' = if x = x' then s else 0) (ν : X →₀ ℕ) :\n    C.LeastValLE μ m 6 ν 0"
+    routeToMain:
+    - module: New.Derivatives.Sharpness.LeastValuation
+      importer: New.Derivatives.Sharpness.Couplings
+      line: 1
+    - module: New.Derivatives.Sharpness.Couplings
+      importer: New.Derivatives.Sharpness.Cases
+      line: 1
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Sharpness/LeastValuation.lean
+      line: 6
+      endLine: 15
+      text: "The file bounds the least valuation `val_n(ν)` of a coefficient of degree `ν` in a product\n`∏ (H_c\
+        \ Θ)(z_c)` over `n` copies of the variables.\n\nThe imported notions used in the statements are:\n\n* `CMLattice\
+        \ d`: a lattice in `ℂ`, with a marked point `t` of order two and normalized at `t`, that\n  is stable under\
+        \ the ring of integers of `ℚ(√-d)` if `d ≠ 0`. The results that need `d` to be a\n  prime with `d ≡ 7 (mod\
+        \ 8)` assume `PrimeSevenModEight d`. Its function `C.θ` is the twisted\n  translate by `t` of the sigma\
+        \ function with value `1` at `0`, and `C.translatedY` is an affine\n  combination of `℘'(z + t)` and `℘(z\
+        \ + t)`.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Sharpness/LeastValuation.lean
+      line: 16
+      endLine: 38
+      text: "* `PadicPlace p`: a ring homomorphism `ιₚ : ℂ →+* ℂ_[p]`. By `taylorVia ιₚ f` is meant the Taylor\n\
+        \  series of `f` at `0` with `ιₚ` applied to the coefficients.\n* `C.thetaProd μ m`: the series `Θ = ∏ θ(μ_j\
+        \ z) ^ m j`, where `θ` is the Taylor series of `C.θ`\n  and the `μ_j` are linear forms over `ℂ_p`.\n* `C.multiSeriesRing\
+        \ μ`: the ring of integral power series in the series `y(μ_j z)`, where `y` is\n  the Taylor series of `C.translatedY`.\n\
+        * `varpiValuation d p`: the number `ρ_p`, equal to `1 / (p - 1)`, `1 / (p² - 1)`, `1 / (2 p - 2)`\n  when\
+        \ `p` is split, inert, ramified in `ℚ(√-d)`. A scaling of valuation at least `ρ_p` makes the\n  series in\
+        \ `y` integral.\n* `gammaPrime d p`: the rate `γ_p = 1 / (p - 1) - ρ_p`.\n\n## Main definitions and results\n\
+        \n* `New.CMLattice.LeastValLE`: the relation `val_n(ν) ≤ r` for the least valuation of a coefficient\n \
+        \ of degree `ν` in a product `∏ (H_c Θ)(z_c)` over `n` copies of the variables.\n* `New.CMLattice.LeastValLE.add`,\
+        \ `New.CMLattice.leastValLE_of_copySubst`: the two rules, for\n  products and for integral substitutions.\n\
+        * `New.CMLattice.scaledThetaProd`: the product `∏ Θ(δ_c z)` of scaled copies of `Θ`.\n* `New.CMLattice.exists_scaledThetaProd_mem_mul_eq_one`:\
+        \ six scaled copies of `Θ` multiply to a unit\n  of the ring of integral series in the `y(μ_j z)`.\n* `New.CMLattice.leastValLE_of_unit_coefficients`,\
+        \ `New.CMLattice.leastValLE_zero_of_span`: two\n  bounds for `val₆` in all degrees, when one form has unit\
+        \ coefficients and when integral\n  combinations of the forms give the coordinates up to a unit.\n"
+  New.Derivatives.Sharpness.NearPairs:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Sharpness.NearPairs
+      name: New.Data.error_le_padicValNat_lossProduct
+      line: 449
+      signature: "lemma error_le_padicValNat_lossProduct (D : Data P) {p : ℕ} [hp : Fact p.Prime] (hk : p ≤ D.k)\n\
+        \    (l : ℕ) :\n    3 * (D.logB + 2) + D.x ^ 42 + 1 + l₀ D.towerExp * (D.a / D.x₁) + 2 * D.b / (D.k * p)\
+        \ ≤\n      padicValNat p (D.lossProduct l)"
+    routeToMain:
+    - module: New.Derivatives.Sharpness.NearPairs
+      importer: New.Derivatives.Sharpness.Cases
+      line: 2
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Sharpness/NearPairs.lean
+      line: 7
+      endLine: 13
+      startOffset: 160
+      endOffset: 819
+      text: 'This file studies places at a prime `p` that does not split in `K = ℚ(√-d)`, their partners, and the
+
+        `b`-places among them. A near pair is a `b`-place whose partner at an exponent `e < l₀ / 2` in `I_p`
+
+        is a `b`-place; `I_p` is the set of odd numbers, or of all `e ≥ 1` if `p = d`. For non-split `p ≤ k`
+
+        the `b`-places are sparse along the powers `(-p) ^ j` with `j < l₀`. For `p = d` there are no near
+
+        pairs. Writing `v` for the `p`-adic valuation, the file then bounds the losses in the sharpness
+
+        bound: for `p ≤ k` the terms of the sums `R_τ = D.partnerMinSum p τ` not coming from a near pair are
+
+        covered by `v(B)` for a product `B` of consecutive integers.'
+    remainder:
+      path: grh/src/New/Derivatives/Sharpness/NearPairs.lean
+      line: 13
+      endLine: 44
+      startOffset: 819
+      endOffset: 2825
+      text: "\n\nNotions from other files:\n* `New.Data P`: the data over the parameters `P = (q₀, d)`, with the\
+        \ size parameters `b`, `x`, `x₁`,\n  `k`, the exponent `s` and the group `D.Φ` of infinite places of the\
+        \ field `E`.\n* `l₀ = New.l₀ D.towerExp`: the least power of `3` above `27 s`, where `2 ^ s = m ^ 22`.\n\
+        * `D.bPlaces`, `D.weight`: the set of `b`-places and the weight `κ` of a place, equal to `b` at the\n  `b`-places\
+        \ and to `a / x₁` elsewhere, where `a = x b`.\n* `D.placeOfInt ν`: the place named by the integer `ν`; the\
+        \ partner of `τ` at the exponent `e` is\n  `P.partner D.towerExp p e τ = D.placeOfInt (-p ^ e) * τ`.\n*\
+        \ `P.placeClass`: the class of a place modulo a divisor of `q₁ = towerDeg s * q₀`.\n* `chiK d`: the character\
+        \ `χ_K = (· / d)`; `p` does not split in `K` if `χ_K(p) ≠ 1`.\n* `positivePartnerExponents d p`, `piPrimeValuation\
+        \ d p`, `gammaPrime d p`: the set `I_p`, which is\n  empty if `p` splits, and the numbers `v(π_p)` and `γ_p\
+        \ = v(π_p) ∑_{e ∈ I_p} p⁻ᵉ`.\n\n## Main definitions and results\n\n* `New.Data.summable_posPart_sub_weight`:\
+        \ the series in the predicted valuation `S_p` converges.\n* `New.Data.notMem_bPlaces_of_two_partners`: sparseness\
+        \ of the `b`-places along the powers of `-p`.\n* `New.Data.IsNearPair.exponent_unique`, `New.Data.IsNearPair.eq_and_eq_of_partner_eq`,\n\
+        \  `New.Data.IsNearPair.end_ne_start`: for non-split `p ≤ k` no place occurs twice among the starts\n  and\
+        \ ends of near pairs; two pairs that share a place contradict sparseness.\n* `New.Data.lossProduct`: a product\
+        \ `B` of `n♯ = ⌈6 b / k⌉` consecutive integers, the last ones up\n  to `l` if `n♯ ≤ l`, with `v(n♯!) ≤ v(B)`\
+        \ and `v(l!) ≤ v((l - n♯)₊!) + v(B)`.\n* `New.Data.mul_sum_weight_sub_localPrimeSumTotal`: `γ_p |κ| - S_p\
+        \ = v(π_p) ∑ R_τ`, where `|κ|` is\n  the sum of the weights.\n* `New.Data.partnerMinSum_le`, `New.Data.error_le_padicValNat_lossProduct`:\
+        \ for `p ≤ k` the terms of\n  `R_τ` other than that of a near pair are covered by `v(B)`.\n\n## Relation\
+        \ to the literature\n\nLegendre's formula for `v(n!)` is classical.\n"
+  New.Derivatives.Sharpness.OneCurve:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Sharpness.OneCurve
+      name: New.CMLattice.katz_divisibility_limit
+      line: 330
+      signature: 'lemma katz_divisibility_limit (n : ℕ) : ∃ f ∈ C.integralSeriesRing (p'
+    routeToMain:
+    - module: New.Derivatives.Sharpness.OneCurve
+      importer: New.Derivatives.Sharpness.LeastValuation
+      line: 1
+    - module: New.Derivatives.Sharpness.LeastValuation
+      importer: New.Derivatives.Sharpness.Couplings
+      line: 1
+    - module: New.Derivatives.Sharpness.Couplings
+      importer: New.Derivatives.Sharpness.Cases
+      line: 1
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Sharpness/OneCurve.lean
+      line: 6
+      endLine: 13
+      text: "* `New.exists_monomial_max_norm_coeff`: among the integral series in the `f i`, times a fixed\n  series,\
+        \ a monomial of degree at most `|α|` has the largest coefficient at `α`.\n* `New.CMLattice.katz_divisibility_limit`:\
+        \ for every `n` some `g ∈ \U0001D4AA[[y]]` has `v(g⁽ⁿ⁾(0)) ≤ γ_p n`,\n  where `γ_p = 1 / (p - 1) - ρ_p`.\n\
+        \nThe least valuation of `g⁽ⁿ⁾(0)` is superadditive in `n`, by the integrality of the group law, and\nthe\
+        \ formal parameter bounds it when `n` is a power of `q_p`. We work with absolute values, so that\nleast\
+        \ valuations become greatest norms and sums become products.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Sharpness/OneCurve.lean
+      line: 14
+      endLine: 30
+      text: "\n## Notation\n\n* `d` is a prime congruent to `7` mod `8` (`PrimeSevenModEight d`), and a ring homomorphism\n\
+        \  `ιₚ : ℂ →+* ℂ_[p]` is fixed (`PadicPlace p`).\n* `C : CMLattice d` is a lattice `Λ` stable under the\
+        \ integers of `ℚ(√-d)`, with a point `t` of\n  order two modulo `Λ` and a square root `a₁` of `12 ℘(t)`.\n\
+        * `y = taylorVia ιₚ C.translatedY` is the Taylor series at `0` of\n  `(℘'(z + t) - a₁ (℘(z + t) - ℘(t)))\
+        \ / 2`, carried to `ℂ_p` by the chosen map `ιₚ : ℂ →+* ℂ_[p]`.\n* `C.integralSeriesRing` is `\U0001D4AA\
+        [[y]]`, the power series in `y` over the valuation ring `\U0001D4AA` of `ℂ_p`.\n* `primeNorm d p` is `q_p`,\
+        \ the norm of a prime of `ℚ(√-d)` above `p`, and `varpiValuation d p` is\n  `ρ_p = 1 / (e (q_p - 1))`, with\
+        \ `e` the ramification index; `gammaPrime d p` is the rate\n  `γ_p = 1 / (p - 1) - ρ_p`.\n\n## Relation\
+        \ to the literature\n\nAt inert primes the rate `γ_p` is that of Katz, Divisibilities, congruences, and\
+        \ Cartier duality.\n"
+  New.Derivatives.Vacuum.Divisibility:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Vacuum.Divisibility
+      name: New.Parameters.norm_schurJet_jetSeries_le_of_charges
+      line: 246
+      signature: "theorem norm_schurJet_jetSeries_le_of_charges\n    {f : \U0001D4AE ((stdSpace (E P s) n).hom (stdSpace\
+        \ (E P s) n'))} {c : ℂ}\n    (hp_nonsplit : chiK P.d p ≠ 1) (hκ : FitsRanks (fun _ : P.Φ s ↦ n) (fun _ :\
+        \ P.Φ s ↦ n') κ)\n    (hf : f ∈ standardData ((stdSpace (E P s) n).hom (stdSpace (E P s) n')) 1) (hc : ‖ιₚ\
+        \ c‖ ≤ 1)\n    (erasedPlaces : Finset (P.Φ s)) (chargeExp : P.Φ s → ℕ → n' → ℕ)\n    (h_charge : ∀ e ∈ partnerExponents\
+        \ P.d p,\n      IsChargeExponent (P.partner s p e) erasedPlaces chargeExp)\n    (i' : WeylIndex n' κ) (i\
+        \ : WeylIndex n κ) :\n    let N : ℕ"
+    routeToMain:
+    - module: New.Derivatives.Vacuum.Divisibility
+      importer: New.UpperBound.Kernels.ThetaLiftGauge
+      line: 2
+    - module: New.UpperBound.Kernels.ThetaLiftGauge
+      importer: New.UpperBound.Divisibility.ChainValuation
+      line: 2
+    - module: New.UpperBound.Divisibility.ChainValuation
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 2
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Vacuum/Divisibility.lean
+      line: 8
+      endLine: 15
+      text: "This file bounds the valuations of the derivatives of the Taylor series of standard data along\nhomogeneous\
+        \ integral polynomials.\n\n* Standard data of level `δ` at `p` (`standardData`): the span over the `p`-integral\
+        \ complex numbers\n  (`embValRing`) of the translates of the integral vacuum by the points `x` for which\
+        \ `δ * x` is\n  integral above `p`.\n* `V.jetSeries a f`: the Taylor series at `0` of the theta function\
+        \ of `f`, with the variables\n  scaled by `a`; the scale `P.jetScale s` is `periodFactor * areaScale / cmPeriod`.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Vacuum/Divisibility.lean
+      line: 16
+      endLine: 31
+      text: "* `jet R Q F`: the derivative `Q(∂) F` at `0`.\n* The normal form (`HasNormalForm`): after scaling\
+        \ the variables by `ϖ`, an integral series times\n  the exponential of a multiple of the coupling series\
+        \ of the pairs of partner places.\n* `ιₚ`: the embedding of `ℂ` into `ℂ_[p]` that comes with `PadicPlace\
+        \ p`.\n\n## Main definitions and results\n\n* `New.Parameters.norm_jet_jetSeries_le_pow`: a lower bound\
+        \ for the valuations of the derivatives of\n  the Taylor series of standard data along homogeneous integral\
+        \ polynomials.\n* `New.Parameters.exists_hasNormalForm_jetSeries`: at a non-split prime the Taylor series\
+        \ of\n  standard data of level one has the normal form.\n* `New.Parameters.norm_jet_minorProd_jetSeries_le`:\
+        \ so its derivatives along products of minors have\n  the predicted divisibility up to a loss of `card (P.Φ\
+        \ s) * N ^ 3 * (1 + Real.logb p (max (boxes κ\n  N) 1))`, where `N = card n'`.\n* `New.Parameters.norm_schurJet_jetSeries_le_of_charges`:\
+        \ the bound with removed columns and charges\n  for the derivatives along the entries of the Schur matrices.\n"
+  New.Derivatives.Vacuum.IntegralVacuum:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      name: New.Parameters.exists_isJetConjugate_translates
+      line: 595
+      signature: "lemma exists_isJetConjugate_translates (P : Parameters) (s : ℕ) :\n    ∃ B : Gal(ℂ/K P) → \U0001D538\
+        f (P.E s),\n    ∀ {n : Type} [Fintype n] [DecidableEq n] {ε : n → ℤˣ} (V : Space (P.E s) n ε) [V.IsStd],\n\
+        \      ∃ F ∈ V.finitePart, V.θ F = 1 ∧\n        V.finitePart ≤ span ℂ (Set.range fun x : n → \U0001D538\
+        f (P.E s) ↦ V.ϱ (finVec x) F) ∧\n        ∀ σ : Gal(ℂ/K P), ∃ t : ℂ, ∃ F' ∈ V.finitePart, ‖t‖ ^ 2 = (P.bigOmega\
+        \ s)⁻¹ ∧\n          ∀ x : n → \U0001D538f (P.E s), IsJetConjugate σ (placePerm s σ) (P.jetScale s) t\n \
+        \           (V.ϱ (finVec x) F) (V.ϱ (finVec (B σ • x)) F')"
+    routeToMain:
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Vacuum/IntegralVacuum.lean
+      line: 8
+      endLine: 14
+      text: 'Fix the parameters `P`, the field `E = P.E s` and a hermitian space `V` of rank `n` over it. The
+
+        integral vacuum θ° = `New.Parameters.intVacuum` is the vacuum scaled by `vacuumScale ^ n`. The
+
+        factor `New.Parameters.vacuumScale` is provided by
+
+        `New.Parameters.exists_mul_vacElem_integral_bounded` for the standard space of rank one. To obtain
+
+        it, a multiple of the vacuum is written as a sum of translates of one vector. For a standard space,
+
+        the values of θ° at the points `New.finVec x` are integral at every prime, have bounded conjugates,
+
+        and are not all zero. A vector `f` is read as the function `f y = θ(ϱ(y) f)` of adelic vectors `y`.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Vacuum/IntegralVacuum.lean
+      line: 15
+      endLine: 43
+      text: "\n## Main definitions and results\n\n* `New.Parameters.IsThetaProduct`, `New.Parameters.exists_isThetaProduct`:\
+        \ a vector whose theta\n  function is the product of theta functions of a CM lattice along the resolution\
+        \ of powers of `ζ`,\n  that is, along the vectors `ζᵏ / q₁`, `k < q₁`, which form a tight frame of `E` over\
+        \ `K`.\n* `New.Parameters.standardData V δ`: the module of standard data at a prime `p`. Its scalars are\
+        \ the\n  complex numbers that the `p`-adic place sends to integers, and it is spanned by the translates\n\
+        \  `V.finHeisenbergOp x θ°`, for the `x` with `δ x` integral above `p`.\n* `New.Parameters.norm_intVacuum_le_one`:\
+        \ the values of θ° at the points `New.finVec x` are integral\n  at every prime.\n* `New.Parameters.norm_ringEquiv_intVacuum_le`:\
+        \ their conjugates under the automorphisms of `ℂ` are\n  bounded; `New.Parameters.norm_gal_intVacuum_le`\
+        \ is the case of automorphisms over `K`.\n* `New.Parameters.norm_dataInner_self_le`: a bound for `f` at\
+        \ these points bounds its squared norm\n  `New.Space.dataInner f f`, the mean of `|f y| ^ 2` over adelic\
+        \ vectors modulo rational ones.\n* `New.Parameters.exists_isJetConjugate_translates`: the conjugates of\
+        \ the jets of the translates of\n  one vector that generates the finite part.\n\nNotions from other files:\n\
+        * `New.Parameters`: The fixed parameters: a multiple `q₀` of `18480 = 16 · 3 · 5 · 7 · 11` and a\n  prime\
+        \ `d` with `d ≡ q₀/2 - 1 mod q₀`.\n* `New.Parameters.E`: The field E = K(ζ) obtained from K = ℚ(√-d) by\
+        \ adjoining a primitive root of\n  unity ζ of order `P.q₁ s`.\n* `New.Space`: a hermitian space with a point,\
+        \ given by a matrix J over E and x in GL_n(\U0001D538) with xᴴJx\n  equal to the diagonal matrix of its\
+        \ signs at the infinite places and 1 at the finite places.\n* `New.Space.vacElem`: The vacuum: the product\
+        \ of the Gaussian and a twisted indicator of a lattice,\n  as an element of \U0001D4AE(V).\n* `New.Space.IsStd`:\
+        \ The space `V` is standard: all its signs are `+1` and its point is the identity\n  matrix.\n"
+  New.Derivatives.Vacuum.JetIntegrality:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Vacuum.JetIntegrality
+      name: New.Parameters.omega_mem_standardData
+      line: 307
+      signature: "lemma omega_mem_standardData {g : Gf (P.E s) n} (hg : g ∈ integralAbove n p)\n    (hf : f ∈ standardData\
+        \ V δ) : V.ω (1, g) f ∈ standardData V δ"
+    routeToMain:
+    - module: New.Derivatives.Vacuum.JetIntegrality
+      importer: New.Derivatives.Vacuum.StandardDataProducts
+      line: 1
+    - module: New.Derivatives.Vacuum.StandardDataProducts
+      importer: New.Derivatives.Vacuum.Divisibility
+      line: 3
+    - module: New.Derivatives.Vacuum.Divisibility
+      importer: New.UpperBound.Kernels.ThetaLiftGauge
+      line: 2
+    - module: New.UpperBound.Kernels.ThetaLiftGauge
+      importer: New.UpperBound.Divisibility.ChainValuation
+      line: 2
+    - module: New.UpperBound.Divisibility.ChainValuation
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 2
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Vacuum/JetIntegrality.lean
+      line: 8
+      endLine: 13
+      text: 'This file proves two facts. Let `μ_i` be linear forms that are `d` times integral forms, and let `y`
+
+        be the parameter described below. Then the derivatives at `0` of a product of series `θ(μ_i z)`,
+
+        times an integral series in the `y(μ_i z)`, are integral.
+
+        Standard data of level `δ` are stable under the Heisenberg operators of finite points that `δ`
+
+        makes integral above `p`, and under the Weil operators of finite points that are integral above
+
+        `p`. An element of `ℂ_[p]` is integral if its norm is at most `1`.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Vacuum/JetIntegrality.lean
+      line: 14
+      endLine: 32
+      text: "\n* `New.jet`: the pairing `(Q(∂) F)(0)` of a polynomial `Q` with a power series `F`.\n* `New.taylorVia\
+        \ ιₚ C.θ`: the Taylor series at `0` of the function `θ` of the CM lattice `C`, with\n  coefficients sent\
+        \ to `ℂ_[p]` by `ιₚ`; and `New.linearSeries c`, the linear form `∑ c_x z_x`.\n* `New.CMLattice.multiSeriesRing`:\
+        \ the integral power series in the `y(μ_i z)`, where the parameter\n  `y` is the Taylor series of `C.translatedY`.\n\
+        * `New.Parameters.integralAfter δ S`: the finite adelic vectors `x` with `δ x` integral at the\n  places\
+        \ in `S`.\n* `New.Parameters.standardData V δ`: the module over `New.embValRing` spanned by the translates\
+        \ of\n  the integral vacuum by the points that `δ` makes integral above `p`.\n\n## Main definitions and\
+        \ results\n\n* `New.CMLattice.jetRing`: the ring generated by the integral series in the `y(μ_i z)` and\
+        \ by the\n  `θ(μ_i z)` and `(-log θ)'(μ_i z)`.\n* `New.Parameters.finHeisenbergOp_mem_standardData`: standard\
+        \ data of level `δ` are stable under the\n  Heisenberg operators of finite points that `δ` makes integral\
+        \ above `p`.\n* `New.Parameters.omega_mem_standardData`: they are stable under the Weil operators of finite\n\
+        \  points integral above `p`.\n"
+  New.Derivatives.Vacuum.Scale:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Vacuum.Scale
+      name: New.Parameters.norm_jetScale_sq
+      line: 140
+      signature: 'lemma norm_jetScale_sq (P : Parameters) (s : ℕ) : ‖P.jetScale s‖ ^ 2 = (P.bigOmega s)⁻¹'
+    routeToMain:
+    - module: New.Derivatives.Vacuum.Scale
+      importer: New.Derivatives.Sharpness.Cases
+      line: 3
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Vacuum/Scale.lean
+      line: 7
+      endLine: 12
+      text: "* `New.Space.jet_jetSeries_of_isHomogeneous`: the derivative of the Taylor series along a\n  homogeneous\
+        \ polynomial is a theta value times a power of the scale.\n* `New.Parameters.norm_periodFactor_mul_daggerForms_le_one`:\
+        \ the scaled linear form of a vector `y`\n  is integral at `p` if `α⁻¹ y` is integral above `p`.\n* `New.Parameters.norm_jetScale_sq`:\
+        \ the modulus of `jetScale`, from the area of the CM lattice and\n  the formula of Chowla and Selberg.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Vacuum/Scale.lean
+      line: 13
+      endLine: 32
+      text: "\nThe period scale is `jetScale` times an integer `π_M` of `K` of norm `M`. The statements with this\n\
+        factor are `New.Data.norm_conj_piMBar_mul_jetScale_sq` and\n`New.Data.norm_taylorScale_eq_one_of_not_dvd`.\n\
+        \nThe statements use these notions:\n* `jetSeries a f`: the Taylor series of the theta function of `f`,\
+        \ with variables scaled by `a`;\n  `jet R Q F` is the derivative at zero of the series `F` along the polynomial\
+        \ `Q`.\n* `daggerForms u j`: the coefficients in `ℂ_p` of the linear form `z ↦ y† z` of the vector\n  `y\
+        \ = u j`; at a pair `(v, i)` of an infinite place and a coordinate the coefficient is the image\n  in `ℂ_p`\
+        \ of the complex conjugate of `Φ_v (y i)`, with `Φ_v` the embedding chosen at `v`.\n* `periodFactor`: the\
+        \ complex number `vacuumRoot / chowlaSelbergUnit`, where `vacuumRoot` is a root\n  of the inverse of the\
+        \ value `chiFin α` of a character at the idele `α` and the denominator is a\n  unit at every `p`-adic place;\
+        \ `jetScale` is `periodFactor * √(2π / √d) / cmPeriod`, where\n  `cmPeriod * \U0001D4DE_K` is the lattice\
+        \ of the CM curve of the field `K = ℚ(i√d)`.\n\n## Relation to the literature\n\nThe modulus of `jetScale`\
+        \ is computed from the formula of Chowla and Selberg,\n`New.CMLattice.chowla_selberg`.\n"
+  New.Derivatives.Vacuum.ShortVectors:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Vacuum.ShortVectors
+      name: New.Data.exists_isTightFrame
+      line: 787
+      signature: "theorem exists_isTightFrame :\n    ∃ (I : Type) (_ : Fintype I) (v : I → D.E) (c : I → ℕ),\n \
+        \     IsTightFrame v c D.M ∧\n      (∀ i : I, 6 * D.f * D.b ≤ c i) ∧\n      ∀ (p : ℕ) [Fact p.Prime] [PadicPlace\
+        \ p], ∃ i : I, P.HasUnitLinearForm D.towerExp p (v i)"
+    routeToMain:
+    - module: New.Derivatives.Vacuum.ShortVectors
+      importer: New.UpperBound.Kernels.JetConjugatesAndBounds
+      line: 4
+    - module: New.UpperBound.Kernels.JetConjugatesAndBounds
+      importer: New.Determinant.AuxiliaryForms.RegularParameters
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.RegularParameters
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 1
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Vacuum/ShortVectors.lean
+      line: 6
+      endLine: 12
+      text: "A tight frame of length `h` is a finite family of vectors `y` of the lattice `\U0001D51E₀`, counted\
+        \ with\nmultiplicities, such that `∑ y, (y† z) y = h z` for all `z`: a resolution of `h`.\n\n* `New.Parameters.exists_isTightFrame_coprime`:\
+        \ a tight frame in `\U0001D51E₀` of a length `h` prime to `q₁`,\n  namely `New.Parameters.dualResolutionFactor`.\n\
+        * `New.Parameters.exists_isTightFrame_of_coprime`: this frame and the powers of `ζ` give tight\n  frames\
+        \ of every length `m ≥ q₁ h + R (q₁ + h)` with multiplicities at least `R`.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Vacuum/ShortVectors.lean
+      line: 13
+      endLine: 39
+      text: "* `New.Data.exists_short_isTightFrame_coprime`: the length `h` is at most the weight `b`, and the\n\
+        \  two frames contain a vector `y` with `HasUnitLinearForm`.\n* `New.Data.exists_isTightFrame`: a tight\
+        \ frame of length `p₀ p₁ = D.M` with large multiplicities,\n  where `p₀` and `p₁` are the two primes `D.levelPrime\
+        \ 0` and `D.levelPrime 1` of the data.\n\nThe powers of `ζ` are a tight frame of length `q₁`. The frame\
+        \ of length `h` comes from the powers of\n`ζ⁻¹` and the orbits `ζ ^ k * τ(e i)` of a multiple `e i` in `\U0001D51E\
+        ₀` of their dual basis for the\nHermitian form `y'† y`, by replacing some pairs of members by their sums;\
+        \ the cross terms add\n`β ^ j + conj β ^ j` to the length, which makes it prime to `q₁`.\n\nNotions from\
+        \ other files:\n* `P.E s` is the field `E = K(ζ)`, where `K = ℚ(√-d)` and `ζ = P.ζ s` is a primitive root\
+        \ of unity\n  of order `q₁ = P.q₁ s = P.q₀ * towerDeg s`; here `q₀ = P.q₀` is the fixed modulus of the\n\
+        \  parameters and `towerDeg s = 3 ^ (log₃ s + 5) * 2 ^ s`. `P.zetaInt s` is `ζ` as an element of\n  `\U0001D4DE\
+        \ E`. For admissible data `D` the exponent `s` is `D.towerExp`, so that `D.E = P.E D.towerExp`.\n* `P.Φ\
+        \ s` is the set of infinite places of `E`, a group isomorphic to `Gal(E/K)` by\n  `P.galOfPlace s`; `Φ τ`\
+        \ is the complex embedding of `E` chosen at the infinite place `τ`.\n* `finiteImage id y ∈ Ô E` says that\
+        \ `y` lies in the lattice `\U0001D51E₀ = E ∩ α Ô`, where `α` is the idele\n  of the Weil data and `Ô` is\
+        \ the ring of integral finite adeles.\n* `P.periodFactor s` is a complex number; by `norm_iota_periodFactor`\
+        \ its absolute value at an\n  embedding `ιₚ : ℂ →+* ℂ_[p]` is given by the idele `α`.\n* `β = (1 + √-d)\
+        \ / 2` is `quadGen d` in `ℂ`, `QuadField.betaK d` in `\U0001D4DE K` and `P.betaKInE s` in\n  `\U0001D4DE\
+        \ E`.\n\nIn comments `P'(ζ)` is `P.relDifferentGen s`, the value at `ζ` of the derivative of the cyclotomic\n\
+        polynomial of order `q₁`; `φ(q₁)` is the totient of `q₁`, `j` is the least integer with\n`2 ^ j ≥ q₁`, and\
+        \ `y'† y = ∑ τ, τ(y) conj τ(y')`.\n"
+  New.Derivatives.Vacuum.StandardDataProducts:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Vacuum.StandardDataProducts
+      name: New.Parameters.exists_jetSeries_map_eq_thetaProd_pow_mul
+      line: 485
+      signature: "lemma exists_jetSeries_map_eq_thetaProd_pow_mul {δ : \U0001D4DE P.K} {N : ℕ} (hδ_ne : δ ≠ 0)\n\
+        \    (hN : δ * conj (δ : ℂ) = N) {f : \U0001D4AE V} (hf : f ∈ standardData V δ) :\n    ∃ (J : Type) (_ :\
+        \ Fintype J) (u : J → n → P.E s) (m : J → ℕ),\n      IsResolution u m ∧\n      (∀ j : J, finiteImage (u\
+        \ j) ∈\n        integralAfter (1 : \U0001D4DE P.K) fun v : FinPlace (P.E s) ↦ ↑p ∈ v.asIdeal) ∧\n      ∃\
+        \ H ∈ P.cmCurve.multiSeriesRing (daggerForms u),\n        (V.jetSeries (conj (δ : ℂ) * (P.areaScale / P.cmPeriod))\
+        \ f).map ιₚ =\n          P.cmCurve.thetaProd (daggerForms u) m ^ N * H"
+    routeToMain:
+    - module: New.Derivatives.Vacuum.StandardDataProducts
+      importer: New.Derivatives.Vacuum.Divisibility
+      line: 3
+    - module: New.Derivatives.Vacuum.Divisibility
+      importer: New.UpperBound.Kernels.ThetaLiftGauge
+      line: 2
+    - module: New.UpperBound.Kernels.ThetaLiftGauge
+      importer: New.UpperBound.Divisibility.ChainValuation
+      line: 2
+    - module: New.UpperBound.Divisibility.ChainValuation
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 2
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Vacuum/StandardDataProducts.lean
+      line: 7
+      endLine: 14
+      text: "* `New.IsTightFrame.isResolution`: a tight frame of length `b²` gives a resolution of the identity\n\
+        \  on `Eⁿ`.\n* `New.CMLattice.exists_prod_twistedTranslate_eq_thetaProd_mul`: a product of translates of\
+        \ `θ` by\n  `δ`-division points, taken at `δ̄ z`, is a power of a product of copies of `θ` times an integral\n\
+        \  series.\n* `New.Parameters.exists_isVacuumExpansion`: the integral vacuum is an integral combination\
+        \ of\n  translates of a vector whose theta function is a product of copies of `θ` along a tight frame;\n\
+        \  `New.Parameters.IsVacuumExpansion` collects the properties of this expansion.\n"
+    remainder:
+      path: grh/src/New/Derivatives/Vacuum/StandardDataProducts.lean
+      line: 15
+      endLine: 50
+      text: "* `New.Parameters.exists_jetSeries_map_eq_thetaProd_pow_mul`: the theta function of standard data of\n\
+        \  level `δ ≠ 0`, taken at `δ̄ (√(2π / √d) / Ω₀) z` with `d` and `Ω₀` as below, is the power `δ δ̄`\n  of\
+        \ the product of `θ` along a resolution of the identity times an integral series in the\n  parameters of\
+        \ these copies.\n\nStandard data are integral combinations of translates of the integral vacuum. The proof\
+        \ has three\nsteps. Fourier inversion writes the integral vacuum through the translates of one product of\
+        \ copies\nof `θ`, with a denominator prime to `p`. A translate of this product is a product of translates.\n\
+        Each translated factor falls under the integrality principle on one curve.\n\nNotions from other files:\n\
+        * `finiteImage x` is the finite adelic vector `α⁻¹ x` of a rational vector `x`, where `α` is the\n  idele\
+        \ of the Weil data of `E`; its coordinates lie in `Ô E` exactly when those of `x` lie in the\n  lattice\
+        \ `\U0001D51E₀ = E ∩ α Ô`.\n* `V.ϱ (finVec x)` is the Heisenberg translation of `\U0001D4AE V` by the finite\
+        \ adelic vector `α x`, called\n  the translation by `x` below, and `V.finHeisenbergOp x` is this translation\
+        \ times a root of unity.\n* `intVacuum V`, the integral vacuum, is the vacuum `V.vacElem` (a Gaussian times\
+        \ the signed\n  indicator of the standard lattice) times a fixed power of the vacuum scale of the parameters.\n\
+        * `daggerForms u` are the linear forms `u_j† z` read in `ℂ_p`, and `C.thetaProd μ m` is the product\n  `∏\
+        \ θ(μ_j z) ^ m j` of copies of the theta function of the curve `C`.\n* `V.jetSeries c f` is the Taylor series\
+        \ of the theta function of `f` in Fock's coordinates, taken\n  at `c z`. Here `P.areaScale` is the number\
+        \ `√(2π / √d)`, where `K = ℚ(√-d)`, and `P.cmPeriod` is\n  the fixed period `Ω₀` of `K`: the lattice of\
+        \ the curve `P.cmCurve` is `Ω₀ \U0001D4DE_K`. The factor\n  `P.areaScale / P.cmPeriod` passes from Fock's\
+        \ coordinates to those of the curve\n  `ℂ / cmPeriod \U0001D4DE_K`.\n* `finiteImage id a ∈ Ô E` says that\
+        \ the element `a` of `E` lies in `\U0001D51E₀`; `Φ τ` is the complex\n  embedding of the infinite place\
+        \ `τ` in the CM type.\n* `IsTightFrame w m M` says that the `w i` lie in `\U0001D51E₀` and that the matrix\n\
+        \  `(∑ m i τ(w i) conj σ(w i))`, indexed by infinite places `τ` and `σ`, is `M` times the identity.\n  The\
+        \ number `M` is called the length of the frame.\n* `V : Space E n ε` is a hermitian space of rank `n` with\
+        \ signs `ε` at the infinite places, together\n  with an adelic point, `\U0001D4AE V` is its Weil model,\
+        \ `V.θ` the theta functional on it, and\n  `V.finitePart` the span of the images of the vacuum under the\
+        \ operators `V.finHeisenbergOp x`.\n* `taylorVia ιₚ f` is the Taylor series of `f` at `0` read in `ℂ_p`,\
+        \ and `linearSeries μ` the linear\n  form `μ` as a power series. `C.twistedTranslate k a f` is the translate\
+        \ of `f`, of weight `k`, by\n  `a` times the factor that keeps it a theta function.\n"
+  New.Derivatives.Vacuum.TightFrames:
+    group: New.Derivatives
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Derivatives.Vacuum.TightFrames
+      name: New.Parameters.exists_isResolutionProduct_of_isTightFrame
+      line: 860
+      signature: "lemma exists_isResolutionProduct_of_isTightFrame (V : Space (P.E s) n ε) [hV : V.IsStd] {M N :\
+        \ ℕ}\n    {I : Type} [Fintype I] {w : I → P.E s} {m : I → ℕ} (δ : \U0001D4DE P.K) (hN_ne : N ≠ 0)\n    (hN\
+        \ : δ * conj (δ : ℂ) = N) (hw : IsTightFrame w m M) (x : I × n → ℕ × ℕ × ℕ)\n    (hx : ∀ i : I × n, CMLattice.monomialDeg\
+        \ (x i) = m i.1)\n    ⦃C : CMLattice P.d⦄ ⦃a : ℂ⦄ (ha : a ∈ C.Λ) (h_area : C.area = ‖a‖ ^ 2 / N * M * √P.d\
+        \ / 2) :\n    ∃ F : \U0001D4AE V,\n      IsResolutionProduct V C (a / conj (δ : ℂ)) w m (fun i : I × n ↦\
+        \ C.monomialSection (x i)) F ∧\n      (∀ (p : ℕ) [Fact p.Prime] [PadicPlace p] (y : n → \U0001D538f (P.E\
+        \ s)), ‖ιₚ (F (finVec y))‖ ≤ 1) ∧\n      IsThetaFunction (star (algebraMap P.K (P.E s) δ) • idealLattice\
+        \ (P.E s) n)\n        (entireTheta F)"
+    routeToMain:
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Derivatives/Vacuum/TightFrames.lean
+      line: 10
+      endLine: 15
+      text: 'Let `P` be parameters, `d = P.d` and `K = ℚ(i√d)`. The file fixes the scale at which Taylor series
+
+        of theta functions are taken, and it builds theta functions from tight frames. For a space `V` with
+
+        all signs `1` and `f` in `New.Space.finitePart`, the function `New.Space.entireTheta f` is entire on
+
+        `ℂ^(places × n)`. A tight frame of length `M` is a finite family of vectors `y` of the lattice `𝔞₀`,
+
+        counted with multiplicities, such that `∑ y, (y† z) y = M z` for all `z` in `ℂ^places`, where `y`
+
+        stands for the vector of its images `τ y` under the CM type and `y† z = ∑ τ, conj (τ y) * z τ`.
+
+        '
+    remainder:
+      path: grh/src/New/Derivatives/Vacuum/TightFrames.lean
+      line: 16
+      endLine: 66
+      text: "\n## Main definitions and results\n\n* `New.Parameters.areaScale` is `√(2π / √d)`, and `New.Parameters.periodFactor`\
+        \ is `vacuumRoot`\n  divided by the unit of `New.CMLattice.chowla_selberg`.\n* `New.Parameters.jetScale`:\
+        \ the scale `periodFactor * areaScale / cmPeriod`.\n* `New.Parameters.isTightFrame_pow`: the powers of a\
+        \ primitive `q₁`-th root of unity are a tight\n  frame of length `q₁`.\n* `New.Space.taylor_line_eq_subst_jetSeries`:\
+        \ the Taylor series of `z ↦ entireTheta f (a • z)` on\n  the line spanned by a vector `v` is the restriction\
+        \ of `jetSeries V a f`.\n* `New.Parameters.IsResolutionProduct`: the theta functions of the rational translates\
+        \ of a vector\n  are products of translated entire functions of linear forms; `IsResolutionProduct.theta_translate`\n\
+        \  and `IsResolutionProduct.jetSeries_translate` give their theta values and Taylor series.\n* `New.Parameters.exists_isResolutionProduct_of_isTightFrame`:\
+        \ a product of monomial sections,\n  pulled back along a tight frame, is the theta function of a vector\
+        \ with integral values.\n\nNotions from other files:\n* `New.Parameters`: a multiple `q₀` of `18480 = 16\
+        \ · 3 · 5 · 7 · 11` and a prime `d` with\n  `d ≡ q₀/2 - 1 mod q₀`. The CM field `E = P.E s` is generated\
+        \ over `K` by a primitive `q₁`-th root\n  of unity `ζ`, `q₁ = P.q₁ s`, and `Φ τ : E →+* ℂ` is the embedding\
+        \ of its CM type at the infinite\n  place `τ`.\n* `New.finiteImage`: for a family `γ` in `E`, the finite\
+        \ adeles `α⁻¹ γ k`, with `α = P.α s` the\n  idele of the fractional ideal `\U0001D51E₀`; so `finiteImage\
+        \ id y ∈ Ô E` says that `y` lies in\n  `\U0001D51E₀ = E ∩ α Ô`.\n* `New.PadicPlace`: a `p`-adic place of\
+        \ `ℂ`, that is, a ring homomorphism `ιₚ : ℂ →+* ℂ_[p]`.\n* `New.Space.entireTheta`: for `f` in the space\
+        \ `\U0001D4AE V` of a hermitian space `V`, the function\n  `y ↦ θ(ϱ(y) f) exp(|y|²/2)` of a real vector\
+        \ `y` in Fock coordinates, with `θ` the theta\n  functional `V.θ` and `ϱ` the Heisenberg representation\
+        \ `V.ϱ`.\n* `finVec x`: the adelic vector with finite part `α x` and real part zero. So\n  `V.ϱ (finVec\
+        \ (finiteImage γ)) f` is the translate of `f` by the finite image of `γ`.\n* `New.CMLattice`: a lattice\
+        \ `C.Λ` in `ℂ`, stable under the integers of `K`, with a marked point of\n  order two. Its hermitian form\
+        \ is `C.hermitianForm l z = (π / A) * conj l * z`, with `A = C.area`\n  the area of a period parallelogram,\
+        \ and `C.twistedTranslate m l g` is the translate\n  `z ↦ g (z + l)` times the Gaussian factor of the form\
+        \ `m • C.hermitianForm`. A section of degree\n  `m` is multiplied by `C.multiplier l ^ m` under this translation\
+        \ for `l` in `C.Λ`, where\n  `C.multiplier l` is a number of absolute value one.\n* `pullForm φ B`: the\
+        \ pull-back `(u, v) ↦ B (φ u) (φ v)` of a form along a linear map `φ`.\n* `New.Space.jetSeries`: the series\
+        \ whose coefficient of `z ^ k` is `a ^ |k| / k!` times the theta\n  functional of `v ⊗ f`, where `v` is\
+        \ the Fock vector of the monomial `z ^ k`.\n\n## Relation to the literature\n\nA product of monomial sections\
+        \ of a CM curve, pulled back along a tight frame at scale `a / δ̄`, for\nan integer `δ` of `K` and a point\
+        \ `a` of the lattice of the curve, is the theta function of a vector\nof the finite part, by Fourier inversion.\
+        \ The theta value and the jet series of each rational\ntranslate are the products of those of the translated\
+        \ sections. The values of the vector are\nproducts of torsion values of monomials, so they are integral\
+        \ at every `p`-adic place. Eutactic\nstars (sets of vectors that form a tight frame), the isogeny formula\
+        \ for theta functions and\nintegrality via torsion values are known from the literature. Related work: Conway–Sloane,\n\
+        Low-dimensional lattices V, 1989; Finis, Divisibility of anticyclotomic L-functions and theta\nfunctions\
+        \ with CM, 2006; Mumford, On the equations defining abelian varieties I, 1966.\n"
+needs_draft: true

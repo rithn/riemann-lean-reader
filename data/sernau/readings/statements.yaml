@@ -1,0 +1,96 @@
+group: Statements
+overview:
+  group: Statements
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: Start with `RiemannZetaZerosOnLine`, which asks that a zero of the Riemann zeta function, outside the listed negative even integers and away from 1, have real part one half.
+    citations:
+    - module: Statements
+      line: 3
+      endLine: 4
+  - sentence: '`DirichletLNonvanishingRightOfHalf` states nonvanishing for Dirichlet L-functions to the right of one half, except for the principal character at 1.'
+    citations:
+    - module: Statements
+      line: 6
+      endLine: 8
+  - sentence: "`DirichletLZerosOnLine` is the assertion that each Dirichlet L-function zero with 0 < Re s < 1 has Re s = 1/2. `PrimitiveDirichletLZerosOnLine` makes the same assertion for primitive characters."
+    citations:
+    - module: Statements
+      line: 10
+      endLine: 16
+  - sentence: The file imports Mathlib and defines these as propositions.
+    citations:
+    - module: Statements
+      line: 1
+      endLine: 3
+  declarations:
+  - module: Statements
+    name: RiemannZetaZerosOnLine
+    line: 3
+    signature: 'def RiemannZetaZerosOnLine : Prop'
+  - module: Statements
+    name: DirichletLNonvanishingRightOfHalf
+    line: 6
+    signature: 'def DirichletLNonvanishingRightOfHalf : Prop'
+  - module: Statements
+    name: DirichletLZerosOnLine
+    line: 10
+    signature: 'def DirichletLZerosOnLine : Prop'
+  routeToMain:
+  - module: Statements
+    importer: New.Reduction.OneSidedBound
+    line: 5
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  Statements:
+    group: Statements
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: explorer-draft
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
+    draft:
+    - sentence: '`RiemannZetaZerosOnLine` is the proposition that a zero of the Riemann zeta function has real part one half if it is not one of the listed negative even integers and is not 1.'
+      citations:
+      - module: Statements
+        line: 3
+        endLine: 4
+    - sentence: '`DirichletLNonvanishingRightOfHalf` asks for nonvanishing to the right of one half, with the principal character at 1 excluded.'
+      citations:
+      - module: Statements
+        line: 6
+        endLine: 8
+    - sentence: "The two remaining definitions state the assertions that Dirichlet L-function zeros with 0 < Re s < 1 lie on Re s = 1/2, first for all characters and then for primitive characters."
+      citations:
+      - module: Statements
+        line: 10
+        endLine: 16
+    mechanical: true
+    declarations:
+    - module: Statements
+      name: PrimitiveDirichletLZerosOnLine
+      line: 14
+      signature: 'def PrimitiveDirichletLZerosOnLine : Prop'
+    routeToMain:
+    - module: Statements
+      importer: New.Reduction.OneSidedBound
+      line: 5
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []

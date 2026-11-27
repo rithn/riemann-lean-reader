@@ -1,0 +1,1074 @@
+group: New.Reduction
+overview:
+  group: New.Reduction
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: '2026-11-27'
+  reviewer: independent Codex review against pinned source
+  excerpt:
+    path: grh/src/New/Reduction/OneSidedBound.lean
+    line: 237
+    endLine: 238
+    text: '/-- **Main theorem**, in half-plane form: no Dirichlet `L`-function vanishes in `re s > 1/2`
+
+      (with `s ≠ 1` for a principal character). -/
+
+      '
+  draft:
+  - sentence: Start with `New.grh` in `OneSidedBound`, which proves nonvanishing to the right of the critical line
+      with the exception at 1 for a principal character.
+    citations:
+    - module: New.Reduction.OneSidedBound
+      line: 237
+      endLine: 239
+  - sentence: In `MainInequality`, upper and lower bounds on the covolume of the lifted target forms, corrected
+      by an index term, give an upper bound on the weighted prime-sum remainder.
+    citations:
+    - module: New.Reduction.MainInequality
+      line: 7
+      endLine: 16
+    - module: New.Reduction.MainInequality
+      line: 82
+      endLine: 90
+  - sentence: '`ShortAndEnough` shows that the ramified source is spanned by integral forms whose images under the
+      translated maps have short lifts. It also finds a small set of translates whose images span at least a fraction
+      `1 − 4/b²` of the target dimension.'
+    citations:
+    - module: New.Reduction.ShortAndEnough
+      line: 13
+      endLine: 15
+    - module: New.Reduction.ShortAndEnough
+      line: 254
+      endLine: 259
+    - module: New.Reduction.ShortAndEnough
+      line: 443
+      endLine: 452
+  - sentence: '`OneSidedBound` then uses the resulting one-sided estimate as the hypothesis of the nonvanishing
+      criterion.'
+    citations:
+    - module: New.Reduction.OneSidedBound
+      line: 255
+      endLine: 264
+  declarations:
+  - module: New.Reduction.OneSidedBound
+    name: New.grh
+    line: 239
+    signature: 'theorem grh : DirichletLNonvanishingRightOfHalf'
+  - module: New.Reduction.MainInequality
+    name: New.star_inequality
+    line: 87
+    signature: "theorem star_inequality {P : Parameters} (D : Data P) :\n    D.m * D.totalRemainder ≤ D.f * D.a\
+      \ * D.logB ^ 5"
+  - module: New.Reduction.ShortAndEnough
+    name: New.Data.enough_forms
+    line: 448
+    signature: "theorem enough_forms :\n    0 < D.targetDim ∧\n    ∃ t : Finset D.chosenGL,\n      #t * finrank\
+      \ ℂ D.ramifiedSourceForms ≤ 5 * D.targetDim * log (1 + 2 * D.b ^ 2) ∧\n      (1 - 4 / D.b ^ 2) * D.targetDim\
+      \ ≤ finrank ℂ ↥(⨆ s ∈ t, (D.normalizedPoincare s).range)"
+  routeToMain:
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings:
+  - sonoda-readable
+files:
+  New.Reduction.Data.AdmissibleData:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Data.AdmissibleData
+      name: New.Parameters.logLevelMin_mem_Icc
+      line: 338
+      signature: "lemma Parameters.logLevelMin_mem_Icc (P : Parameters) {s m M : ℕ} {κ : P.Φ s → ℕ} {L : ℝ}\n  \
+        \  (hm : 2 ≤ m) (hL : 7 ≤ L) (hκ : ∀ τ : P.Φ s, (κ τ : ℝ) ∈ Icc 1 (exp L))\n    (hM : (M : ℝ) ∈ Icc (exp\
+        \ L ^ 20) (exp L ^ 22))\n    (h_conductor_le : (P.q₁ s * P.d : ℕ) ≤ exp L) :\n    P.logLevelMin s m κ M\
+        \ L ∈ Icc (m * L) (24 * m * L)"
+    routeToMain:
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Data/AdmissibleData.lean
+      line: 7
+      endLine: 9
+      startOffset: 107
+      endOffset: 349
+      text: 'Fix parameters `P : New.Parameters`. The data `D : New.Data P` are the objects that grow with the
+
+        length `x` of the prime sum: scales, ranks, the field `E`, the `a`-places and `b`-places, weights,
+
+        three primes, and numbers read off from them.'
+    remainder:
+      path: grh/src/New/Reduction/Data/AdmissibleData.lean
+      line: 9
+      endLine: 38
+      startOffset: 349
+      endOffset: 1767
+      text: "\n\nLetters used in comments, and the names in the code:\n\n| letter | code |\n|---|---|\n| `p₀`, `p₁`\
+        \ | `D.levelPrime 0`, `D.levelPrime 1` |\n| `π_M`, `π_N` | `star D.piMBar`, `D.piN` |\n| `κ(τ)`, `κ_j(τ)`\
+        \ | `D.weight τ`, `D.liftWeight j τ` |\n| `s`, `Δ` | `D.towerExp`, `D.gap` |\n| `s_∞`, `s_fin` | `D.jetSize`,\
+        \ `D.primeSum` |\n\n## Main definitions and results\n\n* `New.Data`: the data; `New.Parameters.IsSparse`\
+        \ is the condition on the `b`-places. The scales and\n  ranks are asked to lie in ranges only. The data\
+        \ with the exact values are\n  `New.Parameters.IsAdmissibleData`; they are admissible for large `x`\n  (`New.eventually_exists_data_of_isAdmissibleData`).\
+        \ Sizes are compared in the files `Magnitudes`\n  and `Sizes` of this folder.\n* `New.Parameters.logLevelMin_mem_Icc`:\
+        \ the lower end `N₋` of the range for the level has logarithm\n  between `m log b` and `24 m log b`.\n\n\
+        Notions from other files:\n* `New.Parameters`: a multiple `q₀` of `18480 = 16 · 3 · 5 · 7 · 11` and a prime\
+        \ `d` with\n  `d ≡ q₀/2 - 1 mod q₀`; they determine the field `P.K = ℚ(√-d)`.\n* `New.towerDeg s`: the number\
+        \ `3 l₀ 2 ^ s`, where `l₀ = New.l₀ s` is, for `s ≥ 1`, the least power\n  of `3` above `27 s`. The modulus\
+        \ `P.q₁ s` is `q₀ * towerDeg s`.\n* `P.E s`, `P.Φ s`: the field `E = K(ζ)`, with `ζ` a primitive `q₁`-th\
+        \ root of unity, and its\n  infinite places, which form a group isomorphic to `(ℤ/q₁)ˣ`.\n* `P.q₂ s`: the\
+        \ number `(q₀ d) ^ (s + 6)`.\n"
+  New.Reduction.Data.Existence:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    excerpt:
+      path: grh/src/New/Reduction/Data/Existence.lean
+      line: 7
+      endLine: 16
+      text: "For every large integer `x`, this file constructs the data `New.Data`. It builds the ranks and the\n\
+        field, the places, the scales and the primes in turn.\n\n## Main definitions and results\n\n* `New.Parameters.IsAdmissibleData`:\
+        \ admissible data, with explicit values of the ranks and scales\n  and any `b`-places and primes that have\
+        \ the required properties.\n* `New.eventually_exists_data_of_isAdmissibleData`: at every large `x` such\
+        \ data are the fields\n  (`New.Data.HasFields`) of the data `New.Data`.\n* `New.eventually_exists_data`:\
+        \ admissible data exist at every large `x`.\n"
+    declarations:
+    - module: New.Reduction.Data.Existence
+      name: New.eventually_exists_data
+      line: 898
+      signature: "theorem eventually_exists_data (P : Parameters) {ε : ℝ} (hε : 0 < ε) (hε_lt : ε < 1 / 100) :\n\
+        \    ∀ᶠ x : ℕ in atTop, ∃ D : Data P,\n      D.natX = x ∧\n      D.natX₁ = ⌊exp ((x : ℝ) ^ (ε / 6))⌋₊ ∧\n\
+        \      IsLeast {b : ℕ | D.q₁ * D.natX₁ ∣ b ∧ exp ((x : ℝ) ^ ε) < b} D.natB ∧\n      IsLeast {n : ℕ | (∃\
+        \ j : ℕ, n = 2 ^ j) ∧ √x ≤ n} D.m ∧\n      IsLeast {n : ℕ | (∃ j : ℕ, n = 3 ^ j) ∧ (x : ℝ) ^ 5 ≤ n} D.r\
+        \ ∧\n      (x : ℝ) ^ (ε / 6) - 1 ≤ D.logX₁ ∧\n      D.logB ∈ Set.Icc ((x : ℝ) ^ ε) ((x : ℝ) ^ ε + 1)"
+    - module: New.Reduction.Data.Existence
+      name: New.eventually_exists_data_of_isAdmissibleData
+      line: 800
+      signature: "theorem eventually_exists_data_of_isAdmissibleData (P : Parameters) {ε : ℝ} (hε : 0 < ε)\n   \
+        \ (hε_lt : ε < 1 / 100) :\n    ∀ᶠ x : ℕ in atTop, ∀ (m r s b : ℕ) (T : Finset (P.Φ s)) (g : Fin 2 → ℕ) (α\
+        \ : \U0001D4DE P.K) (N : ℕ)\n      (β : \U0001D4DE (P.E s)), P.IsAdmissibleData x ((x : ℝ) ^ (ε / 6)) m\
+        \ r s b T g α N β →\n      ∃ D : Data P,\n        D.HasFields x ((x : ℝ) ^ (ε / 6)) m r s b T g α N β ∧\n\
+        \        (x : ℝ) ^ (ε / 6) - 1 ≤ D.logX₁ ∧\n        D.logB ∈ Set.Icc ((x : ℝ) ^ ε) ((x : ℝ) ^ ε + 1)"
+    routeToMain:
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+  New.Reduction.Data.FieldsAndPlaces:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Data.FieldsAndPlaces
+      name: New.Parameters.prod_phi_eq_norm
+      line: 514
+      signature: "lemma prod_phi_eq_norm {y : P.E s} :\n    ∏ v : NumberField.InfinitePlace (P.E s), Φ v y = Algebra.norm\
+        \ P.K y"
+    routeToMain:
+    - module: New.Reduction.Data.FieldsAndPlaces
+      importer: New.Derivatives.Field.PrimeDecomposition
+      line: 2
+    - module: New.Derivatives.Field.PrimeDecomposition
+      importer: New.Derivatives.Field.WeilData
+      line: 3
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Data/FieldsAndPlaces.lean
+      line: 7
+      endLine: 12
+      text: 'Fix a multiple `q₀` of `18480` and a prime `d ≡ q₀/2 - 1 mod q₀`. Let `K = ℚ(√-d)`, and let
+
+        `E = K(ζ)` with `ζ` of order `q₁ = q₀ * towerDeg s`. The file counts the places, describes how they
+
+        act on `ζ`, shows that every root of unity of `E` is a power of `ζ`, and writes norms from `E` to
+
+        `K` as products over the embeddings `Φ v`. In the comments `c = ⌊log₃ s⌋ + 5`, so that
+
+        `towerDeg s = 3^c 2^s`, `φ` is Euler''s totient function, and `P.Φ s` is the type of infinite places
+
+        of `E`.
+
+        '
+    remainder:
+      path: grh/src/New/Reduction/Data/FieldsAndPlaces.lean
+      line: 13
+      endLine: 41
+      text: "\n## Main definitions and results\n\n* `New.Parameters`: a multiple `q₀` of `18480` and a prime `d\
+        \ ≡ q₀/2 - 1 mod q₀`. Then `d ≡ 7 mod 8`\n  and `(p / d) = 1` for each prime `p ∣ q₁` (`New.Parameters.chiK_eq_one_of_dvd`).\n\
+        * `New.Parameters.irreducible_cyclotomic`: the cyclotomic polynomial of order `q₁` is irreducible\n  over\
+        \ `K`, so `Gal(E/K) = (ℤ/q₁)ˣ`. `E` embeds in `ℚ(ζ_{q₁ d})`, hence is abelian over `ℚ`.\n* `New.Parameters.galOfPlace`,\
+        \ `New.Parameters.placeMulEquiv`: the infinite places of `E` form a\n  group, identified with `Gal(E/K)`\
+        \ and `(ℤ/q₁)ˣ`. Composing a fixed embedding of `E` in `ℂ` over\n  `K` with these automorphisms gives one\
+        \ embedding for each infinite place, the CM type of `E`.\n* `New.Parameters.numInfPlaces_E`, `New.Parameters.card_placeClass_eq_one_eq_towerDeg`:\
+        \ there are\n  `towerDeg s * φ(q₀)` places, `towerDeg s` of them of class `1` modulo `q₀`; this rests on\n\
+        \  `cyclotomic q₁ = (cyclotomic q₀)(X ^ towerDeg s)` (`New.Parameters.expand_towerDeg_cyclotomic`).\n* `New.Parameters.exists_zeta_pow_eq`:\
+        \ every root of unity of `E` is a power of `ζ`.\n* `New.Parameters.prod_phi_eq_norm`: the product of the\
+        \ images of `y` under the `K`-embeddings `Φ v`\n  of `E` in `ℂ` is the norm of `y` from `E` to `K`.\n\n\
+        The basic facts on the field `E` are proved in `Lib` or in\n`New.Derivatives.Field.PrimeDecomposition`:\n\
+        * the ring of integers: `New.Parameters.adjoin_betaKInE_zetaInt_eq_top`, in the latter file;\n* the different\
+        \ of `E` over its real subfield and the places fixed by conjugation:\n  `New.differentIdeal_eq_top_of_add_star_eq_one`,\
+        \ `New.two_notMem_of_star_eq` and\n  `New.exists_sq_eq_q_of_star_eq` in `Lib`, `New.Parameters.natCast_eq_neg_one_of_star_eq`\
+        \ in the\n  latter file.\n\nNotions from other files:\n* `New.chiK d` is the Legendre symbol `(· / d)`,\
+        \ the character of `ℚ(√-d)` for `d ≡ 3 mod 4`.\n* `New.CMType E` is a choice, for each infinite place of\
+        \ the CM field `E`, of an embedding in `ℂ`\n  that induces it; `Φ v` is the embedding chosen at `v`.\n"
+  New.Reduction.Data.LevelAndTwists:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Data.LevelAndTwists
+      name: New.Data.log_N_mem_Icc
+      line: 234
+      signature: 'lemma log_N_mem_Icc : Real.log D.N ∈ Icc (D.m * D.logB) (30 * D.m * D.logB)'
+    routeToMain:
+    - module: New.Reduction.Data.LevelAndTwists
+      importer: New.Reduction.Data.Sizes
+      line: 1
+    - module: New.Reduction.Data.Sizes
+      importer: New.Reduction.PrimeSums
+      line: 1
+    - module: New.Reduction.PrimeSums
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 1
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Data/LevelAndTwists.lean
+      line: 7
+      endLine: 11
+      text: 'The data `D` (`New.Data`) fix a CM field `E = D.E`, scales `x ≤ x₁ ≤ b`, a number `m` of lifts,
+
+        weights `κ` and `κ_j = D.liftWeight j` at the infinite places and a level `N`. The file bounds the
+
+        weight `κ` (`New.Data.weight`) and the numbers `κ_s` (`New.Data.shiftedWeight`,
+
+        `New.Data.liftWeight`). For a chain of lifts one takes powers `ϑ ^ j` of an m-fold twist `ϑ`, whose
+
+        powers of exponent `1, …, m` are all twists.
+
+        '
+    remainder:
+      path: grh/src/New/Reduction/Data/LevelAndTwists.lean
+      line: 12
+      endLine: 40
+      text: "\n## Main definitions and results\n\n* `New.Data.targetParameter`: the row parameter, a sequence of\
+        \ integers at each infinite place.\n  `New.Data.targetParameter_eq` writes its later entries as `Δ / 2 -\
+        \ κ_j`.\n* `New.Data.logLevelTarget`: the logarithm of the lower end of the range for the level, between\n\
+        \  `m log b` and `24 m log b`. `New.Data.log_N_mem_Icc_logLevelTarget` puts `log N` within `√(log b)`\n\
+        \  above it, so `log N` lies between `m log b` and `30 m log b`. `New.Data.N_modEq_one` gives `N ≡ 1`\n\
+        \  modulo `New.Data.cyclotomicConductor`.\n* `New.Data.TameChar`, `New.Data.Twist`: characters of `U(1)(\U0001D538\
+        )` of weight `0` with tame part\n  `tamePart` supported on a finite set `Q` of places; a twist has `tamePart\
+        \ w ≠ 1` on `Q`.\n* `New.Data.untwistedLiftChar`, `New.Data.liftChar`: the characters `μ_j⁰` and `μ_j⁰ ϑ`\
+        \ of weight\n  `-κ_j`.\n* `New.Data.MFoldTwist`: twists whose powers of exponent `1, …, m` are twists\n\
+        \  (`New.Data.MFoldTwist.powTwist`).\n* `New.Data.chainChar`: the character `μ_j⁰ ϑ ^ j` of lift `j` of\
+        \ a chain. It is given by\n  `New.Data.liftChar` applied to `ϑ ^ j` and `j`.\n\nNotions from other files:\n\
+        * `New.Data.weight`: the weight `κ` of an infinite place of `E`. It is `b = a / x` at the\n  `b`-places,\
+        \ which form a chosen finite set `D.bPlaces`, and `a / x₁` at the others; `a = x b`.\n* `New.Data.shiftedWeight`,\
+        \ `New.Data.liftWeight`: `D.shiftedWeight i σ` is `κ_s = κ + (s + 1/2) Δ`\n  at `s = i / 2`, and `D.liftWeight\
+        \ j σ` is `κ_j`; the gap is `Δ = D.gap = 2 * D.halfGap`.\n* `New.Data.HasLogBound`: `D.HasLogBound u F l`\
+        \ is `|F| ≤ exp l` if `u` is true (`D.HasLogUpper`)\n  and `exp l ≤ F` if `u` is false (`D.HasLogLower`).\n\
+        * `New.AutChar`: the group of automorphic characters of `U(1)(\U0001D538)`.\n* `New.AutChar.HasWeight`:\
+        \ `μ.HasWeight e ψ` says that the character `μ` has weight `e` and tame\n  part `ψ`, that is, almost all\
+        \ residue characters `ψ_w` are trivial and\n  `μ(u) = ∏_v u_v ^ e(v) * ∏_w ψ_w(u mod w)` whenever `u` has\
+        \ integral finite part.\n"
+  New.Reduction.Data.Magnitudes:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Data.Magnitudes
+      name: New.Data.k_add_t_add_one_le_halfGap
+      line: 605
+      signature: 'lemma k_add_t_add_one_le_halfGap : D.k + D.t + 1 ≤ D.halfGap'
+    routeToMain:
+    - module: New.Reduction.Data.Magnitudes
+      importer: New.Congruences.LocalLoss.CrystallineDefect
+      line: 2
+    - module: New.Congruences.LocalLoss.CrystallineDefect
+      importer: New.Congruences.FirstOrder.TraceRelations
+      line: 4
+    - module: New.Congruences.FirstOrder.TraceRelations
+      importer: New.Congruences.FirstOrder.RibetElement
+      line: 2
+    - module: New.Congruences.FirstOrder.RibetElement
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 3
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Data/Magnitudes.lean
+      line: 6
+      endLine: 15
+      text: "The class `New.Data.HasLogBound D u F l` says `|F| ≤ exp l` for `u = true` (`New.Data.HasLogUpper`)\n\
+        and `exp l ≤ F` for `u = false` (`New.Data.HasLogLower`). Instance search computes the exponent `l`\nfrom\
+        \ the shape of `F`, and comparing exponents then proves inequalities between the numbers attached\nto the\
+        \ data `D`. A table of the sizes is in `New.Reduction.Data.Sizes`.\n\n## Main definitions and results\n\n\
+        * `New.Data.HasLogBound.of_mem_Icc`: a quantity between two others inherits their exponents,\n  weakened\
+        \ to a given one. `New.Data.HasLogBound.of_lower_of_upper` weakens the exponents of one\n  quantity.\n"
+    remainder:
+      path: grh/src/New/Reduction/Data/Magnitudes.lean
+      line: 16
+      endLine: 33
+      text: "* `New.Data.lt_of_hasLogBound`, `New.Data.le_of_hasLogBound`, `New.Data.nat_lt_of_hasLogBound`,\n \
+        \ `New.Data.nat_le_of_hasLogBound`: an upper exponent of `F` below a lower exponent of `G` gives\n  `F <\
+        \ G`, and so also `F ≤ G`. The comparison of exponents is a default argument, a linear problem\n  in `log\
+        \ x`, `log x₁`, `log b`, `log log b`, `log log x₁` and `New.Parameters.constantBound` that\n  `grind` decides\
+        \ from `New.Data.scale_inequalities`. So `D.le_of_hasLogBound` or\n  `D.nat_le_of_hasLogBound` alone proves\
+        \ such an inequality.\n* `New.Data.k_add_t_add_one_le_halfGap`: at the end, inequalities and parities of\
+        \ the ranks `m`,\n  `k`, `r`, `t`, `n j` and of `halfGap`.\n\nNotions from other files:\n* `New.Data P`:\
+        \ the data for the parameters `P = (q₀, d)`, with `q₀` a modulus and `d` a prime,\n  among them the scales\
+        \ `x`, `x₁`, `b` (`D.natX`, `D.natX₁`, `D.natB` as natural numbers) with their\n  logarithms `logX`, `logX₁`,\
+        \ `logB`, the ranks `m`, `r`, the exponent `s = D.towerExp` with\n  `2 ^ s = m ^ 22` and the primes `p₀`,\
+        \ `p₁` (`D.levelPrime`).\n* `D.q₁ = q₀ * towerDeg s`: the order of the root of unity that generates the\
+        \ number field\n  `E = P.E s` over `K = ℚ(√-d)`; `P.q₂ s = (q₀ d) ^ (s + 6)` is a multiple of `q₁ d`.\n\
+        * `D.weight`: the weight at the places `D.Φ`; it is `b` on the set `D.bPlaces` of `b`-places and\n  `offWeight\
+        \ = a / x₁` elsewhere, where `a = x b`.\n"
+  New.Reduction.Data.Sizes:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Data.Sizes
+      name: New.Data.abs_log_M_mul_rootDisc_le
+      line: 232
+      signature: 'lemma abs_log_M_mul_rootDisc_le : |log (D.M * D.rootDisc / (2 * π))| ≤ 23 * D.logB'
+    routeToMain:
+    - module: New.Reduction.Data.Sizes
+      importer: New.Reduction.PrimeSums
+      line: 1
+    - module: New.Reduction.PrimeSums
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 1
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Data/Sizes.lean
+      line: 6
+      endLine: 10
+      text: 'This file proves size estimates for admissible data `D : Data P`: for the scales, the ranks, the
+
+        field and the primes. The table recalls the main sizes, including those proved in the imported
+
+        files. Each quantity has bounds `exp l ≤ F` and `|F| ≤ exp l''` that instance search finds and
+
+        carries through sums, products and powers; `le_of_hasLogBound` proves `F ≤ G` by comparing the upper
+
+        exponent of `F` with the lower exponent of `G`, using the inequalities between the scales.
+
+        '
+    remainder:
+      path: grh/src/New/Reduction/Data/Sizes.lean
+      line: 11
+      endLine: 33
+      text: "\n| quantity | size proved | degree in `x` |\n|---|---|---|\n| `s`, `l₀` | `s ≤ 32 log x`, `27 s <\
+        \ l₀ ≤ 81 s` | `0` |\n| `log x₁`, `log b` | `(log x₁)⁶ ≤ log b`, `(log b)¹⁰⁰ ≤ x` | `≤ 1 / 100` |\n| `m`\
+        \ | `[√x, 2 √x]` | `1 / 2` |\n| `k`, `r`, `t` | `r` in `[x⁵, 3 x⁵]`, `k ≤ r ≤ 2 k`, `t = 5 r` | `5` |\n\
+        | `n_m` | `k + m (t + 1)` | `11 / 2` |\n| `2 ^ s`, `f`, `q₁` | `x¹¹ ≤ m ^ 22 = 2 ^ s ≤ f ≤ q₁ ≤ x¹²` | `11`;\
+        \ the upper bound is rounded up |\n| `rootDisc`, `1 / Ω` | `[x¹⁰, x¹²]`, `[1, x¹³]` | `11`; the bounds are\
+        \ rounded |\n| the gap `Δ = D.gap` | `2 r⁸` | `40` |\n| `x₁` | `x ^ 10⁶ ≤ x₁` | at least `10⁶` |\n| `b`,\
+        \ `a = x b`, the weights `κ` | `x₁ ^ 10⁶ ≤ b`, `a / x₁ ≤ κ ≤ b` | |\n| `M = p₀ p₁` | `[b²⁰, b²²]` | |\n\
+        | `N` | `log N` in `[m log b, 30 m log b]` | |\n\nNotions from other files:\n* `Data P`: admissible data\
+        \ over the parameters `P`; among its fields are the logarithms `logX`,\n  `logX₁`, `logB` of the scales\
+        \ `x`, `x₁`, `b`, the numbers `m`, `r`, `towerExp` (the `s` of the\n  table), the primes `levelPrime 0`,\
+        \ `levelPrime 1` and the level `N`.\n* `D.E`: the CM field `K(ζ_{q₁})` over `K = ℚ(√-d)`, with `D.f` infinite\
+        \ places and root\n  discriminant `rd_E = D.rootDisc`.\n* `P.bigOmega s`: the real number `Ω = exp (γ -\
+        \ Re L'/L(1, χ_K)) · 2π / rd_E`.\n"
+  New.Reduction.IntegralTargetForms:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.IntegralTargetForms
+      name: New.Data.targetLattice
+      line: 64
+      signature: "def targetLattice : TwistedLattice D.targetForms D.MFoldTwist where\n  Space (ϑ : D.MFoldTwist)"
+    routeToMain:
+    - module: New.Reduction.IntegralTargetForms
+      importer: New.Determinant.Twist.LongForms
+      line: 4
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/IntegralTargetForms.lean
+      line: 7
+      endLine: 11
+      text: 'The target forms `D.targetForms` have no evident integral structure, so a target form is called
+
+        integral if its lifts are. The maps `Θ_ϑ`, with the inner products, conjugates and integrality of
+
+        algebraic forms, make the target a twisted lattice (`New.Data.targetLattice`). Its twists are the
+
+        `m`-fold twists `ϑ`, and `ϑ` is allowed at `l` if the norm of its modulus is prime to `l`. The file
+
+        identifies the integral vectors, the conjugate norms and the volumes of this lattice.
+
+        '
+    remainder:
+      path: grh/src/New/Reduction/IntegralTargetForms.lean
+      line: 12
+      endLine: 22
+      text: "\nNotions from other files:\n* `New.TwistedLattice`: maps `Θ_ϑ` from a space to inner product spaces\
+        \ with integral structures.\n* `New.Data.targetForms`: the target forms, the good forms on the space `Y_0`.\n\
+        * `New.Data.TameChar`: an automorphic character `ϑ` of `U(1)` of weight `0` whose tame part is\n  supported\
+        \ on a finite set `Q` of places, its modulus.\n* `New.Data.MFoldTwist`: a twist `ϑ` whose tame part `ψ`\
+        \ has `ψ_w^n ≠ 1` for `w ∈ Q`, `1 ≤ n ≤ m`.\n* `New.Data.Θ`: the chain of `m` lifts with twist `ϑ`, from\
+        \ the target forms to forms on `Y_m`.\n* `New.Data.lastResidueLevel`: the group of reductions that cuts\
+        \ out the level of the forms on\n  `Y_m`.\n* `New.LevelPlaces.LevelForm.integralForms`: the forms integral\
+        \ at an embedding `ℂ → ℂ_l`.\n"
+  New.Reduction.Lattices.Colength:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Lattices.Colength
+      name: New.IsOntoUpToColength.exists_relLength_le
+      line: 257
+      signature: "lemma IsOntoUpToColength.exists_relLength_le [IsDomain O] [IsDiscreteValuationRing O] {p : O}\n\
+        \    {n : ℕ} {y : End O V} {c : ℝ} (h_onto : IsOntoUpToColength p M n y c) (hM : M.FG) :\n    ∃ l : ℕ, l\
+        \ ≤ c ∧ relLength M (M.map y ⊔ p ^ n • M) ≤ l * length O (O ⧸ Ideal.span {p})"
+    routeToMain:
+    - module: New.Reduction.Lattices.Colength
+      importer: New.Reduction.Lattices.TwistedLattice
+      line: 2
+    - module: New.Reduction.Lattices.TwistedLattice
+      importer: New.Reduction.IntegralTargetForms
+      line: 2
+    - module: New.Reduction.IntegralTargetForms
+      importer: New.Determinant.Twist.LongForms
+      line: 4
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Lattices/Colength.lean
+      line: 6
+      endLine: 11
+      text: "A substitute for the colength of one module in another, and the bookkeeping of such colengths under\n\
+        images, preimages, sums of submodules and products of endomorphisms.\n\n* `New.ColengthDvd`: every finite\
+        \ family in `M` is carried into `N` by a square matrix whose\n  determinant divides `z`; read it as \"the\
+        \ colength of `N` in `M` divides `z`\" or, over a valuation\n  ring, \"`N` has colength at most `v(z)` in\
+        \ `M`\". `N ≤ M` is not required.\n"
+    remainder:
+      path: grh/src/New/Reduction/Lattices/Colength.lean
+      line: 12
+      endLine: 19
+      text: "* `New.ColengthDvd.comap`, `New.ColengthDvd.map`, `New.ColengthDvd.trans`, `New.ColengthDvd.comp`:\n\
+        \  it passes along linear maps, and the bounds multiply along chains and compositions.\n* `New.IsOntoUpToColength`,\
+        \ `New.IsOntoUpToColength.prod`: endomorphisms that keep `M` and are onto\n  modulo `p ^ n` up to a colength\
+        \ dividing `p ^ l` with `l ≤ c`; the bounds `c` add under products.\n* `New.ColengthDvd.of_det_dvd`: over\
+        \ a valuation domain the image of a square matrix `A` has\n  colength dividing every multiple of `det A`,\
+        \ by the Smith normal form.\n* `New.ColengthDvd.relLength_le`, `New.IsOntoUpToColength.exists_relLength_le`:\
+        \ over a discrete\n  valuation ring `New.ColengthDvd` bounds a length.\n"
+  New.Reduction.Lattices.Heights:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Lattices.Heights
+      name: New.HeightLe.neg_le_of_norm_map_le
+      line: 225
+      signature: "lemma neg_le_of_norm_map_le {z : ℂ} (h_height : HeightLe c fun _ : PrimePadicIso ↦ z) (hz : z\
+        \ ≠ 0)\n    (h_conj : ∀ σ : ℂ ≃+* ℂ, ‖σ z‖ ≤ exp c') : -c ≤ c'"
+    routeToMain:
+    - module: New.Reduction.Lattices.Heights
+      importer: New.Reduction.Lattices.TwistedLattice
+      line: 3
+    - module: New.Reduction.Lattices.TwistedLattice
+      importer: New.Reduction.IntegralTargetForms
+      line: 2
+    - module: New.Reduction.IntegralTargetForms
+      importer: New.Determinant.Twist.LongForms
+      line: 4
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Lattices/Heights.lean
+      line: 6
+      endLine: 11
+      text: "A height for families of complex numbers indexed by the pairs `ι` of a prime `l` and an isomorphism\n\
+        `ℂ ≃+* ℚ̄_l` (`New.PrimePadicIso`).\n\n* `New.HeightLe c y`: for some multiplier `H ≠ 0` and some `h l ≥\
+        \ 0`, the conjugates of `H` are\n  bounded by `exp α`, the numbers `H * y ι` are bounded `l`-adically by\
+        \ `l ^ h l`, and\n  `α + ∑ h l * log l ≤ c` over every finite set of primes.\n"
+    remainder:
+      path: grh/src/New/Reduction/Lattices/Heights.lean
+      line: 12
+      endLine: 22
+      text: "* `New.HeightLe.of_mul_le`, `New.HeightLe.of_le`, `New.HeightLe.mono`, `New.HeightLe.mul`,\n  `New.HeightLe.prod`,\
+        \ `New.HeightLe.pow`: the calculus of heights.\n* `New.HeightLe.nonneg_of_one`: the constant family `1`\
+        \ has height at least `0`, by the product\n  formula (`New.log_product_formula`) for the norm of `H`. `New.HeightLe.neg_le_of_norm_map_le`\
+        \ is\n  the form for a number `z ≠ 0`.\n\n## Relation to the literature\n\nThe multiplier H, and so the\
+        \ bound at infinity, does not depend on ι, while y ι may; so each prime\nmay use its own twist. Related\
+        \ work: Gaudron, Pentes des fibrés vectoriels adéliques sur un corps\nglobal, 2006; Bombieri–Gubler, Heights\
+        \ in Diophantine Geometry, ch. 1, 2006.\n"
+  New.Reduction.Lattices.TwistedLattice:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Lattices.TwistedLattice
+      name: New.TwistedLattice.covolume_add_index_nonneg
+      line: 477
+      signature: "theorem covolume_add_index_nonneg {n n' : ℕ} {y : Fin n → V} {z : Fin n' → V}\n    (h_inj : ∀\
+        \ ξ : T, Function.Injective (L.lift ξ))\n    (h_indep : LinearIndependent ℂ (Sum.elim y z)) (h_card : finrank\
+        \ ℂ V = n + n')\n    {θ : PrimePadicIso → T} (hθ : ∀ ι : PrimePadicIso, L.IsAllowed ι.prime (θ ι))\n   \
+        \ {c δ b_volume b_short b_denom : ℝ} (hc : L.CovolumeLe y c) (hδ : L.IndexLe y δ)\n    {γ : T → ℂ} (hγ_ne\
+        \ : ∀ ξ : T, γ ξ ≠ 0)\n    (hz_int : ∀ (i : Fin n') (ι : PrimePadicIso) (ξ : T), L.IsAllowed ι.prime ξ →\n\
+        \      γ ξ • L.lift ξ (z i) ∈ L.lattice ξ ι)\n    (hz_short : ∀ (i : Fin n') (σ : ℂ ≃+* ℂ), L.normSqAt (z\
+        \ i) σ ≤ exp b_short)\n    (hγ : HeightLe b_denom fun ι : PrimePadicIso ↦ ((‖γ (θ ι)‖ : ℂ) ^ 2)⁻¹)\n   \
+        \ (hZ : HeightLe b_volume fun ι : PrimePadicIso ↦ L.volume 1 / L.volume (θ ι)) :\n    0 ≤ c + 2 * δ + n'\
+        \ * (b_short + b_denom) + b_volume"
+    routeToMain:
+    - module: New.Reduction.Lattices.TwistedLattice
+      importer: New.Reduction.IntegralTargetForms
+      line: 2
+    - module: New.Reduction.IntegralTargetForms
+      importer: New.Determinant.Twist.LongForms
+      line: 4
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Lattices/TwistedLattice.lean
+      line: 8
+      endLine: 15
+      startOffset: 151
+      endOffset: 883
+      text: 'A twisted lattice on a complex vector space `V` is a family of linear maps `Θ_ξ` from `V` to inner
+
+        product spaces, one for each twist `ξ`, with a module of integral vectors at every `ι ∣ l` in each
+
+        of these spaces, and coordinates on the space for the trivial twist in which the inner product
+
+        has a rational matrix. A twist is a member of an index type `T`, the trivial twist is `1`, and for
+
+        each prime `l` some twists are called allowed at `l` (`IsAllowed`). A vector of `V` is integral at
+
+        `ι ∣ l` if its images for all twists allowed at `l` are (`integralVectors`), while the covolume
+
+        refers to the trivial twist alone. An inner product on `V` and its finite dimension are assumed only
+
+        from the definition of the number `Z(ξ)` on.'
+    remainder:
+      path: grh/src/New/Reduction/Lattices/TwistedLattice.lean
+      line: 15
+      endLine: 38
+      startOffset: 883
+      endOffset: 2320
+      text: "\n\n* `New.TwistedLattice.IndexLe`, `New.TwistedLattice.CovolumeLe`, `New.TwistedLattice.volume`: index\n\
+        \  and covolume of a family in `V`, and the number `Z(ξ) = det (Θ_ξ* Θ_ξ)`.\n* `New.TwistedLattice.CovolumeLe.norm_map_det_gram_le`,\
+        \ `New.TwistedLattice.CovolumeLe.sumElim`,\n  `New.TwistedLattice.norm_det_mul_det_gram_le_one`: conjugates\
+        \ of Gram determinants, adjoining\n  vectors, and valuations of Gram determinants.\n* `New.TwistedLattice.covolume_add_index_nonneg`:\
+        \ given an allowed twist `ξ_ι` for each `ι`, a\n  lower bound for the covolume of a family in terms of its\
+        \ index, the height of `Z(1) / Z(ξ_ι)`,\n  and the sizes and denominators of vectors that complete the family\
+        \ to a basis.\n\nNotions from other files:\n* `New.PrimePadicIso`: pairs `ι` of a prime `l = ι.prime` and\
+        \ an isomorphism `ι.iso : ℂ ≃ ℚ̄_l`,\n  written `ι ∣ l`. A number `x` is integral at `ι` if `‖ι.iso x‖ ≤\
+        \ 1`.\n* `New.HeightLe c y`: the family `y`, with one complex number for each `ι`, has height at most `c`:\n\
+        \  for some `H ≠ 0`, bounds for all `log |σ H|` and for `log ‖ι (H y_ι)‖` at each prime add up to at\n \
+        \ most `c`.\n* `New.formGram G v`: the matrix of the products `v_i* G v_k`.\n\n## Relation to the literature\n\
+        \nSize-versus-divisibility bounds for a determinant are known in the literature. Related work: Bost,\nAlgebraic\
+        \ leaves of algebraic foliations over number fields, 2001; Laurent, Linear forms in two\nlogarithms and\
+        \ interpolation determinants, 1994.\n"
+  New.Reduction.MainInequality:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    excerpt:
+      path: grh/src/New/Reduction/MainInequality.lean
+      line: 7
+      endLine: 16
+      text: "One covolume, corrected by an index, is bounded from both sides. Write `dim` for the dimension of\n\
+        the target (`targetDim`), `mainAmount` for the main amount and `rem` for the total remainder\n(`totalRemainder`),\
+        \ weighted sums over primes less their expected values. Theorems A and B give a\nfamily of `n ≤ dim` target\
+        \ forms, a bound `V` for the logarithm of the squared covolume of its lifts\n(`TwistedLattice.CovolumeLe`)\
+        \ and a bound `δ` for its index (`TwistedLattice.IndexLe`). Up to\nerrors,\n\n    mainAmount ≤ (V + 2 δ)\
+        \ / dim ≤ mainAmount - (n / dim) m rem,\n\nwhere the lower bound is Theorem C. The main amount cancels.\n"
+    declarations:
+    - module: New.Reduction.MainInequality
+      name: New.star_inequality
+      line: 87
+      signature: "theorem star_inequality {P : Parameters} (D : Data P) :\n    D.m * D.totalRemainder ≤ D.f * D.a\
+        \ * D.logB ^ 5"
+    routeToMain:
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+  New.Reduction.OneSidedBound:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    excerpt:
+      path: grh/src/New/Reduction/OneSidedBound.lean
+      line: 27
+      endLine: 32
+      text: '/-- Let `q₀ = P.q₀` and `d = P.d` be the modulus and the prime of the parameters `P`. Let
+
+        `R_q(y) = primeRemainder d q y = ∑_{n ≤ y} λ(n) (1/n - 1/y) - log y / φ(q) - c_q`. Admissible data
+
+        `D` for `P` include scales `x = D.x`, `x₁ = D.x₁` and `b` (`D.logB = log b`) with
+
+        `(log b) ^ 100 ≤ x`, `x ^ 10⁶ ≤ x₁`, `x₁ ^ 10⁶ ≤ b` and `log log b ≥ 10¹² P.constantBound`, and an
+
+        integer `m = D.m` in `[√x, 2 √x]`. Then `R_{q₀}(x) ≤ φ(q₀) log⁶ b / m + |R_{q₀}(x₁)| + log
+
+        b · |R₁(x₁)|`. -/
+
+        '
+    declarations:
+    - module: New.Reduction.OneSidedBound
+      name: New.grh
+      line: 239
+      signature: 'theorem grh : DirichletLNonvanishingRightOfHalf'
+    - module: New.Reduction.OneSidedBound
+      name: New.eventually_primeRemainder_le_rpow
+      line: 200
+      signature: "theorem eventually_primeRemainder_le_rpow {q₀ : ℕ} [NeZero q₀] (hq₀ : 18480 ∣ q₀) {d : ℕ}\n  \
+        \  [hd_prime : Fact d.Prime] (hd : d ≡ q₀ / 2 - 1 [MOD q₀]) {ε : ℝ} (hε : 0 < ε) :\n    ∀ᶠ y : ℝ in atTop,\
+        \ primeRemainder d q₀ y ≤ y ^ (-1 / 2 + ε)"
+    - module: New.Reduction.OneSidedBound
+      name: New.Data.primeRemainder_le
+      line: 33
+      signature: "lemma Data.primeRemainder_le {P : Parameters} (D : Data P) :\n    primeRemainder P.d P.q₀ D.x\
+        \ ≤ P.q₀.totient * D.logB ^ 6 / D.m +\n      |primeRemainder P.d P.q₀ D.x₁| + D.logB * |primeRemainder P.d\
+        \ 1 D.x₁|"
+    routeToMain:
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+  New.Reduction.PrimeSums:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.PrimeSums
+      name: New.Data.le_mainAmount
+      line: 289
+      signature: 'lemma le_mainAmount : D.x ^ 4 * D.f * D.a ≤ D.mainAmount'
+    routeToMain:
+    - module: New.Reduction.PrimeSums
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 1
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/PrimeSums.lean
+      line: 6
+      endLine: 10
+      text: 'For admissible data `D` this file defines the main amount (`D.mainAmount`), the expected value
+
+        `s_main` (`D.mainPrimeSum`) and the total remainder `rem` (`D.totalRemainder`). It expresses the
+
+        total remainder through the remainders `R_q` of prime sums (`totalRemainder_eq`) and bounds `s_fin`,
+
+        `s_∞`, the direction amount and the main amount (`primeSum_le`, `jetSize_mem_Icc`,
+
+        `directionAmount_mem_Icc`, `le_mainAmount`). The modulus `q₀` is `P.q₀`.
+
+        '
+    remainder:
+      path: grh/src/New/Reduction/PrimeSums.lean
+      line: 11
+      endLine: 25
+      text: "\nNotions from other files:\n* `lambdaKResidueClass d q n` is `Λ_K(n) = Λ(n) (1 - chiK d n)` if `n\
+        \ ≡ 1` modulo `q`, and `0`\n  otherwise; `Λ` is the von Mangoldt function and `chiK d` is the Legendre symbol\
+        \ `(·/d)`.\n* `primeRemainder d q z` is `R_q(z) = ∑_{n ≤ z} λ(n) (1 / n - 1 / z) - log z / φ(q) - c_q` with\n\
+        \  `λ = lambdaKResidueClass d q` and `c_q = (logDerivMean d q 1).re`. The function `logDerivMean d q`\n\
+        \  is `(∑_ψ (L'/L(quadTwist ψ d) - L'/L(ψ)) - 1) / φ(q)`, summed over the Dirichlet characters `ψ`\n  modulo\
+        \ `q`, where `L = entireL` is the `L`-function made entire.\n* `D.Φ` is the group of the `D.f` infinite\
+        \ places; `D.aPlaces` (`Φ_a`, the `a`-places) are those\n  `≡ 1` modulo `q₀`, and `D.bPlaces` (`Φ_b`, the\
+        \ `b`-places) is a set of places `≡ -1` modulo `q₀`.\n  The class of a place modulo `q₀` is its image under\
+        \ `P.placeClass`, and `-n τ` stands for\n  `D.placeOfInt (-n) * τ`. The weight `κ = D.weight` is `b = a\
+        \ / x` on `Φ_b` and `a / x₁` elsewhere.\n* `D.primeSum y τ` is `s_fin(y, τ) = ∑_{n ≤ a} Λ_K(n) (y / n -\
+        \ κ(-n τ))₊`.\n* `D.jetSize j` is `s_∞(j) = log j! + j log (M / Ω)` with `M = D.M` and `Ω = P.bigOmega D.towerExp`,\n\
+        \  and the direction amount `D.directionAmount` is `∑_τ (s_∞(κ(τ)) - s_fin(κ(τ), τ))`.\n"
+  New.Reduction.ShortAndEnough:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    excerpt:
+      path: grh/src/New/Reduction/ShortAndEnough.lean
+      line: 10
+      endLine: 15
+      text: 'The source is the space `ramifiedSourceForms` of ramified source forms. It lies in the space
+
+        `SourceForm` of all source forms, whose dimension is written `D_X`. The target is the space
+
+        `targetForms`, whose dimension `D.targetDim` is written `d_T`. We define the translates `s 𝔭` of the
+
+        map `𝔭` from the source to the target and prove Theorems A and B: the source is spanned by integral
+
+        forms `φ` whose images `s 𝔭 φ` have short lifts `Θ₁ s 𝔭 φ`, these images have small index, and the
+
+        images of few translates span almost all of the target.
+
+        '
+    declarations:
+    - module: New.Reduction.ShortAndEnough
+      name: New.Data.enough_forms
+      line: 448
+      signature: "theorem enough_forms :\n    0 < D.targetDim ∧\n    ∃ t : Finset D.chosenGL,\n      #t * finrank\
+        \ ℂ D.ramifiedSourceForms ≤ 5 * D.targetDim * log (1 + 2 * D.b ^ 2) ∧\n      (1 - 4 / D.b ^ 2) * D.targetDim\
+        \ ≤ finrank ℂ ↥(⨆ s ∈ t, (D.normalizedPoincare s).range)"
+    - module: New.Reduction.ShortAndEnough
+      name: New.Data.span_short_integralRamified_eq_top
+      line: 254
+      signature: "theorem span_short_integralRamified_eq_top :\n    span ℂ {φ ∈ D.integralRamified | ∀ (s : D.chosenGL)\
+        \ (σ : ℂ ≃+* ℂ),\n      (D.Θ 1 (D.normalizedPoincare s φ)).normSqAt σ ≤\n        exp (D.mainAmount - D.m\
+        \ * D.totalRemainder + D.f * D.a * D.logB ^ 4)} = ⊤"
+    - module: New.Reduction.ShortAndEnough
+      name: New.Data.indexLe_normalizedPoincare
+      line: 373
+      signature: "theorem indexLe_normalizedPoincare (t : Finset D.chosenGL) {n : ℕ} {y : Fin n → D.targetForms}\n\
+        \    (hy : ∀ i : Fin n, ∃ s ∈ t, y i ∈ D.normalizedPoincare s '' D.integralRamified) :\n    D.targetLattice.IndexLe\
+        \ y (#t * finrank ℂ D.ramifiedSourceForms * (2 * D.errorUnit))"
+    routeToMain:
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+  New.Reduction.Zeros.Criterion:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    excerpt:
+      path: grh/src/New/Reduction/Zeros/Criterion.lean
+      line: 31
+      endLine: 36
+      text: '/-- **One-sided criterion.** Let `q₀` be a positive multiple of `8`, let `d₀ ≡ 7` mod `8` be prime
+
+        to `q₀`, and let `β > 1/2`. Suppose that for each prime `d ≡ d₀` mod `q₀` the remainder
+
+        `primeRemainder d q₀ x = ∑_{n ≤ x} λ(n) (1/n - 1/x) - log x / φ(q₀) - c` is at most `x ^ (β - 1)`
+
+        for all large `x`; here `λ(n) = Λ(n) (1 - (n/d))` for `n ≡ 1` mod `q₀` and `0` otherwise, and `c` is
+
+        the constant for which the remainder tends to `0`. Then `L(ρ, ψ) ≠ 0` for every character `ψ` modulo
+
+        `q₀` and every `ρ ≠ 1` with `re ρ > β`. -/
+
+        '
+    declarations:
+    - module: New.Reduction.Zeros.Criterion
+      name: New.LFunction_ne_zero_of_primeRemainder_le
+      line: 37
+      signature: "theorem New.LFunction_ne_zero_of_primeRemainder_le {q₀ : ℕ} [NeZero q₀] (hq₀ : 8 ∣ q₀) {d₀ : ℕ}\n\
+        \    (hd₀_mod : d₀ % 8 = 7) (hd₀_cop : d₀.Coprime q₀) {β : ℝ} (hβ : 1 / 2 < β)\n    (h_bound : ∀ d : Primes,\
+        \ (d : ℕ) ≡ d₀ [MOD q₀] →\n      ∀ᶠ x : ℝ in atTop, primeRemainder d q₀ x ≤ x ^ (β - 1))\n    (ψ : DirichletCharacter\
+        \ ℂ q₀) {ρ : ℂ} (hρ_ne : ρ ≠ 1) (hρ_re : β < ρ.re) :\n    ψ.LFunction ρ ≠ 0"
+    routeToMain:
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+  New.Reduction.Zeros.PrimeError:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Zeros.PrimeError
+      name: New.isPolar_primeRemainder
+      line: 414
+      signature: "lemma isPolar_primeRemainder (hd : d % 8 = 7) (h_cop : q.Coprime d) :\n    IsPolar (fun v : ℝ\
+        \ ↦ primeRemainder d q (Real.exp v)) fun s : ℂ ↦\n      (∑ ψ : DirichletCharacter ℂ q,\n        (analyticOrderNatAt\
+        \ (entireL ψ) s - analyticOrderNatAt (entireL (quadTwist ψ d)) s : ℂ)) /\n        φ q / (s * (1 - s))"
+    routeToMain:
+    - module: New.Reduction.Zeros.PrimeError
+      importer: New.Reduction.Zeros.Criterion
+      line: 3
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Zeros/PrimeError.lean
+      line: 6
+      endLine: 11
+      text: "Let `d` be a prime and `χ_K = (·/d)` the Legendre symbol. We study the remainder `R_q` of a weighted\n\
+        sum over the prime powers `n ≡ 1` modulo `q` with `χ_K(n) ≠ 1`. Its Laplace transform sees the zeros\nof\
+        \ the Dirichlet `L`-functions modulo `q` and of their twists by `χ_K`.\n\n* `New.lambdaKResidueClass`: the\
+        \ weight `λ(n) = Λ(n) (1 - χ_K(n))` on `n ≡ 1` modulo `q`; it is\n  nonnegative.\n"
+    remainder:
+      path: grh/src/New/Reduction/Zeros/PrimeError.lean
+      line: 12
+      endLine: 29
+      text: "* `New.logDerivMean`: the mean `G_q` over the characters `ψ` modulo `q` of the differences of the\n\
+        \  logarithmic derivatives of `New.entireL (New.quadTwist ψ d)` and `New.entireL ψ`, less `1 / φ(q)`.\n\
+        * `New.primeRemainder`: `R_q(x) = ∑_{n ≤ x} λ(n) (1/n - 1/x) - log x / φ(q) - re G_q(1)`.\n* `New.LSeries_lambdaKResidueClass_eq_add_logDerivMean`:\
+        \ for odd `d` prime to `q`, the Dirichlet\n  series of `λ` is `s / (φ(q) (s - 1)) + G_q(s)` in `re s > 1`.\n\
+        * `New.isPolar_primeRemainder`: for `d ≡ 7` modulo `8` prime to `q`, the transform of\n  `v ↦ R_q(e ^ v)`\
+        \ has at most simple poles in `re s > 0`, none at `1`, and at `s ≠ 1` with the\n  residue `(n(s) - n'(s))\
+        \ / (φ(q) s (1 - s))`, where `n(s)` and `n'(s)` are the sums of the orders\n  at `s` of these `L`-functions\
+        \ and of their twists.\n\nHere `New.entireL ψ` is `L(s, ψ)`, times `s - 1` if `ψ` is principal, `New.quadTwist\
+        \ ψ d` is the\ncharacter `ψ χ_K`, and `New.chowlaSelbergConst d` is, for odd `d`, `γ - re L'/L(1, χ_K)`,\
+        \ with `γ`\nEuler's constant.\n\n## Relation to the literature\n\nThe transform of a weighted prime sum\
+        \ in a residue class is computed by orthogonality of characters\nand partial summation. Source: Davenport,\
+        \ Multiplicative Number Theory.\n"
+  New.Reduction.Zeros.PrimeNumberTheorem:
+    group: New.Reduction
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Reduction.Zeros.PrimeNumberTheorem
+      name: New.primeRemainder_eq_integral_countError_sub
+      line: 80
+      signature: "lemma primeRemainder_eq_integral_countError_sub {y : ℝ} (hy : 1 ≤ y) :\n    primeRemainder d q\
+        \ y = (∫ t in 1..y, countError d q t / t ^ 2) - re (logDerivMean d q 1)"
+    routeToMain:
+    - module: New.Reduction.Zeros.PrimeNumberTheorem
+      importer: New.Reduction.OneSidedBound
+      line: 4
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Reduction/Zeros/PrimeNumberTheorem.lean
+      line: 8
+      endLine: 11
+      text: 'Let `d` be a prime and `q ≥ 1`. The remainder `R_q(y)` is an integral of the error `𝓔_q(t)` in the
+
+        weighted count (`primeRemainder_eq_integral_countError_sub`), so it varies slowly. For odd `d` prime
+
+        to `q` its absolute value is at most `(log y) ^ (-B)` for all large `y`, for every natural number
+
+        `B`; so it tends to `0`, which characterises the constant `c_q` in its definition.
+
+        '
+    remainder:
+      path: grh/src/New/Reduction/Zeros/PrimeNumberTheorem.lean
+      line: 12
+      endLine: 29
+      text: "\nNotions from other files:\n* `lambdaKResidueClass d q n` is `λ(n) = Λ(n) (1 - (n/d))` for `n ≡ 1`\
+        \ mod `q`, and `0` for other\n  `n`.\n* `entireL ψ` is `L(s, ψ)`, multiplied by `s - 1` if `ψ` is principal;\
+        \ `quadTwist ψ d` is the\n  product of `ψ` and the Legendre symbol `(·/d)`.\n* `logDerivMean d q` is the\
+        \ function `G_q` that continues `∑ λ(n) n ^ (-s) - s / (φ(q) (s - 1))`\n  when `d` is odd and prime to `q`.\n\
+        * `primeRemainder d q y` is `R_q(y) = ∑_{n ≤ y} λ(n) (1/n - 1/y) - log y / φ(q) - c_q` with\n  `c_q = re\
+        \ G_q(1)`.\n\n## Relation to the literature\n\nKnown result: Prime number theorem in arithmetic progressions\
+        \ with an error term that saves every\npower of the logarithm. It is a case of the Siegel–Walfisz theorem.\
+        \ Source: Montgomery and Vaughan,\nMultiplicative Number Theory I, 2007, Cor. 11.19. Form here: the modulus\
+        \ is fixed, and the count is\nthe smoothed sum `∑_{n ≤ y} λ(n) (1/n - 1/y)` over the prime powers `n ≡ 1`\
+        \ mod `q`; for `d ≡ 3` mod\n`4` the primes that split in `ℚ(√-d)` have weight zero.\n"

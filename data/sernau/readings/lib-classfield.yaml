@@ -1,0 +1,3591 @@
+group: Lib.ClassField
+overview:
+  group: Lib.ClassField
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: "Global.ArtinMap studies local and global Artin maps into the abelianized absolute Galois group of a number field."
+    citations:
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 4
+      endLine: 10
+  - sentence: "Under any continuous ℚ/ℤ-valued Galois character written multiplicatively, the value of the Artin symbol of a finite idele is the product of the values of its local symbols. The global Artin map is continuous and compatible with norms along extensions."
+    citations:
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 6
+      endLine: 9
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 215
+      endLine: 221
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 246
+      endLine: 247
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 263
+      endLine: 272
+  - sentence: "Global.ArtinReciprocity addresses reciprocity on finite ideles and presents results from class field theory and local duality."
+    citations:
+    - module: Lib.ClassField.Global.ArtinReciprocity
+      line: 5
+      endLine: 12
+  - sentence: "For a totally complex number field, `New.exists_comp_artinMap` in `Global.ExistenceTheorem` gives a continuous factorization through the Artin map for any continuous homomorphism from the finite ideles to a T₁ group that is trivial on Kˣ."
+    citations:
+    - module: Lib.ClassField.Global.ExistenceTheorem
+      line: 879
+      endLine: 885
+  declarations:
+  - module: Lib.ClassField.Global.ExistenceTheorem
+    name: New.exists_comp_artinMap
+    line: 883
+    signature: "lemma exists_comp_artinMap [IsTotallyComplex K] [T1Space C] (θ : (\U0001D538f K)ˣ →* C) (hθ : Continuous\
+      \ θ)\n    (hθ_rat : ∀ x : Kˣ, θ (principalIdele x) = 1) :\n    ∃ μ : Γ →* C, Continuous μ ∧ ∀ (x : (\U0001D538\
+      f K)ˣ) (g : Γ), artinMap Γ x = g → μ g = θ x"
+  routeToMain:
+  - module: Lib.ClassField.Global.ExistenceTheorem
+    importer: New.Congruences.Selmer.AuxiliaryPrimes
+    line: 3
+  - module: New.Congruences.Selmer.AuxiliaryPrimes
+    importer: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+    line: 2
+  - module: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+    importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+    line: 1
+  - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+    importer: New.Congruences.FitTwistsExist
+    line: 2
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  Lib.ClassField.Avatar.HeckeBaseChange:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Avatar.HeckeBaseChange
+      name: New.Variety.exists_twist_algHeckeChar
+      line: 392
+      signature: "lemma Variety.exists_twist_algHeckeChar [PadicIso ℓ] [CMType E] (ω : AlgHeckeChar E) (d : ℕ)\n\
+        \    {ρ : PadicRep Gal(Ω/E) ℓ} (hρ : Continuous ρ.rep) :\n    ∃ ρ' : PadicRep Gal(Ω/E) ℓ,\n      Continuous\
+        \ ρ'.rep ∧\n      -- at a place `w` where `ω` is unramified and of type `d` at all embeddings over `w`\n\
+        \      ∀ w : FinPlace E,\n        (∀ σ : E →+* ℂ, inducedPrime σ = w → ω.val.2.toAdd σ = d) →\n        CharUnramifiedAt\
+        \ ω.val.1 w →\n        ∀ {R : ℕ → ℕ → Prop} {J : (E →+* ℂ) → Multiset ℤ} {q a : ℕ} {t : ℕ → ℂ},\n      \
+        \    IsSphericalAbove ρ.rep R J w\n            (heckePoly q a\n              (ιℓ ∘ fun j : ℕ ↦ t j * (ω.val.1\
+        \ (locIdele w (uniformizer w)) : ℂ)⁻¹ ^ j)) →\n          IsSphericalAbove ρ'.rep R (fun τ : E →+* ℂ ↦ (J\
+        \ τ).map fun u : ℤ ↦ u - ω.val.2.toAdd τ) w\n            (heckePoly q a (ιℓ ∘ t))"
+    routeToMain:
+    - module: Lib.ClassField.Avatar.HeckeBaseChange
+      importer: New.UpperBound.Objects.Columns
+      line: 1
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Avatar/HeckeBaseChange.lean
+      line: 9
+      endLine: 12
+      text: 'Let `E` be a CM field with CM type `Φ`. A character `ν` of `U(1)(𝔸)` trivial on rational points
+
+        gives by base change the Hecke character `x ↦ ν(x / x̄)` of `E`. For `e ≠ 0` and `S` finite, its
+
+        `L`-function without the factors at `S ∪ S̄` does not vanish at real `s ≥ 1`. Algebraic Hecke
+
+        characters are also base changed along the norm.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Avatar/HeckeBaseChange.lean
+      line: 13
+      endLine: 43
+      text: "\n## Main definitions and results\n\n* `New.AutChar.L`: the Euler product of the base change, without\
+        \ the factors at `S ∪ S̄`.\n* `New.AutChar.HasWeight.L_ne_zero`: for `e ≠ 0` and `S` finite, this `L`-function\
+        \ does not vanish\n  at real `s ≥ 1`.\n* `New.AutChar.HasWeight.toAlgebraic`: the algebraic Hecke character\n\
+        \  `ν(x / x̄) υ(x)^{-k} |x|^{j - k/2}`, with `υ` the splitting character of `New.SplittingChar`.\n* `New.Variety.exists_twist_algHeckeChar`:\
+        \ twisting ρ by ω, controlled at the places w where ω is\n  unramified and its type is one natural number\
+        \ d. The twist is by χ^d·μ, with χ the cyclotomic\n  character and μ the ℓ-adic avatar of ω|·|^(−d), whose\
+        \ type vanishes over w.\n\nNotions from other files:\n* `New.AutChar`: The group of continuous circle-valued\
+        \ characters of U(1)(\U0001D538), the norm-one adeles of\n  the CM field E, trivial on elements coming from\
+        \ E.\n* `New.HeckeChar`: The group of unitary Hecke characters of E: continuous circle-valued characters\n\
+        \  of the idele group trivial on principal ideles.\n* `New.IsHeckeOfType`: The character ψ of the finite\
+        \ ideles is the finite part of a Hecke character\n  of type n: its kernel is open and ψ(x) ∏_w (Φ_w(x)/|Φ_w(x)|)^{n_w}\
+        \ = 1 on K^×.\n* `New.IsHeckeOfType.toAlgebraic`: the algebraic character `ψ |·|^{k/2}` of infinity type\
+        \ `m`, for\n  `ψ` of type `m (Φ w) - m (Φ̄ w)` with `m (Φ w) + m (Φ̄ w) = k` at every infinite place `w`.\n\
+        * `New.AutChar.HasWeight`: μ has weight e and tame part ψ: almost all residue characters ψ_w are\n  trivial,\
+        \ and μ(u) = ∏_v u_v^{e(v)} · ∏_w ψ_w(u mod w) whenever u has integral finite part.\n* `New.heckeCoeff`\
+        \ φ S: the value of φ at the chosen uniformiser at v for v outside S, and 0 for v\n  in S; `New.eulerProd`\
+        \ a is the Euler product ∏_v (1 - a_v q_v^(-s))⁻¹.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.HeckeL.ContinuationAtOne`,\n\
+        `Lib.ClassField.Avatar.LocalGlobalCompatibility` and `Lib.ClassField.Global.CMSplittingCharacters`\nfor\
+        \ sources.\n"
+  Lib.ClassField.Avatar.LocalGlobalCompatibility:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      name: New.GaloisRep.avatarCompatAt_of_hasPrimitiveRoot5040
+      line: 191
+      signature: "lemma New.GaloisRep.avatarCompatAt_of_hasPrimitiveRoot5040 {ℓ : ℕ} [ThePrime ℓ] [PadicIso ℓ]\n\
+        \    {E : Type} [Field E] [EmbeddedNumberField E] {w : FinPlace E} [IsCMField E]\n    [HasPrimitiveRoot5040\
+        \ E] (θ : AlgHeckeChar E) :\n    AvatarCompatAt w θ"
+    routeToMain:
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Avatar/LocalGlobalCompatibility.lean
+      line: 6
+      endLine: 12
+      startOffset: 123
+      endOffset: 502
+      text: "Local-global compatibility, including the places above `ℓ`, for the ℓ-adic avatar of an algebraic\n\
+        Hecke character `θ` of a CM field `E` satisfying `New.HasPrimitiveRoot5040`.\n\n* `New.GaloisRep.avatarCompatAt_of_hasPrimitiveRoot5040`:\
+        \ the statement\n  `New.GaloisRep.AvatarCompatAt w θ` at every finite place `w`.\n\nA base change reduces\
+        \ to a split place `w`, one with `star w ≠ w`."
+    remainder:
+      path: grh/src/Lib/ClassField/Avatar/LocalGlobalCompatibility.lean
+      line: 12
+      endLine: 35
+      startOffset: 502
+      endOffset: 2080
+      text: " There\n(`New.GaloisRep.avatarCompatAt_of_isSplit`) `θ = θ₁ (θ / θ₁)`, with `θ₁` the character of a\
+        \ rank one\neigenform (`New.GaloisRep.sphericalCompat_of_odd`, `New.GaloisRep.Attached.exists_det_eq_avatar`)\n\
+        and `θ / θ₁` of type `0` at the embeddings inducing `w`\n(`New.GaloisRep.avatarCompatAt_of_type_eq_zero`).\n\
+        \nNotions from other files:\n* `New.AlgHeckeChar`: pairs of a character of the finite ideles and its infinity\
+        \ type.\n* `New.AlgHeckeChar.avatar`: the ℓ-adic character of `Gal(Ω/E)` attached to such a pair.\n* `New.GaloisRep.AvatarCompatAt`:\
+        \ at each place of `Ω` over `w` the avatar has finite type\n  (`IsFiniteTypeAt`), its jumps are minus the\
+        \ type of `θ`, and inertia and geometric Frobenius\n  elements act through `θ` and local class field theory.\n\
+        * `New.IsEigenform`, `New.HasHeckePolyAt`: `f ≠ 0` has Hecke polynomial `P u` at almost all places\n  `u`\
+        \ of prime norm; `f` is spherical at a split place with the given Hecke polynomial.\n\n## Relation to the\
+        \ literature\n\nKnown result: the existence of the ℓ-adic avatar of an algebraic Hecke character and its\
+        \ local\nbehaviour. The avatar is constructed over totally complex fields (in an imported file). For the\
+        \ CM\nfields used here, the behaviour at places above ℓ is read from the rank-one case of the Galois\nrepresentations\
+        \ of `Lib.GaloisRep.Main.OddRank` rather than from Lubin–Tate theory. Source: J.-P.\nSerre, Abelian ℓ-adic\
+        \ representations and elliptic curves, 1968, II–III (locally algebraic =\nHodge–Tate, Tate's theorem); B.\
+        \ Conrad, Lifting global representations with local properties,\nApp. B (crystalline case).\n"
+    standaloneReview:
+      verdict: clear
+      reason: States local-global compatibility for the avatar at finite places.
+  Lib.ClassField.GaloisCohomology.ContinuousCocycles:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GaloisCohomology.ContinuousCocycles
+      name: New.DiscreteModule.quotient
+      line: 583
+      signature: 'abbrev quotient : DiscreteModule R Γ'
+    routeToMain:
+    - module: Lib.ClassField.GaloisCohomology.ContinuousCocycles
+      importer: Lib.ClassField.Places.ProfiniteGalois
+      line: 1
+    - module: Lib.ClassField.Places.ProfiniteGalois
+      importer: Lib.ClassField.Places.ValuationSubrings
+      line: 2
+    - module: Lib.ClassField.Places.ValuationSubrings
+      importer: Lib.CM.ChowlaSelberg
+      line: 6
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GaloisCohomology/ContinuousCocycles.lean
+      line: 6
+      endLine: 11
+      text: 'This file builds the part of continuous group cohomology used in this library, using explicit
+
+        cochains. It works with a representation `ρ` of a topological group `G` on a discrete `R`-module
+
+        `M`, and with discrete modules `New.DiscreteModule R Γ`. It also defines the cyclic class of a
+
+        character into `ℚ/ℤ` and an invariant, and the basic objects of local class field theory, where `Γ`
+
+        is a Galois group of `Ω` over `K`. It then treats restriction and short exact sequences of discrete
+
+        modules, and counts continuous 1-cocycles along exact sequences.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/GaloisCohomology/ContinuousCocycles.lean
+      line: 12
+      endLine: 38
+      text: "\n## Main definitions and results\n\n* `New.Z2`, `New.B2`, `New.H2`: continuous 2-cocycles, coboundaries\
+        \ and their quotient.\n* `New.QZ`, `New.QZ.carry`, `New.QZChar`: the discrete group `ℚ/ℤ`, the carry of\
+        \ two representatives\n  in `[0, 1)`, and continuous characters into `ℚ/ℤ`.\n* `New.cyclicClass`: the class\
+        \ of `(g, h) ↦ carry (χ g) (χ h) • w`, additive in `χ` and in `w`.\n* `New.IsClassOfInvariant`, `New.Cohomology.classOfInvariant`:\
+        \ the map from `ℚ/ℤ` to `H²(Γ, Ωˣ)`\n  normalised on unramified cyclic classes.\n* `New.IsLocalArtin`, `New.localArtin`,\
+        \ `New.placeOver`: the local Artin map, defined by duality\n  with the cyclic classes `New.cyclicClass`,\
+        \ its version on the completion of a number field at a\n  prime, and a chosen place over that prime.\n*\
+        \ `New.DiscreteModule R Γ`: a discrete `R`-module with a continuous `R`-linear action of `Γ`.\n\nNotions\
+        \ from other files:\n* `New.DiscreteUnits Ω`: the group `Ωˣ` written additively, with the discrete topology;\n\
+        \  `New.unitsRep` is the action of `Γ` on it.\n* `New.IsFrob A q σ`: `σ` stabilises `A` and `σ • x ≡ x ^\
+        \ q` modulo the maximal ideal of `A`;\n  `New.inertiaGroup Γ A` is the case `q = 1`.\n* `New.IsPlaceOver\
+        \ A v`: the valuation subring `A` of `Ω` lies over the prime `v` of the number\n  field `K`: an integer\
+        \ of `K` lies in the maximal ideal of `A` exactly when it lies in `v`.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.ClassField.GaloisCohomology.KummerCyclicClasses`, `Lib.ClassField.Local.ArtinMap`,\n`Lib.ClassField.Places.LocalFields`\
+        \ and `Lib.ClassField.LocalDuality.CrystallineDuality` for\nsources.\n"
+  Lib.ClassField.GaloisCohomology.KummerCyclicClasses:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GaloisCohomology.KummerCyclicClasses
+      name: New.QZChar.cyclicClass_spec
+      line: 675
+      signature: "lemma QZChar.cyclicClass_spec (χ : ↥(QZChar Γ)) :\n    let U"
+    routeToMain:
+    - module: Lib.ClassField.GaloisCohomology.KummerCyclicClasses
+      importer: Lib.ClassField.Places.TameInertia
+      line: 1
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GaloisCohomology/KummerCyclicClasses.lean
+      line: 8
+      endLine: 15
+      startOffset: 225
+      endOffset: 956
+      text: 'This file studies the Galois cohomology of `Ωˣ` for a group Γ acting on a field Ω. The group `Ωˣ` is
+
+        written additively (`New.DiscreteUnits`, with action `New.unitsRep`). In the last two sections Γ is
+
+        the profinite Galois group of Ω/K (`New.IsProGalois`). Take a continuous character χ : Γ → ℚ/ℤ with
+
+        kernel U and a Γ-invariant w in `Ωˣ`. The symbol (χ, w) = `New.cyclicClass ρ χ w` is the class in H²
+
+        of (g, h) ↦ carry(χ(g), χ(h))·w. The file first treats cup products of 1-cocycles, annihilators of
+
+        pairings, and a descent lemma for semilinear actions. Finally it shows that the classes vanishing on
+
+        U are the symbols (χ, w), and that (χ, w) = 0 exactly when w is a norm from U, that is, a field norm
+
+        from the field cut out by χ.'
+    remainder:
+      path: grh/src/Lib/ClassField/GaloisCohomology/KummerCyclicClasses.lean
+      line: 15
+      endLine: 58
+      startOffset: 956
+      endOffset: 3852
+      text: "\n\n## Main definitions and results\n\n* `New.cupProduct`, `New.cupProduct_flip`: the cup product of\
+        \ 1-cocycles, with values in `H²`, and\n  its anticommutativity; `New.DiscreteModule.evalCup` is the case\
+        \ of the evaluation pairing.\n* `New.Period.mem_span_fixed`: for a semilinear action, a vector fixed by\
+        \ a subgroup U of finite\n  index is a linear combination of invariant vectors, provided every element outside\
+        \ U moves some\n  U-fixed scalar. The invariant vectors are traces over the finitely many cosets, and Dedekind's\n\
+        \  independence of characters shows that their span contains the vector.\n* `New.hilbert90_unitsRep`: Hilbert\
+        \ 90, every continuous 1-cocycle with values in `Ωˣ` is a\n  coboundary.\n* `New.exists_kummer_cocycle`:\
+        \ if `Γ` fixes the `n`-th roots of unity (`ζ ^ k` is\n  `New.rootPowHom Ω n k` for a chosen primitive `n`-th\
+        \ root of unity `ζ`), an invariant `x = a ^ n`\n  gives a homomorphism `f : Γ → ℤ/n` with `g a / a = ζ ^\
+        \ f g`.\n* `New.mk_eq_neg_cyclicClass_ofZModCocycle`: the cup product of `g ↦ g a / a` with `ξ : Γ → ℤ/n`\
+        \ is\n  minus the cyclic class of `ξ / n` and `a ^ n`.\n* `New.QZChar.cyclicClass_spec`: the classes in\
+        \ `H²(Γ, Ωˣ)` that die on `U` are the symbols `(χ, w)`\n  of `New.cyclicClass` with `w` in `Kˣ` (embedded\
+        \ in `Ωˣ` by `New.DiscreteUnits.ofBase`), and\n  `(χ, w) = 0` exactly when `w` is a norm from `U`. The two\
+        \ hard directions are\n  `New.QZChar.exists_eq_cyclicClass_of_resH2_eq_zero` and\n  `New.QZChar.exists_corestrictH0_eq_of_cyclicClass_eq_zero`.\n\
+        \nNotions from other files:\n* `New.DiscreteModule R Γ`: an `R`-module `V` with the discrete topology and\
+        \ a continuous `R`-linear\n  action `ρ` of Γ; `New.Z1 ρ` and `New.Z2 ρ` are its continuous 1- and 2-cocycles.\n\
+        * `New.unitsRep`: the ℤ-linear representation of Γ on Ω^× (written additively) coming from the\n  action\
+        \ of Γ on the field Ω by ring automorphisms.\n* `New.DiscreteModule.H2`: The continuous cohomology H²(Γ,A)\
+        \ of a discrete Γ-module A: 2-cocycles\n  modulo the functions (g,h) ↦ g c(h) − c(gh) + c(g) with c continuous.\n\
+        * `New.QZ` is ℚ/ℤ. `New.QZ.carry`: for a, b in ℚ/ℤ, the integer part (0 or 1) of the sum of their\n  representatives\
+        \ in [0,1); `New.cyclicClass ρ χ w` is the class of the cocycle (g,h) ↦ carry(χ(g),\n  χ(h))·w.\n* `New.IsProGalois`:\
+        \ a profinite group acts on the Galois extension Ω/K as its Galois group, with\n  open stabilisers.\n\n\
+        ## Relation to the literature\n\nKnown result: the parts of Galois cohomology in degrees ≤ 2 listed above,\
+        \ namely cup products,\nHilbert 90, Kummer cocycles and the symbols of cyclic extensions. Only explicit\
+        \ continuous cocycles\nare used. Shapiro's lemma and corestriction (summation of functions on a coset space)\
+        \ come from\n`Lib.ClassField.GaloisCohomology.ShapiroCorestriction`. Source: J.-P. Serre, Galois Cohomology\n\
+        (1997); Neukirch–Schmidt–Wingberg, Cohomology of Number Fields (2nd ed. 2008), Ch. I, VI;\nAtiyah–Wall in\
+        \ Cassels–Fröhlich (1967), IV §8.\n"
+  Lib.ClassField.GaloisCohomology.ShapiroCorestriction:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GaloisCohomology.ShapiroCorestriction
+      name: New.DiscreteModule.mem_of_prime_step
+      line: 336
+      signature: "lemma mem_of_prime_step (S : AddSubgroup M.H2) {α : M.H2} {W : OpenSubgroup Γ} [W.Normal]\n  \
+        \  (hW : M.resH2 W α = 0)\n    (h_step : ∀ (U : OpenSubgroup Γ) (V : OpenSubgroup U.toSubgroup) [V.Normal],\
+        \ W ≤ U →\n      W.toSubgroup.subgroupOf U ≤ V →\n      V.index.Prime →\n      ∀ s ∈ S,\n        (M.restrictTo\
+        \ U).resH2 V (M.resH2 U (α - s)) = 0 → ∃ s' ∈ S, M.resH2 U (α - s') = 0) :\n    α ∈ S"
+    routeToMain:
+    - module: Lib.ClassField.GaloisCohomology.ShapiroCorestriction
+      importer: Lib.ClassField.GaloisCohomology.KummerCyclicClasses
+      line: 2
+    - module: Lib.ClassField.GaloisCohomology.KummerCyclicClasses
+      importer: Lib.ClassField.Places.TameInertia
+      line: 1
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GaloisCohomology/ShapiroCorestriction.lean
+      line: 6
+      endLine: 10
+      text: 'Let `Γ` be a compact group, `U` an open subgroup and `M` a discrete `Γ`-module. `M.restrictTo U` is
+
+        `M` as a `U`-module, and `M.resH2 U` is restriction `H²(Γ, M) → H²(U, M)`. `M.funModule U` is the
+
+        module of functions `Γ ⧸ U → M` with `(g F) x = g (F (g⁻¹ x))`. The file proves the parts of
+
+        Shapiro''s lemma that are needed, the norm from `U` on invariants with a projection formula for the
+
+        symbols `(χ, w)`, and the fact that a class in `H²` that dies on `U` is killed by `[Γ : U]`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/GaloisCohomology/ShapiroCorestriction.lean
+      line: 11
+      endLine: 38
+      text: "\n## Main definitions and results\n\n* `New.DiscreteModule.shapiroZ1`, `New.DiscreteModule.shapiroH2`:\
+        \ restrict a cocycle to `U` and\n  evaluate it at the coset `U`.\n* `New.DiscreteModule.shapiro_H0`, `New.DiscreteModule.shapiro_H1`,\n\
+        \  `New.DiscreteModule.shapiroH2_injective`: the parts of Shapiro's lemma that are used. In degree\n  zero,\
+        \ every `Γ`-invariant function is `x ↦ x.out y` for some `U`-invariant `y`. In degree one, a\n  cocycle\
+        \ whose image is a coboundary is itself a coboundary. In degree two, the map is injective.\n* `New.DiscreteModule.corestrictH0`:\
+        \ the norm from `U`.\n  `New.DiscreteModule.cyclicClass_corestrictH0` gives the projection formula: if `α`\
+        \ restricts on\n  `U` to `(χ|U, w)`, then `(χ, N w)` is `[Γ : U] α`.\n* `New.DiscreteModule.mem_of_prime_step`:\
+        \ a class `α` in `H²(Γ, M)` lies in a subgroup `S` if it\n  dies on an open normal subgroup `W` and the\
+        \ vanishing of `α - s` (some `s ∈ S`) can be lifted\n  through normal steps of prime index. The proof climbs\
+        \ a chain of `l`-subgroups of a finite\n  quotient `Γ ⧸ W`, as in Sylow's theorem.\n* `New.DiscreteModule.HoldsCorestrictions`:\
+        \ a group of cocycles of `Γ` contains the coboundaries and\n  corestrictions of a given group of cocycles\
+        \ of an open subgroup `U`; it is used in local duality.\n\nNotions from other files:\n* `New.cyclicClass`:\
+        \ The symbol (χ, w) = δχ ∪ w in H²(G,M) of a continuous character χ: G → ℚ/ℤ\n  (`New.QZChar`) and an invariant\
+        \ w. It is the class of (g,h) ↦ carry(χ(g), χ(h))·w.\n* `New.H2`: Continuous cohomology H²(G,M): continuous\
+        \ 2-cocycles of ρ modulo coboundaries of\n  continuous 1-cochains.\n\n## Relation to the literature\n\n\
+        Known; see `Lib.ClassField.GaloisCohomology.KummerCyclicClasses` for sources.\n"
+  Lib.ClassField.GaloisCohomology.TameSelmerCocycles:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GaloisCohomology.TameSelmerCocycles
+      name: New.Selmer.exists_conj_side_detects
+      line: 266
+      signature: "lemma exists_conj_side_detects [NumberField.IsCMField E] (hB : ∀ b : B, ℓ ^ M • b = 0)\n    (hA\
+        \ : IsPlaceOver A P) (hP : P ∉ placesDividing E ℓ) {v : FinPlace E}\n    (hρ : ∀ g : Gal(Ω/E), g ∈ inertiaAbove\
+        \ {v} → ρ g = 1) (hv : v = P ∨ v = star P) :\n    ∃ (b : Bool) (A' : ClosurePlace), IsPlaceOver A' v ∧\n\
+        \      ∀ {S : Set (FinPlace E)} {L : Set (Gal(Ω/E) →₀ Matrix n n O)},\n      ∀ c : Gal(Ω/E) → n → B, c ∈\
+        \ selmerModule ρ S L B →\n        c (idOrConjInv b hA.tameGenerator) = 0 →\n        (∀ g : Gal(Ω/E), g ∈\
+        \ inertiaAbove {v} → c g = 0) ∧\n        ∀ φ : Gal(Ω/E), IsFrob A P.q φ → c (idOrConjInv b φ) = 0 →\n  \
+        \        ∀ g : decompGroup Gal(Ω/E) A', c g = 0"
+    routeToMain:
+    - module: Lib.ClassField.GaloisCohomology.TameSelmerCocycles
+      importer: New.Congruences.FirstOrder.EvenClasses
+      line: 1
+    - module: New.Congruences.FirstOrder.EvenClasses
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 2
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GaloisCohomology/TameSelmerCocycles.lean
+      line: 6
+      endLine: 10
+      text: 'The file concerns locally constant cocycles of `Gal(Ω/E)`, where `Ω` is the fixed algebraic closure
+
+        of `ℚ` and the number field `E` is embedded in it (`EmbeddedNumberField E`), with values in `B ^ n`
+
+        for a matrix action `ρ`. It describes membership in the Selmer modules `New.selmerModule ρ S L B`
+
+        and how they depend on `S` and `L`. It then studies such cocycles at a place where `ρ` is tamely
+
+        ramified, for `B` killed by `ℓ ^ M` with `ℓ ^ M` prime to the place.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/GaloisCohomology/TameSelmerCocycles.lean
+      line: 11
+      endLine: 39
+      text: "\n## Main definitions and results\n\n* `New.Selmer.mem_selmerModule_iff`: membership spelled out as\
+        \ the cocycle identity, vanishing on\n  inertia outside `S`, the relations `L` and local constancy.\n* `New.Selmer.mem_selmerModule_of_eq_zero_on_inertiaAbove`:\
+        \ a member for `(S, L)` is a member for\n  `(T, K)` when `K ⊆ L` and it vanishes on inertia at the places\
+        \ of `S` outside `T`. The case\n  `S ⊆ T` is `New.Selmer.mem_selmerModule_of_subset`.\n* `New.Selmer.cocycle_eq_zero_on_inertia_of_tameGenerator`:\
+        \ a cocycle that vanishes at the tame\n  generator vanishes on inertia.\n* `New.Selmer.length_localCocycles_le`:\
+        \ a bound for the length of the local cocycles\n  `New.Selmer.localCocycles`.\n* `New.Selmer.exists_conj_side_detects`:\
+        \ at a place prime to `ℓ` or at its complex conjugate, where\n  `ρ` is unramified, vanishing at two elements\
+        \ detects vanishing on the decomposition group.\n\nNotions from other files:\n* `New.IsPlaceOver A P`: the\
+        \ place `A` of `Ω` lies above the place `P` of the number field.\n* `New.IsPlaceOver.tameGenerator`: a chosen\
+        \ generator of tame inertia at `A`.\n* `New.IsFrob A q φ`: `φ` fixes `A` and acts as `x ↦ x ^ q` on its\
+        \ residue field; `P.q` is the order\n  of the residue field of `P`.\n* `New.idOrConjInv b g`: `g` if `b`\
+        \ is true, `(conjGal g)⁻¹` otherwise, where `conjGal g` is the\n  conjugate of `g` by a chosen complex conjugation.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.ClassField.GreenbergWiles.CocycleCounts`,\n`Lib.ClassField.GaloisCohomology.KummerCyclicClasses`,\n\
+        `Lib.ClassField.LocalDuality.CrystallineDuality` and `Lib.ClassField.Places.LocalFields` for\nsources.\n"
+  Lib.ClassField.GaloisCohomology.TateIndexFormula:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GaloisCohomology.TateIndexFormula
+      name: New.tate_index_formula_norm
+      line: 387
+      signature: "lemma New.tate_index_formula_norm {K L : Type} [Field K] [Field L] [Algebra K L]\n    [FiniteDimensional\
+        \ K L] [IsGalois K L] (l : ℕ) (hL : finrank K L = l) [Fact l.Prime]\n    (U : Subgroup Lˣ) (V : Subgroup\
+        \ Kˣ) (hV : V = U.comap (Units.map (algebraMap K L)))\n    (hU : ∀ g : Gal(L/K), ∀ y ∈ U, g • y ∈ U)\n \
+        \   (hH1 : ∀ z : Lˣ, (∀ g : Gal(L/K), g • z / z ∈ U) → ∃ x : Kˣ, x.map (algebraMap K L) / z ∈ U)\n    (hqV\
+        \ : cokerKerIndex (l : End ℤ (Additive V)) ≠ 0) :\n    (U.map (Units.map (Algebra.norm K))).relIndex V ^\
+        \ (l - 1) *\n        cokerKerIndex (l : End ℤ (Additive U)) =\n      cokerKerIndex (l : End ℤ (Additive\
+        \ V)) ^ l"
+    routeToMain:
+    - module: Lib.ClassField.GaloisCohomology.TateIndexFormula
+      importer: Lib.ClassField.LocalDuality.KummerFiniteness
+      line: 2
+    - module: Lib.ClassField.LocalDuality.KummerFiniteness
+      importer: Lib.ClassField.Local.InvariantMap
+      line: 1
+    - module: Lib.ClassField.Local.InvariantMap
+      importer: Lib.ClassField.LocalDuality.DualityInequality
+      line: 1
+    - module: Lib.ClassField.LocalDuality.DualityInequality
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 2
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GaloisCohomology/TateIndexFormula.lean
+      line: 6
+      endLine: 13
+      text: "For a map `f` of abelian groups, `New.cokerKerIndex f` is the rational number `#coker f / #ker f`.\n\
+        `(l : End ℤ A)` denotes multiplication by the natural number `l` on `A`. The file gives counting\ntools\
+        \ for this index and for equivariant maps into finite projective `\U0001D53D_l[Δ]`-modules.\n\n## Main definitions\
+        \ and results\n\n* `New.cokerKerIndex`: the rational number `#coker f / #ker f`; it is `0` if either group\
+        \ is\n  infinite, so `cokerKerIndex f ≠ 0` says that both are finite.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/GaloisCohomology/TateIndexFormula.lean
+      line: 14
+      endLine: 30
+      text: "* `New.cokerKerIndex_natCast_eq_of_ne_zero`: the index of `l` is unchanged under maps with finite\n\
+        \  kernel and cokernel.\n* `New.card_hom_lattice_eq_card_equivariant`: `A / torsion` and a finite `Δ`-set\
+        \ `Z` have equally\n  many equivariant maps to a finite projective `\U0001D53D_l[Δ]`-module. This needs\
+        \ `A` finitely generated,\n  of rank at most `#Z`, and with an equivariant map `A → ℝ^Z` whose image spans\
+        \ `ℝ^Z`.\n* `New.Tate.index_formula`: computes the index of the norm group in the fixed points of an\n \
+        \ automorphism `σ` with `σ ^ l = 1`, `l` prime, from the indices of multiplication by `l`. It\n  assumes\
+        \ that the kernel of the norm is the image of `σ - 1`, and it takes the place of the\n  Herbrand quotient.\n\
+        * `New.tate_index_formula_norm`: `New.Tate.index_formula` for a Galois-stable subgroup `U` of `Lˣ`\n  with\
+        \ `H¹(Gal(L/K), U) = 0`, where `L / K` is Galois of prime degree. The hypothesis `hH1` gives\n  this vanishing\
+        \ through Hilbert's Theorem 90.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.GreenbergWiles.CocycleCounts`\
+        \ and\n`Lib.ClassField.GaloisCohomology.KummerCyclicClasses` for sources.\n"
+  Lib.ClassField.Global.AlbertBrauerHasseNoether:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      name: New.albert_brauer_hasse_noether
+      line: 697
+      signature: "lemma albert_brauer_hasse_noether (α : (unitsModule Γ).H2)\n    (h_dec : ∀ {A : ClosurePlace}\
+        \ {v : FinPlace K}, IsPlaceOver A v →\n      (unitsModule Γ).resH2 (decompGroup Γ A) α = 0)\n    (U : OpenSubgroup\
+        \ Γ) (h_conj : ∀ g : Γ, IsComplexConj g → g ∈ U)\n    (h_res : (unitsModule Γ).resH2 U α = 0) :\n    α =\
+        \ 0"
+    routeToMain:
+    - module: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      importer: Lib.GaloisRep.Main.SelmerModules
+      line: 2
+    - module: Lib.GaloisRep.Main.SelmerModules
+      importer: Lib.ClassField.Global.CMSplittingCharacters
+      line: 2
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Global/AlbertBrauerHasseNoether.lean
+      line: 8
+      endLine: 14
+      text: 'Let `K` be a number field and let `Γ` act as the Galois group of `Ω/K`, where `Ω` (`New.Ω`) is the
+
+        algebraic closure of `ℚ`. The first section treats complex conjugations in `Γ` and the symbols of
+
+        totally positive elements of `K`. The second section proves the second inequality for a Galois
+
+        extension `L / K`; the proof compares Dirichlet densities of primes of degree one. In the last
+
+        section `L` is the field cut out by a character `χ` of `Γ`; it treats local norms and Artin symbols,
+
+        proves Hasse''s norm theorem in prime degree when the real places of `K` stay real in `L` and deduces
+
+        the Albert–Brauer–Hasse–Noether theorem.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Global/AlbertBrauerHasseNoether.lean
+      line: 15
+      endLine: 49
+      text: "\n## Main definitions and results\n\n* `New.IsTotallyPositive.exists_resH2_cyclicClass_eq_zero`: the\
+        \ symbol of a totally positive `x`\n  restricts to zero on an open subgroup containing every complex conjugation.\n\
+        * `New.second_inequality`: for `L / K` Galois, an open subgroup `W` of the finite ideles that\n  contains\
+        \ the totally positive principal ideles and the norms from `L` has index at most `[L : K]`.\n  Each of its\
+        \ cosets contains the uniformiser idele `ϖ_v` for infinitely many `v` of prime norm\n  (`New.frequently_prime_uniformizer_div_mem_of_adeleNorm_mem`).\n\
+        * `New.exists_hasPrimeDensity_addChar_uniformizer`: the values of a character `f` of the quotient by\n \
+        \ `W` at the `ϖ_v` have mean `1 - m` if `f` is trivial and `-m` otherwise, for some `m : ℕ`.\n* `New.exists_localNorm_of_abelianLift_artinAt`:\
+        \ an element of a completion with trivial local\n  symbol is a local norm.\n* `New.albert_brauer_hasse_noether`:\
+        \ a class in H²(Γ, Ωˣ) is zero if it dies at every finite place\n  and over a finite extension in which\
+        \ the real places stay real.\n\nNotions from other files:\n* `New.IsProGalois`: a profinite group acts on\
+        \ the Galois extension Ω/K as its Galois group, with\n  open stabilisers.\n* `New.QZChar.abelianLift`: The\
+        \ homomorphism induced by the continuous character χ on the\n  topological abelianisation of Γ, with values\
+        \ in ℚ/ℤ written multiplicatively.\n* `New.artinAt`: The local Artin map K_v^× → Γ^ab: the Artin map to\
+        \ the abelianised decomposition\n  group of the chosen place above v, followed by the map induced by inclusion.\n\
+        \n## Relation to the literature\n\nKnown result: Global class field theory, comprising Albert–Brauer–Hasse–Noether,\
+        \ reciprocity,\nexistence and norms. Only finite ideles are used, with real places handled by total positivity,\
+        \ and\nexistence is proved only for totally complex fields. Reciprocity starts from cyclotomic characters\n\
+        of prime conductor, with the auxiliary character chosen by B. H. Neumann's covering lemma. Source:\nJ. S.\
+        \ Milne, Class Field Theory (v4.03, 2020), VI 4.9, VII 4–9, VIII 4; Tate, Global class field\ntheory, in\
+        \ Cassels–Fröhlich 1967, ch. VII; H. Hasse, Die Struktur der R. Brauerschen\nAlgebrenklassengruppe, Math.\
+        \ Ann. 107 (1933) (reciprocity from the sum formula).\n\nSee also `Lib.ClassField.Places.LocalFields` and\
+        \ `Lib.ClassField.HeckeL.ContinuationAtOne`.\n"
+  Lib.ClassField.Global.ArtinMap:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Global.ArtinMap
+      name: New.artinMap_map_adeleNorm
+      line: 268
+      signature: "lemma artinMap_map_adeleNorm {Γ' : Type} [Group Γ'] [TopologicalSpace Γ'] [MulSemiringAction Γ'\
+        \ Ω]\n    [IsProGalois Γ' L Ω] {y : (\U0001D538f L)ˣ} {g : Γ} {g' : Γ'} (hy : artinMap Γ' y = g') (j : Ω\
+        \ →+* Ω)\n    (hj : ∀ x : K, j (algebraMap K Ω x) = algebraMap L Ω (algebraMap K L x))\n    (hg : ∀ z :\
+        \ Ω, j (g • z) = g' • j z) :\n    artinMap Γ (y.map (adeleNorm K L)) = g"
+    routeToMain:
+    - module: Lib.ClassField.Global.ArtinMap
+      importer: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      line: 1
+    - module: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      importer: Lib.GaloisRep.Main.SelmerModules
+      line: 2
+    - module: Lib.GaloisRep.Main.SelmerModules
+      importer: Lib.ClassField.Global.CMSplittingCharacters
+      line: 2
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Global/ArtinMap.lean
+      line: 6
+      endLine: 10
+      text: 'Γ is the Galois group of an algebraic closure Ω of a number field K (`New.IsProGalois`), and
+
+        `New.QZChar.abelianLift χ` is a continuous character χ : Γ → ℚ/ℤ seen on Γ^ab, written
+
+        multiplicatively. `New.artinAt` and `New.artinMap` are the local and global Artin maps with values
+
+        in Γ^ab; `New.decompGroup` and `New.inertiaGroup` are the decomposition and inertia groups of a
+
+        valuation subring A.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Global/ArtinMap.lean
+      line: 11
+      endLine: 30
+      text: "\n* `New.IsPlaceOver.range_abelianLift_comp_artinAt`,\n  `New.IsPlaceOver.artinAt_units_trivial_iff_inertiaGroup_le`:\
+        \ the local symbols at v give the\n  values of χ on the decomposition group; those of units vanish iff χ\
+        \ kills inertia.\n* `New.IsPlaceOver.q_eq_and_comap_ne_self_of_decompGroup_le`: v splits completely in a\
+        \ Galois\n  extension L of K whose group Gal(Ω/L) contains the decomposition group.\n* `New.abelianLift_artinMap_eq_finprod`:\
+        \ the global symbol is the product of the local symbols.\n* `New.continuous_artinMap`: the global Artin\
+        \ map is continuous.\n* `New.artinMap_map_adeleNorm`: the Artin maps of K and of an extension L are compatible\
+        \ with the\n  norm.\n\nNotions from other files:\n* `New.IsPlaceOver A v`: the valuation subring A of Ω\
+        \ lies over the finite place v of K.\n* `New.ideleAt v a` is the component at v of a finite idele a; `New.locIdele\
+        \ v x` is the finite\n  idele with component x at v and 1 elsewhere; `New.idelesUnitOff S` is the group\
+        \ of finite ideles\n  that are units at every place outside S.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.ClassField.Global.AlbertBrauerHasseNoether` for sources.\n"
+  Lib.ClassField.Global.ArtinReciprocity:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Global.ArtinReciprocity
+      name: New.abelianLift_artinMap_principalIdele_eq_one_iff
+      line: 543
+      signature: "lemma abelianLift_artinMap_principalIdele_eq_one_iff {χ : ↥(QZChar Γ)}\n    (h : ∀ c : Γ, IsComplexConj\
+        \ c → χ.val c ≠ 0) (b : Kˣ) :\n    abelianLift χ (artinMap Γ (principalIdele b)) = 1 ↔ 0 < Algebra.norm\
+        \ ℚ b.val"
+    routeToMain:
+    - module: Lib.ClassField.Global.ArtinReciprocity
+      importer: Lib.ClassField.Global.NormTheorems
+      line: 1
+    - module: Lib.ClassField.Global.NormTheorems
+      importer: Lib.ClassField.Global.CMSplittingCharacters
+      line: 1
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Global/ArtinReciprocity.lean
+      line: 7
+      endLine: 16
+      text: "Global reciprocity for a number field `K` with absolute Galois group `Γ`, on finite ideles.\n\n## Overview\
+        \ of this theory\n\nClass field theory, local duality and Hecke `L`-functions, in the cases that the proof\
+        \ uses. Here\n`K` is a number field and `Γ` an absolute Galois group.\n\n* `New.IsHeckeOfType.eulerProd_ne_zero`:\
+        \ for a Hecke character `ψ` of `K` whose infinity type is\n  given by an integer at each infinite place,\
+        \ with `ψ ^ 2 ≠ 1`, and a finite set `S` of primes, the\n  partial `L`-function `L^S(s, ψ)` is nonzero for\
+        \ real `s ≥ 1`.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/Global/ArtinReciprocity.lean
+      line: 17
+      endLine: 72
+      text: "* `New.IsLocalGalois.classOfInvariant_bijective`: for a henselian local field `k` of characteristic\n\
+        \  `0`, not necessarily complete, the map from `ℚ/ℤ` to `H²(Γ, k̄ˣ)` is bijective. So the Brauer\n  group\
+        \ of `k` is `ℚ/ℤ`.\n* `New.exists_comp_artinMap`: for totally complex `K`, a continuous homomorphism from\
+        \ the finite\n  ideles `\U0001D538_fˣ` to a `T₁` group that is trivial on `Kˣ` factors continuously through\
+        \ `Art`.\n* `New.card_mul_card_le_of_orthogonal`: let `k` be local with valuation ring `O`, `l` a prime\
+        \ with\n  `#(O/l) = l ^ d`, and `M` a finite Galois module killed by `l ^ r`. Suppose `M` is fixed by a\n\
+        \  subgroup `Q` containing an `l`-power of every element. If groups of 1-cocycles `X` in\n  `Hom(M, k̄ˣ)`\
+        \ and `W` in `M` are orthogonal under cup product, then `#X · #W ≤ #M ^ (2 + d)`.\n* `New.RelationSetting.exists_card_cocycles_le`:\
+        \ let `K` be totally complex and `M` finite, killed\n  by `ℓ ^ r`, unramified outside a finite set `S`,\
+        \ with local conditions at `S` that contain the\n  coboundaries. Relations are equivariant homomorphisms\
+        \ from an open normal subgroup `U` to the dual\n  of `M` that obey the reciprocity law at the primes split\
+        \ for `U`. If some element is central\n  modulo `U`, fixes the roots of unity of `ℓ`-power order and fixes\
+        \ no nonzero vector, the number of\n  relations is bounded from below by the number of Selmer cocycles and\
+        \ the local terms.\n\nThese replace local and global class field theory (finite ideles only, no Weil group),\
+        \ local Tate\nduality and the Greenberg–Wiles formula (inequalities for cocycles; no perfect pairing, no\
+        \ dual\nSelmer group), and the continuation of Hecke `L`-functions (infinity type given by integers, real\n\
+        `s` only).\n\n`Places` and `GaloisCohomology` give the setting. `Local` builds the invariant and the local\
+        \ Artin\nmap, and `LocalDuality` counts by Kummer theory and dévissage. In `Global`, prime densities from\n\
+        `HeckeL` give the second inequality. This gives Chebotarev and, with Tate's index formula for\n`S`-units,\
+        \ Albert–Brauer–Hasse–Noether. Norm and existence theorems come next. `GreenbergWiles`\ncounts cocycles\
+        \ by `S`-units and power residue reciprocity. `Grunwald`, `Avatar` and\n`HeckeCharacter` hold applications.\
+        \ `New.exists_avatar` is in `Lib.PadicHodge.Characters`.\n\n## This file\n\n* `New.artin_reciprocity`: if\
+        \ the symbol `(ξ, x)` dies on an open subgroup containing the complex\n  conjugations, the character `ξ`\
+        \ kills the Artin symbol of `x ∈ Kˣ`. This applies when `ξ` kills\n  the conjugations (`New.abelianLift_artinMap_principalIdele_eq_one`)\
+        \ or `x` is totally positive\n  (`New.artinMap_principalIdele_eq_one_of_isTotallyPositive`).\n* `New.abelianLift_artinMap_principalIdele_eq_one_iff`:\
+        \ the sign law for characters nontrivial on\n  all conjugations.\n\nThe case `K(μ_q)` is `New.artin_reciprocity_cyclotomic`.\
+        \ Characters `χ : New.QZChar Γ` are\ncontinuous with values in `ℚ/ℤ`. `New.QZChar.abelianLift χ` is the\
+        \ induced map on the\nabelianisation, written multiplicatively. `artinMap Γ (principalIdele x)` is the Artin\
+        \ symbol of the\nfinite idele of `x`. Only `Γ` is an explicit argument of `artinMap`; `ideleAt v` takes\
+        \ the component\nat `v` of an idele. There are no components at the real places.\n\nNotions from other files:\n\
+        * `New.IsProGalois`: a profinite group acts on the Galois extension Ω/K (Ω the fixed algebraic\n  closure\
+        \ of ℚ; `EmbeddedNumberField K` puts the number field `K` inside Ω) as its Galois group,\n  with open stabilisers.\n\
+        * `New.cyclicClass`: The symbol (χ, w) = δχ ∪ w in H²(Γ, M) of a character χ : Γ → ℚ/ℤ and an\n  invariant\
+        \ w; here M = Ωˣ (`New.unitsModule`), and `DiscreteUnits.ofBase` sends `x ∈ Kˣ` to an\n  invariant of Ωˣ,\
+        \ and `resH2` restricts classes to a subgroup.\n* `New.artinAt`: The local Artin map K_v^× → Γ^ab, through\
+        \ the decomposition group of the chosen\n  valuation subring `New.placeOver v` over v.\n\n## Relation to\
+        \ the literature\n\nKnown; see `Lib.ClassField.Global.AlbertBrauerHasseNoether` for sources.\n"
+  Lib.ClassField.Global.CMSplittingCharacters:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      name: New.IsFromU1.eq_one_of_mem_inertiaAbove
+      line: 900
+      signature: "lemma IsFromU1.eq_one_of_mem_inertiaAbove (h : IsFromU1 S I χ) (g : Gal(Ω/E))\n    (hg_inertia\
+        \ : g ∈ inertiaAbove I.conjClosureᶜ) : χ g = 1"
+    routeToMain:
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Global/CMSplittingCharacters.lean
+      line: 7
+      endLine: 16
+      text: "This file treats a CM field `L` over its maximal real subfield `L⁺`. The chosen complex conjugation\n\
+        `c = New.cmConj` of `Ω` acts on the Galois group `Gal(Ω/E)` of a CM field `E` by `g ↦ c g c`, and on\nthe\
+        \ places of `Ω`.\n\n## Main definitions and results\n\n* `New.Cohomology.upsilon_eq_quadraticIdeleChar`:\
+        \ on the ideles fixed by conjugation (the ideles of\n  `L⁺`), a splitting character is the quadratic character\
+        \ `η` of `L/L⁺`\n  (`New.Cohomology.quadraticIdeleChar`), which is `1` on the ideles `a z z̄` with `a =\
+        \ ā`\n  (`New.Cohomology.IsRealTimesNorm`) and `-1` on the others.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/Global/CMSplittingCharacters.lean
+      line: 17
+      endLine: 48
+      text: "* `New.nonempty_splittingChar`: a splitting character exists when `E` contains a primitive 5040-th\n\
+        \  root of unity and every root of unity of `E` is `δ / δ̄` for a unit `δ` of `\U0001D4DE E` with\n  `∏\
+        \ w, Φ w δ = 1`.\n* `New.artinMap_star`, `New.IsPlaceOver.conjPlace_star`, `New.IsFrob.conjPlace_conjGal`,\n\
+        \  `New.conjGal_mem_inertiaGroup_iff`: conjugation is compatible with the Artin map, places,\n  Frobenius\
+        \ elements and inertia.\n* `New.IsFromU1.apply_idOrConjInv`, `New.IsFromU1.eq_one_of_mem_decompGroup`,\n\
+        \  `New.IsFromU1.eq_one_of_mem_inertiaAbove`: a character `χ` with `χ (Art x) = η (x / x̄)`\n  (`New.IsFromU1\
+        \ S I χ`) is invariant under `g ↦ (c g c)⁻¹`, trivial on decomposition groups above\n  `S` and unramified\
+        \ outside `I` and its conjugates.\n\nNotions from other files:\n* `New.SplittingChar L`: a unitary Hecke\
+        \ character `υ` of `L` with `υ x̄ = (υ x)⁻¹` that is\n  `∏ τ, x_τ / |x_τ|` on the ideles whose finite part\
+        \ is a unit; `υ.atUniformizer w` is its value at\n  the chosen uniformiser at the finite place `w`.\n* `New.Ω`:\
+        \ an algebraic closure of `ℚ`; the fields `E` with a Galois group `Gal(Ω/E)` carry an\n  embedding in it\
+        \ (`New.EmbeddedNumberField`).\n* `New.IsFromU1 S I χ`: `χ` is locally constant and `χ (Art x) = η (x /\
+        \ x̄)` for a character `η` of\n  the finite ideles that is trivial on `Eˣ` and on the ideles that are units\
+        \ off `S ∪ S̄` and `≡ 1`\n  at the places of `I` off `S ∪ S̄`.\n\n## Relation to the literature\n\nKnown\
+        \ result: Type A₀ Hecke characters and extension of a CM field's quadratic character. The\nresults on `New.IsFromU1`\
+        \ concern characters of the norm-one torus of a CM field that are tamely\nramified off `S ∪ S̄`. A splitting\
+        \ character extends the quadratic character and is everywhere\nunramified of weight one; such an extension\
+        \ exists under the hypotheses of\n`New.nonempty_splittingChar`, but not for every CM field. Source: A. Weil,\
+        \ On a certain type of\ncharacters of the idèle-class group of an algebraic number-field, Tokyo–Nikko symposium\
+        \ 1955 (1956);\nexposition A. Raghuram, Notes on the arithmetic of Hecke L-functions, arXiv:2207.03399,\
+        \ §4.\n\nSee also `Lib.ClassField.Global.AlbertBrauerHasseNoether` and `Lib.ClassField.Places.LocalFields`.\n"
+  Lib.ClassField.Global.Chebotarev:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Global.Chebotarev
+      name: New.chebotarev
+      line: 30
+      signature: "lemma New.chebotarev {K : Type} [Field K] [NumberField K] [Algebra K Ω] {W : Set Gal(Ω/K)}\n \
+        \   (hW : IsOpen W) (hW_ne : W.Nonempty) {S : Set (FinPlace K)} (hS : S.Finite) :\n    -- (a)\n    ∃ v :\
+        \ FinPlace K, v ∉ S ∧\n      v.q.Prime ∧\n      ∃ A : ClosurePlace,\n        IsPlaceOver A v ∧\n       \
+        \ -- (b)\n        ∃ σ ∈ W,\n          IsFrob A v.q σ ∧\n          -- (c)\n          ∀ τ : Gal(Ω/K), IsFrob\
+        \ A v.q τ → τ ∈ W"
+    routeToMain:
+    - module: Lib.ClassField.Global.Chebotarev
+      importer: New.Congruences.Selmer.AuxiliaryPrimes
+      line: 2
+    - module: New.Congruences.Selmer.AuxiliaryPrimes
+      importer: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 1
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Global/Chebotarev.lean
+      line: 6
+      endLine: 13
+      text: "The qualitative form of Chebotarev's theorem used in the proof: `New.chebotarev`. It is reduced to\
+        \ a\ncyclic extension, where it follows from the second inequality `New.second_inequality`.\n\nNotions from\
+        \ other files:\n* `New.IsFrob`: `σ` stabilises the valuation subring `A` and `σ • x ≡ x ^ q` modulo the\
+        \ maximal\n  ideal for all `x ∈ A`.\n* `New.IsPlaceOver`: `IsPlaceOver A v` says that the valuation subring\
+        \ `A` of `Ω` lies over the\n  prime `v` of `K`: an integer of `K` is in the maximal ideal of `A` exactly\
+        \ when it lies in `v`.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/Global/Chebotarev.lean
+      line: 14
+      endLine: 20
+      text: '
+
+        ## Relation to the literature
+
+
+        Known result: Chebotarev''s density theorem, existence form. Only existence is proved, namely that
+
+        Frobenius elements at primes of degree one outside a finite set are dense in the absolute Galois
+
+        group, and no density value is given. Source: J. S. Milne, Class Field Theory, VIII 7.4 (Deuring''s
+
+        reduction); Stevenhagen–Lenstra, Chebotarëv and his density theorem, Math. Intelligencer 18 (1996).
+
+        '
+  Lib.ClassField.Global.ExistenceTheorem:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Global.ExistenceTheorem
+      name: New.OddPart.exists_detecting_points_hom
+      line: 957
+      signature: "lemma OddPart.exists_detecting_points_hom [IsTotallyComplex K] (m : ℕ)\n    (h_finite : (idelesPowAt\
+        \ S m).index ≠ 0) :\n    ∃ (ι : Type) (_ : Fintype ι) (p : ι → Γ) (n : ι → ℕ),\n      -- (a) the orders\
+        \ `n i` are at least `2`\n      (∀ i : ι, 2 ≤ n i) ∧\n      -- (b) their product is bounded\n      ∏ i :\
+        \ ι, n i ∣ classNumber K * (idelesPowAt S m).index ∧\n      -- (c) a locally constant homomorphism `x`,\
+        \ killed by `m` and unramified off `S`, has\n      -- `n i • x (p i) = 0` and is determined by its values\
+        \ at the `p i`\n      ∀ {B : Type*} [AddCommGroup B] {x : Γ → B}, IsUnramifiedTorsionHom S m x →\n     \
+        \   (∀ i : ι, n i • x (p i) = 0) ∧ ((∀ i : ι, x (p i) = 0) → x = 0)"
+    routeToMain:
+    - module: Lib.ClassField.Global.ExistenceTheorem
+      importer: New.Congruences.Selmer.AuxiliaryPrimes
+      line: 3
+    - module: New.Congruences.Selmer.AuxiliaryPrimes
+      importer: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 1
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Global/ExistenceTheorem.lean
+      line: 6
+      endLine: 9
+      text: 'This file proves the existence theorem of class field theory for a totally complex number field `K`:
+
+        a continuous homomorphism from the finite ideles of `K` to a `T₁` group that is trivial on `Kˣ`
+
+        factors through the Artin map. The proof uses Kummer theory when `K` contains the `n`-th roots of
+
+        unity; otherwise it passes to a cyclic extension of `K` inside `K(μ_n)` and composes with the norm.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Global/ExistenceTheorem.lean
+      line: 10
+      endLine: 34
+      text: "\n`Γ` is the Galois group of `Ω/K`, where `Ω` is the fixed algebraic closure of `ℚ`.\n`New.idelesPowAt\
+        \ S n` is the group of finite ideles that are `n`-th powers at the places of `S`.\n\n* `New.exists_comp_artinMap`:\
+        \ the existence theorem.\n* `New.exists_kummer_chars`: Kummer characters, and the ideles killed by those\
+        \ of the `S`-units.\n* `New.index_pow_local_le`, `New.index_idelesPowAt_ne_zero_and_le`: bounds on the index\
+        \ of local\n  `n`-th powers.\n* `New.QZChar.eq_zero_of_unramified_off`, `New.sum_ord_smul_frob_eq_zero`:\
+        \ consequences of the\n  product formula for `New.artinMap`.\n* `New.OddPart.exists_detecting_points_hom`:\
+        \ finitely many points of `Γ` that detect the characters\n  killed by `m` and unramified off `S`.\n\nNotions\
+        \ from other files:\n* `New.artinMap`: the global Artin map from the finite ideles of `K` to the topological\n\
+        \  abelianisation of `Γ`.\n* `New.QZChar.abelianLift`: the homomorphism that a character χ of Γ induces\
+        \ on Γ^ab, with values in\n  ℚ/ℤ written multiplicatively.\n* `New.idelesUnitOff S`: the finite ideles whose\
+        \ components at the finite places outside `S` are\n  units.\n* `New.cyclotomicCharMod`: the cyclotomic character\
+        \ Γ → (ℤ/n)^×; it is trivial iff Γ fixes μ_n.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.Global.AlbertBrauerHasseNoether`\
+        \ for sources.\n"
+  Lib.ClassField.Global.NormTheorems:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Global.NormTheorems
+      name: New.abelianLift_artinMap_eq_one_iff
+      line: 175
+      signature: "lemma abelianLift_artinMap_eq_one_iff (a : (\U0001D538f K)ˣ) :\n    abelianLift χ (artinMap Γ\
+        \ a) = 1 ↔\n      ∃ (x : Kˣ) (y : (\U0001D538f L)ˣ),\n        IsTotallyPositive x.val ∧ a = principalIdele\
+        \ x * Units.map (adeleNorm K L) y"
+    routeToMain:
+    - module: Lib.ClassField.Global.NormTheorems
+      importer: Lib.ClassField.Global.CMSplittingCharacters
+      line: 1
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Global/NormTheorems.lean
+      line: 6
+      endLine: 11
+      text: 'Global class field theory for cyclic extensions of a number field `K`, deduced from the reciprocity
+
+        law, the second inequality `New.second_inequality` and `New.albert_brauer_hasse_noether`.
+
+
+        * `New.artinMap_surjective`: the Artin map from the finite ideles onto `Γ^ab` is surjective.
+
+        * `New.exists_isProGalois_ker_of_isCyclic`: a cyclic extension `L/K` is cut out by a character.
+
+        * `New.hasse_norm`: Hasse''s norm theorem, for totally positive elements.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Global/NormTheorems.lean
+      line: 12
+      endLine: 30
+      text: "* `New.index_ker_abelianLift_comp_artinMap`, `New.abelianLift_artinMap_eq_one_iff`: if `χ` cuts out\n\
+        \  `L`, the kernel of `χ ∘ artinMap` has index `[L : K]` and consists of totally positive elements of\n\
+        \  `Kˣ` times norms from `L`.\n\nNotions from other files:\n* `New.Ω` is an algebraic closure of `ℚ`, and\
+        \ `New.EmbeddedNumberField K` is a number field `K`\n  with an embedding in `Ω`. `New.IsProGalois Γ K Ω`\
+        \ says that `Γ` is the profinite Galois group of\n  `Ω/K`.\n* `New.artinMap Γ` is the global Artin map from\
+        \ the finite ideles `(\U0001D538f K)ˣ` of `K` to the\n  topological abelianisation `Γ^ab` of `Γ`, chosen\
+        \ so that a character takes at `artinMap Γ a` the\n  product of its values at the local Artin symbols of\
+        \ the components of `a`.\n* A `χ : New.QZChar Γ` is a continuous character `Γ → ℚ/ℤ`; `New.QZChar.toHom\
+        \ χ` and\n  `New.QZChar.abelianLift χ` are its multiplicative forms on `Γ` and `Γ^ab`. \"`χ` cuts out `L`\"\
+        \ is\n  the instance `IsProGalois (ker χ) L Ω`, with `New.QZChar.ker`.\n* `New.IsTotallyPositive x`: every\
+        \ ring homomorphism `K → ℝ` sends `x` to a positive number.\n\n## Relation to the literature\n\nKnown; see\
+        \ `Lib.ClassField.Global.AlbertBrauerHasseNoether` for sources.\n"
+  Lib.ClassField.GreenbergWiles.CocycleCounts:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GreenbergWiles.CocycleCounts
+      name: New.IsLargeLevel.SplitPlaces.hasFewCocycles_of_central
+      line: 707
+      signature: "theorem New.IsLargeLevel.SplitPlaces.hasFewCocycles_of_central {K R ι : Type} [Field K]\n    [EmbeddedNumberField\
+        \ K] [CommRing R] {l r N : ℕ} [Fact l.Prime] [NeZero N] {I : Set Gal(Ω/K)}\n    {V : DiscreteModule R Gal(Ω/K)}\
+        \ [Fintype ι] [IsTotallyComplex K]\n    {U : OpenNormalSubgroup Gal(Ω/K)} (s : SplitPlaces (l ^ r) N I U\
+        \ ι) (hr : r ≠ 0) {z : Gal(Ω/K)}\n    (hV : V.FiniteKilledFixedInj (l ^ r) U z 1) (hcyc : cyclotomicChar\
+        \ Ω l z = 1)\n    (hcentral : ∀ g : Gal(Ω/K), ⁅z, g⁆ ∈ U) (hdetect : s.FrobeniiDetectRoots) :\n    V.HasFewCocycles\
+        \ (PlaceAboveLevel N) I (Fintype.card ι + 1)"
+    routeToMain:
+    - module: Lib.ClassField.GreenbergWiles.CocycleCounts
+      importer: Lib.ClassField.GreenbergWiles.Relations
+      line: 1
+    - module: Lib.ClassField.GreenbergWiles.Relations
+      importer: Lib.ClassField.GreenbergWiles.RelationsModL
+      line: 1
+    - module: Lib.ClassField.GreenbergWiles.RelationsModL
+      importer: New.Congruences.FirstOrder.KummerMaps
+      line: 1
+    - module: New.Congruences.FirstOrder.KummerMaps
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 3
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GreenbergWiles/CocycleCounts.lean
+      line: 6
+      endLine: 12
+      text: 'We count trivialised cocycles (`New.DiscreteModule.trivialisedCocycles`) of the absolute Galois
+
+        group `G` of a number field `K` (`IsProGalois G K Ω`: `G` acts on `Ω` as its Galois group over `K`)
+
+        in a finite module `V`. A trivialised cocycle vanishes on `I` and carries a trivialisation at each
+
+        place of `Ω` (the algebraic closure of `ℚ`) above `N` and infinity. Here
+
+        `New.IsLargeLevel.SplitPlaces` is the data of finitely many places not dividing `N`, indexed by `ι`,
+
+        with Frobenius elements `s.φ i` in `U`. The set `I` is the union of the inertia groups above the
+
+        other places not dividing `N`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/GreenbergWiles/CocycleCounts.lean
+      line: 13
+      endLine: 45
+      text: "\n## Main definitions and results\n\n* `New.IsLargeLevel.SplitPlaces.card_trivialised_of_isHigmanProjective`:\
+        \ for `V` killed by `l`,\n  fixed by `U` and projective over `G ⧸ U` in Higman's sense, given `z`, `n` with\
+        \ `ρ(z) − n`\n  injective on `V` and with `z • r − n • r` fixed by `U` for every unit `r` fixed by all `s.φ\
+        \ i`\n  with `l • r` a `U`-fixed `N`-unit, at most `#V ^ (#ι + 1)` trivialised cocycles, with equality\n\
+        \  under further hypotheses.\n* `New.IsLargeLevel.SplitPlaces.hasFewCocycles_of_central`: let `K` be totally\
+        \ complex and `r ≠ 0`.\n  Suppose some `z`, central modulo `U` and with `l`-adic cyclotomic character `1`,\
+        \ satisfies\n  `V.FiniteKilledFixedInj (l ^ r) U z 1`. Suppose also that the Frobenii of the split places\
+        \ detect\n  roots. Then `V` has at most `#V ^ (#ι + 1)` trivialised cocycles.\n\nNotions from other files:\n\
+        * `New.DiscreteModule.IsHigmanProjective`: Higman's criterion relative to Q of finite index: some\n  additive\
+        \ τ : A → A has ∑ gτg⁻¹ = 1, summed over chosen representatives g of G/Q.\n* `New.DiscreteModule.FiniteKilledFixedInj`:\
+        \ The G-module A is finite and killed by n, Q acts\n  trivially on it, and ρ(z) − m is injective on it.\n\
+        * `New.IsLargeLevel.fixedSUnits`: The N-units of the fixed field of U: the N-units of Ω that are\n  fixed\
+        \ by U.\n\n## Relation to the literature\n\nAn upper bound of the kind the Greenberg–Wiles formula gives\
+        \ when the dual Selmer group vanishes;\nthe hypothesis on the Frobenii `s.φ i` takes the place of that vanishing.\
+        \ Only this bound is proved\n(with a case of equality for projective modules), under the hypothesis that\
+        \ `ρ(z) − n` is injective\non `V`; for modules that are not projective, `n = 1` and `z` is central modulo\
+        \ `U`. No local duality\nis used: the dual Selmer group is replaced by linear relations among the values\
+        \ of a cocycle on tame\ninertia at the split places.\n\nSource: H. Darmon, F. Diamond, R. Taylor, Fermat's\
+        \ Last Theorem (1995; revised 2007), Thm 2.18–2.19;\nA. Wiles, Ann. of Math. 141 (1995), Prop. 1.6; J. S.\
+        \ Milne, Arithmetic Duality Theorems, I 4.10,\n5.1; L. Washington, Galois cohomology (1997), Thm 2.\n"
+  Lib.ClassField.GreenbergWiles.Relations:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GreenbergWiles.Relations
+      name: New.RelationSetting.relations
+      line: 142
+      signature: "def relations (T : Finset (FinPlace K)) : Submodule R (Gal(Ω/K) → CharacterModule M) where\n \
+        \ carrier"
+    routeToMain:
+    - module: Lib.ClassField.GreenbergWiles.Relations
+      importer: Lib.ClassField.GreenbergWiles.RelationsModL
+      line: 1
+    - module: Lib.ClassField.GreenbergWiles.RelationsModL
+      importer: New.Congruences.FirstOrder.KummerMaps
+      line: 1
+    - module: New.Congruences.FirstOrder.KummerMaps
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 3
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GreenbergWiles/Relations.lean
+      line: 7
+      endLine: 13
+      text: 'Let `M` be a discrete Galois module with local conditions at a finite set `S` of primes; `Z(P)`
+
+        (`cocycles P`) is the group of cocycles allowed at each prime of `S`, zero at complex conjugations,
+
+        unramified outside `S ∪ P`. A relation is a function on an open normal subgroup `U` with values in
+
+        the dual of `M` that has the properties of the restriction of a dual cocycle, among them the
+
+        reciprocity law at primes that are split for `U`. The module of relations takes the place of the
+
+        dual Selmer group: at a split prime where the relation `y` is unramified, `y(φ)(z(γ))` is the local
+
+        pairing of `y` with a cocycle `z`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/GreenbergWiles/Relations.lean
+      line: 14
+      endLine: 36
+      text: "\n* `New.SplitPrime`, `New.RelationSetting`: split primes, and the module with its local conditions.\n\
+        * `New.RelationSetting.relations`: the relations off a finite set `T`; there are finitely many if\n  `M`\
+        \ is finite.\n* `New.RelationSetting.exists_splitPlaces_forall_exists_mem_relations`: one family of split\
+        \ primes\n  gives relations at all split primes.\n* `New.RelationSetting.exists_card_cocycles_le`: a lower\
+        \ bound for the number of relations.\n\nNotions from other files:\n* `New.IsLargeLevel.SplitPlaces`: a family\
+        \ `s` of distinct primes `s.v i` prime to a level `q`, with\n  Frobenius elements `s.φ i` in `U` at places\
+        \ `s.valuationSubring i` above `s.v i`; inertia at the\n  primes prime to `q` lies in `U`, and `I` is the\
+        \ union of the inertia groups above those primes not\n  in the family. Its property `FrobeniiDetectRoots`\
+        \ says that an `m`-th root of a `q`-unit of the\n  field of `U` that all `s.φ i` fix is fixed by `U`.\n\
+        * `New.IsLargeLevel.fixedSUnits q U`: the `q`-units of the field of `U`; `New.unitsRep` is the\n  Galois\
+        \ action on `Ωˣ`, written additively.\n* `New.cyclotomicCharMod`: the cyclotomic character modulo `m`.\n\
+        \n## Relation to the literature\n\nPart of a known result: Greenberg–Wiles formula, as a lower bound for\
+        \ the dual side. See\n`Lib.ClassField.GreenbergWiles.CocycleCounts`. Source: Darmon, Diamond, Taylor, Fermat's\
+        \ Last\nTheorem, Theorem 2.19; the case that is used is proved here.\n"
+  Lib.ClassField.GreenbergWiles.RelationsModL:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GreenbergWiles.RelationsModL
+      name: New.RelationSetting.exists_pow_le_card_reductions
+      line: 444
+      signature: "theorem exists_pow_le_card_reductions [Finite M] (hm : ℓ ∣ m)\n    (h_places : 4 ≤ card (InfinitePlace\
+        \ K)) {κ : Gal(Ω/K) →* ℤ_[ℓ]ˣ} (hκ : Continuous κ)\n    (hκ_four : ∀ g : Gal(Ω/K), 4 ∣ (κ g).1 - 1) {c :\
+        \ Gal(Ω/K)}\n    (hU : ∀ g : Gal(Ω/K), κ g = 1 → g ∈ D.subgroup ∨ g * c ∈ D.subgroup)\n    (h_card : Nat.card\
+        \ {a : M // ℓ • a = 0} = ℓ)\n    (h_allowed : ∀ v : FinPlace K,\n      D.allowed v = .pi {g : decompGroup\
+        \ Gal(Ω/K) (D.place v) | ↑ℓ ∈ v.1 → κ g = 1} ⊥) :\n    open Classical in\n    ∃ T : Finset (FinPlace K),\
+        \ D.localPrimes ⊆ T ∧\n      ℓ ^ (#{v ∈ D.localPrimes | ↑ℓ ∉ v.1} + 1) ≤ Nat.card (D.reductions ℓ T)"
+    routeToMain:
+    - module: Lib.ClassField.GreenbergWiles.RelationsModL
+      importer: New.Congruences.FirstOrder.KummerMaps
+      line: 1
+    - module: New.Congruences.FirstOrder.KummerMaps
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 3
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GreenbergWiles/RelationsModL.lean
+      line: 6
+      endLine: 9
+      text: 'A lower bound for the number of reductions modulo `ℓ` of the relations off a finite set `T` of
+
+        primes, for a module whose submodule of points killed by `ℓ` has order `ℓ`. Here the forms on the
+
+        points killed by `ℓ` are lifted to relations, and the cocycles killed by `ℓ` are bounded by the
+
+        count for `M[ℓ]`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/GreenbergWiles/RelationsModL.lean
+      line: 10
+      endLine: 30
+      text: "\n* `New.RelationSetting.reductions`: the reductions modulo `ℓ` of the relations off `T`.\n* `New.RelationSetting.exists_pow_le_card_reductions`:\
+        \ the lower bound for their number.\n\nNotions from other files:\n* `New.RelationSetting`: a module `M`\
+        \ over `Gal(Ω/K)`, where `Ω` is the fixed algebraic closure in\n  which the number field `K` is embedded\
+        \ (`EmbeddedNumberField K`), unramified outside a finite set\n  `S` of primes and with trivial complex conjugations,\
+        \ with a chosen place `D.place v` above each\n  prime `v`, with local conditions at `S` on its decomposition\
+        \ group that contain the coboundaries,\n  and an open normal subgroup `U` that fixes `M` and the `m`-th\
+        \ roots of unity;\n* `New.RelationSetting.cocycles`: the cocycles that satisfy the local conditions, vanish\
+        \ at complex\n  conjugations and are unramified outside `S` and a given set of primes;\n* `New.RelationSetting.relations`:\
+        \ the functions, supported on `U`, with values in the characters of\n  `M`, that have the properties of\
+        \ restrictions of dual cocycles; those off `T` satisfy the\n  reciprocity law with the cocycles ramified\
+        \ at finitely many split primes outside `T`;\n* `New.IsLargeLevel.SplitPlaces`: a family of primes prime\
+        \ to the level that split in the field of\n  an open normal subgroup, with places above them and Frobenius\
+        \ elements.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.GreenbergWiles.CocycleCounts`\
+        \ for sources.\n"
+  Lib.ClassField.GreenbergWiles.SelmerLevels:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GreenbergWiles.SelmerLevels
+      name: New.IsLargeLevel.dirichlet_fixedSUnits
+      line: 586
+      signature: "lemma IsLargeLevel.dirichlet_fixedSUnits (Q : OpenNormalSubgroup G) :\n    let X"
+    routeToMain:
+    - module: Lib.ClassField.GreenbergWiles.SelmerLevels
+      importer: New.Congruences.Selmer.SelmerData
+      line: 2
+    - module: New.Congruences.Selmer.SelmerData
+      importer: New.Congruences.Selmer.MainSummands
+      line: 3
+    - module: New.Congruences.Selmer.MainSummands
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 5
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GreenbergWiles/SelmerLevels.lean
+      line: 6
+      endLine: 15
+      text: "This file prepares the counting of Selmer groups over a number field `K`. Here `G` is the profinite\n\
+        Galois group of an algebraically closed field `Ω` over `K`, and finite places of `Ω` are valuation\nsubrings\
+        \ (`ClosurePlace`), and `B N` is the valuation of `N` at `B`. `New.DiscreteUnits Ω` is `Ωˣ`\nwritten additively,\
+        \ and `New.Z1` are the continuous 1-cocycles.\n\n## Main definitions and results\n\n* `New.IsLargeLevel.sUnits`,\
+        \ `New.IsLargeLevel.fixedSUnits`, `New.IsLargeLevel.fixedSUnitsRep`: the\n  `N`-units of `Ω`, those fixed\
+        \ by an open normal subgroup `U`, and the latter as a representation\n  of `G ⧸ U`.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/GreenbergWiles/SelmerLevels.lean
+      line: 16
+      endLine: 39
+      text: "* `New.selmerZ1`: cocycles with local conditions.\n* `New.IsLargeLevel.SplitPlaces`: a family of distinct\
+        \ primes outside `N`, each with a Frobenius\n  element in `U`. Here `N` is adapted to `U`: inertia above\
+        \ primes not dividing `N` lies in `U`, and\n  the primes dividing `N` generate the class groups of the number\
+        \ fields between `K` and the fixed\n  field of `U`.\n* `New.IsLargeLevel.dirichlet_fixedSUnits`: for an\
+        \ open normal subgroup `Q` of `G`, the `N`-units of\n  the fixed field of `Q`, times `ℤ`, form a finitely\
+        \ generated group of rank at most the number of\n  places of that field above `N` and infinity, and have\
+        \ linearly independent equivariant additive\n  maps to `ℝ` indexed by these places.\n\nNotions from other\
+        \ files:\n* `New.IsProGalois`: a profinite group acts on the Galois extension Ω/K as its Galois group, with\n\
+        \  open stabilisers.\n* `New.IsPlaceOver`: the valuation subring A of Ω lies over the prime w of E: an integer\
+        \ of E is in\n  the maximal ideal of A exactly when it lies in w.\n* `New.IsFrob`: for a given q, σ stabilises\
+        \ A and σx ≡ x^q modulo the maximal ideal of A for every x\n  in A.\n* `New.inertiaAbove`: for a set S of\
+        \ primes of K, the union of the inertia groups in Gal(Ω/K) of all\n  valuation subrings of Ω over a prime\
+        \ in S.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.GreenbergWiles.CocycleCounts` and\
+        \ `Lib.ClassField.Places.LocalFields` for\nsources.\n"
+  Lib.ClassField.GreenbergWiles.SelmerRelations:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GreenbergWiles.SelmerRelations
+      name: New.selmerZ1.card_relations_ge
+      line: 440
+      signature: "lemma card_relations_ge (hu : ∀ g ∈ inertiaAbove (S : Set (FinPlace K))ᶜ, M.ρ g = 1)\n    (hA\
+        \ : ∀ v : FinPlace K, IsPlaceOver (A v) v)\n    (L : ∀ v : FinPlace K, Submodule R (decompGroup Gal(Ω/K)\
+        \ (A v) → M))\n    (hL : ∀ v ∈ S, (coboundaryMap (M.restrictTo (decompGroup Gal(Ω/K) (A v))).ρ).range ≤\
+        \ L v)\n    (hcM : ∀ {c : Gal(Ω/K)}, IsComplexConj c → M.ρ c = 1) {m : ℕ} [NeZero m] [Finite M]\n    {q\
+        \ : ℕ} {U : OpenNormalSubgroup Gal(Ω/K)} {I : Set Gal(Ω/K)}\n    {ι : Type} [NeZero q] [Fintype ι] (s :\
+        \ SplitPlaces m q I U ι) (γ : ι → Gal(Ω/K))\n    (hS : ∀ v ∈ S, ↑q ∈ v.1) (h_few : M.HasFewCocycles (PlaceAboveLevel\
+        \ q) I (card ι + 1))\n    (h_le : selmerZ1 M S A L ∅ ≤ selmerZ1 M S A L (range s.v))\n    (h_zero : ∀ x\
+        \ ∈ selmerZ1 M S A L ∅, ∀ i : ι, x (γ i) = 0) :\n    Nat.card (selmerZ1 M S A L ∅) * Nat.card M ^ (#S +\
+        \ card (InfinitePlace K)) ≤\n      Nat.card {n : ι → M →+ QZ | ∀ x ∈ selmerZ1 M S A L (range s.v), ∑ i :\
+        \ ι, n i (x (γ i)) = 0} *\n        Nat.card M *\n        ∏ v ∈ S, Nat.card ↥(L v ⊓ Z1 (M.restrictTo (decompGroup\
+        \ Gal(Ω/K) (A v))).ρ)"
+    routeToMain:
+    - module: Lib.ClassField.GreenbergWiles.SelmerRelations
+      importer: Lib.ClassField.GreenbergWiles.Relations
+      line: 2
+    - module: Lib.ClassField.GreenbergWiles.Relations
+      importer: Lib.ClassField.GreenbergWiles.RelationsModL
+      line: 1
+    - module: Lib.ClassField.GreenbergWiles.RelationsModL
+      importer: New.Congruences.FirstOrder.KummerMaps
+      line: 1
+    - module: New.Congruences.FirstOrder.KummerMaps
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 3
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GreenbergWiles/SelmerRelations.lean
+      line: 7
+      endLine: 14
+      text: "Relations are families of additive maps `n i` on `M` such that `∑ i, n i (x (γ i)) = 0` for all\nSelmer\
+        \ cocycles `x`, with `γ i` elements at auxiliary split primes. They take the place of the dual\nSelmer group.\n\
+        \n* `New.selmerZ1.card_mul_pow_le`: a bound for trivialised cocycles gives a bound for Selmer\n  cocycles.\n\
+        * `New.selmerZ1.exists_splitPlaces_frob_mem_coset`, `New.selmerZ1.exists_three_values`: split primes\n \
+        \ with Frobenius elements in given cosets, and trivialised cocycles with given values at them.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/GreenbergWiles/SelmerRelations.lean
+      line: 15
+      endLine: 36
+      text: "* `New.selmerZ1.card_relations_ge`: a lower bound for the number of relations.\n\nNotions from other\
+        \ files:\n* `New.DiscreteUnits`: The multiplicative group Ω^×, written additively. Here Ω is an algebraic\n\
+        \  closure of ℚ that contains each `EmbeddedNumberField` K, and a `ClosurePlace` is a finite place of\n\
+        \  Ω.\n* `New.unitsRep`: the ℤ-linear representation of `G` on Ω^× (written additively) coming from the\n\
+        \  action of `G` on the field Ω by ring automorphisms.\n* `New.DiscreteModule`: A discrete Γ-module over\
+        \ R: an R-module with the discrete topology and a\n  continuous R-linear action of the topological group\
+        \ Γ.\n* `New.IsLargeLevel.fixedSUnits`: The N-units of the fixed field of U: the N-units of Ω that are\n\
+        \  fixed by U.\n* `New.IsLargeLevel.SplitPlaces`: Split places for `U`: distinct primes `s.v i` not dividing\
+        \ `N`,\n  each with a Frobenius element `s.φ i` in `U`, where `U` fixes the `m`-th roots of unity and\n\
+        \  `m ∣ N`. The set `I` is the union of the inertia groups over the other primes not dividing `N`.\n* `New.DiscreteModule.trivialisedCocycles`:\
+        \ pairs of f : X → V and continuous z : G → V vanishing on\n  I, with g f(g⁻¹x) = f(x) + z(g) for all g,\
+        \ x. Here X is `New.PlaceAboveLevel q`, the places of Ω\n  above q and infinity.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.ClassField.GreenbergWiles.CocycleCounts` for sources.\n"
+  Lib.ClassField.GreenbergWiles.SplitPrimeReciprocity:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.GreenbergWiles.SplitPrimeReciprocity
+      name: New.IsLargeLevel.SplitPlaces.power_residue_reciprocity
+      line: 912
+      signature: "lemma IsLargeLevel.SplitPlaces.power_residue_reciprocity (γ : ι → G)\n    (hγ : ∀ i : ι, IsTameGeneratorFor\
+        \ m (s.valuationSubring i) (γ i))\n    [Fintype ι] (h_triv : V.TrivialOn U.toOpenSubgroup.toSubgroup) :\n\
+        \    ∃ b : IsLargeLevel.fixedSUnits N U →+ ι → ZMod m,\n      -- (a) `b y i` is the `m`-th power residue\
+        \ symbol of the `N`-unit `y` at the `i`-th prime\n      (∀ (y : ↥(fixedSUnits N U)) (r : DiscreteUnits Ω),\
+        \ m • r = ↑y → ∀ i : ι,\n        (rootPowHom Ω m).val (b y i) = unitsRep (s.φ i) r - r) ∧\n      (∀ P ∈\
+        \ V.trivialisedCocycles (PlaceAboveLevel N) I,\n        -- (b) on `U`, a trivialised cocycle that vanishes\
+        \ at all `γ i` is zero\n        ((∀ i : ι, P.snd (γ i) = 0) → ∀ g ∈ U, P.snd g = 0) ∧\n        -- (c) each\
+        \ `N`-unit `y` gives a relation between the values at the `γ i`\n        ∀ y : ↥(fixedSUnits N U), ∑ θ :\
+        \ ι × G ⧸ U.toOpenSubgroup.toSubgroup,\n          b (fixedSUnitsRep N U θ.snd y) θ.fst • V.ρ θ.snd.out⁻¹\
+        \ (P.snd (γ θ.fst)) = 0) ∧\n      -- (d) over a totally complex field, a family `f` with these relations\
+        \ comes from a cocycle\n      (IsTotallyComplex (fixedFieldOf U.toOpenSubgroup.toSubgroup) →\n        ∀\
+        \ f : ι × G ⧸ U.toOpenSubgroup.toSubgroup → ZMod m,\n          (∀ y : ↥(fixedSUnits N U), ∑ θ : ι × G ⧸\
+        \ U.toOpenSubgroup.toSubgroup,\n            b (fixedSUnitsRep N U θ.snd y) θ.fst * f θ = 0) →\n        \
+        \  ∀ a : V.V, ∃ P ∈ V.trivialisedCocycles (PlaceAboveLevel N) I, ∀ i : ι,\n            P.snd (γ i) = ∑ δ\
+        \ : G ⧸ (U.toOpenSubgroup : Subgroup G), V.ρ δ.out (f (i, δ) • a))"
+    routeToMain:
+    - module: Lib.ClassField.GreenbergWiles.SplitPrimeReciprocity
+      importer: Lib.ClassField.GreenbergWiles.CocycleCounts
+      line: 1
+    - module: Lib.ClassField.GreenbergWiles.CocycleCounts
+      importer: Lib.ClassField.GreenbergWiles.Relations
+      line: 1
+    - module: Lib.ClassField.GreenbergWiles.Relations
+      importer: Lib.ClassField.GreenbergWiles.RelationsModL
+      line: 1
+    - module: Lib.ClassField.GreenbergWiles.RelationsModL
+      importer: New.Congruences.FirstOrder.KummerMaps
+      line: 1
+    - module: New.Congruences.FirstOrder.KummerMaps
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 3
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/GreenbergWiles/SplitPrimeReciprocity.lean
+      line: 6
+      endLine: 9
+      text: 'Let `G` act on a discrete module `V`. A trivialised cocycle is a pair `(f, z)` of a continuous map
+
+        `z : G → V` vanishing on `I` and a map `f : X → V` with `g • f x = f (g • x) + z g`; when `X` is
+
+        nonempty, `z` is then a cocycle. At split primes off `N`, the values of such cocycles on tame
+
+        generators `γ i` of inertia satisfy linear relations.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/GreenbergWiles/SplitPrimeReciprocity.lean
+      line: 10
+      endLine: 41
+      text: "\n## Main definitions and results\n\n* `New.DiscreteModule.trivialisedCocycles`: pairs `(f, z)` of\
+        \ a continuous `z : G → V` vanishing on\n  `I` and `f : X → V` with `g • f x = f (g • x) + z g`; so `z`\
+        \ is the coboundary of `f x` on the\n  stabiliser of `x`.\n* `New.DiscreteModule.trivialisedCocycles.exists_mem_of_orbit_reps`,\n\
+        \  `New.DiscreteModule.trivialisedCocycles.corestrict_mem`: such pairs are built from data at one\n  point\
+        \ per orbit, and by corestriction.\n* `New.DiscreteModule.trivialisedCocycles.hasFewCocycles_of_isShortExact`:\
+        \ the bound `(#V) ^ k` for\n  the number of such pairs (`New.DiscreteModule.HasFewCocycles`) passes from\
+        \ the ends of a short\n  exact sequence to the middle term.\n* `New.IsLargeLevel.SplitPlaces.exists_powerResidueSymbols`\
+        \ (as one conjunction,\n  `power_residue_reciprocity`): the `m`-th power residue symbols of the `N`-units\
+        \ of the field of\n  `U` give linear relations among these values when `V` is trivial on `U`. If the field\
+        \ of `U` is\n  totally complex, solutions of the relations give such cocycles.\n\nNotions from other files:\n\
+        * `New.DiscreteModule R G`: an `R`-module `V` with the discrete topology and a continuous `R`-linear\n \
+        \ action `ρ` of `G`; `New.DiscreteModule.restrictTo` restricts the action to a subgroup.\n* `New.Z1`: the\
+        \ `R`-module of continuous 1-cocycles of `ρ`, that is, of continuous maps\n  `f : G → M` with `f (g * h)\
+        \ = f g + ρ g (f h)`.\n* `New.IsLargeLevel.SplitPlaces`: Split places for `U`. The subgroup `U` fixes the\
+        \ `m`-th roots of\n  unity, and `m` divides `N`.\n* `New.IsLargeLevel.fixedSUnits`: The N-units of the fixed\
+        \ field of U; `fixedSUnitsRep` is the\n  action of G / U on them.\n* `New.IsTameGeneratorFor`: γ lies in\
+        \ the inertia group of A, and γy/y is the root of unity\n  `New.rootPowHom Ω m 1` for some m-th root y of\
+        \ some uniformiser π of K for A.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.GreenbergWiles.CocycleCounts`\
+        \ for sources.\n"
+  Lib.ClassField.Grunwald:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Grunwald
+      name: New.grunwald
+      line: 177
+      signature: "lemma grunwald [IsTotallyComplex E] {p : ℕ} {S : Set (FinPlace E)} (hp : p.Prime)\n    (hS : Set.Finite\
+        \ S) (ψ : (\U0001D538f E)ˣ →* Multiplicative QZ) (hψ_open : ψ.ker.IsOpen)\n    (hψ_pow : ∀ a : (\U0001D538\
+        f E)ˣ, ψ a ^ p = 1) :\n    ∃ χ : ↥(QZChar Gal(Ω/E)),\n      -- (a) the Galois character `χ` is killed by\
+        \ `p`\n      p • χ = 0 ∧\n      -- (b) `χ` agrees with `ψ` at places of `S` and on units at places of non-prime\
+        \ norm\n      ∀ (u : FinPlace E) (x : (LocField u)ˣ),\n        u ∈ S ∨ ¬u.q.Prime ∧ v x.val = 1 →\n    \
+        \    abelianLift χ (artinMap Gal(Ω/E) (locIdele u x)) = ψ (locIdele u x)"
+    routeToMain:
+    - module: Lib.ClassField.Grunwald
+      importer: Lib.GaloisRep.Main.QuadraticStep
+      line: 2
+    - module: Lib.GaloisRep.Main.QuadraticStep
+      importer: Lib.Shimura.IntegralModel.PELDataExistence
+      line: 1
+    - module: Lib.Shimura.IntegralModel.PELDataExistence
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 5
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Grunwald.lean
+      line: 11
+      endLine: 20
+      startOffset: 369
+      endOffset: 1299
+      text: 'The file studies continuous characters `χ : Γ → ℚ/ℤ` of absolute Galois groups `Γ = Gal(Ω/E)` (`Ω`
+
+        the algebraic closure; `New.EmbeddedNumberField E`: a number field with an embedding into `Ω`) of CM
+
+        fields `E` that are killed by a prime `p`, and the cyclic extensions of degree `p` they cut out.
+
+        Grunwald''s theorem in prime degree produces such characters with prescribed local behaviour. If `E`
+
+        is stably unramified (here: `New.HasPrimitiveRoot5040 E`, a primitive 5040th root of unity lies in
+
+        `E`) and the symmetrised character is nonzero and kills inertia above `p`, the field cut out by the
+
+        symmetrised character is a step of degree `p` over `E`. Weil data lift to stably unramified CM
+
+        extensions `L` whose CM type restricts to that of `E` and whose relative different is prime to the
+
+        places fixed by conjugation. Together these results give a step of prime degree with Weil data and a
+
+        prescribed completion at a split place.'
+    remainder:
+      path: grh/src/Lib/ClassField/Grunwald.lean
+      line: 20
+      endLine: 63
+      startOffset: 1299
+      endOffset: 4064
+      text: "\n\n## Main definitions and results\n\n* `New.grunwald`: a character of the finite ideles of a totally\
+        \ complex field, killed by `p`, agrees\n  with a Galois character killed by `p` at finitely many given places,\
+        \ and on the units at every\n  place whose norm is not prime.\n* `New.QZChar.symmetrise`, `New.QZChar.abelianLift_symmetrise`:\
+        \ for a CM field, the character\n  `g ↦ χ g + χ (gᶜ)`; on the Artin symbol of an idele `a` it is `χ a +\
+        \ χ (star a)`.\n* `New.QZChar.stepField`: the fixed field of the kernel of `New.QZChar.symmetrise χ`. Instances\
+        \ show\n  that it is CM, that a CM type of `E` extends to it (`New.CMTypeOver`) and that it inherits\n \
+        \ `New.HasPrimitiveRoot5040`.\n* `New.isStep_stepField`: it is a step of degree `p` over `E` if `New.HasPrimitiveRoot5040\
+        \ E` holds,\n  `χ` is killed by a prime `p`, and `New.QZChar.symmetrise χ` is not zero and kills inertia\
+        \ above\n  `p`.\n* `New.nonempty_weilData_of_not_dvd_differentIdeal`: if `L` also satisfies\n  `New.HasPrimitiveRoot5040`,\
+        \ then `L` has Weil data; in the construction `j` stays, `υ` is composed\n  with the norm, and a new idele\
+        \ absorbs the relative different, which is assumed prime to the\n  places fixed by conjugation.\n* `New.GaloisRep.exists_isStepOfLocalChar`,\
+        \ `New.GaloisRep.exists_step_of_local_char`: given a split\n  place `w` below `A` and a nontrivial tame\
+        \ character `χ` of `E_wˣ` killed by a prime `p`, a step\n  `E' / E` of degree `p`, again with Weil data,\
+        \ cut out by the symmetrisation of a Galois character\n  `ν` that is trivial at `w` and has symmetrisation\
+        \ `χ` there; the only place of `E'` above `w` is\n  split and lies under `A`.\n\nNotions from other files:\n\
+        * `New.locIdele`: The homomorphism sending x ∈ K_v^× to the finite idele with component x at v and 1\n \
+        \ elsewhere; `New.ideleAt v` takes the component at v.\n* `New.CMTypeOver`: a CM type of L that restricts\
+        \ to the given CM type of E; the embedding chosen at\n  a place extends the one chosen at the place below.\n\
+        * `New.WeilData`: Weil data on a stably unramified E. They consist of ȷ in E with ȷ = −ȷ̄, Im τȷ > 0\n \
+        \ for every τ in the CM type and (1 − ȷ⁻¹)/2 integral; a finite idele α for which the completed\n  integers\
+        \ Ô are self-dual under (z, u) ↦ ψ_f(ȷαᾱzu); and a splitting character υ equal to −1 at\n  uniformisers\
+        \ of the places w with w = w̄.\n\n## Relation to the literature\n\nKnown result: Grunwald–Wang theorem in\
+        \ prime exponent. It is proved over a totally complex field,\nand the character also agrees with the given\
+        \ one on units at all primes of degree above one. It\nyields a CM extension of prime degree with prescribed\
+        \ tame completion at a split place. Source:\nArtin–Tate, Class Field Theory (1968), ch. X; S. Wang, Grunwald–Wang\
+        \ theorem, an effective version,\narXiv 1401.0389 (2014).\n\nSee also `Lib.Weil.MixedModel.ZeroTerm`.\n"
+  Lib.ClassField.HeckeCharacter.AlgebraicValues:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      name: New.AutChar.HasWeight.norm_padic_eq_prod
+      line: 386
+      signature: "lemma norm_padic_eq_prod {p : ℕ} [Fact p.Prime] (h : μ.HasWeight e ψ) (ι : ℂ →+* ℂ_[p])\n    (u\
+        \ : unitary (\U0001D538 E)) (hu : (u : \U0001D538 E).fst = 1) :\n    ‖ι (μ.val u)‖ =\n      ∏ τ : InfinitePlace\
+        \ E, ‖adeleExtension (ι.comp (Φ τ)) (u : \U0001D538 E).snd‖ ^ (-e τ)"
+    routeToMain:
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeCharacter/AlgebraicValues.lean
+      line: 9
+      endLine: 14
+      text: 'An algebraic Hecke character of a number field `K` is a character of the finite ideles with open
+
+        kernel that is `∏ τ, τ x ^ (-n τ)` on `Kˣ`, for integers `n τ` indexed by the complex embeddings of
+
+        `K`. Over a CM field, a unitary Hecke character of suitable type becomes algebraic after a twist by
+
+        a half-integral power of the absolute value. This is applied to the base change `y ↦ μ (y / ȳ)` of a
+
+        character `μ` of `U(1)(𝔸)` with a weight, and to `υ |·| ^ (-1 / 2)`, with `υ` the splitting
+
+        character of the Weil data.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeCharacter/AlgebraicValues.lean
+      line: 15
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.AlgHeckeChar.exists_pow_eq_prod`, `New.AlgHeckeChar.norm_map_eq_sqrt_finIdeleAbs_zpow`,\n\
+        \  `New.AlgHeckeChar.norm_padic_eq_prod`, `New.AlgHeckeChar.conjugateBy`: powers, complex and\n  `p`-adic\
+        \ absolute values and conjugates of the values of an algebraic Hecke character.\n* `New.IsHeckeOfType.toAlgebraic`:\
+        \ the algebraic character `ψ |·|^{k/2}` of infinity type `m`, for\n  `ψ` of type `m (Φ w) - m (Φ̄ w)` with\
+        \ `m (Φ w) + m (Φ̄ w) = k` at every infinite place `w`.\n* `New.AutChar.HasWeight.isHeckeOfType`: if `ν`\
+        \ has weight `e`, its base change has type `2 • e`.\n* `New.AutChar.HasWeight.baseChangeAlgebraic`: this\
+        \ base change as an algebraic Hecke character.\n* `New.AutChar.HasWeight.norm_map_eq_one`, `New.AutChar.HasWeight.norm_padic_eq_prod`:\
+        \ at a point\n  `u` of `U(1)(\U0001D538)` with archimedean part `1`, the conjugates of the value `μ u` of\
+        \ a character of\n  weight `e` have modulus `1`, and its absolute value under `ι : ℂ →+* ℂ_[p]` is\n  `∏\
+        \ τ, ‖u_τ‖ ^ (-e τ)`, with `u_τ` the component of `u` at the prime induced by `ι ∘ Φ τ`.\n* `New.WeilData.chiFinAlgebraic`:\
+        \ the character `υ |·|^{-1/2}` as an algebraic Hecke character.\n\nNotions from other files:\n* `New.IsHeckeOfType`:\
+        \ The character ψ of the finite ideles is the finite part of a Hecke character\n  of type n: its kernel\
+        \ is open and ψ(x) ∏_w (Φ_w(x)/|Φ_w(x)|)^{n_w} = 1 on K^×.\n* `New.AutChar.HasWeight`: μ has weight e and\
+        \ tame part ψ: almost all residue characters ψ_w are\n  trivial, and μ(u) = ∏_v u_v^{e(v)} · ∏_w ψ_w(u mod\
+        \ w) whenever u has integral finite part.\n* `New.adeleExtension` σ: the extension of an embedding σ of\
+        \ E into `ℂ_[p]` to the finite adeles,\n  through the prime that σ induces.\n\n## Relation to the literature\n\
+        \nKnown result: the values of characters of type A₀. Source: A. Weil, On a certain type of characters\n\
+        of the idèle-class group of an algebraic number-field (1956).\n"
+  Lib.ClassField.HeckeCharacter.Basic:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeCharacter.Basic
+      name: New.AutChar.HasWeight.exists_conj
+      line: 788
+      signature: "lemma exists_conj (h : μ.HasWeight e ψ) {σ : ℂ ≃+* ℂ}\n    {p : NumberField.InfinitePlace E ≃\
+        \ NumberField.InfinitePlace E}\n    (hσp : ∀ (v : NumberField.InfinitePlace E) (x : E), σ (Φ v x) = Φ (p\
+        \ v) x) :\n    ∃ ν : AutChar E,\n      -- (a) the weight is permuted by p and the tame part is composed\
+        \ with σ\n      HasWeight ν (e ∘ p.symm) (fun w : FinPlace E ↦ (ψ w).ringHomComp σ) ∧\n      -- (b) where\
+        \ the archimedean part is 1, the values are those of μ moved by σ\n      ∀ u : unitary (\U0001D538 E), (u\
+        \ : \U0001D538 E).fst = 1 → ν.val u = σ (μ.val u)"
+    routeToMain:
+    - module: Lib.ClassField.HeckeCharacter.Basic
+      importer: Lib.Weil.Construction.WeilData
+      line: 2
+    - module: Lib.Weil.Construction.WeilData
+      importer: Lib.Adelic.Adeles.LocalFactors
+      line: 3
+    - module: Lib.Adelic.Adeles.LocalFactors
+      importer: Lib.Adelic.TraceFormula.TestFunction
+      line: 1
+    - module: Lib.Adelic.TraceFormula.TestFunction
+      importer: Lib.Adelic.TraceFormula.CuspidalType
+      line: 1
+    - module: Lib.Adelic.TraceFormula.CuspidalType
+      importer: New.Spanning.Multiplicities.EqualMultiplicities
+      line: 2
+    - module: New.Spanning.Multiplicities.EqualMultiplicities
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 3
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeCharacter/Basic.lean
+      line: 8
+      endLine: 13
+      text: 'This file studies characters of the idele group and of the unitary group `U(1)` of a CM field `E`.
+
+        Here `U(1)(𝔸)` is `unitary (𝔸 E)`, the group of adeles `u` with `u ū = 1`, and `(u : 𝔸 E).fst` and
+
+        `(u : 𝔸 E).snd` are the archimedean and finite components of `u`. `New.integralU1 S` denotes the
+
+        points with integral finite part that are 1 modulo the places of a finite set `S`. `μ.HasWeight e ψ`
+
+        says that `μ(u) = ∏_v u_v^{e(v)} · ∏_w ψ_w(u mod w)` for integral `u` and that `ψ_w = 1` for almost
+
+        all `w`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeCharacter/Basic.lean
+      line: 14
+      endLine: 41
+      text: "\n## Main definitions and results\n\n* `New.AutChar`: continuous unitary characters of `U(1)(\U0001D538\
+        ) = {u | u ū = 1}` trivial on the elements\n  that come from `E`.\n* `New.AdelicU1ClassGroup`, `New.finite_u1_classGroup`:\
+        \ the class group of level `S`, the quotient\n  of `U(1)(\U0001D538)` by the join of the rational points\
+        \ `New.rationalU1` and `New.integralU1 S`, is\n  finite.\n* `New.AutChar.exists_hasWeight_of_prod_eq_one`:\
+        \ a character of weight `e` and tame part `ψ` exists\n  if the formula defining `μ.HasWeight e ψ` is trivial\
+        \ on the integers of `E` of norm one (these\n  integers are roots of unity, by `New.pow_torsionOrder_eq_one`).\n\
+        * `New.AutChar.tameChars`, `New.AutChar.exists_mem_tameChars`,\n  `New.AutChar.exists_classGroup_char_eq_of_hasWeight_zero`,\
+        \ `New.AutChar.finite_tameChars`: the\n  characters of weight 0 and level `S` are those of the class group,\
+        \ and they are finitely many.\n* `New.AutChar.finite_setOf_hasWeight`: there are finitely many characters\
+        \ of a given weight and\n  tame part.\n* `New.AutChar.HasWeight.exists_conj`: for an automorphism σ of ℂ\
+        \ that permutes the embeddings of\n  the CM type, σ ∘ μ on points with archimedean component 1 extends to\
+        \ a character with permuted\n  weight and tame part σ ∘ ψ.\n\nNotions from other files:\n* `New.\U0001D538\
+        `: The ring ℂ^f × \U0001D538_f, one copy of ℂ for each infinite place of E times the ring `\U0001D538f E`\
+        \ of\n  finite adeles (whose units are the finite ideles): the adele ring of E when E is totally complex.\n\
+        * `New.Ô`: The ring of finite adeles of E that are integral at every finite place.\n\n## Relation to the\
+        \ literature\n\nKnown; see `Lib.ClassField.Global.CMSplittingCharacters` for sources.\n"
+  Lib.ClassField.HeckeCharacter.SplitTameCharacters:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeCharacter.SplitTameCharacters
+      name: New.WeilData.baseChange_upsilonU1
+      line: 178
+      signature: 'lemma baseChange_upsilonU1 : upsilonU1.baseChange = υ (E'
+    routeToMain:
+    - module: Lib.ClassField.HeckeCharacter.SplitTameCharacters
+      importer: New.UpperBound.Kernels.JetConjugatesAndBounds
+      line: 1
+    - module: New.UpperBound.Kernels.JetConjugatesAndBounds
+      importer: New.Determinant.AuxiliaryForms.RegularParameters
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.RegularParameters
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 1
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean
+      line: 7
+      endLine: 12
+      text: 'The subject is continuous characters of U(1)(𝔸), the norm-one adeles of a CM field E, with their
+
+        weights and tame parts (`New.AutChar.HasWeight`). Write x̄ for complex conjugation, w̄ for the place
+
+        conjugate to w, and υ for the splitting character of the Weil data (`New.WeilData`). The file first
+
+        computes the base change x ↦ μ(x / x̄) on local units. It then introduces characters tamely ramified
+
+        exactly at a set of split places, and defines the theta integral of a datum for an arbitrary pair
+
+        of characters.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean
+      line: 13
+      endLine: 37
+      text: "\n## Main definitions and results\n\n* `New.AutChar.HasWeight.baseChange_finPart_locIdele`: if μ has\
+        \ tame part ψ, w̄ ≠ w and ψ is trivial\n  at w̄, the base change x ↦ μ(x / x̄) is given on local units at\
+        \ w by ψ_w.\n* `New.AutChar.HasWeight.baseChange_finPart_locIdele_eq_one`: if w̄ = w and ψ_w is trivial,\
+        \ the\n  base change is trivial on E_w^×.\n* `New.WeilData.upsilonU1_hasWeight`, `New.WeilData.baseChange_upsilonU1`:\
+        \ on U(1), υ has weight 1\n  and trivial tame part, and its base change is υ².\n* `New.Exchange.SplitTameChar`:\
+        \ a character of positive weight, tamely ramified exactly on a\n  nonempty set S of split places. `New.Exchange.SplitTameChar.semilocalChar`\
+        \ is its character at S.\n* `New.Exchange.SplitTameChar.tameLocalChar`: the character at S is tame in the\
+        \ sense of\n  `New.TameLocalChar`.\n* `New.Exchange.thetaIntegral`: the integral over [U(T)] of the theta\
+        \ kernel of the dual pair\n  (U(S), U(T)), for arbitrary characters a and b of U(1)(\U0001D538).\n\nNotions\
+        \ from other files:\n* `New.AutChar`: The group of continuous circle-valued characters of U(1)(\U0001D538\
+        ), the norm-one adeles of\n  the CM field E, trivial on elements coming from E.\n* `New.divStar`: The map\
+        \ x ↦ x / x̄ from ideles to norm-one adeles.\n\n## Relation to the literature\n\nThe results of this file\
+        \ are known; see `Lib.ClassField.Global.CMSplittingCharacters` and\n`Lib.Weil.MixedModel.ZeroTerm` for sources.\n"
+  Lib.ClassField.HeckeCharacter.SplittingCharacters:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeCharacter.SplittingCharacters
+      name: New.HeckeChar.isSplitting_iff
+      line: 104
+      signature: "theorem _root_.New.HeckeChar.isSplitting_iff :\n    χ.IsSplitting k ↔ ∃! ν : AutChar E, ν.spaceChar\
+        \ k = χ"
+    routeToMain:
+    - module: Lib.ClassField.HeckeCharacter.SplittingCharacters
+      importer: Lib.ClassField.HeckeCharacter.TameModulus
+      line: 1
+    - module: Lib.ClassField.HeckeCharacter.TameModulus
+      importer: Lib.Weil.DualPair.HolomorphicData
+      line: 1
+    - module: Lib.Weil.DualPair.HolomorphicData
+      importer: New.OneLift.ComparisonOperator.ExchangeData
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ExchangeData
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeCharacter/SplittingCharacters.lean
+      line: 6
+      endLine: 12
+      startOffset: 86
+      endOffset: 765
+      text: 'Here a pair of spaces is indexed by two characters `ν_S`, `ν_T` of `[U(1)]`; one can also use
+
+        splitting characters `χ_S`, `χ_T`. The two descriptions agree: `ν ↦ ν.spaceChar k`, the Hecke
+
+        character `y ↦ ν(y / ȳ) υ(y)⁻ᵏ` (with `υ` the splitting character from `WeilData`), is a bijection
+
+        onto the splitting characters of rank `k` (`HeckeChar.isSplitting_iff`). Here `divStar` is the map
+
+        `y ↦ y / ȳ` from the ideles onto the norm-one ideles `unitary (𝔸 E)`. The file also gives the rules
+
+        for products, inverses and hyperbolic planes, the character of `[U(1)]` that gives the power of `υ`
+
+        by minus the signature of a space, and the splitting characters of a pair with one character.'
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeCharacter/SplittingCharacters.lean
+      line: 12
+      endLine: 17
+      startOffset: 765
+      endOffset: 931
+      text: '
+
+
+        ## Relation to the literature
+
+
+        Known result: splitting characters of a CM extension, described through Hilbert''s Theorem 90.
+
+        Source: Harris–Kudla–Sweet (1996), §1.
+
+        '
+  Lib.ClassField.HeckeCharacter.TameModulus:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeCharacter.TameModulus
+      name: New.Exchange.IsTameFor.apply_det
+      line: 365
+      signature: "lemma apply_det (h : IsTameFor \U0001D52A ν e χ) (k : stdLevel E n) :\n    ν.val (detFin s k.val)\
+        \ = χ (\U0001D52A.reductionGL k).val.det"
+    routeToMain:
+    - module: Lib.ClassField.HeckeCharacter.TameModulus
+      importer: Lib.Weil.DualPair.HolomorphicData
+      line: 1
+    - module: Lib.Weil.DualPair.HolomorphicData
+      importer: New.OneLift.ComparisonOperator.ExchangeData
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ExchangeData
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeCharacter/TameModulus.lean
+      line: 9
+      endLine: 17
+      startOffset: 268
+      endOffset: 1126
+      text: 'This file evaluates characters of U(1)(𝔸), the norm-one ideles of the CM field E, on determinants of
+
+        elements of K₀ = `New.stdLevel E n`. Here `New.stdLevel E n` is the stabiliser of the standard
+
+        lattice in the finite adelic unitary group `New.Gf E n`. A character of weight `e` and residue
+
+        characters `ψ` (`New.AutChar.HasWeight`) takes at `det k`, for `k` in K₀, the product of the `ψ w`
+
+        at the determinants of the reductions of `k`. Local values are read through `New.atPlaces P`, the
+
+        map to the components at the places of a finite set `P`, and through `New.Exchange.localChar P ξ k`,
+
+        the character `ξ |·| ^ (k / 2)` of the product of the completions at `P`. For a modulus 𝔪
+
+        (`New.Modulus`, an ideal of O_E prime to its conjugate), the reduction K₀ → GL_n(O_E/𝔪) is onto, and
+
+        a character tame for 𝔪 is given on determinants of K₀ by a character of O_E/𝔪.'
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeCharacter/TameModulus.lean
+      line: 17
+      endLine: 42
+      startOffset: 1126
+      endOffset: 2620
+      text: "\n\n## Main definitions and results\n\n* `New.Exchange.SplitTameChar.character_detFin_eq_of_mem_stdLevel`,\n\
+        \  `New.Exchange.upsilonU1_detFin_eq_one_of_mem_stdLevel`: on determinants of `stdLevel E n`, a tame\n \
+        \ character is its local character at the ramified places, and `New.WeilData.upsilonU1` is trivial.\n* `New.Rows.exists_reductionGL_eq`,\
+        \ `New.Rows.liftMod`: reduction `New.Modulus.reductionGL` :\n  K₀ → GL_n(O_E/\U0001D52A) is onto, with lifts\
+        \ supported at the places dividing \U0001D52A and their conjugates.\n* `New.Modulus.charOfTamePart`: the\
+        \ character of O_E/\U0001D52A with given components at the residue fields.\n* `New.Exchange.IsTameFor`,\
+        \ `New.Exchange.IsTameFor.apply_det`: ν is tame for \U0001D52A with character χ;\n  then ν(det k) = χ(det(k\
+        \ mod \U0001D52A)) for k in K₀.\n\nNotions from other files:\n* `New.AutChar`: The group of continuous circle-valued\
+        \ characters of U(1)(\U0001D538), the norm-one adeles of\n  the CM field E, trivial on elements coming from\
+        \ E.\n* `New.Gf`: The finite adelic unitary group G_f: matrices g in GL_n(\U0001D538_f) with gᴴg = 1; K₀\
+        \ = G_f ∩\n  GL_n(Ô) is the stabiliser of the standard lattice.\n* `New.G.det`: The determinant, from the\
+        \ adelic unitary group of signs s (pairs of an archimedean\n  and a finite part) to the adeles x of E with\
+        \ x x̄ = 1.\n* `New.Exchange.SplitTameChar.semilocalChar`: The character t ↦ ν(t/t̄) of ∏_{w∈S} E_w, t read\
+        \ as an\n  idele supported on S, extended by 0 to non-invertible elements.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.ClassField.Global.CMSplittingCharacters` for sources.\n"
+  Lib.ClassField.HeckeL.ContinuationAtOne:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeL.ContinuationAtOne
+      name: New.IsHeckeOfType.eulerProd_ne_zero
+      line: 923
+      signature: "lemma eulerProd_ne_zero (h : IsHeckeOfType ψ n) (hS : S.Finite) (hψ_sq : ψ ^ 2 ≠ 1) {s : ℝ}\n\
+        \    (hs : 1 ≤ s) : eulerProd (heckeCoeff ψ S) s ≠ 0"
+    routeToMain:
+    - module: Lib.ClassField.HeckeL.ContinuationAtOne
+      importer: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      line: 2
+    - module: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      importer: Lib.GaloisRep.Main.SelmerModules
+      line: 2
+    - module: Lib.GaloisRep.Main.SelmerModules
+      importer: Lib.ClassField.Global.CMSplittingCharacters
+      line: 2
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeL/ContinuationAtOne.lean
+      line: 8
+      endLine: 13
+      text: 'This file proves that partial Hecke `L`-functions `New.eulerProd (heckeCoeff ψ S)` of nontrivial
+
+        characters extend analytically to `s = 1`. Here `ψ` satisfies `New.IsHeckeOfType ψ n`, `S` is a
+
+        finite set of primes, and only real `s ≥ 1` is treated. The file combines the theta-sum estimate
+
+        of `Lib.ClassField.HeckeL.IdelicThetaSum` with the finite-place half of Tate''s thesis. This yields
+
+        three results: analyticity at `1`, a prime density statement and, for `ψ ^ 2 ≠ 1`, nonvanishing
+
+        on `[1, ∞)`. Valuations are multiplicative: `v x ≤ 1` means integral.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeL/ContinuationAtOne.lean
+      line: 14
+      endLine: 51
+      text: "\n## Main definitions and results\n\n* `New.IsHeckeOfType.integral_mul_finIdeleAbs_rpow_eq_eulerProd_mul`:\
+        \ the integral of `f ψ |·| ^ s`\n  over the finite ideles is the partial `L`-function of `ψ` times a volume;\n\
+        \  `New.IsHeckeOfType.tate_integral` adds that this volume is nonzero.\n* `New.IsHeckeOfType.exists_analyticAt_one_eulerProd`:\
+        \ for `ψ ≠ 1` the partial `L`-function extends\n  analytically to a neighbourhood of `1`.\n* `New.IsHeckeOfType.exists_hasPrimeDensity`:\
+        \ for `ψ ≠ 1` the partial `L`-function is continuous on\n  `[1, ∞)`, and the values of `ψ` have mean `-m`\
+        \ over the primes of degree one, for some natural\n  number `m`.\n* `New.IsHeckeOfType.eulerProd_ne_zero`:\
+        \ for `ψ ^ 2 ≠ 1` the partial `L`-function has no zero on\n  `[1, ∞)`.\n\nNotions from other files:\n* `New.finIdeleAbs`:\
+        \ The module |x| of a finite idele x: the adelic absolute value of the idele with\n  finite part x and component\
+        \ 1 at infinity. `New.ZetaIntegral.ideleModule`: the module of an idele.\n* `New.Ô`: The subring Ô of finite\
+        \ adeles of K that are integral at every finite place.\n  `New.ZetaIntegral.adelicTent r d`: a tent of radius\
+        \ `r` at `1` times the indicator of\n  `d * (x - 1) ∈ Ô`.\n* `New.eulerProd`: The Euler product `∏ (1 -\
+        \ a v * q ^ (-s))⁻¹` over the primes `v` of `K`, with\n  `q = v.q` the norm of `v`, as a function of real\
+        \ `s > 1`; at `s = 1` it is the limit from the\n  right, if that exists.\n* `New.IsHeckeOfType ψ n`: the\
+        \ character `ψ` of the finite ideles is the finite part of a Hecke\n  character of type `n`: its kernel\
+        \ is open and `ψ x * ∏_w (Φ_w x / |Φ_w x|) ^ (n w) = 1` on `Kˣ`.\n* `New.heckeCoeff ψ S`: the function on\
+        \ finite places sending `v ∉ S` to the value of `ψ` at the\n  local idele of the chosen uniformiser at `v`,\
+        \ and `v ∈ S` to `0`.\n\n## Relation to the literature\n\nKnown result: Hecke L-functions with Euler product,\
+        \ continuation to s = 1, non-vanishing and prime\ndensities. Only real s is treated, and a non-trivial character\
+        \ of integral angular type is continued\nto a neighbourhood of 1 from Tate's integral by a Riemann sum instead\
+        \ of Poisson summation.\nNon-vanishing is proved only when the square of the character is non-trivial, and\
+        \ densities are\ntaken over primes of degree one, with bounded error. Source: J. Tate, Fourier analysis\
+        \ in number\nfields and Hecke's zeta-functions, 1950, in Cassels–Fröhlich ch. XV, §4.4–4.5; J. Milne, Class\
+        \ Field\nTheory, VI 4.8–4.9 (finite order); S. Lang, Algebraic Number Theory (non-vanishing); Titchmarsh,\n\
+        Theory of the Riemann zeta-function, §2.11 (the Riemann-sum continuation is Müntz's formula over ℚ).\n"
+  Lib.ClassField.HeckeL.EulerProduct:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeL.EulerProduct
+      name: New.HasPrimeDensity.re_le_re
+      line: 497
+      signature: "lemma HasPrimeDensity.re_le_re (ha : HasPrimeDensity a l) (hb : HasPrimeDensity b l')\n    (h_le\
+        \ : ∀ᶠ v : FinPlace K in cofinite, v.q.Prime → (a v).re ≤ (b v).re) :\n    l.re ≤ l'.re"
+    routeToMain:
+    - module: Lib.ClassField.HeckeL.EulerProduct
+      importer: Lib.CM.ChowlaSelberg
+      line: 5
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeL/EulerProduct.lean
+      line: 6
+      endLine: 12
+      text: "This file treats Hecke characters of a number field `K`, given by their finite part `ψ`, a\ncharacter\
+        \ of the finite ideles `(\U0001D538f K)ˣ`, and Euler products with coefficients `a v`, `‖a v‖ ≤ 1`,\nover\
+        \ the primes `v` of `K`, as functions of a real variable `s > 1`.\n\n* `New.IsHeckeOfType`: `ψ` has open\
+        \ kernel and `ψ x * ∏ w, (Φ w x / ‖Φ w x‖) ^ n w = 1` on `Kˣ`;\n  `New.heckeCoeff ψ S` is the value of `ψ`\
+        \ at the local idele of the chosen uniformiser for `v ∉ S`,\n  and `0` for `v ∈ S`.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeL/EulerProduct.lean
+      line: 13
+      endLine: 35
+      text: "* `New.eulerProd`: the product `∏ (1 - a v * q ^ (-s))⁻¹`, defined as `exp` of a sum of logarithms;\n\
+        \  `New.hasProd_eulerProd` says that it is the limit of the partial products.\n* `New.hasSum_eulerProd`:\
+        \ for a completely multiplicative function on ideals, of modulus at most\n  `1`, the product equals the\
+        \ Dirichlet series.\n* `New.HasPrimeDensity`: the Dirichlet mean of `a` over the primes of degree one. Densities\
+        \ are\n  linear and monotone (`New.HasPrimeDensity.sum`, `New.HasPrimeDensity.re_le_re`).\n* `New.hasPrimeDensity_of_tendsto`:\
+        \ the density is read off from the order of the pole or zero of\n  the product at `1`.\n\nUp to a bounded\
+        \ error, the logarithm of the product is the sum of `a v * q ^ (-s)` over the primes\nof degree one (`New.norm_log_one_add_neg_mul_cpow_sub_ite_le_of_norm_le_one`,\n\
+        `New.sum_inv_minFac_sq_le_finrank`). Here `New.FinPlace K` is the type of nonzero primes of `\U0001D4DE\
+        \ K`,\n`q = v.q` is the absolute norm of `v`, and degree one means that `q` is prime.\n\nNotions from other\
+        \ files:\n* `New.locIdele v`: sends `x ∈ K_vˣ` to the finite idele with component `x` at `v` and `1`\n \
+        \ elsewhere; `New.uniformizer v` is a chosen uniformiser of the completion `K_v`.\n* `Φ w` (class `New.PlaceEmbedding`):\
+        \ a chosen complex embedding of `K` inducing the infinite\n  place `w`.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.ClassField.HeckeL.ContinuationAtOne` for sources.\n"
+  Lib.ClassField.HeckeL.IdelicThetaSum:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.HeckeL.IdelicThetaSum
+      name: New.ZetaIntegral.exists_abs_sub_thetaSum_le
+      line: 426
+      signature: "lemma exists_abs_sub_thetaSum_le (hr_pos : 0 < r) (hr : r < 1) :\n    let Θ (r : ℝ) (b : (mixedSpace\
+        \ K)ˣ × (\U0001D538f K)ˣ)"
+    routeToMain:
+    - module: Lib.ClassField.HeckeL.IdelicThetaSum
+      importer: Lib.ClassField.HeckeL.ContinuationAtOne
+      line: 2
+    - module: Lib.ClassField.HeckeL.ContinuationAtOne
+      importer: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      line: 2
+    - module: Lib.ClassField.Global.AlbertBrauerHasseNoether
+      importer: Lib.GaloisRep.Main.SelmerModules
+      line: 2
+    - module: Lib.GaloisRep.Main.SelmerModules
+      importer: Lib.ClassField.Global.CMSplittingCharacters
+      line: 2
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/HeckeL/IdelicThetaSum.lean
+      line: 6
+      endLine: 10
+      text: 'This file proves the lattice-sum estimate behind the continuation of Hecke `L`-functions to
+
+        `s = 1`. Ideles are pairs of a unit of the Minkowski space `mixedSpace K` and a finite idele. The
+
+        file defines the principal ideles, the module of an idele, an adelic tent and its theta sum over
+
+        the principal ideles. It writes theta sums as Riemann sums over the image of `K`. It shows that
+
+        `thetaSum d (r / 3) b` depends, up to an error, only on the module of `b`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/HeckeL/IdelicThetaSum.lean
+      line: 11
+      endLine: 30
+      text: "\n## Main definitions and results\n\n* `New.ZetaIntegral.principalIdeles`: the image of `Kˣ` in the\
+        \ idele group;\n  `New.ZetaIntegral.ideleModule` is the module of an idele.\n* `New.ZetaIntegral.adelicTent\
+        \ r d`: a tent of height and radius `r` at `1` times the indicator of\n  `d * (x - 1) ∈ Ô`.\n* `New.ZetaIntegral.thetaSum\
+        \ d r b`: the sum of the tent over the coset of `b` modulo the\n  principal ideles. `New.ZetaIntegral.exists_abs_sub_thetaSum_le_mul_rpow`:\
+        \ `thetaSum d (r / 3) b`\n  depends only on the module `l` of `b`, up to an error: for each `l > 0` some\
+        \ `i` has\n  `|i - thetaSum d (r / 3) b| ≤ C * l ^ δ * thetaSum d r b` for all `b` of module `l`.\n\nNotions\
+        \ from other files:\n* `New.finIdeleAbs`: The module |x| of a finite idele x: the adelic absolute value\
+        \ of the idele with\n  finite part x and component 1 at infinity.\n* `New.Ô`: The subring Ô of finite adeles\
+        \ of K that are integral at every finite place.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.HeckeL.ContinuationAtOne`\
+        \ for sources.\n"
+  Lib.ClassField.Local.ArtinMap:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Local.ArtinMap
+      name: New.artinMap
+      line: 129
+      signature: 'def artinMap : (𝔸f K)ˣ →* TopologicalAbelianization Γ'
+    routeToMain:
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Local/ArtinMap.lean
+      line: 8
+      endLine: 15
+      text: 'The file defines the local Artin map `New.artinAt` with values in `Γ^ab`, the global Artin map
+
+        `New.artinMap` of a number field `K`, and algebraic Hecke characters. In the parts on number fields,
+
+        `Γ` is the Galois group (`IsProGalois Γ K Ω`) of an algebraically closed field `Ω` over `K`; `Ω` has
+
+        no binder here (it is fixed elsewhere), and `New.ClosurePlace` is the type of valuation subrings of
+
+        `Ω`. For a local field, the file shows that the local Artin map sends uniformisers to inverse
+
+        Frobenii. At a place of a number field, it proves the main properties of the local Artin map
+
+        `New.localArtin`: the defining formula, compatibility with norms, its image, its relation to
+
+        `New.artinAt`, and tame inertia.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Local/ArtinMap.lean
+      line: 16
+      endLine: 56
+      text: "\n## Main definitions and results\n\n* `New.artinAt`: the local Artin map at `v`, with values in the\
+        \ topological abelianisation of `Γ`.\n* `New.artinMap`: the global Artin map from the finite ideles of `K`\
+        \ to the abelianised Galois\n  group. It is chosen (`Classical.epsilon`) so that each character of `Γ` takes\
+        \ on it the product of\n  its values on the local Artin maps. This file does not prove that such a map exists;\n\
+        \  `New.abelianLift_artinMap_eq_finprod_of_exists` gives the product formula when one does.\n* `New.algHeckeChars`,\
+        \ `New.AlgHeckeChar`: algebraic Hecke characters, as characters of the finite\n  ideles (`New.AlgHeckeChar.character`)\
+        \ together with their infinity type\n  (`New.AlgHeckeChar.infinityType`).\n* `New.IsPlaceOver.isLocalArtin_localArtin`:\
+        \ the formula holds; the local theory in `ℚ̄_p` then\n  applies.\n* `New.IsTameGenerator`, `New.IsPlaceOver.exists_eq_pow_and_apply_conj_eq_pow`:\
+        \ tame generators of\n  inertia, and the values on inertia of a homomorphism of exponent prime to `w`.\n\
+        * `New.IsPlaceOver.tameGenerator`, `New.IsPlaceOver.tame_inertia`,\n  `New.IsPlaceOver.exists_isTameUnit`:\
+        \ a chosen tame generator, and a unit of `K_w`\n  whose symbol it is and whose residue generates the units\
+        \ of the residue field.\n\nNotions from other files:\n* `New.localArtin Γ A w`: a chosen homomorphism from\
+        \ `K_w^×` to the topological abelianisation of\n  the decomposition group of `A`, pinned down on `K^×` by\
+        \ `New.IsLocalArtin`.\n* `New.IsCompletionEmb w p Γ A j`: embeddings of `K_w` and of `Ω` (by `j`) in `ℚ̄_p`\
+        \ that induce `A`\n  and make the decomposition group of `A` the Galois group of `ℚ̄_p` over `K_w`.\n* `New.IsLocalArtin`:\
+        \ The homomorphism `f : Lˣ → Γ^ab` satisfies `New.Cohomology.classOfInvariant (χ\n  (f x)) = −(δχ ∪ x)`\
+        \ for all continuous characters `χ` and all `x` in `Lˣ`.\n* `New.IsFrob`: `σ` stabilises the valuation subring\
+        \ `A` and `σ • x ≡ x ^ q` modulo the maximal\n  ideal for all `x ∈ A`.\n* `New.IsPlaceOver`: The valuation\
+        \ subring `A` of `Ω` lies over the prime `w` of `K`: an integer of\n  `K` is in the maximal ideal of `A`\
+        \ exactly when it lies in `w`.\n* `New.QZChar.abelianLift`: The homomorphism induced by the continuous character\
+        \ χ on the\n  topological abelianisation of Γ, with values in ℚ/ℤ written multiplicatively.\n\n## Relation\
+        \ to the literature\n\nKnown result: Local class field theory, with Brauer invariant, Artin map, norms and\
+        \ tame symbol. It\nis proved for henselian fields such as fixed fields of decomposition groups, with the\
+        \ norm index in\nprime degree coming from Tate's lemma on the Herbrand quotient. Source: J.-P. Serre, Local\
+        \ Fields\n(1979), XII–XIV; J. S. Milne, Class Field Theory (v4.03), I and III 2.\n\nSee also `Lib.ClassField.Avatar.LocalGlobalCompatibility`\
+        \ and `Lib.ClassField.Places.LocalFields`.\n"
+  Lib.ClassField.Local.InvariantMap:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Local.InvariantMap
+      name: New.IsLocalGalois.exists_resH2_classOfInvariant_eq
+      line: 343
+      signature: "lemma exists_resH2_classOfInvariant_eq (y : ((unitsModule Γ).restrictTo V).H2) :\n    ∃ r : QZ,\
+        \ (unitsModule Γ).resH2 V (classOfInvariant Γ k A r) = y"
+    routeToMain:
+    - module: Lib.ClassField.Local.InvariantMap
+      importer: Lib.ClassField.LocalDuality.DualityInequality
+      line: 1
+    - module: Lib.ClassField.LocalDuality.DualityInequality
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 2
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Local/InvariantMap.lean
+      line: 6
+      endLine: 13
+      text: "The invariant map of local class field theory, for a henselian local field `k` of characteristic `0`\n\
+        with absolute Galois group `Γ` acting on `Ω` (`New.IsLocalGalois`).\n\n* `New.IsLocalGalois.isClassOfInvariant_classOfInvariant`:\
+        \ the chosen map\n  `New.Cohomology.classOfInvariant` from ℚ/ℤ to H²(Γ, Ωˣ) is injective and computes the\
+        \ cyclic\n  classes of unramified characters.\n* `New.IsLocalGalois.classOfInvariant_bijective`: `New.Cohomology.classOfInvariant`\
+        \ is bijective, so\n  it identifies ℚ/ℤ with H²(Γ, Ωˣ).\n"
+    remainder:
+      path: grh/src/Lib/ClassField/Local/InvariantMap.lean
+      line: 14
+      endLine: 31
+      text: "* `New.Cohomology.resH2_classOfInvariant`, `New.IsLocalGalois.exists_resH2_classOfInvariant_eq`:\n\
+        \  restriction to an open subgroup multiplies the invariant by the index and is onto.\n* `New.IsLocalGalois.pairMapH2_classOfInvariant_of_ordRat_eq`,\n\
+        \  `New.IsLocalGalois.pairMapH2_classOfInvariant`: a map of local fields with ramification index `e`\n \
+        \ and residue degree `f` multiplies the invariant by `e * f`.\n\nNotions from other files:\n* `New.unitsModule`,\
+        \ `New.unitsRep`: `Ωˣ` written additively (`New.DiscreteUnits`) with the action\n  of `Γ`, as a discrete\
+        \ module and as a representation; `H0` are its `Γ`-invariants, the units\n  of `k`.\n* `New.DiscreteModule.resH2`:\
+        \ restriction of a class in `H²(Γ, M)` to a subgroup of `Γ`; a class is\n  split by `V` when its restriction\
+        \ to `V` is zero.\n* `New.cyclicClass`: the cyclic class (symbol) `(χ, w) = δχ ∪ w` of a character `χ :\
+        \ Γ → ℚ/ℤ` and\n  an invariant `w`.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.Local.ArtinMap`\
+        \ for sources.\n"
+  Lib.ClassField.LocalDuality.CrystallineDuality:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.LocalDuality.CrystallineDuality
+      name: New.Period.IsPotentiallyCrystalline.relIndex_dvd_of_orthogonal
+      line: 789
+      signature: "lemma Period.IsPotentiallyCrystalline.relIndex_dvd_of_orthogonal [IsTopologicalGroup Γ]\n    (hj\
+        \ : IsOpenEmbedding \U0001D4A5.toGp)\n    (hL : IsPotentiallyCrystalline L.ρ) (hL' : IsPotentiallyCrystalline\
+        \ L'.ρ)\n    (b : L' ≃ₗ[ℤ_[ℓ]] Dual ℤ_[ℓ] L)\n    (hb : ∀ (g : Γ) (x : L') (y : L), b (L'.ρ g x) (L.ρ g\
+        \ y) = χ g • b x y)\n    {m : ℕ} {V : DiscreteModule ℤ_[ℓ] Γ} [Finite V] {q : L →ₗ[ℤ_[ℓ]] V}\n    (hq_equivariant\
+        \ : ∀ (g : Γ) (x : L), q (L.ρ g x) = V.ρ g (q x))\n    (hq_surj : Surjective q) (hq_ker : q.toAddMonoidHom.ker\
+        \ = pPowMultiples L m)\n    {H : AddSubgroup (Γ → L')} {S : AddSubgroup (Γ → V)}\n    (h_crys_orth : ∀ z\
+        \ ∈ crysCocycles L.ρ, IsCupOrthogonal b m q H (q ∘ z))\n    (hS_orth : ∀ s ∈ S, IsCupOrthogonal b m q H\
+        \ s) :\n    ((crysCocycles L.ρ).toAddSubgroup.map (q.toAddMonoidHom.compLeft Γ)).relIndex S ∣\n      H.relIndex\
+        \ (crysCocycles L'.ρ).toAddSubgroup"
+    routeToMain:
+    - module: Lib.ClassField.LocalDuality.CrystallineDuality
+      importer: Lib.PadicHodge.Kisin.Modules
+      line: 1
+    - module: Lib.PadicHodge.Kisin.Modules
+      importer: Lib.PadicHodge.Kisin.FrameTheorem
+      line: 1
+    - module: Lib.PadicHodge.Kisin.FrameTheorem
+      importer: New.Congruences.Lifting.ExponentLattices
+      line: 1
+    - module: New.Congruences.Lifting.ExponentLattices
+      importer: New.Congruences.Lifting.HodgeExpansion
+      line: 2
+    - module: New.Congruences.Lifting.HodgeExpansion
+      importer: New.Congruences.Lifting.CupProductBound
+      line: 1
+    - module: New.Congruences.Lifting.CupProductBound
+      importer: New.Congruences.Lifting.TameCharts
+      line: 1
+    - module: New.Congruences.Lifting.TameCharts
+      importer: New.Congruences.Lifting.CupOrthogonalityBounds
+      line: 4
+    - module: New.Congruences.Lifting.CupOrthogonalityBounds
+      importer: New.Congruences.LocalLoss.CrystallineCocycles
+      line: 1
+    - module: New.Congruences.LocalLoss.CrystallineCocycles
+      importer: New.Congruences.LocalLoss.LocalLattices
+      line: 2
+    - module: New.Congruences.LocalLoss.LocalLattices
+      importer: New.Congruences.Selmer.MainSummands
+      line: 2
+    - module: New.Congruences.Selmer.MainSummands
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 5
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/LocalDuality/CrystallineDuality.lean
+      line: 9
+      endLine: 15
+      text: 'The file studies classes of Galois lattices given by admissibility, allowed Hodge–Tate jumps and
+
+        polynomials that kill inertia. It shows how a class changes under twisted duals, tensor products and
+
+        jointly injective maps. It also defines pairings `Y × L → ℤ/p^m(1)` and the extensions of `O` by
+
+        `(Y ⊗ L)^∨(1)` that they give. At `ℓ`, it proves local duality statements for potentially
+
+        crystalline lattices: a perfect `ℤ_[ℓ]`-pairing of a lattice with its dual, the sizes of the
+
+        crystalline cocycles modulo `ℓ ^ m` and a divisibility of indices. Here Z_f denotes the crystalline
+
+        cocycles `New.Period.crysCocycles`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/LocalDuality/CrystallineDuality.lean
+      line: 16
+      endLine: 59
+      text: "\n## Main definitions and results\n\n* `New.Lift.InClass`: the class of lattices given by admissibility,\
+        \ allowed jumps and polynomials\n  that kill inertia.\n* `New.Lift.Pairing`: an `O(1)`-valued form on `Y\
+        \ ⊗ L` whose coboundary is `p ^ m` times a\n  crystalline cocycle.\n* `New.Lift.cupOrthogonal`: the functions\
+        \ `Γ → L` whose cup products with crystalline cocycles of\n  the lattices of a class are coboundaries.\n\
+        * `New.Lift.dualDefect`: the length of the crystalline cocycles of `L` modulo those in\n  `New.Lift.cupOrthogonal`.\n\
+        * `New.Period.IsPotentiallyCrystalline.index_mul_index_dual`: the sizes of Z_f(L) and Z_f(L') modulo\n \
+        \ `ℓ ^ m`.\n* `New.Period.IsPotentiallyCrystalline.relIndex_dvd_of_orthogonal`: a divisibility of indices\
+        \ from\n  local Tate duality, which bounds the cocycles of `L / ℓ ^ m` orthogonal to a subgroup of Z_f(L').\n\
+        \nNotions from other files, for a representation `ρ` of `Γ` on an `O`-module `T`:\n* `New.Period.IsAdmissible\
+        \ ρ F`: the elements of `Bmax ⊗ T` fixed by `F`-almost all `g` span\n  `Bmax ⊗ T` over `Bmax`; `New.Period.nearOne\
+        \ Γ` is the pull-back to `Γ` of the neighbourhoods of\n  `1` in `G_p`.\n* `New.Period.IsPotentiallyCrystalline\
+        \ ρ`: `ρ` is admissible along `New.Period.nearOne Γ`.\n* `New.Period.IsKilledBy ρ s m Q`: `ρ` is potentially\
+        \ crystalline and `Q` evaluated at the linear\n  Frobenius `New.Period.linearFrob ρ s m` is zero.\n* `New.Period.IsWeilPair\
+        \ s 0`: `s` lies in the inertia group of `G_p`.\n* `New.Period.jump ρ γ u`: the multiplicity of the Hodge–Tate\
+        \ jump `u : ℤ` of `ρ` at the\n  `ℤ_[p]`-algebra map `γ : O → ℂ_[p]`. It is the dimension over Q̄_p (zero\
+        \ if infinite) of the space\n  of `γ`-semilinear maps f : T → ℂ_p with f(gx) = χ(g)^(−u)·g f(x) for g near\
+        \ 1.\n* `New.Period.HasJumps ρ γ J`: for every integer `u`, the multiplicity `jump ρ γ u` equals the\n \
+        \ number of times `u` occurs in the multiset `J`.\n\n## Relation to the literature\n\nKnown result: Local\
+        \ Tate duality in degree 1 as an upper bound for orthogonal cocycle groups. Only\nan inequality is proved.\
+        \ The bound is proved by Kummer theory and dévissage when `Γ` acts by\nelements of `ℓ`-power order. For\
+        \ a general finite module `M`,\n`New.DiscreteModule.local_duality_card_dvd` gives only a divisibility, by\
+        \ descent from an open\nsubgroup `U` of index prime to `#M`. It takes as a hypothesis a largest orthogonal\
+        \ pair of cocycle\ngroups over `U`, and this file supplies that pair for the reductions of crystalline cocycles\n\
+        (`h_orth`, `h_max` in `card_pairingAnnihilator_mul_card_dvd`). Perfectness of the duality and the\nEuler\
+        \ characteristic formula are outside the scope of this file, and no result in it uses them.\nSource: J.-P.\
+        \ Serre, Galois Cohomology (1997), II §5.2 Thm 2 and §5.7; J. S. Milne, Arithmetic\nDuality Theorems (2nd\
+        \ ed. 2006), I 2.3, 2.8.\n\nSee also `Lib.PadicHodge.Crystalline.Regularity` and `Lib.PadicHodge.ArtinSchreierSequence`.\n"
+  Lib.ClassField.LocalDuality.DualityInequality:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.LocalDuality.DualityInequality
+      name: New.DiscreteModule.local_duality_card_dvd
+      line: 320
+      signature: "lemma DiscreteModule.local_duality_card_dvd [Finite M] {U : OpenSubgroup Γ}\n    {X : AddSubgroup\
+        \ ↥(Z1 M.cartierDual.ρ)} {W : AddSubgroup ↥(Z1 M.ρ)}\n    {X' : AddSubgroup ↥(Z1 (M.cartierDual.restrictTo\
+        \ U).ρ)}\n    {W' : AddSubgroup ↥(Z1 (M.restrictTo U).ρ)}\n    (hX : M.cartierDual.HoldsCorestrictions U\
+        \ X' X) (hW : M.HoldsCorestrictions U W' W)\n    (h_coprime : (Nat.card M).Coprime U.index)\n    (h_orth\
+        \ : W' ≤ pairingAnnihilator (M.restrictTo U).evalCup X')\n    (h_max : ∀ (Y : AddSubgroup ↥(Z1 (M.restrictTo\
+        \ U).cartierDual.ρ))\n      (Z : AddSubgroup ↥(Z1 (M.restrictTo U).ρ)),\n      Y ≤ pairingAnnihilator (M.restrictTo\
+        \ U).evalCup.flip Z →\n      Nat.card Y * Nat.card Z ≤ Nat.card X' * Nat.card W')\n    (L : AddSubgroup\
+        \ ↥(Z1 M.cartierDual.ρ)) :\n    Nat.card (pairingAnnihilator M.evalCup L) * Nat.card L ∣ Nat.card W * Nat.card\
+        \ X"
+    routeToMain:
+    - module: Lib.ClassField.LocalDuality.DualityInequality
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 2
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/LocalDuality/DualityInequality.lean
+      line: 7
+      endLine: 13
+      text: "Throughout, `k` is a local field with absolute Galois group `Γ` (`New.IsLocalGalois`) and `l` is a\n\
+        prime. The inequality of local duality is proved as a count of cocycles, for a finite discrete\nmodule `M`\
+        \ and its dual `Hom(M, Ωˣ)`.\n\n* `New.card_mul_card_le_of_le_pairingAnnihilator`: for `M` killed by a power\
+        \ of `l`, orthogonal\n  groups of cocycles in `Hom(M, Ωˣ)` and `M` have `#X · #W ≤ #M ^ (2 + d)`, where\
+        \ `O` is the\n  valuation ring of `k` and `#(O / l) = l ^ d`, if `Γ` acts by elements of `l`-power order.\n"
+    remainder:
+      path: grh/src/Lib/ClassField/LocalDuality/DualityInequality.lean
+      line: 14
+      endLine: 33
+      text: "* `New.DiscreteModule.HoldsCorestrictions.pairingAnnihilator_le`: annihilators descend from an open\n\
+        \  subgroup whose index is invertible on the module.\n* `New.DiscreteModule.local_duality_card_dvd`: for\
+        \ an open subgroup `U` of index prime to `#M`, a\n  largest orthogonal pair of cocycle groups over `U` bounds\
+        \ `#L^⊥ · #L` for cocycle groups `L` over\n  `Γ`.\n\n`New.Z1` is the group of continuous cocycles (not classes),\
+        \ `New.unitsModule` is `Ωˣ` written\nadditively, `unitsRep` is the action of `Γ` on this `Ωˣ` (so `H2 unitsRep`\
+        \ is `H²(Γ, Ωˣ)`),\n`New.DiscreteModule.evalCup` is the cup product `Z¹(Hom(M, Ωˣ)) × Z¹(M) → H²(Ωˣ)`, and\n\
+        `New.pairingAnnihilator b L` is the annihilator of `L` in the right-hand group of the pairing `b`.\n\nNotions\
+        \ from other files:\n* `New.DiscreteModule`: A discrete Γ-module over R: an R-module with the discrete topology\
+        \ and a\n  continuous R-linear action of the topological group Γ.\n* `New.DiscreteModule.cartierDual`: For\
+        \ finite M, the discrete Γ-module Hom(M, Ω^×) of additive maps\n  to `New.unitsModule`, with (gf)(m) = g\
+        \ f(g⁻¹m).\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.LocalDuality.CrystallineDuality`\
+        \ for sources.\n"
+  Lib.ClassField.LocalDuality.KummerFiniteness:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.LocalDuality.KummerFiniteness
+      name: New.IsLocalGalois.finite_Z1
+      line: 349
+      signature: "lemma finite_Z1 [IsLocalGalois Γ k A] ⦃R : Type⦄ [CommRing R] (M : DiscreteModule R Γ)\n    [Finite\
+        \ M] : Finite (Z1 M.ρ)"
+    routeToMain:
+    - module: Lib.ClassField.LocalDuality.KummerFiniteness
+      importer: Lib.ClassField.Local.InvariantMap
+      line: 1
+    - module: Lib.ClassField.Local.InvariantMap
+      importer: Lib.ClassField.LocalDuality.DualityInequality
+      line: 1
+    - module: Lib.ClassField.LocalDuality.DualityInequality
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 2
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/LocalDuality/KummerFiniteness.lean
+      line: 7
+      endLine: 11
+      text: 'Let `L` be a local field with ring of integers `O`. `New.IsLocalGalois Γ L A` makes `Γ` the absolute
+
+        Galois group of `L`, acting on an algebraic closure `Ω` and stabilising its valuation ring `A`; then
+
+        `O = A ∩ L` is `New.valRingBelow L A`, a discrete valuation ring with finite residue field. Absolute
+
+        values `|x|` are the multiplicative valuation `A.valuation x`. This file counts the `l`-th power
+
+        classes in `Lˣ` and deduces the number of continuous 1-cocycles `Γ → Ωˣ` killed by `n`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/LocalDuality/KummerFiniteness.lean
+      line: 12
+      endLine: 32
+      text: "\n## Main definitions and results\n\n* `New.cokerKerIndex_local_units`: `#(Lˣ / Lˣ ^ l) / #μ_l(L) =\
+        \ l · #(O / l)`.\n* `New.IsLocalGalois.card_kummer_cocycles`: there are `n² · #(O / n)` continuous 1-cocycles\n\
+        \  `Γ → Ωˣ` killed by `n`; `New.IsLocalGalois.card_ker_natCast_Z1_unitsModule` and\n  `New.IsLocalGalois.finite_ker_natCast_Z1_unitsModule`\
+        \ state the count and the finiteness apart.\n* `New.IsLocalGalois.finite_Z1`: a finite discrete `Γ`-module\
+        \ has finitely many continuous\n  1-cocycles.\n\nNotions from other files:\n* `New.cokerKerIndex`: `#coker\
+        \ / #ker` of a linear map, a rational number that is `0` if either\n  group is infinite.\n* `New.DiscreteModule`:\
+        \ a discrete `Γ`-module over `R`: an `R`-module with the discrete topology\n  and a continuous `R`-linear\
+        \ action of the topological group `Γ`.\n* `New.Z1 ρ`: the continuous 1-cocycles of the representation `ρ`;\
+        \ `New.unitsModule Γ` is `Ωˣ`,\n  written additively, as a discrete `Γ`-module.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.ClassField.LocalDuality.CrystallineDuality` for sources.\n"
+  Lib.ClassField.Places.DecompositionCompletion:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.DecompositionCompletion
+      name: New.IsPlaceOver.ramification_in_tower
+      line: 741
+      signature: "lemma ramification_in_tower (h : IsPlaceOver A v) (U : Subgroup Γ) [hU_open : Fact U.IsOpen]\n\
+        \    {L : Type*} [Field L] [EmbeddedNumberField L] [IsProGalois U L Ω] [Algebra K L]\n    [IsScalarTower\
+        \ K L Ω] {w : FinPlace L} (hw : IsPlaceOver A w) :\n    let e"
+    routeToMain:
+    - module: Lib.ClassField.Places.DecompositionCompletion
+      importer: Lib.PadicHodge.Crystalline.Basic
+      line: 1
+    - module: Lib.PadicHodge.Crystalline.Basic
+      importer: Lib.ClassField.Places.TameInertia
+      line: 2
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/DecompositionCompletion.lean
+      line: 7
+      endLine: 14
+      text: 'Let `Ω` be an algebraic closure of a number field `K` and `Γ` its Galois group. A place of `Ω` is a
+
+        valuation subring `A` of `Ω` (the type `ClosurePlace`), and `New.IsPlaceOver A v` says that it lies
+
+        over the prime `v` of `K`.
+
+
+        `New.decompGroup Γ A` is the stabiliser of `A`, `New.Gp p` is `Gal(ℚ̄_p/ℚ_p)`, and `New.intQpBar p`
+
+        is the valuation ring of `ℚ̄_p`. Every place above `p` is induced by an embedding `Ω → ℚ̄_p`, and
+
+        the decomposition group then embeds as an open subgroup of `New.Gp p`, acting as the Galois group
+
+        over the completion at `v`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/DecompositionCompletion.lean
+      line: 15
+      endLine: 46
+      text: "\n## Main definitions and results\n\n* `New.Period.isLocalGalois_of_isOpenEmbedding`: let `j` be an\
+        \ open embedding of a group in\n  `Gal(ℚ̄_p/ℚ_p)`. Then the group is the absolute Galois group of the subfield\
+        \ of `ℚ̄_p` fixed by\n  the image of `j`.\n* `New.exists_comap_intQpBar_eq`: every place of an algebraic\
+        \ closure of `ℚ` above `p` is induced by\n  an embedding in `ℚ̄_p`.\n* `New.IsCompletionEmb`: the decomposition\
+        \ group of `A` acts on `ℚ̄_p` as the Galois group over the\n  completion at `v`, compatibly with an embedding\
+        \ `j : Ω → ℚ̄_p` that induces `A`.\n* `New.IsPlaceOver.exists_isCompletionEmb`: such data exist for every\
+        \ place `A` of `Ω` over `v`.\n* `New.IsPlaceOver.isLocalGalois_and_residueCard_eq_and_isUniformiser`: the\
+        \ fixed field is local\n  (`New.IsLocalGalois`), with the same residue order, and uniformisers of `K` remain\
+        \ uniformisers.\n* `New.IsPlaceOver.ramification_in_tower`: ramification index and residue degree in a finite\n\
+        \  extension of `K`.\n\nNotions from other files:\n* `New.IsLocalGalois Γ K A`: `Γ` acts as the profinite\
+        \ Galois group of the algebraically closed\n  field `Ω` over `K` and stabilises the valuation ring `A`,\
+        \ and `A ∩ K` (`New.valRingBelow`) is a\n  discrete valuation ring with finite residue field.\n* `New.PadicField\
+        \ F p`: a normed field `F` that is a normed algebra over `ℚ_p`, not necessarily\n  complete.\n* `New.residueCard\
+        \ K A`: the number of elements of the residue field of the valuation ring of `K`\n  induced by `A` (zero\
+        \ if infinite).\n* `New.IsProGalois`: a profinite group acts on the Galois extension Ω/K as its Galois group,\
+        \ with\n  open stabilisers.\n* `New.ordRat K A`: the order normalised on `K`: a chosen additive f : Ω^×\
+        \ → ℚ with n f(x) = a\n  exactly when x^n and π^a have equal valuation, for uniformisers π of `K`.\n\n##\
+        \ Relation to the literature\n\nKnown; see `Lib.ClassField.Places.LocalFields` for sources.\n"
+  Lib.ClassField.Places.DecompositionCyclotomic:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.DecompositionCyclotomic
+      name: New.cyclotomicCharMod_surjective
+      line: 384
+      signature: "lemma cyclotomicCharMod_surjective :\n    Surjective (cyclotomicCharMod (Γ"
+    routeToMain:
+    - module: Lib.ClassField.Places.DecompositionCyclotomic
+      importer: New.Reduction.Data.FieldsAndPlaces
+      line: 1
+    - module: New.Reduction.Data.FieldsAndPlaces
+      importer: New.Derivatives.Field.PrimeDecomposition
+      line: 2
+    - module: New.Derivatives.Field.PrimeDecomposition
+      importer: New.Derivatives.Field.WeilData
+      line: 3
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/DecompositionCyclotomic.lean
+      line: 7
+      endLine: 10
+      text: 'This file studies decomposition and inertia groups of valuation subrings in a Galois group, and the
+
+        values of cyclotomic characters at Frobenius elements and on inertia groups. For a valuation subring
+
+        `A` of `Ω`, `New.decompGroup Γ A` is the stabiliser of `A`. `New.inertiaGroup Γ A` consists of the
+
+        elements of `New.decompGroup Γ A` that act trivially modulo the maximal ideal.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/DecompositionCyclotomic.lean
+      line: 11
+      endLine: 30
+      text: "`New.cyclotomicCharMod Ω N : Γ →* (ZMod N)ˣ` and `New.cyclotomicChar Ω l : Γ →* ℤ_[l]ˣ` give the\n\
+        action on the `N`-th roots of unity and on the roots of unity of `l`-power order, and\n`New.IsFrob A q σ`\
+        \ says that `σ` preserves `A` and acts as `x ^ q` modulo its maximal ideal.\n\n## Main definitions and results\n\
+        \n* `New.cyclotomicCharMod_eq_iff`: the value at `g` is `a` iff `g • ζ = ζ ^ a` whenever `ζ ^ N = 1`.\n\
+        * `New.IsFrob.cyclotomicCharMod_eq`, `New.IsFrob.cyclotomicChar_eq`: the value at a Frobenius for\n  `q`\
+        \ is `q`, away from `N` or `l`; the case `q = 1` is inertia. The reason is\n  `New.eq_of_val_sub_lt_one`:\
+        \ distinct `N`-th roots of unity stay distinct modulo the maximal ideal.\n* `New.cyclotomicCharMod_surjective`:\
+        \ for the Galois group of `New.Ω` over `ℚ`, the character modulo\n  `N` is onto.\n\nNotions from other files:\n\
+        * `New.IsProGalois`: a profinite group acts on the Galois extension Ω/K as its Galois group, with\n  open\
+        \ stabilisers.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.Places.LocalFields` for sources.\n"
+  Lib.ClassField.Places.GaloisDefs:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.GaloisDefs
+      name: New.IsFrob.conj
+      line: 185
+      signature: 'lemma IsFrob.conj (h : IsFrob A q σ) (g : Γ) : IsFrob (g • A) q (g * σ * g⁻¹)'
+    routeToMain:
+    - module: Lib.ClassField.Places.GaloisDefs
+      importer: Lib.ClassField.GaloisCohomology.ContinuousCocycles
+      line: 1
+    - module: Lib.ClassField.GaloisCohomology.ContinuousCocycles
+      importer: Lib.ClassField.Places.ProfiniteGalois
+      line: 1
+    - module: Lib.ClassField.Places.ProfiniteGalois
+      importer: Lib.ClassField.Places.ValuationSubrings
+      line: 2
+    - module: Lib.ClassField.Places.ValuationSubrings
+      importer: Lib.CM.ChowlaSelberg
+      line: 6
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/GaloisDefs.lean
+      line: 6
+      endLine: 9
+      text: 'This file sets up the vocabulary of Galois theory used by the cohomology files. A Galois group is an
+
+        abstract group `Γ` acting on a field `Ω`, and a place of `Ω` is a valuation subring `A`.
+
+        `New.IsFrob A q σ` says that `σ` stabilises `A` and that `σ • x - x ^ q` lies in the maximal ideal
+
+        for every `x` in `A`. Inertia is the case `q = 1`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/GaloisDefs.lean
+      line: 10
+      endLine: 29
+      text: "\n* `New.IsProGalois`, `New.IsLocalGalois`: `Γ` is the profinite Galois group of `Ω / K`; in the local\n\
+        \  case `Ω` is moreover algebraically closed of characteristic `0`, `Γ` stabilises `A`, and `A ∩ K`\n  (`New.valRingBelow`)\
+        \ is a discrete valuation ring with finite residue field.\n* `New.decompGroup`, `New.inertiaGroup`, `New.IsFrob`,\
+        \ `New.IsPlaceOver`: decomposition group,\n  inertia group, Frobenius elements, and places over a nonzero\
+        \ prime of the ring of integers\n  `\U0001D4DE K` of a field `K`.\n* `New.IsComplexConj`, `New.cyclotomicChar`,\
+        \ `New.cyclotomicCharIn`: complex conjugations and the\n  `l`-adic cyclotomic character.\n\nNotions from\
+        \ Mathlib used in the statements:\n* `A : ValuationSubring Ω`: a subring that contains `x` or `x⁻¹` for\
+        \ every nonzero `x`, with its\n  valuation `A.valuation`; `A.valuation x ≤ 1` means `x ∈ A`, and `< 1` means\
+        \ `x` lies in the\n  maximal ideal.\n* `IsGaloisGroup Γ K Ω`: `Γ` acts faithfully on `Ω`, fixing `K`, and\
+        \ the elements of `Ω` fixed by\n  `Γ` are those of `K`.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.Places.LocalFields`\
+        \ for sources.\n"
+  Lib.ClassField.Places.Ideles:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.Ideles
+      name: New.finiteIndex_idele_subgroup_of_isOpen
+      line: 383
+      signature: "lemma finiteIndex_idele_subgroup_of_isOpen (H : Subgroup (\U0001D538f K)ˣ) (h_open : H.IsOpen)\n\
+        \    (h_pos : ∀ x : Kˣ, IsTotallyPositive x.val → principalIdele x ∈ H) : H.FiniteIndex"
+    routeToMain:
+    - module: Lib.ClassField.Places.Ideles
+      importer: Lib.ClassField.HeckeL.EulerProduct
+      line: 1
+    - module: Lib.ClassField.HeckeL.EulerProduct
+      importer: Lib.CM.ChowlaSelberg
+      line: 5
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/Ideles.lean
+      line: 8
+      endLine: 14
+      text: 'The finite ideles of a number field `K` are the units `(𝔸f K)ˣ` of the finite adeles. They embed in
+
+        the units of the adeles `New.𝔸 K`, the pairs of a map `NumberField.InfinitePlace K → ℂ` and a finite
+
+        adele, with component `1` at the infinite places. `New.FinPlace K` is the set of finite places, and
+
+        `New.LocField v` is the completion at `v`. The file defines principal, local and S-unit ideles and
+
+        proves their basic properties. It then relates the finite ideles to fractional ideals and the class
+
+        group, and deduces that every open subgroup containing the totally positive elements of `Kˣ` has
+
+        finite index.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/Ideles.lean
+      line: 15
+      endLine: 38
+      text: "\n## Main definitions and results\n\n* `New.principalIdele`, `New.locIdele`, `New.ideleAt`: the principal\
+        \ idele of an element of `Kˣ`,\n  the idele with one given component and `1` elsewhere, and the component\
+        \ at a place.\n* `New.idelesUnitOff`: the ideles that are units outside `S`; open (`New.isOpen_idelesUnitOff`),\
+        \ and\n  compact for `S = ∅` (`New.isCompact_idelesUnitOff_empty`).\n* `New.exists_idele_divisor_hom`: the\
+        \ divisor map, with kernel the ideles that are units everywhere.\n* `New.exists_idele_classGroup_hom`: a\
+        \ map to the class group whose kernel is `Kˣ` times these\n  units.\n* `New.exists_sup_idelesUnitOff_eq_top`:\
+        \ for a suitable finite `S`, every idele is a principal idele\n  times a unit outside `S`.\n* `New.finiteIndex_idele_subgroup_of_isOpen`:\
+        \ an open subgroup that contains the totally positive\n  elements of `Kˣ` has finite index.\n\nNotions from\
+        \ other files:\n* `New.Ô K`: the integral finite adeles, whose component at every place lies in its ring\
+        \ of\n  integers; `New.uniformizer w` is a chosen uniformiser of the completion at `w`.\n* `S.unit K` (Mathlib):\
+        \ the `S`-units, the `x` in `Kˣ` of valuation `1` at every finite place\n  outside `S`.\n\n## Relation to\
+        \ the literature\n\nKnown; see `Lib.ClassField.Places.LocalFields` for sources.\n"
+  Lib.ClassField.Places.LocalFields:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.LocalFields
+      name: New.existsUnique_unramified_char
+      line: 650
+      signature: "lemma existsUnique_unramified_char {φ : Γ} (hφ : IsFrob A (residueCard k A) φ) (r : QZ) :\n  \
+        \  ∃! χ : QZChar Γ, (∀ g ∈ inertiaGroup Γ A, χ.val g = 0) ∧ χ.val φ = r"
+    routeToMain:
+    - module: Lib.ClassField.Places.LocalFields
+      importer: Lib.ClassField.GaloisCohomology.KummerCyclicClasses
+      line: 3
+    - module: Lib.ClassField.GaloisCohomology.KummerCyclicClasses
+      importer: Lib.ClassField.Places.TameInertia
+      line: 1
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/LocalFields.lean
+      line: 8
+      endLine: 14
+      text: 'A local field is a field `k` whose absolute Galois group `Γ` acts on an algebraic closure `Ω` and
+
+        stabilises a valuation subring `A` of `Ω` (`New.IsLocalGalois`). The trace `O = A ∩ k`
+
+        (`New.valRingBelow k A`) must be a discrete valuation ring whose residue field has finite order `q`
+
+        (`New.residueCard k A`); completeness is not assumed. `A.valuation` is multiplicative (at most 1 on
+
+        `A`). For a uniformiser `π` of `k`, the additive valuation `New.ordRat k A : Ωˣ → ℚ` is normalised
+
+        so that `π` has order `1`; it is defined on `DiscreteUnits Ω`, which is `Ωˣ` written additively
+
+        (`x.toMul` is the unit). `valuationVia k A c` is `A.valuation` of the image of `c : k` in `Ω`.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/LocalFields.lean
+      line: 15
+      endLine: 47
+      text: "\n## Main definitions and results\n\n* `New.IsLocalGalois.frobenius_spec`: for a henselian local field\
+        \ `k`, `Γ` contains an arithmetic\n  Frobenius `φ`. The products of a power `φ ^ n` (`n ≥ 0`) with an element\
+        \ of inertia are dense in\n  `Γ`, and `A` is integral over `A ∩ k`. The three parts are `New.IsLocalGalois.exists_isFrob`,\n\
+        \  `New.IsLocalGalois.denseRange_frob_pow_mul_inertia` and\n  `New.IsLocalGalois.isIntegral_valRingBelow`.\n\
+        * `New.IsLocalGalois.of_finite`: a finite extension `k'` of `k` is local, and its ramification index\n \
+        \ `e` and residue degree `f` satisfy `e * f = [k' : k]`. Moreover `e = 1` if the group of `k'`\n  contains\
+        \ inertia.\n* `New.existsUnique_unramified_char`: for a local field `k` and `r ∈ ℚ/ℤ` there is exactly one\n\
+        \  continuous character of its absolute Galois group that is trivial on inertia and sends a given\n  Frobenius\
+        \ to `r`. It comes from the action on roots of unity of order dividing `q ^ m - 1`, `m`\n  the order of\
+        \ `r`.\n\nNotions from other files:\n* `New.IsFrob`: `σ` stabilises the valuation subring `A` and `σ • x\
+        \ ≡ x ^ q` modulo the maximal\n  ideal for all `x ∈ A`.\n* `New.IsUniformiser`: `π` is a uniformiser of\
+        \ `K` for `A`: an element of `K` lies in the maximal\n  ideal of `A` exactly when its valuation is at most\
+        \ that of `π`.\n* `New.residueCard k A`: the order of the residue field of A ∩ k (zero if infinite).\n*\
+        \ `New.ordRat k A`: the order on Ωˣ normalised on k, chosen so that `n * ordRat k A x = a` exactly\n  when\
+        \ `x ^ n` and `π ^ a` have the same valuation, for uniformisers `π` of `k`.\n* `New.QZ`: the group ℚ/ℤ;\
+        \ it is given the discrete topology.\n\n## Relation to the literature\n\nKnown result: Hilbert ramification\
+        \ theory for infinite Galois extensions, here for local fields.\nPlaces are valuation rings of an algebraic\
+        \ closure acted on by an abstract profinite group, and\nlocal fields are only henselian with finite residue\
+        \ field. Source: J. Neukirch, Algebraic Number\nTheory, 1999, I §9, II §§7–9, VI §1; J.-P. Serre, Local\
+        \ Fields, 1979, I §7, IV §2; Stacks Project,\ntag 09EE.\n"
+  Lib.ClassField.Places.ProfiniteGalois:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.ProfiniteGalois
+      name: New.finrank_fixedFieldOf
+      line: 259
+      signature: 'lemma finrank_fixedFieldOf : finrank K (fixedFieldOf H) = H.index'
+    routeToMain:
+    - module: Lib.ClassField.Places.ProfiniteGalois
+      importer: Lib.ClassField.Places.ValuationSubrings
+      line: 2
+    - module: Lib.ClassField.Places.ValuationSubrings
+      importer: Lib.CM.ChowlaSelberg
+      line: 6
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/ProfiniteGalois.lean
+      line: 6
+      endLine: 9
+      text: 'Infinite Galois theory for an abstract group. `New.IsProGalois Γ K Ω` says that the profinite group
+
+        `Γ` acts on the Galois extension `Ω / K` as its Galois group, with open stabilisers. This covers
+
+        `Gal(Ω/K)` and its closed subgroups `H` (acting over the fixed field `New.fixedFieldOf H`) at once.
+
+        `Fact (IsOpen U)` and `IsClosed H` are used as instances on subgroups.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/ProfiniteGalois.lean
+      line: 10
+      endLine: 28
+      text: "\n* `New.continuous_of_equivariant_emb`: a map between such groups that is compatible with a ring\n\
+        \  homomorphism of the top fields is continuous.\n* `New.exists_galois_restrict`, `New.isClosedEmbedding_galois_restrict`,\n\
+        \  `New.isOpenEmbedding_galois_restrict`: restriction maps between Galois groups, along a map of the\n \
+        \ top fields or to a smaller base field. The parts of the second one are\n  `New.isClosedEmbedding_of_smul_eq_smul`,\
+        \ `New.range_eq_fixingSubgroup_of_smul_eq_smul` and\n  `New.index_range_eq_finrank_of_smul_eq_smul`.\n*\
+        \ `New.fixedFieldOf_fixingSubgroup`, `New.fixingSubgroup_fixedFieldOf`, `New.finrank_fixedFieldOf`:\n  the\
+        \ Galois correspondence between intermediate fields and closed subgroups, with degree equal to\n  index.\n\
+        \nNotions from other files:\n* `New.DiscreteUnits.ofBase`: the homomorphism from K^× to the Γ-invariants\
+        \ of Ω^× (both written\n  additively) induced by K → Ω.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.Places.LocalFields`\
+        \ for sources.\n"
+  Lib.ClassField.Places.TameInertia:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.TameInertia
+      name: New.Period.IsWeilPair.eq_pow_of_isFrob
+      line: 494
+      signature: "lemma eq_pow_of_isFrob (h : IsWeilPair (j s) m) {q : ℕ} (hq : IsFrob (intQpBar p) q (j s)⁻¹) :\n\
+        \    q = p ^ m"
+    routeToMain:
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/TameInertia.lean
+      line: 7
+      endLine: 11
+      text: 'This file studies how inertia and Frobenius elements act on roots of unity and on roots of a
+
+        uniformiser over a henselian local field, and in particular over `ℚ_p`. Over `ℚ_ℓ`, with `G_ℓ`
+
+        (`New.Gp ℓ`) its absolute Galois group, a Frobenius for `q` raises roots of unity of order prime to
+
+        `ℓ` to the `q`-th power, and inertia fixes them. For Weil pairs, degrees add under products and are
+
+        determined by the Galois element.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/TameInertia.lean
+      line: 12
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.Cohomology.exists_inertia_smul_eq_of_orbit_subset`,\n \
+        \ `New.IsLocalGalois.exists_inertia_smul_eq_of_pow_eq`: inertia is transitive on the roots of an\n  Eisenstein\
+        \ polynomial, in particular on the `n`-th roots of `π`.\n* `New.IsLocalGalois.tame_inertia`: the tame theorem.\
+        \ Characters of inertia of order prime to the\n  residue characteristic are governed by the action on an\
+        \ `n`-th root `y` of a uniformiser `π`.\n  Its three parts are `New.IsLocalGalois.stabilizer_le_ker_of_pow_eq_one`,\n\
+        \  `New.IsLocalGalois.exists_map_eq_pow_of_isPrimitiveRoot` and\n  `New.IsLocalGalois.map_conj_eq_pow_of_isFrob`.\n\
+        * `New.Selmer.apply_eq_pow_of_isFrob`: a Frobenius for `q` (`New.IsFrob`) raises a root of unity of\n  order\
+        \ prime to `ℓ` to the `q`-th power.\n* `New.Selmer.exists_inertia_cyclotomicGp_eq`: every natural number\
+        \ prime to `p` is a value of the\n  `p`-adic cyclotomic character on inertia. Inertia permutes the primitive\
+        \ `p ^ (k + 1)`-th roots of\n  unity transitively, and `New.Selmer.exists_cyclotomicGp_eq_of_isClosed` passes\
+        \ to the limit by\n  compactness.\n* `New.Period.IsWeilPair.eq_pow_of_isFrob`: for a homomorphism `j` from\
+        \ a group `Γ` to the absolute\n  Galois group of `ℚ_p` and a Weil pair `(j s, m)`, the element `j s` determines\
+        \ `p ^ m`.\n\nNotions from other files:\n* `New.IsLocalGalois`: Γ = Gal(Ω/k), with Ω algebraically closed\
+        \ of characteristic 0, stabilises A,\n  and A ∩ k is a discrete valuation ring with finite residue field.\
+        \ So k is a henselian local field.\n* `New.IsUniformiser`: `π` is a uniformiser of `K` for `A`: an element\
+        \ of `K` lies in the maximal\n  ideal of `A` exactly when its valuation is at most that of `π`.\n* `New.IsFrob`:\
+        \ `σ` stabilises the valuation subring `A` and `σ • x ≡ x ^ q` modulo the maximal\n  ideal for all `x ∈\
+        \ A`.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.Places.LocalFields` for sources.\n"
+  Lib.ClassField.Places.ValuationSubrings:
+    group: Lib.ClassField
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.ClassField.Places.ValuationSubrings
+      name: New.norm_adeleExtension_le_one
+      line: 552
+      signature: 'lemma norm_adeleExtension_le_one {x : 𝔸f E} (hx : x ∈ Ô E) : ‖adeleExtension σ x‖ ≤ 1'
+    routeToMain:
+    - module: Lib.ClassField.Places.ValuationSubrings
+      importer: Lib.CM.ChowlaSelberg
+      line: 6
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/ClassField/Places/ValuationSubrings.lean
+      line: 9
+      endLine: 12
+      text: 'Places of an extension `Ω` of a number field `K` are treated as valuation subrings of `Ω` lying over
+
+        primes of `𝓞 K`. An embedding `σ` of a number field `E` into an ultrametric normed field over `ℚ_p`
+
+        induces a prime of `E` above `p` and extends to the finite adeles of `E`. The formula
+
+        `g * (e * f) = [L : K]` is restated in terms of finite places.
+
+        '
+    remainder:
+      path: grh/src/Lib/ClassField/Places/ValuationSubrings.lean
+      line: 13
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.IsPlaceOver.isEquiv`, `New.IsPlaceOver.unique`: `A` induces\
+        \ the `v`-adic valuation up to\n  equivalence, and determines `v`.\n* `New.FinPlace.isPlaceOver_placeOver`,\
+        \ `New.exists_isPlaceOver_of_val_ne_one`: every `v` has a\n  valuation subring of `New.Ω` over it; for `Ω/K`\
+        \ algebraic, every `A` whose valuation is not `1` at\n  some nonzero element lies over some `v`.\n* `New.finite_ramified`:\
+        \ almost all inertia groups lie in a given open subgroup of `Γ`.\n* `New.IsPlaceOver.exists_smul`: the Galois\
+        \ group `Γ` is transitive on the `A` over `v`.\n* `New.placeOfEmb`: the prime induced by `σ`; it consists\
+        \ of the integers with `‖σ x‖ < 1`\n  (`New.mem_placeOfEmb`) and contains `p` (`New.natCast_mem_placeOfEmb`).\n\
+        * `New.exists_placeOfEmb_extension`, `New.placeOfEmbExtension`: `σ` extends continuously to the\n  completion\
+        \ of `E` at that prime.\n* `New.adeleExtension`: the resulting ring homomorphism on finite adeles; it is\
+        \ continuous, extends\n  `σ` and sends integral adeles to elements of norm at most one (`New.norm_adeleExtension_le_one`).\n\
+        \nNotions from other files:\n* `New.FinPlace K`: a nonzero prime of `\U0001D4DE K`; `v.q` is its absolute\
+        \ norm; a `New.ClosurePlace` is a\n  valuation subring of `New.Ω`, the algebraic closure of `ℚ`.\n* `A x`,\
+        \ for a valuation subring `A` of `Ω`: the value `A.valuation x`; for `x : K`,\n  `valuationVia K A x` is\
+        \ `A.valuation (algebraMap K Ω x)`.\n* `New.IsProGalois Γ K Ω`: `Γ` is a profinite Galois group of `Ω /\
+        \ K` with open stabilisers.\n* `New.inertiaGroup Γ A`: the `σ` in `Γ` that stabilise `A` and act trivially\
+        \ modulo its maximal\n  ideal.\n* `New.PadicField`: a normed field that is a normed algebra over `ℚ_p`,\
+        \ not necessarily complete.\n\n## Relation to the literature\n\nKnown; see `Lib.ClassField.Places.LocalFields`\
+        \ for sources.\n"
+needs_draft: true

@@ -24,15 +24,25 @@ def reading_markdown(record, edition, *, preview=False):
                 sentences.append(f'{claim["sentence"]} ({" · ".join(sources)})')
             return f'**{label}**\n\n{" ".join(sentences)}'
 
-    excerpt = record["excerpt"]
+    excerpt = record.get("excerpt")
+    if not excerpt:
+        return ""
     upstream = excerpt["text"].strip()
     # Declaration docstrings can include the Lean delimiters in the pinned range.
     upstream = upstream.removeprefix("/--").removesuffix("-/").strip()
     quote = "\n".join(f"> {line}" if line else ">" for line in upstream.splitlines())
     docs = {doc["id"]: doc["href"] for doc in edition["documents"]}
-    return (
+    result = (
         f'[Upstream documentation written by Claude]({excerpt["github"]})\n\n'
         f'{quote}\n\n'
         f'Copyright 2026 Anthropic, PBC. [Apache License 2.0]({docs["license"]}) · '
         f'[Upstream notice]({docs["notice"]}).'
     )
+
+    remainder = record.get("remainder")
+    if remainder:
+        text = remainder["text"].strip()
+        if text:
+            # Render the source as Markdown inside a disclosure, with HTML disabled.
+            result += f'\n\n[Rest of upstream introduction]({remainder["github"]})'
+    return result

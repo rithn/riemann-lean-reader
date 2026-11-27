@@ -1,0 +1,3461 @@
+group: Lib.DiscreteSeries
+overview:
+  group: Lib.DiscreteSeries
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: "Haar.CayleyChart constructs a Haar measure on a unitary group using a Cayley chart and real coordinates on skew-hermitian matrices."
+    citations:
+    - module: Lib.DiscreteSeries.Haar.CayleyChart
+      line: 5
+      endLine: 10
+    - module: Lib.DiscreteSeries.Haar.CayleyChart
+      line: 19
+      endLine: 24
+  - sentence: "Haar.GramCoordinates imports that chart and develops coordinates and measure-preserving decompositions for the Gram map on complex matrices."
+    citations:
+    - module: Lib.DiscreteSeries.Haar.GramCoordinates
+      line: 1
+      endLine: 17
+  - sentence: "Bessel.Basic also imports the chart and describes a real unitary group, its unipotent coordinates and measures, and Bessel functions on the group."
+    citations:
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      line: 1
+      endLine: 13
+  - sentence: "The Bessel functions are bounded measurable functions on the real unitary group with specified transformation laws under a unipotent group and a unitary group."
+    citations:
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      line: 24
+      endLine: 27
+  declarations:
+  - module: Lib.DiscreteSeries.Haar.CayleyChart
+    name: New.cayleyChart
+    line: 350
+    signature: 'def cayleyChart : U J'
+  - module: Lib.DiscreteSeries.Haar.GramCoordinates
+    name: New.exists_measurePreserving_hermCorner
+    line: 433
+    signature: "theorem exists_measurePreserving_hermCorner [Fintype n] [Fintype n₁] [DecidableEq n]\n    [DecidableEq\
+      \ n₁] (e : n₁ ⊕ Unit ≃ n) :\n    ∃ φ : Matrix n n ℝ ≃ₜ Matrix n₁ n₁ ℝ × (n₁ → ℂ) × ℝ,\n      MeasurePreserving\
+      \ φ ∧\n      ∀ t : Matrix n n ℝ, φ t = (t.submatrix (e ∘ Sum.inl) (e ∘ Sum.inl),\n        fun a : n₁ ↦ hermOfReal\
+      \ t (e (.inl a)) (e (.inr ())), t (e (.inr ())) (e (.inr ())))"
+  - module: Lib.DiscreteSeries.Bessel.Basic
+    name: New.RealPlace.mem_besselU0_iff_unipotentOf
+    line: 601
+    signature: "theorem mem_besselU0_iff_unipotentOf {u : \U0001D530.G₁} :\n    u ∈ besselU0 ↔ ∃ q : \U0001D530.UnipotentParams,\
+      \ u = unipotentOf q"
+  routeToMain:
+  - module: Lib.DiscreteSeries.Haar.CayleyChart
+    importer: Lib.DiscreteSeries.Bessel.Basic
+    line: 2
+  - module: Lib.DiscreteSeries.Bessel.Basic
+    importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+    line: 1
+  - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+    importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+    line: 1
+  - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+    importer: New.UpperBound.Seesaw.SeesawIdentity
+    line: 1
+  - module: New.UpperBound.Seesaw.SeesawIdentity
+    importer: New.Reduction.ShortAndEnough
+    line: 4
+  - module: New.Reduction.ShortAndEnough
+    importer: New.Reduction.MainInequality
+    line: 2
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  Lib.DiscreteSeries.Bessel.Basic:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      name: New.RealPlace.mem_besselU0_iff_unipotentOf
+      line: 601
+      signature: "theorem mem_besselU0_iff_unipotentOf {u : \U0001D530.G₁} :\n    u ∈ besselU0 ↔ ∃ q : \U0001D530\
+        .UnipotentParams, u = unipotentOf q"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 1
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bessel/Basic.lean
+      line: 7
+      endLine: 13
+      text: 'The form `(𝔰.middleGram N).splitGram` on the space Y₀ of column vectors indexed by `𝔰.BesselIndex`
+
+        is the sum of ϱ hyperbolic planes, the identity form on X₀ = A^κ and a line of norm −N. Its
+
+        archimedean version is the complex form `New.Shape.J₁`, whose space has basis `e_a`, `x_i`, `z`,
+
+        `e*_a` with `h(z, z) = -1` for the hermitian form `h`, and frame `e_0, …, e_{ϱ-1}, z`. The file
+
+        embeds the unitary group of X₀ in U(Y₀) and in `G₁`. It gives explicit elements of the unipotent
+
+        groups 𝖴⁰ = `New.Shape.Form.besselU0` and 𝖴 = `New.Shape.Form.besselU`, and measures on them. It
+
+        then defines Bessel functions on `G₁`.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bessel/Basic.lean
+      line: 14
+      endLine: 43
+      text: "\n## Main definitions and results\n\n* `New.exists_besselU_mul_toBesselH`: for N a unit, a coefficient\
+        \ ring with an element of trace one\n  and an invertible hermitian form, every element of `besselS` is a\
+        \ product `u h` with `u` in\n  `besselU` and `h` in the image of `New.toBesselH`.\n* `New.Shape.G₁`, `New.Shape.J₁`:\
+        \ the group and its form.\n* `New.RealPlace.unipotentOf`, `New.RealPlace.mem_besselU0_iff_unipotentOf`:\
+        \ a parametrization of\n  the unipotent group `New.Shape.Form.besselU0` that fixes the frame.\n* `New.RealPlace.embedH`:\
+        \ the unitary group of the `x_i` inside `G₁`.\n* `New.Shape.besselHaar₀`, `New.Shape.besselHaar`: measures\
+        \ on \U0001D5B4⁰ and \U0001D5B4, pushed forward from\n  Lebesgue measure on the parameters and, for \U0001D5B4\
+        , from its product with the measure on \U0001D5B4⁰.\n* `New.IsBesselFunction`: bounded measurable functions\
+        \ that transform by a character under the\n  unipotent group `New.Shape.Form.besselU` and by `rep` under\
+        \ `U(κ)`.\n\nNotions from other files:\n* `New.Shape.Form.splitGram T`: the Gram matrix of ϱ hyperbolic\
+        \ planes and a middle space with Gram\n  matrix T. Identity blocks pair the first and last ϱ indices, T\
+        \ is the middle block, and all other\n  entries are zero.\n* `New.inclMatrix`: for a map u : m → n of index\
+        \ sets, the n×m matrix whose j-th column is the\n  standard basis vector e_{u(j)}.\n* `New.frameMatrix`:\
+        \ the square submatrix on the rows and columns of the frame.\n* `New.Shape.Form.besselS`: the Bessel subgroup,\
+        \ generated by the unipotent group \U0001D5B4 =\n  `New.Shape.Form.besselU` and the fixer H = `New.Shape.Form.besselH`\
+        \ of the basis vectors that\n  are not indexed by κ.\n\n## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Bruhat.FloorGroups`,\
+        \ `Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure`\nand `Lib.DiscreteSeries.Bruhat.ComplexPlace` for sources.\n"
+  Lib.DiscreteSeries.Bessel.FrameFibre:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bessel.FrameFibre
+      name: New.LeGramFibre.mconv_fixerHaar_le
+      line: 293
+      signature: "theorem _root_.New.LeGramFibre.mconv_fixerHaar_le {m : Measure \U0001D530.G₁} [SFinite m]\n  \
+        \  (hm : LeGramFibre \U0001D530.J₁ \U0001D530.frameCols m) :\n    m ∗ₘ fixerHaar \U0001D530 ≤ ENNReal.ofReal\
+        \ (volU \U0001D530.r / volU \U0001D530.k / 2 ^ (\U0001D530.ϱ + 1)) • volume"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bessel.FrameFibre
+      importer: New.Spanning.Frames.RealPlaceGauge
+      line: 2
+    - module: New.Spanning.Frames.RealPlaceGauge
+      importer: New.Spanning.Frames.RealShells
+      line: 2
+    - module: New.Spanning.Frames.RealShells
+      importer: New.Spanning.Frames.RealBandLimits
+      line: 2
+    - module: New.Spanning.Frames.RealBandLimits
+      importer: New.Spanning.Bessel.FillingData
+      line: 5
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bessel/FrameFibre.lean
+      line: 7
+      endLine: 11
+      text: 'The group `New.Shape.G₁` is the unitary group of the form `New.Shape.J₁`, of rank `r`, with basis
+
+        `e_a`, `x_i`, `z`, `e*_a`: there are `ϱ` hyperbolic pairs `e_a, e*_a`, the span `X₀` of the `x_i` is
+
+        positive definite of rank `k`, and `z` is negative. The frame is `e_0, …, e_{ϱ-1}, z`, and 𝖴⁰ is the
+
+        unipotent group `New.Shape.Form.besselU0` that fixes it. The file compares Haar measure of G₁ with
+
+        the fibre measure of the Gram map on tuples of vectors.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bessel/FrameFibre.lean
+      line: 12
+      endLine: 35
+      text: "\nNotions from other files:\n* `New.LeGramFibre J E m` says that the image of `m` under `g ↦ g E` is\
+        \ at most the fibre measure of\n  the Gram map `E' ↦ E'ᴴ J E'` over the Gram matrix of `E`.\n* `New.LeFibreMeasure\
+        \ μ ν π b l` says that `l` is at most the fibre measure `dμ / dν` of `π` over\n  `b`.\n* `New.volU j` is\
+        \ `vol U(j)`; the measure `volume` on G₁ is Haar measure, normalised through the\n  compact dual, and on\
+        \ the unitary group H = U(X₀) it is the Haar measure of mass one.\n\nMain results:\n* `New.LeGramFibre.mconv_embedH_le`:\
+        \ tuples with the Gram matrix of the basis vectors outside `X₀`.\n  These vectors have fixer `H = U(X₀)`;\
+        \ if their image under `m` is below the fibre measure, then\n  `m ∗ dh` is at most `vol U(r) / (2 ^ (r -\
+        \ k) vol U(k))` times Haar measure of G₁.\n* `New.RealPlace.lintegral_eq_unipotent_coords`: Lebesgue measure\
+        \ on the `ϱ`-tuples dual to\n  `e_0, …, e_{ϱ-1}` and orthogonal to `z`, in coordinates given by \U0001D5B4\
+        ⁰ and the Gram matrix.\n* `New.LeGramFibre.mconv_fixerHaar_le`: frames. The standard frame has fixer \U0001D5B4\
+        ⁰ H, with the measure\n  `ds = New.RealPlace.fixerHaar`; if the image of the frame under `m` is below the\
+        \ fibre measure,\n  then `m ∗ ds` is at most `vol U(r) / (2 ^ (ϱ + 1) vol U(k))` times Haar measure of G₁.\n\
+        \n## Relation to the literature\n\nKnown result: the fibre measure of the Gram map on tuples of vectors,\
+        \ in terms of Haar measure of\nthe unitary group. The file proves the inequality that is used. Siegel, Über\
+        \ die analytische Theorie\nder quadratischen Formen, Ann. of Math. 36 (1935).\n"
+  Lib.DiscreteSeries.Bessel.SchurBound:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bessel.SchurBound
+      name: New.IsBesselFunction.enorm_besselS_mul
+      line: 667
+      signature: "lemma enorm_besselS_mul (hW : IsBesselFunction rep W) {s : \U0001D530.G₁} (hs : s ∈ besselS)\n\
+        \    (y : \U0001D530.G₁) : ‖W (s * y)‖ₑ = ‖W y‖ₑ"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bessel.SchurBound
+      importer: New.Spanning.Bessel.LargeFunction
+      line: 1
+    - module: New.Spanning.Bessel.LargeFunction
+      importer: New.Spanning.Unfolding.PoincareSeries
+      line: 1
+    - module: New.Spanning.Unfolding.PoincareSeries
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 3
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bessel/SchurBound.lean
+      line: 6
+      endLine: 9
+      text: 'This file collects tools for estimating integrals of Bessel functions. It writes σ(u) + conj σ(u⁻¹),
+
+        for the sum σ(u) of simple root entries, as a trace against a fixed matrix. It proves abstract `L²`
+
+        bounds for convolutions on a unimodular group, and shows that norms of Bessel functions are
+
+        invariant under the Bessel subgroup `S = New.Shape.Form.besselS`.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bessel/SchurBound.lean
+      line: 10
+      endLine: 35
+      text: "\n## Main definitions and results\n\n* `New.Filling.besselCharMatrix`, `New.Filling.trace_besselCharMatrix_mul`:\
+        \ a fixed matrix C with\n  tr(C u) = σ(u) + conj σ(u⁻¹) for every isometry u of the form `New.Shape.Form.splitGram`.\n\
+        * `New.IsBoundedMeasurable.integral_inner_translate`: if `F * ψ = F` for an idempotent kernel `ψ`\n  with\
+        \ `ψ 1 = d`, the inner products of the right translates of `F` are values of `ψ / d` times\n  `‖F‖²`.\n\
+        * `New.IsIdempotentKernel.enorm_integral_convolve_sq_le`: Schur's bound for a family of vectors of a\n \
+        \ Hilbert space with these inner products.\n* `New.IsBoundedMeasurable.lintegral_sq_convolve_convolve_le`:\
+        \ the bound for `F * x` convolved once\n  more with an integrable function.\n* `New.IsBesselFunction.enorm_besselS_mul`:\
+        \ the norm of `W (s y)` equals that of `W y` for `s` in\n  `S`.\n\nNotions from other files:\n* `New.convolve\
+        \ F x`: The function `y ↦ ∫ x a⁻¹ • F (y * a)`.\n* `New.IsIdempotentKernel ψ`: `ψ` is continuous and integrable,\
+        \ `ψ g⁻¹ = conj (ψ g)`, `ψ 1 ≠ 0`,\n  and `ψ * δ_t * ψ = (ψ t⁻¹ / ψ 1) ψ`.\n* `New.orbitMeasure ρ volume`:\
+        \ A measure on `G` against which a left `S`-invariant function has the\n  same integral as on `S \\ G`.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure` and `Lib.DiscreteSeries.CuspKernel`\
+        \ for\nsources.\n"
+  Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      name: New.RealPlace.exists_tube
+      line: 896
+      signature: "theorem exists_tube {T : ℝ} (hT : 8 * \U0001D530.r ≤ T) :\n    ∃ (B : Set \U0001D530.G₁) (Ω :\
+        \ Set (\U0001D530.middleGram (1 : ℂ)).besselU0), IsTube T B Ω"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bessel/UnipotentHaarMeasure.lean
+      line: 7
+      endLine: 12
+      text: 'Let `𝔰` be a shape and let 𝖴⁰ ⊆ 𝖴 be the Bessel unipotent subgroups (`New.Shape.Form.besselU0`,
+
+        `New.Shape.Form.besselU`) of the unitary group `𝔰.G₁`, which is `(𝔰.middleGram 1).G` (so 𝖴⁰ is
+
+        `(𝔰.middleGram 1).besselU0`). The elements of 𝖴 are block upper unitriangular for the levels of the
+
+        basis indices, and 𝖴⁰ also fixes the frame e_0, …, e_{ϱ-1}, z. The measures `New.Shape.besselHaar₀`
+
+        on 𝖴⁰ and `New.Shape.besselHaar` on 𝖴 are images of Lebesgue measure under explicit
+
+        parametrisations.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bessel/UnipotentHaarMeasure.lean
+      line: 13
+      endLine: 44
+      text: "\n## Main definitions and results\n\n* `New.RealPlace.injective_freeEntries_besselU0`, `New.RealPlace.injective_freeEntries_besselU`:\
+        \ the\n  free entries (`New.RealPlace.freeEntries`: the entries at the free positions in the rows e_a, plus\n\
+        \  the imaginary parts at (e_a, e*_a)) are injective on \U0001D5B4⁰ and on \U0001D5B4.\n* `New.RealPlace.measurePreserving_freeEntries_besselHaar₀`,\n\
+        \  `New.RealPlace.measurePreserving_freeEntries_besselHaar`: the free entries carry these measures to\n\
+        \  Lebesgue measure.\n* `New.RealPlace.isUnimodularHaar_besselHaar₀`: `New.Shape.besselHaar₀` is a two-sided\
+        \ Haar measure\n  (`New.RealPlace.IsUnimodularHaar`). An instance gives the same for `New.Shape.besselHaar`.\n\
+        * `New.RealPlace.eichlerVectors`, `New.RealPlace.eichlerScalars`: the matrices ω and μ that describe\n \
+        \ an element of \U0001D5B4⁰ as an Eichler map with matrix entries (`New.RealPlace.eichlerMatrix`).\n* `New.RealPlace.homogeneousBall`:\
+        \ the balls ‖ω‖ ≤ ρ, ‖μ‖ ≤ ρ² in \U0001D5B4⁰. Radii add under multiplication\n  (`New.RealPlace.mul_mem_homogeneousBall`),\
+        \ and the volume is proportional to a power of the radius\n  (`New.RealPlace.besselHaar₀_homogeneousBall`).\n\
+        * `New.RealPlace.exists_tube`: there is a compact set whose slices along \U0001D5B4⁰ have controlled measure\n\
+        \  (`New.RealPlace.IsTube`).\n\nNotions from other files:\n* `New.Shape.G₁`: The unitary group of the complex\
+        \ hermitian form made of ϱ hyperbolic planes, the\n  standard positive form on κ, and one vector z with\
+        \ h(z, z) = −1.\n* `New.Shape.BesselIndex`: The index set of the basis e_a; x_i (i in κ), z; e*_a, where\
+        \ a runs over\n  `Fin ϱ`. The level is a at e_a, ϱ on the middle block and 2ϱ − a at e*_a (a counted from\
+        \ 0).\n\n## Relation to the literature\n\nNo Bessel model is constructed here. This file gives coordinates\
+        \ and Lebesgue–Haar measure on the\nunipotent radical and on its subgroup fixing the frame, balls and tubes\
+        \ for the latter, and the\nσ-finiteness of Haar measures on the ambient unitary group. Source for the setting:\
+        \ H. Xue, Bessel\nmodels for real unitary groups: the tempered case, Duke Math. J. 172 (2023) 995-1031;\
+        \ R.\nBeuzart-Plessis, Astérisque 418 (2020).\n"
+  Lib.DiscreteSeries.Bruhat.BigCell:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.BigCell
+      name: New.Filling.big_cell_factors_mem_intGL
+      line: 386
+      signature: "theorem big_cell_factors_mem_intGL [IsHermitianUnit T.splitGram]\n    [TraceOne A] {R : Subring\
+        \ A} [IsStarStable R]\n    (hT : IsUnimodular R T.splitGram) {u u' : T.G} (hu : u ∈ T.besselU) (hu' : u'\
+        \ ∈ T.besselU)\n    (hσ : σ ∈ floorGroup \U0001D530.ϱ) (hp : ∀ a : Fin \U0001D530.ϱ, ((p a)⁻¹ : Aˣ).val\
+        \ ∈ R)\n    (h_int : (u⁻¹ * (weylElem \U0001D530.ϱ p * σ) * u').val ∈ intGL \U0001D530.BesselIndex R) :\n\
+        \    u.val ∈ intGL \U0001D530.BesselIndex R ∧ σ.val ∈ intGL \U0001D530.BesselIndex R ∧\n      u'.val ∈ intGL\
+        \ \U0001D530.BesselIndex R"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.BigCell
+      importer: New.Spanning.Unfolding.Link
+      line: 1
+    - module: New.Spanning.Unfolding.Link
+      importer: New.Spanning.Bessel.OpenCellBound
+      line: 2
+    - module: New.Spanning.Bessel.OpenCellBound
+      importer: New.Spanning.Bessel.OpenCellPairing
+      line: 1
+    - module: New.Spanning.Bessel.OpenCellPairing
+      importer: New.Spanning.RemainingTerms.Size
+      line: 1
+    - module: New.Spanning.RemainingTerms.Size
+      importer: New.Spanning.MainTerm.BadTypes
+      line: 2
+    - module: New.Spanning.MainTerm.BadTypes
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 2
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/BigCell.lean
+      line: 6
+      endLine: 12
+      text: "The big cell of the Bruhat decomposition for the unipotent group `\U0001D5B4` = `New.Shape.Form.besselU`\n\
+        (isometries that are block upper unitriangular in the basis below), over a ring with involution. The\nexistence\
+        \ of the decomposition is proved assuming an element `τ` with `τ + star τ = 1` (`TraceOne`).\n\n* `New.Filling.exists_big_cell_decomp`:\
+        \ over a field with such a `τ`, if the leading minors\n  `δ_1, …, δ_{n-1}` of `Z(γ)` are nonzero, then `γ\
+        \ ∈ \U0001D5B4 w_p σ \U0001D5B4` with `σ` fixing the hyperbolic\n  pairs. Here `n = ϱ + 1`.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/BigCell.lean
+      line: 13
+      endLine: 35
+      text: "* `New.Filling.big_cell_factors_unique`: the element `u⁻¹ w_p σ u'` determines `p a` for `a < ϱ`,\n\
+        \  `σ`, `u` and `u'`. `New.Filling.big_cell_unique` is the case of one fixed `σ`.\n* `New.Filling.exists_integral_big_cell_decomp`,\
+        \ `New.Filling.big_cell_factors_mem_intGL`: for a\n  form that is unimodular over a subring `R` closed under\
+        \ `star` (`IsStarStable R`), the factors of\n  an element of `GL(R)` whose leading minors are units of `R`\
+        \ lie in `GL(R)`.\n\n`Z(γ)` = `New.Shape.Form.frameGram T γ` is the matrix of products of the frame\n`(e_0,\
+        \ …, e_{ϱ-1}, z)` with its image, indexed by `Fin n`; its last index `\U0001D530.top` is the one of `z`.\n\
+        `New.Floors.FloorGroups.weylElem j p` (`w_p`) sends `e_a` to `p a • e*_a` and `e*_a` to\n`(star (p a))⁻¹\
+        \ • e_a` on the first `j` hyperbolic pairs, and `New.Shape.Form.floorGroup j` is the\ngroup of isometries\
+        \ that fix these pairs. The floor `j` is the `j`-th hyperbolic pair `(e_j, e*_j)`.\n\nNotions from other\
+        \ files:\n* `New.Shape.BesselIndex`: The index set of the basis: `inl a` for e_a, `inr (inl _)` for the\
+        \ middle\n  vectors, among them z, and `inr (inr a)` for e*_a.\n* `New.Shape.Form.splitGram`: The Gram matrix\
+        \ of ϱ hyperbolic planes and a middle space with Gram\n  matrix T: identity blocks pair the first and last\
+        \ ϱ indices, T is the middle block, all else is\n  zero.\n\n## Relation to the literature\n\nThis is a case\
+        \ of the known Bruhat decomposition of a unitary group on its big cell. See\n`Lib.DiscreteSeries.Bruhat.ComplexPlace`.\n"
+  Lib.DiscreteSeries.Bruhat.ComplexPlace:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      name: New.Floors.complexPlace
+      line: 53
+      signature: 'instance complexPlace : Place ℂ'
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/ComplexPlace.lean
+      line: 6
+      endLine: 9
+      text: 'The archimedean instance of the local theory: the place `ℂ` and the top floor `ϱ` of the group
+
+        `New.Shape.G₁`, the unitary group of `ϱ` hyperbolic planes plus `V_ϱ = X₀ ⊕ ℂ z`, where `X₀ = ℂ^κ`
+
+        is standard and `h(z, z) = -1`. `New.RealPlace.embedH` embeds `U(X₀)` (written `U 1`) in it.
+
+        `floorGroup l` is the subgroup that fixes the basis vectors of the floors below `l`.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/ComplexPlace.lean
+      line: 10
+      endLine: 38
+      text: "\n* `New.Floors.complexPlace`, `New.Floors.complexBasis`: `ℂ` is a place (`New.Floors.Place`); a\n\
+        \  hyperbolic basis of `V_ϱ`.\n* `New.Floors.lintegral_eq_polar`: polar coordinates on `ℂ^κ` by the unitary\
+        \ group.\n* `New.Floors.cellChart`, `New.Floors.cellDensity`, `New.Floors.cellLaw`: for each floor a chart\n\
+        \  `ℂ → G₁` (a boost at the top for `c ≠ 0`, a Weyl element otherwise), its density, and the law of\n  its\
+        \ inverse.\n* `New.Floors.cartan_decomposition`: the Cartan decomposition `U(X₀) · boost · U(X₀)` of an\
+        \ element\n  of the top floor group whose corner entry `h(z, σ z)` has absolute value above 1.\n* `New.Floors.map_orbitPoint_cellLaw_top`:\
+        \ polar coordinates for the measure of the hyperboloid\n  `h(v, v) = -1`.\n\nNotions from other files:\n\
+        * `New.Shape.middleGram`: for a scalar N, the diagonal matrix on κ plus one point, with entries 1 on\n \
+        \ κ and −N at the extra point.\n* `New.Floors.FloorGroups.orbitPoint`: for b ≤ ϱ and an isometry g, the\
+        \ vector g⁻¹f_b, where\n  f = (e_0, …, e_{ϱ-1}, z) is the frame; `\U0001D530.top` is the position ϱ of z.\n\
+        * `New.Floors.HyperbolicBasis.floorQuadricMeasure`: the measure on a quadric in V_b, a level set of\n  v\
+        \ ↦ h(v, v) (by default h(f_b, f_b)): the image of `New.Floors.Place.quadricMeasure` under the\n  basis\
+        \ `F.floorBasis b`.\n* `New.realFrameGram`: for y in G₁, the (ϱ+1)×(ϱ+1) complex matrix Z(y) of products\
+        \ h(f_j, y f_l) of\n  the frame with its translate.\n\n## Relation to the literature\n\nKnown results: polar\
+        \ coordinates on ℂ^κ, the Cartan decomposition of a unitary group of rank one,\nand the invariant measure\
+        \ of the hyperboloid h(v, v) = −1, here written in the coordinates of the\ntop floor. Source: Knapp, Lie\
+        \ Groups Beyond an Introduction; Helgason, Groups and Geometric\nAnalysis, Ch. I §5.\n"
+  Lib.DiscreteSeries.Bruhat.FloorFibre:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.FloorFibre
+      name: New.Floors.leFibreMeasure_dualVector
+      line: 410
+      signature: "lemma leFibreMeasure_dualVector (a : Fin \U0001D530.ϱ) :\n    LeFibreMeasure volume volume\n \
+        \     (fun y : \U0001D530.BesselIndex → ℂ ↦\n        (fun i : {i : \U0001D530.BesselIndex // floorOf i <\
+        \ a ∨ i = .inl a} ↦ (\U0001D530.J₁ *ᵥ y) i,\n          (star y ⬝ᵥ \U0001D530.J₁ *ᵥ y).re))\n      (fun i\
+        \ : {i : \U0001D530.BesselIndex // floorOf i < a ∨ i = .inl a} ↦ \U0001D530.J₁ i.1 (eStar a), 0)\n     \
+        \ ((2 : ENNReal)⁻¹ • (complexPlace.heisenbergMeasure a).map\n        fun u : \U0001D530.G₁ ↦ (u : Matrix\
+        \ \U0001D530.BesselIndex \U0001D530.BesselIndex ℂ) *ᵥ Pi.single (eStar a) 1)"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.FloorFibre
+      importer: New.Spanning.Frames.RealPlaceGauge
+      line: 3
+    - module: New.Spanning.Frames.RealPlaceGauge
+      importer: New.Spanning.Frames.RealShells
+      line: 2
+    - module: New.Spanning.Frames.RealShells
+      importer: New.Spanning.Frames.RealBandLimits
+      line: 2
+    - module: New.Spanning.Frames.RealBandLimits
+      importer: New.Spanning.Bessel.FillingData
+      line: 5
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FloorFibre.lean
+      line: 7
+      endLine: 12
+      text: 'The group `New.Shape.G₁` is the unitary group of the complex form `h` (Gram matrix `𝔰.J₁`) with
+
+        basis `e_a`, `x_i` (`i : κ`), `z`, `e*_a`: `ϱ` hyperbolic pairs `e_a, e*_a`, the `x_i` orthonormal
+
+        and `h(z, z) = -1`. The pair of index `a` has floor `a`, `z` has floor `ϱ` and the `x_i` have floor
+
+        `ϱ + 1` (`New.Floors.FloorGroups.floorOf`); `V_b`, for a floor `b : Fin 𝔰.n` (so `b ≤ ϱ`), is
+
+        spanned by the basis vectors of floor at least `b`; `oppositeIndex` exchanges the indices of `e_a`
+
+        and `e*_a`.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FloorFibre.lean
+      line: 13
+      endLine: 42
+      text: "\nA vector `y` is chosen with given products with earlier basis vectors and with a given norm\n`h(y,\
+        \ y)`. Here `New.LeFibreMeasure μ ν π b l` says that the measure `l` is at most the fibre\nmeasure `dμ /\
+        \ dν` of the map `π` over the point `b`.\n\n## Main definitions and results\n\n* `New.Floors.leFibreMeasure_frameVector`:\
+        \ for the frame vector of a floor, half the quadric measure\n  of the floor is at most the fibre measure.\n\
+        * `New.Floors.leFibreMeasure_dualVector`: for the dual vector, half the measure of the Heisenberg\n  group\
+        \ of the floor is at most the fibre measure.\n\nThe factor one half arises because these measures are quotients\
+        \ by `d(h(y, y) / 2)`. The last\nsection proves that the measures of the Heisenberg groups are invariant\
+        \ under inversion, as is the\nHaar measure of the unitary group of the span of the `x_i`, carried into `G₁`.\n\
+        \nNotions from other files:\n* `New.Floors.HyperbolicBasis.floorQuadricMeasure`: The measure on a quadric\
+        \ in V_b: the image of\n  `New.Floors.Place.quadricMeasure` with parameter β under the basis `F.floorBasis\
+        \ b`.\n* `New.Floors.Place.heisenbergMeasure`: The measure on the Heisenberg group of floor `a`: the image\n\
+        \  of `dv` times the skew measure under the map that sends `(v, β)` to the isometry with\n  `e*_a ↦ e*_a\
+        \ + v + (β - h(v, v) / 2) e_a`. For `a ≥ ϱ` it is the unit mass at `1`.\n* `New.Shape.besselFrame`: The\
+        \ frame `(e_0, …, e_(ϱ-1), z)`, with one vector on each floor up to\n  `ϱ`.\n* `New.Floors.complexPlace`:\
+        \ The place `ℂ`: `τ = 1/2`, `δ = i/2`, `ν` the image of Lebesgue measure\n  under `r ↦ r i`, modulus `‖x‖\
+        \ ^ 2`, character `x ↦ exp (x - x̄)` and constant `c = π ^ 2`.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.DiscreteSeries.Bruhat.ComplexPlace` for sources.\n"
+  Lib.DiscreteSeries.Bruhat.FloorGroups:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.FloorGroups
+      name: New.div_mem_unitaryLevel_of_besselU_mul
+      line: 999
+      signature: "lemma div_mem_unitaryLevel_of_besselU_mul {h h' u u' y : T.G} (hh : h ∈ T.besselH)\n    (hh' :\
+        \ h' ∈ T.besselH) (hu : u ∈ T.besselU) (hu' : u' ∈ T.besselU)\n    (h_level : u * (h * y) ∈ unitaryLevel\
+        \ Q g T.splitGram)\n    (h_level' : u' * (h' * y) ∈ unitaryLevel Q g T.splitGram) :\n    h' / h ∈ unitaryLevel\
+        \ Q g T.splitGram"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.FloorGroups
+      importer: Lib.DiscreteSeries.Bruhat.FloorMeasures
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.FloorMeasures
+      importer: Lib.DiscreteSeries.Bessel.Basic
+      line: 1
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 1
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FloorGroups.lean
+      line: 6
+      endLine: 11
+      text: 'We study the unitary group of the form `T.splitGram` over a commutative ring with involution. This
+
+        form has `𝔰.ϱ` hyperbolic planes and a middle block `T`. We define the floor groups `H_l`, `𝒩_l`,
+
+        `Q_l` and Weyl elements exchanging `e_a` and `e*_a`. These serve a descent through the hyperbolic
+
+        pairs, one pair at a time. We then study the Bessel subgroup `S` (`New.Shape.Form.besselS`),
+
+        generated by the block unitriangular isometries `𝖴` (`New.Shape.Form.besselU`) and the isometries
+
+        `H` (`New.Shape.Form.besselH`) that fix all basis vectors outside `κ`.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FloorGroups.lean
+      line: 12
+      endLine: 46
+      text: "\n## Main definitions and results\n\n* `New.Shape.Form.floorGroup`: the fixer `H_l` of the floors below\
+        \ `l`. It decreases from `⊤` at\n  `l = 0` to `⊥` for `l ≥ ϱ + 2`.\n* `New.Shape.Form.unipotentBelow`, `New.Floors.FloorGroups.floorUnipotent`,\n\
+        \  `New.Shape.Form.partialUnitriangularGroup`: the groups `\U0001D4A9_{<l}`, `\U0001D4A9_l = H_l ∩ \U0001D4A9\
+        _{<l+1}` and `Q_l`.\n  The first increases to `New.Shape.Form.besselU` and the third decreases to it.\n\
+        * `New.Floors.FloorGroups.leadingMinor_frameGram_partialUnitriangularGroup_mul`,\n  `New.Filling.leadingMinor_frameGram_besselU_mul`:\
+        \ the leading minors of order at most `l` of the\n  matrix of the products `h(f_a, γ f_b)` depend only on\
+        \ the double coset of `γ` under `Q_l`, and all\n  of them only on the double coset under `\U0001D5B4`.\n\
+        * `New.besselS_le_normalizer_besselU`: `S` normalises `\U0001D5B4`.\n* `New.div_mem_unitaryLevel_of_besselU_mul`:\
+        \ the `h` in `H` with `h y` in `\U0001D5B4 K`, for a principal\n  congruence subgroup `K`, lie in one right\
+        \ coset of `H ∩ K`.\n* `New.simpleRootSum`, `New.simpleRootSum_mul`, `New.simpleRootSum_eq_zero_of_mem_besselH`:\
+        \ the sum\n  of the entries just above the diagonal on the frame is additive on `S` and zero on `H`.\n\n\
+        Notions from other files:\n* `New.Shape.Form.splitGram`: the Gram matrix `J` of ϱ hyperbolic planes and\
+        \ a middle space with\n  Gram matrix `T`: identity blocks pair the first and last ϱ indices, `T` is the\
+        \ middle block, all\n  else is zero. `T.G` is its unitary group.\n* `New.Shape.BesselIndex`: the basis indices.\
+        \ `inl a` is `e_a`, `eStar a` = `inr (inr a)` is `e*_a`;\n  the middle indices are those in `κ` and one\
+        \ more, `z`. `\U0001D530.n` is `ϱ + 1`.\n* `New.BesselIndex.level`: `a` at `e_a`, `ϱ` on the middle block,\
+        \ `2ϱ - a` at `e*_a`.\n* `New.Shape.besselFrame`: the frame `f = (e_0, …, e_{ϱ-1}, z)`; `\U0001D530.top`\
+        \ is the position of `z`.\n* `New.Shape.Form.besselU`: the isometries that are block upper unitriangular\
+        \ for the levels.\n\n## Relation to the literature\n\nThe file belongs to two known theories: isotropic\
+        \ flags in unitary groups (see\n`Lib.DiscreteSeries.Bruhat.ComplexPlace`), and Poincaré series along a Bessel\
+        \ subgroup with their\nunfolding, for which it supplies the groups. Sources: A. Borel, Introduction to automorphic\
+        \ forms,\nProc. Sympos. Pure Math. 9 (1966) (Poincaré series); V. Platonov, A. Rapinchuk, Algebraic groups\
+        \ and\nnumber theory (1994) §7.1; for the set-up, W. T. Gan, B. Gross, D. Prasad, Astérisque 346 (2012).\n"
+  Lib.DiscreteSeries.Bruhat.FloorMeasures:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.FloorMeasures
+      name: New.Floors.Place.plancherel_inequality
+      line: 1103
+      signature: "lemma Place.plancherel_inequality (η : Aˣ) {f : (ι → A) → ℂ} (hf : Integrable f)\n    (hf_meas\
+        \ : Measurable f) :\n    ∫⁻ v : ι → A, ‖∫ w : ι → A, P.ψ (η * star v ⬝ᵥ w) * f w‖ₑ ^ 2 ≤\n      (P.kernelBound\
+        \ / P.modulus η) ^ card ι * ∫⁻ w : ι → A, ‖f w‖ₑ ^ 2"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.FloorMeasures
+      importer: Lib.DiscreteSeries.Bessel.Basic
+      line: 1
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 1
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FloorMeasures.lean
+      line: 8
+      endLine: 13
+      text: 'Algebra and measure theory on the unitary group `G` of the form `New.Shape.Form.splitGram T`, first
+
+        over a ring with involution and a `τ` of trace one, then over a place `A` (`New.Floors.Place`),
+
+        along its floors. The basis is `e_a`, a middle block, `e*_a` (`a < ϱ`). `V_l` is spanned by the
+
+        basis vectors of floor at least `l`: for `l ≤ ϱ`, the middle block and the pairs with `l ≤ a`. `h`
+
+        is the form. The frame `f_0, …, f_ϱ` (`New.Shape.besselFrame`) is `e_0, …, e_(ϱ-1)` followed by
+
+        the last vector `z` of the middle block.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FloorMeasures.lean
+      line: 14
+      endLine: 47
+      text: "\nIn `New.Floors.FloorGroups`, the groups `floorGroup`, `unipotentBelow`, `floorUnipotent` and\n`partialUnitriangularGroup`\
+        \ are `G_l = U(V_l)`, `N_(<l)`, `N_l = G_l ∩ N_(<l+1)` and `Q_l`. The\ngroup `Q_l` consists of the elements\
+        \ unitriangular on the first `l` frame vectors, for `l ≤ ϱ + 1`.\n\n`∗ₘ` is convolution of measures, so\
+        \ `μ ∗ₘ dirac s` is the right translate of `μ` by `s`.\n\n* `New.Floors.TraceOne.heisenbergElem`, `New.Floors.FloorGroups.exists_eq_heisenbergElem_of_mem`:\n\
+        \  `N_a` is a Heisenberg group, given by Eichler maps.\n* `New.Floors.FloorGroups.bijOn_mulVec_eStar`: `u\
+        \ ↦ u e*_a` maps `N_a` bijectively onto the\n  isotropic vectors `y` of `V_a` with `h(e_a, y) = 1`.\n* `New.Floors.FloorGroups.existsUnique_prod_of_mem_besselU`:\
+        \ an element of `N_(<ϱ)` is a product in\n  `N_0 ⋯ N_(ϱ-1)` with unique factors.\n* `New.Floors.Place.heisenbergMeasure`,\
+        \ `New.Floors.ascConv`: invariant measures on `N_l` and, by\n  convolution, on `N_(<j)`.\n* `New.Floors.HyperbolicBasis`,\
+        \ `New.Floors.HyperbolicBasis.floorQuadricMeasure`: hyperbolic bases\n  of `V_ϱ` and `V_b`, and measures\
+        \ on quadrics in `V_b`, which disintegrate the Haar measure\n  (`New.Floors.HyperbolicBasis.isDisintegration_floorVolume`).\n\
+        * `New.Floors.Place.plancherel_inequality`: Plancherel's inequality on `A ^ ι`.\n\nNotions from other files:\n\
+        * `New.SplitIndex`: The index set made of ϱ indices, a middle set μ, and ϱ further indices, as a\n  disjoint\
+        \ union.\n* `New.Shape.Form.splitGram`: The Gram matrix of ϱ hyperbolic planes and a middle space with Gram\n\
+        \  matrix T: identity blocks pair the first and last ϱ indices, T is the middle block, all else is\n  zero.\n\
+        * `New.Floors.FloorGroups.floorOf`: The floor of a basis index: `a` for `e_a` and `e*_a`, `ϱ` for\n  `z`,\
+        \ `ϱ + 1` for the other middle indices.\n* `New.inclMatrix`: For a map u: m → n of index sets, the n×m matrix\
+        \ whose j-th column is the\n  standard basis vector e_{u(j)}.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.DiscreteSeries.Bruhat.ComplexPlace` for sources.\n"
+  Lib.DiscreteSeries.Bruhat.FourierKernels:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.FourierKernels
+      name: New.Floors.Place.IsSolvedIn.fourierSqNormLe
+      line: 431
+      signature: "theorem IsSolvedIn.fourierSqNormLe [DecidableEq ι] [DecidableEq κ] (h' : IsSolvedIn blk' ρ' R'\
+        \ M')\n    (h : IsSolvedIn blk ρ R M) (hR' : MeasurableSet R')\n    (h_inj : Function.Injective (inner ⊕ᵥ\
+        \ (blk' ⊕ᵥ blk))) {J : Matrix κ κ A}\n    (h_orth : ∀ (i : ι ⊕ B') (k : κ),\n      J ((inner ⊕ᵥ blk') i)\
+        \ k = (1 : Matrix κ κ A) ((inner ⊕ᵥ blk') i) k) (ξ : Aˣ) :\n    FourierSqNormLe J ξ ρ' ρ (coordinateBox\
+        \ κ R') (coordinateBox κ R)\n      (volume R' ^ (card κ - card ι - card B') * M' * (volume R ^ (card κ -\
+        \ card ι - card B) * M) *\n        (P.kernelBound / P.modulus ξ) ^ card ι)"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.FourierKernels
+      importer: New.Spanning.Frames.QuadricVolumes
+      line: 1
+    - module: New.Spanning.Frames.QuadricVolumes
+      importer: New.Spanning.Frames.QuadricPlancherel
+      line: 1
+    - module: New.Spanning.Frames.QuadricPlancherel
+      importer: New.Spanning.Frames.StandardLevel
+      line: 2
+    - module: New.Spanning.Frames.StandardLevel
+      importer: New.Spanning.MainTerm.FillingLevel
+      line: 1
+    - module: New.Spanning.MainTerm.FillingLevel
+      importer: New.Spanning.Frames.FixedLines
+      line: 4
+    - module: New.Spanning.Frames.FixedLines
+      importer: New.Spanning.MainTerm.FiniteSieveSystem
+      line: 1
+    - module: New.Spanning.MainTerm.FiniteSieveSystem
+      importer: New.Spanning.MainTerm.EnergyEstimate
+      line: 1
+    - module: New.Spanning.MainTerm.EnergyEstimate
+      importer: New.Spanning.Unfolding.MomentBounds
+      line: 1
+    - module: New.Spanning.Unfolding.MomentBounds
+      importer: New.Spanning.Unfolding.Moments
+      line: 2
+    - module: New.Spanning.Unfolding.Moments
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 4
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FourierKernels.lean
+      line: 8
+      endLine: 12
+      text: 'The measure theory, valid at any place, that bounds the kernel ψ(ξ ⟨v, y⟩), tested on measurable
+
+        integrable functions that vanish off a given set. The square norm of a function is the square of its
+
+        L² norm. A measure that is solved in a block has three kinds of coordinates: those of the block,
+
+        whose measures give bounded mass to a box; inner coordinates, in which Plancherel''s inequality is
+
+        applied; and the remaining outer coordinates, which are estimated by the volume of a box.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/FourierKernels.lean
+      line: 13
+      endLine: 29
+      text: "\n* `New.Floors.Place.FourierSqNormLe`: the kernel ψ(ξ ⟨v, y⟩) multiplies square norms by at most a\n\
+        \  given constant. The bound passes to images of the measures.\n* `New.Floors.Place.IsSolvedIn.setLIntegral_le`:\
+        \ a bound for the integral, over a box, of a function\n  of the inner coordinates by its integral in those\
+        \ coordinates alone.\n* `New.Floors.Place.IsSolvedIn.fourierSqNormLe`: the bound for the kernel between\
+        \ two measures that\n  are solved in two disjoint blocks.\n\nNotions from other files:\n* `New.Floors.Place`:\
+        \ a place A, with its character ψ, its modulus |·| = `modulus` and the constant\n  c = `kernelBound` of\
+        \ Plancherel's inequality.\n* `New.Floors.Place.IsSolvedIn`: a measure on A^κ is the volume in the coordinates\
+        \ off a block times\n  a family of measures in the coordinates of the block, each of mass at most M on a\
+        \ box.\n* `New.Floors.coordinateBox`: the box of a set R, that is, the vectors with all coordinates in R.\n\
+        \n## Relation to the literature\nStandard consequences of Fubini's theorem and the inequalities of Cauchy–Schwarz\
+        \ and Plancherel.\n"
+  Lib.DiscreteSeries.Bruhat.QuadricBlocks:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.QuadricBlocks
+      name: New.Floors.Place.IsDisintegration.isSolvedIn_quadricMeasure
+      line: 224
+      signature: "theorem IsDisintegration.isSolvedIn_quadricMeasure [DecidableEq B] [DecidableEq κ]\n    {l : Kernel\
+        \ (skewAdjoint A) (B → A)} [IsSFiniteKernel l]\n    (hl : IsDisintegration volume (1 : Matrix B B A) l)\n\
+        \    (h_mass : ∀ b : skewAdjoint A, l b (coordinateBox B S) ≤ M) {T : Matrix κ κ A} (hT : Tᴴ = T)\n    {blk\
+        \ : B → κ} (h_inj : Injective blk)\n    (h_orth : ∀ (i : B) (k : κ), T (blk i) k = (1 : Matrix κ κ A) (blk\
+        \ i) k) (β : skewAdjoint A) :\n    IsSolvedIn (inr ∘ blk) (quadricMeasure T β) S M"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.QuadricBlocks
+      importer: Lib.DiscreteSeries.Bruhat.SphereFibres
+      line: 2
+    - module: Lib.DiscreteSeries.Bruhat.SphereFibres
+      importer: New.Spanning.Frames.RealPlaceGauge
+      line: 4
+    - module: New.Spanning.Frames.RealPlaceGauge
+      importer: New.Spanning.Frames.RealShells
+      line: 2
+    - module: New.Spanning.Frames.RealShells
+      importer: New.Spanning.Frames.RealBandLimits
+      line: 2
+    - module: New.Spanning.Frames.RealBandLimits
+      importer: New.Spanning.Bessel.FillingData
+      line: 5
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/QuadricBlocks.lean
+      line: 8
+      endLine: 13
+      text: 'Let a hermitian form T on A^κ be the orthogonal sum of an orthonormal block and of its complement.
+
+        On a quadric in a hyperbolic plane plus T the part w of a vector outside the block is free, and the
+
+        part in the block lies on a quadric of the block, whose value is that of the given quadric minus
+
+        h(w, w). The measure of the quadric is the volume in w times the measures of these quadrics of the
+
+        block. This holds at any place, for any s-finite kernel that disintegrates the volume of the block
+
+        along its form.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/QuadricBlocks.lean
+      line: 14
+      endLine: 35
+      text: "\n## Main definitions and results\n* `New.Floors.Place.IsSolvedIn`: a measure is the volume in the\
+        \ coordinates outside a block times\n  an s-finite kernel of measures in the coordinates of the block, each\
+        \ of mass at most M on a box.\n* `New.Floors.Place.IsDisintegration.lintegral_lintegral_comm`: on the orthogonal\
+        \ sum of two\n  spaces, each with an s-finite kernel that disintegrates its measure, the equation of a quadric\n\
+        \  may be solved in either of them.\n* `New.Floors.Place.IsDisintegration.isSolvedIn_quadricMeasure`: the\
+        \ measure of a quadric is solved\n  in an orthonormal block, given an s-finite kernel on the quadrics of\
+        \ the block that disintegrates\n  the volume and gives mass at most M to a box.\n\nNotions from other files:\n\
+        * `New.Floors.Place`: a star ring A with Haar volume, an element τ of trace one, a skew unit δ and\n  a\
+        \ Haar measure ν on the skew elements.\n* `New.Floors.Place.quadricMeasure`: the measure on the quadric\
+        \ h(y, y) = δ⁻¹ b in a hyperbolic\n  plane plus T, the image of a product measure under `New.Floors.Place.flatChart`.\
+        \ Here b, the\n  index of the quadric, is skew.\n* `New.Floors.Place.IsDisintegration`: a family of measures\
+        \ on the quadrics of a form, continuous\n  in the index, whose integral over the index is a given measure.\n\
+        \n## Relation to the literature\nElementary: Tonelli's theorem and the invariance of Haar measure.\n"
+  Lib.DiscreteSeries.Bruhat.SphereFibres:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Bruhat.SphereFibres
+      name: New.Floors.exists_isDisintegration_le_sphereDensity
+      line: 52
+      signature: "theorem exists_isDisintegration_le_sphereDensity {κ : Type} [Fintype κ] [DecidableEq κ]\n    (hκ\
+        \ : 1 < card κ) :\n    ∃ l : Kernel (skewAdjoint ℂ) (κ → ℂ), IsSFiniteKernel l ∧\n      complexPlace.IsDisintegration\
+        \ volume (1 : Matrix κ κ ℂ) l ∧\n      ∀ (β : skewAdjoint ℂ) (R : ℝ), l β {y : κ → ℂ | ∀ i : κ, ‖y i‖ ≤\
+        \ R} ≤\n        ENNReal.ofReal (sphereDensity (card κ) (card κ * R ^ 2))"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Bruhat.SphereFibres
+      importer: New.Spanning.Frames.RealPlaceGauge
+      line: 4
+    - module: New.Spanning.Frames.RealPlaceGauge
+      importer: New.Spanning.Frames.RealShells
+      line: 2
+    - module: New.Spanning.Frames.RealShells
+      importer: New.Spanning.Frames.RealBandLimits
+      line: 2
+    - module: New.Spanning.Frames.RealBandLimits
+      importer: New.Spanning.Bessel.FillingData
+      line: 5
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/SphereFibres.lean
+      line: 8
+      endLine: 15
+      text: "* `New.Floors.exists_isDisintegration_le_sphereDensity`: in rank at least two, the volume of ℂ^κ\n\
+        \  disintegrates along y ↦ y* y into a measurable family of measures on the spheres, whose mass on a\n \
+        \ box is bounded.\n\nNotions from other files:\n* `New.Floors.Place.IsDisintegration`: a family of measures,\
+        \ indexed by the skew scalars, whose\n  integrals of compactly supported continuous functions are finite\
+        \ and continuous in the index and\n  which integrates over the index to a given measure, the index recording\
+        \ the value of a form.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Bruhat/SphereFibres.lean
+      line: 16
+      endLine: 20
+      text: "* `New.Floors.lintegral_eq_polar`: polar coordinates on ℂ^κ by the unitary group. The squared norm\n\
+        \  r has density `sphereDensity k r / 2`, where `sphereDensity k r` = 2 π^k r^(k-1) / (k-1)!.\n\n## Relation\
+        \ to the literature\nElementary: polar coordinates.\n"
+  Lib.DiscreteSeries.Character.FormalDegree:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Character.FormalDegree
+      name: New.Orbital.harish_chandra_degree_and_orbital
+      line: 583
+      signature: "theorem harish_chandra_degree_and_orbital {ε : n → ℤˣ} {l : HCParam ε} [Nonempty n]\n    (hg :\
+        \ l.HasLargeGap (10 * card n ^ 5)) :\n    l.formalDegree = weylDimensionPoly l ∧\n    ∀ x : n → Circle,\
+        \ x.Injective →\n      (-1) ^ #(oppositePairs ε) *\n          ∑ σ : Perm n, ∫ g : USign ε, l.dsKernel (g⁻¹\
+        \ * diagTorus ε (x ∘ σ) * g) =\n        #{σ : Perm n | ε ∘ σ = ε} * star (l.compactForm.lowestKType.kTypeChar\
+        \ (diagTorusK x))"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Character.FormalDegree
+      importer: New.Spanning.Bessel.FillingData
+      line: 1
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Character/FormalDegree.lean
+      line: 7
+      endLine: 13
+      text: '`New.Orbital.formalDegree_eq_weylDimensionPoly` is Harish-Chandra''s formula for the formal degree
+        of
+
+        a discrete series of `G = U(diag ε)`, and `New.Orbital.neg_one_pow_mul_sum_integral_dsKernel` gives
+
+        the stable sum of the orbital integrals of `New.HCParam.dsKernel` over the compact torus, both for a
+
+        parameter `l = 2λ` of gap `500 n³ + 10 n⁵`; `New.Orbital.harish_chandra_degree_and_orbital` states
+
+        the two together. By `New.Orbital.exists_laurent_orbital_integral` the orbital integral times a
+
+        product of roots is a Laurent polynomial; it is identified by comparing monomials of low level
+
+        (`New.Orbital.orbital_eq_char_sub_offOrbitIntegral`, `New.Orbital.coeff_eq_zero_of_low_level`).
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Character/FormalDegree.lean
+      line: 14
+      endLine: 42
+      text: "The formal degree, with its constant, is read off from one coefficient in this comparison. The\norbital\
+        \ integrals converge absolutely by `New.Orbital.integrable_dsCoeff_conj`.\n\nConventions: `New.HCParam.rootProd\
+        \ l r` is the product of `x_a - x_b` over the pairs with\n`r (ε a) (ε b)` and `l b < l a`, and `New.HCParam.lowerCount\
+        \ l r a` counts these `b`;\n`New.Orbital.alternant ε κ` is the alternant over the permutations that preserve\
+        \ the signs `ε`;\n`New.Orbital.torusEval x` evaluates a Laurent polynomial at a point `x` of the torus.\n\
+        \nNotions from other files:\n* `New.Orbital.oppositePairs`: The finite set of pairs of indices (a,b) with\
+        \ ε_a = +1 and ε_b = −1.\n* `New.weylDimensionPoly`: The product of `λ i - λ j` over the pairs with `λ j\
+        \ < λ i`, divided by\n  `∏_{i < card n} i!`, for `l = 2λ`.\n* `New.HCParam.formalDegree`: For signs ε and\
+        \ l=2λ, the reciprocal of the integral over U(diag ε) of\n  the squared modulus of the matrix coefficient\
+        \ `l.dsCoeff`, for the compact dual measure.\n* `New.HCParam.kTypeChar`: `l.compactForm.lowestKType.kTypeChar`\
+        \ is the character of U(n) of\n  highest weight λ − ρ.\n* `New.HCParam.HasGap`, `New.HCParam.HasLargeGap`:\
+        \ l=2λ has distinct entries ≡ n−1 mod 2, and\n  |λ_i−λ_j| ≥ h whenever ε_i ≠ ε_j; `HasLargeGap A` is the\
+        \ gap h = 500n³+A.\n\n## Relation to the literature\n\nKnown result: Discrete series character on the compact\
+        \ Cartan via orbital integrals, and formal\ndegree. This is done only for U(p,q), for parameters of gap\
+        \ 500n³+10n⁵ and for the explicit\ncoefficient of the lowest K-type. It gives the formal degree, and the\
+        \ stable sum of elliptic orbital\nintegrals as a multiple of the conjugate of Weyl's character of the compact\
+        \ form, both exact in the\ncompact dual measure. Source:\nHarish-Chandra, Discrete series for semisimple\
+        \ Lie groups II: explicit determination of the\ncharacters, Acta Math. 116 (1966), Thm 16 (with part I,\
+        \ Acta Math. 113 (1965), Thm 3); Knapp,\nRepresentation Theory of Semisimple Groups (1986), Thm 12.7.\n"
+  Lib.DiscreteSeries.Character.MultiplicityOrbitalIntegral:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Character.MultiplicityOrbitalIntegral
+      name: New.Orbital.exists_laurent_orbital_integral
+      line: 843
+      signature: "lemma New.Orbital.exists_laurent_orbital_integral [Nonempty n]\n    (hg : l.HasLargeGap (10 *\
+        \ card n ^ 5)) :\n    ∃ P : ℂ[n → ℤ], IsOrbitalLaurent l ((-l).rootProd Ne ^ (4 * card n ^ 2 + 1)) P"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Character.MultiplicityOrbitalIntegral
+      importer: Lib.DiscreteSeries.Character.FormalDegree
+      line: 1
+    - module: Lib.DiscreteSeries.Character.FormalDegree
+      importer: New.Spanning.Bessel.FillingData
+      line: 1
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Character/MultiplicityOrbitalIntegral.lean
+      line: 7
+      endLine: 12
+      text: 'Let `G = New.USign ε` be the unitary group of `diag ε`, and let `K = New.maxCompactU ε` be its
+
+        subgroup of unitary matrices. Let `ψ = New.HCParam.dsCoeff l` be the discrete series coefficient
+
+        with parameter `l = 2λ`. On the torus `New.diagTorus ε`, consider the normalised orbital integral
+
+        Θ(x) = `New.HCParam.formalDegree l` ∫_G ψ(g⁻¹ x g) dg. Θ times suitable products of differences
+
+        `x_a - x_b` is a Laurent polynomial, and the integrality of the multiplicities is the key input for
+
+        this.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Character/MultiplicityOrbitalIntegral.lean
+      line: 13
+      endLine: 40
+      text: "\n## Main definitions and results\n\n* `New.Orbital.exists_kType_multiplicity`: for a dominant weight\
+        \ ν and a large gap,\n  `formalDegree * ∫_G ∫_K conj (kTypeChar ν k) ψ(g⁻¹ k g)` is a natural number, `1`\
+        \ for ν equal to\n  the lowest `K`-type `New.HCParam.lowestKType l` and `0` for ν off\n  `lowestKType l\
+        \ + New.HCParam.rootCone l`.\n* `New.Orbital.integrable_mul_dsCoeff_conj`: for the gap 500 n³ + 10 n⁵, the\
+        \ orbital integrals times\n  a power of the product over the noncompact roots converge absolutely, uniformly\
+        \ on `K`.\n* `New.Orbital.IsConeSeriesMultiple`: `P` is `D` times a formal series with coefficient `1` at\n\
+        \  `x^a` whose exponents lie in alternants of weights in `a` plus the root cone.\n* `New.Orbital.exists_laurent_orbital_integral`:\
+        \ the orbital integral times the denominators is a\n  Laurent polynomial that is such a multiple.\n\nNotions\
+        \ from other files:\n* `New.weightMinors`: the coefficient m_ν of a highest vector of weight ν, a product\
+        \ of principal\n  minors and a power of the determinant.\n* `New.HCParam.HasLargeGap`: l = 2λ is a parameter\
+        \ with |λ_i - λ_j| ≥ 500 n³ + A whenever\n  ε_i ≠ ε_j.\n* `New.IsKDominant ε (-l) ν`, below \"`K`-dominant\
+        \ in the order of `-l`\": `ν j ≤ ν i` whenever\n  `ε i = ε j` and `l j < l i`, so ν is dominant for the\
+        \ compact roots that are positive for l.\n* `New.HCParam.lowestKType`: Λ = λ + ρ - 2ρ_c, the highest weight\
+        \ of the lowest K-type.\n* `New.HCParam.formalDegree`: for signs ε and l = 2λ, the reciprocal of the integral\
+        \ of |c_λ|² over\n  U(diag ε) for the compact dual measure.\n\n## Relation to the literature\n\nSee `Lib.DiscreteSeries.Character.FormalDegree`.\n"
+  Lib.DiscreteSeries.Character.OpenOrbitIntegral:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Character.OpenOrbitIntegral
+      name: New.Orbital.coeff_eq_zero_of_low_level
+      line: 574
+      signature: "lemma coeff_eq_zero_of_low_level (hg : l.HasGap h) {P Q : ℂ[n → ℤ]}\n    (hP : ∀ x : n → Circle,\
+        \ (signMatrix ε * diagTorus ε x).IsAccretive →\n      torusEval x P = torusEval x Q * offOrbitIntegral l\
+        \ (signMatrix ε * diagTorus ε x))\n    {o : n → ℤ} (ho : ∀ i j : n, l j < l i → o i < o j) (γ : n → ℤ)\n\
+        \    (hQ : ∀ β : n → ℤ, Q.coeff β ≠ 0 → o ⬝ᵥ γ < o ⬝ᵥ paramAddRho l + o ⬝ᵥ β + h) :\n    P.coeff γ = 0"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Character.OpenOrbitIntegral
+      importer: Lib.DiscreteSeries.Character.FormalDegree
+      line: 2
+    - module: Lib.DiscreteSeries.Character.FormalDegree
+      importer: New.Spanning.Bessel.FillingData
+      line: 1
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Character/OpenOrbitIntegral.lean
+      line: 6
+      endLine: 15
+      startOffset: 143
+      endOffset: 1087
+      text: 'This file begins the computation of the orbital integrals of the discrete series coefficient
+
+        `New.HCParam.dsCoeff l` of `G = U(diag ε)` over the compact torus. Here `l = 2λ` is the parameter,
+
+        and `ε` is implicit in its type. If `l` has a gap then, at a point `x` of the torus with
+
+        `diag ε * x` accretive (`A` accretive: `A + Aᴴ` positive definite), the orbital integral is, up to a
+
+        constant of modulus one, a multiple of Weyl''s character of `U(n)` of highest weight `λ - ρ`, minus
+
+        an error given by an integral over the unitary matrices outside the open orbit `G B`. Here `B` is
+
+        the group of invertible matrices that are upper triangular for `l`, that is, `b i j = 0` whenever
+
+        `l j < l i`; they are lower triangular when the coordinates are listed with `λ` decreasing. If `o`
+
+        reverses the order of `l`, the error is small at `diag(t ^ o i)` for small `t = 2⁻¹ ^ s`, so a
+
+        Laurent polynomial that is a multiple of it has no monomial of low level.'
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Character/OpenOrbitIntegral.lean
+      line: 15
+      endLine: 43
+      startOffset: 1087
+      endOffset: 2821
+      text: "\n\n## Main definitions and results\n\n* `New.le_norm_weightMinors_twoPowDiagConj`: for unitary `u`,\
+        \ if `f` decreases along `l` by steps of\n  at least `|m|` and `h ≤ |l i - l j|`, a lower bound for `New.weightMinors\
+        \ l` at `u* diag(2^f) u`\n  by its value at `diag(2^f)` and the entry `u i j`.\n* `New.Orbital.orbital_eq_char_sub_offOrbitIntegral`:\
+        \ the formula for the orbital integral described\n  above, with the error `New.Orbital.offOrbitIntegral`.\n\
+        * `New.Orbital.coeff_eq_zero_of_low_level`: if `l` has a gap and `o` reverses its order, a Laurent\n  polynomial\
+        \ that is a multiple of this error has no monomial of low level, by the bound\n  `New.Orbital.exists_norm_offOrbitIntegral_le`.\n\
+        \nNotions from other files:\n* `New.HCParam.HasGap`: `l = 2λ` has distinct entries of the parity of `card\
+        \ n - 1`, and those of\n  `λ` with different signs `ε` differ by at least `h`.\n* `New.paramAddRho`: The\
+        \ integer vector `λ + ρ`, for ρ the half sum of the roots positive for `l`.\n* `New.HCParam.dsCoeff`: The\
+        \ function c_λ on complex matrices given by Flensted-Jensen's integral\n  `New.HCParam.flenstedJensen`;\
+        \ on K = U(diag ε) ∩ U(n) it is m_Λ with Λ = λ + ρ − 2ρ_c.\n* `New.diagTorus`: For a tuple t of complex\
+        \ numbers of modulus one, the diagonal matrix diag(t) as\n  an element of U(diag ε); `New.diagTorusK x`\
+        \ is diag(x) as an element of `maxCompactU 1`, which is\n  U(n).\n* `New.Orbital.torusEval`: For a tuple\
+        \ x of unit complex numbers, the algebra homomorphism from\n  Laurent polynomials to ℂ sending the monomial\
+        \ of exponent ν to ∏ x_a^{ν_a}.\n\n## Relation to the literature\n\nThis is part of the known computation\
+        \ of the discrete series character on the compact Cartan\nsubgroup by orbital integrals, see `Lib.DiscreteSeries.Character.FormalDegree`.\n"
+  Lib.DiscreteSeries.Character.WeylCharacterFormula:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Character.WeylCharacterFormula
+      name: New.Variety.trace_weylRep
+      line: 960
+      signature: "lemma trace_weylRep [DecidableEq ι] (κ : ι → ℕ → ℕ) (e : ι → ℤ) {g : ι → GL (Fin a) ℂ}\n    {x\
+        \ : ι → Fin a ↪ ℂ} (hg : ∀ (v : ι) (i : Fin a), (g v).val.charpoly.IsRoot (x v i)) :\n    (weylRep κ e g).trace\
+        \ * ∏ v : ι, (vandermonde (x v)).det =\n      ∏ v : ι, (of fun i j : Fin a ↦\n        x v i ^ (e v + ↑(diagramWeight\
+        \ (rankAt fun _ : ι ↦ Fin a) κ (v, j.rev) + j))).det"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Character.WeylCharacterFormula
+      importer: Lib.DiscreteSeries.Character.MultiplicityOrbitalIntegral
+      line: 1
+    - module: Lib.DiscreteSeries.Character.MultiplicityOrbitalIntegral
+      importer: Lib.DiscreteSeries.Character.FormalDegree
+      line: 1
+    - module: Lib.DiscreteSeries.Character.FormalDegree
+      importer: New.Spanning.Bessel.FillingData
+      line: 1
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Character/WeylCharacterFormula.lean
+      line: 7
+      endLine: 15
+      text: "Let `ε : n → ℤˣ` be a family of signs and `K = New.maxCompactU ε` the group of unitary matrices in\n\
+        the unitary group of `New.signMatrix ε`. Its Weyl group consists of the permutations `w` with\n`ε ∘ w =\
+        \ ε`. Laurent polynomials are the elements of `ℂ[n → ℤ]`; they are evaluated on the diagonal\ntorus by `New.Orbital.torusEval`.\n\
+        \n## Main definitions and results\n\n* `New.HCParam.rootProd l r`: the product `∏ (x_a - x_b)` over the\
+        \ pairs with `r (ε a) (ε b)` and\n  `l b < l a`, where `r` is `Eq` for the compact roots and `Ne` for the\
+        \ noncompact roots.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Character/WeylCharacterFormula.lean
+      line: 16
+      endLine: 46
+      text: "  `New.Orbital.rootProd_mem_leadingMonomials` finds its top monomial, whose exponent\n  `New.HCParam.lowerCount\
+        \ l r a` counts such `b`.\n* `New.Orbital.alternant`, `New.Orbital.IsWeylAntisymm`: the alternants `∑ sgn(w)\
+        \ x ^ (μ ∘ w)` over\n  the Weyl group, and functions of the exponent that are antisymmetric.\n* `New.HCParam.kTypeChar`:\
+        \ the average over conjugation of the matrix coefficient\n  `New.weightMinors ν` (a product of principal\
+        \ minors), divided by `New.HCParam.kTypeNormSq ν`.\n* `New.Orbital.weyl_character_kTypeChar`, `New.Orbital.weyl_denominator`:\
+        \ Weyl's character and\n  denominator formulas for `K`. The first joins\n  `New.Orbital.exists_kTypeChar_diagTorusK_eq_torusEval`\
+        \ (the character is a Laurent polynomial) and\n  `New.Orbital.torusEval_rootProd_mul_kTypeChar_eq_alternant`\
+        \ (the formula).\n* `New.weyl_dimension_formula`: Weyl's dimension formula for `U(n)`.\n* `New.Variety.trace_weylRep`:\
+        \ Weyl's character formula at a tuple `g` of invertible matrices with\n  distinct eigenvalues, reduced to\
+        \ the diagonal case `New.weyl_character` by conjugation.\n\nNotions from other files:\n* `New.HCParam ε`:\
+        \ integer vectors `n → ℤ`, used as weights and as doubled parameters `l = 2λ`.\n* `New.HCParam.lowestKType`:\
+        \ the integer vector `Λ = λ + ρ - 2ρ_c` for a parameter `l = 2λ`, the\n  highest weight of the lowest `K`-type.\
+        \ With all signs `1` one has `ρ_c = ρ`.\n* `New.weylRep κ e`: the representation of `∏_τ GL(n_τ)` sending\
+        \ `g` to `∏_τ det(g_τ) ^ e_τ` times\n  the Schur matrix `New.schur κ g`.\n\n## Relation to the literature\n\
+        \nKnown result: Weyl character formula for U(n) and products of unitary groups. Here the formula for\n`K`\
+        \ is deduced from the one for Schur modules at diagonal matrices (`New.weyl_character`): by\nSchur's lemma,\
+        \ normalised means over conjugation of products of principal minors are traces of\ntwisted Schur modules.\
+        \ The dimension formula is obtained by a limit at 1, and the formula for\n`∏_τ GL_a(ℂ)` at elements with\
+        \ distinct eigenvalues by diagonalisation. Source: H. Weyl, The\nClassical Groups (1939), ch. VII; Fulton\
+        \ and Harris, Representation Theory (1991), Lectures 24-25.\n\nSee also `Lib.DiscreteSeries.Character.FormalDegree`.\n"
+  Lib.DiscreteSeries.CuspKernel:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.CuspKernel
+      name: New.DiscreteSeries.exists_conj_mem_dilationGroup
+      line: 333
+      signature: "theorem New.DiscreteSeries.exists_conj_mem_dilationGroup {n m : Type} [Fintype n] [DecidableEq\
+        \ n]\n    {J : Matrix n n ℂ} {A : Matrix n m ℂ} [hJ : IsHermitianInvolution J] (hA : Aᴴ * (J * A) = 0)\n\
+        \    (x : U J) {c : ℝ} (hc : 0 < c) :\n    ∃ y : U J,\n      dist (y : Matrix n n ℂ) 1 ≤ c ∧\n      (x *\
+        \ y * x⁻¹, Units.mk0 (1 + c : ℂ) (mod_cast (add_pos one_pos hc).ne')) ∈\n        dilationGroup A"
+    routeToMain:
+    - module: Lib.DiscreteSeries.CuspKernel
+      importer: Lib.Weil.DualPair.ThetaLiftConvergence
+      line: 2
+    - module: Lib.Weil.DualPair.ThetaLiftConvergence
+      importer: Lib.Weil.Periods.Unfolding
+      line: 1
+    - module: Lib.Weil.Periods.Unfolding
+      importer: New.UpperBound.Seesaw.UnfoldingStages
+      line: 1
+    - module: New.UpperBound.Seesaw.UnfoldingStages
+      importer: New.UpperBound.Seesaw.Cut
+      line: 3
+    - module: New.UpperBound.Seesaw.Cut
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 4
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/CuspKernel.lean
+      line: 7
+      endLine: 13
+      text: 'The file proves that, under hypotheses stated below, integration against an idempotent kernel kills
+
+        bounded continuous functions that are left invariant under a radical, namely the elements `r` with
+
+        `(r, 1) ∈ D` for a subgroup `D` of `G × ℂˣ`
+
+        (`New.DiscreteSeries.integral_idempotentKernel_mul_eq_zero`). It also proves that, for unitary
+
+        groups, dilations along an isotropic subspace meet every conjugate of a neighbourhood of `1`
+
+        (`New.DiscreteSeries.exists_conj_mem_dilationGroup`). The second result is used for the hypothesis
+
+        `hD_near` of the first.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/CuspKernel.lean
+      line: 14
+      endLine: 31
+      text: "\nThe imported notions used in the statements are:\n* `IsIdempotentKernel e`: `e` is continuous, integrable\
+        \ and self-adjoint, `e 1 ≠ 0`, and the\n  convolution `e * δ_x * e` is `(e x⁻¹ / e 1) • e`;\n* `U J`: the\
+        \ group of invertible matrices `g` with `gᴴ * J * g = J`;\n* `dilationGroup A`: the pairs `(g, c)` with\
+        \ `g ∈ U J` and `c` a unit, such that `g * A = c • A`\n  and `wᴴ * J * g * v = wᴴ * J * v` whenever the\
+        \ columns of `v` and `w` are `J`-orthogonal to\n  those of `A`.\n\n## Relation to the literature\n\nKnown\
+        \ result: coefficients of integrable discrete series are cusp forms. The vanishing of constant\nterms is\
+        \ proved for any continuous self-adjoint integrable minimal idempotent `e` with `‖e‖ * ℓ`\nintegrable, tested\
+        \ on bounded continuous functions invariant under the radical, under the\nhypotheses on `H`, `ℓ` and `D`\
+        \ stated below. Source: R. Godement, C. R. Acad. Sci. Paris 225\n(1947) 521-523, 657-659; N. Wallach, Real\
+        \ Reductive Groups I (1988), ch. 7; the closest to the proof\nhere are B. Barnes, Proc. Edinburgh Math.\
+        \ Soc. 23 (1980), and A. Valette, Math. Ann. 294 (1992)\n277-287.\n"
+  Lib.DiscreteSeries.FlenstedJensen.CasimirEigenfunction:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.FlenstedJensen.CasimirEigenfunction
+      name: New.casimir_dsCoeffSmooth
+      line: 802
+      signature: 'theorem casimir_dsCoeffSmooth [DecidableEq n] {l : HCParam (n'
+    routeToMain:
+    - module: Lib.DiscreteSeries.FlenstedJensen.CasimirEigenfunction
+      importer: New.Appendix.DiscreteSeries.OneMinor
+      line: 1
+    - module: New.Appendix.DiscreteSeries.OneMinor
+      importer: New.Appendix.DiscreteSeries.GaussianShape
+      line: 2
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      importer: New.Appendix.DiscreteSeries.Periods
+      line: 2
+    - module: New.Appendix.DiscreteSeries.Periods
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 1
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/CasimirEigenfunction.lean
+      line: 6
+      endLine: 11
+      text: 'This file studies the coefficient c_λ = `New.HCParam.dsCoeff l`, with `l = 2λ`, on the group
+
+        `U(diag ε)`, where `K = U(diag ε) ∩ U(n)`. It proves that c_λ is complex analytic, so defines a
+
+        smooth function `New.HCParam.dsCoeffSmooth` in `New.SmoothU`. For a parameter with a gap
+
+        (`New.HCParam.HasGap`, assumed in all results listed below), Flensted-Jensen''s integral over `K`,
+
+        which gives c_λ, does not depend on the admissible block diagonal factor, and c_λ is an
+
+        eigenfunction of the Casimir operator of `gl_n`.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/CasimirEigenfunction.lean
+      line: 12
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.flenstedJensen_eq_of_accretive`, `New.dsCoeff_eq_flenstedJensen`:\
+        \ any block diagonal `a` with\n  `a⁻¹ g` accretive (`Matrix.IsAccretive`: `z + zᴴ` positive definite) gives\
+        \ the same value. The\n  integrand is a density on the flag variety of `K_ℂ`; polarization makes the integral\
+        \ locally\n  constant, and the admissible `a` form a convex set.\n* `New.flenstedJensen_eq_integral_of_eq_mul_mul_conjTranspose`,\n\
+        \  `New.dsCoeff_eq_integral_of_eq_mul_mul_conjTranspose`: the value as an integral over `K` for any\n  splitting\
+        \ `g = p z qᴴ` with `p`, `q` block diagonal and `z` accretive.\n* `New.DiscreteSeries.splitCoeff_triangular_mul_mul_triangular`,\n\
+        \  `New.DiscreteSeries.flenstedJensen_triangular_mul_mul_triangular`: block diagonal triangular\n  factors,\
+        \ lower on the left and upper on the right, come out as characters.\n* `New.casimir_dsCoeffSmooth`: the\
+        \ function c_λ (`New.HCParam.dsCoeffSmooth`, l = 2λ) on U(diag ε)\n  is an eigenfunction of the Casimir\
+        \ operator Σ_{a,b} E_ab E_ba of gl_n, acting by right derivatives\n  (`New.rightDeriv`), with eigenvalue\
+        \ `New.HCParam.casimirValue` l = |λ|² − |ρ|². Near a point c_λ\n  is an average over k in K = `New.maxCompactU`\
+        \ of functions that are lowest weight vectors of\n  weight λ + ρ (highest vectors for the roots positive\
+        \ for −l) in the basis k E_ab k⁻¹ of gl_n, and\n  the Casimir operator does not depend on the basis.\n\n\
+        Notions from other files:\n* `New.USign`: For a vector of signs ε, the unitary group U(J) of the diagonal\
+        \ matrix J=diag(ε).\n* `New.SmoothU`: Smooth functions on `U(diag ε)`: the restrictions of the smooth functions\
+        \ on all\n  matrices.\n* `New.HCParam.HasGap`: the entries of `l = 2λ` are distinct, of the parity of `card\
+        \ n - 1`, and\n  those with different signs differ by at least `2h`.\n* `New.blockDiagAlg ε`: the matrices\
+        \ that commute with `diag ε`, the block diagonal matrices.\n\n## Relation to the literature\n\nKnown; see\
+        \ `Lib.DiscreteSeries.FlenstedJensen.PsiKTypes` for sources.\n"
+  Lib.DiscreteSeries.FlenstedJensen.Defs:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.FlenstedJensen.Defs
+      name: New.IsHolOfWeight
+      line: 408
+      signature: 'def IsHolOfWeight (F : (Φ → USign ε) → ℂ) (ε'' : n → ℤˣ'
+    routeToMain:
+    - module: Lib.DiscreteSeries.FlenstedJensen.Defs
+      importer: Lib.General.LinearAlgebra.MinorProducts
+      line: 1
+    - module: Lib.General.LinearAlgebra.MinorProducts
+      importer: Lib.General.LinearAlgebra.GramDeterminant
+      line: 1
+    - module: Lib.General.LinearAlgebra.GramDeterminant
+      importer: New.Reduction.Lattices.TwistedLattice
+      line: 1
+    - module: New.Reduction.Lattices.TwistedLattice
+      importer: New.Reduction.IntegralTargetForms
+      line: 2
+    - module: New.Reduction.IntegralTargetForms
+      importer: New.Determinant.Twist.LongForms
+      line: 4
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/Defs.lean
+      line: 6
+      endLine: 10
+      text: 'This file collects the definitions behind the discrete series of `G = New.USign ε`. A Harish-Chandra
+
+        parameter `λ` is stored as the integer vector `l = 2λ`, and the root `e_i - e_j` is positive when
+
+        `l j < l i`. The file proves elementary identities for `ρ`, `λ + ρ` and `Λ = λ + ρ - 2ρ_c`, and for
+
+        the gap condition. It then sets up Borel matrices, weights and holomorphic functions of weight `u`
+
+        for the holomorphic discrete series.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/Defs.lean
+      line: 11
+      endLine: 47
+      text: "\n## Main definitions and results\n\n* `New.HCParam.HasGap`, `New.HCParam.HasLargeGap`: `λ` is regular,\
+        \ each `λ i` lies in\n  `(n - 1) / 2 + ℤ`, and entries of `λ` with opposite signs `ε` are far apart, at\
+        \ least by the gap.\n* `New.paramAddRho`, `New.HCParam.lowestKType`, `New.HCParam.casimirValue`, `New.weylDimensionPoly`:\n\
+        \  `λ + ρ`, `λ + ρ - 2ρ_c`, `|λ|² - |ρ|²` and the product of the positive roots at `λ` divided by\n  `∏_{i\
+        \ < n} i!`.\n* `New.weightMinors`, `New.HCParam.flenstedJensen`, `New.HCParam.dsCoeff`: a product of principal\n\
+        \  minors (`New.principalMinor`), Flensted-Jensen's integral of such products over `K`, and the\n  function\
+        \ `c_λ` that it defines.\n* `New.HCParam.formalDegree`, `New.HCParam.dsKernel`: `deg_λ = (∫ |c_λ|²)⁻¹` for\
+        \ the measure\n  `New.haarU`, and `e_λ = deg_λ * conj c_λ`.\n* `New.IsPosFirstOrder`, `New.IsKDominant`,\
+        \ `New.HasHolGap`: the indices of sign `1` come first; a\n  weight does not increase within a block; a weight\
+        \ jumps up by at least `γ` from the first block to\n  the second.\n* `New.IsHolOfWeight`: a function on\
+        \ a product of copies of the group extends analytically to the\n  products `h * b`, `b` invertible triangular,\
+        \ transforming under `b` by the character of weight\n  `u`; an optional second sign vector restricts `h`\
+        \ and `b` to block diagonal matrices.\n\nNotions from other files:\n* `New.USign`: for a vector of signs\
+        \ `ε`, the unitary group `U(J)` of the diagonal matrix\n  `J = New.signMatrix ε` with entries `ε i`.\n*\
+        \ `New.principalMinor`: the determinant of the square submatrix on the indices with a given\n  property.\n\
+        * `New.haarU`: a measure on `U(J)` obtained from Lebesgue measure by a Cayley chart; a Haar measure\n  for\
+        \ a hermitian involution `J`.\n\n## Relation to the literature\n\nThe definitions are part of three known\
+        \ results, each treated in another file:\n* Flensted-Jensen's function as the coefficient of the lowest\
+        \ K-type of a discrete series, in\n  `Lib.DiscreteSeries.FlenstedJensen.PsiKTypes`;\n* the lowest K-type\
+        \ and the Casimir value determine a discrete series coefficient, in\n  `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`;\n\
+        * the highest coefficient of a holomorphic discrete series and its reproducing property, in\n  `Lib.DiscreteSeries.Holomorphic.HighestVectorExtension`.\n"
+  Lib.DiscreteSeries.FlenstedJensen.FlagDensities:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.FlenstedJensen.FlagDensities
+      name: New.integral_haarK_mul_left_of_density
+      line: 729
+      signature: "theorem integral_haarK_mul_left_of_density {l : n → ℤ} (hl : l.Injective) {F : Matrix n n ℂ →\
+        \ ℂ}\n    (hF_cont : ContinuousOn F {y : Matrix n n ℂ | y ∈ blockDiagAlg ε ∧ y.det ≠ 0})\n    (hF_borel\
+        \ : ∀ y ∈ blockDiagAlg ε, y.det ≠ 0 → ∀ b ∈ blockDiagAlg ε, IsBorelMatrix (-l) b →\n      F (y * b) = ‖diagChar\
+        \ (-twoRho l fun i j : n ↦ ε i = ε j) b‖ ^ 2 * F y)\n    {x : Matrix n n ℂ} (hx_mem : x ∈ blockDiagAlg ε)\
+        \ (hx_det : x.det ≠ 0) :\n    ∫ k : maxCompactU ε, F (x * k) ∂haarK ε = ∫ k : maxCompactU ε, F k ∂haarK\
+        \ ε"
+    routeToMain:
+    - module: Lib.DiscreteSeries.FlenstedJensen.FlagDensities
+      importer: Lib.DiscreteSeries.FlenstedJensen.CasimirEigenfunction
+      line: 1
+    - module: Lib.DiscreteSeries.FlenstedJensen.CasimirEigenfunction
+      importer: New.Appendix.DiscreteSeries.OneMinor
+      line: 1
+    - module: New.Appendix.DiscreteSeries.OneMinor
+      importer: New.Appendix.DiscreteSeries.GaussianShape
+      line: 2
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      importer: New.Appendix.DiscreteSeries.Periods
+      line: 2
+    - module: New.Appendix.DiscreteSeries.Periods
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 1
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/FlagDensities.lean
+      line: 6
+      endLine: 11
+      text: 'We study integrals over unitary groups `G = U(diag ε)` (`New.USign ε`) of functions that are
+
+        continuous on invertible matrices and transform under triangular matrices by the modulus character.
+
+        Here `New.IsBorelMatrix o b` says that `b` is invertible and upper triangular for the order `o`, `B`
+
+        denotes these triangular matrices, `New.diagChar (New.twoRho o _) b = ∏ i, b i i ^ (2ρ) i`, and `o`
+
+        is assumed injective. Integrals of such functions over `G` become integrals over an open part of
+
+        `U(n)`, and their integral over `U(n)` is invariant under left translation by invertible matrices.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/FlagDensities.lean
+      line: 12
+      endLine: 39
+      text: "As a consequence, a continuous function on the invertible block diagonal matrices `K_ℂ` that obeys\n\
+        the same rule block by block has an integral over `K` that is invariant under `K_ℂ`.\n\n## Main definitions\
+        \ and results\n\n* `New.openOrbit`: the set `G B` of products of an element of `G` and a triangular matrix.\n\
+        * `New.IsFlagDensity`: the transformation rule under triangular matrices.\n* `New.integral_mul_left_eq_setIntegral_openOrbit`:\
+        \ the integral over `G` of a translate\n  `F (x * g)` equals the integral over the part of `U(n)` in `x\
+        \ G B`.\n* `New.integral_unitary_mul_left_of_density`: the integral over `U(n)` of such a function is\n\
+        \  invariant under left translation by an invertible matrix.\n* `New.integral_haarK_mul_left_of_density`:\
+        \ the same for densities on `K_ℂ`, integrated over `K`.\n\nNotions from other files:\n* `New.USign ε`: the\
+        \ unitary group `U(J)` of the diagonal matrix of signs `J = New.signMatrix ε`.\n* `New.twoRho l r`: the\
+        \ sum of the roots selected by `r` that are positive for `l`; its `i`-th entry\n  is `#{j | r i j ∧ l j\
+        \ < l i} - #{j | r i j ∧ l i < l j}`.\n* `New.lowerLiePart ε 1 o 2⁻¹`: the projection `X ↦ N - J Nᴴ J` to\
+        \ the Lie algebra of `U(J)`, where\n  `N` is the part of `X` below the diagonal plus half its diagonal.\
+        \ `New.skewOfReal y` is the\n  skew-Hermitian matrix with real coordinates `y`; `New.skewCoords` reads them\
+        \ back (real plus\n  imaginary part over `√2` off the diagonal).\n* `New.maxCompactU ε`, `New.haarK ε`:\
+        \ the group `K` of the elements of `U(J)` that commute with `J`,\n  and its Haar measure of mass one.\n\n\
+        ## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Character.FormalDegree` and\n`Lib.DiscreteSeries.FlenstedJensen.PsiKTypes`\
+        \ for sources.\n"
+  Lib.DiscreteSeries.FlenstedJensen.PsiKTypes:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.FlenstedJensen.PsiKTypes
+      name: New.integral_conj_weightMinors_mul_dsCoeff_eq_zero
+      line: 488
+      signature: "theorem New.integral_conj_weightMinors_mul_dsCoeff_eq_zero (hg : l.HasGap h) (x b : USign ε)\n\
+        \    {ν : n → ℤ} (hν : IsKDominant ε (-l) ν) (h_cone : ν - l.lowestKType ∉ l.rootCone) :\n    ∫ k : maxCompactU\
+        \ ε, conj (weightMinors ν k) * l.dsCoeff ↑(x * k * b) ∂haarK ε = 0"
+    routeToMain:
+    - module: Lib.DiscreteSeries.FlenstedJensen.PsiKTypes
+      importer: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      line: 1
+    - module: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      importer: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      line: 1
+    - module: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      importer: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      importer: New.OneLift.ComparisonOperator.ProductsSpan
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/PsiKTypes.lean
+      line: 7
+      endLine: 12
+      text: 'We study the function c_λ = `New.HCParam.dsCoeff` on U(diag ε). Here l = 2λ is a parameter, usually
+
+        assumed to satisfy `New.HCParam.HasGap`; K = `New.maxCompactU` has its Haar measure `New.haarK` of
+
+        mass one. We write m_w = `New.weightMinors` w for the product of principal minors that is the
+
+        coefficient of a highest vector for dominant w, and Λ = `New.HCParam.lowestKType` for the lowest
+
+        K-type; λ + ρ = `New.paramAddRho` l, with ρ half the sum of the roots positive for l. The first
+
+        properties of c_λ are read off from Flensted-Jensen''s integral `New.HCParam.flenstedJensen` over K.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/PsiKTypes.lean
+      line: 13
+      endLine: 45
+      text: "Then we compute ∫_K conj(m_ν(k)) c_λ(xkb) dk for a weight ν that is K-dominant for the order −l: it\n\
+        is a constant times c_λ(x) c_λ(b) for ν = Λ, and 0 if ν − Λ is outside the cone\n`New.HCParam.rootCone`\
+        \ of positive roots.\n\n## Main definitions and results\n\n* `New.dsCoeff_one`, `New.dsCoeff_of_mem_blockDiagAlg`,\
+        \ `New.dsCoeff_of_mem_maxCompactU`:\n  c_λ(1) = 1, and c_λ = m_Λ on invertible block diagonal matrices,\
+        \ in particular on K.\n* `New.dsCoeff_polar`: the formula for c_λ(p z q⁻¹) with p, q in K and z positive\
+        \ definite.\n* `New.dsCoeff_inv`, `New.dsCoeff_neg`: inversion of g and λ ↦ −λ both conjugate c_λ(g).\n\
+        * `New.integral_conj_weightMinors_lowestKType_mul_dsCoeff`,\n  `New.integral_conj_weightMinors_mul_dsCoeff_eq_zero`:\
+        \ the projections of c_λ to its K-types.\n\nNotions from other files:\n* `New.USign`: for a vector of signs\
+        \ ε, the unitary group U(J) of the diagonal matrix J = diag(ε);\n  `New.maxCompactU ε` is its compact subgroup\
+        \ K = U(diag ε) ∩ U(n).\n* `New.HCParam.HasGap`: the entries of `l = 2λ` are distinct and congruent to #n\
+        \ − 1 mod 2, and\n  `|λ_i − λ_j| ≥ h` whenever `ε_i ≠ ε_j`.\n* `New.IsKDominant`: the weight w is K-dominant\
+        \ for the order o if w_j ≤ w_i whenever ε_i = ε_j and\n  o_i < o_j.\n* `New.HCParam.rootCone`: the integer\
+        \ vectors β with o · β ≤ 0 for every vector o that strictly\n  reverses the order of l: the polar cone of\
+        \ these vectors o.\n\n## Relation to the literature\n\nKnown result: Flensted-Jensen's function c_λ on U(p,q),\
+        \ classically the coefficient of the lowest\nK-type of a discrete series, its first properties and its projections\
+        \ to K-types.\n\nIt is treated for U(p,q) and parameters with a gap, with the integrand written by principal\
+        \ minors;\nexistence of the discrete series is not assumed. Source: M. Flensted-Jensen, Discrete series\
+        \ for\nsemisimple symmetric spaces, Ann. of Math. 111 (1980) 253-311; B. Sun, Matrix coefficients of\ncohomologically\
+        \ induced representations, Compositio Math. 143 (2007), Thm 1.1 (arXiv math/0403440);\nA. Knapp, Representation\
+        \ Theory of Semisimple Groups (1986), ch. IX.\n"
+  Lib.DiscreteSeries.FlenstedJensen.RightDerivatives:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      name: New.DiscreteSeries.rightDeriv_smear
+      line: 489
+      signature: "theorem rightDeriv_smear (F : USign ε → E) (hF : Continuous F) {α : Bumps ε} {f : SmoothU ε E}\n\
+        \    (hf : smear F hF α = f.val) (X : Matrix n n ℂ) :\n    smear F hF (bumpDeriv X α) = (rightDeriv ε E\
+        \ X f).val"
+    routeToMain:
+    - module: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 2
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/RightDerivatives.lean
+      line: 8
+      endLine: 16
+      text: "The file develops differential calculus on `U(p,q) = New.USign ε = U(diag ε)`. A smooth function on\n\
+        the group is by definition the restriction of a smooth function on the matrix space, so no manifold\nstructure\
+        \ is needed. Continuous functions are convolved with compactly supported smooth functions\n(bumps).\n\n\
+        ## Main definitions and results\n\n* `New.smoothMatrixFunctions`, `New.SmoothU`: smooth `E`-valued functions\
+        \ on matrices, and their\n  restrictions.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/RightDerivatives.lean
+      line: 17
+      endLine: 40
+      text: "* `New.rightDerivMatrix`, `New.rightDeriv`: `gl_n(ℂ)` acts on them by right derivatives. An element\n\
+        \  `Y` of the real Lie algebra `New.unitaryLie J` acts by `f ↦ (x ↦ df_x(x Y))`, and the action\n  extends\
+        \ `ℂ`-linearly through the splitting `X = Y₁ + i Y₂` of `New.eq_unitaryLiePart_add_I_smul`.\n* `New.DiscreteSeries.Bumps`,\
+        \ `New.DiscreteSeries.bumpDeriv`: the smooth compactly supported\n  functions, and the action on them of\
+        \ `gl n` by right derivatives.\n* `New.DiscreteSeries.smear`: for continuous `F`, the linear map `α ↦ (g\
+        \ ↦ ∫ y, α y⁻¹ • F (g * y))`.\n* `New.DiscreteSeries.hasDerivAt_smear`, `New.DiscreteSeries.rightDeriv_smear`:\
+        \ a right derivative\n  of the convolution falls on `α`.\n\nNotions from other files:\n* `New.USign`: for\
+        \ a vector of signs `ε`, the unitary group `U J` of the diagonal matrix\n  `J = diag ε`, which is `New.signMatrix\
+        \ ε`. For `g` in the group, `g.val.val` is its matrix.\n* `New.unitaryLie`: the Lie algebra of `U J`, the\
+        \ real vector space of complex matrices `X` with\n  `Xᴴ * J + J * X = 0`.\n* `New.expU`: for `X` in `New.unitaryLie\
+        \ J`, the matrix exponential of `X` as an element of `U J`.\n* `New.GlModule`: a `gl_n(ℂ)`-module structure\
+        \ on a complex vector space `M`, that is, a linear map\n  from `n × n` matrices to endomorphisms of `M`\
+        \ that respects commutators.\n\n## Relation to the literature\n\nThey are used for the function of Flensted-Jensen,\
+        \ the coefficient of the lowest K-type of a\ndiscrete series (see `Lib.DiscreteSeries.FlenstedJensen.PsiKTypes`),\
+        \ and for two known results:\nSchur orthogonality, and the fact that coefficients of integrable discrete\
+        \ series are cusp forms\n(see `Lib.DiscreteSeries.CuspKernel`).\n"
+  Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      name: New.HCParam.HasLargeGap.isUnitaryCasimirGe
+      line: 725
+      signature: 'theorem isUnitaryCasimirGe (hg : l.HasLargeGap A) : IsUnitaryCasimirGe l l.dsAction'
+    routeToMain:
+    - module: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      importer: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      line: 1
+    - module: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      importer: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      importer: New.OneLift.ComparisonOperator.ProductsSpan
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean
+      line: 7
+      endLine: 14
+      startOffset: 197
+      endOffset: 897
+      text: 'Let `G = New.USign ε` be the unitary group of `diag ε`, let `l = 2λ` be a parameter, and let
+
+        `c_λ = New.HCParam.dsCoeff l` be its discrete series matrix coefficient. Norms of matrices are
+
+        operator norms on Euclidean space, and `a_g = New.blockDiagPart ε g` is the block diagonal part of
+
+        `g`. When `l` has gap `h`, Fischer''s inequality gives `|c_λ(g)|² |det a_g|^h ≤ 1`, and the lower
+
+        bound `(‖g‖/2)² ≤ |det a_g|` turns this into polynomial decay of `c_λ`. The decay yields the
+
+        realisation of the module `U(𝔤)c_λ` in `L²(G)`. The file also gives explicit Lipschitz and tail
+
+        estimates for `l` with a big gap (`New.HCParam.HasLargeGap`) and entries bounded by `L`. Their
+
+        constants are polynomial in `L`.'
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean
+      line: 14
+      endLine: 48
+      startOffset: 897
+      endOffset: 2964
+      text: "\n\n## Main definitions and results\n\n* `New.DiscreteSeries.norm_dsCoeff_le_pow`: if `l` has gap `h`\
+        \ (`New.HCParam.HasGap`) and `n` is\n  nonempty, then |c_λ(g)| ≤ (2/‖g‖)^c for natural numbers c ≤ h.\n\
+        * `New.HCParam.DsModule`, `New.HCParam.dsAction`, `New.HCParam.dsGenerator`: the module, its\n  `gl n`-action\
+        \ by right derivatives, and its generator, which is `K`-highest by\n  `New.isKHighest_dsGenerator`.\n* `New.exists_smear_dsCoeffSmooth_eq`:\
+        \ every element of the module is an average\n  ∫ α(y⁻¹) c_λ(g y) dy against a bump function α (a smearing\
+        \ of c_λ). This gives the decay bound\n  `New.HCParam.HasLargeGap.exists_decay_bound`.\n* `New.dsCoeff_schur_orthogonality`:\
+        \ Schur's product formula with the formal degree\n  `New.HCParam.formalDegree`.\n* `New.HCParam.HasLargeGap.toL2`:\
+        \ the embedding in `L²(G)`. The action is the derivative of right\n  translation (`New.HCParam.HasLargeGap.isDerivedAction_toL2`),\
+        \ and each function is its own matrix\n  coefficient against the generator\n  (`New.HCParam.HasLargeGap.inner_toL2_dsGenerator_rightRegularL2`).\n\
+        * `New.HCParam.HasLargeGap.isUnitaryCasimirGe`: the induced inner product is invariant, and the\n  Casimir\
+        \ operator is at least `New.HCParam.casimirValue l`.\n\nNotions from other files:\n* `New.HCParam.IsKHighest`:\
+        \ a vector x of a gl_n-module is K-highest of weight ν if each E_aa acts\n  on it by ν_a and the compact\
+        \ raising operators kill it.\n* `New.HCParam.dsCoeff`: the function c_λ(g) = Ξ(a, a⁻¹g) of a complex matrix\
+        \ g, with a the block\n  diagonal part of g and Ξ the normalised integral `New.HCParam.flenstedJensen`.\n\
+        * `New.HCParam.HasGap`: the entries of `l = 2λ` are distinct and congruent to `n − 1` mod 2, and\n  `|λ_i\
+        \ − λ_j| ≥ h` whenever `ε_i ≠ ε_j`.\n* `New.HCParam.formalDegree`: for signs ε and l = 2λ, the reciprocal\
+        \ of the integral of |c_λ|² over\n  U(diag ε) for the Haar measure normalised by the compact dual.\n\n##\
+        \ Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`,\n\
+        `Lib.DiscreteSeries.FlenstedJensen.PsiKTypes` and `Lib.DiscreteSeries.CuspKernel` for sources.\n"
+  Lib.DiscreteSeries.Haar.CayleyChart:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Haar.CayleyChart
+      name: New.cayleyChart
+      line: 350
+      signature: 'def cayleyChart : U J'
+    routeToMain:
+    - module: Lib.DiscreteSeries.Haar.CayleyChart
+      importer: Lib.DiscreteSeries.Bessel.Basic
+      line: 2
+    - module: Lib.DiscreteSeries.Bessel.Basic
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 1
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Haar/CayleyChart.lean
+      line: 7
+      endLine: 15
+      text: "For a hermitian involution J, this file builds an explicit Haar measure on the unitary group\n`New.U\
+        \ J` through the Cayley chart and shows how it transforms. The Jacobians of the chart are\ncomputed from\
+        \ the logarithmic derivative `Φᴴ J dΦ`, with real coordinates on skew-hermitian\nmatrices.\n\n## Main definitions\
+        \ and results\n\n* `New.logDerivU`: the form `Φᴴ J dΦ` of a map `Φ` to `New.U J`; it is skew-hermitian\n\
+        \  (`New.conjTranspose_logDerivU`).\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Haar/CayleyChart.lean
+      line: 16
+      endLine: 35
+      text: "* `New.HasGaussianIntegral.measurePreserving`,\n  `New.HasGaussianIntegral.exists_measurePreserving_equiv`:\
+        \ a linear isomorphism that matches the\n  forms of two volumes normalised by `New.HasGaussianIntegral`\
+        \ preserves measure.\n* `New.cayleyChart`: the chart y ↦ 2 (1 - X)⁻¹ - 1, X = J⁻¹ (`New.skewOfReal` y) /\
+        \ 2, which is\n  (1 + X)(1 - X)⁻¹ where 1 - X is invertible; its density is `New.cayleyDensity`.\n* `New.haarU`,\
+        \ `New.lintegral_eq_cayleyChart`: the measure, and integrals against it in the chart.\n* `New.cayleyChart_jacobian`:\
+        \ the Jacobian of q ↦ a · cayleyChart J (y q) · b.\n* `New.measurePreserving_haarU`: maps g ↦ a g b of unitary\
+        \ groups, for suitable a and b, preserve\n  `New.haarU`. It follows that `New.haarU` is a Haar measure.\n\
+        \nNotions from other files:\n\n* `New.skewOfReal`, `New.skewCoords`: real coordinates on skew-hermitian\
+        \ matrices: the imaginary\n  parts of the diagonal entries, and orthonormal coordinates of one entry in\
+        \ each pair off it.\n* `New.HasGaussianIntegral a q`: the volume gives `exp (-t * q)` the integral `(π /\
+        \ t) ^ a` for\n  all `t > 0`.\n\n## Relation to the literature\n\nPart of a known result: the Haar measure\
+        \ of U(J) in Cayley coordinates.\n"
+  Lib.DiscreteSeries.Haar.GramCoordinates:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: explorer-draft
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
+    draft:
+    - sentence: "For a hermitian matrix, the Gram map takes the columns of a complex matrix to their matrix of pairings; the file uses Lebesgue measures on the input and on hermitian coordinates."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 4
+        endLine: 8
+    - sentence: "It defines maps joining groups of columns and establishes that joining preserves volume."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 10
+        endLine: 11
+    - sentence: "The file gives real coordinates for hermitian matrices and expresses the Gram map in them. For complex n × n matrices written as Z = S + T/2 with skew-hermitian S and hermitian T, the Lebesgue measure is 2⁻ⁿ times the product of the coordinate measures."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 12
+        endLine: 15
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 374
+        endLine: 379
+    - sentence: "The file also gives measure-preserving coordinates for splitting a hermitian matrix into blocks or separating a corner."
+      citations:
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 16
+        endLine: 17
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Haar.GramCoordinates
+      name: New.exists_measurePreserving_hermCorner
+      line: 433
+      signature: "theorem exists_measurePreserving_hermCorner [Fintype n] [Fintype n₁] [DecidableEq n]\n    [DecidableEq\
+        \ n₁] (e : n₁ ⊕ Unit ≃ n) :\n    ∃ φ : Matrix n n ℝ ≃ₜ Matrix n₁ n₁ ℝ × (n₁ → ℂ) × ℝ,\n      MeasurePreserving\
+        \ φ ∧\n      ∀ t : Matrix n n ℝ, φ t = (t.submatrix (e ∘ Sum.inl) (e ∘ Sum.inl),\n        fun a : n₁ ↦ hermOfReal\
+        \ t (e (.inl a)) (e (.inr ())), t (e (.inr ())) (e (.inr ())))"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Haar.GramCoordinates
+      importer: Lib.DiscreteSeries.Haar.GramPolar
+      line: 1
+    - module: Lib.DiscreteSeries.Haar.GramPolar
+      importer: Lib.DiscreteSeries.Haar.TotalMass
+      line: 2
+    - module: Lib.DiscreteSeries.Haar.TotalMass
+      importer: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      line: 1
+    - module: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 2
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Haar/GramCoordinates.lean
+      line: 6
+      endLine: 8
+      startOffset: 80
+      endOffset: 367
+      text: 'Let `J` be a hermitian matrix. The Gram map sends a tuple of vectors, the columns of a complex
+
+        matrix `Y`, to the hermitian matrix `T = Yᴴ J Y`. Tuples carry Lebesgue measure `dY`, and hermitian
+
+        matrices the product `dT` of the Lebesgue measures of the entries on and above the diagonal.'
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Haar/GramCoordinates.lean
+      line: 8
+      endLine: 23
+      startOffset: 367
+      endOffset: 1321
+      text: "\n\n* `New.joinCols`, `New.joinCol`: joining two groups of columns into one matrix; this preserves\n\
+        \  volume (`New.measurePreserving_joinCols`, `New.measurePreserving_joinCol`).\n* `New.hermOfReal`, `New.gramCoords`:\
+        \ real coordinates on hermitian matrices, and the Gram map in\n  these coordinates.\n* `New.lintegral_eq_skewOfReal_add_hermOfReal`:\
+        \ Lebesgue measure on matrices `Z = S + T / 2` of size\n  `n`, with `S` skew-hermitian and `T` hermitian,\
+        \ is `2 ^ (-n) dS dT`.\n* `New.exists_measurePreserving_hermBlocks`, `New.exists_measurePreserving_hermCorner`:\
+        \ cutting a\n  hermitian matrix into the corresponding blocks preserves volume.\n\nNotions from other files:\n\
+        * `New.skewOfReal`: the skew-hermitian matrix with given real coordinates, normalised so that\n  Lebesgue\
+        \ measure in the coordinates is that of the entries on and above the diagonal.\n* `New.skewCoords`: the\
+        \ real-linear left inverse of `New.skewOfReal`, inverse to it on\n  skew-hermitian matrices.\n"
+    reason: Only introduces the Gram map and measures; it states no result of the file.
+    standaloneReview:
+      verdict: needs-draft
+      reason: Only introduces the Gram map and measures; it states no result of the file.
+  Lib.DiscreteSeries.Haar.GramFibre:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Haar.GramFibre
+      name: New.LeGramFibre.insert
+      line: 352
+      signature: "theorem LeGramFibre.insert {p q : ι → Prop} [DecidablePred p] [DecidablePred q] {j : ι}\n    (hj\
+        \ : ¬p j) (hq : ∀ i : ι, q i ↔ p i ∨ i = j) {m m' : Measure (U J)} [SFinite m] [SFinite m']\n    (h_first\
+        \ : LeGramFibre J (inclMatrix ℂ (Subtype.val : Subtype p → ι)) m)\n    (h_next : LeFibreMeasure volume volume\n\
+        \      (fun y : ι → ℂ ↦ (fun i : Subtype p ↦ (J *ᵥ y) i, (star y ⬝ᵥ J *ᵥ y).re))\n      (fun i : Subtype\
+        \ p ↦ J i j, (J j j).re) (m'.map fun g : U J ↦ g.val.val *ᵥ Pi.single j 1))\n    (h_fix : ∀ᵐ g : U J ∂m',\
+        \ ∀ i k : ι, p k → g.val.val i k = (1 : Matrix ι ι ℂ) i k) :\n    LeGramFibre J (inclMatrix ℂ (Subtype.val\
+        \ : Subtype q → ι)) (m ∗ₘ m')"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Haar.GramFibre
+      importer: Lib.DiscreteSeries.Bessel.FrameFibre
+      line: 2
+    - module: Lib.DiscreteSeries.Bessel.FrameFibre
+      importer: New.Spanning.Frames.RealPlaceGauge
+      line: 2
+    - module: New.Spanning.Frames.RealPlaceGauge
+      importer: New.Spanning.Frames.RealShells
+      line: 2
+    - module: New.Spanning.Frames.RealShells
+      importer: New.Spanning.Frames.RealBandLimits
+      line: 2
+    - module: New.Spanning.Frames.RealBandLimits
+      importer: New.Spanning.Bessel.FillingData
+      line: 5
+    - module: New.Spanning.Bessel.FillingData
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 2
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Haar/GramFibre.lean
+      line: 7
+      endLine: 12
+      text: "Let `J` be a hermitian involution of size `r` and `G = U(J)`. The Gram map sends a tuple of vectors,\n\
+        the columns of a matrix `Y`, to the real coordinates (`New.gramCoords`) of the hermitian matrix\n`T = Yᴴ\
+        \ J Y`.\n\n* `New.LeGramFibre J E m`: the law of `g E` under the measure `m` on `G` is at most the fibre\n\
+        \  measure `dY / dT` on the tuples with the Gram matrix of `E`.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Haar/GramFibre.lean
+      line: 13
+      endLine: 33
+      text: "* `New.LeGramFibre.le_haar`, `New.leGramFibre_haar`: on the bases with Gram matrix `J`, which form\n\
+        \  the group `G`, the largest measure below the fibre measure is `vol U(r) / 2 ^ r` times the compact\n\
+        \  dual Haar measure `New.haarU J`, which is the `volume` of `U(J)`. Here `vol U(r)` is `New.volU r`.\n\
+        * `New.LeGramFibre.append`, `New.LeGramFibre.append_vector`, `New.LeGramFibre.insert`: lower bounds\n  for\
+        \ the fibre measure by choosing some vectors, moving them to a fixed position by an isometry,\n  and choosing\
+        \ the others.\n\nNotions from other files:\n* `New.LeFibreMeasure μ ν π b l`: the measure `l` is at most\
+        \ the fibre measure of `μ / ν` for the\n  map `π` over the point `b`.\n* `New.gramCoords J Y`: the real\
+        \ coordinates of the hermitian matrix `Yᴴ J Y`; `New.hermOfReal t` is\n  the hermitian matrix with coordinates\
+        \ `t`.\n* `New.IsGramSection J V σ`: a differentiable section `σ` of the Gram map on the open set `V` of\n\
+        \  coordinates, with invertible values.\n* `joinCols e (E₁, E₂)`, `joinCol e (E, v)`: the matrix with the\
+        \ columns of `E₁` and `E₂`, or of `E`\n  and `v`, in the places given by `e`; `inclMatrix ℂ u` has the columns\
+        \ `e_{u k}`.\n\n## Relation to the literature\n\nKnown result: the invariant measure `dY / dT` on tuples\
+        \ of vectors with a given Gram matrix. Source:\nC. L. Siegel, Über die analytische Theorie der quadratischen\
+        \ Formen, Ann. of Math. 36 (1935).\n"
+  Lib.DiscreteSeries.Haar.GramPolar:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Haar.GramPolar
+      name: New.IsGramSection.lintegral_eq
+      line: 400
+      signature: "theorem lintegral_eq (hσ : IsGramSection J V σ) {K : Matrix ι ι ℂ → ℝ≥0∞} (hK : Measurable K)\
+        \ :\n    ∫⁻ Y : Matrix ι ι ℂ in gramCoords J ⁻¹' V, K Y =\n      ENNReal.ofReal (volU (card ι) / 2 ^ card\
+        \ ι) *\n        ∫⁻ t : Matrix ι ι ℝ in V, ∫⁻ g : U J, K ((g : Matrix ι ι ℂ) * σ t)"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Haar.GramPolar
+      importer: Lib.DiscreteSeries.Haar.TotalMass
+      line: 2
+    - module: Lib.DiscreteSeries.Haar.TotalMass
+      importer: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      line: 1
+    - module: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 2
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Haar/GramPolar.lean
+      line: 6
+      endLine: 13
+      text: "Let `J` be a hermitian involution of size `r` and `G = U(J)`, with the compact dual Haar measure\n\
+        `dγ` (`New.haarU`). A basis `Y` whose Gram matrix `T = Yᴴ J Y` is near `J` is `γ σ(T)`, with `γ` in\n`G`\
+        \ and `σ` a local section of the Gram map (`New.exists_isGramSection`).\n\n* `New.IsGramSection.lintegral_eq`:\
+        \ the polar formula `dY = (vol U(r) / 2 ^ r) dγ dT`, where\n  `vol U(r)` is `New.volU r`. The Jacobian is\
+        \ computed on tangent vectors: `Yᴴ J dY` has hermitian\n  part `dT / 2`, and for fixed `T` it is `σᴴ (J\
+        \ γ⁻¹ dγ) σ`, which is skew-hermitian. The constant\n  does not depend on the signature of `J`.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Haar/GramPolar.lean
+      line: 14
+      endLine: 31
+      text: "\nNotions from other files:\n* `IsHermitianInvolution J`: the complex matrix `J` is hermitian and `J\
+        \ * J = 1`;\n* `U J`: the group of `g` with `gᴴ * J * g = J`, where `volume` is the Haar measure `New.haarU\
+        \ J`,\n  normalized so that it has mass `1` for `J = 1`;\n* `gramCoords J Y`: the real coordinates of the\
+        \ hermitian matrix `Yᴴ * J * Y`;\n* `cayleyChart J`: the Cayley parametrization of almost all of `U J` by\
+        \ real matrices `y` with\n  `(cayleyDenom J y).det ≠ 0`; the density of the Haar measure there is `cayleyDensity\
+        \ J y` divided\n  by `volU r`;\n* `logDerivU (cayleyChart J) y`: the linear map `v ↦ γᴴ J dγ(v)`, with `γ\
+        \ = cayleyChart J y`;\n* `skewAddHerm`: the linear equivalence from pairs of real matrices to complex matrices;\
+        \ its inverse\n  sends `X` to the coordinates of the hermitian matrix `X + Xᴴ` and of the skew-hermitian\
+        \ matrix\n  `(X - Xᴴ) / 2`.\n\n## Relation to the literature\n\nKnown result: the invariant measure `dY\
+        \ / dT` on tuples of vectors with a given Gram matrix. Source:\nC. L. Siegel, Über die analytische Theorie\
+        \ der quadratischen Formen, Ann. of Math. 36 (1935).\n"
+  Lib.DiscreteSeries.Haar.TotalMass:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Haar.TotalMass
+      name: New.DiscreteSeries.lintegral_decay_le
+      line: 466
+      signature: "theorem lintegral_decay_le (ν : Measure S) [MeasurableMul S] [ν.IsMulRightInvariant]\n    {j :\
+        \ S →* U J} [TopologicalSpace S] [IsFiniteMeasureOnCompacts ν] [BorelSpace S] [Nonempty n]\n    (hj : IsProperMap\
+        \ j) {c : ℕ} (hc : 8 * card n ^ 2 < c) (y : U J) :\n    ∫⁻ s : S, ENNReal.ofReal ((2 / ‖((j s * y : U J)\
+        \ : Matrix n n ℂ)‖) ^ c) ∂ν ≤\n      ENNReal.ofReal (16 ^ c) * ν {s : S | ‖(j s : Matrix n n ℂ) - 1‖ ≤ 1}"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Haar.TotalMass
+      importer: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      line: 1
+    - module: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 2
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Haar/TotalMass.lean
+      line: 8
+      endLine: 14
+      text: 'The measure `volume` on `U J` is the compact dual measure `New.haarU J`, normalised by
+
+        `New.volU n = ∏ i < n, 2 π ^ (i + 1) / i!`, the product of the areas of the unit spheres of
+
+        `ℂ, …, ℂ ^ n`. The first part shows that U(n) has mass one, by computing the image of Lebesgue
+
+        measure under the Gram map in two ways. For the second part let `J` be a hermitian involution of
+
+        size `n`, `j : S →* U J` a proper homomorphism, and `ν` a right invariant measure on `S` that is
+
+        finite on compact sets. Then norm balls are compared by a covering argument, with operator norms
+
+        throughout.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Haar/TotalMass.lean
+      line: 15
+      endLine: 45
+      text: "\n## Main definitions and results\n\n* `New.exists_hasGramDensity`: near the identity, the image of\
+        \ Lebesgue measure under the\n  Gram map `Y ↦ Yᴴ Y` of square matrices is `volU n / 2 ^ n` times Lebesgue\
+        \ measure. One column\n  ranges over a sphere, and the parts of the other columns orthogonal to it form\
+        \ a square matrix of\n  size `n - 1`.\n* `New.isProbabilityMeasure_haarU`: for `J = 1` the measure has mass\
+        \ one, by comparison with the\n  polar formula `New.IsGramSection.lintegral_eq`. The same holds for the\
+        \ sign matrix with all signs\n  equal to 1.\n* `New.DiscreteSeries.measure_ball_le_covering`: for `D, R\
+        \ ≥ 1` the set `‖j s * y‖ ≤ R` has at most\n  `(3 D R²) ^ (2 n²)` times the measure of the ball `‖j s -\
+        \ 1‖ ≤ 1 / D`.\n* `New.DiscreteSeries.integral_decay_le`, `New.DiscreteSeries.lintegral_decay_le`: for `n\
+        \ ≥ 1` and a\n  natural number `c > 8 n²` the function `(2 / ‖j s * y‖) ^ c` is integrable, with integral\
+        \ at most\n  `16 ^ c` times the measure of `‖j s - 1‖ ≤ 1`.\n\nNotions from other files:\n* `New.gramCoords\
+        \ J Y`: the real coordinates `skewCoords (I • (Yᴴ J Y))` of the hermitian matrix\n  `Yᴴ J Y`: with `x =\
+        \ I • (Yᴴ J Y)` they are `(x a b).re + (x a b).im`, divided by `√2` for `a ≠ b`.\n* `New.U J`: the group\
+        \ of matrices `g` with `gᴴ J g = J`; thus `U 1` is the unitary group.\n* `New.sphereDensity k r`: the number\
+        \ `2 π ^ k r ^ (k - 1) / (k - 1)!`.\n\n## Relation to the literature\n\nKnown result: volume of U(n), polynomial\
+        \ volume growth of U(J).\nHere J is any hermitian matrix with J² = 1, and the measure is normalised so that\
+        \ U(n) has mass one.\nThe covering bound for norm balls holds for any group with a right invariant measure\
+        \ and a\nhomomorphism to U(J), with an explicit crude constant. Source: L. K. Hua, Harmonic Analysis of\n\
+        Functions of Several Complex Variables in the Classical Domains (1963), ch. III; I. G. Macdonald,\nThe volume\
+        \ of a compact Lie group, Invent. Math. 56 (1980); B. Gross, On the motive of a reductive\ngroup, Invent.\
+        \ Math. 130 (1997).\n"
+  Lib.DiscreteSeries.Holomorphic.HighestVectorExtension:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Holomorphic.HighestVectorExtension
+      name: New.IsHolOfWeight.integral_mul_conj_weightMinors
+      line: 748
+      signature: "theorem IsHolOfWeight.integral_mul_conj_weightMinors {F : (Unit → USign ε) → ℂ} (ho : o.Injective)\n\
+        \    {w : HCParam ε} (hw : IsKDominant ε o w) (hF : IsHolOfWeight ε o (fun _ : Unit ↦ w) F ε)\n    (F_cont\
+        \ : Continuous F) :\n    ∫ k : maxCompactU ε, F (fun _ : Unit ↦ k) * conj (weightMinors w k) ∂haarK ε =\n\
+        \      w.kTypeNormSq * F 1"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Holomorphic.HighestVectorExtension
+      importer: Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration
+      line: 1
+    - module: Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration
+      importer: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      line: 2
+    - module: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      importer: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      line: 1
+    - module: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      importer: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      importer: New.OneLift.ComparisonOperator.ProductsSpan
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/HighestVectorExtension.lean
+      line: 7
+      endLine: 9
+      startOffset: 194
+      endOffset: 483
+      text: 'The group is `New.USign ε = U(diag ε)` with compact subgroup `New.maxCompactU ε = U(diag ε) ∩ U(n)`.
+
+        Every element of the compact subgroup is an exponential, and every element of the group is a product
+
+        of two exponentials, so each element is joined to `1` by an analytic path in the group.'
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/HighestVectorExtension.lean
+      line: 9
+      endLine: 49
+      startOffset: 483
+      endOffset: 3182
+      text: " A function\n`F` on a product of copies of this group is holomorphic of weight `u` for the order `o`\n\
+        (`New.IsHolOfWeight ε o u F ε'`) if it extends analytically to products `h * b` of tuples by\n`F' (h * b)\
+        \ = (∏ τ, diagChar (u τ) (b τ)) * F h`. Here each `b τ` is triangular for `o`, and `h τ`,\n`b τ` are block\
+        \ diagonal for `ε'` (no condition for `ε' = 1`). For injective `o`, products of\nprincipal minors `New.weightMinors`\
+        \ of dominant weights (`weightMinors l g` is the product over\nintegers `t` of the principal minor of `g`\
+        \ on `{i | t ≤ l i}`, divided by `det g` when `t ≤ 0`) and\ncoefficients of highest vectors are such functions.\
+        \ For dominant weights the file computes their\nweighted means over circles and, for a single copy of the\
+        \ group, their integrals against\n`conj (weightMinors w)` over `New.maxCompactU ε`.\n\n## Main definitions\
+        \ and results\n\n* `New.exists_expU_eq_maxCompactU`: an element of the compact subgroup\n  `New.maxCompactU\
+        \ ε = U(diag ε) ∩ U(n)` is the exponential of a block diagonal element of the Lie\n  algebra (take the logarithm\
+        \ by the functional calculus).\n* `New.exists_eq_expU_mul_expU`: every element of the group is a product\
+        \ of two exponentials, by the\n  polar decomposition `New.exists_polar`.\n* `New.isHolOfWeight_weightMinors`,\
+        \ `New.HCParam.IsKHighest.isHolOfWeight_coeffMap`: products of\n  principal minors `New.weightMinors` and\
+        \ coefficients of highest vectors are holomorphic of a\n  weight (`New.IsHolOfWeight`).\n* `New.IsHolOfWeight.integral_mul_conj_weightMinors`:\
+        \ the integral of `F` against\n  `conj (weightMinors w)` over the compact group `New.maxCompactU ε`.\n\n\
+        Notions from other files:\n* `New.unitaryLie J`, `New.expU`: the Lie algebra of U(J), made of the matrices\
+        \ `X` with\n  `Xᴴ J + J X = 0`, and its exponential map to U(J).\n* `New.blockDiagAlg ε`: the matrices that\
+        \ commute with `diag ε` (`New.signMatrix ε`), that is the\n  block diagonal matrices for the signs `ε`.\n\
+        * `New.IsBorelMatrix o b`: `b` is invertible and `b i j = 0` whenever `o j < o i`.\n* `New.diagChar w b`:\
+        \ the product `∏ i, b i i ^ w i` of powers of the diagonal entries.\n* `New.IsKDominant ε o w`: `w j ≤ w\
+        \ i` whenever `ε i = ε j` and `o i < o j`.\n\n## Relation to the literature\n\nKnown result: the coefficient\
+        \ of the highest vector of a holomorphic discrete series representation\nand its reproducing property. Here\
+        \ the setting is powers of U(p,q), using functions on the group\nthat extend holomorphically to the group\
+        \ times a Borel subgroup instead of the bounded domain.\nSource: Harish-Chandra, Representations of semisimple\
+        \ Lie groups IV-VI, Amer. J. Math. 77 (1955), 78\n(1956); A. Knapp (1986); A. Koranyi, A simplified approach\
+        \ to the holomorphic discrete series, arXiv\n2312.16350.\n"
+  Lib.DiscreteSeries.Holomorphic.MaximalCompactMinors:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Holomorphic.MaximalCompactMinors
+      name: New.IsKDominant.weightMinors_oppBorel_mul
+      line: 296
+      signature: "lemma IsKDominant.weightMinors_oppBorel_mul (ho : o.Injective) (hw : IsKDominant ε o w)\n    {x\
+        \ b : Matrix n n ℂ} (hx : x.det ≠ 0) (hb : b ∈ blockDiagAlg ε)\n    (hb_borel : IsBorelMatrix (-o) b) :\n\
+        \    weightMinors w (b * x) = diagChar w b * weightMinors w x"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Holomorphic.MaximalCompactMinors
+      importer: Lib.Weil.MixedModel.ZeroTerm
+      line: 1
+    - module: Lib.Weil.MixedModel.ZeroTerm
+      importer: Lib.Weil.MixedModel.ThetaInvariance
+      line: 1
+    - module: Lib.Weil.MixedModel.ThetaInvariance
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 2
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/MaximalCompactMinors.lean
+      line: 7
+      endLine: 14
+      text: "For signs `ε`, let `J = New.signMatrix ε`. `New.USign ε` is the unitary group of `J`,\n`New.maxCompactU\
+        \ ε` is its subgroup of unitary matrices, `New.blockDiagAlg ε` is the algebra of\nmatrices that commute\
+        \ with `J`, and `New.blockDiagPart ε x` is the block diagonal part of `x`.\n\n## Main definitions and results\n\
+        \n* `New.mem_blockDiagAlg`, `New.blockDiagPart_eq`: `New.blockDiagAlg ε` consists of the block\n  diagonal\
+        \ matrices, and `New.blockDiagPart ε x` is `(x + J * x * J) / 2`.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/MaximalCompactMinors.lean
+      line: 15
+      endLine: 31
+      text: "* `New.mem_maxCompactU`: an element of the group is unitary exactly when it is block diagonal.\n* `New.fderiv_eq_on_blockDiagAlg`:\
+        \ a complex derivative at `1` is determined on `New.blockDiagAlg ε`\n  by the derivatives along one-parameter\
+        \ subgroups of `New.maxCompactU ε`.\n* `New.IsKDominant.weightMinors_mul_borel`, `New.IsKDominant.weightMinors_oppBorel_mul`:\
+        \ let `o` be\n  an injective order, `w` dominant within each block of `ε` (`New.IsKDominant`), `x` invertible\
+        \ and\n  `b` invertible and block diagonal (`New.blockDiagAlg ε`). Multiplying `x` on the right by an upper\n\
+        \  triangular `b`, or on the left by a lower triangular `b`, multiplies `weightMinors w x` by\n  `diagChar\
+        \ w b`.\n\nNotions from other files:\n* `New.weightMinors w g`: the coefficient of a highest vector of weight\
+        \ `w`, that is the product\n  over all integers `t` of the principal minor of `g` on `{i | t ≤ w i}`, each\
+        \ factor with `t ≤ 0`\n  divided by `det g`.\n\n## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Holomorphic.HighestVectorExtension`\
+        \ for sources.\n"
+  Lib.DiscreteSeries.Holomorphic.ModelFunction:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      name: New.dsCoeff_eq_holMinors
+      line: 643
+      signature: "theorem dsCoeff_eq_holMinors {n : Type} [Fintype n] [DecidableEq n] {ε : n → ℤˣ} {o : n → ℤ}\n\
+        \    (ho : IsPosFirstOrder ε o) [Nonempty n] (A γ : ℕ) (w : n → ℤ) (hw_dom : IsKDominant ε o w)\n    (hw_gap\
+        \ : HasHolGap ε w γ) (hγ : 500 * Fintype.card n ^ 3 + A + Fintype.card n + 1 < γ) :\n    let l : HCParam\
+        \ ε"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      importer: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      importer: New.OneLift.ComparisonOperator.ProductsSpan
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/ModelFunction.lean
+      line: 6
+      endLine: 8
+      startOffset: 160
+      endOffset: 446
+      text: 'For signs `ε` on the indices and weights `u τ`, the model function `New.holMinorsPi ε u` is a
+
+        product over τ of quotients of products of principal minors `New.weightMinors` with weights
+
+        `u τ + c τ` and `c τ`. Here `c τ` is a large constant on the indices of sign `1` and zero elsewhere.'
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/ModelFunction.lean
+      line: 8
+      endLine: 43
+      startOffset: 446
+      endOffset: 2844
+      text: "\nIn the main results the order `o` puts the signs `1` first and each weight `u τ` is K-dominant for\n\
+        it. With the indices numbered `1, …, n` along `o` and `u τ (n + 1) = 0`, each quotient is then the\nproduct\
+        \ of the leading minors of size `i` to the powers `u τ i - u τ (i + 1)`, and the model\nfunction is holomorphic\
+        \ of weight `u` (`New.IsHolOfWeight`). Let `w` be a K-dominant weight that\njumps up by at least `γ > 500\
+        \ n³ + A + n + 1` from the first block to the second, where `n` stands\nfor the number of indices and `A`\
+        \ is a given natural number. Then the discrete series coefficient of\nthe parameter `2 w + 2 ρ` (`New.twoRho`)\
+        \ is the model function `New.holMinors ε w`.\n\n## Main definitions and results\n\n* `New.isHolOfWeight_holMinorsPi`:\
+        \ `New.holMinorsPi ε u` is holomorphic of weight `u`.\n* `New.IsHolOfWeight.circle_mean_holMinorsPi`: for\
+        \ `F` holomorphic of weight `u`, the mean over\n  `|s| = 1` of `F (diag (s ^ o) * h)` divided by the character\
+        \ of weight `u` is\n  `New.holMinorsPi ε u h * F 1`.\n* `New.IsHolOfWeight.integral_mul_conj_holMinorsPi`:\
+        \ the reproducing formula\n  `∫ F * conj m = (∫ |m|²) * F 1` for `m = New.holMinorsPi ε u`, if `F * conj\
+        \ m` is integrable.\n* `New.IsHolOfWeight.eq_holMinorsPi_mul`: if `F g⁻¹ = conj (F g)`, then `F` is `F 1`\
+        \ times the model\n  function.\n* `New.dsCoeff_eq_holMinors`: for `w` as above, the parameter `2 w + 2 ρ`\
+        \ has gap `500 n³ + A`, and\n  its coefficient `New.HCParam.dsCoeff` equals `New.holMinors ε w` on the unitary\
+        \ group. For the\n  proof write a `g` near `1` as `x' * a * x` with `a` block diagonal and `x' - 1`, `x\
+        \ - 1` in the\n  corner blocks; neither side sees `x'` and `x`, both agree at `a`, and both are analytic.\n\
+        \nNotions from other files:\n* `New.USign`: For a vector of signs ε, the unitary group U(J) of the diagonal\
+        \ matrix J = diag(ε).\n* `New.IsHolOfWeight`: The function F on U(diag ε)^Φ extends analytically to products\
+        \ h b with b\n  invertible and triangular for the order o, and the extension is the character of weight\
+        \ u at b\n  times F(h). Optional signs ε' restrict h and b to block diagonal matrices; the default ε' =\
+        \ 1 is\n  no restriction.\n* `New.IsPosFirstOrder`, `New.IsKDominant`: The order o has distinct values and\
+        \ puts the signs +1\n  first; the weight w satisfies w_j ≤ w_i whenever ε_i = ε_j and o_i < o_j.\n\n## Relation\
+        \ to the literature\n\nKnown; see `Lib.DiscreteSeries.Holomorphic.HighestVectorExtension` for sources.\n"
+  Lib.DiscreteSeries.Holomorphic.PeaksAwayFromCusp:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Holomorphic.PeaksAwayFromCusp
+      name: New.Rows.IsPeak.le_firstMinimum
+      line: 556
+      signature: "theorem New.Rows.IsPeak.le_firstMinimum {E n : Type} [Field E] [CMType E] [Fintype n]\n    [DecidableEq\
+        \ n] [Nonempty n] {s : n → ℤˣ} {V : Space E n s} {o : n → ℤ}\n    {u : InfinitePlace E → n → ℤ} {F : G E\
+        \ s → ℂ} {g : G E s} (hg : IsPeak F g) (A A' : ℝ)\n    {p : \U0001D4DE E} (ho : IsPosFirstOrder s o)\n \
+        \   (h_gap : ∀ w : InfinitePlace E, HasHolGap s (u w) 1)\n    (h_wt : ∀ (w : InfinitePlace E) (i : n), |(u\
+        \ w i : ℝ)| ≤ A) (hA : 2 ≤ A) (hA' : 1 ≤ A')\n    (hp : star p = -p) (hp_im : ∀ w : InfinitePlace E, (Φ\
+        \ w p.val).im ∈ Set.Ioc 0 A')\n    (h_rat : ∀ γ ∈ V.Γ, ∀ x : G E s, F (γ * x) = F x)\n    (h_level : ∀ k\
+        \ ∈ principalLevel n p, ∀ x : G E s, F (x * (1, k)) = F x)\n    (h_hol : IsAdelicHol o u F) : (√(A * A'))⁻¹\
+        \ ≤ (V.move g).firstMinimum"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Holomorphic.PeaksAwayFromCusp
+      importer: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      importer: New.OneLift.ComparisonOperator.ProductsSpan
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean
+      line: 6
+      endLine: 11
+      text: "`(V.move g).firstMinimum` is the length of a shortest vector of the lattice at g, cut off at 1. It\n\
+        is small deep in a cusp.\n\n* `New.Rows.IsPeak`: a peak of a bounded function F is a point where |F| exceeds\
+        \ half of its\n  supremum. At a peak x, |F| is at most 2|F(x)| everywhere and F(x) ≠ 0. A point where |F|\
+        \ is at\n  least |F(x)| is again a peak.\n"
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean
+      line: 12
+      endLine: 50
+      text: "* `New.Rows.exists_isPeak`: a bounded nonzero function has a peak.\n* `New.Rows.IsPeak.le_firstMinimum`:\
+        \ let the order put the signs +1 first, and let F be a bounded\n  form, holomorphic of a weight with gap\
+        \ 1 and entries in [-A, A] where A ≥ 2, and of a level\n  p = -p̄ with im (Φ w p) in (0, A'] where A' ≥\
+        \ 1. At every peak g of F the first minimum is at\n  least (A A')^(-1/2).\n\nA short lattice vector v is\
+        \ isotropic, and the transvection 1 - p v v^* J fixes F(g ·). Completing\nsquares writes the points n(z)\
+        \ = 1 - p z v v^* J of its one-parameter group, for im z > -1, as h b\nwith h real and b triangular (`New.Rows.exists_unitary_mul_triangular_of_pos`).\
+        \ The factor b^u is\nbounded and tends to 0 as im z → ∞ (`New.Rows.exists_unitary_mul_triangular`). So z\
+        \ ↦ F(g n(z))\nextends to a bounded holomorphic function of period 1 on im z > -1 that vanishes at i∞, and\
+        \ the\nSchwarz lemma makes F(g) too small for a peak (`New.Rows.norm_le_of_transvection_invariant`). The\n\
+        parameter is shifted by i, so that the half plane im z > -1 becomes the upper half plane and z = 0\nbecomes\
+        \ i.\n\nNotions from other files:\n* `New.IsPosFirstOrder`: The order o has distinct values and puts every\
+        \ index of sign +1 before\n  every index of sign −1.\n* `New.Rows.IsAdelicHol`: For every adelic g, some\
+        \ φ is analytic at all products h b (h preserving\n  diag(s), b invertible and triangular for o, at each\
+        \ infinite place) and φ(h b) = b^u F(g·(h,1))\n  (`New.IsHolOfWeight`).\n* `New.HasHolGap`: The condition\
+        \ on signs ε, integer vector w and natural number γ that\n  w_i + γ ≤ w_j whenever ε_i = +1 and ε_j = −1.\n\
+        * `New.Space`: A hermitian space with a point: a matrix J over E and x in GL_n(\U0001D538) with xᴴJx equal\
+        \ to\n  diag(s) at the infinite places and 1 at the finite places. `V.vecAtPoint y` is the adelic vector\n\
+        \  x⁻¹y, and `V.move g` is the space (J, xg).\n* `New.Rows.rapidOfLevel`: The functions F that are continuous,\
+        \ left invariant under the rational\n  points of V and right invariant under the principal level K(a), and\
+        \ that decay rapidly (members of\n  `V.rapidFunctions`).\n\n## Relation to the literature\n\nKnown result:\
+        \ Siegel's argument that a cusp form is large only away from the cusps. Here it is\nproved for unitary groups\
+        \ over a CM field, for scalar functions of vector-valued weight and for\nbounded forms, with half the supremum\
+        \ in place of an attained maximum. The distance from the cusp is\nmeasured by the first minimum of the lattice,\
+        \ bounded below explicitly in weight and level. Source:\nC. Poor, D. Yuen, Linear dependence among Siegel\
+        \ modular forms, Math. Ann. 318 (2000) 205-234, Thm\n1.3; M. Eichler, Math. Ann. 213 (1975) 281-291; for\
+        \ the factorisation, Gill, Golub, Murray,\nSaunders, Math. Comp. 28 (1974) 505-535.\n"
+  Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration
+      name: New.HCParam.IsKHighest.coeffMap_eq_zero
+      line: 807
+      signature: "theorem HCParam.IsKHighest.coeffMap_eq_zero [InnerProductSpace ℂ H] {ρ : GlModule n H} {ν : n\
+        \ → ℤ}\n    {x : H} {D : ℝ} {gap : ℕ} [l.HasGap gap] (hx : l.IsKHighest ρ ν x)\n    (h_inv : IsUnitaryCasimirGe\
+        \ l ρ)\n    {c : USign ε → H →ₗ[ℂ] ℂ} (h_coef : ρ.IsCoeffMap c)\n    (h_bdd : ∀ (g : USign ε) (v : H), ‖c\
+        \ g v‖ ≤ D * ‖v‖)\n    (h_one : ∀ s : ℕ, ∀ v ∈ ρ.filtration ε x s, c 1 v = 0) (g : USign ε) :\n    c g x\
+        \ = 0"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration
+      importer: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      line: 2
+    - module: Lib.DiscreteSeries.FlenstedJensen.SquareIntegrability
+      importer: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      line: 1
+    - module: Lib.DiscreteSeries.Holomorphic.ModelFunction
+      importer: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      importer: New.OneLift.ComparisonOperator.ProductsSpan
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Rigidity/HighestVectorsAndFiltration.lean
+      line: 7
+      endLine: 15
+      startOffset: 201
+      endOffset: 981
+      text: 'The setting is a `gl_n`-module with an invariant inner product and a lower bound, depending on `l`,
+
+        for the Casimir operator (`New.IsUnitaryCasimirGe l ρ`). It is studied through the increasing
+
+        filtration `M_s = New.GlModule.filtration ρ ε x` generated by a `K`-highest vector `x`. Signs
+
+        `ε_a = ±1` define `𝔨`, spanned by the `E_ab` with `ε_a = ε_b`. `Ω_K = ρ.casimirK ε` is the Casimir
+
+        operator of `K`, and `c_K = New.HCParam.casimirKValue l` is its value on a highest vector. Take a
+
+        parameter with a large gap (`New.HCParam.HasLargeGap`) and `x` of weight `Λ`
+
+        (`New.HCParam.lowestKType`). Then the file shows that `Ω_K` grows along the filtration. With norm
+
+        bounds on the `M_s` it also shows that a bounded coefficient map is determined on `x` by its values
+
+        at `1` on the `M_s`.'
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Rigidity/HighestVectorsAndFiltration.lean
+      line: 15
+      endLine: 55
+      startOffset: 981
+      endOffset: 3513
+      text: "\n\n## Main definitions and results\n\n* `New.HCParam.exists_highest_vector`: a nonzero finite-dimensional\
+        \ \U0001D528-stable subspace contains a\n  highest weight vector.\n* `New.HCParam.IsKHighest.finite_filtration`:\
+        \ for an invariant inner product, M_s has finite\n  dimension.\n* `New.HCParam.IsKHighest.norm_apply_le_of_mem_filtration`:\
+        \ a matrix `X` maps `M_s` into `M_{s+1}`\n  (`New.GlModule.apply_mem_filtration_succ`), with an explicit\
+        \ bound for the norm of this action\n  (`New.HCParam.IsKHighest.norm_apply_le_mul_norm`).\n* `New.mem_orthogonal_filtration_of_casimirK`:\
+        \ an eigenvector of `Ω_K` of eigenvalue at most\n  `c_K(Λ) + s` that is orthogonal to `M_s` is orthogonal\
+        \ to every `M_t`.\n* `New.HCParam.IsKHighest.coeffMap_eq_zero`: let `l` be a parameter with a gap, and let\
+        \ `ρ` satisfy\n  `New.IsUnitaryCasimirGe l ρ`. Then a bounded coefficient map that vanishes at `1` on the\
+        \ module\n  generated by a `K`-highest vector `x` vanishes on `x` at every `g`.\n\nNotions from other files:\n\
+        * `New.HCParam.IsKHighest`: x has weight ν and is killed by the compact raising operators.\n* `New.GlModule.filtration`:\
+        \ M_0 = U(\U0001D528)x and M_{s+1} = M_s + Σ E_ab M_s.\n* `New.HCParam.casimirKValue`: the integer |ν +\
+        \ ρ_c|² − |ρ_c|², the value of the Casimir operator of\n  \U0001D528.\n* `New.IsUnitaryCasimirGe`: the inner\
+        \ product of the gl_n-module H satisfies ⟨E_ab v, w⟩ = ε_aε_b⟨v,\n  E_ba w⟩, and Re⟨y, Ωy⟩ ≥ κ_λ‖y‖² for\
+        \ the full Casimir operator Ω, with\n  κ_λ = `New.HCParam.casimirValue l`.\n* `New.HCParam.HasGap`: the\
+        \ entries of l = 2λ are distinct, have the parity of n - 1, and those with\n  different signs ε are at least\
+        \ twice the gap apart; `New.HCParam.HasLargeGap A` asks for a gap of\n  at least `gapThreshold n A`, which\
+        \ puts such entries at least `1000 (card n)³` apart.\n\n## Relation to the literature\n\nKnown result: Lowest\
+        \ K-type and Casimir value determine a discrete series coefficient, via analytic\nvectors. Here the setting\
+        \ is U(p,q), and no irreducibility is assumed. Proved here are two parts: a\ngrowth estimate for the compact\
+        \ Casimir operator along the filtration, for parameters with large\ngaps, and a vanishing criterion for\
+        \ coefficient maps on a highest vector by explicit norm bounds in\nplace of analyticity.\n\nSource: R. Parthasarathy,\
+        \ Classification of discrete series by minimal K-type, Represent. Theory 19\n(2015) 167-185, Thm 1.1; earlier\
+        \ Hotta-Parthasarathy, Invent. Math. 26 (1974) 133-178; Schmid, Ann.\nof Math. 102 (1975) 535-564; Vogan-Zuckerman,\
+        \ Compositio 53 (1984) Prop 6.1; Nelson, Analytic\nvectors, Ann. of Math. 70 (1959) 572-615.\n"
+  Lib.DiscreteSeries.Rigidity.KernelFixes:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Rigidity.KernelFixes
+      name: New.integratedRep_fix_of_isKHighest
+      line: 599
+      signature: "theorem integratedRep_fix_of_isKHighest (hg : l.HasLargeGap A) (hu : IsUnitaryRep A π B)\n   \
+        \ (hd : IsDerivedAction π ι ρ) (hf : Integrable fun g : USign ε ↦ f g * ‖g.val.val‖ ^ A)\n    (hv : l.IsKHighest\
+        \ ρ l.lowestKType v) (hv_casimir : ι (ρ.casimirK 1 v) = ofReal c • ι v)\n    (hc_ge : l.casimirValue ≤ c)\n\
+        \    (h_repr : ∀ g : USign ε, ∫ y : USign ε, f y * l.dsKernel (y⁻¹ * g) = l.dsKernel g) :\n    integratedRep\
+        \ π f (ι v) = ι v"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Rigidity.KernelFixes
+      importer: Lib.Weil.Periods.Grading
+      line: 2
+    - module: Lib.Weil.Periods.Grading
+      importer: Lib.Adelic.TraceFormula.OrbitalUnfolding
+      line: 3
+    - module: Lib.Adelic.TraceFormula.OrbitalUnfolding
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Rigidity/KernelFixes.lean
+      line: 6
+      endLine: 10
+      text: 'The file studies the function `e_λ = New.HCParam.dsKernel l = deg_λ · conj c_λ` on `U(diag ε)`,
+
+        where `l = 2λ`, and the operator `π(f) = New.integratedRep π f = ∫ f(g) π(g) dg`. In the main
+
+        results `λ` has gap `500 n³ + A` (`New.HCParam.HasLargeGap`), `π` has growth `‖g‖ ^ A` and an
+
+        invariant positive definite sesquilinear form `B` on `X` (`New.IsUnitaryRep`), and the `gl n`-module
+
+        `ρ` on a complex space `M` is its derivative along a linear map `ι : M → X` (`New.IsDerivedAction`).
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Rigidity/KernelFixes.lean
+      line: 11
+      endLine: 45
+      text: "\n* `New.coeff_eq_dsCoeff_of_isKHighest` (rigidity): a `K`-highest vector `x` of weight\n  `Λ = New.HCParam.lowestKType\
+        \ l` with Casimir value at least\n  `κ_λ = New.HCParam.casimirValue l = |λ|² − |ρ|²` (ρ here the half-sum\
+        \ of positive roots) has the\n  matrix coefficient `B x (π g x) = B x x c_λ(g)`.\n* `New.integratedRep_fix_of_isKHighest`:\
+        \ if `‖g‖ ^ A f` is integrable and `f * e_λ = e_λ`, then\n  `π(f)` fixes such a vector.\n* `New.exists_integration_by_parts`,\
+        \ `New.integratedRep_dsKernel_casimir`: integration by parts, and\n  `π(e_λ) Ω = κ_λ π(e_λ)`.\n* `New.re_integratedRep_dsKernel_pos`,\
+        \ `New.integratedRep_eq_zero_of_notMem_rootCone`: a condition\n  under which `π(e_λ)` does not kill a vector,\
+        \ and one under which it does.\n* `New.HCParam.HasLargeGap.isIdempotentKernel_dsKernel`,\n  `New.HCParam.HasLargeGap.exists_bump_conv_dsKernel`:\
+        \ `e_λ` is a minimal idempotent, reproduced by\n  a bump function.\n\n`ρ.casimirK 1` is the Casimir operator\
+        \ `Ω = ∑ E_ab E_ba` of all of `gl n` (all signs equal).\n\nNotions from other files:\n* `New.HCParam.IsKHighest`:\
+        \ `x` is a `K`-highest vector of weight `ν`: each `E a a` acts on it by\n  `ν a`, and it is killed by the\
+        \ compact raising operators, the `E a b` with `ε a = ε b` and\n  `l b < l a`.\n* `New.HCParam.lowestKType`:\
+        \ the integer vector Λ = λ+ρ−2ρ_c for a parameter l = 2λ, the highest\n  weight of the lowest K-type.\n\
+        * `New.HCParam.dsCoeff`, `New.HCParam.DsModule`: The function c_λ, and the module U(\U0001D524)c_λ it\n\
+        \  generates under right derivatives (action `New.HCParam.dsAction`, generator\n  `New.HCParam.dsGenerator`).\n\
+        * `New.weightMinors`, `New.HCParam.kTypeNormSq`: The coefficient m_ν of a highest vector of weight ν\n \
+        \ (a product of principal minors), and ∫_K |m_ν|².\n* `New.HCParam.rootCone`: The cone of the positive roots\
+        \ for the order given by l.\n\n## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`,\n\
+        `Lib.DiscreteSeries.Theta.LocalCorrespondence` and `Lib.DiscreteSeries.FlenstedJensen.PsiKTypes` for\nsources.\n"
+  Lib.DiscreteSeries.Rigidity.RepresentationsAndCasimirs:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Rigidity.RepresentationsAndCasimirs
+      name: New.HCParam.IsKHighest.sum_card_sq_add_mul_nonneg
+      line: 417
+      signature: "theorem HCParam.IsKHighest.sum_card_sq_add_mul_nonneg {x : H} (h_unitary : IsUnitaryCasimirGe\
+        \ l ρ)\n    [hg : l.HasGap g] (hx_high : l.IsKHighest ρ (l.lowestKType + ν) x) (hx_ne : x ≠ 0) :\n    0\
+        \ ≤ ∑ a : n, (Fintype.card n ^ 2 + ν a * (ν a + l a))"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Rigidity.RepresentationsAndCasimirs
+      importer: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      line: 2
+    - module: Lib.DiscreteSeries.FlenstedJensen.RightDerivatives
+      importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      line: 2
+    - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+      importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      line: 1
+    - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+      importer: New.UpperBound.Seesaw.SeesawIdentity
+      line: 1
+    - module: New.UpperBound.Seesaw.SeesawIdentity
+      importer: New.Reduction.ShortAndEnough
+      line: 4
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Rigidity/RepresentationsAndCasimirs.lean
+      line: 6
+      endLine: 14
+      startOffset: 141
+      endOffset: 974
+      text: 'This file treats representations of the unitary group `New.U J` (the matrices g with gᴴJg = J) and
+
+        modules over `gl n` (`New.GlModule`), where `E_ab` acts by `New.GlModule.E`. Signs `ε : n → ℤˣ` fix
+
+        the compact subgroup `K`. They split `gl n` into 𝔨, spanned by the `E_ab` with `ε_a = ε_b`, and 𝔭,
+
+        spanned by the others. An integer vector `l` (a `New.HCParam ε`, read as 2λ) orders the indices, and
+
+        `E_ab` raises when `l_b < l_a`. For a symmetric relation r on the indices, `New.twoRho l r` is the
+
+        sum of the roots e_a − e_b with r(a, b) that are positive for this order. `New.GlModule.casimirK` is
+
+        the sum of `E_ab E_ba` over the pairs with `ε_a = ε_b`. For the constant sign it is the full Casimir
+
+        operator of `gl n`. κ_λ = |λ|² − |ρ|² is `New.HCParam.casimirValue l`, where ρ in this formula is
+
+        the half sum of the positive roots.'
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Rigidity/RepresentationsAndCasimirs.lean
+      line: 14
+      endLine: 36
+      startOffset: 974
+      endOffset: 2348
+      text: "\n\n## Main definitions and results\n\n* `New.GlModule`: a module over the Lie algebra of complex matrices;\
+        \ `New.GlModule.E` is the action\n  of an elementary matrix, `New.GlModule.casimir` and `New.GlModule.casimirK`\
+        \ are Casimir operators.\n* `New.IsUnitaryRep`: a representation on a normed space that is strongly continuous,\
+        \ of polynomial\n  growth, and preserves a positive definite hermitian form.\n* `New.IsDerivedAction`, `New.GlModule.IsCoeffMap`:\
+        \ the module is the derivative of a\n  representation, or of a family of linear maps indexed by the group,\
+        \ along `New.expU` (the matrix\n  exponential).\n* `New.IsUnitaryCasimirGe`: the inner product is invariant,\
+        \ ⟨E_ab v, w⟩ = ε_a ε_b ⟨v, E_ba w⟩, and\n  the full Casimir operator is bounded below by κ_λ.\n* `New.HCParam.IsKHighest.casimirK_eq_smul`:\
+        \ if `l.HasGap g`, the Casimir operator of \U0001D528 acts on a\n  K-highest vector by `New.HCParam.casimirKValue`.\n\
+        * `New.HCParam.IsKHighest.sum_card_sq_add_mul_nonneg`: if `l.HasGap g`, the inner product is\n  invariant\
+        \ and the full Casimir operator is bounded below by κ_λ, a nonzero K-highest vector of\n  weight Λ + ν gives\
+        \ Σ_a (n² + ν_a(ν_a + l_a)) ≥ 0, that is, |ν|² + 2⟨ν, λ⟩ ≥ −n³.\n\n## Relation to the literature\n\nLowest\
+        \ K-type and Casimir value are known to determine a discrete series coefficient, via analytic\nvectors.\
+        \ See `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`.\n"
+  Lib.DiscreteSeries.Theta.BlockRule:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Theta.BlockRule
+      name: New.IsBlockRule.shift
+      line: 351
+      signature: "theorem IsBlockRule.shift (h : IsBlockRule γ γ' l l') (u u' : ℤ) :\n    IsBlockRule (γ + u) (γ'\
+        \ + u') (toHCParam s fun c : n ↦ l c + 2 * u')\n      (toHCParam t fun r : n' ↦ l' r + 2 * u)"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Theta.BlockRule
+      importer: Lib.Weil.Lift
+      line: 2
+    - module: Lib.Weil.Lift
+      importer: Lib.Weil.Seesaw
+      line: 2
+    - module: Lib.Weil.Seesaw
+      importer: New.UpperBound.Objects.Rows
+      line: 1
+    - module: New.UpperBound.Objects.Rows
+      importer: New.UpperBound.Objects.RowChain
+      line: 1
+    - module: New.UpperBound.Objects.RowChain
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 4
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Theta/BlockRule.lean
+      line: 6
+      endLine: 9
+      text: 'The block rule compares two discrete series parameters at one place through their shifted entries.
+
+        This file proves that it is equivalent to matching for the oscillator pair, that it is kept by a
+
+        swap, a negation and a shift, and gives its form for a pair with one character. In the code all
+
+        entries are doubled, so that they are integers.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Theta/BlockRule.lean
+      line: 10
+      endLine: 30
+      text: "\nNotions from other files:\n* `HCParam s`: an integer vector l = 2λ indexed by the domain of the signs\
+        \ s; `toHCParam s l` is l\n  read as such a vector.\n* `HasGap h`: the entries of l are distinct, of the\
+        \ parity of n − 1 for n entries, and those of\n  opposite signs differ by at least 2h.\n* `FockDualPair.std\
+        \ t s γ δ`: the oscillator pair with rows for the signs t, columns for the signs\n  s, row shift γ and column\
+        \ shift δ + n' for n' rows (the constants added on the diagonal).\n* `IsMatch`: both parameters have gap\
+        \ 500(n+n')³ and each row and each column is either matched,\n  with a sign condition, or lies in the central\
+        \ range left by the difference of the ranks.\n* `centredParam`: the entry of a row less twice the row shift,\
+        \ plus the number of columns; `swap`\n  exchanges rows and columns.\n* `IsMatchedPair`: the centred entries\
+        \ of a row and a column are opposite, and their signs times the\n  centred row entry exceed the absolute\
+        \ difference of the ranks.\n\n## Relation to the literature\n\nKnown result: the shape of the theta correspondence\
+        \ of discrete series parameters. Only statements\nabout the parameters, as integer vectors, are proved here.\
+        \ Sources: J.-S. Li, Theta lifting for\nunitary representations with nonzero cohomology, Duke Math. J. 61\
+        \ (1990); A. Paul, First occurrence\nfor the dual pairs (U(p,q), U(r,s)), Canad. J. Math. 51 (1999), 636–657.\n"
+  Lib.DiscreteSeries.Theta.CasimirComparison:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Theta.CasimirComparison
+      name: New.HCParam.HasGap.casimirValue_sub_centre
+      line: 119
+      signature: "theorem HCParam.HasGap.casimirValue_sub_centre {ε : n → ℤˣ} {l : HCParam ε} {h : ℕ}\n    (hg :\
+        \ l.HasGap h) (w : ℂ) :\n    l.casimirValue - 2 * w * ∑ a : n, (l.lowestKType a : ℂ) + card n * w ^ 2 =\n\
+        \      ∑ a : n, (l a / 2 - w) ^ 2 - (card n * (card n ^ 2 - 1) / 12 : ℂ)"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Theta.CasimirComparison
+      importer: Lib.DiscreteSeries.Theta.LocalCorrespondence
+      line: 2
+    - module: Lib.DiscreteSeries.Theta.LocalCorrespondence
+      importer: Lib.Weil.Lift
+      line: 3
+    - module: Lib.Weil.Lift
+      importer: Lib.Weil.Seesaw
+      line: 2
+    - module: Lib.Weil.Seesaw
+      importer: New.UpperBound.Objects.Rows
+      line: 1
+    - module: New.UpperBound.Objects.Rows
+      importer: New.UpperBound.Objects.RowChain
+      line: 1
+    - module: New.UpperBound.Objects.RowChain
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 4
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Theta/CasimirComparison.lean
+      line: 7
+      endLine: 13
+      text: 'An oscillator pair is given by a `FockDualPair` `T` with `n = card R` rows and `n'' = card C`
+
+        columns; the first group acts on the rows. This file proves that, with the centres (the weights of
+
+        the twisting characters) removed, the Casimir elements of the two groups differ by the constant
+
+        `n n'' (n - n'') / 4`, and that for matching parameters the numbers `|u|² - |ρ|²` and `|u''|² - |ρ''|²`
+
+        differ by the same constant, where `u`, `u''` are the centred parameters, that is, the entries
+
+        shifted by the centres. By `HCParam.HasGap.casimirValue_sub_centre` these numbers are the centred
+
+        Casimir values.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Theta/CasimirComparison.lean
+      line: 14
+      endLine: 36
+      text: "\nThe notions that the statements use:\n* a parameter `l : HCParam ε` is an integer vector that stands\
+        \ for `l = 2λ`; `l.HasGap h` says that\n  its entries are distinct, of the parity of `n - 1`, and at least\
+        \ `2h` apart where the signs `ε`\n  differ;\n* for symmetric `r`, `twoRho l r` is the sum of the roots selected\
+        \ by `r` that are positive for `l`,\n  so `twoRho l ⊤` is `2ρ`, and `l.casimirValue` is `|λ|² - |ρ|²`;\n\
+        * `T.oscRows` is the oscillator action of `gl R` on polynomials, and `T.swap` is the same pair with\n  rows\
+        \ and columns exchanged;\n* `T.centredParam l r` is `2u_r = l r - 2γ + n'` with `γ = T.rowShift` the scalar\
+        \ on the diagonal of\n  the row action (`T.columnShift` is that of the column action `T.swap.oscRows`),\
+        \ and\n  `IsMatch T l l'` says that `l` and `l'` have gap `500 (n + n')³`, that each row is matched with\
+        \ a\n  column or has `|2u_r| < n - n'`, and that each column is matched with a row or has\n  `|2u'_c| <\
+        \ n' - n`; the row `r` and the column `c` are matched if `u_r = -u'_c` and\n  `T.globalSign * ε r * ε' c\
+        \ * 2u_r > |n - n'|`.\n\n## Relation to the literature\n\nKnown result: the constant difference of the centred\
+        \ Casimir elements of the two groups of an\noscillator pair, a case of the correspondence of infinitesimal\
+        \ characters. Source: compare A. Paul,\nFirst occurrence for the dual pairs (U(p,q), U(r,s)), Canad. J.\
+        \ Math. 51 (1999), Theorem 2.11.\n\nSee also `Lib.DiscreteSeries.Theta.LocalCorrespondence`.\n"
+  Lib.DiscreteSeries.Theta.FockDualPair:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Theta.FockDualPair
+      name: New.Fischer.isLaplaceHarmonic_of_isKHighest
+      line: 658
+      signature: "theorem isLaplaceHarmonic_of_isKHighest {ν : R → ℤ} {l : HCParam ε} {P : MvPolynomial ι ℂ}\n \
+        \   (hP : l.IsKHighest T.oscRows ν P)\n    (h_zero : ∀ a b : R, ε a ≠ ε b →\n      l.IsKHighest T.oscRows\
+        \ (ν + single a 1 - single b 1) (T.fockLaplacian a b P) →\n      T.fockLaplacian a b P = 0) :\n    T.IsLaplaceHarmonic\
+        \ P"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Theta.FockDualPair
+      importer: Lib.DiscreteSeries.Theta.BlockRule
+      line: 1
+    - module: Lib.DiscreteSeries.Theta.BlockRule
+      importer: Lib.Weil.Lift
+      line: 2
+    - module: Lib.Weil.Lift
+      importer: Lib.Weil.Seesaw
+      line: 2
+    - module: Lib.Weil.Seesaw
+      importer: New.UpperBound.Objects.Rows
+      line: 1
+    - module: New.UpperBound.Objects.Rows
+      importer: New.UpperBound.Objects.RowChain
+      line: 1
+    - module: New.UpperBound.Objects.RowChain
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 4
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Theta/FockDualPair.lean
+      line: 9
+      endLine: 14
+      text: 'This file treats polynomials in the variables of `T : New.FockDualPair`, indexed by rows `r : R` and
+
+        columns `c : C`. It defines the oscillator action `New.FockDualPair.oscRows` of `gl R` on the rows.
+
+        It also defines matched parameters and joint harmonics for the theta correspondence of
+
+        `U(ε) × U(ε'')`, and proves that these notions are symmetric under `New.FockDualPair.swap`. A
+
+        Fischer-type analysis of orthogonal complements in bounded degree gives criteria for the Laplacians
+
+        to vanish.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Theta/FockDualPair.lean
+      line: 15
+      endLine: 43
+      text: "\n## Main definitions and results\n\n* `New.FockDualPair`, `New.FockDualPair.swap`: the data of the\
+        \ dual pair, and the data with\n  `globalSign` negated and rows and columns exchanged.\n* `New.FockDualPair.oscRows`:\
+        \ the action of `gl R` on the rows. The action of `gl C` on the columns\n  is `oscRows` of `swap`, and its\
+        \ matrix units are given by `New.FockDualPair.swap_oscRows_E`.\n* `New.FockDualPair.IsMatchedPair`, `New.IsMatch`:\
+        \ when the parameters `l = 2λ` and `l' = 2λ'`\n  correspond.\n* `New.FockDualPair.IsTermwiseHarmonic`, `New.IsJointHarmonic`:\
+        \ termwise harmonic polynomials, and\n  joint harmonics that are highest for the lowest `K`-types `l.lowestKType`\
+        \ and `l'.lowestKType`.\n  The signs `ε` and `ε'` are carried by the types of `l` and `l'`.\n* `New.Fischer.fockLaplacian_eq_zero`,\
+        \ `New.Fischer.isLaplaceHarmonic_of_isKHighest`: criteria for\n  the Laplacians `New.FockDualPair.fockLaplacian`\
+        \ to vanish.\n\nNotions from other files:\n* `New.HCParam.HasGap`: `l.HasGap h` says that the entries of\
+        \ `l = 2λ` are distinct and congruent to\n  `n − 1` mod 2, where `n` is their number, and `|λ_i − λ_j| ≥\
+        \ h` whenever `ε_i ≠ ε_j`.\n* `New.HCParam.IsKHighest`: `x` is a `K`-highest vector of weight `ν`: each\
+        \ `E a a` acts on it by\n  `ν a`, and it is killed by the compact raising operators, the `E a b` with `ε\
+        \ a = ε b` and\n  `l b < l a`. The second condition alone is `New.GlModule.IsCompactPrimitive`.\n* `New.HCParam.lowestKType`:\
+        \ for a parameter `l = 2λ`, the integer vector `λ + ρ − 2ρ_c`, which is\n  the highest weight of the lowest\
+        \ `K`-type.\n* `New.fockPairing`: the bilinear form `⟨P, Q⟩ = P(∂)Q(0)` on polynomials, for which monomials\
+        \ are\n  orthogonal and `⟨x^d, x^d⟩ = d!`.\n\n## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Theta.LocalCorrespondence`\
+        \ for sources.\n"
+  Lib.DiscreteSeries.Theta.FockJointHarmonics:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Theta.FockJointHarmonics
+      name: New.IsJointHarmonic.exists_eq_smul_of_column_weight
+      line: 656
+      signature: "theorem IsJointHarmonic.exists_eq_smul_of_column_weight {Φ P : MvPolynomial ι ℂ}\n    (hΦ : IsJointHarmonic\
+        \ T l l' Φ) (h_harmonic : T.IsTermwiseHarmonic P)\n    (h_harmonic_swap : T.swap.IsTermwiseHarmonic P)\n\
+        \    (h_rows : T.oscRows.IsCompactPrimitive l P)\n    (h_cols : l'.IsKHighest T.swap.oscRows l'.lowestKType\
+        \ P) :\n    ∃ c : ℂ, P = c • Φ"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Theta.FockJointHarmonics
+      importer: Lib.DiscreteSeries.Theta.LocalCorrespondence
+      line: 3
+    - module: Lib.DiscreteSeries.Theta.LocalCorrespondence
+      importer: Lib.Weil.Lift
+      line: 3
+    - module: Lib.Weil.Lift
+      importer: Lib.Weil.Seesaw
+      line: 2
+    - module: Lib.Weil.Seesaw
+      importer: New.UpperBound.Objects.Rows
+      line: 1
+    - module: New.UpperBound.Objects.Rows
+      importer: New.UpperBound.Objects.RowChain
+      line: 1
+    - module: New.UpperBound.Objects.RowChain
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 4
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Theta/FockJointHarmonics.lean
+      line: 6
+      endLine: 11
+      text: 'This file studies the weights of matched pairs of the parameters `l` and `l''` of a dual pair
+
+        `T : New.FockDualPair`. It proves that the joint harmonic is unique up to a scalar, and that one of
+
+        its two weights suffices for this. Here `New.FockDualPair.IsMatchedPair` says that row `r` is
+
+        matched with column `c`.
+
+
+        The proof of uniqueness has three steps.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Theta/FockJointHarmonics.lean
+      line: 12
+      endLine: 44
+      text: "* The weights relative to the vacuum: `New.IsMatch.relWeight_eq_neg`,\n  `New.IsMatch.sign_mul_relWeight_nonneg`.\n\
+        * Both polarisations in a raising operator kill a highest harmonic polynomial, and a row has\n  variables\
+        \ of one sign: `New.DiscreteSeries.polarisation_eq_zero_of_isCompactPrimitive`,\n  `New.DiscreteSeries.polarisation_self_eq_smul_of_isCompactPrimitive`.\n\
+        * Such a polynomial does not vanish at the 0-1 matrix of the matching:\n  `New.IsMatch.eval_matchingPoint_ne_zero`.\n\
+        \n## Main definitions and results\n\n* `New.IsMatch.unique`, `New.IsJointHarmonic.exists_eq_smul_of_row_weight`,\n\
+        \  `New.IsJointHarmonic.exists_eq_smul_of_column_weight`: the joint harmonic is unique up to a\n  scalar,\
+        \ and one of its two weights suffices for this.\n* `New.IsMatch.eval_matchingPoint_ne_zero`: a pre-joint\
+        \ harmonic does not vanish at the point\n  `New.FockDualPair.matchingPoint`, the 0-1 matrix of the matching.\n\
+        \nNotions from other files:\n* `New.HCParam.HasGap`: `l.HasGap h` says that the entries of `l = 2λ` are\
+        \ distinct and congruent to\n  `n − 1` mod 2, where `n` is their number, and `|λ_i − λ_j| ≥ h` whenever\
+        \ `ε_i ≠ ε_j`.\n* `New.HCParam.IsKHighest`: `x` is a `K`-highest vector of weight `ν`: each `E a a` acts\
+        \ on it by\n  `ν a`, and it is killed by the compact raising operators, the `E a b` with `ε a = ε b` and\n\
+        \  `l b < l a`. The second condition alone is `New.GlModule.IsCompactPrimitive`.\n* `New.HCParam.lowestKType`:\
+        \ for a parameter `l = 2λ`, the integer vector `λ + ρ − 2ρ_c`, which is\n  the highest weight of the lowest\
+        \ `K`-type.\n* `New.FockDualPair.IsPreJointHarmonic`: `Φ ≠ 0` is killed by the compact raising operators\
+        \ of the\n  columns and by the Laplacians of both sides, and is `K`-highest of weight `l.lowestKType` for\n\
+        \  rows.\n* `New.FockDualPair.relWeight`: the entry in row `r` of the lowest `K`-type for `l`, minus the\n\
+        \  weight of the vacuum on a row of sign `ε r`.\n\n## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Theta.LocalCorrespondence`\
+        \ for sources.\n"
+  Lib.DiscreteSeries.Theta.LocalCorrespondence:
+    group: Lib.DiscreteSeries
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.DiscreteSeries.Theta.LocalCorrespondence
+      name: New.OscillatorPair.exists_bump_integratedRep_eq
+      line: 734
+      signature: "theorem exists_bump_integratedRep_eq (hp : OscillatorPair T π π') [Nonempty R] [Nonempty C]\n\
+        \    (hΦ : IsJointHarmonic T l l' Φ) (P : MvPolynomial I ℂ) : ∃ α : Bumps ε',\n    integratedRep π l.dsKernel\
+        \ (polyVector η P) = integratedRep π'\n      (fun g : USign ε' ↦ α.val.val g⁻¹) (integratedRep π l.dsKernel\
+        \ Φ)"
+    routeToMain:
+    - module: Lib.DiscreteSeries.Theta.LocalCorrespondence
+      importer: Lib.Weil.Lift
+      line: 3
+    - module: Lib.Weil.Lift
+      importer: Lib.Weil.Seesaw
+      line: 2
+    - module: Lib.Weil.Seesaw
+      importer: New.UpperBound.Objects.Rows
+      line: 1
+    - module: New.UpperBound.Objects.Rows
+      importer: New.UpperBound.Objects.RowChain
+      line: 1
+    - module: New.UpperBound.Objects.RowChain
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 4
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/DiscreteSeries/Theta/LocalCorrespondence.lean
+      line: 9
+      endLine: 13
+      text: 'This file works in the polynomial (Fock) model of a dual pair of unitary groups. For matching
+
+        parameters, a joint harmonic is built as a product of minors along layers. For an oscillator pair,
+
+        the projection of a joint harmonic by the discrete series kernel is then nonzero, is fixed by
+
+        `π''(f)` for functions `f` that reproduce the kernel of the second group, and generates all projected
+
+        polynomial vectors under bump functions of the second group.
+
+        '
+    remainder:
+      path: grh/src/Lib/DiscreteSeries/Theta/LocalCorrespondence.lean
+      line: 14
+      endLine: 58
+      text: "\n## Main definitions and results\n\n* `New.IsLayering`: finitely many layers, each a list of rows\
+        \ paired with columns, of weight `ν`.\n* `New.IsMatch.isLayering`: for matching parameters (`New.IsMatch`)\
+        \ the sets of variables\n  `New.FockDualPair.Layer` are layers of weight `New.HCParam.lowestKType l`.\n\
+        * `New.IsMatch.exists_isJointHarmonic`: hence a joint harmonic (`New.IsJointHarmonic`) exists.\n* `New.IsJointHarmonic.howe_argument`:\
+        \ in the polynomial (Fock) model with its row action\n  `T.oscRows` and column action `T.swap.oscRows`,\
+        \ a subspace that is stable under the columns,\n  contains a joint harmonic (`New.IsJointHarmonic`) and\
+        \ contains certain images of the row operators\n  is the whole space.\n* `New.OscillatorPair.re_inner_integratedRep_pos`:\
+        \ for a joint harmonic `Φ` and `Φ₁ = π(e_λ) Φ`,\n  with `e_λ` the discrete series kernel, `⟨Φ, Φ₁⟩` has\
+        \ positive real part.\n* `New.OscillatorPair.integratedRep_integratedRep_eq_self`: `π'(f) Φ₁ = Φ₁` for every\
+        \ `f` of\n  suitable decay that reproduces `e_λ'`; the proof compares the Casimir operators of the two groups\n\
+        \  on `Φ` and uses `New.integratedRep_fix_of_isKHighest`.\n* `New.OscillatorPair.exists_bump_integratedRep_eq`:\
+        \ every `π(e_λ) P` is obtained from `Φ₁` by a\n  bump function of the second group; the proof rests on `New.IsJointHarmonic.howe_argument`.\n\
+        \nNotions from other files:\n* `New.HCParam.IsKHighest`: each matrix unit `E a a` acts on `x` by `ν a`,\
+        \ and `x` is killed by the\n  compact raising operators, the `E a b` with `ε a = ε b` and `l b < l a`.\n\
+        * `New.IsJointHarmonic`: `l` and `l'` match (`New.IsMatch`), and `Φ ≠ 0` is highest for rows and\n  columns,\
+        \ of the weights of the two lowest `K`-types, and harmonic along rows and columns.\n* `New.OscillatorPair`:\
+        \ two commuting oscillator representations on one Fock space, one acting on\n  the rows and one on the columns.\n\
+        * `New.pairSign`: the sign `σ * ε r * ε' c` of the variable in row `r` and column `c`, with\n  `σ = T.globalSign`;\
+        \ `T.varSign (r, c)` is this sign.\n* `New.FockDualPair.IsMatchedPair`: the row `r` is matched with the\
+        \ column `c`: with `n = card R`,\n  `n' = card C`, `γ = T.rowShift`, `γ' = T.columnShift` and `a = l r -\
+        \ 2γ + n'`, one\n  has `a = -(l' c - 2γ' + n)` and `|n - n'| < σ * ε r * ε' c * a`.\n* `New.HCParam.lowestKType`:\
+        \ the integer vector Λ = λ+ρ−2ρ_c for a parameter l = 2λ, the highest\n  weight of the lowest K-type.\n\n\
+        ## Relation to the literature\n\nKnown result: Theta correspondence of discrete series for real unitary\
+        \ dual pairs, with joint\nharmonics. Only matched parameters with large gaps on Fock space are treated.\
+        \ The joint harmonic\nexists and is unique up to scalar, and its projection is fixed by the partner's `π'(f)`\
+        \ for every\n`f` of suitable decay that reproduces the partner's discrete series kernel. The projection\
+        \ of every\npolynomial vector is a compactly supported smoothing, under the second group, of the projected\
+        \ joint\nharmonic. Source: J.-S. Li, Theta lifting for unitary representations with nonzero cohomology,\
+        \ Duke\nMath. J. 61 (1990) 913-937; R. Howe, Transcending classical invariant theory, J. Amer. Math. Soc.\
+        \ 2\n(1989); A. Paul, First occurrence for the dual pairs (U(p,q), U(r,s)), Canad. J. Math. 51 (1999)\n\
+        636-657, Theorem 2.7.\n"
+needs_draft: true

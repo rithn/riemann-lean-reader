@@ -225,13 +225,19 @@ def static_reading(module, group, record, modules, resources):
   <p class="sr-actions">{link(*links[0], ' class="sr-primary"')}
     <span>{" · ".join(link(href, label) for href, label in links[1:])}</span></p>
 </section>"""
-    body = [header, reading_section("Reading", record)]
+    body = [header]
+    if record["html"]:
+        body.append(reading_section("Reading", record))
     mirror = [
         f'`{name}.lean` · [{group["id"]}]({group["href"]})',
         " · ".join(f"[{label}]({href})" for href, label in links),
         "## Reading",
         record["markdown"],
     ]
+    if record.get("remainder") and record["remainder"]["text"].strip():
+        rest = record["remainder"]
+        body.append(f'<details class="sr-card sr-reading"><summary>Rest of upstream introduction</summary>'
+                    f'{MARKDOWN.render(rest["text"])}<p>{link(rest["github"], "Pinned source lines")}</p></details>')
     headlined = {entry["name"] for entry in record["headlineTheorems"]}
     if headlined:
         statements = []

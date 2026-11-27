@@ -381,7 +381,21 @@ def build_theorems(edition, files, modules):
 
 
 def build_readings(edition, files, groups, modules, theorems, *, preview):
-    readings = yaml.safe_load((INPUTS / "readings.yaml").read_text(encoding="utf-8"))
+    readings = {"groups": {}, "files": {}}
+    paths = sorted((INPUTS / "readings").glob("*.yaml"))
+    require(len(paths) == len(groups), "expected one readings file per group")
+    for path in paths:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        group = data["group"]
+        require(group in groups and path.stem == groups[group]["slug"], f"invalid group file {path}")
+        if data.get("overview"):
+            readings["groups"][group] = data["overview"]
+        else:
+            require(data.get("needs_draft") is True, f"missing overview status for {group}")
+        for name, record in data["files"].items():
+            require(name not in readings["files"] and record["group"] == group, f"duplicate or misplaced reading {name}")
+            readings["files"][name] = record
+    require(set(readings["files"]) == set(modules), "file readings do not cover all modules")
     module_by_path = {module["path"]: name for name, module in modules.items()}
     headlines = {entry["name"]: entry for entry in theorems}
     for kind, inventory in (("groups", groups), ("files", modules)):
@@ -394,14 +408,25 @@ def build_readings(edition, files, groups, modules, theorems, *, preview):
             origin, draft = record["origin"], record.get("draft")
             require(origin in ("upstream", "explorer-draft") and bool(draft) == (origin == "explorer-draft"),
                     f"invalid reading origin for {name}")
-            excerpt = record["excerpt"]
-            path, start, end = excerpt["path"], excerpt["line"], excerpt["endLine"]
-            require(path in module_by_path and modules[module_by_path[path]]["group"] == group
-                    and (kind == "groups" or path == modules[name]["path"]), f"wrong excerpt source for {name}")
-            lines = files[path].decode("utf-8").splitlines(keepends=True)
-            require(1 <= start <= end <= len(lines) and excerpt["text"] == "".join(lines[start - 1:end]),
-                    f"reading excerpt does not match source for {name}")
-            excerpt["github"] = github(edition, path, start, end)
+            for excerpt in (record.get("excerpt"), record.get("remainder")):
+                if not excerpt:
+                    continue
+                path, start, end = excerpt["path"], excerpt["line"], excerpt["endLine"]
+                require(path in module_by_path and modules[module_by_path[path]]["group"] == group
+                        and (kind == "groups" or path == modules[name]["path"]), f"wrong excerpt source for {name}")
+                lines = files[path].decode("utf-8").splitlines(keepends=True)
+                source = files[path].decode("utf-8")
+                if "startOffset" in excerpt or "endOffset" in excerpt:
+                    a, b = excerpt.get("startOffset"), excerpt.get("endOffset")
+                    require(isinstance(a, int) and isinstance(b, int) and 0 <= a < b <= len(source)
+                            and source.count("\n", 0, a) + 1 == start
+                            and source.count("\n", 0, b - 1) + 1 == end
+                            and source[a:b] == excerpt["text"],
+                            f"reading excerpt offsets do not match source for {name}")
+                else:
+                    require(1 <= start <= end <= len(lines) and excerpt["text"] == "".join(lines[start - 1:end]),
+                            f"reading excerpt does not match source for {name}")
+                excerpt["github"] = github(edition, path, start, end)
             for claim in draft or ():
                 require(claim["sentence"] and claim["citations"], f"missing draft evidence for {name}")
                 for cite in claim["citations"]:
@@ -471,9 +496,10 @@ def build_sernau_data(out: Path):
 
     digest = hashlib.sha256()
     preview = os.environ.get("SERNAU_READINGS_PREVIEW") == "1"
-    input_files = ("edition.json", "groups.json", "modules.tsv", "theorems.json", "readings.yaml")
+    input_files = ("edition.json", "groups.json", "modules.tsv", "theorems.json")
     for path in [Path(__file__), Path(__file__).with_name("sernau_readings.py"),
-                 XREF / "leansrc.py", *(INPUTS / name for name in input_files)]:
+                 XREF / "leansrc.py", *(INPUTS / name for name in input_files),
+                 *sorted((INPUTS / "readings").glob("*.yaml"))]:
         digest.update(path.name.encode() + b"\0" + path.read_bytes() + b"\0")
     build_id = digest.hexdigest()[:16]
     base = f"/data/sernau/{build_id}/"

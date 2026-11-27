@@ -1,0 +1,825 @@
+group: New.Appendix
+overview:
+  group: New.Appendix
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: "`GaussianShape` estimates the discrete-series coefficient for a large-gap parameter near the identity, approximating it by a phase times a number in `[0, 1]`."
+    citations:
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 7
+      endLine: 9
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 332
+      endLine: 338
+  - sentence: "The coefficient is given by a normalized integral over the maximal compact group of a quotient of products of minors, and `GaussianShape` multiplies the single-minor estimates over the threshold sets of a weight."
+    citations:
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 9
+      endLine: 10
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 15
+      endLine: 25
+    - module: Lib.DiscreteSeries.FlenstedJensen.Defs
+      line: 180
+      endLine: 193
+  - sentence: "`Localization` proves decay of a large-gap coefficient as the noncompact part grows. Under the Laplace datum and smallness hypotheses, it finds a point with the same integrand value whose two image components are near the identity."
+    citations:
+    - module: New.Appendix.DiscreteSeries.Localization
+      line: 7
+      endLine: 12
+    - module: New.Appendix.DiscreteSeries.Localization
+      line: 517
+      endLine: 523
+    - module: New.Appendix.DiscreteSeries.Localization
+      line: 664
+      endLine: 670
+  - sentence: "`Periods` imports `GaussianShape` and `Localization` and uses Laplace’s method to bound a ball’s volume by a power of the size parameter times the norm of the integral of the first coefficient multiplied by the conjugate of the second and the factor `exp(-φ)`."
+    citations:
+    - module: New.Appendix.DiscreteSeries.Periods
+      line: 1
+      endLine: 11
+    - module: New.Appendix.DiscreteSeries.Periods
+      line: 32
+      endLine: 33
+    - module: New.Appendix.DiscreteSeries.Periods
+      line: 490
+      endLine: 502
+  declarations:
+  - module: New.Appendix.DiscreteSeries.GaussianShape
+    name: New.DiscreteSeries.exists_norm_dsCoeff_div_cexp_sub_le
+    line: 332
+    signature: "lemma exists_norm_dsCoeff_div_cexp_sub_le [Nonempty n] (hl : l.HasLargeGap A)\n    (hL : ∀ i : n,\
+      \ |l i| ≤ L)\n    {g : USign ε} (hg : ‖(g : Matrix n n ℂ) - 1‖ ≤ δ) (hT : 1 ≤ T) (hT_card : card n ^ 2 ≤ T)\n\
+      \    (hT_log : card n ^ 2 * Real.log (card n + L + 1) ≤ T) (hδT : δ * T ≤ 1e-12) :\n    ∃ ϱ ∈ Set.Icc (0 : ℝ)\
+      \ 1,\n      ‖l.dsCoeff g / cexp (intDiagonal l.lowestKType * logOneAdd ((g : Matrix n n ℂ) - 1)).trace -\n \
+      \         ϱ‖ ≤ ϱ / 10 + Real.exp (-100 * T)"
+  - module: New.Appendix.DiscreteSeries.Localization
+    name: New.DiscreteSeries.IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le
+    line: 664
+    signature: "lemma IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le\n    (hj : IsLaplaceDatum l\
+      \ k j τ B e φ) (r : ℝ) (hB : 1 ≤ B)\n    (hr_pos : 0 < r) (hr_small : r ≤ 6⁻¹) (s : S)\n    (hs : ‖noncompactPart\
+      \ ε (j s).1‖ ^ 2 + ‖noncompactPart η (j s).2‖ ^ 2 ≤ r ^ 2) :\n    ∃ t : S, l.laplaceIntegrand k j φ s = l.laplaceIntegrand\
+      \ k j φ t ∧\n      ‖(subOnePair j t).1‖ ≤ 4 * r ∧\n      ‖(subOnePair j t).2‖ ≤ 4 * r"
+  - module: New.Appendix.DiscreteSeries.Periods
+    name: New.DiscreteSeries.IsLaplaceDatum.laplace_method
+    line: 493
+    signature: "theorem IsLaplaceDatum.laplace_method [TopologicalSpace S] [BorelSpace S]\n    [IsFiniteMeasureOnCompacts\
+      \ ν] (h_datum : IsLaplaceDatum l k j τ B e φ)\n    (hj : IsProperMap fun s : S ↦ (j s).1) (hj' : Continuous\
+      \ fun s : S ↦ (j s).2)\n    (hl : l.HasLargeGap h) (hk : k.HasLargeGap h) (hB : 1 ≤ B) (hl_le : ∀ a : n, |l\
+      \ a| ≤ L)\n    (hk_le : ∀ a : m, |k a| ≤ L) (hβ : 10 ^ 12 ≤ β) (hβ_le : card n + card m + L ≤ β)\n    (hh :\
+      \ 10 ^ 30 * ((card n + card m) ^ 2 * β.log) ^ 3 ≤ h) :\n    Integrable (l.laplaceIntegrand k j φ) ν ∧\n    ν\
+      \ {s : S | ‖((j s).1 : Matrix n n ℂ)‖ ≤ β + 1 ∧ ‖((j s).2 : Matrix m m ℂ)‖ ≤ β + 1} ≤\n      ENNReal.ofReal\
+      \ (β ^ (20 * (card n + card m) ^ 2) *\n        ‖∫ s : S, l.laplaceIntegrand k j φ s ∂ν‖)"
+  routeToMain:
+  - module: New.Appendix.DiscreteSeries.GaussianShape
+    importer: New.Appendix.DiscreteSeries.Periods
+    line: 2
+  - module: New.Appendix.DiscreteSeries.Periods
+    importer: New.Appendix.DiscreteSeries.PositionGroup
+    line: 1
+  - module: New.Appendix.DiscreteSeries.PositionGroup
+    importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+    line: 2
+  - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+    importer: New.Determinant.AuxiliaryForms.FirstPath
+    line: 1
+  - module: New.Determinant.AuxiliaryForms.FirstPath
+    importer: New.Determinant.AuxiliaryForms.SpanningForms
+    line: 2
+  - module: New.Determinant.AuxiliaryForms.SpanningForms
+    importer: New.Determinant.Twist.LongForms
+    line: 2
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  New.Appendix.DiscreteSeries.GaussianShape:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      name: New.DiscreteSeries.exists_norm_dsCoeff_div_cexp_sub_le
+      line: 332
+      signature: "lemma exists_norm_dsCoeff_div_cexp_sub_le [Nonempty n] (hl : l.HasLargeGap A)\n    (hL : ∀ i :\
+        \ n, |l i| ≤ L)\n    {g : USign ε} (hg : ‖(g : Matrix n n ℂ) - 1‖ ≤ δ) (hT : 1 ≤ T) (hT_card : card n ^\
+        \ 2 ≤ T)\n    (hT_log : card n ^ 2 * Real.log (card n + L + 1) ≤ T) (hδT : δ * T ≤ 1e-12) :\n    ∃ ϱ ∈ Set.Icc\
+        \ (0 : ℝ) 1,\n      ‖l.dsCoeff g / cexp (intDiagonal l.lowestKType * logOneAdd ((g : Matrix n n ℂ) - 1)).trace\
+        \ -\n          ϱ‖ ≤ ϱ / 10 + Real.exp (-100 * T)"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      importer: New.Appendix.DiscreteSeries.Periods
+      line: 2
+    - module: New.Appendix.DiscreteSeries.Periods
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 1
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/GaussianShape.lean
+      line: 7
+      endLine: 12
+      text: 'Near `1` the coefficient `l.dsCoeff g` of a discrete series with a large gap is nearly the phase
+
+        `exp (tr μ log g)` times a number in `[0, 1]`, where `μ` is the weight `l.lowestKType`
+
+        (`exists_norm_dsCoeff_div_cexp_sub_le`). The coefficient is a mean over `K` of a quotient of
+
+        products of minors, and the estimates for one minor are multiplied over the sets `{i | t ≤ w i}` of
+
+        a weight `w`. In the comments, `λ^ρ` is `paramAddRho l`, `Q_w` is `gapWeightedNormSq w`, and `ĝ` is
+
+        `reducedExp ε l Z`. The Gaussian is `exp (-q)` with `q = Q_{-λ^ρ} (log g) / 4`; note `Q_{-w} = Q_w`.
+
+        '
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/GaussianShape.lean
+      line: 13
+      endLine: 29
+      text: "Except in the first section, the norm of a matrix is the Frobenius norm.\n\n* `USign ε` is the unitary\
+        \ group of the form `diag ε`; `K = maxCompactU ε` is its subgroup of\n  unitary matrices, with the Haar\
+        \ measure `haarK ε` of mass one.\n* `l : HCParam ε` is a doubled Harish-Chandra parameter `2λ`; `paramAddRho\
+        \ l` is `λ + ρ` and\n  `l.lowestKType` is `λ + ρ - 2ρ_c`.\n* `weightMinors w g` is the product over `t :\
+        \ ℤ` of the principal minors of `g` on the sets\n  `{i | t ≤ w i}`, those with `t ≤ 0` divided by `det g`;\
+        \ `w.kTypeNormSq` is the mean of its\n  squared modulus over `K`.\n* `l.flenstedJensen g z` is the mean\
+        \ over `k ∈ K` of\n  `weightMinors μ (g k) * conj (weightMinors μ k) / weightMinors (-paramAddRho l) (kᴴ\
+        \ z k)`,\n  divided by `μ.kTypeNormSq` (Flensted-Jensen's integral); the matrix coefficient `l.dsCoeff`\
+        \ is\n  defined through it.\n\n## Relation to the literature\n\nSee `New.Appendix.DiscreteSeries.Periods`\
+        \ for related work.\n"
+  New.Appendix.DiscreteSeries.Localization:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.Localization
+      name: New.DiscreteSeries.IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le
+      line: 664
+      signature: "lemma IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le\n    (hj : IsLaplaceDatum\
+        \ l k j τ B e φ) (r : ℝ) (hB : 1 ≤ B)\n    (hr_pos : 0 < r) (hr_small : r ≤ 6⁻¹) (s : S)\n    (hs : ‖noncompactPart\
+        \ ε (j s).1‖ ^ 2 + ‖noncompactPart η (j s).2‖ ^ 2 ≤ r ^ 2) :\n    ∃ t : S, l.laplaceIntegrand k j φ s =\
+        \ l.laplaceIntegrand k j φ t ∧\n      ‖(subOnePair j t).1‖ ≤ 4 * r ∧\n      ‖(subOnePair j t).2‖ ≤ 4 * r"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.Localization
+      importer: New.Appendix.DiscreteSeries.Periods
+      line: 3
+    - module: New.Appendix.DiscreteSeries.Periods
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 1
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/Localization.lean
+      line: 7
+      endLine: 12
+      text: 'This file treats a group `S` with a map `j : S →* U(ε) × U(η)` that satisfies
+
+        `New.DiscreteSeries.IsLaplaceDatum`. It proves facts about `New.HCParam.laplaceIntegrand`, the
+
+        product of the first discrete series coefficient, the conjugate of the second and `exp (-φ)`. It
+
+        shows that a coefficient with a large gap decays away from the maximal compact subgroup. It also
+
+        shows that, if `1 ≤ B` and both noncompact parts at `s` are small, the integrand takes the same
+
+        value at some `t` for which both components of `j t` are near `1`.
+
+        '
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/Localization.lean
+      line: 13
+      endLine: 37
+      text: "\n## Main definitions and results\n\n* `New.DiscreteSeries.noncompactPart ε g`: the noncompact part\
+        \ `g - blockDiagPart ε g` of a\n  matrix `g`.\n* A coefficient with a large gap is small where the noncompact\
+        \ part of its argument is large\n  (`New.DiscreteSeries.norm_dsCoeff_pow_four_le`).\n* If `1 ≤ B` and both\
+        \ noncompact parts at `s` are small, then `laplaceIntegrand` takes the same\n  value at some `t` for which\
+        \ both components of `j t` are near `1`\n  (`New.DiscreteSeries.IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le`).\n\
+        \nNotions from other files:\n* `New.USign ε`: the unitary group `U(ε)` of the diagonal matrix `signMatrix\
+        \ ε` of the signs `ε`.\n* `New.blockDiagPart ε g`: the compact part of `g`, which keeps the entries `g i\
+        \ j` with\n  `ε i = ε j`.\n* `New.HCParam.lowestKType l`, `New.HCParam.dsCoeff l`: the highest weight of\
+        \ the lowest `K`-type\n  of the parameter `l`, and the matrix coefficient of that `K`-type.\n* `New.DiscreteSeries.IsLaplaceDatum`:\
+        \ the properties of `j` and `φ` that Laplace's method uses.\n* `New.HCParam.laplaceIntegrand`: the function\
+        \ to which Laplace's method applies.\n\n## Relation to the literature\n\nThis file uses the discrete series\
+        \ coefficient that is known as Flensted-Jensen's function, the\ncoefficient of the lowest `K`-type of a\
+        \ discrete series\n(defined in `Lib.DiscreteSeries.FlenstedJensen.Defs`).\n"
+  New.Appendix.DiscreteSeries.MinorSecondOrder:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.MinorSecondOrder
+      name: New.DiscreteSeries.exists_det_one_add_proj_mul_eq_exp
+      line: 556
+      signature: "theorem exists_det_one_add_proj_mul_eq_exp (hQ : IsStarProjection Q) (hδ : δ ≤ 1 / 20)\n    (h₁\
+        \ : ‖A₁‖ ≤ δ) (h₂ : ‖A₂‖ ≤ δ) (h₃ : ‖A₃‖ ≤ δ)\n    (hζ₁ : ‖⁅Q, A₁⁆‖ ≤ ζ) (hζ₂ : ‖⁅Q, A₂⁆‖ ≤ ζ) (hζ₃ : ‖⁅Q,\
+        \ A₃⁆‖ ≤ ζ) :\n    ∃ r : ℂ, (1 + Q * (NormedSpace.exp A₁ * NormedSpace.exp A₂ * NormedSpace.exp A₃ - 1)).det\
+        \ =\n        cexp ((Q * (A₁ + A₂ + A₃)).trace + crossTraceSum Q A₁ A₂ A₃ + r) ∧\n      ‖r‖ ≤ 10 ^ 4 * δ\
+        \ * ζ ^ 2"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.MinorSecondOrder
+      importer: New.Appendix.DiscreteSeries.OneMinor
+      line: 2
+    - module: New.Appendix.DiscreteSeries.OneMinor
+      importer: New.Appendix.DiscreteSeries.GaussianShape
+      line: 2
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      importer: New.Appendix.DiscreteSeries.Periods
+      line: 2
+    - module: New.Appendix.DiscreteSeries.Periods
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 1
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/MinorSecondOrder.lean
+      line: 6
+      endLine: 10
+      text: 'For an orthogonal projection `Q` and small matrices `A₁`, `A₂`, `A₃` we expand
+
+        `log det (1 + Q (exp A₁ exp A₂ exp A₃ - 1))` to second order. The rest vanishes to order three in
+
+        the `Aᵢ` and to order two in their parts that cross `Q`; Schwarz''s lemma turns this into the bound
+
+        `O(δ ζ²)`, where `δ` bounds the `Aᵢ` and `ζ` bounds the commutators `⁅Q, Aᵢ⁆`. All norms are
+
+        Hilbert–Schmidt (Frobenius) norms, and no constant depends on the dimension.
+
+        '
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/MinorSecondOrder.lean
+      line: 11
+      endLine: 24
+      text: "\nThe main result is `exists_det_one_add_proj_mul_eq_exp`. The order three is obtained by direct\n\
+        estimates of the exponential series and of the integral that defines the logarithm. The rest\n`logMinorRemainder`\
+        \ is a principal logarithm, holomorphic in the factor `τ` that scales the crossing\nparts, and Schwarz's\
+        \ lemma is applied in `τ`.\n\nNotions from other files:\n* `logOneAdd M = ∫ s in 0..1, (1 + s M)⁻¹ M` is\
+        \ the matrix logarithm `log (1 + M)`, used for\n  `‖M‖ ≤ 1 / 2`.\n* `IsStarProjection Q` says that `Q` is\
+        \ an orthogonal projection: self-adjoint and idempotent.\n\n## Relation to the literature\n\nSee `New.Appendix.DiscreteSeries.Periods`\
+        \ for related work.\n"
+  New.Appendix.DiscreteSeries.OneMinor:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.OneMinor
+      name: New.DiscreteSeries.exists_principalMinor_conj_reducedExp_eq_cexp
+      line: 573
+      signature: "theorem exists_principalMinor_conj_reducedExp_eq_cexp (ho : o.Injective)\n    (ho_lt : ∀ i j :\
+        \ n, p i → ¬p j → o i < o j)\n    (hZ : Z ∈ unitaryLie (signMatrix ε)) (hδ : δ ≤ 1 / 20) (hZ_le : ‖Z‖ ≤\
+        \ δ) (hk : kᴴ * k = 1)\n    (hk_mem : k ∈ blockDiagAlg ε) :\n    ∃ r : ℂ, principalMinor (kᴴ * reducedExp\
+        \ ε o Z * k) p =\n        cexp ((coordProj p * Z).trace + (‖⁅coordProj p, Z⁆‖ ^ 2 / 4 : ℝ) + r) ∧\n    \
+        \  ‖r‖ ≤ 10 ^ 5 * δ * (‖⁅coordProj p, Z⁆‖ ^ 2 + ‖⁅coordProj p, k⁆‖ ^ 2)"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.OneMinor
+      importer: New.Appendix.DiscreteSeries.GaussianShape
+      line: 2
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      importer: New.Appendix.DiscreteSeries.Periods
+      line: 2
+    - module: New.Appendix.DiscreteSeries.Periods
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 1
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/OneMinor.lean
+      line: 7
+      endLine: 14
+      startOffset: 150
+      endOffset: 902
+      text: 'Estimates for one principal minor `det_S`, in terms of the blocks that cross the set `S` of indices,
+
+        that is, the entries `(i, j)` with exactly one of `i`, `j` in `S`: its size on a unitary matrix
+
+        (`norm_principalMinor_sq_le_exp`), and its form on `kᴴ ĝ k` for `k` unitary and block diagonal and
+
+        `ĝ = reducedExp ε o Z` for a small `Z` in the Lie algebra of `U(J)`, with `o` injective and
+
+        `o i < o j` whenever `i ∈ S` and `j ∉ S` (`exists_principalMinor_conj_reducedExp_eq_cexp`): up to an
+
+        error, `exp (tr P Z + ‖[P, Z]‖² / 4)`, where `P` is the projection to `S` and `‖[P, Z]‖` is the norm
+
+        of the two blocks of `Z` that cross `S`. A third estimate for one minor is
+
+        `exists_det_one_add_proj_mul_eq_exp` in `New.Appendix.DiscreteSeries.MinorSecondOrder`.'
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/OneMinor.lean
+      line: 14
+      endLine: 30
+      startOffset: 902
+      endOffset: 1768
+      text: "\n\nThe matrix `ĝ` differs from `exp Z` by unipotent factors. Block diagonal triangular factors multiply\n\
+        Flensted-Jensen's coefficient by a character of their diagonal if the matrices involved are\naccretive (`flenstedJensen_triangular_mul_mul_triangular`),\
+        \ so for small `Z` the coefficient is the\nsame at `ĝ` and at `exp Z` (`flenstedJensen_reducedExp`).\n\n\
+        All norms of matrices are Frobenius norms, and `ε : n → ℤˣ` is a vector of signs. Notation:\n* `principalMinor\
+        \ X p`, `coordProj p`: the principal minor `det_S X` and the diagonal projection for\n  the set `S` of indices\
+        \ satisfying `p`.\n* `blockDiagAlg ε`: the matrices that vanish at `(i, j)` whenever `ε i ≠ ε j`.\n* `lowerMask\
+        \ ε o Z`: the matrix that keeps the entries `(i, j)` of `Z` with `o j < o i` and\n  `ε i = ε j`.\n\n## Relation\
+        \ to the literature\n\nSee `New.Appendix.DiscreteSeries.Periods` for related work.\n"
+  New.Appendix.DiscreteSeries.Periods:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.Periods
+      name: New.DiscreteSeries.IsLaplaceDatum.laplace_method
+      line: 493
+      signature: "theorem IsLaplaceDatum.laplace_method [TopologicalSpace S] [BorelSpace S]\n    [IsFiniteMeasureOnCompacts\
+        \ ν] (h_datum : IsLaplaceDatum l k j τ B e φ)\n    (hj : IsProperMap fun s : S ↦ (j s).1) (hj' : Continuous\
+        \ fun s : S ↦ (j s).2)\n    (hl : l.HasLargeGap h) (hk : k.HasLargeGap h) (hB : 1 ≤ B) (hl_le : ∀ a : n,\
+        \ |l a| ≤ L)\n    (hk_le : ∀ a : m, |k a| ≤ L) (hβ : 10 ^ 12 ≤ β) (hβ_le : card n + card m + L ≤ β)\n  \
+        \  (hh : 10 ^ 30 * ((card n + card m) ^ 2 * β.log) ^ 3 ≤ h) :\n    Integrable (l.laplaceIntegrand k j φ)\
+        \ ν ∧\n    ν {s : S | ‖((j s).1 : Matrix n n ℂ)‖ ≤ β + 1 ∧ ‖((j s).2 : Matrix m m ℂ)‖ ≤ β + 1} ≤\n     \
+        \ ENNReal.ofReal (β ^ (20 * (card n + card m) ^ 2) *\n        ‖∫ s : S, l.laplaceIntegrand k j φ s ∂ν‖)"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.Periods
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 1
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/Periods.lean
+      line: 8
+      endLine: 11
+      startOffset: 199
+      endOffset: 527
+      text: 'This file proves lower bounds for periods of discrete series coefficients. Let
+
+        `j : S →* U(ε) × U(η)` be a homomorphism and write `θ` for the function `laplaceIntegrand` on `S`.
+
+        Laplace''s method bounds the volume of a large ball by a power of `β` times `‖∫ θ‖`, where `β` bounds
+
+        the dimensions and the entries of the parameters.'
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/Periods.lean
+      line: 11
+      endLine: 55
+      startOffset: 527
+      endOffset: 3505
+      text: "\n\n## Main definitions and results\n\n* The values of `θ` lie in a cone about the positive real axis,\
+        \ up to an exponentially small error\n  (`IsLaplaceDatum.norm_laplaceIntegrand_le_mul_re_add`). With the\
+        \ decay of the coefficients, `θ` is\n  integrable and the volume of a large ball is at most a power of `β`\
+        \ times `‖∫ θ‖`\n  (`IsLaplaceDatum.laplace_method`). The file `PositionGroup` applies this to the group\
+        \ of a\n  stationary position.\n\nNotions from other files:\n* `USign ε` is the unitary group `U(ε)` of\
+        \ the diagonal form with signs `ε`, and\n  `U.sum (signMatrix_sum ε η)` is the block embedding `(g, g')\
+        \ ↦ g ⊕ g'` of `U(ε) × U(η)`.\n* `l.dsCoeff g` is the discrete series coefficient with doubled Harish-Chandra\
+        \ parameter\n  `l = 2λ : HCParam ε`, given by Flensted-Jensen's integral and normalised to take the value\
+        \ `1`\n  at the identity; `l.lowestKType` is the highest weight of its lowest `K`-type. On the maximal\n\
+        \  compact subgroup it is the coefficient at the highest weight vector of this `K`-type\n  (`New.dsCoeff_of_mem_maxCompactU`).\n\
+        * A parameter `l = 2λ` indexed by `n` has gap `A` if its entries are distinct and congruent to\n  `card\
+        \ n - 1` mod 2, and `|λ a - λ b| ≥ A` whenever `ε a ≠ ε b`; `l.HasLargeGap h` says that `l`\n  has gap `500\
+        \ (card n)³ + h`.\n* `l.laplaceIntegrand k j φ s` is the coefficient of `l` at the first component of `j\
+        \ s`, times the\n  conjugate of the coefficient of `k` at the second, times `exp (-φ s)`.\n* `IsLaplaceDatum\
+        \ l k j τ B e φ` collects the hypotheses of Laplace's method. Let `μ`, `μ'` be the\n  weights `l.lowestKType`,\
+        \ `k.lowestKType` and let `j s = (g, g')`.\n  - The parameter `l` is steep (`IsSteep`) for the splitting\
+        \ `e : X ⊕ Fin M ≃ n`: on `X` the sign is\n    `+1` and `μ` is `0`; on the other `M` indices the signs are\
+        \ `+, -, +, …` and `μ` decreases\n    strictly in `[-3 B, -B]`.\n  - The weight `μ'` is nonnegative, at\
+        \ most `3 B` if `η` takes both signs, and `0` on the image of\n    `τ : X → m`, where the sign is `+1`.\n\
+        \  - The phase `φ s = tr (μ (g - 1)) - tr (μ' (g' - 1))` is additive and imaginary, and\n    `tr (g - 1)\
+        \ = tr (g' - 1)`.\n  - For each unitary `u` indexed by `X` there is an `s` such that `g - 1` and `g' - 1`\
+        \ are `u - 1`\n    extended by zero along `e` and along `τ`.\n\n## Relation to the literature\n\nThis file\
+        \ is the step of Laplace's method that makes restriction periods explicitly large. Near 1 a\ndiscrete series\
+        \ coefficient of U(p,q) is an explicit phase times a number close to the interval\n[0,1], up to a tenth\
+        \ of its size and an exponentially small error, so that the losses at the\narchimedean places are at most\
+        \ powers of the weights. The integral formula for coefficients,\nnon-vanishing of periods and fixed-rank\
+        \ asymptotics for coherent states are known in the literature.\nRelated work: Nelson–Venkatesh, The orbit\
+        \ method and analysis of automorphic forms, 2021; H. He, On\nthe Gan–Gross–Prasad conjecture for U(p,q),\
+        \ 2017; B. Sun, Matrix coefficients of cohomologically\ninduced representations, 2007.\n"
+  New.Appendix.DiscreteSeries.PositionGroup:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      name: New.DiscreteSeries.IsSteep.exists_volume_le_mul_norm_integral_dsCoeff
+      line: 678
+      signature: "theorem IsSteep.exists_volume_le_mul_norm_integral_dsCoeff [Nonempty n] {B β : ℝ} {l : HCParam\
+        \ ε}\n    {l' : HCParam (Sum.elim ε (1 : Unit → ℤˣ))} {M L h : ℕ} {e : X ⊕ Fin M ≃ n}\n    {e' : X ⊕ Fin\
+        \ (M + 1) ≃ n ⊕ Unit} (hM : Even M)\n    (h_steep : IsSteep l B e) (h_steep' : IsSteep (-l') B e') (hB :\
+        \ 1 ≤ B)\n    (hl : l.HasLargeGap h) (hl' : l'.HasLargeGap h)\n    (hL : ∀ a : n, |l a| ≤ L) (hL' : ∀ a\
+        \ : n ⊕ Unit, |l' a| ≤ L) (hβ : 10 ^ 12 ≤ β)\n    (hn : card (n ⊕ Unit) + card n + L ≤ β)\n    (h_size :\
+        \ card (n ⊕ Unit) ^ 4 * (6 * B) ^ (2 * M + 2) ≤ β)\n    (hh : 10 ^ 30 * ((card (n ⊕ Unit) + card n) ^ 2\
+        \ * β.log) ^ 3 ≤ h) :\n    ∃ y : USign (Sum.elim ε (1 : Unit → ℤˣ)),\n      ‖(y : Matrix (n ⊕ Unit) (n ⊕\
+        \ Unit) ℂ)‖ ^ 2 ≤ β ∧\n      volume.real {g : USign ε | ‖(g : Matrix n n ℂ) - 1‖ ≤ 1} ≤\n        β ^ (20\
+        \ * (card (n ⊕ Unit) + card n) ^ 2) *\n          ‖∫ g : USign ε, l.dsCoeff g *\n            conj (l'.dsCoeff\
+        \ (y⁻¹ * U.inl ε 1 g * y : USign (Sum.elim ε 1)))‖"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/PositionGroup.lean
+      line: 7
+      endLine: 13
+      text: "The elements `g` of `U(ε)` for which `g - 1` lowers the flag of a position form a closed subgroup\n\
+        `R`. It maps to `U(η)` by the action `g'` on the image of `i₀` modulo `A_{≤ j₀ - 1}`, and it\ncarries an\
+        \ additive sum `σ`.\n\n* The period over `R` in a stationary position is bounded below by Laplace's method\n\
+        \  (`IsStationary.integrable_periodIntegrand_and_measure_le`). The bound passes to a group that maps\n \
+        \ properly onto `R` (`IsStationary.period_lower_bound_of_surjective`).\n"
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/PositionGroup.lean
+      line: 14
+      endLine: 30
+      text: "* The pairing over `U(ε)` of a coefficient of `U(ε)` with a conjugated coefficient of `U(ε ⊕ 1)` is\n\
+        \  bounded below (`IsSteep.exists_volume_le_mul_norm_integral_dsCoeff`). This is the period in a\n  stationary\
+        \ position with one vector `v₁`, where `R` is the stabilizer of `v₁` in `U(ε ⊕ 1)`, a\n  conjugate of `U(ε)`.\n\
+        \nNotions from other files:\n* `USign ε` is the unitary group `U(ε)` of the diagonal matrix `signMatrix\
+        \ ε` of signs, and\n  `formAdjoint ε η A` is the adjoint `A†` of `A : (ℂ^m, η) → (ℂ^n, ε)` for these forms.\n\
+        * `IsPosition ε η d v i₀`: the columns `v₁, …, v_{j₀}` of `v`, `j₀ = d + 1`, are independent, their\n  products\
+        \ vanish except that `v_{j₀}` has norm `±1`, `i₀` is an isometry into their orthogonal\n  complement, and\
+        \ `card n = card m + 2 d + 1`.\n* `LowersFlag d v Y σ`: `Y` maps the span `A_{≤ j}` of `v₁, …, v_j` into\
+        \ `A_{≤ j - 1}` for `j ≤ j₀`,\n  and `σ` is the sum of the coefficients of `v_j` in `Y v_{j + 1}`.\n* `InducesOn\
+        \ d v i₀ Y Y'`: `Y i₀ = i₀ Y'` modulo `A_{≤ j₀ - 1}`.\n* `IsSteep l B e`: for `e : X ⊕ Fin M ≃ n`, the weight\
+        \ of the lowest `K`-type of `l` is `0` on `X`\n  and decreases in `[-3 B, -B]` on the other coordinates,\
+        \ with alternating signs there.\n* `IsLaplaceDatum` collects the hypotheses of Laplace's method on a map\
+        \ into `U(ε) × U(η)`.\n"
+  New.Appendix.DiscreteSeries.Positions:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.Positions
+      name: New.DiscreteSeries.IsStationary.trace_eq_and_phase_eq
+      line: 476
+      signature: "theorem IsStationary.trace_eq_and_phase_eq (hP : IsStationary l k e e' d v i₀) {Y : Matrix n n\
+        \ ℂ}\n    {Y' : Matrix m m ℂ} {σ σ' : ℂ} (hY : LowersFlag d v Y σ) (hY' : InducesOn d v i₀ Y Y')\n    (hYadj\
+        \ : LowersFlag d v (formAdjoint ε ε Y) σ') :\n    Y.trace = Y'.trace ∧ l.phase k (Y, Y') = σ + conj σ'"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.Positions
+      importer: New.Appendix.DiscreteSeries.StationaryPosition
+      line: 3
+    - module: New.Appendix.DiscreteSeries.StationaryPosition
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 2
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/Positions.lean
+      line: 7
+      endLine: 11
+      text: 'A position of `U(η)` in `U(ε)` consists of independent vectors `v₁, …, v_{j₀}` and an isometry `i₀`
+
+        into their orthogonal complement. It is stationary for two weights `μ`, `μ''` if `μ` moves `v_j` to
+
+        `v_{j + 1}` for `j < j₀` and compresses to `μ''` on the image of `i₀`, and `i₀` is the identity on
+
+        the common coordinates `X`. For a matrix `Y` that lowers the flag of the `v_j` together with its
+
+        adjoint, and induces `Y''` on the image of `i₀`, we compute `tr Y - tr Y''` and `tr μ Y - tr μ'' Y''`.
+
+        '
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/Positions.lean
+      line: 12
+      endLine: 19
+      text: "\nNotions from other files:\n* `signMatrix ε` is the diagonal matrix of the signs `ε i = ±1`, and `USign\
+        \ ε` its unitary group.\n* `HCParam ε` consists of the integer vectors on `n`, used as doubled Harish-Chandra\
+        \ parameters\n  `l = 2 λ`; `l.lowestKType` is the weight of the lowest `K`-type and `intDiagonal w` the\
+        \ diagonal\n  matrix of a weight `w`.\n* `l.phase k (Y, Y')` is `tr μ Y - tr μ' Y'` for the weights `μ`,\
+        \ `μ'` of the lowest `K`-types of\n  `l` and `k`.\n"
+  New.Appendix.DiscreteSeries.StationaryPosition:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.StationaryPosition
+      name: New.DiscreteSeries.IsSteep.exists_isStationary
+      line: 699
+      signature: "theorem IsSteep.exists_isStationary {l : HCParam ε} {k : HCParam η} {L L' d : ℕ}\n    {e : X ⊕\
+        \ Fin L ≃ n} {e' : X ⊕ Fin L' ≃ m} {B B' : ℝ} (hl : IsSteep l B e) (hB : 1 ≤ B)\n    (hL : L = L' + 2 *\
+        \ d + 1) (hX_sign : ∀ x : X, η (e' (Sum.inl x)) = 1)\n    (hX_zero : ∀ x : X, k.lowestKType (e' (Sum.inl\
+        \ x)) = 0)\n    (h_alt : ∀ j : Fin L', η (e' (Sum.inr j)) = (-1) ^ j.val)\n    (h_mono : StrictMono fun\
+        \ j : Fin L' ↦ k.lowestKType (e' (Sum.inr j))) (hB' : 0 ≤ B')\n    (h_mem : ∀ j : Fin L', (k.lowestKType\
+        \ (e' (Sum.inr j)) : ℝ) ∈ Set.Icc 0 B') :\n    ∃ (v : Matrix n (Fin (d + 1)) ℂ) (i₀ : Matrix n m ℂ),\n \
+        \     IsStationary l k e e' d v i₀ ∧\n      (vᴴ * signMatrix ε * v) (Fin.last d) (Fin.last d) = (-1) ^ L'\
+        \ ∧\n      (∀ (i : n) (a : Fin (d + 1)), ‖v i a‖ ≤ (3 * B + B') ^ L) ∧\n      (∀ (i : n) (j : m), ‖i₀ i\
+        \ j‖ ≤ (3 * B + B') ^ L) ∧\n      ∀ a : ℕ, a ≤ 2 * d → ∀ i : n,\n        ‖(intDiagonal l.lowestKType ^ a\
+        \ *ᵥ v.col 0) i‖ ≤ (3 * B + B') ^ L"
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.StationaryPosition
+      importer: New.Appendix.DiscreteSeries.PositionGroup
+      line: 2
+    - module: New.Appendix.DiscreteSeries.PositionGroup
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/StationaryPosition.lean
+      line: 8
+      endLine: 12
+      text: 'For weights `μ` and `μ''` on opposite sides of `0`, with alternating signs on each side, there is a
+
+        position `(v, i₀)` in which `μ` moves each vector `v_j` to `v_{j + 1}` for `j < j₀`, where
+
+        `j₀ = d + 1` is the number of vectors, and `i₀` compresses `μ` to `μ''`
+
+        (`IsSteep.exists_isStationary`). The weight `μ` is realized as multiplication by `t` on
+
+        polynomials, and the form as a sum of residues.
+
+        '
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/StationaryPosition.lean
+      line: 13
+      endLine: 30
+      text: "\nThroughout, `p = nodal univ μ` and `q = nodal univ μ'` are the monic polynomials with the roots\n\
+        `μ i` and `μ' j`, and `q_j = nodal (univ.erase j) μ'` is `q / (t - μ' j)`. The roots are indexed\nfrom `0`,\
+        \ the vectors `v₁, …, v_{j₀}` from `1`. The vector `polyVec μ μ' F` is written `[F]`, and\n`alternatingSignForm\
+        \ x y` is written `⟨x, y⟩`.\n\nNotions from other files:\n\n* `l.lowestKType`: the highest weight of the\
+        \ lowest `K`-type for the doubled Harish-Chandra\n  parameter `l = 2 λ : HCParam ε`, a vector of integers;\
+        \ `intDiagonal` turns it into a diagonal\n  matrix.\n* `IsSteep l B e`: on `X` the signs `ε` are `+1` and\
+        \ that weight is `0`; on `Fin L` the signs\n  are `+, -, …` and the weight decreases strictly in `[-3 B,\
+        \ -B]`.\n* `IsPosition ε η d v i₀`: the ranks differ by `2 d + 1`, the columns of `v` are independent, their\n\
+        \  products vanish except that the last column has norm `±1`, and `i₀` is an isometry into their\n  orthogonal\
+        \ complement.\n* `signMatrix ε` is the diagonal matrix of the signs `ε`, and `formAdjoint ε η A` is the\
+        \ adjoint\n  `A†` for the hermitian forms with the signs `ε` and `η`.\n"
+  New.Appendix.DiscreteSeries.SteepParameters:
+    group: New.Appendix
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Appendix.DiscreteSeries.SteepParameters
+      name: New.HCParam.laplaceIntegrand
+      line: 94
+      signature: 'def _root_.New.HCParam.laplaceIntegrand (s : S) : ℂ'
+    routeToMain:
+    - module: New.Appendix.DiscreteSeries.SteepParameters
+      importer: New.Determinant.AuxiliaryForms.DeepLevelPoincarePeriod
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.DeepLevelPoincarePeriod
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 3
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Appendix/DiscreteSeries/SteepParameters.lean
+      line: 6
+      endLine: 10
+      text: 'This file begins the localization near the compact subgroups. It concerns a group `S` that maps to
+
+        `U(ε) × U(η)`, for two vectors of signs `ε` and `η`, together with the parameters of two discrete
+
+        series. Let `μ` and `μ''` be the diagonal matrices of the weights of their lowest `K`-types. Among
+
+        other properties, the function `φ s = tr (μ (g - 1)) - tr (μ'' (g'' - 1))` of the image `(g, g'')` of
+
+        `s`, the difference of the two phases, is additive and purely imaginary.
+
+        '
+    remainder:
+      path: grh/src/New/Appendix/DiscreteSeries/SteepParameters.lean
+      line: 11
+      endLine: 29
+      text: "The file defines the phase difference `New.HCParam.phase`, steep parameters, the properties\n`New.DiscreteSeries.IsLaplaceDatum`\
+        \ and the integrand `New.HCParam.laplaceIntegrand`. It also\nproves the polar decomposition of an invertible\
+        \ matrix.\n\n## Main definitions and results\n\n* `New.DiscreteSeries.IsLaplaceDatum`: the properties of\
+        \ `j : S →* U(ε) × U(η)` and `φ` that\n  Laplace's method uses; `New.HCParam.laplaceIntegrand` is the function\
+        \ that is integrated.\n* `New.DiscreteSeries.IsSteep`: the parameter `l` for the signs `ε` is steep with\
+        \ respect to `B`\n  and the splitting `e : X ⊕ Fin M ≃ n` of the coordinates.\n\nNotions from other files:\n\
+        * `New.USign ε`: the unitary group `U(ε)` of the diagonal matrix `signMatrix ε` of the signs `ε`.\n* `New.HCParam.lowestKType\
+        \ l`: the highest weight of the lowest `K`-type of the parameter `l`.\n* `New.HCParam.dsCoeff l`: the matrix\
+        \ coefficient of that `K`-type, as a function of a matrix.\n\n## Relation to the literature\n\nSee `New.Appendix.DiscreteSeries.Localization`\
+        \ for related work.\n"
+needs_draft: true

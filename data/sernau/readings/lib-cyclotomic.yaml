@@ -1,0 +1,545 @@
+group: Lib.Cyclotomic
+overview:
+  group: Lib.Cyclotomic
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: "Stickelberger studies Gauss sums over prime fields and builds a family of Jacobi-type quotients with Galois and distribution relations."
+    citations:
+    - module: Lib.Cyclotomic.Stickelberger
+      line: 5
+      endLine: 15
+    - module: Lib.Cyclotomic.Stickelberger
+      line: 31
+      endLine: 34
+  - sentence: "For these Jacobi-type quotients, the product relation in this treatment holds only up to a root of unity."
+    citations:
+    - module: Lib.Cyclotomic.Stickelberger
+      line: 31
+      endLine: 34
+  - sentence: "OddSha describes how the Jacobi family and derivative cocycles contribute to bounds on cocycles over cyclotomic fields."
+    citations:
+    - module: Lib.Cyclotomic.OddSha
+      line: 26
+      endLine: 39
+    - module: Lib.Cyclotomic.OddSha
+      line: 40
+      endLine: 49
+  - sentence: "For the odd cocycle model over a CM subfield of ℚ(μ_N) and a fixed twist cutoff, one positive integer X gives a length bound v_O(X) across primes and admissible coefficient rings. The file leaves the comparison with the Tate–Shafarevich group open."
+    citations:
+    - module: Lib.Cyclotomic.OddSha
+      line: 14
+      endLine: 22
+    - module: Lib.Cyclotomic.OddSha
+      line: 645
+      endLine: 651
+  declarations:
+  - module: Lib.Cyclotomic.Stickelberger
+    name: New.OddPart.stickelberger
+    line: 139
+    signature: "lemma stickelberger (hB : B.valuation p < 1) {ψ : AddChar (ZMod p) (\U0001D4DE Ω)}\n    {χ : AddChar\
+      \ (ZMod r) (MulChar (ZMod p) (\U0001D4DE Ω))} (g : ZMod r → DiscreteUnits Ω)\n    (hg : ∀ t : ZMod r, (g t).toMul.val\
+      \ = gaussSum (χ t) ψ) (hψ : ψ.IsPrimitive)\n    (hχ : χ.IsPrimitive) (h_cop : p.Coprime r) :\n    ∃ S : ZMod\
+      \ r →+ QZ, (⇑S).Injective ∧ ∀ t : ZMod r, (S t).fracRep = ordRat ℚ B (g t)"
+  - module: Lib.Cyclotomic.OddSha
+    name: New.exists_length_shaOdd_le
+    line: 645
+    signature: "lemma New.exists_length_shaOdd_le (N t : ℕ) [NeZero N] (E : Type) [Field E] [NumberField E]\n    [IsCMField\
+      \ E] [Algebra E Ω] (h_sub : ∀ x : E, algebraMap E Ω x ∈ cycloField N) :\n    ∃ X : ℕ, X ≠ 0 ∧\n      X ≤ 2 ^\
+      \ (4 * (N + t + 3) ^ 27) * classNumber E ∧\n      ∀ (l : ℕ) [ThePrime l] (O : Type) [CommRing O] [PadicIntegerRing\
+      \ O l],\n        HasEnoughRootsOfUnity O (Monoid.exponent (ZMod N)ˣ) →\n        ∀ e : ℕ, e < t → ∀ n : ℕ, length\
+      \ O (shaOdd l E O e n) ≤ addVal O X"
+  routeToMain:
+  - module: Lib.Cyclotomic.Stickelberger
+    importer: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+    line: 2
+  - module: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+    importer: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+    line: 2
+  - module: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+    importer: Lib.Cyclotomic.OddSha
+    line: 2
+  - module: Lib.Cyclotomic.OddSha
+    importer: New.Congruences.FirstOrder.TrianglePrimes
+    line: 1
+  - module: New.Congruences.FirstOrder.TrianglePrimes
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 4
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  Lib.Cyclotomic.Kolyvagin.DerivativeCocycles:
+    group: Lib.Cyclotomic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+      name: New.OddPart.exists_isKolyvaginSystem
+      line: 974
+      signature: "lemma exists_isKolyvaginSystem {O : Type} [CommRing O] {B : ClosurePlace} {N l n : ℕ} [NeZero\
+        \ N]\n    [Fact l.Prime] [Algebra ℤ_[l] O] {ψ : DirichletCharacter O N} (e c : ℕ) (γ : Gal(Ω/ℚ))\n    {P\
+        \ : Finset Nat.Primes} (hP_one : ∀ q ∈ P, (q : ℕ) ≡ 1 [MOD c * (N * l ^ n)])\n    {p : Nat.Primes} (hp_one\
+        \ : (p : ℕ) ≡ 1 [MOD N * l ^ n * ∏ q ∈ P, (q : ℕ)])\n    (hpB : B.valuation (p : Ω) < 1) :\n    ∃ κ : Finset\
+        \ Nat.Primes → Gal(Ω/ℚ) → QuotSpan (l ^ n : O),\n      IsKolyvaginSystem (cyclotomicPowDirichlet l (e +\
+        \ 1) ψ) γ N l p P κ ∧\n      ((∀ τ ∈ inertiaGroup Gal(Ω/ℚ) B, κ ∅ τ = 0) →\n        (cyclotomicPowDirichlet\
+        \ l (e + 1) ψ γ - 1 : O) •\n            ((∑ a : (ZMod (N * l ^ n))ˣ, floorDiff c (ofZMod (N * l ^ n) a)\
+        \ *\n                ((a : ZMod (N * l ^ n)).val ^ e * ψ (a : ZMod (N * l ^ n)).val) : O) :\n          \
+        \    QuotSpan (l ^ n : O)) =\n          (0 : QuotSpan (l ^ n : O)))"
+    routeToMain:
+    - module: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+      importer: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+      line: 2
+    - module: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+      importer: Lib.Cyclotomic.OddSha
+      line: 2
+    - module: Lib.Cyclotomic.OddSha
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 1
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cyclotomic/Kolyvagin/DerivativeCocycles.lean
+      line: 7
+      endLine: 11
+      text: 'The main result, `New.OddPart.exists_isKolyvaginSystem`, constructs Kolyvagin''s cocycles `κ S` with
+
+        values in `O/lⁿ` from the Jacobi-type quotients `J` of `New.OddPart.exists_isJacobiFamily`. One
+
+        takes `lⁿ`-th roots `y` of `J`, forms the roots of unity `γ y / (g γ g⁻¹) y`, applies the derivative
+
+        operators at the primes of `S` and sums against `aᵉ ψ(a)`. The local properties are read modulo a
+
+        place, where roots of unity of order prime to it stay distinct.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cyclotomic/Kolyvagin/DerivativeCocycles.lean
+      line: 12
+      endLine: 41
+      text: "\n* `New.OddPart.IsKolyvaginSystem`: the properties of the cocycles `κ S`.\n* `New.OddPart.exists_isKolyvaginSystem`:\
+        \ a Kolyvagin system exists.\n* `New.OddPart.derivativeSum`: the derivative operators followed by the character\
+        \ sum.\n\nConventions: `Ω = ℚ̄` is an algebraic closure of `ℚ`, and its places are valuation subrings\n\
+        (`ClosurePlace`); `DiscreteUnits Ω` is `Ω^×` written additively, so `n • u` is `uⁿ`, and\n`galUnitsRep g`\
+        \ is the action of `g` on it; `New.QZ.ofZMod M a` is `a/M` in `ℚ/ℤ`;\n`QuotSpan (l ^ n : O)` is `O/lⁿ`;\
+        \ `floorDiff c x` is `⌊c ⟨x⟩⌋ - ⌊c ⟨-x⟩⌋`, where `⟨x⟩` is the\nrepresentative of `x` in `[0, 1)`.\n\nNotions\
+        \ from other files:\n* `New.OddPart.principalUnits B`: the units of `Ω` congruent to `1` modulo the maximal\
+        \ ideal of `B`,\n  as an additive subgroup of `DiscreteUnits Ω`.\n* `New.IsFrob B q σ`: `σ` stabilises `B`,\
+        \ and `σ x ≡ x ^ q` modulo the maximal ideal of `B` for\n  every `x` in `B`; for `q = 1` this says that\
+        \ `σ` lies in the inertia group of `B`.\n* `New.rootPowHom Ω m`: the map `ℤ/m → Ω^×`, `t ↦ ζᵗ`, for a fixed\
+        \ primitive `m`-th root of unity\n  `ζ`; it is injective, and its image is the set of `m`-th roots of unity.\n\
+        * `New.cyclotomicPowDirichlet l e ψ`: the character `cycᵉ ψ` of `Gal(ℚ̄/ℚ)` with values in `Oˣ`,\n  where\
+        \ `cyc` is the `l`-adic cyclotomic character.\n\n## Relation to the literature\n\nKnown result: Kolyvagin's\
+        \ derivative classes of the Euler system of Gauss sums. Here the classes\ncarry a Tate twist and a Dirichlet\
+        \ character and are cocycles over the rationals that vanish at one\nfixed element. Their ramification, the\
+        \ relation between Frobenius and inertia, and the link between\nthe bottom class and the Stickelberger element\
+        \ are also covered. Source: K. Rubin, Kolyvagin's\nsystem of Gauss sums, Arithmetic Algebraic Geometry (Texel\
+        \ 1989), Progr. Math. 89, 1991, 309-324;\nwith a Tate twist: G. Banaszak, W. Gajda, Euler systems for higher\
+        \ K-theory of number fields, J.\nNumber Theory 58 (1996).\n"
+  Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds:
+    group: Lib.Cyclotomic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+      name: New.OddPart.exists_detecting_points_component
+      line: 1104
+      signature: "lemma exists_detecting_points_component (h_bound : IsStickelbergerBound N e X)\n    (hc : cyclotomicPowDirichlet\
+        \ l e ψ cmConj = -1) (he_ne_zero : e ≠ 0) (hX : X ≠ 0)\n    (hl : N + e + 3 < l) :\n    ∃ γ : Fin (X.factorization\
+        \ l + 1) → Gal(Ω/ℚ),\n      ∀ x ∈ component l e ψ ν, (∀ i : Fin (X.factorization l + 1), x (γ i) = 0) →\
+        \ x = 0"
+    routeToMain:
+    - module: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+      importer: Lib.Cyclotomic.OddSha
+      line: 2
+    - module: Lib.Cyclotomic.OddSha
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 1
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cyclotomic/Kolyvagin/ReciprocityComponentBounds.lean
+      line: 8
+      endLine: 17
+      startOffset: 225
+      endOffset: 1106
+      text: 'The file studies cocycles on `Gal(Ω/ℚ)`, with `Ω` an algebraic closure of ℚ. Here
+
+        `New.cyclotomicPowDirichlet l e ψ` is `cyc^e ψ` with `cyc` the `l`-adic cyclotomic character. The
+
+        module `New.OddPart.component l e ψ ν` consists of the cocycles for `(cyc^e ψ)⁻¹` with values in
+
+        `O / l^ν`, where `O` (`PadicIntegerRing O l`) is the integer ring of a finite extension of ℚ_l, that
+
+        satisfy three conditions. They are unramified off `l` over ℚ(μ_N), split at `l` over ℚ(μ_{N l^∞})
+
+        and zero at `New.cmConj`, a complex conjugation. Reciprocity laws at primes `q ≡ 1` relate the value
+
+        of one cocycle at a Frobenius element to the ramification of another. Using these laws and
+
+        Chebotarev''s theorem, the file bounds these components in two ways. One bound is an annihilation
+
+        result analogous to Stickelberger''s theorem. The other uses Kolyvagin''s descent with the Euler
+
+        system of Gauss sums.'
+    remainder:
+      path: grh/src/Lib/Cyclotomic/Kolyvagin/ReciprocityComponentBounds.lean
+      line: 17
+      endLine: 52
+      startOffset: 1106
+      endOffset: 3417
+      text: "\n\n## Main definitions and results\n\n* `New.OddPart.artin_reciprocity_of_mem_component`: Artin reciprocity\
+        \ over ℚ(μ_{N m}), where the\n  prime q ≡ 1 splits completely, pairs a cocycle `x` with a number `y`; only\
+        \ the places above q\n  contribute.\n* `New.OddPart.reciprocity_mod_ell`: the same law modulo `l` for a\
+        \ cocycle κ for cyc^(e+1) ψ; if\n  `2 (a ^ e - 1) x φ ≠ 0`, then κ vanishes on the inertia group of `B`.\n\
+        * `New.OddPart.nsmul_component_eq_zero`: if `X` has the Stickelberger property\n  (`New.OddPart.IsStickelbergerBound\
+        \ N e X`), `cyc^e ψ` is odd and `e ≠ 0`, then `4 X²` kills\n  `New.OddPart.component l e ψ ν` (an analogue\
+        \ of Stickelberger's theorem).\n* `New.OddPart.exists_detecting_points_component`: for large `l`, a cocycle\
+        \ in\n  `New.OddPart.component l e ψ ν` is determined by its values at `v_l(X) + 1` elements (Kolyvagin's\n\
+        \  descent with the Euler system of Gauss sums).\n\nNotions from other files:\n* `New.cyclotomicPowDirichlet\
+        \ l e ψ`: the character `cyc^e ψ` of `Gal(Ω/ℚ)` with values in `Oˣ`; the\n  Dirichlet character `ψ` is read\
+        \ through the action on the `N`-th roots of unity.\n* `New.OddPart.vanishingCocycles χ M s`: the `O`-module\
+        \ of locally constant maps `x : Gal(Ω/ℚ) → M`\n  with `x (g h) = x g + χ(g) x h` (cocycles for `χ`) that\
+        \ vanish on `s`.\n* `New.IsFrob A q σ`: `σ` stabilises the place `A` and `σ • x ≡ x ^ q` modulo its maximal\
+        \ ideal for\n  all `x ∈ A`.\n* `New.ordRat K A`: the order `Ωˣ → ℚ` at the place `A`, normalised to be `1`\
+        \ on uniformisers of\n  `K`. `New.cyclotomicCharMod Ω n` gives the action on the `n`-th roots of unity,\
+        \ in `(ℤ/n)ˣ`.\n\n## Relation to the literature\n\nKnown result: Stickelberger annihilation and the Kolyvagin–Rubin\
+        \ bound for odd twisted components.\nHere the value is taken at a negative integer instead of at zero, and\
+        \ for an integer X whose\nmultiples (a^(e+1) − 1) X, for a ≡ 1 mod N, are congruent modulo each m prime\
+        \ to a to 2w times the\nStickelberger sum at level N m, and which for each prime ℓ is divisible by (a^e\
+        \ − 1)(a^(e+1) − 1)\nfor some such a prime to ℓ, 4X² kills the odd component at every prime. For large primes\
+        \ ℓ, at most\nv_ℓ(X)+1 Galois elements detect its classes. Source: J. Coates, W. Sinnott, An analogue of\n\
+        Stickelberger's theorem for the higher K-groups, Invent. Math. 24 (1974); K. Rubin, Euler Systems,\n2000,\
+        \ III.4, Thm 4.6.\n"
+  Lib.Cyclotomic.OddSha:
+    group: Lib.Cyclotomic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cyclotomic.OddSha
+      name: New.exists_length_shaOdd_le
+      line: 645
+      signature: "lemma New.exists_length_shaOdd_le (N t : ℕ) [NeZero N] (E : Type) [Field E] [NumberField E]\n\
+        \    [IsCMField E] [Algebra E Ω] (h_sub : ∀ x : E, algebraMap E Ω x ∈ cycloField N) :\n    ∃ X : ℕ, X ≠\
+        \ 0 ∧\n      X ≤ 2 ^ (4 * (N + t + 3) ^ 27) * classNumber E ∧\n      ∀ (l : ℕ) [ThePrime l] (O : Type) [CommRing\
+        \ O] [PadicIntegerRing O l],\n        HasEnoughRootsOfUnity O (Monoid.exponent (ZMod N)ˣ) →\n        ∀ e\
+        \ : ℕ, e < t → ∀ n : ℕ, length O (shaOdd l E O e n) ≤ addVal O X"
+    routeToMain:
+    - module: Lib.Cyclotomic.OddSha
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 1
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cyclotomic/OddSha.lean
+      line: 7
+      endLine: 10
+      text: 'Let E be a number field inside ℚ(μ_N) and let l be a prime. Polynomially many elements of the
+
+        absolute Galois group of E detect the locally constant cocycles of a Tate twist that take values in
+
+        O / lⁿ and are unramified outside l. For a CM field E inside ℚ(μ_N), this gives one integer X of
+
+        explicit size whose valuation bounds the length of a module of odd cocycles at every prime l.
+
+        '
+    remainder:
+      path: grh/src/Lib/Cyclotomic/OddSha.lean
+      line: 11
+      endLine: 73
+      text: "\n## Overview of this theory\n\nFor a CM field `E` inside `ℚ(μ_N)`, and `O` the integers of a finite\
+        \ extension of `ℚ_ℓ` with enough\nroots of unity for the characters mod `N`, `New.Selmer.shaOdd` is a module\
+        \ of cocycles of `Gal(Ω/E)`\nwith values in `O/ℓⁿ(-e)`, modelled on the odd part of `Ш¹(E, O/ℓⁿ(-e))`; no\
+        \ comparison with `Ш¹` is\nproved. For `e = 0` it consists of the everywhere unramified homomorphisms. Here\
+        \ `ℓ` is a prime and\n`e, n ≥ 0`.\n\n* `New.exists_length_shaOdd_le`: for each `t ≥ 0` there is an integer\
+        \ `X`, depending on `E`, `N` and\n  `t`, with `0 < X ≤ 2^(4T²⁷) h_E`. Here `T = N + t + 3` and `h_E` is\
+        \ the class number of `E`. The\n  length of `New.Selmer.shaOdd` over `O` is at most `v_O(X)` for all `ℓ`,\
+        \ `O`, `n` and all `e < t`.\n\nNo equality of characteristic ideals (the main conjecture of Mazur and Wiles)\
+        \ is proved.\n\nProof outline: 1. `Voronoi`: `New.OddPart.exists_isStickelbergerBound` gives, for `e ≥ 1`,\
+        \ an\ninteger `0 < X ≤ 2^((N+e+3)⁶)` satisfying `New.OddPart.IsStickelbergerBound N e X`. This is a\nbounded\
+        \ divisibility of twisted Stickelberger sums.\n\n2. `Stickelberger`: `New.OddPart.exists_isJacobiFamily`\
+        \ fixes a prime `p`, a place `B` above `p` and\n   any `c ∈ ℕ`. It builds a map `J` from `ℚ/ℤ` to units,\
+        \ a variant of Jacobi sums. For `p ≡ 1 mod M`\n   and `Mx = 0`, `J(x)` is a unit at places not above `p`.\
+        \ It has absolute value one in every\n   complex embedding. Its order at `B` is `New.OddPart.floorDiff c\
+        \ x`. It also satisfies Galois and\n   product relations.\n3. `Kolyvagin.DerivativeCocycles`: `New.OddPart.exists_isKolyvaginSystem`\
+        \ builds\n   `cyc^(e+1)ψ`-cocycles `κ_S : G_ℚ → O/ℓⁿ`. Here `cyc` is the `ℓ`-adic cyclotomic character and\
+        \ `ψ`\n   a Dirichlet character mod `N`. The sets `S` range over subsets of a finite set `P` of primes\n\
+        \   `≡ 1 mod cNℓⁿ`, and `p ≡ 1 mod Nℓⁿ∏P`. For `q ∈ P ∖ S` and a place `A` above `q`, the value of\n   `κ_S`\
+        \ at a Frobenius at `A` is a value of `κ_{S∪{q}}` on inertia at `A`.\n4. `Kolyvagin.ReciprocityComponentBounds`:\
+        \ take `e ≥ 1` and `cycᵉψ` odd. Then `4X²` kills\n   `New.OddPart.component`, a set of cocycles `G_ℚ → O/ℓ^ν`\
+        \ attached to `cycᵉψ`\n   (`New.OddPart.nsmul_component_eq_zero`, an analogue of Stickelberger's theorem).\
+        \ If moreover\n   `ℓ > N + e + 3`, there are `v_ℓ(X) + 1` elements of `G_ℚ` with the following property:\
+        \ a cocycle\n   in the component vanishing at all of them is zero\n   (`New.OddPart.exists_detecting_points_component`).\n\
+        5. `OddSha`: for `e > 0`, the group is split by characters `ψ`, and step 4 gives an integer killing\n  \
+        \ `New.Selmer.shaOdd`. A bounded number of suitable elements of `G_E` suffice to test whether a\n   cocycle\
+        \ is zero. For small `ℓ` this uses ray classes, and for large `ℓ` it uses step 4. Together\n   these bound\
+        \ the length. For `e = 0`, the class number `h_E` serves.\n\n## Main definitions and results\n\n* `New.OddPart.exists_detecting_points_cocycles`:\
+        \ the detecting set and the bound on its size.\n* `New.OddPart.nsmul_shaOdd_eq_zero_of_isStickelbergerBound`:\
+        \ an integer that kills\n  `New.Selmer.shaOdd` for e ≠ 0, at every prime l.\n* `New.OddPart.length_shaOdd_le_of_le_sq`,\
+        \ `New.OddPart.length_shaOdd_le_of_sq_lt`: the bounds on\n  the length for small and for large primes l.\n\
+        \nNotions from other files:\n* `Ω`: the fixed algebraic closure of ℚ; `Gal(Ω/E)` is its group of automorphisms\n\
+        \  over `E`, the absolute Galois group of `E`.\n* `New.Selmer.tateTwist`: the rank-one representation O(−e),\
+        \ the character cyc^{−e} with values in\n  O, as 1 × 1 matrices.\n* `New.conjGal`: the endomorphism g ↦\
+        \ c g c of Gal(Ω / E), where c is `New.cmConj`, the complex\n  conjugation fixed in Gal(Ω / ℚ); a cocycle\
+        \ z is odd if z (c g c) = -z g.\n\n## Relation to the literature\n\nFor large `l` a bound of this kind follows\
+        \ from the Iwasawa main conjecture of Mazur and Wiles; only\nan upper bound for the length at finite level,\
+        \ by an integer of explicit size, is proved here. One\nnon-zero integer serves at all primes, 2 included;\
+        \ small primes are handled by a crude count of\ngenerators of the ray class group. Source: B. Mazur, A.\
+        \ Wiles, Class fields of abelian extensions of\nQ, Invent. Math. 76 (1984); C. Greither, Ann. Inst. Fourier\
+        \ 42 (1992), Thm 3.2.\n"
+  Lib.Cyclotomic.Stickelberger:
+    group: Lib.Cyclotomic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cyclotomic.Stickelberger
+      name: New.OddPart.stickelberger
+      line: 139
+      signature: "lemma stickelberger (hB : B.valuation p < 1) {ψ : AddChar (ZMod p) (\U0001D4DE Ω)}\n    {χ : AddChar\
+        \ (ZMod r) (MulChar (ZMod p) (\U0001D4DE Ω))} (g : ZMod r → DiscreteUnits Ω)\n    (hg : ∀ t : ZMod r, (g\
+        \ t).toMul.val = gaussSum (χ t) ψ) (hψ : ψ.IsPrimitive)\n    (hχ : χ.IsPrimitive) (h_cop : p.Coprime r)\
+        \ :\n    ∃ S : ZMod r →+ QZ, (⇑S).Injective ∧ ∀ t : ZMod r, (S t).fracRep = ordRat ℚ B (g t)"
+    routeToMain:
+    - module: Lib.Cyclotomic.Stickelberger
+      importer: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+      line: 2
+    - module: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+      importer: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+      line: 2
+    - module: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+      importer: Lib.Cyclotomic.OddSha
+      line: 2
+    - module: Lib.Cyclotomic.OddSha
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 1
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cyclotomic/Stickelberger.lean
+      line: 7
+      endLine: 11
+      startOffset: 189
+      endOffset: 532
+      text: "Gauss sums over `\U0001D53D_p` give a family of elements `J x` of `Ωˣ`, `Ω = ℚ̄`, indexed by torsion\
+        \ points\n`x` of `ℚ/ℤ`, with a known Galois action and a distribution relation up to elements of finite\
+        \ order.\n\n* `New.OddPart.floorDiff`, `New.OddPart.sum_floorDiff`: the integer `⌊c ⟨x⟩⌋ - ⌊c ⟨-x⟩⌋` and\
+        \ its\n  distribution relation (Hermite's identity)."
+    remainder:
+      path: grh/src/Lib/Cyclotomic/Stickelberger.lean
+      line: 11
+      endLine: 35
+      startOffset: 532
+      endOffset: 2163
+      text: "\n* `New.OddPart.exists_galUnitsRep_gaussSum_eq`, `New.OddPart.stickelberger`: Galois action on Gauss\n\
+        \  sums, and their orders at a place `B` above `p`.\n* `New.OddPart.exists_isJacobiFamily`: the family `J`,\
+        \ built from the quotients\n  `j t = g(χ) ^ c / g(χ ^ c)` as `j t / j (-t)`.\n\nNotions from other files:\n\
+        * `Ω` is `ℚ̄`, and `DiscreteUnits Ω` is `Ωˣ` written additively: a sum is a product, `c • u` is\n  `u ^\
+        \ c`. `galUnitsRep σ` is the action of `σ ∈ Gal(Ω/ℚ)` on it.\n* `ClosurePlace`: a valuation subring `B`\
+        \ of `Ω`; it lies above `p` when `B.valuation p < 1`, and\n  `centrePrime Ω B` is the prime ideal of `\U0001D4DE\
+        \ Ω` that it defines; `principalUnits B` is the subgroup\n  of `DiscreteUnits Ω` of the `u` with `B.valuation\
+        \ (u - 1) < 1`, that is `u ≡ 1` at `B`.\n* `ordRat ℚ B u`: the order of `u` at `B`, normalised so that a\
+        \ prime `p` below `B` has order one.\n* `cyclotomicCharMod Ω N σ`: the cyclotomic character of `σ` modulo\
+        \ `N`, the unit `a` with\n  `σ ζ = ζ ^ a` for every `N`-th root of unity `ζ`.\n* `New.QZ`: the group `ℚ/ℤ`;\
+        \ `New.QZ.fracRep x = ⟨x⟩` is the representative in `[0, 1)`, and\n  `New.QZ.ofZMod r b = b / r`.\n\n##\
+        \ Relation to the literature\n\nKnown result: Stickelberger's factorisation of Gauss sums and the Davenport–Hasse\
+        \ product relation.\nHere only prime fields are treated, and characters are named by the valuation of their\
+        \ Gauss sum.\nThe product relation is proved for Jacobi-type quotients of Gauss sums and only up to a root\
+        \ of\nunity. Source: L. Washington, Introduction to Cyclotomic Fields, 2nd ed. 1997, 6.2 and Thm 15.1; for\n\
+        the product relation, H. Davenport, H. Hasse, J. reine angew. Math. 172 (1935).\n"
+    standaloneReview:
+      verdict: clear
+      reason: Describes Gauss-sum Galois and distribution relations and a floor-difference construction.
+  Lib.Cyclotomic.Voronoi:
+    group: Lib.Cyclotomic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Cyclotomic.Voronoi
+      name: New.OddPart.exists_isStickelbergerBound
+      line: 393
+      signature: "lemma exists_isStickelbergerBound (he : e ≠ 0) :\n    ∃ X ≠ (0 : ℕ), X ≤ 2 ^ (N + e + 3) ^ 6 ∧\
+        \ IsStickelbergerBound N e X"
+    routeToMain:
+    - module: Lib.Cyclotomic.Voronoi
+      importer: Lib.GaloisRep.Main.SelmerModules
+      line: 3
+    - module: Lib.GaloisRep.Main.SelmerModules
+      importer: Lib.ClassField.Global.CMSplittingCharacters
+      line: 2
+    - module: Lib.ClassField.Global.CMSplittingCharacters
+      importer: Lib.Adelic.Landherr
+      line: 1
+    - module: Lib.Adelic.Landherr
+      importer: Lib.Weil.Construction.CanonicalTheta
+      line: 1
+    - module: Lib.Weil.Construction.CanonicalTheta
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 2
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Cyclotomic/Voronoi.lean
+      line: 6
+      endLine: 9
+      startOffset: 118
+      endOffset: 381
+      text: 'The analytic input to the bound for the odd part of Ш: one nonzero integer X of controlled size
+
+        that, times c ^ (e + 1) - 1, lies in all the Stickelberger ideals for N and e.
+
+
+        * `New.OddPart.IsStickelbergerBound`: the two properties required of X, as a structure.'
+    remainder:
+      path: grh/src/Lib/Cyclotomic/Voronoi.lean
+      line: 9
+      endLine: 31
+      startOffset: 381
+      endOffset: 1919
+      text: "\n* `New.OddPart.exists_isStickelbergerBound`: such an X exists with X ≤ 2 ^ (N + e + 3) ^ 6, for\n\
+        \  e ≥ 1.\n\nThe idea: the generalised Bernoulli numbers of all characters mod N, corrected where they vanish\
+        \ for\nreasons of parity, are the eigenvalues of one integer matrix. Its determinant is nonzero\n(`New.OddPart.sum_mul_bernoulli_ne_zero`),\
+        \ is divisible by each eigenvalue, and is bounded by\nthe Fourier series of the Bernoulli polynomial. Voronoi's\
+        \ congruence\n(`New.OddPart.voronoi_congruence_bernoulli`) links the Bernoulli numbers to the Stickelberger\
+        \ sums;\nit rests on a congruence for power sums along an arithmetic progression\n(`New.OddPart.exists_sq_dvd_factorial_mul_sum_pow_sub`).\n\
+        \n## Relation to the literature\n\nKnown result: Voronoi's congruence for twisted power sums and the trivial\
+        \ zeros of Dirichlet\nL-functions. Here the congruence is twisted by a possibly imprimitive character and\
+        \ stated for power\nsums. One non-zero integer with an explicit size bound has the following property. For\
+        \ c ≡ 1 mod N,\n(c ^ (e + 1) - 1) X is congruent, modulo every m prime to c, to 2 w times the twisted Stickelberger\n\
+        sum, where w does not depend on m. This holds for every character ψ with ψ(-1) = -(-1) ^ e and\nvalues in\
+        \ a domain of characteristic 0. In addition, for every prime l, some c ≡ 1 mod N prime to l\nhas (c ^ e\
+        \ - 1) (c ^ (e + 1) - 1) ∣ X. Source: K. Ireland, M. Rosen, A Classical Introduction to\nModern Number Theory,\
+        \ 2nd ed. 1990; for the untwisted statement also M. Eberl, Kummer's congruence,\nArchive of Formal Proofs\
+        \ 2024.\n"
+    standaloneReview:
+      verdict: clear
+      reason: States the controlled integer required for the Stickelberger bound.
+needs_draft: true

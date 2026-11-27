@@ -1,0 +1,104 @@
+group: New.Main
+overview:
+  group: New.Main
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
+  draft:
+  - sentence: "`New.Main` imports `New.Reduction.OneSidedBound` and proves that the critical-line statements follow from right-half-plane nonvanishing. The top-level `Main` applies these deductions to `New.grh`."
+    citations:
+    - module: New.Main
+      line: 1
+      endLine: 16
+    - module: New.Main
+      line: 21
+      endLine: 28
+    - module: New.Main
+      line: 44
+      endLine: 47
+    - module: Main
+      line: 2
+      endLine: 5
+    - module: Main
+      line: 15
+      endLine: 17
+  - sentence: Its first deduction assumes nonvanishing to the right of one half, with the stated exception at the
+      pole, and places Dirichlet L-function zeros in the open critical strip on the line.
+    citations:
+    - module: New.Main
+      line: 25
+      endLine: 28
+  - sentence: "The functional equation sends a zero at `s` for `χ` to a zero at `1 − s` for `χ⁻¹`. The nonvanishing hypothesis gives real part at most `1/2` for both zeros."
+    citations:
+    - module: New.Main
+      line: 30
+      endLine: 42
+  - sentence: The second deduction gives the corresponding statement for zeta zeros outside the listed negative
+      even integers and 1.
+    citations:
+    - module: New.Main
+      line: 44
+      endLine: 47
+  declarations:
+  - module: New.Main
+    name: New.zeros_on_line
+    line: 28
+    signature: 'lemma New.zeros_on_line : DirichletLZerosOnLine'
+  - module: New.Main
+    name: New.zeta_zeros_on_line
+    line: 47
+    signature: 'lemma New.zeta_zeros_on_line : RiemannZetaZerosOnLine'
+  routeToMain:
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  New.Main:
+    group: New.Main
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    excerpt:
+      path: grh/src/New/Main.lean
+      line: 6
+      endLine: 16
+      text: 'The last step: the usual forms of the hypothesis follow from `DirichletLNonvanishingRightOfHalf`,
+
+        the non-vanishing of all Dirichlet L-functions in `re s > 1 / 2`, by the symmetry `s ↦ 1 - s` of the
+
+        zeros.
+
+
+        * `New.zeros_on_line`: the zeros of `L(s, χ)` in `0 < re s < 1` have `re s = 1 / 2`.
+
+        * `New.zeta_zeros_on_line`: the nontrivial zeros of `ζ` have `re s = 1 / 2`.
+
+
+        ## Relation to the literature
+
+
+        Known result: the passage from the half-plane to the critical line by the functional equation. The
+
+        non-vanishing itself is `New.grh`.
+
+        '
+    declarations:
+    - module: New.Main
+      name: New.zeros_on_line
+      line: 28
+      signature: 'lemma New.zeros_on_line : DirichletLZerosOnLine'
+    - module: New.Main
+      name: New.zeta_zeros_on_line
+      line: 47
+      signature: 'lemma New.zeta_zeros_on_line : RiemannZetaZerosOnLine'
+    routeToMain:
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+needs_draft: true
