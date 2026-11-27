@@ -10,13 +10,13 @@ target_queries:
   - riemann hypothesis lean proof blueprint
   - who verified the riemann hypothesis proof
   - riemann hypothesis lean proof reading guide
-as_of: "26 Nov 2026"
+as_of: "27 Nov 2026"
 fold_sections: [sernau-reading-help]
 ---
 
 # Guides to the Lean proof of the Riemann hypothesis
 
-*As of 26 Nov 2026. The original guide entries record the versions read.*
+*As of 27 Nov 2026. The original guide entries record the versions read.*
 
 ## Sernau readable {#sernau-readable}
 
@@ -60,3 +60,5 @@ Post to [@SomTheBuilder](https://x.com/SomTheBuilder) on X with the link. We lis
 - **23 Nov 2026.** First version, with 11 guides.
 - **24 Nov 2026.** One list of 10 guides instead of two groups. Nine have their own page, with links to the nodes of the map they cite.
 - **24 Nov 2026, evening.** 13 more guides, 23 in all, 22 with their own page. A guide is labelled "AI-assisted" when its author says AI helped make it (we quote the author), or, for one guide, when its commit history says so. Each guide shows how many nodes of the map it names, 0 included.
+
+- **27 Nov 2026.** Added Nelson’s exercise sheets and Bolan’s manuscript; recorded Hexagon v2 for Zhang’s note.

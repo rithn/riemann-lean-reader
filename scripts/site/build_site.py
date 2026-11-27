@@ -726,11 +726,19 @@ def gnorm(g, i):
             'role': (a.get('order_group') if isinstance(a, dict) else None) or g.get('role'),
             'photo_crop': a.get('photo_crop') if isinstance(a, dict) else None,
             'companion_reading': g.get('companion_reading'),
+            'edition_citation': g.get('edition_citation'), 'source_label': g.get('source_label') or 'Read at source',
             'mapping_note': g.get('mapping_note'),
             'detail': g.get('hub_detail'), 'hub_status': g.get('hub_status'),
             'ai': _gai(g),
             'clusters': [k for k in (g.get('clusters') or []) if k in CL]}
+# A readable hub guide may also cite the original archive; add it to the original map
+# without creating a second hub card or standalone page.
+MAP_HUB_GUIDES = [g for g in GUIDE_CATALOGUE.get('hub_guides', []) if g.get('clusters')]
 GD = [gnorm(g, i) for i, g in enumerate(GUIDES)]
+for item in MAP_HUB_GUIDES:
+    mapped = gnorm(item, len(GD))
+    mapped['map_only'] = True
+    GD.append(mapped)
 assert len({g['id'] for g in GD}) == len(GD), 'guides.yaml: two guides with the same id'
 assert len({g['slug'] for g in GD if g['slug']}) == len([g for g in GD if g['slug']]), 'guides.yaml: two guides with the same slug'
 # hub order: 'order' where given; else role (academic, named, organisation, unnamed), newest first within each
@@ -913,7 +921,8 @@ print(f'guide-cited references (N3 tier 1, automatic): {sum(map(len, GCITE.value
 os.makedirs(GPHOTO_OUT, exist_ok=True)
 _gph_keep = set()
 def _gphoto(g, photo, base, sfx=''):   # writes the copies; sets g['ph48'+sfx], g['ph96'+sfx]
-    src = os.path.join(GPHOTO_SRC, os.path.basename(str(photo)))
+    repo_src = os.path.join(REPO, str(photo))
+    src = repo_src if str(photo).startswith('data/guide-photos/') else os.path.join(GPHOTO_SRC, os.path.basename(str(photo)))
     if not os.path.exists(src):
         print(f'guides: photo {photo} for {g["id"]} not found in {GPHOTO_SRC}: initials instead')
         return
@@ -2598,10 +2607,10 @@ def faq_pairs(t):   # H3 question, then its first paragraph (the visible answer,
     return [(q, MDIT.renderInline(a.strip()))
             for q, a in re.findall(r'(?m)^### (.+?)(?:\s*\{#[\w-]+\})?\n\n((?:(?!Source:)[^\n]+\n)+)', t)]
 
-guide_sections = {'guides': list(GD), 'readable_guides': [], 'compact_guides': []}
+guide_sections = {'guides': [g for g in GD if not g.get('map_only')], 'readable_guides': [], 'compact_guides': []}
 guide_readings = []
-portraits = {g['slug']: g for g in GD}
-hub_ids = {g['id'] for g in GD}
+portraits = {g['slug']: g for g in GD if not g.get('map_only')}
+hub_ids = {g['id'] for g in GD if not g.get('map_only')}
 for item in GUIDE_CATALOGUE.get('hub_guides', []):
     g = gnorm(item, len(hub_ids))
     aliases = item.get('anchor_aliases', [])
@@ -2613,7 +2622,7 @@ for item in GUIDE_CATALOGUE.get('hub_guides', []):
     portrait = portraits.get(item.get('portrait_from'), {})
     for key in ('ph48', 'ph96', 'ph48b', 'ph96b', 'photo_source', 'photo_source_also'):
         g[key] = portrait.get(key)
-    assert g['page'] and g['slug'] not in GPATH and g['slug'] not in portraits, f'{g["id"]}: needs a unique guide page slug'
+    assert g['page'] and (g['slug'] not in GPATH or any(m['id'] == g['id'] and m['slug'] == g['slug'] and m.get('map_only') for m in GD)) and g['slug'] not in portraits, f'{g["id"]}: needs a unique guide page slug'
     GPATH[g['slug']] = f'/guides/{g["slug"]}/'
     g.update(edition=edition, initials=_initials(g['name']), detail=item['detail'], links=item.get('links', []), aliases=aliases)
     guide_sections[section].append(g)
@@ -2701,7 +2710,7 @@ def gmapq(g):
     return f'/alpoge/?guide={g["slug"] or g["id"]}'
 def ghub_tail(g):
     if 'edition' in g:
-        return [('Read at source', g['url']), *((link['title'], link['url']) for link in g['links'])]
+        return [(g['source_label'], g['url']), *((link['title'], link['url']) for link in g['links'])]
     n = gnodes(g)
     nn = f'{n} {"node" if n == 1 else "nodes"}'
     tail = [(f'On the map: {nn}', gmapq(g) if g['page'] else None)] if n else [('0 nodes on the map', None)]
@@ -2826,7 +2835,7 @@ for d in os.listdir(G_DIR):   # pages of guides that no longer have one (only fo
                 os.remove(os.path.join(r, f))
             os.rmdir(r)
 for g in GD:
-    if not g['page']:
+    if not g['page'] or g.get('map_only'):
         continue
     path, s = GPATH[g['slug']], g['slug']
     fdir = os.path.join(G_DIR, s, 'files')
@@ -2850,10 +2859,13 @@ for g in GD:
     name = g['name'] or 'No author named'
     vers = [vlabel(v) + (f' ({gdate(_gdate(v.get("date")))})' if _gdate(v.get('date')) else '') for v in g['versions'] if v.get('version') is not None]
     meta = [gposted(g) + '.']
-    if vers:
-        meta.append(f'{"Version" if len(vers) == 1 else "Versions"} read: {H(", ".join(vers))}.')
-    if g['licence']:
-        meta.append(f'Licence: {H(g["licence"])}.')
+    if g['edition_citation']:
+        meta = [MDIT.renderInline(g['edition_citation'])]
+    else:
+        if vers:
+            meta.append(f'{"Version" if len(vers) == 1 else "Versions"} read: {H(", ".join(vers))}.')
+        if g['licence']:
+            meta.append(f'Licence: {H(g["licence"])}.')
     mapped_version = g['mapped_version']
     if mapped_version:
         mapped_label = f'Mapped edition ({mapped_version}) on {_host(g["url"])}'
@@ -2921,8 +2933,9 @@ for g in GD:
                       f'{name}: a guide to the Lean proof of the Riemann hypothesis, with a link to the original. ') + g['title'] + '.')
     original_label = 'First edition' if mapped_version else 'Original'
     md = (f'# {g["title"]}\n\nEdition covered: Alpöge original proof.\n\n{name}' + (f' ({g["home"]})' if g['home'] else '') + f'. {original_label}: {g["posted_url"]}'
-          + (f' · posted {gdate(g["date"])}' if g['date'] else '') + (f' · versions read: {", ".join(vers)}' if vers else '')
-          + (f' · licence: {g["licence"]}' if g['licence'] else '') + '\n\n'
+          + (f' · {g["edition_citation"]}' if g['edition_citation'] else
+             (f' · posted {gdate(g["date"])}' if g['date'] else '') + (f' · versions read: {", ".join(vers)}' if vers else '')
+             + (f' · licence: {g["licence"]}' if g['licence'] else '')) + '\n\n'
           + G_STATUS_T[g['status']] + (f': "{" ".join(str(g["quote"]).split())}"' if g.get('quote') else '') + '\n\n'
           + (gai_md(g) + '\n\n' if g['ai'] else '')
           + mapped_md + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else f'{G_ZERO}\n\n')
@@ -2944,7 +2957,7 @@ for g, reading in guide_readings:
         meta.append(f'{H(label)}.')
     if g['licence']:
         meta.append(f'Licence: {H(g["licence"])}.')
-    acts = [f'<a class="btn primary" href="{H(g["url"])}">Read at source</a>']
+    acts = [f'<a class="btn primary" href="{H(g["url"])}">{H(g["source_label"])}</a>']
     sources = ''.join(f'- [{link["title"]}]({link["url"]})\n' for link in g['links'])
     text = f'{g["detail"]}\n\n{reading.rstrip()}\n'
     if sources:
@@ -2954,7 +2967,9 @@ for g, reading in guide_readings:
     md = md_abs(f'# {g["title"]}\n\n{g["name"]} · {edition} · {G_STATUS_T[g["status"]]}'
                 + (f' · {gdate(g["date"])}' if g['date'] else '') + (f' · {label}' if label else '')
                 + (f' · Licence: {g["licence"]}' if g['licence'] else '')
-                + f'\n\n[Read at source]({g["url"]})\n\n{text}\n[All guides](/guides/)\n')
+                + f'\n\n[{g["source_label"]}]({g["url"]})\n\n'
+                + (gai_md(g).replace('(' + g['ai']['url'], '([source](' + g['ai']['url'] + ')', 1) + '\n\n' if g['ai'] else '')
+                + f'{text}\n[All guides](/guides/)\n')
     guide_page(g, edition, meta_desc(f'{g["name"]}. {g["detail"]}'), meta, acts, md_html(text), md)
 
 # ---------- text list of original clusters by distance
