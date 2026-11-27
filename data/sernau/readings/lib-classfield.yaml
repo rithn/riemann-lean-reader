@@ -36,8 +36,42 @@ overview:
     - module: Lib.ClassField.Global.ExistenceTheorem
       line: 879
       endLine: 885
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.ClassField.Global.ExistenceTheorem
+    name: New.exists_comp_artinMap
+    line: 883
+    signature: "lemma exists_comp_artinMap [IsTotallyComplex K] [T1Space C] (θ : (\U0001D538f K)ˣ →* C) (hθ : Continuous\
+      \ θ)\n    (hθ_rat : ∀ x : Kˣ, θ (principalIdele x) = 1) :\n    ∃ μ : Γ →* C, Continuous μ ∧ ∀ (x : (\U0001D538\
+      f K)ˣ) (g : Γ), artinMap Γ x = g → μ g = θ x"
+  routeToMain:
+  - module: Lib.ClassField.Global.ExistenceTheorem
+    importer: New.Congruences.Selmer.AuxiliaryPrimes
+    line: 3
+  - module: New.Congruences.Selmer.AuxiliaryPrimes
+    importer: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+    line: 2
+  - module: New.Congruences.GaloisRepresentations.RowsAndColumnsFromLabels
+    importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+    line: 1
+  - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+    importer: New.Congruences.FitTwistsExist
+    line: 2
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.ClassField.Avatar.HeckeBaseChange:

@@ -36,8 +36,48 @@ overview:
     - module: Lib.CM.ChowlaSelberg
       line: 692
       endLine: 702
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.CM.KroneckerLimit
+    name: New.kronecker_limit
+    line: 335
+    signature: "lemma New.kronecker_limit (L : PeriodPair) (k : ℝ) (hk : 0 < k) :\n    ∃ F : ℝ → ℝ,\n      -- (a)\
+      \ the value at 1\n      F 1 = π * k ∧\n      -- (b) the right derivative at 1\n      HasDerivWithinAt F\n  \
+      \      (F 1 *\n          (2 * eulerMascheroniConstant - Real.log (PeriodPair.area L / k / π ^ 2) -\n       \
+      \     Real.log ‖L.g₂ ^ 3 - 27 * L.g₃ ^ 2‖ / 6))\n        (Ioi 1) 1 ∧\n      -- (c) the series for 1 < s < 2\n\
+      \      ∀ s ∈ Ioo 1 2,\n        HasSum (fun l : L.lattice ↦ (s - 1) * (‖l.val‖ ^ 2 / k / L.area) ^ (-s)) (F s)"
+  - module: Lib.CM.ChowlaSelberg
+    name: New.CMLattice.chowla_selberg
+    line: 696
+    signature: "lemma CMLattice.chowla_selberg (C : CMLattice d) :\n    ∃ u : ℂ,\n      -- `u` has norm one at every\
+      \ `p`-adic place\n      (∀ (p : ℕ) [Fact p.Prime] [PadicPlace p], ‖ιₚ u‖ = 1) ∧\n      -- the area of every\
+      \ conjugate lattice\n      ∀ σ : Gal(ℂ/QuadField d),\n        (C.galConjugate σ).area * ‖σ u‖ ^ 2 = π * rexp\
+      \ (chowlaSelbergConst d) * (2 * π / √d)"
+  routeToMain:
+  - module: Lib.CM.KroneckerLimit
+    importer: Lib.CM.ChowlaSelberg
+    line: 4
+  - module: Lib.CM.ChowlaSelberg
+    importer: New.Derivatives.Vacuum.TightFrames
+    line: 2
+  - module: New.Derivatives.Vacuum.TightFrames
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 3
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.CM.ChowlaSelberg:

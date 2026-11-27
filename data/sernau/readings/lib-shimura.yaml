@@ -39,20 +39,31 @@ overview:
     - module: Lib.Shimura.CongruenceRelation.EichlerShimura
       line: 44
       endLine: 49
-  declarations: []
+  declarations:
+  - module: Lib.Shimura.ComplexTheta.DimensionFormula
+    name: New.IsAppellHumbert.normalizedShift_normalizedShift
+    line: 764
+    signature: "lemma IsAppellHumbert.normalizedShift_normalizedShift\n    (adj : ∀ u w : V, B.riemannForm (b u) w\
+      \ = B.riemannForm u w - B.riemannForm u (b w))\n    {χ : V → ℂ} (h : IsAppellHumbert B χ) :\n    normalizedShift\
+      \ B b x (normalizedShift B b y f) =\n      B.riemannPhase (b x) y • normalizedShift B b (x + y) f"
+  - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+    name: New.Variety.ellAdicCohom.galoisAction_eq_one_of_inertia
+    line: 209
+    signature: "lemma galoisAction_eq_one_of_inertia {g : Γ} (hg : g ∈ inertiaGroup Γ A) :\n    galoisAction R Ω Γ\
+      \ Y n g = 1"
   routeToMain:
-  - module: Lib.Shimura.AbelianScheme.Basic
-    importer: Lib.General.Geometry.PointsOfProperSchemes
-    line: 3
-  - module: Lib.General.Geometry.PointsOfProperSchemes
-    importer: Lib.Shimura.AbelianScheme.TangentCoordinates
+  - module: Lib.Shimura.ComplexTheta.DimensionFormula
+    importer: Lib.CM.Sigma.Basic
+    line: 2
+  - module: Lib.CM.Sigma.Basic
+    importer: Lib.CM.KroneckerLimit
     line: 1
-  - module: Lib.Shimura.AbelianScheme.TangentCoordinates
-    importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+  - module: Lib.CM.KroneckerLimit
+    importer: Lib.CM.ChowlaSelberg
     line: 4
-  - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+  - module: Lib.CM.ChowlaSelberg
     importer: New.Derivatives.Vacuum.TightFrames
-    line: 3
+    line: 2
   - module: New.Derivatives.Vacuum.TightFrames
     importer: New.Derivatives.Vacuum.IntegralVacuum
     line: 3

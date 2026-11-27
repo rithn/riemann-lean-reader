@@ -40,8 +40,59 @@ overview:
     - module: New.Determinant.Twist.FitTwists
       line: 214
       endLine: 231
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: New.Determinant.Exchange.OneSquare
+    name: New.Exchange.one_square_identity_of_isEdgeFamily
+    line: 965
+    signature: "lemma one_square_identity_of_isEdgeFamily (A' : Space E n s) (A : Space E n' s')\n    (U₁ : Space\
+      \ E n₁ s₁) (U₂ : Space E n₂ s₂) {I : Type*}\n    {k₁ : Bool → GInf E s₁ → ℂ} {k₂ : Bool → GInf E s₂ → ℂ} {d\
+      \ : Bool}\n    {k : Bool → GInf E s' → ℂ} {Φ₁ : MvPolynomial (InfinitePlace E × n' × n₁) ℂ}\n    {Φ₂ : MvPolynomial\
+      \ (InfinitePlace E × n' × n₂) ℂ} {k' : Bool → GInf E s → ℂ}\n    {Φ₁' : MvPolynomial (InfinitePlace E × n₁ ×\
+      \ n) ℂ}\n    {Φ₂' : MvPolynomial (InfinitePlace E × n₂ × n) ℂ}\n    {a b : I → ∀ (m : Type) [Fintype m], AutChar\
+      \ E} {ν : I → AutChar E} {\U0001D52A : I → Modulus E}\n    {χ : ∀ i : I, MulChar (\U0001D52A i).ResidueRing\
+      \ ℂ}\n    (h₂ : IsEdgeFamily b k₂ k d Φ₂) (h₁ : IsEdgeFamily a k₁ k (!d) Φ₁)\n    (h₂' : IsEdgeFamily a k' k₂\
+      \ (!d) Φ₂') (h₁' : IsEdgeFamily b k' k₁ d Φ₁') (σ : n ⊕ n' ≃ n₁ ⊕ n₂)\n    (h_signs : negCount (s₁ ⊕ᵥ s₂) =\
+      \ negCount s' + negCount s) (t : ℕ)\n    (h_rank : card n' = card n + 2 * t) (h_few_neg : 2 * negCount (s₁ ⊕ᵥ\
+      \ s₂) + 2 ≤ card (n₁ ⊕ n₂))\n    {μ : InfinitePlace E → ℤ}\n    (hμ : ∀ τ : InfinitePlace E, card (n₁ ⊕ n₂)\
+      \ ≤ 2 * μ τ + 2 * negCount (s₁ ⊕ᵥ s₂))\n    (h_tame : ∀ i : I, IsTameFor (\U0001D52A i) (ν i) μ (χ i))\n   \
+      \ (h_chars : ∀ (i : I) {p q : Type} [Fintype p] [Fintype q],\n      card p + card q = card n₁ + card n₂ → a\
+      \ i p * b i q = rankTwist (ν i)⁻¹ (n₁ ⊕ n₂)) :\n    let Θ (i : I) (x : Matrix n' (n₁ ⊕ n₂) (\U0001D52A i).ResidueRing)\
+      \ :\n        U₁.Form (k₁ !d) →ₗ[ℂ] U₂.Form (k₂ !d)"
+  - module: New.Determinant.Chain.SquareLaw
+    name: New.Exchange.SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum
+    line: 477
+    signature: "lemma SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum {R : Type} [CommRing R] [Fintype R]\n  \
+      \  [DecidableEq R]\n    (N T : Type) [Fintype N] [DecidableEq N] [Fintype T] [DecidableEq T] {χ : MulChar R\
+      \ ℂ}\n    {ψ : AddChar R ℂ} (hψ : ψ.IsPrimitive) (hχ : IsPrimitiveMulChar χ) :\n    ∃ γ : ℂ,\n      -- (a) the\
+      \ modulus of the constant\n      ‖γ‖ ^ 2 * card R ^ (card T * (card T + card N * 2)) = 1 ∧\n      -- (b) the\
+      \ identity between the two sums\n      ∀ {c : ℂ} {L : Matrix (N ⊕ T) (N ⊕ (N ⊕ T) ⊕ T) R → ℂ}\n        {L' :\
+      \ Matrix (N ⊕ (N ⊕ T) ⊕ T) (N ⊕ T) R → ℂ} (p : Matrix (N ⊕ T) N R → ℂ),\n        SquareLaw χ (swapFirstTwo (a"
+  routeToMain:
+  - module: New.Determinant.Exchange.OneSquare
+    importer: New.Determinant.Chain.ChainNorms
+    line: 4
+  - module: New.Determinant.Chain.ChainNorms
+    importer: New.Determinant.Chain.NormOfChain
+    line: 1
+  - module: New.Determinant.Chain.NormOfChain
+    importer: New.Congruences.FitTwistsExist
+    line: 4
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   New.Determinant.AuxiliaryForms.DeepLevelPoincarePeriod:

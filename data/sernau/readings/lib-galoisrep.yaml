@@ -38,32 +38,44 @@ overview:
     - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
       line: 22
       endLine: 30
-  declarations: []
-  routeToMain:
-  - module: Lib.GaloisRep.BaseChange.CommutingHeckeFamilies
-    importer: Lib.GaloisRep.BaseChange.CongruenceLevelMatching
-    line: 2
-  - module: Lib.GaloisRep.BaseChange.CongruenceLevelMatching
-    importer: Lib.GaloisRep.BaseChange.PrimeDegreeTransfer
-    line: 1
-  - module: Lib.GaloisRep.BaseChange.PrimeDegreeTransfer
-    importer: Lib.GaloisRep.BaseChange.ShintaniLift
-    line: 1
-  - module: Lib.GaloisRep.BaseChange.ShintaniLift
-    importer: Lib.GaloisRep.LocalGlobal.LabelCompatibility
-    line: 1
+  declarations:
+  - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
+    name: New.Patching.hecke_eq_frob_on_parahoricEigenspace
+    line: 664
+    signature: "lemma hecke_eq_frob_on_parahoricEigenspace (hA : IsPlaceOver A w)\n    (hϖ : v ϖ.val = WithZero.exp\
+      \ (-1)) (hϖ_artin : localArtin Gal(Ω/E) A w ϖ = s)\n    (hs_frob : IsFrob A w.q s.val⁻¹) (hu : v u.val = 1)\n\
+      \    (hu_artin : localArtin Gal(Ω/E) A w u = τ) (hτ : τ.val ∈ inertiaGroup Gal(Ω/E) A)\n    (hℓ : (ℓ : \U0001D4DE\
+      \ E) ∉ w.asIdeal) (hy : y ∈ x.val) (χ : LocField w → ℂ) (hχ : χ u ≠ 0)\n    (hζ : χ u ^ (card n)! ≠ 1) (G :\
+      \ ℂ[X]) {M : Matrix n n (PadicAlgCl ℓ)}\n    (hy_type : y ∈ parahoricEigenspace (localFormRep V κ hw) (min 1)\n\
+      \      (χ ∘ fun g : GL (Fin (card n)) (LocField w) ↦ g 0 0)) :\n    let U"
   - module: Lib.GaloisRep.LocalGlobal.LabelCompatibility
-    importer: New.Congruences.GaloisRepresentations.SelmerHypotheses
+    name: New.GaloisRep.Attached.isLabelledAt
+    line: 492
+    signature: "lemma New.GaloisRep.Attached.isLabelledAt {ℓ : ℕ} [ThePrime ℓ] [PadicIso ℓ] {E n : Type}\n    [Nonempty\
+      \ n] [Field E] [CMType E] [EmbeddedNumberField E] [Fintype n] [DecidableEq n]\n    {κ : Weight E} {f : Gf E\
+      \ n → WeylIndex n κ.1 → ℂ} {P : FinPlace E → ℂ[X]} {r : GalRep ℓ E n}\n    {w : FinPlace E} {A : ValuationSubring\
+      \ Ω} {hw : star w ≠ w} {K : Type} [Field K]\n    [Algebra (ResField w) K] {T : MulChar K ℂ} [IsFaithfulMulChar\
+      \ K T] {s d : ℕ}\n    {c : (ResField w)[X]} {χ : Fin s → MulChar (ResField w) ℂ} {t : Fin s → ℕ} [WeilData E]\n\
+      \    (hf : f ∈ (stdSpace E n).forms κ) (he : IsEigenform f P) (hr : Attached P r)\n    (h_prod_label : HasProductLabel\
+      \ f hw T d c χ t) (hA : IsPlaceOver A w) :\n    IsFiniteTypeAt r A ∧\n    HasJumpsAt r A (jumps κ (Fintype.card\
+      \ n)) ∧\n    IsLabelledAt A T d.factorial (PolyKillsAt r A)\n      (c * ∏ l : Fin s, (X - C (charName T (χ l)).val)\
+      \ ^ t l)"
+  routeToMain:
+  - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
+    importer: New.Congruences.FirstOrder.TiedTraces
     line: 1
-  - module: New.Congruences.GaloisRepresentations.SelmerHypotheses
-    importer: New.OneLift.HeckeValues.TwistedValueHeights
-    line: 1
-  - module: New.OneLift.HeckeValues.TwistedValueHeights
-    importer: New.OneLift.LiftVolumeHeight
+  - module: New.Congruences.FirstOrder.TiedTraces
+    importer: New.Congruences.FirstOrder.AuxiliaryPrimeTie
     line: 2
-  - module: New.OneLift.LiftVolumeHeight
+  - module: New.Congruences.FirstOrder.AuxiliaryPrimeTie
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 1
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
     importer: New.Determinant.Twist.LongForms
-    line: 3
+    line: 1
   - module: New.Determinant.Twist.LongForms
     importer: New.Reduction.MainInequality
     line: 1

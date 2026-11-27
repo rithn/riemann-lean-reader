@@ -41,8 +41,20 @@ overview:
     - module: New.Main
       line: 44
       endLine: 47
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: New.Main
+    name: New.zeros_on_line
+    line: 28
+    signature: 'lemma New.zeros_on_line : DirichletLZerosOnLine'
+  - module: New.Main
+    name: New.zeta_zeros_on_line
+    line: 47
+    signature: 'lemma New.zeta_zeros_on_line : RiemannZetaZerosOnLine'
+  routeToMain:
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   New.Main:

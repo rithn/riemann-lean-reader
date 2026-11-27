@@ -38,23 +38,36 @@ overview:
     - module: Lib.SiegelWeil.Tower.ConstantTerm
       line: 664
       endLine: 684
-  declarations: []
+  declarations:
+  - module: Lib.SiegelWeil.Formula.WeilRange
+    name: New.SiegelWeil.siegel_weil
+    line: 757
+    signature: "theorem New.SiegelWeil.siegel_weil (P : SiegelWeil.CompleteSplitting S p)\n    (hm : 2 * card p <\
+      \ card m) :\n    (Summable fun L : Lagrangian S ↦ ‖Lagrangian.zeroTerm T L‖) ∧\n    ∀ f : \U0001D4AE (S.hom\
+      \ T),\n      Integrable (fun h : G E t ↦ θ (S.hom T) (splitWeil S T (1, h) f)) T.quotMeasure ∧\n      ∫ h :\
+      \ G E t, θ (S.hom T) (splitWeil S T (1, h) f) ∂T.quotMeasure =\n        T.quotMeasure.real univ * ∑' L : Lagrangian\
+      \ S, Lagrangian.zeroTerm T L f"
+  - module: Lib.SiegelWeil.Tower.ConstantTerm
+    name: New.Exchange.exists_unfold_constant_term
+    line: 672
+    signature: "lemma exists_unfold_constant_term :\n    ∃ c ≠ (0 : ℝ), ∀ (a b : AutChar E) (f : \U0001D4AE (W'.hom\
+      \ V')) (g : G E s'),\n      let F (h : G E t') : \U0001D4AE (W'.hom V')"
   routeToMain:
-  - module: Lib.SiegelWeil.Formula.LagrangianZeroTerms
-    importer: New.OneLift.FalseLifts.HyperbolicPlaneStep
+  - module: Lib.SiegelWeil.Formula.WeilRange
+    importer: Lib.SiegelWeil.OneVector.SiegelClassSum
     line: 2
-  - module: New.OneLift.FalseLifts.HyperbolicPlaneStep
-    importer: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+  - module: Lib.SiegelWeil.OneVector.SiegelClassSum
+    importer: New.Spanning.Unfolding.FrameMass
     line: 1
-  - module: New.OneLift.FalseLifts.PeriodsOfFalseLifts
-    importer: New.OneLift.ComparisonOperator.GluingMaps
-    line: 4
-  - module: New.OneLift.ComparisonOperator.GluingMaps
-    importer: New.OneLift.LiftVolumeHeight
-    line: 1
-  - module: New.OneLift.LiftVolumeHeight
+  - module: New.Spanning.Unfolding.FrameMass
+    importer: New.Spanning.Unfolding.FillingAdmissible
+    line: 2
+  - module: New.Spanning.Unfolding.FillingAdmissible
+    importer: New.UpperBound.Size.ArchimedeanSize
+    line: 2
+  - module: New.UpperBound.Size.ArchimedeanSize
     importer: New.Determinant.Twist.LongForms
-    line: 3
+    line: 5
   - module: New.Determinant.Twist.LongForms
     importer: New.Reduction.MainInequality
     line: 1

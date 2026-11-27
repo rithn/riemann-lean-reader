@@ -48,8 +48,64 @@ overview:
     - module: New.Appendix.DiscreteSeries.Periods
       line: 490
       endLine: 502
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: New.Appendix.DiscreteSeries.GaussianShape
+    name: New.DiscreteSeries.exists_norm_dsCoeff_div_cexp_sub_le
+    line: 332
+    signature: "lemma exists_norm_dsCoeff_div_cexp_sub_le [Nonempty n] (hl : l.HasLargeGap A)\n    (hL : ∀ i : n,\
+      \ |l i| ≤ L)\n    {g : USign ε} (hg : ‖(g : Matrix n n ℂ) - 1‖ ≤ δ) (hT : 1 ≤ T) (hT_card : card n ^ 2 ≤ T)\n\
+      \    (hT_log : card n ^ 2 * Real.log (card n + L + 1) ≤ T) (hδT : δ * T ≤ 1e-12) :\n    ∃ ϱ ∈ Set.Icc (0 : ℝ)\
+      \ 1,\n      ‖l.dsCoeff g / cexp (intDiagonal l.lowestKType * logOneAdd ((g : Matrix n n ℂ) - 1)).trace -\n \
+      \         ϱ‖ ≤ ϱ / 10 + Real.exp (-100 * T)"
+  - module: New.Appendix.DiscreteSeries.Localization
+    name: New.DiscreteSeries.IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le
+    line: 664
+    signature: "lemma IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le\n    (hj : IsLaplaceDatum l\
+      \ k j τ B e φ) (r : ℝ) (hB : 1 ≤ B)\n    (hr_pos : 0 < r) (hr_small : r ≤ 6⁻¹) (s : S)\n    (hs : ‖noncompactPart\
+      \ ε (j s).1‖ ^ 2 + ‖noncompactPart η (j s).2‖ ^ 2 ≤ r ^ 2) :\n    ∃ t : S, l.laplaceIntegrand k j φ s = l.laplaceIntegrand\
+      \ k j φ t ∧\n      ‖(subOnePair j t).1‖ ≤ 4 * r ∧\n      ‖(subOnePair j t).2‖ ≤ 4 * r"
+  - module: New.Appendix.DiscreteSeries.Periods
+    name: New.DiscreteSeries.IsLaplaceDatum.laplace_method
+    line: 493
+    signature: "theorem IsLaplaceDatum.laplace_method [TopologicalSpace S] [BorelSpace S]\n    [IsFiniteMeasureOnCompacts\
+      \ ν] (h_datum : IsLaplaceDatum l k j τ B e φ)\n    (hj : IsProperMap fun s : S ↦ (j s).1) (hj' : Continuous\
+      \ fun s : S ↦ (j s).2)\n    (hl : l.HasLargeGap h) (hk : k.HasLargeGap h) (hB : 1 ≤ B) (hl_le : ∀ a : n, |l\
+      \ a| ≤ L)\n    (hk_le : ∀ a : m, |k a| ≤ L) (hβ : 10 ^ 12 ≤ β) (hβ_le : card n + card m + L ≤ β)\n    (hh :\
+      \ 10 ^ 30 * ((card n + card m) ^ 2 * β.log) ^ 3 ≤ h) :\n    Integrable (l.laplaceIntegrand k j φ) ν ∧\n    ν\
+      \ {s : S | ‖((j s).1 : Matrix n n ℂ)‖ ≤ β + 1 ∧ ‖((j s).2 : Matrix m m ℂ)‖ ≤ β + 1} ≤\n      ENNReal.ofReal\
+      \ (β ^ (20 * (card n + card m) ^ 2) *\n        ‖∫ s : S, l.laplaceIntegrand k j φ s ∂ν‖)"
+  routeToMain:
+  - module: New.Appendix.DiscreteSeries.GaussianShape
+    importer: New.Appendix.DiscreteSeries.Periods
+    line: 2
+  - module: New.Appendix.DiscreteSeries.Periods
+    importer: New.Appendix.DiscreteSeries.PositionGroup
+    line: 1
+  - module: New.Appendix.DiscreteSeries.PositionGroup
+    importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+    line: 2
+  - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+    importer: New.Determinant.AuxiliaryForms.FirstPath
+    line: 1
+  - module: New.Determinant.AuxiliaryForms.FirstPath
+    importer: New.Determinant.AuxiliaryForms.SpanningForms
+    line: 2
+  - module: New.Determinant.AuxiliaryForms.SpanningForms
+    importer: New.Determinant.Twist.LongForms
+    line: 2
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   New.Appendix.DiscreteSeries.GaussianShape:

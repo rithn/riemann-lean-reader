@@ -36,8 +36,57 @@ overview:
     - module: Lib.Cyclotomic.OddSha
       line: 645
       endLine: 651
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.Cyclotomic.Stickelberger
+    name: New.OddPart.stickelberger
+    line: 139
+    signature: "lemma stickelberger (hB : B.valuation p < 1) {ψ : AddChar (ZMod p) (\U0001D4DE Ω)}\n    {χ : AddChar\
+      \ (ZMod r) (MulChar (ZMod p) (\U0001D4DE Ω))} (g : ZMod r → DiscreteUnits Ω)\n    (hg : ∀ t : ZMod r, (g t).toMul.val\
+      \ = gaussSum (χ t) ψ) (hψ : ψ.IsPrimitive)\n    (hχ : χ.IsPrimitive) (h_cop : p.Coprime r) :\n    ∃ S : ZMod\
+      \ r →+ QZ, (⇑S).Injective ∧ ∀ t : ZMod r, (S t).fracRep = ordRat ℚ B (g t)"
+  - module: Lib.Cyclotomic.OddSha
+    name: New.exists_length_shaOdd_le
+    line: 645
+    signature: "lemma New.exists_length_shaOdd_le (N t : ℕ) [NeZero N] (E : Type) [Field E] [NumberField E]\n    [IsCMField\
+      \ E] [Algebra E Ω] (h_sub : ∀ x : E, algebraMap E Ω x ∈ cycloField N) :\n    ∃ X : ℕ, X ≠ 0 ∧\n      X ≤ 2 ^\
+      \ (4 * (N + t + 3) ^ 27) * classNumber E ∧\n      ∀ (l : ℕ) [ThePrime l] (O : Type) [CommRing O] [PadicIntegerRing\
+      \ O l],\n        HasEnoughRootsOfUnity O (Monoid.exponent (ZMod N)ˣ) →\n        ∀ e : ℕ, e < t → ∀ n : ℕ, length\
+      \ O (shaOdd l E O e n) ≤ addVal O X"
+  routeToMain:
+  - module: Lib.Cyclotomic.Stickelberger
+    importer: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+    line: 2
+  - module: Lib.Cyclotomic.Kolyvagin.DerivativeCocycles
+    importer: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+    line: 2
+  - module: Lib.Cyclotomic.Kolyvagin.ReciprocityComponentBounds
+    importer: Lib.Cyclotomic.OddSha
+    line: 2
+  - module: Lib.Cyclotomic.OddSha
+    importer: New.Congruences.FirstOrder.TrianglePrimes
+    line: 1
+  - module: New.Congruences.FirstOrder.TrianglePrimes
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 4
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.Cyclotomic.Kolyvagin.DerivativeCocycles:

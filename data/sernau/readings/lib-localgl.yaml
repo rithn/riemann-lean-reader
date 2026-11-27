@@ -44,29 +44,52 @@ overview:
     - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
       line: 1
       endLine: 7
-  declarations: []
+  declarations:
+  - module: Lib.LocalGL.Iwahori.SortedExponents
+    name: New.exists_sorted_of_detChar
+    line: 843
+    signature: "lemma New.exists_sorted_of_detChar {F : Type*} [Field F] [Valued F ℤᵐ⁰] [CompactSpace \U0001D4AA[F]]\n\
+      \    {N : ℕ} {ρ : Rep ℂ (GL (Fin N) F)} [IsSmoothRep ρ.ρ] {ϖ : Fˣ} {B : ρ →ₗ⋆[ℂ] ρ →ₗ[ℂ] ℂ} {x : ρ}\n    (hϖ\
+      \ : v ϖ.val = WithZero.exp (-1))\n    [∀ z : ρ, Module.Finite ℂ ((cyclicSpan ρ.ρ z).submoduleOf (levelSpace\
+      \ ρ.ρ proIwahori 1))]\n    (hB : IsUnitary ρ.ρ B) {n : Type*} {r : ℕ} {χ : Fin r → MulChar \U0001D4C0[F] ℂ}\
+      \ [Fintype n]\n    [DecidableEq n] (e : n ≃ Fin N) (hχ : Injective χ) {m : Fin r → ℕ} (hm : ∑ a : Fin r, m a\
+      \ = N)\n    (hx : ∀ k : intGL n \U0001D4AA[F], intGL.map (residue \U0001D4AA[F]) k = 1 → ρ (reindexGL e k.val)\
+      \ x = x)\n    {s : GL n \U0001D4C0[F] → intGL n \U0001D4AA[F]} (h_lift : ∀ g : GL n \U0001D4C0[F], intGL.map\
+      \ (residue \U0001D4AA[F]) (s g) = g)\n    (h_sum_ne : ∑ᶠ g : GL n \U0001D4C0[F],\n        star ((∏ a : Fin r,\
+      \ (detChar (χ a)).rankPart (m a)).evalGL g) •\n          ρ (reindexGL e (s g).val) x ≠ 0) :\n    ∃ y ∈ cyclicSpan\
+      \ ρ.ρ x, ∃ (θ : Fin N → Fˣ →* ℂˣ) (c : Fin N → Fin r),\n      IsIwahoriEigen ρ (torusChar θ) y ∧\n      (Antitone\
+      \ fun i : Fin N ↦ ‖(θ i ϖ : ℂ)‖) ∧\n      (∀ a : Fin r, card {i : Fin N // c i = a} = m a) ∧\n      ∀ (t : Fˣ)\
+      \ (ht_unit : v t.val = 1) (i : Fin N),\n        (θ i t : ℂ) = χ (c i) (residue \U0001D4AA[F] ⟨t, ht_unit.le⟩)"
+  - module: Lib.LocalGL.Iwahori.SphericalExponents
+    name: New.IsExponent.eq_zero_of_eq_zero_on_spherical
+    line: 596
+    signature: "lemma New.IsExponent.eq_zero_of_eq_zero_on_spherical {F : Type*} [Field F] [Valued F ℤᵐ⁰]\n    [CompactSpace\
+      \ \U0001D4AA[F]] {N : ℕ} {ρ : Rep ℂ (GL (Fin N) F)} [IsSmoothRep ρ.ρ] {ϖ : Fˣ}\n    {θ : Fin N → Fˣ →* ℂˣ} {l\
+      \ : ρ →ₗ[ℂ] ℂ} {x : ρ} (hϖ : v ϖ.val = exp (-1))\n    (hl : IsExponent ρ (torusChar θ) l)\n    (hθ_unit : ∀\
+      \ y : Fˣ, v y.val = 1 → ∀ i : Fin N, (θ i y).val = 1)\n    (hθ_anti : Antitone fun i : Fin N ↦ ‖(θ i ϖ).val‖)\n\
+      \    (h_sph : ∀ y ∈ levelSpace ρ.ρ (intGL (Fin N) \U0001D4AA[F]), l y = 0) :\n    l x = 0"
   routeToMain:
-  - module: Lib.LocalGL.Green.CuspidalFunctions
-    importer: Lib.LocalGL.Shintani.CosetDescent
-    line: 2
-  - module: Lib.LocalGL.Shintani.CosetDescent
-    importer: Lib.LocalGL.Green.LabelCharacters
-    line: 2
-  - module: Lib.LocalGL.Green.LabelCharacters
-    importer: New.UpperBound.Objects.LabelsAndIndexTypes
-    line: 1
-  - module: New.UpperBound.Objects.LabelsAndIndexTypes
-    importer: New.Spanning.MainTerm.BadTypes
+  - module: Lib.LocalGL.Iwahori.SortedExponents
+    importer: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
     line: 3
-  - module: New.Spanning.MainTerm.BadTypes
-    importer: New.Spanning.SecondMoment.SpanningTheorem
+  - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
+    importer: New.Congruences.FirstOrder.TiedTraces
+    line: 1
+  - module: New.Congruences.FirstOrder.TiedTraces
+    importer: New.Congruences.FirstOrder.AuxiliaryPrimeTie
     line: 2
-  - module: New.Spanning.SecondMoment.SpanningTheorem
-    importer: New.Reduction.ShortAndEnough
-    line: 2
-  - module: New.Reduction.ShortAndEnough
+  - module: New.Congruences.FirstOrder.AuxiliaryPrimeTie
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 1
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
     importer: New.Reduction.MainInequality
-    line: 2
+    line: 1
   - module: New.Reduction.MainInequality
     importer: New.Reduction.OneSidedBound
     line: 2

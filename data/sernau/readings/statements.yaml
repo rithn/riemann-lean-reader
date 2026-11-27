@@ -27,7 +27,19 @@ overview:
     - module: Statements
       line: 1
       endLine: 3
-  declarations: []
+  declarations:
+  - module: Statements
+    name: RiemannZetaZerosOnLine
+    line: 3
+    signature: 'def RiemannZetaZerosOnLine : Prop'
+  - module: Statements
+    name: DirichletLNonvanishingRightOfHalf
+    line: 6
+    signature: 'def DirichletLNonvanishingRightOfHalf : Prop'
+  - module: Statements
+    name: DirichletLZerosOnLine
+    line: 10
+    signature: 'def DirichletLZerosOnLine : Prop'
   routeToMain:
   - module: Statements
     importer: New.Reduction.OneSidedBound

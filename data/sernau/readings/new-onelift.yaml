@@ -33,8 +33,40 @@ overview:
     - module: New.OneLift.LiftVolumeHeight
       line: 7
       endLine: 10
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: New.OneLift.FalseLifts.BottomOfTower
+    name: New.DescentPair.descentsVanish_of_hyperplaneSumsAnnihilate
+    line: 1466
+    signature: "theorem descentsVanish_of_hyperplaneSumsAnnihilate {y : O.FormV}\n    (hQ : ∀ i : O.TwistIndex, O.tamePart\
+      \ (O.twistPlace i) ≠ 1)\n    (h_sums : O.HyperplaneSumsAnnihilate y)\n    (h_datum : ∀ P : MvPolynomial (InfinitePlace\
+      \ E × n × r) ℂ, BlockDescentVanishes u P y) :\n    DescentsVanish O.W (stdSpace E n) O.charW O.places.conjClosureᶜ\n\
+      \      (star (algFormCoeff 1 u y.val))"
+  routeToMain:
+  - module: New.OneLift.FalseLifts.BottomOfTower
+    importer: New.Congruences.GaloisRepresentations.BaseLevelOfLabel
+    line: 3
+  - module: New.Congruences.GaloisRepresentations.BaseLevelOfLabel
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 5
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   New.OneLift.ComparisonOperator.DeterminantProducts:

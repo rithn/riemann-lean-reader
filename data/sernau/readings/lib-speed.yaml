@@ -32,7 +32,11 @@ overview:
     - module: Lib.Speed
       line: 71
       endLine: 77
-  declarations: []
+  declarations:
+  - module: Lib.Speed
+    name: New.isEmpty_iff_isVoid
+    line: 77
+    signature: 'lemma New.isEmpty_iff_isVoid (α : Sort*) : IsEmpty α ↔ IsVoid α'
   routeToMain:
   - module: Lib.Speed
     importer: Lib.Base

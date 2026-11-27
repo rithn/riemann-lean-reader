@@ -35,23 +35,22 @@ overview:
     - module: Lib.General.LinearAlgebra.GramDeterminant
       line: 13
       endLine: 15
-  declarations: []
+  declarations:
+  - module: Lib.General.LinearAlgebra.GramDeterminant
+    name: New.norm_det_pairing_sq_le
+    line: 129
+    signature: "lemma norm_det_pairing_sq_le [Fintype S] [DecidableEq S] (hG : G.PosSemidef) (v w : S → I → ℂ) :\n\
+      \    ‖(of fun i k : S ↦ star (v i) ⬝ᵥ G *ᵥ w k).det‖ ^ 2 ≤\n      ‖(formGram G v).det‖ * ‖(formGram G w).det‖"
   routeToMain:
-  - module: Lib.General.Algebra.AbsIntegrallyClosed
-    importer: Lib.General.Algebra.SeriesBounds
-    line: 2
-  - module: Lib.General.Algebra.SeriesBounds
-    importer: New.Congruences.FirstOrder.HeckeStrings
+  - module: Lib.General.LinearAlgebra.GramDeterminant
+    importer: New.Reduction.Lattices.TwistedLattice
     line: 1
-  - module: New.Congruences.FirstOrder.HeckeStrings
-    importer: New.Congruences.FirstOrder.DenominatorBound
+  - module: New.Reduction.Lattices.TwistedLattice
+    importer: New.Reduction.IntegralTargetForms
     line: 2
-  - module: New.Congruences.FirstOrder.DenominatorBound
-    importer: New.Congruences.FitTwistsExist
-    line: 1
-  - module: New.Congruences.FitTwistsExist
+  - module: New.Reduction.IntegralTargetForms
     importer: New.Determinant.Twist.LongForms
-    line: 1
+    line: 4
   - module: New.Determinant.Twist.LongForms
     importer: New.Reduction.MainInequality
     line: 1

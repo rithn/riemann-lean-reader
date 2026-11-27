@@ -34,8 +34,52 @@ overview:
     - module: New.Derivatives.Sharpness.BoundAttained
       line: 381
       endLine: 390
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: New.Derivatives.Vacuum.Divisibility
+    name: New.Parameters.norm_schurJet_jetSeries_le_of_charges
+    line: 246
+    signature: "theorem norm_schurJet_jetSeries_le_of_charges\n    {f : \U0001D4AE ((stdSpace (E P s) n).hom (stdSpace\
+      \ (E P s) n'))} {c : ℂ}\n    (hp_nonsplit : chiK P.d p ≠ 1) (hκ : FitsRanks (fun _ : P.Φ s ↦ n) (fun _ : P.Φ\
+      \ s ↦ n') κ)\n    (hf : f ∈ standardData ((stdSpace (E P s) n).hom (stdSpace (E P s) n')) 1) (hc : ‖ιₚ c‖ ≤\
+      \ 1)\n    (erasedPlaces : Finset (P.Φ s)) (chargeExp : P.Φ s → ℕ → n' → ℕ)\n    (h_charge : ∀ e ∈ partnerExponents\
+      \ P.d p,\n      IsChargeExponent (P.partner s p e) erasedPlaces chargeExp)\n    (i' : WeylIndex n' κ) (i : WeylIndex\
+      \ n κ) :\n    let N : ℕ"
+  - module: New.Derivatives.Sharpness.BoundAttained
+    name: New.Data.exists_rpow_neg_localPrimeSumTotal_le_norm_coeff
+    line: 381
+    signature: "theorem exists_rpow_neg_localPrimeSumTotal_le_norm_coeff {P : Parameters} (D : Data P) (l : D.Φ →\
+      \ ℕ)\n    (hl : ∀ τ : D.Φ, (D.weight τ : ℝ) ≤ l τ ∧ l τ ≤ (D.weight τ : ℝ) + D.x ^ 42) :\n    ∃ t : ℂ, t ≠ 0\
+      \ ∧\n      (∀ σ : ℂ ≃+* ℂ, ‖σ t‖ ≤ exp (D.f * D.m / D.k * D.b)) ∧\n      ∀ \U0001D52A : Modulus D.E, \U0001D52A\
+      .ideal = .span {D.piM} → ∀ (p : ℕ) [Fact p.Prime] [PadicPlace p],\n        ∃ (γ : D.Φ × Fin 12 × Unit →₀ ℕ)\
+      \ (y₀ : Matrix (Fin 12) Unit \U0001D52A.ResidueRing),\n          (∀ τ : D.Φ, ∑ b : Fin 12, γ (τ, b, ()) = l\
+      \ τ) ∧\n          p ^ (-D.localPrimeSumTotal p) ≤ ‖ιₚ\n            (P.vacuumScale D.towerExp ^ 12 / t * (∏ τ\
+      \ : D.Φ, (l τ)!) *\n            coeff γ (D.twelveTaylor (D.indicatorDatum \U0001D52A y₀)))‖"
+  routeToMain:
+  - module: New.Derivatives.Vacuum.Divisibility
+    importer: New.UpperBound.Kernels.ThetaLiftGauge
+    line: 2
+  - module: New.UpperBound.Kernels.ThetaLiftGauge
+    importer: New.UpperBound.Divisibility.ChainValuation
+    line: 2
+  - module: New.UpperBound.Divisibility.ChainValuation
+    importer: New.UpperBound.Seesaw.SeesawIdentity
+    line: 2
+  - module: New.UpperBound.Seesaw.SeesawIdentity
+    importer: New.Reduction.ShortAndEnough
+    line: 4
+  - module: New.Reduction.ShortAndEnough
+    importer: New.Reduction.MainInequality
+    line: 2
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   New.Derivatives.Divisibility.Count:

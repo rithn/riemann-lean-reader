@@ -36,17 +36,29 @@ overview:
     - module: Lib.PadicComparison.Crystalline.ComparisonMap
       line: 30
       endLine: 40
-  declarations: []
-  routeToMain:
-  - module: Lib.PadicComparison.Completion
-    importer: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
-    line: 1
-  - module: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
-    importer: Lib.PadicComparison.Crystalline.ComparisonMap
-    line: 1
+  declarations:
+  - module: Lib.PadicComparison.Primitive.ComparisonTheorem
+    name: New.Variety.ellAdicCohom.continuous_galoisAction
+    line: 376
+    signature: "lemma ellAdicCohom.continuous_galoisAction (n : ℕ) (K : Type*) [Field K] [Algebra K Ω] [Algebra R\
+      \ K]\n    [IsScalarTower R K Ω] [G : IsProGalois Gal(Ω/K) K Ω]\n    (x : (ellAdicCohom R Ω n).obj (Opposite.op\
+      \ Y)) {N : ℕ}\n    (l : ellAdicCohom R Ω n ⟨Y⟩ →ₗ[ℚ_[p]] Fin N → PadicAlgCl p) :\n    Continuous fun g : Gal(Ω/K)\
+      \ ↦ l (galoisAction R Ω Gal(Ω/K) Y n g x)"
   - module: Lib.PadicComparison.Crystalline.ComparisonMap
+    name: New.Variety.span_range_crysComparison_pull_eq_top
+    line: 1189
+    signature: "lemma span_range_crysComparison_pull_eq_top (hi_iso : IsIso i) [IsDomain S]\n    [IsDiscreteValuationRing\
+      \ S] (hS : IsCompleteTorsionFree S) (hV : IsCharting V)\n    (hp : Irreducible (p : S))\n    (h_fin : ∀ n :\
+      \ ℕ,\n      Module.Finite Bmax\n        (H (freeAb.obj (PadicTest.algFunctor ⋙ restrictAlg R OC ⋙ V.toFunctor))\n\
+      \          (moduleCoeff (asModules (crysThickening ⋙ ι _) ⋙ tensorWith Bmax Bmax)) n))\n    (n : ℕ) :\n    Submodule.span\
+      \ Bmax\n      (Set.range (crysComparison.pull (freeAbMap (toCrysPoints V i)) n)) = ⊤"
+  routeToMain:
+  - module: Lib.PadicComparison.Primitive.ComparisonTheorem
+    importer: Lib.PadicComparison.HodgeTate.PeriodMap
+    line: 3
+  - module: Lib.PadicComparison.HodgeTate.PeriodMap
     importer: Lib.PadicComparison.CrystallineFrobenius
-    line: 1
+    line: 2
   - module: Lib.PadicComparison.CrystallineFrobenius
     importer: Lib.Shimura.Eigenspace
     line: 2

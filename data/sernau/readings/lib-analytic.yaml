@@ -33,8 +33,35 @@ overview:
     - module: Lib.Analytic.EntireLFunction
       line: 20
       endLine: 27
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.Analytic.DirichletTheta
+    name: New.hasMellin_thetaSeries_char
+    line: 466
+    signature: "theorem hasMellin_thetaSeries_char (hχ_ne : χ ≠ 1) (hχ_parity : χ (-1) = (-1) ^ j.val)\n    (hs :\
+      \ 0 < s.re) :\n    HasMellin (thetaSeries j fun n : ℕ ↦ χ n) (s - 2⁻¹)\n      (gaussianMellin j s * χ.LFunction\
+      \ s)"
+  - module: Lib.Analytic.EntireLFunction
+    name: New.tendsto_sub_mul_logDeriv_entireL_analyticOrderNatAt
+    line: 180
+    signature: "lemma tendsto_sub_mul_logDeriv_entireL_analyticOrderNatAt (s : ℂ) :\n    Tendsto (fun z : ℂ ↦ (z -\
+      \ s) * logDeriv (entireL χ) z) (\U0001D4DD[≠] s)\n      (\U0001D4DD (analyticOrderNatAt (entireL χ) s : ℂ))"
+  routeToMain:
+  - module: Lib.Analytic.DirichletTheta
+    importer: Lib.Analytic.QuadraticTwist
+    line: 1
+  - module: Lib.Analytic.QuadraticTwist
+    importer: New.Reduction.Zeros.Criterion
+    line: 2
+  - module: New.Reduction.Zeros.Criterion
+    importer: New.Reduction.OneSidedBound
+    line: 3
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.Analytic.DirichletTheta:

@@ -33,8 +33,51 @@ overview:
     - module: Lib.Cohomology.Hodge.CupProduct
       line: 528
       endLine: 541
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.Cohomology.Etale.Basic
+    name: New.Variety.H.dimension_shift_induction
+    line: 714
+    signature: "lemma H.dimension_shift_induction {P : ∀ {F : AbFunctor C} {n : ℕ}, H N F n → Prop}\n    (h₀ : ∀ (F\
+      \ : AbFunctor C) (f : N ⟶ F), P (F"
+  - module: Lib.Cohomology.Hodge.CupProduct
+    name: New.Variety.Comparison.pull_cup
+    line: 533
+    signature: "lemma Comparison.pull_cup {F : AbFunctor C} {a b n : ℕ} {A : Type _} [Category A]\n    {N N' : AbFunctor\
+      \ A} {Θ : C ⥤ A} {Θ' : C' ⥤ A} {F' : AbFunctor C'} {c : Comparison F F'}\n    {η : Θ' ⟶ c.functor ⋙ Θ} [HasFlatValues\
+      \ F] [HasFlatValues F'] [HasFlatValues N]\n    {μ : (abTensor.obj F).obj F ⟶ F} {μ' : (abTensor.obj F').obj\
+      \ F' ⟶ F'} (hμ :\n      (abTensor.map c.coeffHom).app (c.functor ⋙ F) ≫ (abTensor.obj F').map c.coeffHom ≫ μ'\
+      \ =\n        c.functor.whiskerLeft μ ≫ c.coeffHom)\n    (x : H (Θ ⋙ N) F a) (y : H (Θ ⋙ N') F b) (h : b + a\
+      \ = n) :\n    c.pull (whiskerRight η ((abTensor.obj N).obj N')) n (cup μ x y h :) =\n      cup μ' (c.pull (whiskerRight\
+      \ η N) a x) (c.pull (whiskerRight η N') b y) h"
+  routeToMain:
+  - module: Lib.Cohomology.Etale.Basic
+    importer: Lib.PadicComparison.Descent.TestCategory
+    line: 1
+  - module: Lib.PadicComparison.Descent.TestCategory
+    importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+    line: 3
+  - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+    importer: New.Derivatives.Vacuum.TightFrames
+    line: 1
+  - module: New.Derivatives.Vacuum.TightFrames
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 3
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.Cohomology.Etale.Basic:

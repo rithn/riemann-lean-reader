@@ -27,8 +27,51 @@ overview:
     - module: Lib.GLn.Branching.IntegralMap
       line: 37
       endLine: 40
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.GLn.SchurModule.Basic
+    name: New.fockPairing_star_self_pos
+    line: 726
+    signature: "lemma fockPairing_star_self_pos [PartialOrder R] [StarRing R] [StarOrderedRing R] [IsDomain R]\n \
+      \   (hp : p ≠ 0) :\n    0 < fockPairing R (MvPolynomial.map (starRingEnd R) p) p"
+  - module: Lib.GLn.Branching.IntegralMap
+    name: New.exists_branching_matrix
+    line: 472
+    signature: "lemma _root_.New.exists_branching_matrix (κ₀ : Φ → ℕ → ℕ) (q : ℕ) (e e₀ : Φ → ℤ) (hκ : γ + κ' = κ)\n\
+      \    (hκ₀ : ∀ τ : Φ, ∀ h ∈ Ioo 0 (rankAt n τ), κ₀ τ h = κ' τ h + γ τ (h + 1))\n    (hq : ∀ τ : Φ, ∀ i < q, κ'\
+      \ τ i = 0) (he₀ : ∀ τ : Φ, e₀ τ = e τ + κ' τ (rankAt n τ)) :\n    ∃ br : Matrix (WeylIndexFamily n κ₀) (WeylIndexFamily\
+      \ N κ) ℤ,\n      -- (a)\n      (∀ (R : Type) [Field R] [CharZero R] (g : (τ : Φ) → GL (n τ) R) (s : Φ → Rˣ)\n\
+      \        (x : (τ : Φ) → GL (N τ) R),\n        (∀ τ : Φ, (x τ).val = blockScalar ι (fun τ : Φ ↦ (g τ).val) (fun\
+      \ τ : Φ ↦ (s τ).val) τ) →\n        br.map (Int.cast : ℤ → R) * weylRep κ e x =\n          (∏ τ : Φ, s τ ^ (diagramWeight\
+      \ (rankAt N) γ (τ, 0) + e τ)) •\n            (weylRep κ₀ e₀ g * br.map (Int.cast : ℤ → R))) ∧\n      -- (b)\n\
+      \      (∀ L : ℕ, ∑ τ : Φ, ∑ h ∈ Ico q (rankAt n τ), h * κ₀ τ h ≤ L →\n        ∀ ξ : WeylIndexFamily N κ → ℂ,\n\
+      \          weylNormSq (br.map (Int.cast : ℤ → ℂ) *ᵥ ξ) ≤ ((L ^ L) ^ 3) ^ 2 * weylNormSq ξ) ∧\n      -- (c)\n\
+      \      SpansBranchingMaps ι e₀ e (br.map (Int.cast : ℤ → ℂ))"
+  routeToMain:
+  - module: Lib.GLn.SchurModule.Basic
+    importer: Lib.Shimura.Uniformisation.HolomorphicFamilies
+    line: 1
+  - module: Lib.Shimura.Uniformisation.HolomorphicFamilies
+    importer: New.Derivatives.Vacuum.TightFrames
+    line: 3
+  - module: New.Derivatives.Vacuum.TightFrames
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 3
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.GLn.Branching.IntegralMap:

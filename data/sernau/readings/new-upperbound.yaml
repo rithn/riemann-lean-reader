@@ -40,8 +40,56 @@ overview:
     - module: New.UpperBound.Size.Estimates
       line: 6
       endLine: 9
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: New.UpperBound.ElementaryDivisors.ElementaryDivisorTheorem
+    name: New.FrobeniusCycle.elementary_divisors_length
+    line: 1230
+    signature: "theorem elementary_divisors_length {N k n : ℕ} {W : Type} [NeZero N] [CommRing W] [IsLocalRing W]\n\
+      \    {X : Type*} [Fintype X] {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]\n    [CharZero\
+      \ O] (T : FrobeniusCycle N W O) (hp : ¬IsUnit (T.p : O)) {r : ℕ} {θ : ℝ}\n    (h_large : T.IsLargeDegree k n\
+      \ r θ) {H : Type*} {I M : Type} [Fintype H] [DecidableEq H]\n    [Fintype (ParahoricCosets W k r)] [Fintype\
+      \ I] [AddCommGroup M] [Module O M]\n    (J : I ≃ Exponents N k n × H) (\U0001D4D4 : EdgeCoordinates W O k r\
+      \ X H) (f : (X → I → O) →ₗ[O] M)\n    {Y : End O M} (hY : Y ∘ₗ f = f ∘ₗ T.edgeHeckeOperator n J \U0001D4D4)\
+      \ (m : ℕ) :\n    f.range.map Y ≤ f.range ∧\n    ∃ l : ℕ, l ≤ (3 * T.divisorConstant k n r + θ * m) * (Nat.card\
+      \ X * Nat.card I) ∧\n      relLength f.range (f.range.map Y ⊔ (T.p : O) ^ m • f.range) ≤\n        l * length\
+      \ O (O ⧸ span {(T.p : O)})"
+  - module: New.UpperBound.Divisibility.LocalDivisibility
+    name: New.Data.exists_err_gaugeLe_compositeLift
+    line: 494
+    signature: "theorem exists_err_gaugeLe_compositeLift {P : Parameters} (D : Data P) :\n    ∃ err : ℕ → ℝ,\n   \
+      \   -- (a)\n      (∀ p : ℕ, 0 ≤ err p) ∧\n      -- (b)\n      (∀ p : ℕ, p ≠ D.N → chiK P.d p = 1 ∨ D.x₁ ≤ p\
+      \ → err p = 0) ∧\n      -- (c)\n      (∀ U : Finset ℕ, ∑ p ∈ U, err p * log p ≤ D.errorUnit) ∧\n      -- (d)\n\
+      \      ∀ (p : ℕ) [Fact p.Prime] [PadicPlace p], ∃ (l : ℕ) (S : Submodule embValRing D.SourceForm),\n       \
+      \ l ≤ err p * finrank ℂ D.SourceForm ∧\n        S ≤ D.integralSourceForms ⊓ D.ramifiedSourceForms.restrictScalars\
+      \ embValRing ∧\n        ColengthDvd (D.integralSourceForms ⊓ D.ramifiedSourceForms.restrictScalars embValRing)\
+      \ S\n          (p ^ l) ∧\n        ∀ (ϑ : D.Twist) (Ψ : D.Translations →₀ ℂ), IsChainDatum ϑ Ψ → p.Coprime ϑ.normQ\
+      \ →\n          ∀ φ ∈ S, GaugeLe 1 (p ^ (err p - D.gain p)) (compositeLift ϑ Ψ φ)"
+  routeToMain:
+  - module: New.UpperBound.ElementaryDivisors.ElementaryDivisorTheorem
+    importer: New.UpperBound.Divisibility.HeckeEdges
+    line: 2
+  - module: New.UpperBound.Divisibility.HeckeEdges
+    importer: New.UpperBound.Divisibility.MarkOperator
+    line: 1
+  - module: New.UpperBound.Divisibility.MarkOperator
+    importer: New.UpperBound.Divisibility.LocalDivisibility
+    line: 2
+  - module: New.UpperBound.Divisibility.LocalDivisibility
+    importer: New.Reduction.ShortAndEnough
+    line: 3
+  - module: New.Reduction.ShortAndEnough
+    importer: New.Reduction.MainInequality
+    line: 2
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   New.UpperBound.Divisibility.ChainDatumExpansion:

@@ -27,8 +27,45 @@ overview:
     - module: Lib.Adelic.Adeles.AdditiveCharacter
       line: 8
       endLine: 13
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.Adelic.Adeles.Basic
+    name: New.mem_range_finAdeleIncl_iff
+    line: 1190
+    signature: "lemma mem_range_finAdeleIncl_iff [IsGalois K L] {y : \U0001D538f L} :\n    y ∈ (finAdeleIncl K L).range\
+      \ ↔ ∀ σ : Gal(L/K), adeleMap σ y = y"
+  - module: Lib.Adelic.Adeles.AdditiveCharacter
+    name: New.ψf_eq_one_of_mem
+    line: 211
+    signature: 'lemma ψf_eq_one_of_mem {x : 𝔸f E} (h : x ∈ Ô E) : ψf E x = 1'
+  routeToMain:
+  - module: Lib.Adelic.Adeles.Basic
+    importer: Lib.ClassField.Places.ValuationSubrings
+    line: 1
+  - module: Lib.ClassField.Places.ValuationSubrings
+    importer: Lib.CM.ChowlaSelberg
+    line: 6
+  - module: Lib.CM.ChowlaSelberg
+    importer: New.Derivatives.Vacuum.TightFrames
+    line: 2
+  - module: New.Derivatives.Vacuum.TightFrames
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 3
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.Adelic.Adeles.AdditiveCharacter:

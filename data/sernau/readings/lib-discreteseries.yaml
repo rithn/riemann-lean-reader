@@ -30,8 +30,52 @@ overview:
     - module: Lib.DiscreteSeries.Bessel.Basic
       line: 24
       endLine: 27
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.DiscreteSeries.Haar.CayleyChart
+    name: New.cayleyChart
+    line: 350
+    signature: 'def cayleyChart : U J'
+  - module: Lib.DiscreteSeries.Haar.GramCoordinates
+    name: New.exists_measurePreserving_hermCorner
+    line: 433
+    signature: "theorem exists_measurePreserving_hermCorner [Fintype n] [Fintype n₁] [DecidableEq n]\n    [DecidableEq\
+      \ n₁] (e : n₁ ⊕ Unit ≃ n) :\n    ∃ φ : Matrix n n ℝ ≃ₜ Matrix n₁ n₁ ℝ × (n₁ → ℂ) × ℝ,\n      MeasurePreserving\
+      \ φ ∧\n      ∀ t : Matrix n n ℝ, φ t = (t.submatrix (e ∘ Sum.inl) (e ∘ Sum.inl),\n        fun a : n₁ ↦ hermOfReal\
+      \ t (e (.inl a)) (e (.inr ())), t (e (.inr ())) (e (.inr ())))"
+  - module: Lib.DiscreteSeries.Bessel.Basic
+    name: New.RealPlace.mem_besselU0_iff_unipotentOf
+    line: 601
+    signature: "theorem mem_besselU0_iff_unipotentOf {u : \U0001D530.G₁} :\n    u ∈ besselU0 ↔ ∃ q : \U0001D530.UnipotentParams,\
+      \ u = unipotentOf q"
+  routeToMain:
+  - module: Lib.DiscreteSeries.Haar.CayleyChart
+    importer: Lib.DiscreteSeries.Bessel.Basic
+    line: 2
+  - module: Lib.DiscreteSeries.Bessel.Basic
+    importer: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+    line: 1
+  - module: Lib.DiscreteSeries.Bessel.UnipotentHaarMeasure
+    importer: Lib.DiscreteSeries.Bruhat.ComplexPlace
+    line: 1
+  - module: Lib.DiscreteSeries.Bruhat.ComplexPlace
+    importer: New.UpperBound.Seesaw.SeesawIdentity
+    line: 1
+  - module: New.UpperBound.Seesaw.SeesawIdentity
+    importer: New.Reduction.ShortAndEnough
+    line: 4
+  - module: New.Reduction.ShortAndEnough
+    importer: New.Reduction.MainInequality
+    line: 2
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.DiscreteSeries.Bessel.Basic:

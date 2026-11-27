@@ -44,8 +44,59 @@ overview:
     - module: New.Congruences.FitTwistsExist
       line: 8
       endLine: 16
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: New.Congruences.FirstOrder.RibetMethod
+    name: New.Selmer.exists_ribet_element_of_tied_rows
+    line: 480
+    signature: "lemma Selmer.exists_ribet_element_of_tied_rows {r : Type*} [Fintype r] [DecidableEq r] {t : ℕ}\n \
+      \   [NeZero t] (blockEquiv : r ⊕ Fin t ≃ σ) (u : Y → O[G] →ₐ[O] Matrix σ σ O) (κ : O →+* S)\n    (hκ : (algebraMap\
+      \ S (Y → L)).comp κ = algebraMap O (Y → L))\n    (h_coeff : ∀ (g : G) (k : ℕ),\n      (fun x : Y ↦ ((u x (.single\
+      \ g 1)).map (algebraMap O L)).charpoly.coeff k) ∈ S)\n    (\U0001D4A5 : Submodule S (Y → L)) (y : N → O[G])\
+      \ (ρ₀ ρ₁ : O[G]) (B : Matrix N N O[G])\n    (hB_tied : ∀ i : N,\n      ∃ a ∈ span O[G] {w : O[G] | ∀ g : G,\n\
+      \        (fun x : Y ↦ algebraMap O L (u x w * u x (.single g 1)).trace) ∈ \U0001D4A5},\n      ∃ z ∈ span O[G]\
+      \ (Set.range y), (B *ᵥ y) i = a + z * ρ₀)\n    {\U0001D4E7 : Set Y} (ψ : \U0001D4E7 → O[G] →ₐ[O] Matrix r r\
+      \ O) (η : Fin t → O[G] →ₐ[O] O)\n    (hu_block : ∀ (x : \U0001D4E7) (w : O[G]),\n      u x w = reindex blockEquiv\
+      \ blockEquiv\n        (fromBlocks (ψ x w) 0 0 (diagonal fun e : Fin t ↦ η e w)))\n    (hψ₁ : ∀ x : \U0001D4E7\
+      , ψ x ρ₁ = 0) {μ₀ : O} (hη₁ : ∀ e : Fin t, η e ρ₁ = if e = 0 then μ₀ else 0)\n    (hη₀ : η 0 ρ₀ = 0) :\n   \
+      \ ∃ f : S,\n      (∀ w ∈ span O[G] (Set.range y),\n        (f : Y → L) * (fun x : Y ↦ algebraMap O L (u x w).det)\
+      \ ∈ \U0001D4A5) ∧\n      ∀ x : \U0001D4E7, (f : Y → L) x = algebraMap O L\n        (μ₀ * (comp N N r r O (B.map\
+      \ (ψ x))).det * ∏ e : Fin t, (B.map (η e)).det)"
+  - module: New.Congruences.Selmer.GeneralTheorem
+    name: New.Selmer.exists_anticyclotomic_twist
+    line: 392
+    signature: "theorem exists_anticyclotomic_twist [Finite ι] [Finite κ] (hS₀ : placesDividing E ℓ ⊆ S₀)\n    (hg₀\
+      \ : g₀ ∈ inertiaAbove (S₀ \\ placesDividing E ℓ)) {M : ℕ} (hM : IsTorsionLevel T M)\n    {m : ℕ} (hm : 1 ≤ m)\
+      \ {ε : ℝ≥0} (hε : 0 < ε) :\n    ∃ (Q : Finset (FinPlace E)) (ψ : Gal(Ω/E) →* PadicAlgCl ℓ),\n      IsAuxiliary\
+      \ S₀ Q ∧ ∀ j ∈ Set.Icc 1 m, IsSmallTwist T Y ε Q (ψ ^ j)"
+  routeToMain:
+  - module: New.Congruences.FirstOrder.RibetMethod
+    importer: New.Congruences.FirstOrder.RibetLemma
+    line: 2
+  - module: New.Congruences.FirstOrder.RibetLemma
+    importer: New.Congruences.FirstOrder.RibetElement
+    line: 1
+  - module: New.Congruences.FirstOrder.RibetElement
+    importer: New.Congruences.FirstOrder.DenominatorBound
+    line: 3
+  - module: New.Congruences.FirstOrder.DenominatorBound
+    importer: New.Congruences.FitTwistsExist
+    line: 1
+  - module: New.Congruences.FitTwistsExist
+    importer: New.Determinant.Twist.LongForms
+    line: 1
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   New.Congruences.FirstOrder.AuxiliaryPrimeTie:

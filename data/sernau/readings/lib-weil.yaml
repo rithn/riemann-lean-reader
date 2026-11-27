@@ -41,8 +41,53 @@ overview:
     - module: Lib.Weil.Lift
       line: 9
       endLine: 15
-  declarations: []
-  routeToMain: []
+  declarations:
+  - module: Lib.Weil.Construction.WeilOperators
+    name: New.Heisenberg.IsVacuum.continuous_weilRep
+    line: 340
+    signature: "lemma continuous_weilRep [FirstCountableTopology G] :\n    Continuous ↿(fun (g : G) (v : Model H)\
+      \ ↦ weilRep A g v)"
+  routeToMain:
+  - module: Lib.Weil.Construction.WeilOperators
+    importer: Lib.Weil.Construction.FiniteCocycle
+    line: 3
+  - module: Lib.Weil.Construction.FiniteCocycle
+    importer: Lib.Weil.Construction.AdelicRepresentation
+    line: 2
+  - module: Lib.Weil.Construction.AdelicRepresentation
+    importer: Lib.Weil.MixedModel.IsotropicSplitting
+    line: 2
+  - module: Lib.Weil.MixedModel.IsotropicSplitting
+    importer: Lib.Weil.MixedModel.RealTheta
+    line: 2
+  - module: Lib.Weil.MixedModel.RealTheta
+    importer: Lib.Weil.MixedModel.ZeroTerm
+    line: 3
+  - module: Lib.Weil.MixedModel.ZeroTerm
+    importer: Lib.Weil.MixedModel.ThetaInvariance
+    line: 1
+  - module: Lib.Weil.MixedModel.ThetaInvariance
+    importer: Lib.Weil.Construction.CanonicalTheta
+    line: 2
+  - module: Lib.Weil.Construction.CanonicalTheta
+    importer: New.Derivatives.Vacuum.IntegralVacuum
+    line: 2
+  - module: New.Derivatives.Vacuum.IntegralVacuum
+    importer: New.Reduction.Data.AdmissibleData
+    line: 1
+  - module: New.Reduction.Data.AdmissibleData
+    importer: New.Reduction.Data.Existence
+    line: 2
+  - module: New.Reduction.Data.Existence
+    importer: New.Reduction.OneSidedBound
+    line: 1
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
   outsideReadings: []
 files:
   Lib.Weil.CompactLift.DefiniteThetaLift:
