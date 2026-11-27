@@ -15,7 +15,7 @@ as_of: "26 Nov 2026"
 
 # Has the Riemann hypothesis been solved?
 
-**Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 November 2026. On 21 November the Lean FRO and the Mathlib Initiative certified that its statement and proof are correct, and independent checks since then have passed. [No refereed paper has been announced yet](#publication-and-the-clay-prize).** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+**Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 November 2026. On 21 November the Lean FRO and the Mathlib Initiative certified that its statement and proof are correct, and independent checks since then have passed. [No refereed paper has been announced yet](#publication-and-the-clay-prize). On 25 November Luke Sernau released [two shorter rewrites](/shorter-riemann-hypothesis-proof/), readable and compact, which have also [passed independent checks](#shorter-editions).** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
 *Last updated 26 November 2026.*
 
@@ -148,7 +148,7 @@ riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropi
 
 ## Changelog
 
-- **27 Nov 2026.** Moved the current answer and the latest checks to the top; added links to the evidence pages.
+- **27 Nov 2026.** Moved the current answer, including Sernau's shorter editions, and the latest checks to the top; added links to the evidence pages.
 - **26 Nov 2026.** Recorded the completed v4.36.0 Comparator run on the original archive’s exports.
 - **25 Nov 2026.** Corrected the scope of the five theorems in `Main.lean` and clarified the scope of the verification runs on the [timeline](/timeline/#nov-24).
 - **24 Nov 2026, restructure.** This page now gives the current answer only. The dated log "What changed when" moved to the [timeline](/timeline/); repeated detail was shortened.
