@@ -27,6 +27,7 @@ from proof_editions import (COMPARISON, DEFAULT, NAMES as EDITION_NAMES, ORIGINA
                             VERIFICATION_URL as SERNAU_VERIFICATION, VIRTUAL_ENTRIES,
                             edition_api, verification_api)
 from site_dates import chash, content_revision
+import depth_figure
 from alpoge_layout import pack_constellation
 
 D, OUT = sys.argv[1], sys.argv[2]
@@ -1359,6 +1360,7 @@ import html, hashlib, secrets, email.utils
 from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = (Path(HERE) / 'explorer_shell.html').read_text(encoding='utf-8')
+EMBED_TPL = (Path(HERE) / 'explorer_embed.html').read_text(encoding='utf-8')
 FOOTER_TPL = (Path(HERE) / 'explorer_footer.html').read_text(encoding='utf-8')
 H = html.escape
 GH = 'https://github.com/rithn/riemann-lean-reader'
@@ -1421,6 +1423,7 @@ sernau_data = build_sernau_data(Path(OUT))
 sernau_edition = sernau_data['edition']
 sernau_card = readable_card(Path(OUT), sernau_data['groups'], sernau_edition)
 ALPOGE_MAP, SERNAU_MAP = (ROUTES[key]['map'] for key in ('alpoge', 'sernau'))
+EMBED_PATHS = {'/': '/embed/', SERNAU_MAP: '/embed/sernau/', ALPOGE_MAP: '/embed/alpoge/'}
 assert f"GH_SHA = '{LEAN_SHA}'" in open(os.path.join(OUT, 'app.js')).read(), 'app.js GH_SHA differs from LEAN_SHA'
 # 80b: the source viewer (/file/) serves the files of the proof's last step from this site, /src/<module>.lean, copied
 # byte for byte from the local tree (src/lean/src, the archive at LEAN_SHA); every other file still comes from the pinned
@@ -1603,11 +1606,8 @@ def head(path, title, desc, lds, md=True, img=None):
             f'<meta name="twitter:site" content="@RiemannMap">\n'
             f'<meta name="twitter:title" content="{t}">\n<meta name="twitter:description" content="{d}">\n'
             f'<meta name="twitter:image" content="{H(img)}">\n')
-SHARE_RE = re.compile(r'<p class="sharebar">.*?</p>| <span class="report">.*?</span>')   # QA23a: the report link is left out too
-def share_btn(path, title):   # a Share button (app.js copies the link or opens the phone's share sheet); not part of lastmod
-    return (f'<p class="sharebar"><button type="button" class="share" data-share="{H(SITE + path)}" data-title="{H(title)}">'
-            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0-4 4m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>'
-            '<span>Share</span></button></p>')
+SHARE_RE = re.compile(r'<p class="sharebar" data-share-slot></p>| <span class="report">.*?</span>')
+SHARE_SLOT = '<p class="sharebar" data-share-slot></p>'
 def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
     m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
@@ -1645,13 +1645,15 @@ def edition_switch(edition, view):
         links.append(f'<a href="{href}" data-edition="{key}" data-edition-link{current}>{label}</a>')
     return f'<nav class="edition-switch" aria-label="Proof edition">{"".join(links)}</nav>'
 
-def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
+def shell(path, title, desc, route, body, page_head, *, edition='', view=None, embed_target=None):
     view = view or route.split('/')[0] or 'map'
     readable = edition == 'sernau'
     engine = edition or 'alpoge'
     overlay = view in ('page', 'learn', 'route', 'reader') or (readable and view == 'group')
     map_url, list_url, route_url = (ROUTES[engine][name] for name in ('map', 'list', 'route'))
     attributes = {'data-route': route, 'data-edition': edition, 'data-engine': engine, 'data-view': view}
+    if embed_target:
+        attributes['data-embed'] = embed_target
     if overlay:
         attributes['class'] = 'paged'
     if readable:
@@ -1664,6 +1666,23 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
             attributes['data-file-locator'] = sernau_data['readerFilesBaseUrl']
             attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
+    styles = f'<link rel="stylesheet" href="{CSS_F}">'
+    viewport = '<canvas id="sky" aria-label="Map of clusters"></canvas>'
+    if readable:
+        styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
+        viewport = '<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
+    entry = EXPLORER_CONFIG[engine].copy()
+    config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), 'embedPaths': EMBED_PATHS, engine: entry}
+    if embed_target:
+        if not readable:
+            entry['dependency'] = '/vendor/d3.v7.9.0.min.js'
+        return fill_slots(
+            EMBED_TPL, title=H(title), description=HA(desc), canonical=H(SITE + embed_target),
+            open_url=H(embed_target + '?utm_source=embed&utm_medium=iframe'), styles=styles,
+            shell_script=f'<script src="{SHELL_F}" defer></script>', body_attributes=body_attributes,
+            map=viewport, filters=map_filters(sernau_data) if readable else '',
+            scripts=json_script('explorer-config', config),
+        )
     status = READABLE_STATUS if readable else ORIGINAL_STATUS
     status_html = (f'<a class="status-chip ok" href="{H(status["href"])}" title="{H(status["title"])}" aria-label="{H(status["label"])}">'
                    f'<i></i><span>{"Sernau readable" if readable else "Lean proof"} · <b>{H(status["text"])}</b></span>'
@@ -1678,11 +1697,6 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
                         list_label='List view' if edition else 'Alpöge cluster list',
                         route_label='Route from Main' if edition else 'Alpöge route',
                         provenance=source_provenance(sernau_edition) if readable else '')
-    styles = f'<link rel="stylesheet" href="{CSS_F}">'
-    if readable:
-        styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
-    entry = EXPLORER_CONFIG[engine].copy()
-    config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), engine: entry}
     if path == '/':
         config['legacyOverview'] = EXPLORER_CONFIG['alpoge']['overview']
     if LEAN_READER_F:
@@ -1706,8 +1720,6 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None):
         for key in ('dependency', 'map', 'src'):
             if key in entry:
                 page_head += f'<link rel="preload" as="script" href="{H(entry[key])}">\n'
-    viewport = ('<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
-                if readable else '<canvas id="sky" aria-label="Map of clusters"></canvas>')
     t = fill_slots(
         TPL, title=H(title, quote=False), description=HA(desc), head=page_head, styles=styles,
         body_attributes=body_attributes, shell_script=f'<script src="{SHELL_F}" defer></script>',
@@ -1988,7 +2000,7 @@ for t, th in TH.items():
     rel = sorted(REL[t], key=lambda z: (-z[0], z[1]))[:6]
     body = (breadcrumbs([('Alpöge original', ALPOGE_MAP), ('Theme', '')]) +
             f'<div class="eyebrow">Alpöge original · Theme</div>'
-            f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>' + share_btn(TPATH[t], TNAME[t])
+            f'<h1>{H(TNAME[t])}</h1>' + f'<p class="meta tags">Field: {H(FIELDS[FIDX[TFIELD[t]]]["name"])}</p>' + SHARE_SLOT
             + (f'<p class="lede">{H(tn["blurb"])}</p>' if tn.get('blurb') else '') + STATUS +
             f'<h2>Clusters</h2><ul class="rows">{"".join(clink(k, sub=oneline(k)) for k in cs)}</ul>'
             + (f'<h2>Related themes</h2><ul class="rows">' + ''.join(
@@ -2160,7 +2172,7 @@ for k, p in CPATH.items():
     on_route = set(up)
     body = (breadcrumbs([('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (k, '')]) +
             f'<div class="eyebrow">Alpöge original · Cluster {k}</div><h1>{H(title)}</h1>'
-            f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + share_btn(p, title)
+            f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + SHARE_SLOT
             + f'<p>{H(n.get("plain") or "")}</p>' + fl_link(k) + f'{route}<p class="meta">{H(feeds_txt(k))}</p>'
             + with_report(STATUS_CK if k in CHECKED else STATUS, k) + (checked_html(k) if k in CHECKED else '') + why
             + (f'<h2>Prerequisite concepts</h2><div class="chips">{"".join(f"<span class=chip>{H(x)}</span>" for x in conc)}</div>' if conc else '')
@@ -2226,7 +2238,7 @@ def _fl_pages():   # a function, so that its names do not leak into the build's 
             crumbs = breadcrumbs([('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (k, cp),
                                   ('Lean files' + (f' (part {i + 1})' if i else ''), '')])
             body = (crumbs + f'<div class="eyebrow">Alpöge original · Cluster {k} · Lean files in plain English</div>'
-                    f'<h1>{H(title)}: its Lean files in plain English</h1>' + share_btn(path, ptitle)
+                    f'<h1>{H(title)}: its Lean files in plain English</h1>' + SHARE_SLOT
                     + f'<p class="lede lhow">{H(FL_HOW)}</p>'
                     + f'<p class="meta">{nf} Lean {"file" if nf == 1 else "files"}, by distance from <code>Main.lean</code>. Each file links to the '
                     f'Lean viewer; the statements below are cut from the source up to <code>:=</code>. '
@@ -2295,7 +2307,7 @@ more_concepts = sorted((n for n in TT.values() if n['kind'] == 'concept' and n['
 LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through its main steps '
            'down to background maths, linked to the code.')
 learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyebrow">Learning path</div>'
-         '<h1>The Riemann hypothesis proof, step by step</h1><p class="lede">From the Riemann hypothesis down to school maths: '
+         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT + '<p class="lede">From the Riemann hypothesis down to school maths: '
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          f'<ul class="learning-tree">{learning_tree}</ul>'
@@ -2311,6 +2323,16 @@ page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
 
 # ---------- /route/: how the proof is structured, from the main theorem down (keep numbers in step with the data)
 DEPTHS = collections.Counter(dist.values())
+CLUSTER_MEDIAN = statistics.median(dist.values())
+FILE_MEDIAN = statistics.median(fdist.values())
+PEAK_DEPTH = max(DEPTHS, key=DEPTHS.get)
+DEPTH_CAPTION = (f'{DEPTHS[PEAK_DEPTH]:,} of {len(dist):,} clusters are {PEAK_DEPTH} import steps away. '
+                 f'The median cluster is {CLUSTER_MEDIAN:g} steps away across {len(dist):,} clusters. '
+                 f'The median file is {FILE_MEDIAN:g} steps away across {len(fdist):,} Lean files.')
+CC_BY = 'https://creativecommons.org/licenses/by/4.0/'
+DEPTH_TABLE = ('| Import steps | Clusters |\n|---:|---:|\n'
+               + '\n'.join(f'| {depth} | {count:,} |' for depth, count in sorted(DEPTHS.items())) + '\n')
+depth_figure.write_depth_figure(OUT, DEPTHS, CLUSTER_MEDIAN, FILE_MEDIAN, len(fdist), SITE)
 def _plural(n, w):
     return f'{n:,} {w}{"" if n == 1 else "s"}'
 DEPTH_KS = {d: sorted((k for k in CL if dist.get(k) == d), key=lambda k: -fcount[k]) for d in (1, 2)}
@@ -2456,13 +2478,28 @@ def zeros_figure(sfx):
     return (f'<figure class="zfig" id="zeros-{sfx}"><svg viewBox="0 0 {W_} {H_}" role="img" aria-labelledby="zt-{sfx} zd-{sfx}">'
             f'<title id="zt-{sfx}">The critical strip and the first ten zeros of the Riemann zeta function</title>'
             f'<desc id="zd-{sfx}">{H(ZEROS_DESC)}</desc>' + ''.join(o) + f'</svg><figcaption>{H(ZEROS_CAP)}</figcaption></figure>')
-def zeros_md(t):   # the figure in the Markdown copies: its caption and the list of zeros
+def figures_md(t):
     t = re.sub(r'(?m)^(##+ .*?)\s*\{#[\w-]+\}\s*$', r'\1', t)   # heading ids ({#tautology}, {#nov-24}) are for the HTML only
-    return re.sub(r'(?m)^\{\{figure:zeros\}\}$', lambda m: (
+    t = re.sub(r'(?m)^\{\{figure:zeros\}\}$', lambda m: (
         f'*Figure: the critical strip and the first ten zeros.* {ZEROS_CAP}\n\n'
         f'Heights of the first ten non-trivial zeros, each at ½ + it: {ZEROS_TXT} ([LMFDB](https://www.lmfdb.org/zeros/zeta/)).'), t)
+    return t.replace('{{figure:import-depth}}',
+                     f'**{depth_figure.TITLE}.** {DEPTH_CAPTION}\n\n'
+                     f'RH Lean Explorer (riemannhypothesissolved.com) · [CC BY 4.0]({CC_BY})\n\n'
+                     f'[PNG]({depth_figure.ASSET}.png) · [SVG]({depth_figure.ASSET}.svg)\n\n{DEPTH_TABLE}')
 def figures_html(h, sfx):
-    return h.replace('<p>{{figure:zeros}}</p>', zeros_figure(sfx))
+    h = h.replace('<p>{{figure:zeros}}</p>', zeros_figure(sfx))
+    marker = '<p>{{figure:import-depth}}</p>'
+    if marker not in h:
+        return h
+    asset = depth_figure.ASSET
+    figure = (f'<figure class="depth-figure"><img src="{asset}.svg" width="{depth_figure.WIDTH}" height="{depth_figure.HEIGHT}" '
+              f'loading="lazy" alt="Bar chart of cluster counts by import depth. The counts are in the table below.">'
+              f'<figcaption>{DEPTH_CAPTION}<br>RH Lean Explorer (riemannhypothesissolved.com) · '
+              f'<a href="{CC_BY}">CC BY 4.0</a></figcaption></figure>'
+              f'<p class="cta"><a class="btn" href="{asset}.png" download>Download PNG</a> '
+              f'<a class="btn" href="{asset}.svg" download>Download SVG</a></p>')
+    return h.replace(marker, figure + md_html(DEPTH_TABLE))
 def md_abs(t):   # Markdown copies are read off-site: make site links absolute
     return re.sub(r'\]\((/[^)\s]*)\)', lambda m: f']({SITE}{m.group(1)})', t)
 def h2_sections(t):   # [intro, '## …', '## …', …], split at H2 lines outside code fences
@@ -2555,10 +2592,11 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
     trail = breadcrumbs([('Home', '/'), (crumb, '')])
+    share = SHARE_SLOT if path == '/status/' else ''
     if folded := fm.get('fold_sections'):
-        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
+        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{share}{article_html(html_body, folded)}</article>'
     else:
-        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
+        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{share}{html_body}'
     rel = RELATED.get(path, [])
     assert all(u in KNOWN_PATHS for u, _ in rel)
     if rel:
@@ -2568,7 +2606,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
         pairs = faq_pairs(t)
         assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
         lds.insert(1, faq_ld(pairs))
-    page(path, fm['title'], fm['description'], 'page', body, lds, pr, fm=True, md=md_abs(zeros_md(f'# {h1}\n\n{t}' + (
+    page(path, fm['title'], fm['description'], 'page', body, lds, pr, fm=True, md=md_abs(figures_md(f'# {h1}\n\n{t}' + (
         '\n## More on this site\n\n' + ''.join(f'- [{x}]({u})\n' for u, x in rel) if rel else ''))))
     if lv:   # one Markdown file per level: title, a one-line intro, the level's section, the closing links
         before, secs, after = lv
@@ -2579,7 +2617,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             lmd = (f'# {h1} ({n})\n\n{intro}\n\n*{n} level of three ({others}). Full page with every level: {SITE}{path}*\n\n'
                    + re.sub(r'^(## .*?)\s*\{#\w+\}', r'\1', secs[l].strip()) + '\n\n' + (more + '\n' if more else ''))
             open(os.path.join(OUT, path.strip('/'), f'{l}.md'), 'w').write(
-                md_abs(zeros_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
+                md_abs(figures_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
 LEVEL_PAGES = [p for f, fm, t, *_ in DRAFTS if level_split(t) for p in [fm['path']]]
 
 # ---------- /guides/ and /guides/<slug>/. The hub uses the same listing for
@@ -2660,7 +2698,7 @@ for section, entries in guide_sections.items():
 ghtml = re.sub(r'^<p><em>', '<p class="meta asof"><em>', ghtml, count=1)
 page(gpath, gfm['title'], gfm['description'], 'page',
      breadcrumbs([('Home', '/'), ('Guides', '')]) + '<div class="eyebrow">Guides and explainers</div>'
-     f'<h1>{H(gh1)}</h1>{ghtml}',
+     f'<h1>{H(gh1)}</h1>{SHARE_SLOT}{ghtml}',
      [article_ld(gpath, gh1, gfm['description'], str(gfm.get('published', '2026-11-23'))), crumbs_ld(('Home', '/'), ('Guides', gpath)), ORG], .6, fm=True,
      md=md_abs(f'# {gh1}\n\n' + gmd.rstrip() + '\n'))
 
@@ -2688,7 +2726,7 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
             f'<div class="eyebrow">Guide · {H(edition)}</div>'
             f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
             f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
-            f'<div class="cta gact">{"".join(acts)}</div>{notice}' + share_btn(path, g['title']) + content
+            f'<div class="cta gact">{"".join(acts)}</div>{notice}' + SHARE_SLOT + content
             + explore(('/guides/', 'All guides')))
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
              **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
@@ -2982,11 +3020,13 @@ readable_image = (SITE + sernau_card, f'Sernau readable map showing {readable_to
 page('/', HOME_T, HOME_DESC, '', readable_overview(sernau_data, home=True),
      [WEBSITE, ORG, DATASET, READABLE_DATASET], 1.0, img=readable_image, edition=DEFAULT)
 page(ALPOGE_MAP, 'Alpöge original · Lean proof of the Riemann hypothesis', ORIGINAL_DESC,
-     '', original_map, [WEBSITE, ORG, DATASET], .85, md=overview_markdown(original_map), edition='alpoge')
+     '', original_map, [WEBSITE, ORG, DATASET], .85, md=overview_markdown(original_map), edition='alpoge',
+     img=(SITE + '/og.png?v=2', 'Map of the original Lean proof of the Riemann hypothesis'))
 page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
      '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
      '<a href="/alpoge/">Open the Alpöge map</a>, <a href="/sernau/">open the Sernau map</a> or <a href="/status/">read how the proof was checked</a>.</p>')
-page(ROUTES['alpoge']['reader'], 'Lean source reader · Alpöge original', 'Open a Lean source file or concept from the original Alpöge archive.',
+page(ROUTES['alpoge']['reader'], 'Lean source and concepts · Alpöge original',
+     'Read Lean source files, follow declaration links, and explore the concepts behind the original Lean proof of the Riemann hypothesis.',
      'page', '<h1>Alpöge original reader</h1><p>Use JavaScript to open a file or concept in the reader.</p>'
      f'<p><a href="{H(original_main["github"])}">Read the pinned main theorem</a> · <a href="/learn/">Browse the learning path</a></p>',
      edition='alpoge', view='reader', noindex=True)
@@ -3003,7 +3043,17 @@ def render_readable(path, title, desc, kind, body, md=None, noindex=False):
     page(path, title, desc, '' if kind == 'map' else kind, body, ld_graph, .85 if kind == 'map' else .6, md=md,
          img=readable_image, edition='sernau', view=kind, noindex=noindex)
 
-build_sernau_pages(sernau_data, render_readable)
+build_sernau_pages(sernau_data, render_readable, share_slot=SHARE_SLOT)
+
+# Embed shells are static. The selected view and filters live in the query string.
+for normal, embed_path in EMBED_PATHS.items():
+    edition = 'alpoge' if normal == ALPOGE_MAP else 'sernau'
+    title = 'Alpöge original map' if edition == 'alpoge' else 'Sernau readable map'
+    folder = Path(OUT) / embed_path.strip('/')
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / 'index.html').write_text(shell(
+        embed_path, f'{title} · RH Lean Explorer', 'Interactive map of the Lean proof of the Riemann hypothesis.',
+        '', '', '', edition=edition, embed_target=normal), encoding='utf-8')
 
 # ---------- /api/: small JSON files for machines (short cache; /data/ is the app's own versioned format)
 os.makedirs(os.path.join(OUT, 'api'), exist_ok=True)

@@ -67,21 +67,11 @@ The figures below describe the original archive and the Explorer’s original cl
 
 ### Clusters by distance from the main theorem {#clusters-by-distance-from-the-main-theorem}
 
-Distance counts import steps between clusters, starting at the cluster that holds `Main.lean`.
+{{figure:import-depth}}
 
-| Distance | Clusters |
-|---|---:|
-| 0 | 1 |
-| 1 | 3 |
-| 2 | 22 |
-| 3 | 437 |
-| 4 | 1,443 |
-| 5 | 637 |
-| 6 | 76 |
-| 7 | 25 |
-| 8 | 3 |
+**Method.** The build follows directed import links breadth-first. For the cluster bars and median, it starts at the cluster containing `Main.lean` and follows the map’s cluster-to-cluster links. For the file median, it starts at `Main.lean` and follows direct imports among the Lean files in the pinned original archive. The first visit gives the minimum number of import steps. These distances describe the structure of the two import graphs. Import steps measure where a file or cluster sits in the import graph and tell you nothing about how long or hard the argument is.
 
-The three clusters at distance 1 are the ones `Main.lean`'s own cluster imports directly: [zero-free region](/cluster/k0680-zero-free-region-for-zeta-and-dirichlet-l-functions/), [primes in progressions](/cluster/k0683-primes-in-progressions-siegel-walfisz-and-exceptional-zero/) and [Mertens-type estimates](/cluster/k0694-mertens-type-estimates-and-zero-sums-for-dirichlet-l/). Most of the proof, 1,443 clusters, sits four steps out. See [how the proof is structured](/route/).
+The three clusters at distance 1 are the ones `Main.lean`'s own cluster imports directly: [zero-free region](/cluster/k0680-zero-free-region-for-zeta-and-dirichlet-l-functions/), [primes in progressions](/cluster/k0683-primes-in-progressions-siegel-walfisz-and-exceptional-zero/) and [Mertens-type estimates](/cluster/k0694-mertens-type-estimates-and-zero-sums-for-dirichlet-l/). See [how the proof is structured](/route/).
 
 ### Files by field {#files-by-field}
 

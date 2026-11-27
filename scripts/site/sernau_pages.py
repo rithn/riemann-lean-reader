@@ -160,7 +160,7 @@ def edge_list(group, neighbors, data, incoming):
     return f'<ul class="sr-edge-list">{"".join(items)}</ul>' if items else '<p class="sr-muted">None among the readable groups.</p>'
 
 
-def group_content(group, data):
+def group_content(group, data, share_slot):
     groups = {g["id"]: g for g in data["groups"]}
     modules = [data["modules"][name] for name in group["modules"]]
     route = " <span aria-hidden=\"true\">→</span> ".join(link(groups[name]["href"], name) for name in group["route"])
@@ -176,8 +176,8 @@ def group_content(group, data):
   <h1>{esc(group["label"])}</h1>
   <p><code>{esc(group["id"])}</code> · {provenance(group)}</p>
   <p>{scope}</p>
-  <p class="sr-actions">{link(MAP + "?group=" + quote(group["slug"]), "Locate on the map →", ' class="sr-primary"')}
-    <button type="button" class="sr-button" data-share>Share this group</button></p>
+  <p class="sr-actions">{link(MAP + "?group=" + quote(group["slug"]), "Locate on the map →", ' class="sr-primary"')}</p>
+  {share_slot}
 </section>
 <div class="sr-overview-notes">
   <section class="sr-card">
@@ -322,7 +322,7 @@ def readable_card(out, groups, edition):
     return "/og/sernau.png?v=" + sha256(dest.read_bytes()).hexdigest()[:10]
 
 
-def build_sernau_pages(data, render):
+def build_sernau_pages(data, render, *, share_slot):
     """Supply the shared writer with readable page content and its Markdown mirrors."""
     groups_md = "\n".join(f'- [{g["label"]}]({g["href"]}) · `{g["id"]}`' for g in data["groups"])
     totals = data["edition"]["totals"]
@@ -354,7 +354,7 @@ def build_sernau_pages(data, render):
         render(
             group["href"], f'{group["label"]} · Sernau readable',
             f'{group["id"]} is a readable-edition source group with {group["moduleCount"]} Lean files.',
-            "group", group_content(group, data), f"## Member modules\n\n{md}",
+            "group", group_content(group, data, share_slot), f"## Member modules\n\n{md}",
         )
     render(
         READER, "Lean source reader · Sernau readable", "Read the pinned Lean files of the Sernau readable edition.",

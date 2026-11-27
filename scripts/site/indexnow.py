@@ -89,6 +89,7 @@ def main(argv):
         bad = [p for p in paths if not p.startswith('/')]
         if bad:
             sys.exit(f'not a path or {SITE} URL: {bad}')
+        paths = [p for p in paths if not re.match(r'^/embed(?:[/#?]|$)', p)]
         show('URLs given', paths)
     else:
         new = sorted(p for p in cur if p not in sent)
