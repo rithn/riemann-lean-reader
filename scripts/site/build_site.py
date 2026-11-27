@@ -1633,8 +1633,9 @@ def head(path, title, desc, lds, md=True, img=None):
             f'<meta name="twitter:site" content="@RiemannMap">\n'
             f'<meta name="twitter:title" content="{t}">\n<meta name="twitter:description" content="{d}">\n'
             f'<meta name="twitter:image" content="{H(img)}">\n')
-SHARE_RE = re.compile(r'<p class="sharebar" data-share-slot></p>| <span class="report">.*?</span>')
+SHARE_RE = re.compile(r'<p class="sharebar" data-share-slot></p>|<span class="gshare" data-share-slot></span>| <span class="report">.*?</span>')
 SHARE_SLOT = '<p class="sharebar" data-share-slot></p>'
+G_SHARE_SLOT = '<span class="gshare" data-share-slot></span>'   # guide pages: the Share button in the row of actions
 NEWSLETTER_URL = 'https://replace-with-your-substack.invalid'
 if (urlsplit(NEWSLETTER_URL).hostname or '').endswith('.invalid'):
     print('WARNING: NEWSLETTER_URL is a placeholder. Omitting signup from /status/ and /changelog/.', file=sys.stderr)
@@ -2118,6 +2119,7 @@ def gstatus(g, label=None):
 G_AI_T = {'author': "AI-assisted (author's statement)", 'repo': 'AI-assisted (repository history)'}
 G_AI_REPO = 'This label comes from the repository history (the commit trailers), not from a statement by the author.'
 G_ZERO = 'This guide does not name Lean declarations, so it is not linked to nodes on the map.'
+G_HOW_NONE = 'This guide has no mapped Lean declaration or file in the Alpöge original archive.'
 def gai_tag(g, link=True):   # the short tag (hub entry, cluster pages): links to the statement on the guide page
     if not g['ai']:
         return ''
@@ -2127,16 +2129,25 @@ def gai_tag(g, link=True):   # the short tag (hub entry, cluster pages): links t
             else f'<span class="gai" title="{tip}">{t_}</span>')
 def gai_src(url, loc):
     return f'<a href="{H(url)}">{H(_host(url))}</a>' + (f' ({H(loc)})' if loc else '')
-def gai_html(g):   # the guide page's line: label, quote, link (and the author's further statements)
+def gstatus_row(g):   # the guide page's status row: the same pill + quote component as the AI row below it
+    q = f'<p><q>{H(" ".join(str(g["quote"]).split()))}</q></p>' if g.get('quote') else ''
+    return (f'<div class="gqrow"><span class="gst {g["status"]}">{H(G_STATUS_T[g["status"]])}</span>'
+            f'<div class="gqs">{q}</div></div>')
+def gai_html(g):   # the guide page's AI row: label, quote, link (and the author's further statements), one quote per line
     a = g['ai']
     if not a:
         return ''
     if a['src'] == 'repo':
-        return (f'<div class="gailine" id="ai"><p><span class="gai">{G_AI_T["repo"]}</span> <q>{H(a["quote"])}</q> (repository history). '
-                f'<a href="{H(a["url"])}">Commit history</a>. {H(G_AI_REPO)}</p></div>')
-    also = ''.join(f'<li><q>{H(q)}</q> {gai_src(u, l)}</li>' for q, u, l in a['also'])
-    return (f'<div class="gailine" id="ai"><p><span class="gai">{G_AI_T["author"]}</span> <q>{H(a["quote"])}</q> {gai_src(a["url"], a["loc"])}</p>'
-            + (f'<ul class="gaialso">{also}</ul>' if also else '') + '</div>')
+        return (f'<div class="gqrow"><span class="gai" id="ai">{G_AI_T["repo"]}</span><div class="gqs"><p><q>{H(a["quote"])}</q> (repository history). '
+                f'<a href="{H(a["url"])}">Commit history</a>. {H(G_AI_REPO)}</p></div></div>')
+    also = ''.join(f'<p><q>{H(q)}</q> <span class="gsrc">{gai_src(u, l)}</span></p>' for q, u, l in a['also'])
+    return (f'<div class="gqrow"><span class="gai" id="ai">{G_AI_T["author"]}</span><div class="gqs">'
+            f'<p><q>{H(a["quote"])}</q> <span class="gsrc">{gai_src(a["url"], a["loc"])}</span></p>{also}</div></div>')
+def gfacts(meta):   # the guide page's facts block: one item per line; an edition citation splits into one line per edition
+    items = []
+    for m in meta:
+        items += re.split(r'(?<=\.) (?=<a |[A-Z])', m.strip())
+    return '<ul class="gfacts">' + ''.join(f'<li>{x.removesuffix(".")}</li>' for x in items if x) + '</ul>'
 def gai_md(g):
     a = g['ai']
     if not a:
@@ -2813,12 +2824,12 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
     trail = [('Home', '/'), ('Guides', '/guides/'), (name, path)]
     sfx = f' · {name}'
     title = g['title'] + sfx if len(g['title'] + sfx) <= TITLE_MAX else cut_title(g['title'], TITLE_MAX - len(sfx)) + sfx
-    body = (breadcrumbs([*trail[:-1], (name, '')]) +
+    body = ('<div class="gpage">' + breadcrumbs([*trail[:-1], (name, '')]) +
             f'<div class="eyebrow">Guide · {H(edition)}</div>'
-            f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
-            f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
-            f'<div class="cta gact">{"".join(acts)}</div>{notice}' + SHARE_SLOT + content
-            + explore(('/guides/', 'All guides')))
+            f'<div class="ghead">{gav(g, 96)}<div class="ghtext"><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
+            f'{gfacts(meta)}<div class="gquotes">{gstatus_row(g)}{gai_html(g)}</div>'
+            f'<div class="cta gact">{"".join(acts)}{G_SHARE_SLOT}</div>{notice}' + content
+            + explore(('/guides/', 'All guides')) + '</div>')
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
              **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
              **({'datePublished': g['date'].isoformat()} if g['date'] else {}), **({'license': g['licence']} if g['licence'] else {})}
@@ -2884,7 +2895,7 @@ for g in GD:
     nrow = len(rows)
     if nrow:   # a guide that cites no node has no map view
         acts.append(f'<a class="btn primary" href="{H(gmapq(g))}">On the map</a>')
-    tbl = ('<div class="tablewrap"><table class="gnodes"><thead><tr><th>Node</th><th>Distance from Main</th><th>Pages</th><th>Found by</th></tr></thead><tbody>'
+    tbl = ('<div class="tablewrap"><table class="gnodes"><thead><tr><th class="gcn">Node</th><th class="gcd">Steps from main theorem</th><th class="gcp">Pages</th><th class="gcb">Matched by</th></tr></thead><tbody>'
            + ''.join(f'<tr><td><a href="{CPATH[k]}">{H(ctitle(k))}</a></td><td>{dist_txt(k)}</td><td>{grefs_html(g, page_groups(ps), g["notes"].get(k, [])) or "–"}</td><td>{H(gbasis(g, k))}</td></tr>' for k, ps in rows)
            + '</tbody></table></div>') if rows else '<p class="meta">0 nodes on the map.</p>'
     if g['from_refs']:
@@ -2897,7 +2908,7 @@ for g in GD:
                 'folders, each resolved by a script to one declaration or file of the archive ("short name in text"). '
                 'A second run checked a sample of 20 of them per guide; the ones that failed were removed.')
     if not nrow:
-        how = 'This guide has no mapped Lean declaration or file in the Alpöge original archive.'
+        how = G_HOW_NONE
     if g['manual']:
         nm = len({k for k, _ in g['manual']})
         ev = '; '.join(dict.fromkeys(e for _, e in g['manual']))
@@ -2925,9 +2936,14 @@ for g in GD:
     psrcs = [x for x in (g['photo_source'], g['photo_source_also'] if g['ph96b'] else None) if x]
     photo_credit = (f'<p class="meta gcredit">{"Logos" if len(psrcs) > 1 else "Photo"}: '
                     + ', '.join(f'<a href="{H(x)}">{H(_host(x))}</a>' for x in psrcs) + '</p>' if g['ph96'] and psrcs else '')
-    content = (companion_html + f'<h2 id="nodes">Nodes in this guide <span class="n">{nrow}</span></h2>{tbl}'
-               f'<h2 id="how">How we mapped it</h2><p>{H(how)}</p>'
-               f'<p>Authors can correct this: post to <a href="{X_FEEDBACK}">@SomTheBuilder</a> on X.</p>{photo_credit}')
+    zero_extra = how.removeprefix(G_HOW_NONE).strip()   # an unmapped guide: one muted line instead of an empty table and method
+    if nrow:
+        content = (companion_html + f'<h2 id="nodes">Nodes in this guide <span class="n">{nrow}</span></h2>{tbl}'
+                   f'<h2 id="how">How we mapped it</h2><p>{H(how)}</p>'
+                   f'<p>Authors can correct this: post to <a href="{X_FEEDBACK}">@SomTheBuilder</a> on X.</p>{photo_credit}')
+    else:
+        content = (companion_html + f'<p class="meta gzero">{H(G_ZERO)}' + (f' {H(zero_extra)}' if zero_extra else '')
+                   + f' Authors can correct this: post to <a href="{X_FEEDBACK}">@SomTheBuilder</a> on X.</p>{photo_credit}')
     desc = meta_desc((f'{name}: a guide to the Lean proof of the Riemann hypothesis, on the map: the {nrow} '
                       f'{"cluster" if nrow == 1 else "clusters"} it cites, with the pages that cite each. ' if nrow else
                       f'{name}: a guide to the Lean proof of the Riemann hypothesis, with a link to the original. ') + g['title'] + '.')
@@ -2940,13 +2956,13 @@ for g in GD:
           + (gai_md(g) + '\n\n' if g['ai'] else '')
           + mapped_md + (f'Our copy: {SITE}{copy[0]}\n\n' if copy else '') + (f'On the map: {SITE}{gmapq(g)}\n\n' if nrow else f'{G_ZERO}\n\n')
           + companion_md
-          + f'## Nodes in this guide ({nrow})\n\n| Node | Distance from Main | Pages | Found by |\n|---|---|---|---|\n'
-          + ''.join(f'| [{ctitle(k)}]({SITE}{CPATH[k]}) | {dist_txt(k)} | '
-                    + (grefs_md(g, page_groups(ps), g['notes'].get(k, [])) or '–') + f' | {gbasis(g, k)} |\n' for k, ps in rows)
-          + f'\n## How we mapped it\n\n{how}\n\nAuthors can correct this: post to @SomTheBuilder on X ({X_FEEDBACK}).\n'
+          + ((f'## Nodes in this guide ({nrow})\n\n| Node | Steps from main theorem | Pages | Matched by |\n|---|---|---|---|\n'
+              + ''.join(f'| [{ctitle(k)}]({SITE}{CPATH[k]}) | {dist_txt(k)} | '
+                        + (grefs_md(g, page_groups(ps), g['notes'].get(k, [])) or '–') + f' | {gbasis(g, k)} |\n' for k, ps in rows)
+              + f'\n## How we mapped it\n\n{how}\n\n') if nrow else (f'{zero_extra}\n\n' if zero_extra else ''))
+          + f'Authors can correct this: post to @SomTheBuilder on X ({X_FEEDBACK}).\n'
           + (f'\n{"Logos" if len(psrcs) > 1 else "Photo"}: {", ".join(psrcs)}\n' if photo_credit else ''))
-    guide_page(g, 'Alpöge original proof', desc, meta, acts, content, md,
-               notice='' if nrow else f'<p class="meta gzero">{G_ZERO}</p>')
+    guide_page(g, 'Alpöge original proof', desc, meta, acts, content, md)
 
 G_EDITION = {'original': 'Alpöge original proof', 'readable': 'Sernau readable edition', 'compact': 'Sernau compact edition'}
 for g, reading in guide_readings:
