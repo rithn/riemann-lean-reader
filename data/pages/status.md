@@ -1,6 +1,6 @@
 ---
 title: "Has the Riemann hypothesis been solved? Proof status"
-description: "The 20 November Lean proof was certified on 21 November. See the independent verification results for the original archive and both Sernau rewrites."
+description: "Levent Alpöge’s Lean proof of the Riemann hypothesis was certified on 21 November 2026. See the proof status and independent verification results."
 h1: "Has the Riemann hypothesis been solved?"
 path: /status/
 target_queries:
@@ -10,18 +10,29 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "26 Nov 2026"
+as_of: "27 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
-*As of 26 Nov 2026. See the [timeline](/timeline/) for the dated record.*
+**Yes, as of 27 November 2026, Levent Alpöge’s Lean proof of the Riemann hypothesis, released on 20 November, has been independently verified. The Lean FRO and the Mathlib Initiative certified that the statement and proof are correct on 21 November 2026.** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
-**Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof of the Riemann hypothesis are correct. Independent checkers have compiled all 175,187 modules, replayed the proof through Lean's kernel and checked the exported proof with several independent programs.**
+*Last updated 27 November 2026.*
 
-**Verification update, 26 Nov 2026.** Andrew Sutherland reports a full paranoid Comparator pass for each of Luke Sernau’s two shorter editions. Michael Rubinstein’s Waterloo team reports a compact-edition paranoid pass, and Sho Sonoda reports standard Comparator passes for both editions. [Shorter-edition checks](#shorter-editions) · [Timeline](/timeline/#nov-26)
+## What changed
 
-[Follow updates via RSS](/changelog/feed.xml). Paste the link into your feed reader to get new updates.
+- **26 November 2026.** Andrew Sutherland reported full paranoid Comparator passes for both of Luke Sernau’s shorter editions. [MIT results](https://math.mit.edu/~drew/shortgrh/) · [Shorter-edition checks](#shorter-editions)
+- **26 November 2026.** Michael Rubinstein’s Waterloo team reported a paranoid Comparator pass for the compact edition. Sho Sonoda reported standard Comparator passes for both editions. [Additional verification reports](#additional-shorter-checks)
+- **25 November 2026.** Sutherland’s Comparator run on the original proof export passed the statement, axiom and kernel checks. [MIT verification log](https://math.mit.edu/~drew/grh/)
+
+See the [timeline](/timeline/) for the full dated record or [follow updates via RSS](/changelog/feed.xml).
+
+## Check the evidence
+
+- [How we know the proof is correct](/how-we-know/) explains the statement comparison and independent checks.
+- [Compare the shorter editions and their verification results](/shorter-riemann-hypothesis-proof/#verification).
+- [Is the proof a tautology?](/faq/#tautology) covers the objection and the verifiers’ response.
+- [Guides to reading the Lean proof](/guides/) cover the original and shorter editions.
 
 ## What was released
 
@@ -133,13 +144,3 @@ The proof is a library of 175,187 Lean files (175,027 on our map), grouped into 
 ## About this site
 
 riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropic, the Lean FRO, the Lean and Mathlib communities, and the Mathlib Initiative.
-
-## Changelog
-
-- **26 Nov 2026.** Recorded the completed v4.36.0 Comparator run on the original archive’s exports.
-- **25 Nov 2026.** Corrected the scope of the five theorems in `Main.lean` and clarified the scope of the verification runs on the [timeline](/timeline/#nov-24).
-- **24 Nov 2026, restructure.** This page now gives the current answer only. The dated log "What changed when" moved to the [timeline](/timeline/); repeated detail was shortened.
-- **24 Nov 2026, later.** Added Alpöge's two clarifying posts (23 Nov, 22:03 UTC; 24 Nov, 03:01 UTC), a short list of named reactions, and a short entry on the objection that the proof is a tautology, with the full text in the [FAQ](/faq/#tautology).
-- **24 Nov 2026.** Updated the checks to Sutherland's page as last updated 24 Nov 2026 at 05:25 UTC: Lean's default and paranoid kernels and the unmodified Comparator v4.33.0 accept; the `lake comparator` run on Lean v4.36.0 is still in progress. Corrected the date of Sutherland's con-leche runs to 20 Nov. Added a section on refereed publication and the Clay prize rules.
-- **23 Nov 2026.** Updated the checks to Sutherland's page as last updated 22 Nov 2026 at 16:20 UTC. Added "Community work on the proof".
-- **22 Nov 2026.** First version.

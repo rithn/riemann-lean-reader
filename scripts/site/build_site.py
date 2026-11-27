@@ -2592,11 +2592,12 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
     trail = breadcrumbs([('Home', '/'), (crumb, '')])
-    share = SHARE_SLOT if path == '/status/' else ''
     if folded := fm.get('fold_sections'):
-        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{share}{article_html(html_body, folded)}</article>'
+        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
     else:
-        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{share}{html_body}'
+        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
+    if path == '/status/':
+        body += SHARE_SLOT
     rel = RELATED.get(path, [])
     assert all(u in KNOWN_PATHS for u, _ in rel)
     if rel:
