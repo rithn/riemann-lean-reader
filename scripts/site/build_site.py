@@ -1680,6 +1680,7 @@ def edition_switch(edition, view):
     return f'<nav class="edition-switch" aria-label="Proof edition">{"".join(links)}</nav>'
 
 def shell(path, title, desc, route, body, page_head, *, edition='', view=None, embed_target=None):
+    body = re.sub(r'<div class="eyebrow">[^<]*</div>', '', body)
     view = view or route.split('/')[0] or 'map'
     readable = edition == 'sernau'
     engine = edition or 'alpoge'
@@ -1701,7 +1702,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
             attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
     styles = f'<link rel="stylesheet" href="{CSS_F}">'
-    viewport = '<canvas id="sky" aria-label="Map of clusters"></canvas>'
+    viewport = '' if path == '/404.html' else '<canvas id="sky" aria-label="Map of clusters"></canvas>'
     if readable:
         styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
         viewport = '<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
@@ -1770,6 +1771,8 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         list=list_url, route=route_url, filters=map_filters(sernau_data) if readable and view == 'map' else '',
         scripts=scripts,
     )
+    if path == '/404.html':
+        t = re.sub(r'<script\b(?![^>]*type="application/ld\+json")[^>]*>.*?</script>', '', t, flags=re.S)
     nk = NAV_KEY(path)
     if nk:
         t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">', 1)
@@ -2132,10 +2135,10 @@ def gai_html(g):   # the guide page's line: label, quote, link (and the author's
     if not a:
         return ''
     if a['src'] == 'repo':
-        return (f'<div class="gailine" id="ai"><p><span class="gai">{G_AI_T["repo"]}</span> <q>{H(a["quote"])}</q> (repository history). '
+        return (f'<div id="ai"><p class="provenance">◇ <span>{G_AI_T["repo"]}</span> <q>{H(a["quote"])}</q> (repository history). '
                 f'<a href="{H(a["url"])}">Commit history</a>. {H(G_AI_REPO)}</p></div>')
     also = ''.join(f'<li><q>{H(q)}</q> {gai_src(u, l)}</li>' for q, u, l in a['also'])
-    return (f'<div class="gailine" id="ai"><p><span class="gai">{G_AI_T["author"]}</span> <q>{H(a["quote"])}</q> {gai_src(a["url"], a["loc"])}</p>'
+    return (f'<div id="ai"><p class="provenance">◇ <span>{G_AI_T["author"]}</span> <q>{H(a["quote"])}</q> {gai_src(a["url"], a["loc"])}</p>'
             + (f'<ul class="gaialso">{also}</ul>' if also else '') + '</div>')
 def gai_md(g):
     a = g['ai']
@@ -2292,7 +2295,7 @@ def _fl_pages():   # a function, so that its names do not leak into the build's 
                                   ('Lean files' + (f' (part {i + 1})' if i else ''), '')])
             body = (crumbs + f'<div class="eyebrow">Alpöge original · Cluster {k} · Lean files in plain English</div>'
                     f'<h1>{H(title)}: its Lean files in plain English</h1>' + SHARE_SLOT
-                    + f'<p class="lede lhow">{H(FL_HOW)}</p>'
+                    + f'<p class="provenance">◇ {H(FL_HOW)}</p>'
                     + f'<p class="meta">{nf} Lean {"file" if nf == 1 else "files"}, by distance from <code>Main.lean</code>. Each file links to the '
                     f'Lean viewer; the statements below are cut from the source up to <code>:=</code>. '
                     f'<a href="{cp}">Back to the cluster page</a> · <a href="/core/">All {len(CHECKED)} core clusters</a></p>'
@@ -2365,7 +2368,7 @@ more_concepts = sorted((n for n in TT.values() if n['kind'] == 'concept' and n['
 LEARN_D = ('Learn the Lean proof of the Riemann hypothesis through six paths for Sernau’s compact edition '
            'and the dependency tree for Alpöge’s original proof.')
 learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyebrow">Learning path</div>'
-         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT
+         '<h1>The Riemann hypothesis proof, step by step</h1><p class="provenance">◇ AI-drafted summaries and learning paths.</p>' + SHARE_SLOT
          + '<p class="lede">Follow the six parts of Sernau’s compact proof or explore the '
          '<a href="/learn/#alpoge-learning-tree">Alpöge original learning tree</a>.</p>'
          + concept_map.overview()
@@ -2814,9 +2817,8 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
     sfx = f' · {name}'
     title = g['title'] + sfx if len(g['title'] + sfx) <= TITLE_MAX else cut_title(g['title'], TITLE_MAX - len(sfx)) + sfx
     body = (breadcrumbs([*trail[:-1], (name, '')]) +
-            f'<div class="eyebrow">Guide · {H(edition)}</div>'
             f'<div class="ghead">{gav(g, 96)}<div><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
-            f'<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>{gai_html(g)}'
+            f'{gai_html(g)}<p class="gmeta">{" ".join(meta)}</p><p class="gstl">{gstatus(g)}</p>'
             f'<div class="cta gact">{"".join(acts)}</div>{notice}' + SHARE_SLOT + content
             + explore(('/guides/', 'All guides')))
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
@@ -3120,9 +3122,10 @@ page('/', HOME_T, HOME_DESC, '', readable_overview(sernau_data, home=True),
 page(ALPOGE_MAP, 'Alpöge original · Lean proof of the Riemann hypothesis', ORIGINAL_DESC,
      '', original_map, [WEBSITE, ORG, DATASET], .85, md=overview_markdown(original_map), edition='alpoge',
      img=(SITE + '/og.png?v=2', 'Map of the original Lean proof of the Riemann hypothesis'))
-page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
-     '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
-     '<a href="/alpoge/">Open the Alpöge map</a>, <a href="/sernau/">open the Sernau map</a> or <a href="/status/">read how the proof was checked</a>.</p>')
+page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, 'page',
+     '<h1>Page not found</h1><p class="lede">We couldn’t find that page.</p>'
+     '<form action="/list/"><label>Search the proof <input type="search" name="q"></label> <button type="submit">Search</button></form>'
+     '<p><a href="/">Home</a> · <a href="/status/">Status</a> · <a href="/guides/">Guides</a> · <a href="/learn/">Learn</a></p>')
 page(ROUTES['alpoge']['reader'], 'Lean source and concepts · Alpöge original',
      'Read Lean source files, follow declaration links, and explore the concepts behind the original Lean proof of the Riemann hypothesis.',
      'page', '<h1>Alpöge original reader</h1><p>Use JavaScript to open a file or concept in the reader.</p>'
