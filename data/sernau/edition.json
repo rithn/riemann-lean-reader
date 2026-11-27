@@ -35,7 +35,7 @@
     "levelTags": false,
     "originalityTags": false,
     "guideMatches": false,
-    "reviewedEnglishReadings": false
+    "reviewedEnglishReadings": true
   },
   "expected": {
     "modules": 803,

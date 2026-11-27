@@ -10,7 +10,9 @@ groups:
     group: Main
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
     excerpt:
       path: grh/src/Main.lean
       line: 4
@@ -61,7 +63,9 @@ groups:
     group: New.Reduction
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
     excerpt:
       path: grh/src/New/Reduction/OneSidedBound.lean
       line: 237
@@ -74,18 +78,18 @@ groups:
           line with the exception at 1 for a principal character.
         citations:
           - {module: New.Reduction.OneSidedBound, line: 237, endLine: 239}
-      - sentence: To see where the estimate comes from, open `MainInequality`, which compares bounds on the covolume
-          and index of a family of target forms to control a weighted prime-sum remainder.
+      - sentence: In `MainInequality`, upper and lower bounds on the covolume of the lifted target forms, corrected
+          by an index term, give an upper bound on the weighted prime-sum remainder.
         citations:
           - {module: New.Reduction.MainInequality, line: 7, endLine: 16}
           - {module: New.Reduction.MainInequality, line: 82, endLine: 90}
-      - sentence: '`ShortAndEnough` shows that integral forms with short lifts span the ramified source, and that
-          a small set of translates reaches almost all of the target dimension.'
+      - sentence: '`ShortAndEnough` shows that the ramified source is spanned by integral forms whose images under
+          the translated maps have short lifts. It also finds a small set of translates whose images span at least
+          a fraction `1 − 4/b²` of the target dimension.'
         citations:
-          - {module: New.Reduction.ShortAndEnough, line: 10, endLine: 15}
+          - {module: New.Reduction.ShortAndEnough, line: 13, endLine: 15}
           - {module: New.Reduction.ShortAndEnough, line: 254, endLine: 259}
           - {module: New.Reduction.ShortAndEnough, line: 443, endLine: 452}
-          - {module: New.Reduction.MainInequality, line: 91, endLine: 94}
       - sentence: '`OneSidedBound` then uses the resulting one-sided estimate as the hypothesis of the nonvanishing
           criterion.'
         citations:
@@ -121,7 +125,9 @@ groups:
     group: New.Spanning
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
     excerpt:
       path: grh/src/New/Spanning/SecondMoment/SpanningTheorem.lean
       line: 10
@@ -138,13 +144,15 @@ groups:
           onto the target forms.
         citations:
           - {module: New.Spanning.SecondMoment.SpanningTheorem, line: 10, endLine: 15}
-      - sentence: '`Moments` supplies a bound for the second moment of translates of the scaled map and a mean-square
-          near-isometry estimate after projection.'
+      - sentence: '`Moments` supplies the estimates used to bound the sum of squared Hilbert–Schmidt norms of
+          `P* ρ(s) P` for the scaled Poincaré map `P`, and to show that the projected map is nearly isometric
+          from below in mean square.'
         citations:
           - {module: New.Spanning.Unfolding.Moments, line: 7, endLine: 14}
           - {module: New.Spanning.SecondMoment.SpanningTheorem, line: 252, endLine: 277}
-      - sentence: The result in `FewTranslates` turns these estimates into a way to choose a translate with a small
-          preimage of any given target subspace.
+      - sentence: For each subspace occupying a fraction `α` of the target dimension, the lemma in `FewTranslates`
+          finds a translate followed by projection whose preimage of that subspace has dimension at most
+          `(1 + α + 3ε)/2` times the source dimension, where `ε` is the error parameter in the estimates.
         citations:
           - {module: New.Spanning.SecondMoment.FewTranslates, line: 314, endLine: 326}
           - {module: New.Spanning.SecondMoment.SpanningTheorem, line: 346, endLine: 360}
@@ -190,7 +198,9 @@ groups:
     group: Lib.Base
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
     excerpt:
       path: grh/src/Lib/Base.lean
       line: 4
@@ -241,7 +251,9 @@ files:
     group: Main
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
     excerpt:
       path: grh/src/Main.lean
       line: 10
@@ -251,8 +263,8 @@ files:
         L(s, χ) ≠ 0 when re s > 1/2, except at s = 1 for the trivial character, where nothing
         is stated. -/
     draft:
-      - sentence: Read the right-half-plane statement in `LFunction_ne_zero_of_half_lt_re`, which takes `New.grh`
-          directly and excepts the point 1 for the principal character.
+      - sentence: '`LFunction_ne_zero_of_half_lt_re` is proved directly by `New.grh`. It asserts nonvanishing for
+          `Re s > 1/2` and excludes `s = 1` for the principal character.'
         citations:
           - {module: Main, line: 10, endLine: 13}
           - {module: New.Reduction.OneSidedBound, line: 237, endLine: 239}
@@ -708,7 +720,9 @@ files:
     group: Lib.Base
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
     excerpt:
       path: grh/src/Lib/Base.lean
       line: 4
@@ -727,8 +741,8 @@ files:
           its conjugate transpose `Bᴴ` to the second vector.
         citations:
           - {module: Lib.Base, line: 14, endLine: 16}
-      - sentence: The proof rewrites the starred matrix-vector product and then moves the transposed action across
-          the dot product.
+      - sentence: The proof expands the star of the matrix–vector product, then rewrites the dot product so that
+          `Bᴴ` acts on the second vector.
         citations:
           - {module: Lib.Base, line: 16, endLine: 17}
     declarations:
