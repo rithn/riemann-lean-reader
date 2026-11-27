@@ -16,6 +16,12 @@ import tarfile
 import tempfile
 from urllib.parse import quote
 
+import yaml
+
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+from sernau_readings import MARKDOWN, reading_markdown
+
 
 REPO = Path(__file__).resolve().parents[2]
 INPUTS = REPO / "data" / "sernau"
@@ -374,6 +380,77 @@ def build_theorems(edition, files, modules):
     return inputs
 
 
+def build_readings(edition, files, groups, modules, theorems, *, preview):
+    readings = yaml.safe_load((INPUTS / "readings.yaml").read_text(encoding="utf-8"))
+    module_by_path = {module["path"]: name for name, module in modules.items()}
+    headlines = {entry["name"]: entry for entry in theorems}
+    for kind, inventory in (("groups", groups), ("files", modules)):
+        for name, record in readings[kind].items():
+            require(name in inventory, f"unknown reading page {name}")
+            group = name if kind == "groups" else modules[name]["group"]
+            require(record["group"] == group and record["revision"] == edition["revision"],
+                    f"reading group or revision mismatch for {name}")
+            require(record["review"] in ("pending", "passed", "rejected"), f"invalid reading review for {name}")
+            origin, draft = record["origin"], record.get("draft")
+            require(origin in ("upstream", "explorer-draft") and bool(draft) == (origin == "explorer-draft"),
+                    f"invalid reading origin for {name}")
+            excerpt = record["excerpt"]
+            path, start, end = excerpt["path"], excerpt["line"], excerpt["endLine"]
+            require(path in module_by_path and modules[module_by_path[path]]["group"] == group
+                    and (kind == "groups" or path == modules[name]["path"]), f"wrong excerpt source for {name}")
+            lines = files[path].decode("utf-8").splitlines(keepends=True)
+            require(1 <= start <= end <= len(lines) and excerpt["text"] == "".join(lines[start - 1:end]),
+                    f"reading excerpt does not match source for {name}")
+            excerpt["github"] = github(edition, path, start, end)
+            for claim in draft or ():
+                require(claim["sentence"] and claim["citations"], f"missing draft evidence for {name}")
+                for cite in claim["citations"]:
+                    module = modules[cite["module"]]
+                    start, end = cite["line"], cite["endLine"]
+                    require(1 <= start <= end <= module["lines"], f"invalid draft citation for {name}")
+                    cite["github"] = github(edition, module["path"], start, end)
+
+            declarations = record["declarations"]
+            require(1 <= len(declarations) <= 3, f"invalid reading declaration count for {name}")
+            for decl in declarations:
+                module = modules[decl["module"]]
+                line = decl["line"]
+                require(module["group"] == group and (kind == "groups" or module["name"] == name),
+                        f"wrong reading declaration module for {name}")
+                location = next((item for item in module["declarations"]
+                                 if item["name"] == decl["name"] and item["line"] == line), None)
+                require(location, f"unknown reading declaration {decl['name']} at {name}:{line}")
+                source = files[module["path"]].decode("utf-8").splitlines(keepends=True)
+                header, delimiter, _ = "".join(source[line - 1:location["endLine"]]).partition(" :=")
+                require(delimiter and decl["signature"] == header, f"invalid reading signature for {decl['name']}")
+                decl.update(github=github(edition, module["path"], line),
+                            href=f'{module["href"]}#{quote(decl["name"])}')
+
+            route = record["routeToMain"]
+            start_module = declarations[0]["module"] if kind == "groups" else name
+            require([step["module"] for step in route] == list(reversed(modules[start_module]["route"])),
+                    f"invalid reading route for {name}")
+            for step, next_step in zip(route, route[1:]):
+                importer = modules[next_step["module"]]
+                edge = next((edge for edge in importer["imports"]
+                             if edge["to"] == step["module"] and edge["line"] == step["line"]), None)
+                require(step["importer"] == importer["name"] and edge, f"invalid reading import for {name}")
+                step["github"] = edge["github"]
+
+            entries = record.get("headlineTheorems", ())
+            require(all(entry in headlines and headlines[entry]["module"] == name for entry in entries),
+                    f"unknown headline theorem for {name}")
+            record["headlineTheorems"] = [headlines[entry] for entry in entries]
+            record["markdown"] = reading_markdown(record, edition, preview=preview)
+            record["html"] = MARKDOWN.render(record["markdown"])
+            if kind == "files":
+                modules[name]["readHref"] = f'{edition["url"]}read/{quote(name)}/'
+                # Versioned payloads survive rebuilds. Keep pending prose in the
+                # preview pages and shell, outside the retained data URLs.
+                modules[name]["readingHtml"] = MARKDOWN.render(reading_markdown(record, edition))
+    return readings
+
+
 def build_sernau_data(out: Path):
     """Write edition-scoped reader data and return records for static page rendering."""
     out = Path(out)
@@ -393,8 +470,10 @@ def build_sernau_data(out: Path):
             "map centers must be distinct")
 
     digest = hashlib.sha256()
-    input_files = ("edition.json", "groups.json", "modules.tsv", "theorems.json")
-    for path in [Path(__file__), XREF / "leansrc.py", *(INPUTS / name for name in input_files)]:
+    preview = os.environ.get("SERNAU_READINGS_PREVIEW") == "1"
+    input_files = ("edition.json", "groups.json", "modules.tsv", "theorems.json", "readings.yaml")
+    for path in [Path(__file__), Path(__file__).with_name("sernau_readings.py"),
+                 XREF / "leansrc.py", *(INPUTS / name for name in input_files)]:
         digest.update(path.name.encode() + b"\0" + path.read_bytes() + b"\0")
     build_id = digest.hexdigest()[:16]
     base = f"/data/sernau/{build_id}/"
@@ -434,6 +513,7 @@ def build_sernau_data(out: Path):
         binary_output(out, module["raw"], files[module["path"]])
 
     edition.update(totals=totals, documents=documents)
+    readings = build_readings(edition, files, groups, modules, theorems, preview=preview)
     for group in groups.values():
         group["dataUrl"] = edition["groupsBaseUrl"] + group["slug"] + ".json"
         json_output(out, group["dataUrl"], {
@@ -441,7 +521,7 @@ def build_sernau_data(out: Path):
         })
     groups_list = list(groups.values())
     overview = {"edition": edition, "groups": groups_list, "edges": edges, "theorems": theorems, "documents": documents}
-    large_fields = {"imports", "importers", "externalImports", "declarations", "route", "labelEvidence"}
+    large_fields = {"imports", "importers", "externalImports", "declarations", "route", "labelEvidence", "readingHtml"}
     module_index = {
         "edition": edition,
         "modules": {
@@ -457,7 +537,10 @@ def build_sernau_data(out: Path):
     for group in groups_list:
         json_output(out, reader_files + quote(group["id"]) + ".json", {
             "edition": {key: edition[key] for key in ("id", "revision", "buildId")},
-            "modules": {name: {key: modules[name][key] for key in file_fields} for name in group["modules"]},
+            "modules": {
+                name: {**{key: modules[name][key] for key in file_fields}, "readHref": modules[name].get("readHref")}
+                for name in group["modules"]
+            },
         })
     json_output(out, edition["manifestUrl"], edition)
     json_output(out, edition["overviewUrl"], overview)
@@ -482,7 +565,10 @@ def build_sernau_data(out: Path):
     json_output(out, "/api/sernau/groups.json", {"edition": edition, "groups": groups_list, "edges": edges})
     json_output(out, "/api/sernau/modules.json", module_index)
     json_output(out, "/api/sernau/theorems.json", {"edition": edition, "theorems": theorems})
-    return {**overview, "modules": modules, "readerFilesBaseUrl": reader_files}
+    preview_readings = {name: record["html"] for name, record in readings["files"].items()
+                        if record["html"] != modules[name]["readingHtml"]}
+    return {**overview, "modules": modules, "readings": readings, "previewReadings": preview_readings,
+            "readerFilesBaseUrl": reader_files}
 
 
 if __name__ == "__main__":
