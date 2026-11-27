@@ -32,6 +32,7 @@ See the [timeline](/timeline/) for the full dated record or [follow updates via 
 - [How we know the proof is correct](/how-we-know/) explains the statement comparison and independent checks.
 - [Compare the shorter editions and their verification results](/shorter-riemann-hypothesis-proof/#verification).
 - [Is the proof a tautology?](/faq/#tautology) covers the objection and the verifiers’ response.
+- [Sutherland’s MIT verification guide](/guides/sutherland/) and [Rubinstein’s Waterloo verification guide](/guides/rubinstein-check/) collect the original-archive checks.
 - [Guides to reading the Lean proof](/guides/) cover the original and shorter editions.
 
 ## What was released

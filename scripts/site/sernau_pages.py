@@ -160,7 +160,7 @@ def edge_list(group, neighbors, data, incoming):
     return f'<ul class="sr-edge-list">{"".join(items)}</ul>' if items else '<p class="sr-muted">None among the readable groups.</p>'
 
 
-def group_content(group, data, share_slot):
+def group_content(group, data, share_slot, resources):
     groups = {g["id"]: g for g in data["groups"]}
     modules = [data["modules"][name] for name in group["modules"]]
     route = " <span aria-hidden=\"true\">→</span> ".join(link(groups[name]["href"], name) for name in group["route"])
@@ -177,6 +177,7 @@ def group_content(group, data, share_slot):
   <p><code>{esc(group["id"])}</code> · {provenance(group)}</p>
   <p>{scope}</p>
   <p class="sr-actions">{link(MAP + "?group=" + quote(group["slug"]), "Locate on the map →", ' class="sr-primary"')}</p>
+  <p class="meta">{" · ".join(link(href, label) for href, label in resources)}</p>
   {share_slot}
 </section>
 <div class="sr-overview-notes">
@@ -322,7 +323,7 @@ def readable_card(out, groups, edition):
     return "/og/sernau.png?v=" + sha256(dest.read_bytes()).hexdigest()[:10]
 
 
-def build_sernau_pages(data, render, *, share_slot):
+def build_sernau_pages(data, render, *, share_slot, group_guides):
     """Supply the shared writer with readable page content and its Markdown mirrors."""
     groups_md = "\n".join(f'- [{g["label"]}]({g["href"]}) · `{g["id"]}`' for g in data["groups"])
     totals = data["edition"]["totals"]
@@ -347,6 +348,8 @@ def build_sernau_pages(data, render, *, share_slot):
         "list", list_content(data), groups_md, noindex=True,
     )
     for group in data["groups"]:
+        resources = [*group_guides.get(group["id"], []), ("/status/#shorter-editions", "Verification of the shorter editions")]
+        resources_md = " · ".join(f"[{label}]({href})" for href, label in resources)
         md = "\n".join(
             f'- [{m["label"]}]({m["href"]}) · `{m["name"]}` · [Pinned source]({m["github"]})'
             for name in group["modules"] for m in [data["modules"][name]]
@@ -354,7 +357,7 @@ def build_sernau_pages(data, render, *, share_slot):
         render(
             group["href"], f'{group["label"]} · Sernau readable',
             f'{group["id"]} is a readable-edition source group with {group["moduleCount"]} Lean files.',
-            "group", group_content(group, data, share_slot), f"## Member modules\n\n{md}",
+            "group", group_content(group, data, share_slot, resources), f"{resources_md}\n\n## Member modules\n\n{md}",
         )
     render(
         READER, "Lean source reader · Sernau readable", "Read the pinned Lean files of the Sernau readable edition.",
