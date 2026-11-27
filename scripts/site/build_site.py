@@ -7,7 +7,7 @@ e.g.   ... build_site.py ../notes/cluster3 ../site
 Reads only our own derived data (map.json, merged.tsv, import list, naming answers, tree YAML).
 No Lean source text is copied: files appear by module name and path only.
 """
-import os, re, sys, json, glob, shutil, datetime, collections
+import os, re, sys, json, glob, shutil, datetime, collections, html
 import yaml, networkx as nx
 from pathlib import Path
 from urllib.parse import quote, urlsplit
@@ -29,8 +29,11 @@ from proof_editions import (COMPARISON, DEFAULT, ORIGINAL, ROUTES,
 from site_dates import chash, content_revision
 import depth_figure
 from alpoge_layout import pack_constellation
+from math_markup import MathMarkup
 
 D, OUT = sys.argv[1], sys.argv[2]
+KATEX_VENDOR = Path(HERE) / 'vendor' / 'katex'
+math_markup = MathMarkup(KATEX_VENDOR)
 # 80a: --src-bundles[=DIR] also writes one Lean source bundle per cluster (default DIR: <out>/src/c). Off by default:
 # the full set is ~1 GB (the whole archive once more), see the note at SRC_BUNDLE below
 SRC_BUNDLES = next((a.split('=', 1)[1] if '=' in a else os.path.join(OUT, 'src', 'c') for a in sys.argv[3:] if a.startswith('--src-bundles')), None)
@@ -1292,6 +1295,16 @@ for k, c in CL.items():
 json.dump({'roots': core['roots'], 'nodes': [tnode(x) for x in core['nodes'] + concepts],
            'concept_clusters': used_concepts},
           open(os.path.join(OUT, 'data', 'tree.json'), 'w'), separators=(',', ':'))
+concept_math = {}
+for node in core['nodes'] + concepts:
+    escaped_prose = html.escape(node.get('plain', ''), quote=False)
+    rendered = math_markup.text(escaped_prose)
+    if rendered != escaped_prose:
+        concept_math[node['id']] = rendered
+write_math = Path(OUT) / 'data' / 'ui' / 'concept-math.json'
+write_math.parent.mkdir(exist_ok=True)
+write_math.write_text(json.dumps(concept_math, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+
 # ---------- share cards: a 1200x630 PNG per cluster (/og/c/<id>.png) and theme (/og/t/<id>.png), the og:image and
 # twitter:image of its static page. og_cards.py draws them (Pillow: add --with pillow to the uv run command) in a few
 # processes, and only those whose key changed: the key hashes the card's fields, og_cards.py, the fonts and logo.png.
@@ -1364,7 +1377,7 @@ print(f'{len(CL)} clusters ({named} named), {len(TH)} themes, {len(mod_cl)} file
 # The tracked explorer shell is the input for every HTML view. Asset URLs get content hashes so _headers can cache them as immutable.
 # Every page also gets a Markdown copy next to it (<path>index.md, linked with rel=alternate type=text/markdown).
 # Rebuild after editing app.js or style.css: the hashes in the HTML are what bust the long cache.
-import html, hashlib, secrets, email.utils
+import hashlib, secrets, email.utils
 from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = (Path(HERE) / 'explorer_shell.html').read_text(encoding='utf-8')
@@ -1424,6 +1437,12 @@ def version_asset(name):
 
 APP_F, APP_V = version_asset('app.js')
 CSS_F, CSS_V = version_asset('style.css')
+for font in (KATEX_VENDOR / 'fonts').glob('*.woff2'):
+    shutil.copyfile(font, Path(OUT) / 'fonts' / font.name)
+shutil.copyfile(KATEX_VENDOR / 'LICENSE', Path(OUT) / 'fonts' / 'LICENSE-KaTeX.txt')
+shutil.copyfile(KATEX_VENDOR / 'katex.css', Path(OUT) / 'katex.css')
+KATEX_F, _ = version_asset('katex.css')
+CONCEPT_MATH_URL = f'/data/ui/concept-math.json?v={hfiles([str(write_math)])}'
 SHELL_F, _ = version_asset('explorer-shell.js')
 SERNAU_F, _ = version_asset('sernau.js')
 SERNAU_CSS_F, _ = version_asset('sernau.css')
@@ -1706,6 +1725,11 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
             attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
     styles = f'<link rel="stylesheet" href="{CSS_F}">'
+    # Original Lean appendices have a strict per-page HTML budget and quote source.
+    if view in ('page', 'learn', 'route', 'group', 'read') and not path.startswith('/cluster/'):
+        body = math_markup.html(body)
+    if 'class="katex"' in body or (engine == 'alpoge' and view in ('reader', 'route')):
+        styles += f'\n<link rel="stylesheet" href="{KATEX_F}">'
     viewport = '' if path == '/404.html' else '<canvas id="sky" aria-label="Map of clusters"></canvas>'
     if readable:
         styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
@@ -1739,6 +1763,8 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     if LEAN_READER_F:
         config['reader'] = LEAN_READER_F
     if engine == 'alpoge':
+        entry['mathStyles'] = KATEX_F
+        entry['conceptMath'] = CONCEPT_MATH_URL
         entry['theorems'] = HEADLINE_CROSSWALK
     elif view != 'map':
         entry.pop('map')
