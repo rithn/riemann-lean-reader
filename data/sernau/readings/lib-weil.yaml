@@ -205,7 +205,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/Construction/AdelicRepresentation.lean
       line: 8
-      endLine: 14
+      endLine: 18
+      startOffset: 183
+      endOffset: 1212
       text: 'The adelic Heisenberg datum β = `New.adelicHeisenberg E s` on `𝔸 ^ n`, with vacuum function e =
 
         `New.vacuumFn`, splits into a real and a finite part. The data of the adelic Weil representation
@@ -220,38 +222,41 @@ files:
 
         representation `New.Space.ω`, the inner product `New.Space.dataInner` (`⟨·, ·⟩`, conjugate linear on
 
-        '
+        the left) and the vacuum `New.Space.vacElem`. A theta functional is a bounded functional on the
+
+        model that is invariant under the rational vectors `New.Space.ratVectors` and normalised;
+
+        `New.Space.θ` is a definite choice of one. A vector `f : 𝒮 V` applied to `x` is its theta function
+
+        θ(ϱ(x) f), not the integrable function `f.1 x = ⟨ϱ(x) vac, f⟩`.'
     remainder:
       path: grh/src/Lib/Weil/Construction/AdelicRepresentation.lean
-      line: 15
+      line: 18
       endLine: 54
-      text: "the left) and the vacuum `New.Space.vacElem`. A theta functional is a bounded functional on the\nmodel\
-        \ that is invariant under the rational vectors `New.Space.ratVectors` and normalised;\n`New.Space.θ` is\
-        \ a definite choice of one. A vector `f : \U0001D4AE V` applied to `x` is its theta function\nθ(ϱ(x) f),\
-        \ not the integrable function `f.1 x = ⟨ϱ(x) vac, f⟩`.\n\n## Main definitions and results\n\n* `New.adelicSum`:\
-        \ multiplication by the idele `New.WeilData.scaleIdele` identifies complex\n  coordinates, indexed by pairs\
-        \ (infinite place, index), times finite adelic vectors with `\U0001D538 ^ n`.\n  The bicharacter and `New.vacuumFn`\
-        \ become products of those of `New.Fock.realHeisenberg` and\n  `New.stdLattice.finHeisenberg` (`New.Heisenberg.OrthogonalSum`).\
-        \ This scaling turns the adelic\n  Gaussian into the standard one (`New.WeilData.conj_scaleIdele_mul`).\n\
-        * `New.adelicAction`: the adelic unitary group `New.G` acts on `\U0001D538 ^ n` by matrices, keeping the\n\
-        \  bicharacter and the measure, and `Δ` satisfies the identity of `New.Heisenberg.MultiplierAction`\n  with\
-        \ trivial cocycle.\n* `New.Space.omega_rho`, `New.Space.dataInner_omega`, `New.Space.dataInner_vacElem_omega_vacElem`:\n\
-        \  `ω g` takes `ϱ x` to `ϱ (g x)`, keeps the inner product, and has overlap `(conj (Δ g))⁻¹` with the\n\
-        \  vacuum.\n* `New.Space.exists_isThetaFunctional`, `New.Space.IsThetaFunctional.eq_smul`: a theta functional\n\
-        \  exists, and every invariant functional is a multiple of it.\n* `New.Space.dataInner_eq_quotMean`, `New.Space.hasSum_dataInner`:\
-        \ the inner product as a mean of\n  theta functions, and the product of two theta values as a sum of inner\
-        \ products.\n\nNotions from other files:\n* `New.adelicHeisenberg`: the Heisenberg datum on adelic n-space\
-        \ with bicharacter β(x,y)=ψ(½ȷ\n  h(y,x)), h being the standard hermitian form of signs s and ȷ = −ȷ̄ the\
-        \ element `j` of the Weil\n  data.\n* `New.Heisenberg.OrthogonalSum`: an isomorphism W₁ × W₂ ≃ W along which\
-        \ the bicharacter and the\n  vacuum function of W are the products of those of W₁ and W₂.\n* `New.Heisenberg.MultiplierAction`:\
-        \ an action of a group on W that keeps β and the measure, with a\n  multiplier Δ that satisfies the cocycle\
-        \ identity of the Weil representation.\n* `New.Space`: a hermitian space with a point, given by a matrix\
-        \ J over E and x in GL_n(\U0001D538) with xᴴJx\n  equal to diag(s) at the infinite places and 1 at the finite\
-        \ places; `New.Space.vecAtPoint` sends\n  y in E^n to the adelic vector x⁻¹y.\n* `New.Heisenberg.IsVacuum.Model`:\
+      startOffset: 1212
+      endOffset: 3476
+      text: "\n\n## Main definitions and results\n\n* `New.adelicSum`: multiplication by the idele `New.WeilData.scaleIdele`\
+        \ identifies complex\n  coordinates, indexed by pairs (infinite place, index), times finite adelic vectors\
+        \ with `\U0001D538 ^ n`.\n  The bicharacter and `New.vacuumFn` become products of those of `New.Fock.realHeisenberg`\
+        \ and\n  `New.stdLattice.finHeisenberg` (`New.Heisenberg.OrthogonalSum`). This scaling turns the adelic\n\
+        \  Gaussian into the standard one (`New.WeilData.conj_scaleIdele_mul`).\n* `New.adelicAction`: the adelic\
+        \ unitary group `New.G` acts on `\U0001D538 ^ n` by matrices, keeping the\n  bicharacter and the measure,\
+        \ and `Δ` satisfies the identity of `New.Heisenberg.MultiplierAction`\n  with trivial cocycle.\n* `New.Space.omega_rho`,\
+        \ `New.Space.dataInner_omega`, `New.Space.dataInner_vacElem_omega_vacElem`:\n  `ω g` takes `ϱ x` to `ϱ (g\
+        \ x)`, keeps the inner product, and has overlap `(conj (Δ g))⁻¹` with the\n  vacuum.\n* `New.Space.exists_isThetaFunctional`,\
+        \ `New.Space.IsThetaFunctional.eq_smul`: a theta functional\n  exists, and every invariant functional is\
+        \ a multiple of it.\n* `New.Space.dataInner_eq_quotMean`, `New.Space.hasSum_dataInner`: the inner product\
+        \ as a mean of\n  theta functions, and the product of two theta values as a sum of inner products.\n\nNotions\
+        \ from other files:\n* `New.adelicHeisenberg`: the Heisenberg datum on adelic n-space with bicharacter β(x,y)=ψ(½ȷ\n\
+        \  h(y,x)), h being the standard hermitian form of signs s and ȷ = −ȷ̄ the element `j` of the Weil\n  data.\n\
+        * `New.Heisenberg.OrthogonalSum`: an isomorphism W₁ × W₂ ≃ W along which the bicharacter and the\n  vacuum\
+        \ function of W are the products of those of W₁ and W₂.\n* `New.Heisenberg.MultiplierAction`: an action\
+        \ of a group on W that keeps β and the measure, with a\n  multiplier Δ that satisfies the cocycle identity\
+        \ of the Weil representation.\n* `New.Space`: a hermitian space with a point, given by a matrix J over E\
+        \ and x in GL_n(\U0001D538) with xᴴJx\n  equal to diag(s) at the infinite places and 1 at the finite places;\
+        \ `New.Space.vecAtPoint` sends\n  y in E^n to the adelic vector x⁻¹y.\n* `New.Heisenberg.IsVacuum.Model`:\
         \ the space of integrable v with v(x) = ∫ v(y) β(y,x) e(x−y) dμ(y),\n  as a type.\n\n## Relation to the\
         \ literature\n\nKnown; see `Lib.Weil.MixedModel.ZeroTerm` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Weil.Construction.CanonicalTheta:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -441,7 +446,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/Construction/FiniteMultiplier.lean
       line: 6
-      endLine: 12
+      endLine: 13
+      startOffset: 116
+      endOffset: 867
       text: 'This file treats the finite part of the standard Heisenberg model on vectors `ι → 𝔸f E` of finite
 
         adeles of a CM field `E`. The elements `j`, `α` and the character `υ` come from `New.WeilData`, and
@@ -456,27 +463,26 @@ files:
 
         `Δ_f` through saturating matrices and proves its laws on the finite unitary group `New.Gf`. It also
 
-        '
+        proves a lemma that fixes a sign by a congruence modulo `4`.'
     remainder:
       path: grh/src/Lib/Weil/Construction/FiniteMultiplier.lean
       line: 13
       endLine: 37
-      text: "proves a lemma that fixes a sign by a congruence modulo `4`.\n\n## Main definitions and results\n\n\
-        * `New.stdLattice.isVacuum_finVac`: `New.stdLattice.finVac` is a vacuum (`New.Heisenberg.IsVacuum`)\n  for\
-        \ `New.stdLattice.finHeisenberg`. The convolution identity follows from\n  `New.stdLattice.finVac_add` and\
-        \ the self-duality of the lattice.\n* `New.glMultiplier`, `New.glMultiplier_mul_diagGL_mul`: the multiplier\
-        \ on `GL_ι(\U0001D538_f)` and its value\n  in terms of elementary divisors, from which its laws are read\
-        \ off.\n* `New.finMultiplier`: its restriction to the finite unitary group `New.Gf`, with\n  `New.finMultiplier_inv`,\
-        \ `New.norm_finMultiplier_sq`, `New.upsilon_mul_finMultiplier` and\n  `New.finMultiplier_eq_of_supportedOn`.\n\
-        \nNotions from other files:\n* `New.WeilData`: Weil data on a CM field E with a primitive 5040th root of\
-        \ unity, so that E/E⁺ is\n  unramified at the finite places. They consist of ȷ in E with ȷ = −ȷ̄, Im τȷ\
-        \ > 0 for every τ in the\n  CM type and (1 − ȷ⁻¹)/2 integral; a finite idele α for which the completed integers\
-        \ Ô are\n  self-dual under (z, u) ↦ ψ_f(ȷαᾱzu); and a splitting character υ equal to −1 at uniformisers\
-        \ of\n  the places w with w = w̄.\n* `New.Heisenberg.IsVacuum`: a vacuum for β and μ is a continuous, integrable,\
-        \ even, real function e\n  with e(0) = 1 and ∫ e(z)e(x−y−z)β(z,y)β(z+y,x) dμ(z) = e(y)e(x).\n\n## Relation\
-        \ to the literature\n\nKnown; see `Lib.Weil.MixedModel.ZeroTerm` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 867
+      endOffset: 2230
+      text: "\n\n## Main definitions and results\n\n* `New.stdLattice.isVacuum_finVac`: `New.stdLattice.finVac`\
+        \ is a vacuum (`New.Heisenberg.IsVacuum`)\n  for `New.stdLattice.finHeisenberg`. The convolution identity\
+        \ follows from\n  `New.stdLattice.finVac_add` and the self-duality of the lattice.\n* `New.glMultiplier`,\
+        \ `New.glMultiplier_mul_diagGL_mul`: the multiplier on `GL_ι(\U0001D538_f)` and its value\n  in terms of\
+        \ elementary divisors, from which its laws are read off.\n* `New.finMultiplier`: its restriction to the\
+        \ finite unitary group `New.Gf`, with\n  `New.finMultiplier_inv`, `New.norm_finMultiplier_sq`, `New.upsilon_mul_finMultiplier`\
+        \ and\n  `New.finMultiplier_eq_of_supportedOn`.\n\nNotions from other files:\n* `New.WeilData`: Weil data\
+        \ on a CM field E with a primitive 5040th root of unity, so that E/E⁺ is\n  unramified at the finite places.\
+        \ They consist of ȷ in E with ȷ = −ȷ̄, Im τȷ > 0 for every τ in the\n  CM type and (1 − ȷ⁻¹)/2 integral;\
+        \ a finite idele α for which the completed integers Ô are\n  self-dual under (z, u) ↦ ψ_f(ȷαᾱzu); and a\
+        \ splitting character υ equal to −1 at uniformisers of\n  the places w with w = w̄.\n* `New.Heisenberg.IsVacuum`:\
+        \ a vacuum for β and μ is a continuous, integrable, even, real function e\n  with e(0) = 1 and ∫ e(z)e(x−y−z)β(z,y)β(z+y,x)\
+        \ dμ(z) = e(y)e(x).\n\n## Relation to the literature\n\nKnown; see `Lib.Weil.MixedModel.ZeroTerm` for sources.\n"
   Lib.Weil.Construction.FourierInversion:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -822,7 +828,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/Construction/ThetaJets.lean
       line: 9
-      endLine: 14
+      endLine: 15
+      startOffset: 242
+      endOffset: 877
       text: 'Let V be a hermitian space with a point over a CM field E, with data space 𝒮(V). Let `α` be
 
         the finite idele of the Weil data, let `finVec x` be the adelic vector `(0, α x)`, let
@@ -835,33 +843,32 @@ files:
 
         jets of two data are conjugate. For a standard space V it shows that translation by the finite image
 
-        '
+        of a rational vector acts on theta functions as the opposite real translation.'
     remainder:
       path: grh/src/Lib/Weil/Construction/ThetaJets.lean
       line: 15
       endLine: 45
-      text: "of a rational vector acts on theta functions as the opposite real translation.\n\n## Main definitions\
-        \ and results\n\n* `New.Space.jetSeries`: the series of the theta values of `f` along the monomials; for\
-        \ standard `V`\n  and `f` in the finite part it is the Taylor series of the theta function of `f`, scaled\
-        \ by `a`.\n* `New.schurJet`: the matrix of jets of a power series along the entries of the Schur matrix.\n\
-        * `New.Space.IsJetConjugate`: the jets of `f'` are the `σ`-conjugates of the jets of `f`, up to a\n  permutation\
-        \ of the infinite places.\n* `New.entireTheta_translate_finiteImage`: for standard `V`, `New.Space.entireTheta`\
-        \ turns\n  translation by `finiteImage γ` into the twisted translation by `-realImage γ`.\n* `New.semichar_finiteImage`:\
-        \ the semicharacter at the finite image of a rational vector is the\n  inverse of the canonical multiplier\
-        \ at minus its real image.\n\nNotions from other files:\n* `New.Space`: a hermitian space with a point,\
-        \ given by a matrix J over E and x in GL_n(\U0001D538) with xᴴJx\n  equal to the diagonal matrix of its\
-        \ signs at the infinite places and 1 at the finite places.\n* `New.Space.θ`, `New.Space.integrated`: The\
-        \ theta functional on the space `New.\U0001D4AE V` of data, and\n  the datum v ⊗ f for v in the Fock space\
-        \ and f in `New.\U0001D4AE V`.\n* `New.WeilData`: supplies the purely imaginary `j` (ȷ) in E, the finite\
-        \ idele `α` and the integer\n  `traceOne` (c₀) with c₀ + c̄₀ = 1.\n* `New.Space.entireTheta` sends `f` to\
-        \ `y ↦ f(y) exp(|y|²/2)` on real points; `New.Space.ϱ` is\n  Heisenberg translation; `New.Space.finitePart`\
-        \ is the span of the finite translates of the vacuum.\n\n## Relation to the literature\n\nKnown result:\
-        \ the theta functions of the Fock model of the adelic Weil representation. Source: Weil,\nSur certains groupes\
-        \ d'opérateurs unitaires. Part of a known result: Adelic Weil representation of a\nunitary group and the\
-        \ invariant theta functional. See `Lib.Weil.MixedModel.ZeroTerm`.\n\nSee also `Lib.Weil.CompactLift.DefiniteThetaLift`\
-        \ and `Lib.Weil.DualPair.KernelLaws`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 877
+      endOffset: 2794
+      text: "\n\n## Main definitions and results\n\n* `New.Space.jetSeries`: the series of the theta values of `f`\
+        \ along the monomials; for standard `V`\n  and `f` in the finite part it is the Taylor series of the theta\
+        \ function of `f`, scaled by `a`.\n* `New.schurJet`: the matrix of jets of a power series along the entries\
+        \ of the Schur matrix.\n* `New.Space.IsJetConjugate`: the jets of `f'` are the `σ`-conjugates of the jets\
+        \ of `f`, up to a\n  permutation of the infinite places.\n* `New.entireTheta_translate_finiteImage`: for\
+        \ standard `V`, `New.Space.entireTheta` turns\n  translation by `finiteImage γ` into the twisted translation\
+        \ by `-realImage γ`.\n* `New.semichar_finiteImage`: the semicharacter at the finite image of a rational\
+        \ vector is the\n  inverse of the canonical multiplier at minus its real image.\n\nNotions from other files:\n\
+        * `New.Space`: a hermitian space with a point, given by a matrix J over E and x in GL_n(\U0001D538) with\
+        \ xᴴJx\n  equal to the diagonal matrix of its signs at the infinite places and 1 at the finite places.\n\
+        * `New.Space.θ`, `New.Space.integrated`: The theta functional on the space `New.\U0001D4AE V` of data, and\n\
+        \  the datum v ⊗ f for v in the Fock space and f in `New.\U0001D4AE V`.\n* `New.WeilData`: supplies the\
+        \ purely imaginary `j` (ȷ) in E, the finite idele `α` and the integer\n  `traceOne` (c₀) with c₀ + c̄₀ =\
+        \ 1.\n* `New.Space.entireTheta` sends `f` to `y ↦ f(y) exp(|y|²/2)` on real points; `New.Space.ϱ` is\n \
+        \ Heisenberg translation; `New.Space.finitePart` is the span of the finite translates of the vacuum.\n\n\
+        ## Relation to the literature\n\nKnown result: the theta functions of the Fock model of the adelic Weil\
+        \ representation. Source: Weil,\nSur certains groupes d'opérateurs unitaires. Part of a known result: Adelic\
+        \ Weil representation of a\nunitary group and the invariant theta functional. See `Lib.Weil.MixedModel.ZeroTerm`.\n\
+        \nSee also `Lib.Weil.CompactLift.DefiniteThetaLift` and `Lib.Weil.DualPair.KernelLaws`.\n"
   Lib.Weil.Construction.VacuumProjections:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1418,7 +1425,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/DualPair/GaloisLaw.lean
       line: 6
-      endLine: 11
+      endLine: 13
+      startOffset: 102
+      endOffset: 863
       text: 'This file gives an abstract form of the Galois law for the Weil representation. A map `L` on the
 
         data `𝒮 V` that is semilinear along `σ : ℂ →+* ℂ` may keep the finite part and turn the finite
@@ -1431,31 +1440,31 @@ files:
 
         with Δ_f the finite multiplier `New.finMultiplier`. Writing `b = u a` with `u` unitary and `a` a
 
-        '
+        unit of `Ô`, the laws are first proved for `ω(u)⁻¹ L`, which scales translations by `a`. Finite
+
+        vectors are read through `finVec x = (0, α x)`, with `α` the idele of the Weil data.'
     remainder:
       path: grh/src/Lib/Weil/DualPair/GaloisLaw.lean
-      line: 12
+      line: 13
       endLine: 39
-      text: "unit of `Ô`, the laws are first proved for `ω(u)⁻¹ L`, which scales translations by `a`. Finite\nvectors\
-        \ are read through `finVec x = (0, α x)`, with `α` the idele of the Weil data.\n\n## Main definitions and\
-        \ results\n\n* `New.Space.ScalesTranslations`: the property of a `σ`-semilinear map to keep the finite part\
-        \ and\n  to turn the finite translation by `x` into that by `b x`, while `σ` takes `selfDualAddChar E z`\
-        \ to\n  `selfDualAddChar E (b b̄ z)`; `New.Space.ScalesTranslations.map_omega` is its law for `ω`, and\n\
-        \  `New.Space.ScalesTranslations.exists_map_schrodingerOp` its law for the vacuum and for the vectors\n\
-        \  `V.schrodingerOp R Ψ V.vacElem` with `Ψ` Schwartz–Bruhat at a set `R` of finite places.\n* `New.multiplierRatio`:\
-        \ The factor `σ (Δ g) / Δ g`, for the multiplier `Δ = New.finMultiplier` of a\n  finite unitary point `g`.\n\
-        \nNotions from other files:\n* `New.Space.ϱ`, `New.Space.ω`, `New.Space.vacElem`: The Heisenberg operators,\
-        \ the Weil\n  representation and the vacuum vector of the space of data `New.\U0001D4AE V`.\n* `New.scalarFin`\
-        \ (`Lib.Weil.DualPair.FiniteAction`): the scalar matrices, as a homomorphism from\n  the finite adeles of\
-        \ norm one to `Gf E n`.\n\n## Relation to the literature\n\nKnown result: Galois action on CM theta functions\
-        \ and on the finite Weil representation. Here it is\nstated for semilinear maps on the finite part of the\
-        \ data that scale the Heisenberg translations,\nwith an explicit factor; such a map is built from Taylor\
-        \ series of theta functions in\n`New.UpperBound.Kernels.JetConjugatesAndBounds`. Source: G. Shimura, Theta\
-        \ functions with complex\nmultiplication, Duke Math. J. 43 (1976) 673-696; for the rationality of the Weil\
-        \ representation, J.\nTrias, On the rationality of the Weil representation and the local theta correspondence,\
-        \ arXiv\n2601.16141.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 863
+      endOffset: 2465
+      text: "\n\n## Main definitions and results\n\n* `New.Space.ScalesTranslations`: the property of a `σ`-semilinear\
+        \ map to keep the finite part and\n  to turn the finite translation by `x` into that by `b x`, while `σ`\
+        \ takes `selfDualAddChar E z` to\n  `selfDualAddChar E (b b̄ z)`; `New.Space.ScalesTranslations.map_omega`\
+        \ is its law for `ω`, and\n  `New.Space.ScalesTranslations.exists_map_schrodingerOp` its law for the vacuum\
+        \ and for the vectors\n  `V.schrodingerOp R Ψ V.vacElem` with `Ψ` Schwartz–Bruhat at a set `R` of finite\
+        \ places.\n* `New.multiplierRatio`: The factor `σ (Δ g) / Δ g`, for the multiplier `Δ = New.finMultiplier`\
+        \ of a\n  finite unitary point `g`.\n\nNotions from other files:\n* `New.Space.ϱ`, `New.Space.ω`, `New.Space.vacElem`:\
+        \ The Heisenberg operators, the Weil\n  representation and the vacuum vector of the space of data `New.\U0001D4AE\
+        \ V`.\n* `New.scalarFin` (`Lib.Weil.DualPair.FiniteAction`): the scalar matrices, as a homomorphism from\n\
+        \  the finite adeles of norm one to `Gf E n`.\n\n## Relation to the literature\n\nKnown result: Galois action\
+        \ on CM theta functions and on the finite Weil representation. Here it is\nstated for semilinear maps on\
+        \ the finite part of the data that scale the Heisenberg translations,\nwith an explicit factor; such a map\
+        \ is built from Taylor series of theta functions in\n`New.UpperBound.Kernels.JetConjugatesAndBounds`. Source:\
+        \ G. Shimura, Theta functions with complex\nmultiplication, Duke Math. J. 43 (1976) 673-696; for the rationality\
+        \ of the Weil representation, J.\nTrias, On the rationality of the Weil representation and the local theta\
+        \ correspondence, arXiv\n2601.16141.\n"
   Lib.Weil.DualPair.HolomorphicData:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1926,7 +1935,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/DualPair/ShortIsotropicVectors.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 169
+      endOffset: 983
       text: 'This file prepares the rapid decay of theta kernels under a support condition on Ψ, on the data
 
         space of Hom(S, T), which carries the representation `New.pairWeil`. The datum v ⊗ Ψ ⊗ f₀ is
@@ -1941,15 +1952,18 @@ files:
 
         through it. The mean over the adelic maps of this kind vanishes by the support condition on Ψ
 
-        '
+        (`New.map_schrodingerOp_eq_zero_of_invariant`), and θ is close to this mean because the maps are
+
+        short (`New.Space.exists_norm_sub_subspaceMean_le`).'
     remainder:
       path: grh/src/Lib/Weil/DualPair/ShortIsotropicVectors.lean
-      line: 14
+      line: 15
       endLine: 35
-      text: "(`New.map_schrodingerOp_eq_zero_of_invariant`), and θ is close to this mean because the maps are\n\
-        short (`New.Space.exists_norm_sub_subspaceMean_le`).\n\n## Main definitions and results\n\n* `New.Space.exists_short_isotropic`:\
-        \ If the height of `g` exceeds `2`, then the lattice of `S` at\n  `g` contains a nonzero isotropic vector,\
-        \ written as a matrix with one column, of length at most\n  `2 / height g` (`latticeBall`).\n* `New.Space.exists_norm_sub_subspaceMean_le`:\
+      startOffset: 983
+      endOffset: 2031
+      text: "\n\n## Main definitions and results\n\n* `New.Space.exists_short_isotropic`: If the height of `g` exceeds\
+        \ `2`, then the lattice of `S` at\n  `g` contains a nonzero isotropic vector, written as a matrix with one\
+        \ column, of length at most\n  `2 / height g` (`latticeBall`).\n* `New.Space.exists_norm_sub_subspaceMean_le`:\
         \ for vectors `z i` of the lattice at `g` of lengths\n  at most `δ` spanning an isotropic subspace `Z`,\
         \ a bounded functional invariant under the\n  Heisenberg operators of `Z` is close, on data with finite\
         \ part `f₀`, to its mean\n  `New.Space.subspaceMean` over the adelic points of `Z` modulo the rational ones.\n\
@@ -1958,8 +1972,6 @@ files:
         \ a matrix J over E and x in GL_n(\U0001D538) with xᴴJx equal to\n  diag(s) at the infinite places and 1\
         \ at the finite places; Γ = x⁻¹U(J)(E)x.\n\n## Relation to the literature\n\nKnown; see `Lib.Weil.DualPair.KernelDecay`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Weil.DualPair.ThetaIntegrals:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2534,16 +2546,20 @@ files:
       path: grh/src/Lib/Weil/Fock/PolynomialVectors.lean
       line: 8
       endLine: 15
+      startOffset: 219
+      endOffset: 716
       text: "The polynomial vectors v_P = `New.Fock.polyVector` ε P lie in the Fock space `New.Fock.fockSpace`\n\
         with signs ε. On this space U(ε) acts by the Weil representation ω₀ = `New.Fock.realWeil`.\n\n## Main definitions\
         \ and results\n\n* `New.Fock.fockMatrixCoeff_raiseOp`, `New.Fock.fockMatrixCoeff_lowerOp`: how the operators\n\
         \  `New.Fock.raiseOp`, `New.Fock.lowerOp` (multiplication by X_a or differentiation, according to\n  the\
-        \ sign ε_a) move across ω₀(u) in a matrix coefficient `New.Fock.fockMatrixCoeff`.\n"
+        \ sign ε_a) move across ω₀(u) in a matrix coefficient `New.Fock.fockMatrixCoeff`."
     remainder:
       path: grh/src/Lib/Weil/Fock/PolynomialVectors.lean
-      line: 16
+      line: 15
       endLine: 31
-      text: "* `New.Fock.fockInner_X_mul`, `New.Fock.fockInner_polyVector`: X_i is adjoint to ∂_i, so ⟨v_P, v_Q⟩\n\
+      startOffset: 716
+      endOffset: 1591
+      text: "\n* `New.Fock.fockInner_X_mul`, `New.Fock.fockInner_polyVector`: X_i is adjoint to ∂_i, so ⟨v_P, v_Q⟩\n\
         \  is the Fischer pairing (P̄(∂)Q)(0). For monomials see `New.Fock.fockInner_polyVector_monomial`.\n* `New.Fock.denseRange_polyVector`:\
         \ the vectors v_P are dense.\n* `New.Fock.hasDerivAt_realWeil`: along a curve in U(ε) through 1 with velocity\
         \ Y, ω₀ has derivative\n  v_Q on v_P, where Q = `New.Fock.weilDeriv` ε Y P.\n\nThe action of block diagonal\
@@ -2551,8 +2567,9 @@ files:
         \nNotions from other files:\n* `New.Fock.vacVector`: The Gaussian exp(−|x|²/2) regarded as an element of\
         \ the Fock space.\n* `New.USign`: For a vector of signs ε, the unitary group U(J) of the diagonal matrix\
         \ J=diag(ε).\n\n## Relation to the literature\n\nKnown; see `Lib.Weil.Fock.OscillatorPair` for sources.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: Describes how raising and lowering operators act on Fock matrix coefficients.
   Lib.Weil.Fock.WeightedNorms:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2690,7 +2707,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/Lift.lean
       line: 9
-      endLine: 14
+      endLine: 15
+      startOffset: 275
+      endOffset: 970
       text: 'This file studies theta lifts between spaces of automorphic forms on unitary groups. Over the reals,
 
         `Ω` assigns operators on a Fock space to the points of a pair of real unitary groups, and `e`, `e''`
@@ -2703,15 +2722,16 @@ files:
 
         to forms. The lift is equivariant under the finite points. The transposed lift is the lift for the
 
-        '
+        swapped kernel, and the descent `y'' ↦ conj (transposed lift of conj y'')` is the adjoint of the lift.'
     remainder:
       path: grh/src/Lib/Weil/Lift.lean
       line: 15
       endLine: 54
-      text: "swapped kernel, and the descent `y' ↦ conj (transposed lift of conj y')` is the adjoint of the lift.\n\
-        \n## Main definitions and results\n\n* `New.isJointHighest_prod_det_pow_staircaseWeight`: a product of powers\
-        \ of nested minors, one nest\n  for each sign, is nonzero, harmonic for both groups, and a highest weight\
-        \ vector for the rows and\n  for the columns.\n* `New.ParamsCorrespond`, `New.jointHarmonic`: parameters\
+      startOffset: 970
+      endOffset: 3627
+      text: "\n\n## Main definitions and results\n\n* `New.isJointHighest_prod_det_pow_staircaseWeight`: a product\
+        \ of powers of nested minors, one nest\n  for each sign, is nonzero, harmonic for both groups, and a highest\
+        \ weight vector for the rows and\n  for the columns.\n* `New.ParamsCorrespond`, `New.jointHarmonic`: parameters\
         \ `l`, `l'` that correspond at every\n  infinite place, and a chosen product of joint harmonics (`New.IsJointHarmonic`)\
         \ for them.\n* `New.IsHalfEdge`, `New.IsEdge`: `e` is a cusp kernel, and the integral of `⟨Φ, Ω (x, 1) Φ⟩`\n\
         \  against `conj e` is not zero. The lift with `Φ` of a form of type `e` is a form of type `e'` once\n \
@@ -2735,8 +2755,6 @@ files:
         \ kernel to forms fixed by the other, in both directions, without Howe\nduality. Source: J.-S. Li, Theta\
         \ lifting for unitary representations with nonzero cohomology, Duke\nMath. J. 61 (1990); Howe, JAMS 2 (1989);\
         \ A. Ichino, arXiv 2002.09148, Lemma 7.8.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Weil.MixedModel.AdaptedSplitting:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2953,7 +2971,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/MixedModel/IsotropicSplitting.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 182
+      endOffset: 1008
       text: 'A hermitian space `V : New.Space E n s` has Gram matrix `V.J` over `E` and an adelic frame `V.x`
 
         taking it to `New.stdForm E s`. `New.G E s` is the adelic unitary group of that form, and `V.Γ` is
@@ -2968,33 +2988,33 @@ files:
 
         `V = (range l ⊕ range k) ⊥ i V₀` with `l` and `k` isotropic and dual: it gives the frames and
 
-        '
+        coordinates of the splitting in adelic form, the Levi and unipotent elements of the stabiliser of
+
+        `range k`, the law of a mixed model, and points adapted to the splitting.'
     remainder:
       path: grh/src/Lib/Weil/MixedModel/IsotropicSplitting.lean
-      line: 14
+      line: 15
       endLine: 47
-      text: "coordinates of the splitting in adelic form, the Levi and unipotent elements of the stabiliser of\n\
-        `range k`, the law of a mixed model, and points adapted to the splitting.\n\n## Main definitions and results\n\
-        \n* `New.hyperbolicSpace`: the hyperbolic space of rank `2 p` as a `New.Space`, that is, with an\n  adelic\
-        \ frame that carries its Gram matrix to the standard form of signs `New.hyperbolicSigns p`\n  (`p` times\
-        \ `+1`, `p` times `-1`).\n* `New.Exchange.IsOrthoIntegral`: adelic matrices with orthonormal columns at\
-        \ the infinite places\n  and integral finite part. The frame of `New.hyperbolicSpace` and its inverse are\
-        \ such\n  (`New.Exchange.isOrthoIntegral_hyperbolicSpace`), and the property is stable under products, block\n\
-        \  sums and choice of columns.\n* `New.Space.Splitting.levi`, `New.Space.Splitting.radicalElement`: Levi\
-        \ and unipotent elements;\n  every `g` with `g k = k a` is a product of the two\n  (`New.Space.Splitting.exists_eq_radicalElement_mul_levi`),\
-        \ and the unipotent elements make up the\n  unipotent radical (`New.Space.Splitting.exists_eq_radicalElement_iff`).\n\
-        * `New.Space.Splitting.IsAdapted`: elements of `G` adapted to a splitting and to `t` in `GL_p(\U0001D538\
-        )`;\n  they exist (`New.Space.Splitting.exists_isAdapted_and_frame_eq`).\n* `New.Space.Splitting.siegelParabolic_sup_symm_eq_top`:\
-        \ if `V₀` is zero, the stabilizers of the\n  spans of `k` and of `l` generate the rational unitary group\
-        \ of `V`.\n* `New.Space.Splitting.exists_isCompact_rat_mul_radicalElement_mem`: the rational points of the\n\
-        \  unipotent radical are cocompact.\n\nNotions from other files:\n* `New.stdForm E s`: the diagonal adelic\
-        \ matrix that is `diag s` at every infinite place and the\n  identity at the finite places.\n* `New.G.adeleMatrix`:\
-        \ the `n × n` adelic matrix of an element of the adelic unitary group\n  `New.G E s`.\n* `New.evalInf w`:\
-        \ evaluation of an adele at the infinite place `w`, a ring map to `ℂ`.\n* `Ô E`: the integral finite adeles.\n\
-        \n## Relation to the literature\n\nKnown; see `Lib.Adelic.Witt.IwasawaDecomposition` and `Lib.Weil.MixedModel.ZeroTerm`\
-        \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1008
+      endOffset: 2896
+      text: "\n\n## Main definitions and results\n\n* `New.hyperbolicSpace`: the hyperbolic space of rank `2 p`\
+        \ as a `New.Space`, that is, with an\n  adelic frame that carries its Gram matrix to the standard form of\
+        \ signs `New.hyperbolicSigns p`\n  (`p` times `+1`, `p` times `-1`).\n* `New.Exchange.IsOrthoIntegral`:\
+        \ adelic matrices with orthonormal columns at the infinite places\n  and integral finite part. The frame\
+        \ of `New.hyperbolicSpace` and its inverse are such\n  (`New.Exchange.isOrthoIntegral_hyperbolicSpace`),\
+        \ and the property is stable under products, block\n  sums and choice of columns.\n* `New.Space.Splitting.levi`,\
+        \ `New.Space.Splitting.radicalElement`: Levi and unipotent elements;\n  every `g` with `g k = k a` is a\
+        \ product of the two\n  (`New.Space.Splitting.exists_eq_radicalElement_mul_levi`), and the unipotent elements\
+        \ make up the\n  unipotent radical (`New.Space.Splitting.exists_eq_radicalElement_iff`).\n* `New.Space.Splitting.IsAdapted`:\
+        \ elements of `G` adapted to a splitting and to `t` in `GL_p(\U0001D538)`;\n  they exist (`New.Space.Splitting.exists_isAdapted_and_frame_eq`).\n\
+        * `New.Space.Splitting.siegelParabolic_sup_symm_eq_top`: if `V₀` is zero, the stabilizers of the\n  spans\
+        \ of `k` and of `l` generate the rational unitary group of `V`.\n* `New.Space.Splitting.exists_isCompact_rat_mul_radicalElement_mem`:\
+        \ the rational points of the\n  unipotent radical are cocompact.\n\nNotions from other files:\n* `New.stdForm\
+        \ E s`: the diagonal adelic matrix that is `diag s` at every infinite place and the\n  identity at the finite\
+        \ places.\n* `New.G.adeleMatrix`: the `n × n` adelic matrix of an element of the adelic unitary group\n\
+        \  `New.G E s`.\n* `New.evalInf w`: evaluation of an adele at the infinite place `w`, a ring map to `ℂ`.\n\
+        * `Ô E`: the integral finite adeles.\n\n## Relation to the literature\n\nKnown; see `Lib.Adelic.Witt.IwasawaDecomposition`\
+        \ and `Lib.Weil.MixedModel.ZeroTerm` for sources.\n"
   Lib.Weil.MixedModel.NamedData:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3551,24 +3571,32 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/MixedModel/ZeroTerm.lean
       line: 8
-      endLine: 8
+      endLine: 14
+      startOffset: 227
+      endOffset: 880
       text: 'This file works with a splitting (Witt decomposition) `D` of `V = (range l ⊕ range k) ⊥ ι V₀`.
 
-        '
+        A vector `f` of `𝒮 V` is applied to an adelic vector `x` through its theta function:
+
+        `f x = θ (ϱ(x) f)` (`New.Space.theta_rho`). The file defines the zero term ev = `D.zeroTerm` :
+
+        𝒮 V → 𝒮 V₀ and the slices f[x] = `D.slice x f` = ev(ϱ(l x) f), and proves that the slices obey
+
+        the mixed law. It shows that zero terms can be taken in stages and that the zero term depends only
+
+        on `ι` and the span of `k`. It studies families obeying the mixed law at adapted points, bounds
+
+        sums of slices over rational points and writes θ_V as the sum of θ_{V₀} over the slices.'
     remainder:
       path: grh/src/Lib/Weil/MixedModel/ZeroTerm.lean
-      line: 9
+      line: 14
       endLine: 44
-      text: "A vector `f` of `\U0001D4AE V` is applied to an adelic vector `x` through its theta function:\n`f x\
-        \ = θ (ϱ(x) f)` (`New.Space.theta_rho`). The file defines the zero term ev = `D.zeroTerm` :\n\U0001D4AE\
-        \ V → \U0001D4AE V₀ and the slices f[x] = `D.slice x f` = ev(ϱ(l x) f), and proves that the slices obey\n\
-        the mixed law. It shows that zero terms can be taken in stages and that the zero term depends only\non `ι`\
-        \ and the span of `k`. It studies families obeying the mixed law at adapted points, bounds\nsums of slices\
-        \ over rational points and writes θ_V as the sum of θ_{V₀} over the slices.\n\n## Main definitions and results\n\
-        \n* `New.Space.Splitting.zeroTerm`: the zero term `\U0001D4AE V → \U0001D4AE V₀`, the mean of `f (ι y +\
-        \ k b)` over\n  `b ∈ \U0001D538^p / E^p`; `New.Space.Splitting.slice x` is `D.zeroTerm ∘L V.ϱ (D.lAdelic\
-        \ *ᵥ x)`.\n* `New.Space.Splitting.tsum_enorm_slice_le`, `New.Space.Splitting.hasSum_theta_slice`:\n  over\
-        \ the rational points `ξ`, `∑_ξ ‖f[ξ]‖ ≤ M ‖f‖` and `θ_V f = ∑_ξ θ_{V₀} (f[ξ])`.\n* `New.Space.Splitting.IsAdapted.slice_omega_vacElem`:\
+      startOffset: 880
+      endOffset: 2827
+      text: "\n\n## Main definitions and results\n\n* `New.Space.Splitting.zeroTerm`: the zero term `\U0001D4AE\
+        \ V → \U0001D4AE V₀`, the mean of `f (ι y + k b)` over\n  `b ∈ \U0001D538^p / E^p`; `New.Space.Splitting.slice\
+        \ x` is `D.zeroTerm ∘L V.ϱ (D.lAdelic *ᵥ x)`.\n* `New.Space.Splitting.tsum_enorm_slice_le`, `New.Space.Splitting.hasSum_theta_slice`:\n\
+        \  over the rational points `ξ`, `∑_ξ ‖f[ξ]‖ ≤ M ‖f‖` and `θ_V f = ∑_ξ θ_{V₀} (f[ξ])`.\n* `New.Space.Splitting.IsAdapted.slice_omega_vacElem`:\
         \ for `g` adapted to `t`, the slices of\n  ω(g) vac are a nonzero constant times `‖vacuumFn (tᴴ x)‖ ^ 2`\
         \ times the vacuum of `V₀`. The case\n  of any `g` when `V₀` is zero needs the Iwasawa decomposition and\
         \ is\n  `New.Space.Splitting.exists_slice_omega_vacElem_of_isEmpty`, in\n  `Lib.SiegelWeil.Formula.LagrangianZeroTerms`.\n\
@@ -3584,8 +3612,6 @@ files:
         \ integral; a finite idele α for which the completed\n  integers Ô are self-dual under (z, u) ↦ ψ_f(ȷαᾱzu);\
         \ and a splitting character υ equal to −1 at\n  uniformisers of the places w with w = w̄.\n\n## Relation\
         \ to the literature\n\nKnown; see `Lib.Weil.MixedModel.ThetaInvariance` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Weil.Periods.BesselIntegral:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -4025,7 +4051,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/Periods/Grading.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 177
+      endOffset: 986
       text: 'A hermitian space `V = X ⊕ J_s` is presented (`New.Grading`) as a space `X` with an orthonormal
 
         basis plus a string of `s` vectors with antidiagonal Gram matrix, whose entries are 1 except `-N`
@@ -4040,23 +4068,25 @@ files:
 
         coordinates. For a second graded space `V'' = X'' ⊕ J_(s-1)` the map `T : V → V''`
 
-        '
+        (`New.Grading.stringMap`) is studied, and separately the matrix coefficient c_λ of a discrete series
+
+        is transported to `U(J)` through a frame.'
     remainder:
       path: grh/src/Lib/Weil/Periods/Grading.lean
-      line: 14
+      line: 15
       endLine: 57
-      text: "(`New.Grading.stringMap`) is studied, and separately the matrix coefficient c_λ of a discrete series\n\
-        is transported to `U(J)` through a frame.\n\n## Main definitions and results\n\n* `New.Grading`: a presentation\
-        \ of `V` in this form, with a constant `genericConst` for the generic\n  character.\n* `New.Grading.stringMap`:\
-        \ the map between two graded spaces that kills `X` and sends each string\n  vector to a multiple of the\
-        \ string vector with the same number (to `0` if there is none). It has\n  degree at least `-1` when `s'\
-        \ = s - 1`. `New.Grading.AgreesWithStringMap` is partial agreement\n  with it.\n* `New.Grading.besselProj`,\
-        \ `New.Grading.exists_besselGroup_proj`,\n  `New.Grading.exists_unipotent_mul_inclX`: taking the X-block\
-        \ is a homomorphism from\n  `New.Grading.besselGroup` onto U(X) with kernel `New.Grading.unipotent`, split\
-        \ by\n  `New.Grading.inclX`.\n* `New.isIdempotentKernel_dsCoeffInFrame`: for λ with a large gap, the formal\
-        \ degree times\n  `New.HCParam.dsCoeffInFrame l` is an idempotent kernel on `U J` (Schur orthogonality).\n\
-        * `New.Grading.hasDegreeGe_zero_mul_stringMap_mul_sub`: the Bessel subgroups\n  `New.Grading.besselGroup`\
-        \ of both spaces fix `T` modulo degree at least `0`.\n* `New.Grading.formAdjoint_stringMap_mul_stringMap_eq_shift`,\n\
+      startOffset: 986
+      endOffset: 3548
+      text: "\n\n## Main definitions and results\n\n* `New.Grading`: a presentation of `V` in this form, with a\
+        \ constant `genericConst` for the generic\n  character.\n* `New.Grading.stringMap`: the map between two\
+        \ graded spaces that kills `X` and sends each string\n  vector to a multiple of the string vector with the\
+        \ same number (to `0` if there is none). It has\n  degree at least `-1` when `s' = s - 1`. `New.Grading.AgreesWithStringMap`\
+        \ is partial agreement\n  with it.\n* `New.Grading.besselProj`, `New.Grading.exists_besselGroup_proj`,\n\
+        \  `New.Grading.exists_unipotent_mul_inclX`: taking the X-block is a homomorphism from\n  `New.Grading.besselGroup`\
+        \ onto U(X) with kernel `New.Grading.unipotent`, split by\n  `New.Grading.inclX`.\n* `New.isIdempotentKernel_dsCoeffInFrame`:\
+        \ for λ with a large gap, the formal degree times\n  `New.HCParam.dsCoeffInFrame l` is an idempotent kernel\
+        \ on `U J` (Schur orthogonality).\n* `New.Grading.hasDegreeGe_zero_mul_stringMap_mul_sub`: the Bessel subgroups\n\
+        \  `New.Grading.besselGroup` of both spaces fix `T` modulo degree at least `0`.\n* `New.Grading.formAdjoint_stringMap_mul_stringMap_eq_shift`,\n\
         \  `New.Grading.stringMap_mul_formAdjoint_stringMap_eq_shift`: `T† T` is the shift\n  `New.Grading.shift`\
         \ of `V`, and `T T†` is that of `V'` when the two constants agree;\n  `New.Grading.formAdjoint_stringMap_mul_stringMap`\
         \ states both.\n\nNotions from other files:\n* `New.Space`: a hermitian space with a point: a matrix J over\
@@ -4071,8 +4101,6 @@ files:
         \ of\n  |c_λ|² over U(diag ε) for the compact dual measure.\n\n## Relation to the literature\n\nKnown; see\
         \ `Lib.Weil.Periods.Unfolding` and `Lib.DiscreteSeries.CuspKernel` for sources.\n\nPart of a known construction:\
         \ adelic points of unitary groups in rational coordinates. See\n`Lib.Adelic.Unitary.WeakApproximation`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Weil.Periods.LatticeBounds:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -4404,7 +4432,9 @@ files:
     excerpt:
       path: grh/src/Lib/Weil/Periods/Unfolding.lean
       line: 7
-      endLine: 13
+      endLine: 16
+      startOffset: 168
+      endOffset: 1108
       text: 'This file unfolds the period of an equivariant function `W` (`New.Grading.IsEquivariant`) on the
 
         Bessel group `New.Grading.besselGroup` of `Y` against the theta kernel, where the strings of `Y`
@@ -4419,36 +4449,38 @@ files:
 
         (`New.Grading.Survives`), the sum of the terms integrates to zero. Hence only the translates of
 
-        '
+        `𝒞 = New.Grading.agreeingClasses` by the rational points of `U(V'')` contribute. This writes the
+
+        period as a sum of values of `New.Grading.unfoldStep`, and its integral against a rapidly decreasing
+
+        automorphic `y` as an integral of `New.Grading.unfoldStep` times `y`.'
     remainder:
       path: grh/src/Lib/Weil/Periods/Unfolding.lean
-      line: 14
+      line: 16
       endLine: 47
-      text: "`\U0001D49E = New.Grading.agreeingClasses` by the rational points of `U(V')` contribute. This writes\
-        \ the\nperiod as a sum of values of `New.Grading.unfoldStep`, and its integral against a rapidly decreasing\n\
-        automorphic `y` as an integral of `New.Grading.unfoldStep` times `y`.\n\n## Main definitions and results\n\
-        \n* `New.Grading.hasSum_unfoldStep`: for `W` equivariant, the period of `W` against the theta kernel\n \
-        \ at `h` is the sum of the values of `New.Grading.unfoldStep` at `γ h` over the rational points `γ`\n  of\
-        \ `U(V')`, modulo those of `Y'.besselGroup` on the left.\n* `New.Grading.integral_besselGroup_unfold`: the\
-        \ period of `W` against the theta integral of a\n  rapidly decreasing automorphic `y` unfolds to the integral\
-        \ of `New.Grading.unfoldStep` times `y`\n  modulo the rational points of `Y'.besselGroup`.\n\nNotions from\
-        \ other files:\n* `New.\U0001D4AE`: The Banach space \U0001D4AE(V) of integrable functions c on \U0001D538\
-        ^n with c(x) = ∫ c(y)β(y,x)e(x−y) dy,\n  under the L¹ norm; β is the adelic bicharacter and e the vacuum\
-        \ function `New.vacuumFn`.\n* `New.Grading.ratBessel`: The rational points of U(V) that lie in the Bessel\
-        \ (Fourier–Jacobi)\n  subgroup of the grading Y.\n* `New.Grading.constTerm`: the constant term of `f` at\
-        \ `w` along the maps of positive degree.\n* `New.Grading.unfoldStep`: the function `h ↦ ∫ W(r) * Y.constTermAtStringMap\
-        \ Y' α f r h dr` on\n  U(V′)(\U0001D538), integrated over the Bessel group of `Y` modulo its rational points.\n\
-        * `New.Grading.agreeingClasses`: the set `\U0001D49E` of classes whose chosen representative agrees with\n\
-        \  `T = Y.stringMap Y'` (`New.Grading.AgreesWithStringMap`).\n\n## Relation to the literature\n\nTransfer\
-        \ of Bessel and Fourier–Jacobi periods under a theta lift (one unfolding step).\nHere the setting is unitary\
-        \ pairs and hook orbits with a definite complement, and the Bessel and\nFourier–Jacobi cases are treated\
-        \ together. The period is taken against any continuous automorphic\nfunction with the generic unipotent\
-        \ character, for a rapidly decreasing form, and the unfolded\nintegral converges absolutely. Source: B.\
-        \ Wang Peng Jun, Global theta lifting and automorphic\nperiods associated to nilpotent orbits, J. Number\
-        \ Theory 271 (2025) 122–149, Prop. 3.2 and Thm. 4.5;\nfor the local case, R. Gomez, C.-B. Zhu, GAFA 24 (2014)\
-        \ 796–853; for unitary hooks, M. Furusawa, K.\nMorimoto, Math. Ann. 391 (2025) §3.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1108
+      endOffset: 3155
+      text: "\n\n## Main definitions and results\n\n* `New.Grading.hasSum_unfoldStep`: for `W` equivariant, the\
+        \ period of `W` against the theta kernel\n  at `h` is the sum of the values of `New.Grading.unfoldStep`\
+        \ at `γ h` over the rational points `γ`\n  of `U(V')`, modulo those of `Y'.besselGroup` on the left.\n*\
+        \ `New.Grading.integral_besselGroup_unfold`: the period of `W` against the theta integral of a\n  rapidly\
+        \ decreasing automorphic `y` unfolds to the integral of `New.Grading.unfoldStep` times `y`\n  modulo the\
+        \ rational points of `Y'.besselGroup`.\n\nNotions from other files:\n* `New.\U0001D4AE`: The Banach space\
+        \ \U0001D4AE(V) of integrable functions c on \U0001D538^n with c(x) = ∫ c(y)β(y,x)e(x−y) dy,\n  under the\
+        \ L¹ norm; β is the adelic bicharacter and e the vacuum function `New.vacuumFn`.\n* `New.Grading.ratBessel`:\
+        \ The rational points of U(V) that lie in the Bessel (Fourier–Jacobi)\n  subgroup of the grading Y.\n* `New.Grading.constTerm`:\
+        \ the constant term of `f` at `w` along the maps of positive degree.\n* `New.Grading.unfoldStep`: the function\
+        \ `h ↦ ∫ W(r) * Y.constTermAtStringMap Y' α f r h dr` on\n  U(V′)(\U0001D538), integrated over the Bessel\
+        \ group of `Y` modulo its rational points.\n* `New.Grading.agreeingClasses`: the set `\U0001D49E` of classes\
+        \ whose chosen representative agrees with\n  `T = Y.stringMap Y'` (`New.Grading.AgreesWithStringMap`).\n\
+        \n## Relation to the literature\n\nTransfer of Bessel and Fourier–Jacobi periods under a theta lift (one\
+        \ unfolding step).\nHere the setting is unitary pairs and hook orbits with a definite complement, and the\
+        \ Bessel and\nFourier–Jacobi cases are treated together. The period is taken against any continuous automorphic\n\
+        function with the generic unipotent character, for a rapidly decreasing form, and the unfolded\nintegral\
+        \ converges absolutely. Source: B. Wang Peng Jun, Global theta lifting and automorphic\nperiods associated\
+        \ to nilpotent orbits, J. Number Theory 271 (2025) 122–149, Prop. 3.2 and Thm. 4.5;\nfor the local case,\
+        \ R. Gomez, C.-B. Zhu, GAFA 24 (2014) 796–853; for unitary hooks, M. Furusawa, K.\nMorimoto, Math. Ann.\
+        \ 391 (2025) §3.\n"
   Lib.Weil.Seesaw:
     group: Lib.Weil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

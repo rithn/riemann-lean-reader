@@ -661,32 +661,37 @@ files:
     excerpt:
       path: grh/src/Lib/Shimura/CongruenceRelation/EichlerShimura.lean
       line: 6
-      endLine: 15
+      endLine: 13
+      startOffset: 126
+      endOffset: 589
       text: "The Eichler–Shimura argument: a relation between Frobenius twists of points in characteristic p\ngives\
         \ a relation between pull-backs and Galois action on ℓ-adic cohomology.\n\n* `New.Variety.ellAdicCohom.ellAdicPull_frobEnd`:\
         \ the absolute Frobenius acts trivially on\n  cohomology.\n* `New.Variety.ellAdicCohom.congruence_relation`:\
         \ the congruence relation\n  `New.Variety.CongruenceRelation` on points gives ∑ mᵢ uᵢ^* g^(−eᵢ) = 0 on Vⁿ(Y),\
-        \ for a Frobenius\n  element g.\n* `New.Variety.ellAdicCohom.galoisAction_eq_one_of_inertia`: inertia acts\
-        \ trivially (the case q = 1\n  of the relation).\n"
+        \ for a Frobenius\n  element g."
     remainder:
       path: grh/src/Lib/Shimura/CongruenceRelation/EichlerShimura.lean
-      line: 16
+      line: 13
       endLine: 37
-      text: "\nThe idea: extend classes from Ω to the valuation ring A, then restrict to the special fibre.\n`New.Variety.ellAdicCohom`\
-        \ is X ↦ Vⁿ(X) = ℚ_ℓ ⊗ Hⁿ(X_Ω, ℤ_ℓ), with the action\n`New.Variety.ellAdicCohom.galoisAction` of Γ; `New.Variety.ellAdicPull`\
-        \ is the pull-back along a map\nof free abelian functors (`freeAb` sends a functor to its pointwise free\
-        \ abelian group);\n`New.Variety.IsCharted` is the hypothesis on Y that stands in for smoothness: it gives\
-        \ smooth base\nchange, so that pull-back from A to Ω is bijective on the cohomology of Y.\n\nNotions from\
-        \ other files:\n* `New.IsFrob`: σ stabilises the valuation subring A and σx ≡ x^q modulo the maximal ideal\
-        \ for all x\n  in A; for q = 1 this is membership in the inertia group.\n* `New.Variety.mapOnTests`: For\
-        \ a map u: X → Y of set-valued functors on rings, its restriction to a\n  map of functors on test rings.\n\
+      startOffset: 589
+      endOffset: 2063
+      text: "\n* `New.Variety.ellAdicCohom.galoisAction_eq_one_of_inertia`: inertia acts trivially (the case q =\
+        \ 1\n  of the relation).\n\nThe idea: extend classes from Ω to the valuation ring A, then restrict to the\
+        \ special fibre.\n`New.Variety.ellAdicCohom` is X ↦ Vⁿ(X) = ℚ_ℓ ⊗ Hⁿ(X_Ω, ℤ_ℓ), with the action\n`New.Variety.ellAdicCohom.galoisAction`\
+        \ of Γ; `New.Variety.ellAdicPull` is the pull-back along a map\nof free abelian functors (`freeAb` sends\
+        \ a functor to its pointwise free abelian group);\n`New.Variety.IsCharted` is the hypothesis on Y that stands\
+        \ in for smoothness: it gives smooth base\nchange, so that pull-back from A to Ω is bijective on the cohomology\
+        \ of Y.\n\nNotions from other files:\n* `New.IsFrob`: σ stabilises the valuation subring A and σx ≡ x^q\
+        \ modulo the maximal ideal for all x\n  in A; for q = 1 this is membership in the inertia group.\n* `New.Variety.mapOnTests`:\
+        \ For a map u: X → Y of set-valued functors on rings, its restriction to a\n  map of functors on test rings.\n\
         * `New.Variety.ellAdicCoeff`: The coefficient `ℤ_ℓ`: a test ring `A` goes to the Witt vectors of the\n \
         \ ring of locally constant functions `Spec A → \U0001D53D_ℓ`.\n\n## Relation to the literature\n\nKnown\
         \ result: Smooth proper reduction gives unramified ℓ-adic cohomology, and Frobenius relations\npass to it.\
         \ Here the base is the valuation ring of a place. Source: Stacks project, Tags 0GKD (SGA4\nXVI 2.2) and\
         \ 03SN (SGA5 XV); Deligne, Formes modulaires et représentations ℓ-adiques, Sém. Bourbaki\n355 (1969).\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States the cohomological congruence relation and Frobenius result.
   Lib.Shimura.CongruenceRelation.HeckeNeighbours:
     group: Lib.Shimura
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -974,7 +979,9 @@ files:
     excerpt:
       path: grh/src/Lib/Shimura/Deformation/TangentBound.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 174
+      endOffset: 1000
       text: 'In the first two sections, `x` and `x''` are first-order deformations over `k[ε]` of one object `x₀`
 
         over a field `k`, in a family `New.ThetaFamily` of abelian schemes. In the third section, `x` is a
@@ -989,35 +996,36 @@ files:
 
         `x₀.groupScheme`. If `a ≠ 0`, a homomorphism `F` that reduces to `c * a` and kills the kernel of `f`
 
-        '
+        yields a homomorphism out of `x''.groupScheme` that reduces to `c`. These tools give the tangent
+
+        bound for deformations without constant directions.'
     remainder:
       path: grh/src/Lib/Shimura/Deformation/TangentBound.lean
-      line: 14
+      line: 15
       endLine: 48
-      text: "yields a homomorphism out of `x'.groupScheme` that reduces to `c`. These tools give the tangent\nbound\
-        \ for deformations without constant directions.\n\n## Main definitions and results\n\n* `New.Variety.AgreeModEps`:\
-        \ points of `x.groupScheme` and `x'.groupScheme` with the same reduction\n  modulo `ε`. The points that\
-        \ agree with `0` are those that vanish modulo `ε`.\n  `New.Variety.AgreeModEps.ringChar_smul_and_smul_eq_zero`\
-        \ gives elements that kill them.\n* `New.Variety.drinfeld_lift`: if `c` kills the points of `x'.groupScheme`\
-        \ that vanish modulo `ε`,\n  then multiplication by `c` on `x₀.groupScheme` lifts to a homomorphism\n  `x.groupScheme\
-        \ ⟶ x'.groupScheme`.\n* `New.Variety.isLinear_and_pairing_eq_of_reduction`: such an `f` is linear, and `a`\
-        \ kills its\n  kernel modulo `ε`. The lemma also describes its effect on the pairing.\n* `New.Variety.finrank_tangent_le_card_index_sub_one`:\
-        \ under the hypotheses stated in its docstring,\n  if a first-order deformation `x` over `k ⊕ M*` of `x₀`\
-        \ has no constant direction in `M`, then\n  `finrank k M ≤ Fintype.card D.Index - 1`.\n\nNotions from other\
-        \ files:\n* `New.ThetaObject`: An object of the family X over a scheme T: a morphism from T to the base\
-        \ of X.\n* `New.ThetaObject.groupScheme`: The group scheme with O_E-action of an object x over S: the\n\
-        \  pull-back of the abelian scheme of the family along x : S → base.\n* `New.Pic.pairing`: For c in Pic\
-        \ A and T-points x, y of A, the class ⟨x,\n  y⟩ = (x + y)^*c − x^*c − y^*c + 0^*c in Pic T (`New.Pic.atPoint`\
-        \ is x ↦ x^*c).\n* `New.IsGroupBaseChange.pointEquiv`: For an O-compatible base change p : A' → A and an\
-        \ S'-scheme T,\n  the O-linear bijection x ↦ p∘x from T-points of A' over S' to T-points of A over S.\n\n\
-        ## Relation to the literature\n\nKnown result: Deformations of the PEL object have at most n - 1 parameters,\
-        \ where n is the size of\nthe index set `D.Index`. Only the upper bound for first-order deformations is\
-        \ proved here, at every\ngood place, working on the finite group scheme of w-torsion with Drinfeld's lifting\
-        \ lemma and\nwithout p-divisible groups or crystals. Source: N. Katz, Serre–Tate local moduli, LNM 868 (1981),\
-        \ §1\n(Drinfeld's lemma); J. Lubin, J. Tate, Formal moduli for one-parameter formal Lie groups, Bull. SMF\n\
-        94 (1966); M. Harris, R. Taylor, The Geometry and Cohomology of Some Simple Shimura Varieties\n(2001), III.4.1.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1000
+      endOffset: 3188
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.AgreeModEps`: points of `x.groupScheme` and `x'.groupScheme`\
+        \ with the same reduction\n  modulo `ε`. The points that agree with `0` are those that vanish modulo `ε`.\n\
+        \  `New.Variety.AgreeModEps.ringChar_smul_and_smul_eq_zero` gives elements that kill them.\n* `New.Variety.drinfeld_lift`:\
+        \ if `c` kills the points of `x'.groupScheme` that vanish modulo `ε`,\n  then multiplication by `c` on `x₀.groupScheme`\
+        \ lifts to a homomorphism\n  `x.groupScheme ⟶ x'.groupScheme`.\n* `New.Variety.isLinear_and_pairing_eq_of_reduction`:\
+        \ such an `f` is linear, and `a` kills its\n  kernel modulo `ε`. The lemma also describes its effect on\
+        \ the pairing.\n* `New.Variety.finrank_tangent_le_card_index_sub_one`: under the hypotheses stated in its\
+        \ docstring,\n  if a first-order deformation `x` over `k ⊕ M*` of `x₀` has no constant direction in `M`,\
+        \ then\n  `finrank k M ≤ Fintype.card D.Index - 1`.\n\nNotions from other files:\n* `New.ThetaObject`: An\
+        \ object of the family X over a scheme T: a morphism from T to the base of X.\n* `New.ThetaObject.groupScheme`:\
+        \ The group scheme with O_E-action of an object x over S: the\n  pull-back of the abelian scheme of the\
+        \ family along x : S → base.\n* `New.Pic.pairing`: For c in Pic A and T-points x, y of A, the class ⟨x,\n\
+        \  y⟩ = (x + y)^*c − x^*c − y^*c + 0^*c in Pic T (`New.Pic.atPoint` is x ↦ x^*c).\n* `New.IsGroupBaseChange.pointEquiv`:\
+        \ For an O-compatible base change p : A' → A and an S'-scheme T,\n  the O-linear bijection x ↦ p∘x from\
+        \ T-points of A' over S' to T-points of A over S.\n\n## Relation to the literature\n\nKnown result: Deformations\
+        \ of the PEL object have at most n - 1 parameters, where n is the size of\nthe index set `D.Index`. Only\
+        \ the upper bound for first-order deformations is proved here, at every\ngood place, working on the finite\
+        \ group scheme of w-torsion with Drinfeld's lifting lemma and\nwithout p-divisible groups or crystals. Source:\
+        \ N. Katz, Serre–Tate local moduli, LNM 868 (1981), §1\n(Drinfeld's lemma); J. Lubin, J. Tate, Formal moduli\
+        \ for one-parameter formal Lie groups, Bull. SMF\n94 (1966); M. Harris, R. Taylor, The Geometry and Cohomology\
+        \ of Some Simple Shimura Varieties\n(2001), III.4.1.\n"
   Lib.Shimura.Deformation.TangentCount:
     group: Lib.Shimura
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1185,7 +1193,9 @@ files:
     excerpt:
       path: grh/src/Lib/Shimura/Eigenspace.lean
       line: 10
-      endLine: 14
+      endLine: 18
+      startOffset: 306
+      endOffset: 1175
       text: 'Let `ρ i` be finitely many finite-dimensional `ℚ_ℓ`-representations of `Γ`, with operators `T i s`
 
         and scalars `θ s` in `ℚ̄_ℓ`. The eigenquotient is the largest quotient of `ℚ̄_ℓ ⊗ ⨁ V i` on which
@@ -1196,54 +1206,59 @@ files:
 
         polynomial that kills Frobenius on it. Suppose moreover that the `T i s` commute with each other and
 
-        '
+        with `Γ`, and that `γ : ℚ̄_ℓ → ℂ_ℓ` agrees with `a ∈ Gal(ℚ̄_ℓ/ℚ_ℓ)`. If `u` is not a Hodge–Tate jump
+
+        of `r` at `γ`, then some polynomial in `T` that is `1` at the conjugate eigenvalues `a ∘ θ` kills
+
+        the vectors of weight `u`. These results are applied to the `ℓ`-adic cohomology of a
+
+        `New.Variety.Model` to obtain a Galois representation from a system `θ` of Hecke eigenvalues.'
     remainder:
       path: grh/src/Lib/Shimura/Eigenspace.lean
-      line: 15
+      line: 18
       endLine: 102
-      text: "with `Γ`, and that `γ : ℚ̄_ℓ → ℂ_ℓ` agrees with `a ∈ Gal(ℚ̄_ℓ/ℚ_ℓ)`. If `u` is not a Hodge–Tate jump\n\
-        of `r` at `γ`, then some polynomial in `T` that is `1` at the conjugate eigenvalues `a ∘ θ` kills\nthe vectors\
-        \ of weight `u`. These results are applied to the `ℓ`-adic cohomology of a\n`New.Variety.Model` to obtain\
-        \ a Galois representation from a system `θ` of Hecke eigenvalues.\n\n## Overview of this theory\n\nLet `E`\
-        \ be a CM field strictly containing `K₀ = ℚ(√-d)`, with `d ≡ 3` mod 4. Let `v₀` be the base\ninfinite place\
-        \ of a CM type `Φ` of `E`, and let `\U0001D511` be a nonzero neat level in `\U0001D4DE_E`. A finite place\n\
-        `w` of `E` over a place `u` of `K₀` is *safe* if `u` is split and prime to `d`, and `\U0001D511` is prime\
-        \ to\n`w` and `ū`. The unitary similitude group, of rank `n ≥ 1`, has signature `(1, n - 1)` at `v₀` and\n\
-        is definite at the other infinite places.\n\n* `New.Variety.exists_model`: an integral model `Z` of Kuga–Sato\
-        \ type for this group, with level\n  covers and the congruence relation at safe places. It lives over a\
-        \ localisation `R ⊆ E` of `\U0001D4DE_E`\n  whose maximal ideals lie over primes good for the PEL data.\
-        \ The inputs are PEL data\n  (`New.Variety.exists_pel`) and a family of abelian schemes over such `R`\n\
-        \  (`New.Variety.ThetaNull.nonempty_universalFamily`), for which no universal property is proved. If\n \
-        \ `E` contains a primitive root of unity of order `7! = 5040`, the PEL data exist for a suitable CM\n  type\
-        \ and for every nonzero `\U0001D511` divisible by an integer `N ≠ 0`, which can be taken prime to any\n\
-        \  given finite set of places.\n* `New.Variety.exists_isCoefficientSystem`: let `n` be odd, `κ` a weight,\
-        \ and `Φ` a CM type in which\n  `Φ v₀` differs on `K₀` from every other `Φ v`. Take a Hecke eigenform of\
-        \ neat level on the\n  definite side, with coefficients in an extension of the weight `κ` to `GL_n(E)` that\
-        \ the theorem\n  supplies. At one split place it is of cuspidal type. At another split place it is spherical,\
-        \ and\n  there the level is pro-`p` Iwahori, `p` being the residue characteristic of that place. Then its\n\
-        \  Hecke eigenvalues `θ` at safe places occur, in the sense of `New.Variety.OccursInWeight`, in\n  weight\
-        \ `z + μ` for each jump `z` of `κ` at `Φ v₀`. The jumps are integers given by `New.jumps`.\n  Here `μ ∈\
-        \ ℕ` does not depend on the form or the level.\n* `New.Variety.Model.exists_galois_rep`: let `ℓ` be a prime,\
-        \ `ιℓ : ℂ ≃ ℚ̄_ℓ`, and `θ` a system of\n  Hecke eigenvalues at safe places. Let `R` be a localisation of\
-        \ `\U0001D4DE_E` at elements prime to the safe\n  places. Take a model `Z` over `R` and weights `h ≥ 0`\
-        \ in which `θ` occurs. Then there is a\n  continuous `ρ : Gal(Ē/E) → GL_m(ℚ̄_ℓ)` of undetermined dimension\
-        \ `m`; the proof cuts it out of the\n  cohomology of `Z`. At safe places `ρ` is unramified or crystalline,\
-        \ and the Hecke polynomial of\n  `ιℓ ∘ θ` kills geometric Frobenius. If the place over `ℓ` induced by `ιℓ`\
-        \ and the given embedding\n  of `E` into `ℂ` is safe, the jumps (Hodge–Tate weights) of `ρ` at that embedding\
-        \ include the given\n  weights. Other embeddings and multiplicities are not controlled.\n\nThis theory proves\
-        \ the cases that are used of PEL integral models (Kottwitz) and of the geometric\nstep in the Galois representations\
-        \ of cuspidal forms on `GL_n` (Shin). A direct comparison of two\nfinite counts replaces the description\
-        \ of automorphic forms on unitary groups via `GL_n` (Labesse).\nNo moduli functor is represented, nothing\
-        \ is transferred to `GL_n`, and no dimension is computed\nhere.\n\n1. `ComplexTheta`, `AbelianScheme`, `ThetaGroup`,\
-        \ `Uniformisation`: theta functions and the complex\n   uniformisation.\n2. `GoodReduction`, `ThetaNormality`,\
-        \ `ArcExtension`: good reduction along a valuation ring of `ℂ`.\n3. `ThetaModuli`, `Deformation`: the closure\
-        \ of the theta-null points of the PEL abelian varieties\n   carries a family of abelian schemes and is smooth.\n\
-        4. `HeckeTower` (the list of properties of a model), `CongruenceRelation`, `IntegralModel`: level\n   covers,\
-        \ the congruence relation and the model.\n5. `TraceFormula`, `Transfer`: the comparison with the definite\
-        \ unitary group. Last, `Eigenspace`:\n   the Galois representation.\n\n## Main definitions and results\n\
-        \n* `New.Variety.IsEigenQuotient`, `New.Variety.exists_isEigenQuotient`: the definition; existence and\n\
-        \  continuity.\n* `New.Variety.IsEigenQuotient.isCrystalline`: `r` is crystalline if the `ρ i` are.\n* `New.Variety.IsEigenQuotient.isKilledBy`:\
-        \ a relation between `T` and Frobenius gives a polynomial\n  that kills Frobenius on `r`.\n* `New.Variety.IsEigenQuotient.exists_sum_baseChange_eq_zero_of_jump_eq_zero`:\
+      startOffset: 1175
+      endOffset: 7116
+      text: "\n\n## Overview of this theory\n\nLet `E` be a CM field strictly containing `K₀ = ℚ(√-d)`, with `d\
+        \ ≡ 3` mod 4. Let `v₀` be the base\ninfinite place of a CM type `Φ` of `E`, and let `\U0001D511` be a nonzero\
+        \ neat level in `\U0001D4DE_E`. A finite place\n`w` of `E` over a place `u` of `K₀` is *safe* if `u` is\
+        \ split and prime to `d`, and `\U0001D511` is prime to\n`w` and `ū`. The unitary similitude group, of rank\
+        \ `n ≥ 1`, has signature `(1, n - 1)` at `v₀` and\nis definite at the other infinite places.\n\n* `New.Variety.exists_model`:\
+        \ an integral model `Z` of Kuga–Sato type for this group, with level\n  covers and the congruence relation\
+        \ at safe places. It lives over a localisation `R ⊆ E` of `\U0001D4DE_E`\n  whose maximal ideals lie over\
+        \ primes good for the PEL data. The inputs are PEL data\n  (`New.Variety.exists_pel`) and a family of abelian\
+        \ schemes over such `R`\n  (`New.Variety.ThetaNull.nonempty_universalFamily`), for which no universal property\
+        \ is proved. If\n  `E` contains a primitive root of unity of order `7! = 5040`, the PEL data exist for a\
+        \ suitable CM\n  type and for every nonzero `\U0001D511` divisible by an integer `N ≠ 0`, which can be taken\
+        \ prime to any\n  given finite set of places.\n* `New.Variety.exists_isCoefficientSystem`: let `n` be odd,\
+        \ `κ` a weight, and `Φ` a CM type in which\n  `Φ v₀` differs on `K₀` from every other `Φ v`. Take a Hecke\
+        \ eigenform of neat level on the\n  definite side, with coefficients in an extension of the weight `κ` to\
+        \ `GL_n(E)` that the theorem\n  supplies. At one split place it is of cuspidal type. At another split place\
+        \ it is spherical, and\n  there the level is pro-`p` Iwahori, `p` being the residue characteristic of that\
+        \ place. Then its\n  Hecke eigenvalues `θ` at safe places occur, in the sense of `New.Variety.OccursInWeight`,\
+        \ in\n  weight `z + μ` for each jump `z` of `κ` at `Φ v₀`. The jumps are integers given by `New.jumps`.\n\
+        \  Here `μ ∈ ℕ` does not depend on the form or the level.\n* `New.Variety.Model.exists_galois_rep`: let\
+        \ `ℓ` be a prime, `ιℓ : ℂ ≃ ℚ̄_ℓ`, and `θ` a system of\n  Hecke eigenvalues at safe places. Let `R` be a\
+        \ localisation of `\U0001D4DE_E` at elements prime to the safe\n  places. Take a model `Z` over `R` and\
+        \ weights `h ≥ 0` in which `θ` occurs. Then there is a\n  continuous `ρ : Gal(Ē/E) → GL_m(ℚ̄_ℓ)` of undetermined\
+        \ dimension `m`; the proof cuts it out of the\n  cohomology of `Z`. At safe places `ρ` is unramified or\
+        \ crystalline, and the Hecke polynomial of\n  `ιℓ ∘ θ` kills geometric Frobenius. If the place over `ℓ`\
+        \ induced by `ιℓ` and the given embedding\n  of `E` into `ℂ` is safe, the jumps (Hodge–Tate weights) of\
+        \ `ρ` at that embedding include the given\n  weights. Other embeddings and multiplicities are not controlled.\n\
+        \nThis theory proves the cases that are used of PEL integral models (Kottwitz) and of the geometric\nstep\
+        \ in the Galois representations of cuspidal forms on `GL_n` (Shin). A direct comparison of two\nfinite counts\
+        \ replaces the description of automorphic forms on unitary groups via `GL_n` (Labesse).\nNo moduli functor\
+        \ is represented, nothing is transferred to `GL_n`, and no dimension is computed\nhere.\n\n1. `ComplexTheta`,\
+        \ `AbelianScheme`, `ThetaGroup`, `Uniformisation`: theta functions and the complex\n   uniformisation.\n\
+        2. `GoodReduction`, `ThetaNormality`, `ArcExtension`: good reduction along a valuation ring of `ℂ`.\n3.\
+        \ `ThetaModuli`, `Deformation`: the closure of the theta-null points of the PEL abelian varieties\n   carries\
+        \ a family of abelian schemes and is smooth.\n4. `HeckeTower` (the list of properties of a model), `CongruenceRelation`,\
+        \ `IntegralModel`: level\n   covers, the congruence relation and the model.\n5. `TraceFormula`, `Transfer`:\
+        \ the comparison with the definite unitary group. Last, `Eigenspace`:\n   the Galois representation.\n\n\
+        ## Main definitions and results\n\n* `New.Variety.IsEigenQuotient`, `New.Variety.exists_isEigenQuotient`:\
+        \ the definition; existence and\n  continuity.\n* `New.Variety.IsEigenQuotient.isCrystalline`: `r` is crystalline\
+        \ if the `ρ i` are.\n* `New.Variety.IsEigenQuotient.isKilledBy`: a relation between `T` and Frobenius gives\
+        \ a polynomial\n  that kills Frobenius on `r`.\n* `New.Variety.IsEigenQuotient.exists_sum_baseChange_eq_zero_of_jump_eq_zero`:\
         \ let the `ρ i` be\n  crystalline and the `T i s` commute with each other and with `Γ`. If `u` is not a\
         \ Hodge–Tate jump\n  of `r` at an embedding `γ` given by `a ∈ Gal(ℚ̄_ℓ/ℚ_ℓ)`, some polynomial in `T` that\
         \ is `1` at\n  `a ∘ θ` kills the vectors of weight `u`.\n\nNotions from other files:\n* `New.Period.IsCrystalline`:\
@@ -1262,8 +1277,6 @@ files:
         \ Sém. Bourbaki 355 (1969), Thm 4.9; Harris and Taylor, The geometry and\ncohomology of some simple Shimura\
         \ varieties (2001), ch. VII; Wedhorn, Congruence relations on some\nShimura varieties, J. reine angew. Math.\
         \ 524 (2000).\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Shimura.GoodReduction.GaussSums:
     group: Lib.Shimura
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2037,16 +2050,20 @@ files:
       path: grh/src/Lib/Shimura/IntegralModel/TowerExistence.lean
       line: 8
       endLine: 15
+      startOffset: 225
+      endOffset: 713
       text: "The end of the construction of the moduli tower. It goes from a universal family of PEL type\n(`New.Variety.UniversalFamily`)\
         \ to the structure `New.Variety.Model`, which is all that the point\ncounts use.\n\n* `New.Variety.exists_model`:\
         \ the model exists.\n* `New.Variety.UniversalFamily.GraphClosure.congruenceRelation`,\n  `New.Variety.UniversalFamily.GraphClosure.isTangentPoly_localTerm_of_translate`:\
-        \ the congruence\n  relation and the tangent map at a fixed point, for the legs of a cover.\n"
+        \ the congruence\n  relation and the tangent map at a fixed point, for the legs of a cover."
     remainder:
       path: grh/src/Lib/Shimura/IntegralModel/TowerExistence.lean
-      line: 16
+      line: 15
       endLine: 41
-      text: "\nNotions from other files:\n* `New.Variety.UniversalFamily`: a universal family of PEL type over `R`:\
-        \ a base scheme with an\n  abelian scheme over it and its standing hypotheses. `New.Variety.UniversalFamily.GraphClosure`\
+      startOffset: 713
+      endOffset: 2624
+      text: "\n\nNotions from other files:\n* `New.Variety.UniversalFamily`: a universal family of PEL type over\
+        \ `R`: a base scheme with an\n  abelian scheme over it and its standing hypotheses. `New.Variety.UniversalFamily.GraphClosure`\
         \ is\n  the reduced closure of the graph of finitely many translations `a ↦ a·(g_j, 1)` of complex points;\n\
         \  `C.proj j` projects it to the factor `j`, sending `C.point a` to `U.datumPoint \U0001D52A (a.act g)`,\
         \ the\n  complex point of level `\U0001D52A`, when `γ j = (\U0001D52A, g)`.\n* `New.Variety.Model`: the\
@@ -2064,8 +2081,6 @@ files:
         \ zero. The congruence\nrelation at good split places is part of the statement.\nSource: Harris, Taylor,\
         \ The geometry and cohomology of some simple Shimura varieties, 2001, III.4;\nKottwitz, Points on some Shimura\
         \ varieties over finite fields, JAMS 5 (1992), §5.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Shimura.IntegralModel.UniversalFamily:
     group: Lib.Shimura
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2140,7 +2155,9 @@ files:
     excerpt:
       path: grh/src/Lib/Shimura/IntegralModel/UniversalFamily.lean
       line: 9
-      endLine: 15
+      endLine: 17
+      startOffset: 251
+      endOffset: 1045
       text: 'This file studies the universal abelian scheme 𝒜 → S of PEL data D and describes its complex points
 
         by linear algebra. Over an arc `O` (`New.ValuativeArc`, a valuation ring with fraction field `ℂ`), a
@@ -2155,15 +2172,18 @@ files:
 
         of the line bundle `N` of the object over `B`. A linear datum a = (x, ℓ, P)
 
-        '
+        (`New.Variety.ModuliPoint`) consists of an adelic frame x, a reflection ℓ of ℂⁿ (1 on a line, −1 on
+
+        a complement), and vectors P_i.'
     remainder:
       path: grh/src/Lib/Shimura/IntegralModel/UniversalFamily.lean
-      line: 16
+      line: 17
       endLine: 56
-      text: "(`New.Variety.ModuliPoint`) consists of an adelic frame x, a reflection ℓ of ℂⁿ (1 on a line, −1 on\n\
-        a complement), and vectors P_i.\n\n## Main definitions and results\n\n* `New.Variety.UniversalFamily`: the\
-        \ universal object, with the standing hypotheses.\n* `New.ThetaFamily.IsPointOf`, `New.Variety.UniversalFamily.datumPoint`:\
-        \ the point of a fibre power\n  of \U0001D49C given by a fibre modelled on a, its non-zero \U0001D52A-torsion\
+      startOffset: 1045
+      endOffset: 3745
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.UniversalFamily`: the universal object, with\
+        \ the standing hypotheses.\n* `New.ThetaFamily.IsPointOf`, `New.Variety.UniversalFamily.datumPoint`: the\
+        \ point of a fibre power\n  of \U0001D49C given by a fibre modelled on a, its non-zero \U0001D52A-torsion\
         \ points and the images of the P_i.\n* `New.ThetaFamily.IsPointOf.eq_iff`, `New.Variety.UniversalFamily.datumPoint_eq_iff`:\
         \ two such\n  points are equal exactly when the data are isomorphic (`New.Variety.ModuliPoint.IsLevelIso`)\
         \ at\n  level K(\U0001D511) ∩ K(\U0001D52A), where K is the principal level `New.Variety.levelGU` and \U0001D511\
@@ -2187,8 +2207,6 @@ files:
         \ and Weil representations, Algebra Number Theory 6 (2012), Prop. 2.12 (over a\nbase); M. Bolognesi, A.\
         \ Massarenti, Comment. Math. Helv. 91 (2016), Lemma 4.1 (odd type).\n\nSee also `Lib.Shimura.ArcExtension`\
         \ and `Lib.Shimura.IntegralModel.TowerExistence`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Shimura.ThetaGroup:
     group: Lib.Shimura
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2261,20 +2279,22 @@ files:
       path: grh/src/Lib/Shimura/ThetaGroup.lean
       line: 6
       endLine: 9
+      startOffset: 138
+      endOffset: 483
       text: 'A morphism `f : X'' → X` and an isomorphism `f^* L ≅ L''` induce a map on global sections
 
         `Φ : H⁰(L) → H⁰(L'')`. Over a local ring `R`, these maps let translations of an abelian scheme act on
 
         sections of a line bundle. For a theta structure on `N` indexed by a group `H`, it also gives a
 
-        bound on the exponent of `K([N])`, under further hypotheses.
-
-        '
+        bound on the exponent of `K([N])`, under further hypotheses.'
     remainder:
       path: grh/src/Lib/Shimura/ThetaGroup.lean
-      line: 10
+      line: 9
       endLine: 40
-      text: "\n## Main definitions and results\n\n* `New.Variety.IsSectionLift`: `Φ` comes from some isomorphism\
+      startOffset: 483
+      endOffset: 2296
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.IsSectionLift`: `Φ` comes from some isomorphism\
         \ `f^* L ≅ L'`;\n  `New.Variety.IsTranslationLift` is the case of a translation; `New.Variety.coordSection`\
         \ is the\n  `j`-th coordinate section of a linear system.\n* `New.Variety.exists_isSectionLift`, `New.Variety.IsSectionLift.picClass_eq`:\
         \ a lift exists when\n  `[L'] = f^* [L]`, and only then.\n* `New.Variety.IsTranslationLift.mul`, `New.Variety.IsTranslationLift.pow`,\n\
@@ -2291,8 +2311,9 @@ files:
         \  U_i = {s_i ≠ 0} for sections s_i without common zero.\n* `New.HasConstFunctions`: for s : X → S, a function\
         \ regular on all of X takes equal values at two\n  ring-valued points with the same image under s.\n\n##\
         \ Relation to the literature\n\nKnown; see `Lib.Shimura.IntegralModel.UniversalFamily` for sources.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: Describes induced maps on sections and the exponent bound.
   Lib.Shimura.ThetaModuli.FamilyFromPoints:
     group: Lib.Shimura
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3376,30 +3397,38 @@ files:
     excerpt:
       path: grh/src/Lib/Shimura/Transfer/Lefschetz.lean
       line: 8
-      endLine: 14
-      text: "Translates the geometric vanishing of local terms on a tower of Kuga–Sato varieties into a vanishing\n\
-        of a sum over marked pairs, which involves only the Hecke function.\n\n* `New.Variety.IsNullHecke`: h-nullity\
-        \ of a Hecke element, a condition on regular elements.\n* `New.Variety.OccursInWeight`: a system of eigenvalues\
-        \ θ occurs in weight h.\n* `New.Variety.Model.isNullHecke_of_isNullFamily`: h-null on deep levels of the\
-        \ tower implies\n  h-null.\n"
+      endLine: 11
+      startOffset: 192
+      endOffset: 453
+      text: 'Translates the geometric vanishing of local terms on a tower of Kuga–Sato varieties into a vanishing
+
+        of a sum over marked pairs, which involves only the Hecke function.
+
+
+        * `New.Variety.IsNullHecke`: h-nullity of a Hecke element, a condition on regular elements.'
     remainder:
       path: grh/src/Lib/Shimura/Transfer/Lefschetz.lean
-      line: 15
+      line: 11
       endLine: 34
-      text: "\nIdea: coincidences of two maps to the base are grouped by their marked pair; each fibre has (number\n\
-        of lattice solutions) · (order of the deck group) points, and the number of solutions cancels the\ndenominator\
-        \ of the local term.\n\nNotions from other files:\n* `New.Variety.GUPlus`: the monoid of similitudes `g`\
-        \ whose inverse has integral entries, that is,\n  which enlarge the standard lattice.\n* `New.Variety.heckeAlgebra`:\
-        \ the Hecke algebra, the subalgebra of elements ∑ a_g [g] of k[G]\n  supported on `GUPlus E n` whose function\
-        \ ∑ a_g 1_{g·levelGU n \U0001D511} is left `levelGU n \U0001D511`-invariant.\n* `New.Variety.levelGU`: the\
-        \ principal level K(\U0001D511), the similitudes in `GL_n(Ô E)` that are congruent\n  to `1` modulo `\U0001D511\
-        `.\n* `New.Variety.Model`: the tower of Kuga–Sato varieties over `R`, given by a list of properties.\n*\
-        \ `New.Variety.IsNeat`: the level \U0001D511 is neat: \U0001D511 ≠ 0 and, whenever `x` is a signed frame\
-        \ with `ℓ` for\n  some form (`New.Variety.IsSignedFrame`), every y in GL_n(E) with x⁻¹yx in `levelGU n \U0001D511\
-        ` that fixes\n  ℓ under `New.Variety.ratConj` equals 1.\n\n## Relation to the literature\n\nKnown; see `Lib.Shimura.Transfer.WeightOccurs`\
+      startOffset: 453
+      endOffset: 1778
+      text: "\n* `New.Variety.OccursInWeight`: a system of eigenvalues θ occurs in weight h.\n* `New.Variety.Model.isNullHecke_of_isNullFamily`:\
+        \ h-null on deep levels of the tower implies\n  h-null.\n\nIdea: coincidences of two maps to the base are\
+        \ grouped by their marked pair; each fibre has (number\nof lattice solutions) · (order of the deck group)\
+        \ points, and the number of solutions cancels the\ndenominator of the local term.\n\nNotions from other\
+        \ files:\n* `New.Variety.GUPlus`: the monoid of similitudes `g` whose inverse has integral entries, that\
+        \ is,\n  which enlarge the standard lattice.\n* `New.Variety.heckeAlgebra`: the Hecke algebra, the subalgebra\
+        \ of elements ∑ a_g [g] of k[G]\n  supported on `GUPlus E n` whose function ∑ a_g 1_{g·levelGU n \U0001D511\
+        } is left `levelGU n \U0001D511`-invariant.\n* `New.Variety.levelGU`: the principal level K(\U0001D511),\
+        \ the similitudes in `GL_n(Ô E)` that are congruent\n  to `1` modulo `\U0001D511`.\n* `New.Variety.Model`:\
+        \ the tower of Kuga–Sato varieties over `R`, given by a list of properties.\n* `New.Variety.IsNeat`: the\
+        \ level \U0001D511 is neat: \U0001D511 ≠ 0 and, whenever `x` is a signed frame with `ℓ` for\n  some form\
+        \ (`New.Variety.IsSignedFrame`), every y in GL_n(E) with x⁻¹yx in `levelGU n \U0001D511` that fixes\n  ℓ\
+        \ under `New.Variety.ratConj` equals 1.\n\n## Relation to the literature\n\nKnown; see `Lib.Shimura.Transfer.WeightOccurs`\
         \ for sources.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States the translation from geometric vanishing to a Hecke sum.
   Lib.Shimura.Transfer.MarkedPairs:
     group: Lib.Shimura
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

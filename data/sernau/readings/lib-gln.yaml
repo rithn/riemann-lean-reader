@@ -220,7 +220,9 @@ files:
     excerpt:
       path: grh/src/Lib/GLn/Dual.lean
       line: 8
-      endLine: 13
+      endLine: 17
+      startOffset: 224
+      endOffset: 1143
       text: 'The integral representations of `∏_τ GL(n_τ)` act on lattices with bases of products of minors, and
 
         a weight `κ` counts the columns of each height. For the reversed weight `κ''_τ(h) = κ_τ(|n_τ| - h)`,
@@ -233,16 +235,21 @@ files:
 
         into the tensor product of the representation of weight `kp` with that of weight `km` composed with
 
-        '
+        `g ↦ g⁻¹ᵀ`. For a splitting `ε : N ⊕ m ≃ n` of the letters, this embedding sends the Cartan product
+
+        of vectors of weights `kp` and `km` to their tensor, and the squared norm of the product is
+
+        multiplicative. Finally, the representations of `GL n` with parameters `l` and `-l` are paired
+
+        invariantly by an integer matrix.'
     remainder:
       path: grh/src/Lib/GLn/Dual.lean
-      line: 14
+      line: 17
       endLine: 56
-      text: "`g ↦ g⁻¹ᵀ`. For a splitting `ε : N ⊕ m ≃ n` of the letters, this embedding sends the Cartan product\n\
-        of vectors of weights `kp` and `km` to their tensor, and the squared norm of the product is\nmultiplicative.\
-        \ Finally, the representations of `GL n` with parameters `l` and `-l` are paired\ninvariantly by an integer\
-        \ matrix.\n\n## Main definitions and results\n\n* `New.GL.exists_star_matrix`: the product of the Hodge\
-        \ stars of the columns, a signed bijection\n  between basis tensors that replaces each column by its complement.\n\
+      startOffset: 1143
+      endOffset: 3820
+      text: "\n\n## Main definitions and results\n\n* `New.GL.exists_star_matrix`: the product of the Hodge stars\
+        \ of the columns, a signed bijection\n  between basis tensors that replaces each column by its complement.\n\
         * `New.GL.exists_int_duality_matrix`: the integer matrix by which the star maps one Weyl module to\n  the\
         \ other.\n* `New.GL.IsDualIsometry`, `New.exists_isDualIsometry`: this matrix is unimodular, isometric and\n\
         \  equivariant; `New.exists_dual_isometry` states these properties as one conjunction.\n* `New.GL.MixedCartanEmbedding`:\
@@ -267,8 +274,6 @@ files:
         \ over fields of characteristic 0. The duality has an\nintegral inverse and the Cartan map has an integral\
         \ left inverse. Source: Fulton, Harris,\nRepresentation Theory, 1991, section 15.5; Jantzen 2003; for Jacobi's\
         \ identity, Grinberg, An\nIntroduction to Algebraic Combinatorics, Thm 6.4.48.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.GLn.SchurModule.Basic:
     group: Lib.GLn
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -311,41 +316,38 @@ files:
     excerpt:
       path: grh/src/Lib/GLn/SchurModule/Basic.lean
       line: 6
-      endLine: 11
+      endLine: 8
+      startOffset: 102
+      endOffset: 331
       text: 'This file sets up a polynomial model of the representations of products of general linear groups
 
         over any commutative ring `R`. The variables `X (a, i)` of `New.MatrixPoly m R` form an array with
 
-        rows `a : m` and columns `i : ℕ`. A colour map `c` assigns each row a place `τ`, and a weight `κ`
-
-        gives the number `κ τ h` of columns of height `h` at `τ`. `New.nabla R c l` consists of the `f` with
-
-        `f(y b) = ∏ b(τ, i, i) ^ l(τ, i) · f(y)` for upper triangular `b`, one matrix for each colour, and a
-
-        chosen set of products of minors is taken as its basis. The Weyl module is the dual module, written
-
-        '
+        rows `a : m` and columns `i : ℕ`.'
     remainder:
       path: grh/src/Lib/GLn/SchurModule/Basic.lean
-      line: 12
+      line: 8
       endLine: 37
-      text: "in the dual basis as `New.WeylIndexFamily n κ → R`; `Lib.GLn.SchurModule.TensorModel` embeds it into\n\
-        a tensor product of exterior powers. Left substitution `f ↦ f(z y)` and the Fock pairing\n`⟨p, q⟩ = p(∂)\
-        \ q (0)` are the main tools. The rows of the Schur matrix expand the substituted basis\nelements, so it\
-        \ acts on the Weyl module, and the Gram matrix is the coefficient matrix of the kernel\n`New.weylKernel`\
-        \ in the basis.\n\n## Main definitions and results\n\n* `New.jet`, `New.fockPairing`: the pairing `P(∂)\
-        \ F` at `0`, with power series and with polynomials;\n  `New.fockPairing_linSubst` computes adjoints of\
-        \ linear substitutions.\n* `New.nabla`, `New.nablaFamily`: the semi-invariants under upper triangular matrices\
-        \ acting on\n  columns.\n* `New.tableauPoly`, `New.IsTableauBasis`, `New.nablaBasis`: products of minors,\
-        \ and a chosen basis\n  among them.\n* `New.schur`, `New.weylGram`, `New.weylEval`: the matrix of `f ↦ f(z\
-        \ y)`, the Gram matrix and the\n  evaluation vectors in that basis.\n* `New.mem_nabla`, `New.minor_mem_nabla`,\
-        \ `New.rowSubst_mem_nabla`: membership as an identity over\n  all algebras; minors are members; left substitution\
-        \ `f ↦ f(z y)` (`New.rowSubst`) keeps the\n  weight.\n* `New.fockPairing_comm`, `New.fockPairing_rowSubst`,\
-        \ `New.fockPairing_star_self_pos`: the pairing\n  `⟨p, q⟩ = p(∂) q (0)` is symmetric, the adjoint of `New.rowSubst\
-        \ z` is substitution by the\n  transposes, and `⟨p̄, p⟩ > 0` for `p ≠ 0`.\n\n## Relation to the literature\n\
-        \nKnown; see `Lib.GLn.SchurModule.MinorBasis` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 331
+      endOffset: 2212
+      text: " A colour map `c` assigns each row a place `τ`, and a weight `κ`\ngives the number `κ τ h` of columns\
+        \ of height `h` at `τ`. `New.nabla R c l` consists of the `f` with\n`f(y b) = ∏ b(τ, i, i) ^ l(τ, i) · f(y)`\
+        \ for upper triangular `b`, one matrix for each colour, and a\nchosen set of products of minors is taken\
+        \ as its basis. The Weyl module is the dual module, written\nin the dual basis as `New.WeylIndexFamily n\
+        \ κ → R`; `Lib.GLn.SchurModule.TensorModel` embeds it into\na tensor product of exterior powers. Left substitution\
+        \ `f ↦ f(z y)` and the Fock pairing\n`⟨p, q⟩ = p(∂) q (0)` are the main tools. The rows of the Schur matrix\
+        \ expand the substituted basis\nelements, so it acts on the Weyl module, and the Gram matrix is the coefficient\
+        \ matrix of the kernel\n`New.weylKernel` in the basis.\n\n## Main definitions and results\n\n* `New.jet`,\
+        \ `New.fockPairing`: the pairing `P(∂) F` at `0`, with power series and with polynomials;\n  `New.fockPairing_linSubst`\
+        \ computes adjoints of linear substitutions.\n* `New.nabla`, `New.nablaFamily`: the semi-invariants under\
+        \ upper triangular matrices acting on\n  columns.\n* `New.tableauPoly`, `New.IsTableauBasis`, `New.nablaBasis`:\
+        \ products of minors, and a chosen basis\n  among them.\n* `New.schur`, `New.weylGram`, `New.weylEval`:\
+        \ the matrix of `f ↦ f(z y)`, the Gram matrix and the\n  evaluation vectors in that basis.\n* `New.mem_nabla`,\
+        \ `New.minor_mem_nabla`, `New.rowSubst_mem_nabla`: membership as an identity over\n  all algebras; minors\
+        \ are members; left substitution `f ↦ f(z y)` (`New.rowSubst`) keeps the\n  weight.\n* `New.fockPairing_comm`,\
+        \ `New.fockPairing_rowSubst`, `New.fockPairing_star_self_pos`: the pairing\n  `⟨p, q⟩ = p(∂) q (0)` is symmetric,\
+        \ the adjoint of `New.rowSubst z` is substitution by the\n  transposes, and `⟨p̄, p⟩ > 0` for `p ≠ 0`.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.GLn.SchurModule.MinorBasis` for sources.\n"
   Lib.GLn.SchurModule.GramMatrix:
     group: Lib.GLn
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -732,7 +734,9 @@ files:
     excerpt:
       path: grh/src/Lib/GLn/SchurModule/SchurMatrix.lean
       line: 7
-      endLine: 12
+      endLine: 15
+      startOffset: 168
+      endOffset: 927
       text: 'Polynomials are taken in the entries of an array y with rows (τ, a). Here κ_τ(h) is the number of
 
         columns of height h at the place τ; `New.rankAt n τ` = |n_τ|, and
@@ -745,14 +749,18 @@ files:
 
         family of matrices z_τ records the expansion of b''_i(zy); for square z this gives a polynomial
 
-        '
+        representation of ∏_τ GL(n_τ), which `New.weylRep` twists by integer powers of determinants. For one
+
+        place and a one-row shape, S_κ over ℂ is a symmetric power, and, over a topological ring, S_κ(z) is
+
+        continuous in z for square z.'
     remainder:
       path: grh/src/Lib/GLn/SchurModule/SchurMatrix.lean
-      line: 13
+      line: 15
       endLine: 52
-      text: "representation of ∏_τ GL(n_τ), which `New.weylRep` twists by integer powers of determinants. For one\n\
-        place and a one-row shape, S_κ over ℂ is a symmetric power, and, over a topological ring, S_κ(z) is\ncontinuous\
-        \ in z for square z.\n\n## Main definitions and results\n\n* `New.linearIndependent_nablaBasis`, `New.range_nablaCombination`:\
+      startOffset: 927
+      endOffset: 3371
+      text: "\n\n## Main definitions and results\n\n* `New.linearIndependent_nablaBasis`, `New.range_nablaCombination`:\
         \ the b_i form a basis of ∇ over\n  every commutative ring.\n* `New.sum_schur_smul_nablaBasis`, `New.GL.schur_eq_of_expansion`:\
         \ row i of S_κ(z) is characterised\n  by the expansion of b'_i(zy) in the products b_j(y) ∏_τ det(y_τ)^{d_τ},\
         \ with\n  d = `New.schurDetExp`.\n* `New.schur_map`, `New.schur_mul_left`, `New.schur_mul_right`, `New.schur_apply_eq_prod`:\
@@ -775,8 +783,6 @@ files:
         \ ≤ |n'_τ|\n  and κ_τ(h) = 0 for |n_τ| < h < |n'_τ|.\n* `New.detPow`: The product over places τ of the determinant\
         \ of the variables in all rows of block τ\n  (fixed enumeration) and first |n_τ| columns, raised to e_τ.\n\
         \n## Relation to the literature\n\nKnown; see `Lib.GLn.SchurModule.MinorBasis` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.GLn.SchurModule.SchurNorm:
     group: Lib.GLn
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

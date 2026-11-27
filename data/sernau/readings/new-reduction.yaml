@@ -110,18 +110,20 @@ files:
       path: grh/src/New/Reduction/Data/AdmissibleData.lean
       line: 7
       endLine: 9
+      startOffset: 107
+      endOffset: 349
       text: 'Fix parameters `P : New.Parameters`. The data `D : New.Data P` are the objects that grow with the
 
         length `x` of the prime sum: scales, ranks, the field `E`, the `a`-places and `b`-places, weights,
 
-        three primes, and numbers read off from them.
-
-        '
+        three primes, and numbers read off from them.'
     remainder:
       path: grh/src/New/Reduction/Data/AdmissibleData.lean
-      line: 10
+      line: 9
       endLine: 38
-      text: "\nLetters used in comments, and the names in the code:\n\n| letter | code |\n|---|---|\n| `p₀`, `p₁`\
+      startOffset: 349
+      endOffset: 1767
+      text: "\n\nLetters used in comments, and the names in the code:\n\n| letter | code |\n|---|---|\n| `p₀`, `p₁`\
         \ | `D.levelPrime 0`, `D.levelPrime 1` |\n| `π_M`, `π_N` | `star D.piMBar`, `D.piN` |\n| `κ(τ)`, `κ_j(τ)`\
         \ | `D.weight τ`, `D.liftWeight j τ` |\n| `s`, `Δ` | `D.towerExp`, `D.gap` |\n| `s_∞`, `s_fin` | `D.jetSize`,\
         \ `D.primeSum` |\n\n## Main definitions and results\n\n* `New.Data`: the data; `New.Parameters.IsSparse`\
@@ -135,8 +137,6 @@ files:
         \ `P.q₁ s` is `q₀ * towerDeg s`.\n* `P.E s`, `P.Φ s`: the field `E = K(ζ)`, with `ζ` a primitive `q₁`-th\
         \ root of unity, and its\n  infinite places, which form a group isomorphic to `(ℤ/q₁)ˣ`.\n* `P.q₂ s`: the\
         \ number `(q₀ d) ^ (s + 6)`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Reduction.Data.Existence:
     group: New.Reduction
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -689,7 +689,9 @@ files:
     excerpt:
       path: grh/src/New/Reduction/Lattices/TwistedLattice.lean
       line: 8
-      endLine: 13
+      endLine: 15
+      startOffset: 151
+      endOffset: 883
       text: 'A twisted lattice on a complex vector space `V` is a family of linear maps `Θ_ξ` from `V` to inner
 
         product spaces, one for each twist `ξ`, with a module of integral vectors at every `ι ∣ l` in each
@@ -702,29 +704,29 @@ files:
 
         `ι ∣ l` if its images for all twists allowed at `l` are (`integralVectors`), while the covolume
 
-        '
+        refers to the trivial twist alone. An inner product on `V` and its finite dimension are assumed only
+
+        from the definition of the number `Z(ξ)` on.'
     remainder:
       path: grh/src/New/Reduction/Lattices/TwistedLattice.lean
-      line: 14
+      line: 15
       endLine: 38
-      text: "refers to the trivial twist alone. An inner product on `V` and its finite dimension are assumed only\n\
-        from the definition of the number `Z(ξ)` on.\n\n* `New.TwistedLattice.IndexLe`, `New.TwistedLattice.CovolumeLe`,\
-        \ `New.TwistedLattice.volume`: index\n  and covolume of a family in `V`, and the number `Z(ξ) = det (Θ_ξ*\
-        \ Θ_ξ)`.\n* `New.TwistedLattice.CovolumeLe.norm_map_det_gram_le`, `New.TwistedLattice.CovolumeLe.sumElim`,\n\
-        \  `New.TwistedLattice.norm_det_mul_det_gram_le_one`: conjugates of Gram determinants, adjoining\n  vectors,\
-        \ and valuations of Gram determinants.\n* `New.TwistedLattice.covolume_add_index_nonneg`: given an allowed\
-        \ twist `ξ_ι` for each `ι`, a\n  lower bound for the covolume of a family in terms of its index, the height\
-        \ of `Z(1) / Z(ξ_ι)`,\n  and the sizes and denominators of vectors that complete the family to a basis.\n\
-        \nNotions from other files:\n* `New.PrimePadicIso`: pairs `ι` of a prime `l = ι.prime` and an isomorphism\
-        \ `ι.iso : ℂ ≃ ℚ̄_l`,\n  written `ι ∣ l`. A number `x` is integral at `ι` if `‖ι.iso x‖ ≤ 1`.\n* `New.HeightLe\
-        \ c y`: the family `y`, with one complex number for each `ι`, has height at most `c`:\n  for some `H ≠ 0`,\
-        \ bounds for all `log |σ H|` and for `log ‖ι (H y_ι)‖` at each prime add up to at\n  most `c`.\n* `New.formGram\
-        \ G v`: the matrix of the products `v_i* G v_k`.\n\n## Relation to the literature\n\nSize-versus-divisibility\
-        \ bounds for a determinant are known in the literature. Related work: Bost,\nAlgebraic leaves of algebraic\
-        \ foliations over number fields, 2001; Laurent, Linear forms in two\nlogarithms and interpolation determinants,\
-        \ 1994.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 883
+      endOffset: 2320
+      text: "\n\n* `New.TwistedLattice.IndexLe`, `New.TwistedLattice.CovolumeLe`, `New.TwistedLattice.volume`: index\n\
+        \  and covolume of a family in `V`, and the number `Z(ξ) = det (Θ_ξ* Θ_ξ)`.\n* `New.TwistedLattice.CovolumeLe.norm_map_det_gram_le`,\
+        \ `New.TwistedLattice.CovolumeLe.sumElim`,\n  `New.TwistedLattice.norm_det_mul_det_gram_le_one`: conjugates\
+        \ of Gram determinants, adjoining\n  vectors, and valuations of Gram determinants.\n* `New.TwistedLattice.covolume_add_index_nonneg`:\
+        \ given an allowed twist `ξ_ι` for each `ι`, a\n  lower bound for the covolume of a family in terms of its\
+        \ index, the height of `Z(1) / Z(ξ_ι)`,\n  and the sizes and denominators of vectors that complete the family\
+        \ to a basis.\n\nNotions from other files:\n* `New.PrimePadicIso`: pairs `ι` of a prime `l = ι.prime` and\
+        \ an isomorphism `ι.iso : ℂ ≃ ℚ̄_l`,\n  written `ι ∣ l`. A number `x` is integral at `ι` if `‖ι.iso x‖ ≤\
+        \ 1`.\n* `New.HeightLe c y`: the family `y`, with one complex number for each `ι`, has height at most `c`:\n\
+        \  for some `H ≠ 0`, bounds for all `log |σ H|` and for `log ‖ι (H y_ι)‖` at each prime add up to at\n \
+        \ most `c`.\n* `New.formGram G v`: the matrix of the products `v_i* G v_k`.\n\n## Relation to the literature\n\
+        \nSize-versus-divisibility bounds for a determinant are known in the literature. Related work: Bost,\nAlgebraic\
+        \ leaves of algebraic foliations over number fields, 2001; Laurent, Linear forms in two\nlogarithms and\
+        \ interpolation determinants, 1994.\n"
   New.Reduction.MainInequality:
     group: New.Reduction
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

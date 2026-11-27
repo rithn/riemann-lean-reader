@@ -189,64 +189,63 @@ files:
     excerpt:
       path: grh/src/Lib/PadicComparison/Crystalline/ComparisonMap.lean
       line: 7
-      endLine: 13
+      endLine: 9
+      startOffset: 210
+      endOffset: 445
       text: 'Write A_inf = `New.Period.Ainf`, A_max = `New.Period.Amax`, B_max = `New.Period.Bmax`, and 𝔡(B) =
 
         `New.Variety.pdIdeal` B for the ideal of the x with n! ∣ x^n for all n. Here ξ = `New.Period.xi`
 
-        generates the kernel of θ : A_inf → O_C. Fix an action of A_inf on A_max satisfying
-
-        `New.Variety.CrysPeriodAlgebra`. For a functor P on O_C-algebras, the crystalline comparison
-
-        compares two cohomologies. The first is that of D ↦ P(D/𝔡(D)) on p-torsion-free p-complete
-
-        A_max-algebras D, with coefficients B_max ⊗ D. The second is that of P on p-adic tests. Finally, let
-
-        S be a complete discrete valuation ring with uniformiser p, let O_C be an algebra over a ring R with
-
-        '
+        generates the kernel of θ : A_inf → O_C.'
     remainder:
       path: grh/src/Lib/PadicComparison/Crystalline/ComparisonMap.lean
-      line: 14
+      line: 9
       endLine: 65
-      text: "a map R → S/\U0001D521(S), let A_max be an S-algebra, and assume a given natural map from D ↦ D/\U0001D521\
-        (D) (as\nR-algebras via O_C → A_max/\U0001D521(A_max)) to D ↦ D/\U0001D521(D) (via R → S/\U0001D521(S))\
-        \ on p-torsion-free p-complete\nA_max-algebras is an isomorphism; let V be a subfunctor of a functor X on\
-        \ R-algebras with\n`New.Variety.IsCharting` V (V covers X and is built from charts étale over tori). Then\
-        \ the classes\npulled back from D ↦ V(D/\U0001D521) on p-torsion-free p-complete S-algebras span the period\
-        \ cohomology of V\nover B_max when it is finite.\n\n## Main definitions and results\n\n* `New.Variety.CrysPeriodAlgebra`:\
-        \ the properties of an A_inf-algebra structure on A_max that the\n  comparison needs.\n* `New.Variety.exists_crysPeriodAlgebra`:\
-        \ for each y in O_C with p ∣ y^N, there is an algebra\n  structure as in `New.Variety.CrysPeriodAlgebra`\
-        \ that is equivariant for Frobenius and Galois and\n  whose map O_C → A_max/\U0001D521(A_max) kills y.\n\
-        * `New.Variety.HasCrysComparison`: the comparison along `New.Variety.crysThickening` and\n  `New.Variety.testToPdReduction`\
-        \ is bijective in every degree.\n* `New.Variety.hasCrysComparison_of_witt`, `New.Variety.hasCrysComparison_of_etale`:\n\
-        \  `New.Variety.HasCrysComparison` holds for P = Hom_{A_inf}(T, −), with scalars restricted from O_C\n \
-        \ to A_inf, when the A_inf-algebra T maps to W(b), for a perfect π-torsion-free O^♭-algebra b, by a\n  map\
-        \ bijective on p-adic completions. It also holds for P = Hom(B, −) with B étale over O_C[G],\n  where G\
-        \ is a ℚ≥0-module.\n* `New.Variety.hasCrysComparison_chart`: the comparison holds for Hom_R(B, −) on O_C-algebras\
-        \ when B\n  is étale over R[X_1, …, X_d], each X_i going to a unit t_i. Adjoining all roots of the t_i reduces\n\
-        \  it to `New.Variety.hasCrysComparison_of_etale`.\n* `New.Variety.span_range_crysComparison_pull_eq_top`:\
-        \ for S a complete discrete valuation ring with\n  uniformiser p, the classes pulled back from the cohomology\
-        \ of D ↦ V(D/\U0001D521) span the period\n  cohomology of V over B_max when it is finite.\n\nNotions from\
-        \ other files:\n* `New.OC`: The ring of integers O_C of the field C_p of p-adic complex numbers.\n* `New.Period.OFlat`:\
-        \ The ring O^♭, the inverse limit of O_C/p along x ↦ x^p;\n  π = p♭ = `New.Variety.pFlat` is ξ mod p, the\
-        \ zeroth Witt coefficient of ξ.\n* `New.Variety.PadicTest`: A p-adic test: a non-empty family of cells (`New.Variety.IsCell`)\
-        \ with a\n  ring map from O_C to their product S (`ProdRing`); S^♭ is the tilt of S and θ : W(S^♭) → S is\n\
-        \  Fontaine's map.\n* `New.Period.Amax`: Colmez's period ring A_max, the p-adic completion of A_inf[X]/(pX\
-        \ − ξ).\n* `New.Variety.compatibleRoots`: The functor of characters ℚ≥0 → A on O_C-algebras A, with the\
-        \ twist\n  by s ↦ (ε^s)^♯ as an endomorphism (a functor on O_C-algebras × Bℕ, `New.Variety.TimesBNat`).\n\
-        * `New.Variety.IsLine`: A map Y → U from a functor with an endomorphism is a line if the cohomology\n  of\
-        \ U maps bijectively to that of Y on the product with Bℕ.\n\n## Relation to the literature\n\nKnown result:\
-        \ Crystalline comparison for p-adic étale cohomology with good reduction. Only\ncrystallinity is proved\
-        \ here. It is for cohomology on p-adic test rings, which is not identified\nwith étale cohomology. There\
-        \ is no filtration and no identification with crystalline cohomology.\nInvariants come from p-complete torsion-free\
-        \ rings modulo elements with divided powers, and they are\ncompared on toric towers one coordinate at a\
-        \ time. Source: Bhatt, Morrow, Scholze, Integral p-adic\nHodge theory, 2018, Publ. IHÉS 128, Thm 1.1(i)\
-        \ (first proved in Faltings, Crystalline cohomology and\np-adic Galois representations, 1989); for the site,\
-        \ Bhatt, Prismatic F-gauges, 2022, Rem. 2.5.12;\nfor the line lemma, Andreatta–Brinon, Acyclicité géométrique\
-        \ de B_cris relatif, 2013, Comment. Math.\nHelv. 88.\n"
+      startOffset: 445
+      endOffset: 4582
+      text: " Fix an action of A_inf on A_max satisfying\n`New.Variety.CrysPeriodAlgebra`. For a functor P on O_C-algebras,\
+        \ the crystalline comparison\ncompares two cohomologies. The first is that of D ↦ P(D/\U0001D521(D)) on\
+        \ p-torsion-free p-complete\nA_max-algebras D, with coefficients B_max ⊗ D. The second is that of P on p-adic\
+        \ tests. Finally, let\nS be a complete discrete valuation ring with uniformiser p, let O_C be an algebra\
+        \ over a ring R with\na map R → S/\U0001D521(S), let A_max be an S-algebra, and assume a given natural map\
+        \ from D ↦ D/\U0001D521(D) (as\nR-algebras via O_C → A_max/\U0001D521(A_max)) to D ↦ D/\U0001D521(D) (via\
+        \ R → S/\U0001D521(S)) on p-torsion-free p-complete\nA_max-algebras is an isomorphism; let V be a subfunctor\
+        \ of a functor X on R-algebras with\n`New.Variety.IsCharting` V (V covers X and is built from charts étale\
+        \ over tori). Then the classes\npulled back from D ↦ V(D/\U0001D521) on p-torsion-free p-complete S-algebras\
+        \ span the period cohomology of V\nover B_max when it is finite.\n\n## Main definitions and results\n\n\
+        * `New.Variety.CrysPeriodAlgebra`: the properties of an A_inf-algebra structure on A_max that the\n  comparison\
+        \ needs.\n* `New.Variety.exists_crysPeriodAlgebra`: for each y in O_C with p ∣ y^N, there is an algebra\n\
+        \  structure as in `New.Variety.CrysPeriodAlgebra` that is equivariant for Frobenius and Galois and\n  whose\
+        \ map O_C → A_max/\U0001D521(A_max) kills y.\n* `New.Variety.HasCrysComparison`: the comparison along `New.Variety.crysThickening`\
+        \ and\n  `New.Variety.testToPdReduction` is bijective in every degree.\n* `New.Variety.hasCrysComparison_of_witt`,\
+        \ `New.Variety.hasCrysComparison_of_etale`:\n  `New.Variety.HasCrysComparison` holds for P = Hom_{A_inf}(T,\
+        \ −), with scalars restricted from O_C\n  to A_inf, when the A_inf-algebra T maps to W(b), for a perfect\
+        \ π-torsion-free O^♭-algebra b, by a\n  map bijective on p-adic completions. It also holds for P = Hom(B,\
+        \ −) with B étale over O_C[G],\n  where G is a ℚ≥0-module.\n* `New.Variety.hasCrysComparison_chart`: the\
+        \ comparison holds for Hom_R(B, −) on O_C-algebras when B\n  is étale over R[X_1, …, X_d], each X_i going\
+        \ to a unit t_i. Adjoining all roots of the t_i reduces\n  it to `New.Variety.hasCrysComparison_of_etale`.\n\
+        * `New.Variety.span_range_crysComparison_pull_eq_top`: for S a complete discrete valuation ring with\n \
+        \ uniformiser p, the classes pulled back from the cohomology of D ↦ V(D/\U0001D521) span the period\n  cohomology\
+        \ of V over B_max when it is finite.\n\nNotions from other files:\n* `New.OC`: The ring of integers O_C\
+        \ of the field C_p of p-adic complex numbers.\n* `New.Period.OFlat`: The ring O^♭, the inverse limit of\
+        \ O_C/p along x ↦ x^p;\n  π = p♭ = `New.Variety.pFlat` is ξ mod p, the zeroth Witt coefficient of ξ.\n*\
+        \ `New.Variety.PadicTest`: A p-adic test: a non-empty family of cells (`New.Variety.IsCell`) with a\n  ring\
+        \ map from O_C to their product S (`ProdRing`); S^♭ is the tilt of S and θ : W(S^♭) → S is\n  Fontaine's\
+        \ map.\n* `New.Period.Amax`: Colmez's period ring A_max, the p-adic completion of A_inf[X]/(pX − ξ).\n*\
+        \ `New.Variety.compatibleRoots`: The functor of characters ℚ≥0 → A on O_C-algebras A, with the twist\n \
+        \ by s ↦ (ε^s)^♯ as an endomorphism (a functor on O_C-algebras × Bℕ, `New.Variety.TimesBNat`).\n* `New.Variety.IsLine`:\
+        \ A map Y → U from a functor with an endomorphism is a line if the cohomology\n  of U maps bijectively to\
+        \ that of Y on the product with Bℕ.\n\n## Relation to the literature\n\nKnown result: Crystalline comparison\
+        \ for p-adic étale cohomology with good reduction. Only\ncrystallinity is proved here. It is for cohomology\
+        \ on p-adic test rings, which is not identified\nwith étale cohomology. There is no filtration and no identification\
+        \ with crystalline cohomology.\nInvariants come from p-complete torsion-free rings modulo elements with\
+        \ divided powers, and they are\ncompared on toric towers one coordinate at a time. Source: Bhatt, Morrow,\
+        \ Scholze, Integral p-adic\nHodge theory, 2018, Publ. IHÉS 128, Thm 1.1(i) (first proved in Faltings, Crystalline\
+        \ cohomology and\np-adic Galois representations, 1989); for the site, Bhatt, Prismatic F-gauges, 2022, Rem.\
+        \ 2.5.12;\nfor the line lemma, Andreatta–Brinon, Acyclicité géométrique de B_cris relatif, 2013, Comment.\
+        \ Math.\nHelv. 88.\n"
     needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+    reason: Excerpt may not be a standalone description
   Lib.PadicComparison.Crystalline.DividedPowerEnvelope:
     group: Lib.PadicComparison
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -745,7 +744,9 @@ files:
     excerpt:
       path: grh/src/Lib/PadicComparison/Descent/TestCovers.lean
       line: 8
-      endLine: 13
+      endLine: 15
+      startOffset: 213
+      endOffset: 958
       text: 'A cell is a p-complete, absolutely integrally closed valuation ring in which p is neither zero nor
         a
 
@@ -759,15 +760,17 @@ files:
 
         to W(b) over A_inf, and `algBaseChange OC` is O_C ⊗_{A_inf} –), so tilting is fully faithful on
 
-        '
+        tests. It also produces cells over primes and covers by tests, and proves flat base change for
+
+        ℤ[Y∘ι], for ι full, faithful and with covering points, when Y is affinely covered.'
     remainder:
       path: grh/src/Lib/PadicComparison/Descent/TestCovers.lean
-      line: 14
+      line: 15
       endLine: 52
-      text: "tests. It also produces cells over primes and covers by tests, and proves flat base change for\nℤ[Y∘ι],\
-        \ for ι full, faithful and with covering points, when Y is affinely covered.\n\n## Main definitions and\
-        \ results\n\n* `New.Variety.PadicTest.tiltPiEquiv`, `New.Variety.PadicTest.isPerfectTorsionFree_tilt`: S♭\
-        \ is the\n  product of the tilts of the cells; it is perfect and has no π-torsion.\n* `New.Variety.PadicTest.ker_theta`:\
+      startOffset: 958
+      endOffset: 3478
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.PadicTest.tiltPiEquiv`, `New.Variety.PadicTest.isPerfectTorsionFree_tilt`:\
+        \ S♭ is the\n  product of the tilts of the cells; it is perfect and has no π-torsion.\n* `New.Variety.PadicTest.ker_theta`:\
         \ the kernel of Fontaine's θ : W(S♭) → S is generated by ξ.\n* `New.Variety.PadicTest.thetaIso`: O_C ⊗_{A_inf}\
         \ W(S♭) ≅ S, naturally in the test.\n* `New.Variety.homTiltIso`: for perfect `b`, algebra maps `b → c.TiltRing`\
         \ correspond to algebra\n  maps `O_C ⊗ W(b) → c.ProdRing` by `f ↦ θ ∘ W(f)`, naturally in the test `c`.\n\
@@ -790,8 +793,6 @@ files:
         \ M. Morrow, P. Scholze,\nIntegral p-adic Hodge theory, Publ. Math. IHES 128 (2018), Lemma 3.10; P. Scholze,\
         \ Perfectoid\nspaces, Publ. Math. IHES 116 (2012), Theorem 5.2.\n\nSee also `Lib.PadicComparison.Descent.AlmostDescent`\
         \ and `Lib.Cohomology.Etale.FilteredLimits`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.PadicComparison.Duality.GoodPairs:
     group: Lib.PadicComparison
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1386,27 +1387,36 @@ files:
     excerpt:
       path: grh/src/Lib/PadicComparison/HodgeTate/Map.lean
       line: 6
-      endLine: 8
+      endLine: 14
+      startOffset: 146
+      endOffset: 880
       text: 'The field `k` is embedded in `ℚ̄_p`, so it has characteristic zero. For a `p`-adic test `S`, put
 
         `T = S[1/p]`, and let `B_S = W(S^♭)[1/p] / (ker θ)²` be the square-zero extension
 
         `New.Variety.thickeningOver` of `T` by `T`.
 
-        '
+        Put `B_{S,M} = B_S ×_T (T ⊕ M)`. All groups are `Ext` groups of functors to abelian groups
+
+        (`New.Variety.H`). On pairs `(S, M)` with `M = T ^ n`, the Hodge–Tate map `λ_h` restricts a Hodge
+
+        class to the pairs. It then composes it with the `h`-th Yoneda power of the class of a contraction
+
+        cocycle, followed by the projection to degree zero. So `λ_h` lands in the cohomology of `N(B_{S,M})`
+
+        on pairs. This map is natural, turns scaling by `t` into multiplication by `t ^ h`, and satisfies a
+
+        binomial product rule.'
     remainder:
       path: grh/src/Lib/PadicComparison/HodgeTate/Map.lean
-      line: 9
+      line: 14
       endLine: 50
-      text: "Put `B_{S,M} = B_S ×_T (T ⊕ M)`. All groups are `Ext` groups of functors to abelian groups\n(`New.Variety.H`).\
-        \ On pairs `(S, M)` with `M = T ^ n`, the Hodge–Tate map `λ_h` restricts a Hodge\nclass to the pairs. It\
-        \ then composes it with the `h`-th Yoneda power of the class of a contraction\ncocycle, followed by the\
-        \ projection to degree zero. So `λ_h` lands in the cohomology of `N(B_{S,M})`\non pairs. This map is natural,\
-        \ turns scaling by `t` into multiplication by `t ^ h`, and satisfies a\nbinomial product rule.\n\n## Main\
-        \ definitions and results\n\n* `New.Variety.HodgeTatePair`: pairs `(S, M)` with `M = T ^ n`; a map has a\
-        \ semilinear part\n  `M → T' × M'`.\n* `New.Variety.HodgeTatePair.contractionPow`: the `h`-th Yoneda power\
-        \ of the class of the\n  contraction cocycle `New.Variety.HodgeTatePair.contractionCocycle`, followed by\
-        \ the projection to\n  degree zero. It is `k`-linear (`New.Variety.HodgeTatePair.act_comp_contractionPow`)\n\
+      startOffset: 880
+      endOffset: 3146
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.HodgeTatePair`: pairs `(S, M)` with `M = T ^\
+        \ n`; a map has a semilinear part\n  `M → T' × M'`.\n* `New.Variety.HodgeTatePair.contractionPow`: the `h`-th\
+        \ Yoneda power of the class of the\n  contraction cocycle `New.Variety.HodgeTatePair.contractionCocycle`,\
+        \ followed by the projection to\n  degree zero. It is `k`-linear (`New.Variety.HodgeTatePair.act_comp_contractionPow`)\n\
         \  and has weight `h` (`New.Variety.HodgeTatePair.scaleModule_comp_contractionPow`).\n* `New.Variety.hodgeTateMap`:\
         \ restrict a class of `New.Variety.HodgeH` to these pairs and compose\n  with `contractionPow h`. `New.Variety.restrictToPairs`\
         \ maps the degree-`n` cohomology of `N(T)` on\n  `p`-adic tests to the same target `New.Variety.PairH`.\n\
@@ -1425,8 +1435,6 @@ files:
         \ cohomology of a functor N on k-algebras, Ext^q from (A, M) ↦ N(A ⊕ M)\n  to (A, M) ↦ ⋀_A M on pairs of\
         \ a k-algebra A and a free module M = A^ι.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicComparison.HodgeTate.PeriodMap`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.PadicComparison.HodgeTate.PeriodMap:
     group: Lib.PadicComparison
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1941,7 +1949,9 @@ files:
     excerpt:
       path: grh/src/Lib/PadicComparison/ToricTower.lean
       line: 6
-      endLine: 11
+      endLine: 15
+      startOffset: 138
+      endOffset: 1115
       text: 'Write Bℕ for the one-object category of the monoid ℕ. A functor on C × Bℕ (`New.Variety.TimesBNat`)
 
         is a functor Y on C with an endomorphism γ. Its cohomology plays the part of that of the homotopy
@@ -1954,19 +1964,23 @@ files:
 
         of a `p`-adic test (`New.Variety.PadicTest`: its ring `ProdRing` is a product of cells `Cell j`,
 
-        '
+        `TiltRing` is its tilt, and `algFunctor` sends it to `ProdRing` as an O_C-algebra), they form a line
+
+        for the coefficients `tilt ⋙ moduleCoeff (tensorCoeff M)`, provided `moduleCoeff (tensorCoeff M)` is
+
+        acyclic on perfect rings (`New.Variety.IsAcyclicOnPerfect`). This is proved by representing them,
+
+        through tilting, by the ring of periodic sequences. There the twist becomes the shift.'
     remainder:
       path: grh/src/Lib/PadicComparison/ToricTower.lean
-      line: 12
+      line: 15
       endLine: 54
-      text: "`TiltRing` is its tilt, and `algFunctor` sends it to `ProdRing` as an O_C-algebra), they form a line\n\
-        for the coefficients `tilt ⋙ moduleCoeff (tensorCoeff M)`, provided `moduleCoeff (tensorCoeff M)` is\nacyclic\
-        \ on perfect rings (`New.Variety.IsAcyclicOnPerfect`). This is proved by representing them,\nthrough tilting,\
-        \ by the ring of periodic sequences. There the twist becomes the shift.\n\n## Main definitions and results\n\
-        \n* `New.Variety.TimesBNat.shortExact_wangComplex`: the short exact sequence\n  0 → ℤ[Y × ℕ] → ℤ[Y × ℕ]\
-        \ → ℤ[Y] → 0 (`New.Variety.TimesBNat.wangComplex`;\n  `New.Variety.TimesBNat.shortExact_induced` is the\
-        \ same with the two maps written out). Its long\n  exact sequence is the Wang sequence, since Y × ℕ on C\
-        \ × Bℕ has the cohomology of Y on C\n  (`New.Variety.TimesBNat.isLine_fst`).\n* `New.Variety.IsLine.of_acyclic`:\
+      startOffset: 1115
+      endOffset: 3526
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.TimesBNat.shortExact_wangComplex`: the short\
+        \ exact sequence\n  0 → ℤ[Y × ℕ] → ℤ[Y × ℕ] → ℤ[Y] → 0 (`New.Variety.TimesBNat.wangComplex`;\n  `New.Variety.TimesBNat.shortExact_induced`\
+        \ is the same with the two maps written out). Its long\n  exact sequence is the Wang sequence, since Y ×\
+        \ ℕ on C × Bℕ has the cohomology of Y on C\n  (`New.Variety.TimesBNat.isLine_fst`).\n* `New.Variety.IsLine.of_acyclic`:\
         \ a criterion for Y to be a line over a representable functor\n  Hom(A, −), in terms of the kernel and cokernel\
         \ of γ - 1 on coefficients\n  (`New.Variety.KoszulExact`).\n* `New.Variety.compatibleRoots`: A ↦ characters\
         \ ℚ≥0 → A, that is, elements with a compatible system\n  of n-th roots for all n ≥ 1.\n* `New.Variety.CompatibleRootsAreLines`:\
@@ -1986,6 +2000,4 @@ files:
         \ p-adic Hodge theory\nfor rigid-analytic varieties, Forum Math. Pi 1 (2013), Lemmas 4.5 and 5.5; Bhatt,\
         \ Morrow, Scholze\n2018, Lemma 7.3; Stacks project, tag 0EBS; G. Faltings, p-adic Hodge theory, J. Amer.\
         \ Math. Soc. 1\n(1988).\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
 needs_draft: true

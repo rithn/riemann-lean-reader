@@ -323,30 +323,32 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Divisibility/JetExponent.lean
       line: 7
-      endLine: 8
+      endLine: 10
+      startOffset: 146
+      endOffset: 423
       text: 'Fix a prime `p`. The divisibility bound of stage `j` at `p` measures the `p`-divisibility of a lift;
 
         it depends on a set `S` (also written `ev`) of places whose long rows are removed.
 
-        '
+
+        This file defines it and bounds it from below by the gain at `p` when `p < x₁` is non-split.'
     remainder:
       path: grh/src/New/UpperBound/Divisibility/JetExponent.lean
-      line: 9
+      line: 10
       endLine: 28
-      text: "\nThis file defines it and bounds it from below by the gain at `p` when `p < x₁` is non-split. Apart\n\
-        from an error term, only collisions lose; a collision is a pair `(τ, e)` with `e ∈ I_p` (`e` odd, or\n`p\
-        \ = d`) such that `τ` and `(-p ^ e) τ` are `a`-places outside `ev`. In `lowColumns` and `lowBoxes`\na column\
-        \ is a column of a diagram; they count the columns of height below `n_{j+1}` and different\nfrom `1`, and\
-        \ the boxes in them.\n\n## Main definitions and results\n\n* `New.Data.divisibilityBound`: the divisibility\
-        \ bound at `p` of stage `j`, for a set `S` of places.\n* `New.Data.le_divisibilityBound`: the lower bound\
-        \ for the divisibility bound by the gain at `p`.\n\nNotions from other files:\n* `New.Data.aPlaces`: The\
-        \ `a`-places: the infinite places of `E` whose class in `(ℤ/q₁)ˣ` is `1`\n  modulo `q₀`.\n* `New.Data.IsExceptional`,\
+      startOffset: 423
+      endOffset: 1508
+      text: " Apart\nfrom an error term, only collisions lose; a collision is a pair `(τ, e)` with `e ∈ I_p` (`e`\
+        \ odd, or\n`p = d`) such that `τ` and `(-p ^ e) τ` are `a`-places outside `ev`. In `lowColumns` and `lowBoxes`\n\
+        a column is a column of a diagram; they count the columns of height below `n_{j+1}` and different\nfrom\
+        \ `1`, and the boxes in them.\n\n## Main definitions and results\n\n* `New.Data.divisibilityBound`: the\
+        \ divisibility bound at `p` of stage `j`, for a set `S` of places.\n* `New.Data.le_divisibilityBound`: the\
+        \ lower bound for the divisibility bound by the gain at `p`.\n\nNotions from other files:\n* `New.Data.aPlaces`:\
+        \ The `a`-places: the infinite places of `E` whose class in `(ℤ/q₁)ˣ` is `1`\n  modulo `q₀`.\n* `New.Data.IsExceptional`,\
         \ `New.Data.ceilLogLifts`: A condition on `p` alone: `(p/d) = -1`,\n  `p ≢ ±1` modulo `m`, and the order\
         \ `o₀` of `-p` modulo `q₀` is odd and at most `\U0001D52F`, the least\n  natural number with `m ≤ p^\U0001D52F\
         `.\n* `New.Data.placeOfInt`: The infinite place of E named by the class of the integer ν modulo q₁ if ν\n\
         \  is prime to q₁, and the identity place otherwise.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Divisibility.LocalDivisibility:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -387,6 +389,8 @@ files:
       path: grh/src/New/UpperBound/Divisibility/LocalDivisibility.lean
       line: 10
       endLine: 14
+      startOffset: 310
+      endOffset: 737
       text: 'This file bounds the gauge of the composite lift `New.Data.compositeLift` at a prime p, for a fixed
 
         embedding ι : ℂ → ℂ_p; for p ≠ N it does so through the expansion `New.Data.restrictedChain` into
@@ -395,14 +399,14 @@ files:
 
         `New.Data.IsMarked.isOntoUpToColength_scaledHeckeOperator` for the elementary divisors of the
 
-        normalised Hecke operators `New.Data.IsMarked.scaledHeckeOperator`.
-
-        '
+        normalised Hecke operators `New.Data.IsMarked.scaledHeckeOperator`.'
     remainder:
       path: grh/src/New/UpperBound/Divisibility/LocalDivisibility.lean
-      line: 15
+      line: 14
       endLine: 77
-      text: "\nA form *has valuation at least* `v` if its gauge at the base point `1` is at most `p ^ (-v)`. The\n\
+      startOffset: 737
+      endOffset: 5123
+      text: "\n\nA form *has valuation at least* `v` if its gauge at the base point `1` is at most `p ^ (-v)`. The\n\
         *a-places* (`New.Data.aPlaces`) are the infinite places ≡ 1 modulo q₀. At a non-split prime `p < x₁`\nthat\
         \ is not *exceptional* (`New.Data.IsExceptional`), the loss pays for all collisions between\na-places. For\
         \ an exceptional prime `p < x₁`, a *full mark* is a choice `Λ` of one prime from each\nconjugate pair induced\
@@ -445,8 +449,6 @@ files:
         \ representation, 1982; V. Lafforgue, Estimées pour les\nvaluations p-adiques des valeurs propres des opérateurs\
         \ de Hecke, 2011; Z. Liu, Test Schwartz\nfunctions at p for theta lifts of Hida families, arXiv 2510.21644,\
         \ 2025.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Divisibility.MarkOperator:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -689,35 +691,42 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Divisibility/ValuationAtLevel.lean
       line: 8
-      endLine: 8
+      endLine: 14
+      startOffset: 226
+      endOffset: 865
       text: 'This file bounds how many powers of `N` the lifts between the `X_j` lose at the level prime `p = N`.
 
-        '
+        It first bounds the values of the lift characters at `N` and the loss of the direct datum on the
+
+        standard lattices. The lifts with data at `Σ_N` obey the rules of `IsSplitLevel.LiftLaw`. So on
+
+        ramified source forms the chain of glued double lifts is a scalar of bounded valuation times the
+
+        chain of direct lifts after `Up ^ (m / 2)`. Each direct lift loses at most `f b` powers of `N`. The
+
+        main result is that on ramified source forms `φ` with `Up ^ (m / 2) φ` integral for `L_0`, the
+
+        composite lift loses at most `2 m f b` powers of `N`.'
     remainder:
       path: grh/src/New/UpperBound/Divisibility/ValuationAtLevel.lean
-      line: 9
+      line: 14
       endLine: 36
-      text: "It first bounds the values of the lift characters at `N` and the loss of the direct datum on the\n\
-        standard lattices. The lifts with data at `Σ_N` obey the rules of `IsSplitLevel.LiftLaw`. So on\nramified\
-        \ source forms the chain of glued double lifts is a scalar of bounded valuation times the\nchain of direct\
-        \ lifts after `Up ^ (m / 2)`. Each direct lift loses at most `f b` powers of `N`. The\nmain result is that\
-        \ on ramified source forms `φ` with `Up ^ (m / 2) φ` integral for `L_0`, the\ncomposite lift loses at most\
-        \ `2 m f b` powers of `N`.\n\nNotions from other files:\n* `Σ_N` is `D.nonInducedPlaces`, the places above\
-        \ `N` conjugate to the induced places;\n* `diagN n S` is `diag (1, …, 1, N)` at the places in `S` and `1`\
-        \ at the others, and\n  `δ_j = D.diagPointN j` is this matrix on `X_j` for `S` the set `D.piNPlaces` of\
-        \ places dividing\n  `π`. It takes the standard lattice to `L_j` at `Σ_N`: if `e` is the last standard basis\
-        \ vector,\n  the last vector of the basis of `L_j` is `N e` or `e` at each place, a unit times `π e`. The\
-        \ unit\n  is the same for all `j`, and the direct datum and `Up` do not depend on it;\n* `ιₚ` is the chosen\
-        \ embedding of `ℂ` into `ℂ_N`, and `D.chainChar ϑ i` is the character of lift\n  `i`, from `X_{i-1}` to\
-        \ `X_i`;\n* `schrodingerOpAt Ψ v` puts the function `Ψ` of matrices at `Σ_N` on the finite datum `v` of\
-        \ a\n  lift;\n* `directDatum` is the indicator of the integral matrices whose last column is the last basis\
-        \ vector\n  modulo `N`, and `Up` is the operator `upOperator`;\n* the data in `k.raises d d' C` give lifts\
-        \ that raise gauges from `d` to `d'` by a factor at most\n  `C`.\n\n## Relation to the literature\n\nDenominators\
-        \ at the level prime N are traded for the operator `Up`. Related work: Z. Liu, Test\nSchwartz functions\
-        \ at p for theta lifts of Hida families, arXiv 2510.21644, 2025; S. Rallis,\nLanglands' functoriality and\
-        \ the Weil representation, 1982.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 865
+      endOffset: 2211
+      text: "\n\nNotions from other files:\n* `Σ_N` is `D.nonInducedPlaces`, the places above `N` conjugate to the\
+        \ induced places;\n* `diagN n S` is `diag (1, …, 1, N)` at the places in `S` and `1` at the others, and\n\
+        \  `δ_j = D.diagPointN j` is this matrix on `X_j` for `S` the set `D.piNPlaces` of places dividing\n  `π`.\
+        \ It takes the standard lattice to `L_j` at `Σ_N`: if `e` is the last standard basis vector,\n  the last\
+        \ vector of the basis of `L_j` is `N e` or `e` at each place, a unit times `π e`. The unit\n  is the same\
+        \ for all `j`, and the direct datum and `Up` do not depend on it;\n* `ιₚ` is the chosen embedding of `ℂ`\
+        \ into `ℂ_N`, and `D.chainChar ϑ i` is the character of lift\n  `i`, from `X_{i-1}` to `X_i`;\n* `schrodingerOpAt\
+        \ Ψ v` puts the function `Ψ` of matrices at `Σ_N` on the finite datum `v` of a\n  lift;\n* `directDatum`\
+        \ is the indicator of the integral matrices whose last column is the last basis vector\n  modulo `N`, and\
+        \ `Up` is the operator `upOperator`;\n* the data in `k.raises d d' C` give lifts that raise gauges from\
+        \ `d` to `d'` by a factor at most\n  `C`.\n\n## Relation to the literature\n\nDenominators at the level\
+        \ prime N are traded for the operator `Up`. Related work: Z. Liu, Test\nSchwartz functions at p for theta\
+        \ lifts of Hida families, arXiv 2510.21644, 2025; S. Rallis,\nLanglands' functoriality and the Weil representation,\
+        \ 1982.\n"
   New.UpperBound.Divisibility.ValuationAtNonSplitPrimes:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -842,7 +851,9 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/ElementaryDivisors/AveragingMap.lean
       line: 7
-      endLine: 13
+      endLine: 17
+      startOffset: 190
+      endOffset: 1159
       text: 'Fix a Frobenius cycle `T` over `W` and `O` (`New.FrobeniusCycle`; `N = 2 ℓ` letters, `P` a power of
 
         the prime `p`, `w ^ 2 = p`) and an edge, with the Levi subgroup `G` of blocks of sizes `r` and
@@ -857,20 +868,25 @@ files:
 
         not a unit, and let `P ^ ℓ` be large. The main result
 
-        '
+        `New.FrobeniusCycle.exists_average_mem_defectConditions_and_dvd_sub` gives a matrix `Av` such that
+
+        no `G(W)`-translate of `Av h` has a term of defect above `3 c*` modulo `w ^ c`, while
+
+        `⟨Av h, h''⟩ ≡ p ^ (N c₀) ⟨h, h''⟩` modulo `w ^ c` for all `h''` in the halfway lattices of all edges
+
+        from the origin of the dual edge (`New.FrobeniusCycle.allEdgesForms`).'
     remainder:
       path: grh/src/New/UpperBound/ElementaryDivisors/AveragingMap.lean
-      line: 14
+      line: 17
       endLine: 63
-      text: "`New.FrobeniusCycle.exists_average_mem_defectConditions_and_dvd_sub` gives a matrix `Av` such that\n\
-        no `G(W)`-translate of `Av h` has a term of defect above `3 c*` modulo `w ^ c`, while\n`⟨Av h, h'⟩ ≡ p ^\
-        \ (N c₀) ⟨h, h'⟩` modulo `w ^ c` for all `h'` in the halfway lattices of all edges\nfrom the origin of the\
-        \ dual edge (`New.FrobeniusCycle.allEdgesForms`).\n\nSubstitute generic matrices, one copy for each letter,\
-        \ in `h`\n(`New.FrobeniusCycle.substitutionOperator`). For a set `J` of copies, `Av_J h`\n(`New.FrobeniusCycle.partialAverage`)\
-        \ is obtained by applying the average (`New.Average.IsAverage`)\nin the copies `j ∈ J` and `p ^ c₀` times\
-        \ the evaluation at `1` in the others. Then\n`Av_∅ h = p ^ (N c₀) h`, and `Av` is `Av_J` for the set of\
-        \ all copies. A monomial in one copy is bad\nif its row weight for `New.rootVector a r`, `r = a + 1`, is\
-        \ above `2 c* P ^ ℓ`. The substitution in\nthe frame `g ∈ G(W)` is the one formed from the factors\n`New.FrobeniusCycle.conjFrobGenericMatrix\
+      startOffset: 1159
+      endOffset: 4380
+      text: "\n\nSubstitute generic matrices, one copy for each letter, in `h`\n(`New.FrobeniusCycle.substitutionOperator`).\
+        \ For a set `J` of copies, `Av_J h`\n(`New.FrobeniusCycle.partialAverage`) is obtained by applying the average\
+        \ (`New.Average.IsAverage`)\nin the copies `j ∈ J` and `p ^ c₀` times the evaluation at `1` in the others.\
+        \ Then\n`Av_∅ h = p ^ (N c₀) h`, and `Av` is `Av_J` for the set of all copies. A monomial in one copy is\
+        \ bad\nif its row weight for `New.rootVector a r`, `r = a + 1`, is above `2 c* P ^ ℓ`. The substitution\
+        \ in\nthe frame `g ∈ G(W)` is the one formed from the factors\n`New.FrobeniusCycle.conjFrobGenericMatrix\
         \ g`.\n\n* `New.FrobeniusCycle.contractOtherCopies`, `New.FrobeniusCycle.conjSubst_contractOtherCopies_one`:\n\
         \  the linear forms are applied in all copies but one, in a frame `g`; the change of frame conjugates\n\
         \  the remaining copy.\n* `New.FrobeniusCycle.abs_weight_div_sub_defect_le`: let the forms be invariant\
@@ -895,8 +911,6 @@ files:
         \ in a generic matrix, its spanning by finite points in low degree, and truncation\nby weights are known\
         \ in the literature. Related work: Benson–Doty, Schur–Weyl duality over finite\nfields, 2009; Green, Polynomial\
         \ representations of GL_n, 1980; Donkin, On Schur algebras and related\nalgebras I, 1986.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.ElementaryDivisors.DefectCount:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1121,7 +1135,9 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/ElementaryDivisors/Edges.lean
       line: 9
-      endLine: 14
+      endLine: 16
+      startOffset: 235
+      endOffset: 924
       text: 'An edge is a pair of lattices `L'' ⊆ L` with `p L ⊆ L''` and `L / L''` of dimension `r` over the
 
         residue field; `L''` is its origin. Let `w ^ 2 = p`, and consider forms of degree `n` in each of `N`
@@ -1134,14 +1150,17 @@ files:
 
         (`New.FrobeniusCycle.deepIndicator`). This module of forms is the halfway lattice of the edge. The
 
-        '
+        file works with coefficient vectors in the normalized monomials, so the halfway lattice is the
+
+        module of all vectors.'
     remainder:
       path: grh/src/New/UpperBound/ElementaryDivisors/Edges.lean
-      line: 15
+      line: 16
       endLine: 51
-      text: "file works with coefficient vectors in the normalized monomials, so the halfway lattice is the\nmodule\
-        \ of all vectors.\n\n* `New.monomialLattice`, `New.dividedPowerLattice`: the spans `H ⊇ H°` of the monomials\
-        \ `z ^ β` and\n  of the `(n! ^ N / β!) z ^ β`; both are stable under `GL_k(W)`.\n* `New.FrobeniusCycle.allEdgesForms`:\
+      startOffset: 924
+      endOffset: 3324
+      text: "\n\n* `New.monomialLattice`, `New.dividedPowerLattice`: the spans `H ⊇ H°` of the monomials `z ^ β`\
+        \ and\n  of the `(n! ^ N / β!) z ^ β`; both are stable under `GL_k(W)`.\n* `New.FrobeniusCycle.allEdgesForms`:\
         \ the forms that lie in the halfway lattices of all edges from\n  `L'`.\n* `New.FrobeniusCycle.IsEdgePairing`:\
         \ weights of a pairing for which `ρ(g)` and `ρ(gᵀ)` are adjoint;\n  it pairs the halfway lattices of an\
         \ edge and its dual.\n* `New.FrobeniusCycle.edgeRestriction`, `New.FrobeniusCycle.originFunctions`: functions\
@@ -1162,8 +1181,6 @@ files:
         \ defect of a monomial is its weighted degree, and `defectConditions` is the condition on block\n  diagonal\
         \ translates at the monomials of large defect.\n\n## Relation to the literature\n\nSee `New.UpperBound.Divisibility.LocalDivisibility`\
         \ for related work.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.ElementaryDivisors.ElementaryDivisorTheorem:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1214,6 +1231,8 @@ files:
       path: grh/src/New/UpperBound/ElementaryDivisors/ElementaryDivisorTheorem.lean
       line: 9
       endLine: 13
+      startOffset: 248
+      endOffset: 688
       text: 'The main result `New.FrobeniusCycle.elementary_divisors` bounds the mean exponent of the elementary
 
         divisors of an edge Hecke operator `A`, outside a small proportion of them, under the size
@@ -1222,14 +1241,14 @@ files:
 
         the place of lengths, because the ring of coefficients need not be discrete;
 
-        `New.FrobeniusCycle.elementary_divisors_length` is the statement in lengths.
-
-        '
+        `New.FrobeniusCycle.elementary_divisors_length` is the statement in lengths.'
     remainder:
       path: grh/src/New/UpperBound/ElementaryDivisors/ElementaryDivisorTheorem.lean
-      line: 14
+      line: 13
       endLine: 48
-      text: "\nLet `w ^ 2 = p`, let `N` be the number of letters of the Frobenius cycle `T` and\n`c₀ = T.multinomialExponent\
+      startOffset: 688
+      endOffset: 3180
+      text: "\n\nLet `w ^ 2 = p`, let `N` be the number of letters of the Frobenius cycle `T` and\n`c₀ = T.multinomialExponent\
         \ k`. Write `M` for the integral functions on lattices, `M_all` for the\nfunctions on edges that depend\
         \ only on the origin (`New.FrobeniusCycle.originFunctions`) and\n`M_edge` for all functions on edges. The\
         \ operator `A` acts on `M°`, the functions whose value at `L`\nis dual to the integral forms on the dual\
@@ -1253,8 +1272,6 @@ files:
         \ the forms that lie in the halfway lattices of all edges from a\n  lattice; `New.FrobeniusCycle.IsEdgePairing`:\
         \ the pairing of an edge with its dual.\n* `New.FrobeniusCycle.divisorConstant`: the bound `c_div` for the\
         \ mean depth of the forms that are\n  deep for all edges.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.ElementaryDivisors.FrobeniusFactors:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1409,7 +1426,9 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/ElementaryDivisors/InvariantAverage.lean
       line: 7
-      endLine: 12
+      endLine: 14
+      startOffset: 133
+      endOffset: 861
       text: 'Let `L` be a Levi subgroup of `GL_k`, `W` a local ring with large finite residue field, and
 
         `ι : W → O` a ring map to a valuation domain of characteristic `0` in which the prime `p` is not a
@@ -1422,38 +1441,39 @@ files:
 
         on bad monomials, and agrees modulo an ideal `J` with a power of `p` times evaluation at the matrix
 
-        '
+        `1` on every polynomial of small degree whose conjugates have no bad monomial modulo `J`
+
+        (`New.Average.IsAverage`, `New.Average.evalAtOne`).'
     remainder:
       path: grh/src/New/UpperBound/ElementaryDivisors/InvariantAverage.lean
-      line: 13
+      line: 14
       endLine: 52
-      text: "`1` on every polynomial of small degree whose conjugates have no bad monomial modulo `J`\n(`New.Average.IsAverage`,\
-        \ `New.Average.evalAtOne`).\n\n* `New.Average.exists_isAdjointWeight`: the multinomial coefficients of the\
-        \ monomials of\n  degree `< p ^ f` in `m` variables divide `p ^ (m f)` in `O`, and the quotients make the\n\
-        \  substitutions by a matrix and by its transpose adjoint.\n* `New.Average.eq_top_of_schurMap_eq_leviMonomialValues`:\
-        \ the points of `L(W)` span the Schur\n  algebra of `L` of degree `d`, which acts on `U = (O ^ k)^{⊗ d}`.\n\
-        * `New.Average.dualOperator`: with the quotients above, a polynomial `ψ` gives an element `ψ♯`\n  of the\
-        \ Schur algebra. For `d < p ^ f` its trace on `U` is the scaled value at `1` of the part of\n  degree `d`\
-        \ of `ψ`, and conjugation of `ψ` becomes conjugation of `ψ♯`.\n* `New.Average.averagePart`: in degree `d\
-        \ ≤ D` the form `I` is the trace of `ψ♯` on `U` minus its\n  trace on the submodule `U₊` (`New.Average.largeWeightSubmodule`)\
-        \ generated by the basis tensors of\n  large weight.\n\nAll `k ^ 2` entries are variables; a monomial with\
-        \ an entry outside the blocks has `ψ♯ = 0`.\nThe row weight of a monomial `α` is `∑ α (i, j) • ρ i`; the\
-        \ column weight has `ρ j` in place of\n`ρ i`. The Schur algebra is built on the transpose of the matrix\
-        \ of variables, so the row indices\nof a monomial are the column indices of `ψ♯`, and no transpose appears\
-        \ in the rule for conjugation.\nTransposing the variables gives the same statements with column weights,\
-        \ since `L(W)` is closed\nunder transposition.\n\nNotions from other files:\n* `New.linSubst z`: for an\
-        \ `m × σ` matrix `z` over `R`, the `R`-algebra map from polynomials in\n  variables indexed by `σ` to those\
-        \ indexed by `m` that sends `X b` to `∑ t, z t b • X t`.\n* `New.levi W τ`: the Levi subgroup of a labelling\
-        \ `τ` of the indices, made of the matrices in\n  `GL_k(W)` whose entry `(i, j)` vanishes whenever `τ i ≠\
-        \ τ j`.\n* `New.kroneckerPi A`: the Kronecker product of a family of matrices `A s`; its entry at `(β, α)`\n\
-        \  is `∏ s, A s (β s) (α s)`.\n* `New.fockPairing`: the bilinear form on polynomials for which monomials\
-        \ are orthogonal and\n  `⟨x ^ α, x ^ α⟩ = α!`.\n\nThe average serves the map `Av` of `New.UpperBound.ElementaryDivisors.AveragingMap`.\n\
+      startOffset: 861
+      endOffset: 3328
+      text: "\n\n* `New.Average.exists_isAdjointWeight`: the multinomial coefficients of the monomials of\n  degree\
+        \ `< p ^ f` in `m` variables divide `p ^ (m f)` in `O`, and the quotients make the\n  substitutions by a\
+        \ matrix and by its transpose adjoint.\n* `New.Average.eq_top_of_schurMap_eq_leviMonomialValues`: the points\
+        \ of `L(W)` span the Schur\n  algebra of `L` of degree `d`, which acts on `U = (O ^ k)^{⊗ d}`.\n* `New.Average.dualOperator`:\
+        \ with the quotients above, a polynomial `ψ` gives an element `ψ♯`\n  of the Schur algebra. For `d < p ^\
+        \ f` its trace on `U` is the scaled value at `1` of the part of\n  degree `d` of `ψ`, and conjugation of\
+        \ `ψ` becomes conjugation of `ψ♯`.\n* `New.Average.averagePart`: in degree `d ≤ D` the form `I` is the trace\
+        \ of `ψ♯` on `U` minus its\n  trace on the submodule `U₊` (`New.Average.largeWeightSubmodule`) generated\
+        \ by the basis tensors of\n  large weight.\n\nAll `k ^ 2` entries are variables; a monomial with an entry\
+        \ outside the blocks has `ψ♯ = 0`.\nThe row weight of a monomial `α` is `∑ α (i, j) • ρ i`; the column weight\
+        \ has `ρ j` in place of\n`ρ i`. The Schur algebra is built on the transpose of the matrix of variables,\
+        \ so the row indices\nof a monomial are the column indices of `ψ♯`, and no transpose appears in the rule\
+        \ for conjugation.\nTransposing the variables gives the same statements with column weights, since `L(W)`\
+        \ is closed\nunder transposition.\n\nNotions from other files:\n* `New.linSubst z`: for an `m × σ` matrix\
+        \ `z` over `R`, the `R`-algebra map from polynomials in\n  variables indexed by `σ` to those indexed by\
+        \ `m` that sends `X b` to `∑ t, z t b • X t`.\n* `New.levi W τ`: the Levi subgroup of a labelling `τ` of\
+        \ the indices, made of the matrices in\n  `GL_k(W)` whose entry `(i, j)` vanishes whenever `τ i ≠ τ j`.\n\
+        * `New.kroneckerPi A`: the Kronecker product of a family of matrices `A s`; its entry at `(β, α)`\n  is\
+        \ `∏ s, A s (β s) (α s)`.\n* `New.fockPairing`: the bilinear form on polynomials for which monomials are\
+        \ orthogonal and\n  `⟨x ^ α, x ^ α⟩ = α!`.\n\nThe average serves the map `Av` of `New.UpperBound.ElementaryDivisors.AveragingMap`.\n\
         \n## Relation to the literature\n\nKnown result: the Schur algebra, and that group elements span it in degrees\
         \ below the size of the\nfield. Here this is proved for Levi subgroups over local rings, in degrees `d`\
         \ with `d + k` at most\nthe size of the residue field. Source: Green, Polynomial representations of GL_n,\
         \ 1980; Benson–Doty,\nSchur–Weyl duality over finite fields, 2009.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.ElementaryDivisors.PieriCone:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1975,7 +1995,9 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Objects/AuxiliaryPair.lean
       line: 10
-      endLine: 15
+      endLine: 18
+      startOffset: 287
+      endOffset: 1139
       text: 'This file sets up the theta lift from U(W), with W of rank r, to the definite group U(V), with
 
         V = `New.stdSpace` of rank n > r, and the descent from V to W. One structure, `New.DescentPair`,
@@ -1988,31 +2010,35 @@ files:
 
         (`New.LevelPlaces`): M, the chosen places `chosenPlace`, and Q, the places `twistPlace` of the
 
-        '
+        twist. The residue field at w is k_w = `New.ResField w`. The finite datum Ψ_bl ⊗ vac is a vector of
+
+        the Weil representation `New.pairWeil` on `Hom(W, V)`: the block datum Ψ_bl, a function of the
+
+        reductions of a matrix at M and Q, with the vacuum at the other finite places.'
     remainder:
       path: grh/src/New/UpperBound/Objects/AuxiliaryPair.lean
-      line: 16
+      line: 18
       endLine: 60
-      text: "twist. The residue field at w is k_w = `New.ResField w`. The finite datum Ψ_bl ⊗ vac is a vector of\n\
-        the Weil representation `New.pairWeil` on `Hom(W, V)`: the block datum Ψ_bl, a function of the\nreductions\
-        \ of a matrix at M and Q, with the vacuum at the other finite places.\n\nFor a descent pair `O`, the character\
-        \ of the descent datum is `O.u1Char`, with weight `O.weight` and\ntame part `O.tamePart`. The highest weight\
-        \ of the forms on V is `(O.columnCount, O.detExp)`, given\nby numbers of columns. Vectors of the representation\
-        \ of this weight are written ξ, and forms on V\nare written Ξ.\n\n## Main definitions and results\n\n* `New.DescentPair`:\
-        \ the data of a descent pair; `New.DescentPair.FormV`: its forms on V, with the\n  action `New.DescentPair.formAction`\
-        \ of ∏_M GL_r and the Hecke polynomial\n  `New.DescentPair.heckePolyOnForms`.\n* `New.DescentPair.fockPoly`,\
-        \ `New.DescentPair.blockDatum`, `New.DescentPair.conjKernel`,\n  `New.DescentPair.normalizedDescent`: the\
-        \ Fock polynomial of a vector, the finite datum Ψ_bl ⊗ vac,\n  the conjugate theta kernel as a linear form\
-        \ on weight vectors, and the normalized descent from\n  forms on V to functions on U(W)(\U0001D538).\n*\
-        \ `New.DescentPair.blockDatum_eq_sum_modDatum`: Ψ_bl ⊗ vac is the sum of the translates of Ψ¹ ⊗ vac,\n \
-        \ with Ψ¹ = `New.DescentPair.identityBlockIndicator`, by lifts (`New.LevelPlaces.twistResidueLift`)\n  of\
-        \ the inverses of the elements of `∏ GL(k_w)` over `Q` (`New.LevelPlaces.TwistGL`).\n* `New.DescentPair.paramV`,\
-        \ `New.DescentPair.isHCParam_paramV`: the doubled parameter `l'` of the\n  weight of forms on `V`.\n* `New.DescentPair.FitsParams`:\
-        \ the data of a descent pair `O` are those of a parameter `l` on `W`\n  and `l'` on `V`.\n* `New.DescentPair.FitsParams.exists_isJointHarmonic`,\
-        \ `New.DescentPair.FitsParams.isEdge`: then the\n  polynomial of the highest vector is a product of joint\
-        \ harmonics (staircases of minors), so it is\n  an edge from `l` to `l'`.\n* `New.DescentPair.normalizedDescent_eq_smul_star_lift_swap`:\
-        \ the normalized descent\n  `New.DescentPair.normalizedDescent`, defined by a class sum, is a multiple of\
-        \ the descent by the\n  datum of the highest vector, the conjugate of the transposed lift (`New.Space.lift`\
+      startOffset: 1139
+      endOffset: 3721
+      text: "\n\nFor a descent pair `O`, the character of the descent datum is `O.u1Char`, with weight `O.weight`\
+        \ and\ntame part `O.tamePart`. The highest weight of the forms on V is `(O.columnCount, O.detExp)`, given\n\
+        by numbers of columns. Vectors of the representation of this weight are written ξ, and forms on V\nare written\
+        \ Ξ.\n\n## Main definitions and results\n\n* `New.DescentPair`: the data of a descent pair; `New.DescentPair.FormV`:\
+        \ its forms on V, with the\n  action `New.DescentPair.formAction` of ∏_M GL_r and the Hecke polynomial\n\
+        \  `New.DescentPair.heckePolyOnForms`.\n* `New.DescentPair.fockPoly`, `New.DescentPair.blockDatum`, `New.DescentPair.conjKernel`,\n\
+        \  `New.DescentPair.normalizedDescent`: the Fock polynomial of a vector, the finite datum Ψ_bl ⊗ vac,\n\
+        \  the conjugate theta kernel as a linear form on weight vectors, and the normalized descent from\n  forms\
+        \ on V to functions on U(W)(\U0001D538).\n* `New.DescentPair.blockDatum_eq_sum_modDatum`: Ψ_bl ⊗ vac is\
+        \ the sum of the translates of Ψ¹ ⊗ vac,\n  with Ψ¹ = `New.DescentPair.identityBlockIndicator`, by lifts\
+        \ (`New.LevelPlaces.twistResidueLift`)\n  of the inverses of the elements of `∏ GL(k_w)` over `Q` (`New.LevelPlaces.TwistGL`).\n\
+        * `New.DescentPair.paramV`, `New.DescentPair.isHCParam_paramV`: the doubled parameter `l'` of the\n  weight\
+        \ of forms on `V`.\n* `New.DescentPair.FitsParams`: the data of a descent pair `O` are those of a parameter\
+        \ `l` on `W`\n  and `l'` on `V`.\n* `New.DescentPair.FitsParams.exists_isJointHarmonic`, `New.DescentPair.FitsParams.isEdge`:\
+        \ then the\n  polynomial of the highest vector is a product of joint harmonics (staircases of minors), so\
+        \ it is\n  an edge from `l` to `l'`.\n* `New.DescentPair.normalizedDescent_eq_smul_star_lift_swap`: the\
+        \ normalized descent\n  `New.DescentPair.normalizedDescent`, defined by a class sum, is a multiple of the\
+        \ descent by the\n  datum of the highest vector, the conjugate of the transposed lift (`New.Space.lift`\
         \ from `V` to\n  `W`) of the conjugate form.\n\nNotions from other files:\n* `New.levelOf w H`: the subgroup\
         \ of K₀ = `New.stdLevel` of the elements whose reductions at the\n  places `w i` form an element of H.\n\
         * `New.levelSpace π K χ`: the vectors on which each k in K acts through π by the scalar χ(k).\n* `New.HasHeckePolynomial\
@@ -2020,8 +2046,6 @@ files:
         * `New.IsJointHarmonic`: a nonzero polynomial that is highest, of the lowest K-types, for the row\n  and\
         \ the column actions and harmonic in both directions.\n\n## Relation to the literature\n\nSee `Lib.Adelic.Unitary.CongruenceLevels`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Objects.CharactersAtLevel:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2434,32 +2458,34 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Objects/LiftLawsModuloN.lean
       line: 7
-      endLine: 13
+      endLine: 17
+      startOffset: 168
+      endOffset: 991
       text: "Let `P` contain one place of each conjugate pair above the split prime `N` of the CM field `E`. A\n\
         marked lattice at `P` is a lattice `L` with a vector `ε` of `L / N L` that is non-zero at every\nplace.\
         \ Everything here is written in a basis of `L` whose last vector lifts `ε`, at all places of\n`P` at once:\n\
         * the stabiliser of `(L, ε)` is `mirabolic`, and `diagNInv` takes `L` to `L⁺ = L + \U0001D4AA ε / N`;\n\
-        * the direct datum `1[S L ⊆ L', S ε = ε']` is `directDatum`; in bases of `L⁺` and `L'⁺` it is\n  `lastRowDatum`;\n"
+        * the direct datum `1[S L ⊆ L', S ε = ε']` is `directDatum`; in bases of `L⁺` and `L'⁺` it is\n  `lastRowDatum`;\n\
+        * the mirror datum `1[S L ⊆ L'⁺] ψ_N (u' (S ε))`, where `u'` is the linear form on `L'⁺` with kernel\n \
+        \ `L'` and `u' (ε' / N) = 1`, is `mirrorDatum` in bases of `L` and `L'⁺`;\n* the operator `Up`, which replaces\
+        \ `L` by `L⁺` and sums against `ψ_N` over the primitive vectors\n  with unit last entry, is `upOperator`."
     remainder:
       path: grh/src/New/UpperBound/Objects/LiftLawsModuloN.lean
-      line: 14
+      line: 17
       endLine: 33
-      text: "* the mirror datum `1[S L ⊆ L'⁺] ψ_N (u' (S ε))`, where `u'` is the linear form on `L'⁺` with kernel\n\
-        \  `L'` and `u' (ε' / N) = 1`, is `mirrorDatum` in bases of `L` and `L'⁺`;\n* the operator `Up`, which replaces\
-        \ `L` by `L⁺` and sums against `ψ_N` over the primitive vectors\n  with unit last entry, is `upOperator`.\n\
-        \nA `LiftLaw` records how a lift depends on its datum. On ramified vectors the following hold. A\nmirror\
-        \ lift, moved by `diagNInv`, is `Up` after a direct lift, and `Up` moves through a direct lift\nup to the\
-        \ factor `γ` of its law. A glued double lift is the number of primitive vectors times a\nmirror lift after\
-        \ a direct lift; hence, moved by `diagNInv`, it is a scalar times two direct lifts\nafter `Up`. So a chain\
-        \ of glued double lifts is a scalar times a chain of direct lifts after a power\nof `Up`.\n\nNotions from\
-        \ other files:\n* `FinPlace E` is the set of finite places of `E`, `star w` the conjugate place, `LocField\
+      startOffset: 991
+      endOffset: 2089
+      text: "\n\nA `LiftLaw` records how a lift depends on its datum. On ramified vectors the following hold. A\n\
+        mirror lift, moved by `diagNInv`, is `Up` after a direct lift, and `Up` moves through a direct lift\nup\
+        \ to the factor `γ` of its law. A glued double lift is the number of primitive vectors times a\nmirror lift\
+        \ after a direct lift; hence, moved by `diagNInv`, it is a scalar times two direct lifts\nafter `Up`. So\
+        \ a chain of glued double lifts is a scalar times a chain of direct lifts after a power\nof `Up`.\n\nNotions\
+        \ from other files:\n* `FinPlace E` is the set of finite places of `E`, `star w` the conjugate place, `LocField\
         \ w` the\n  completion `E_w` with valuation `v` (integral means `v x ≤ 1`) and `ResField w` its residue\
         \ field.\n* `LocProd P` is the product of the `E_w` over `w ∈ P`, and `O` is its ring of integers.\n* `stdLattice.selfDualAddChar\
         \ E` is the additive character of the finite adeles `\U0001D538f E` fixed by the\n  Weil data.\n* `liftIntegralFn\
         \ r f` is `S ↦ f (r S)` on integral matrices `S` and zero elsewhere.\n* `compUpTo f j` is the composite\
         \ `f (j - 1) ∘ ⋯ ∘ f 0` of a chain of linear maps.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Objects.Parameters:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2703,7 +2729,9 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Objects/Rows.lean
       line: 9
-      endLine: 15
+      endLine: 16
+      startOffset: 218
+      endOffset: 952
       text: 'This file treats the hermitian spaces Y_j and W_j and the forms on them, for admissible data
 
         `New.Data` and a tame character ϑ with modulus Q. The chosen places are the prime divisors of
@@ -2718,26 +2746,25 @@ files:
 
         levels and Weil representation data along the spaces Y_j, the gaps of the target parameter, and the
 
-        '
+        Harish-Chandra parameters on the descent pairs (W_j, V_j).'
     remainder:
       path: grh/src/New/UpperBound/Objects/Rows.lean
       line: 16
       endLine: 36
-      text: "Harish-Chandra parameters on the descent pairs (W_j, V_j).\n\n## Main definitions and results\n\n*\
-        \ `New.Data.spaceY`: the spaces Y_j with their lattices; `New.Data.spaceW`: the diagonal spaces W_j.\n*\
-        \ `New.Data.goodForms`: the image of the idempotent e₀ on forms of principal level at the chosen\n  places.\n\
-        * `New.Data.isCuspKernel_typeKernel_paramW`: for signs such that entries of ς at indices of opposite\n \
-        \ sign differ by at least h, the kernel of this parameter (`New.Data.paramW` = 2ς) is a cusp kernel\n  of\
-        \ order h₂.\n* `New.Data.paramsCorrespond_descentPair`, `New.Data.fitsParams_descentPair`: the parameters\
-        \ on W_j\n  and V_j correspond, by insertion of the block of the centre −w_j, and the descent pair (W_j,\
-        \ V_j)\n  satisfies `New.DescentPair.FitsParams`.\n\nNotions from other files:\n* `New.Space`: a hermitian\
-        \ space with a point, given by a matrix J over E and x in GL_n(\U0001D538) with xᴴJx\n  equal to diag(s)\
-        \ at the infinite places and 1 at the finite places.\n* `New.Data.TameChar`: a character of U(1)(\U0001D538\
+      startOffset: 952
+      endOffset: 2160
+      text: "\n\n## Main definitions and results\n\n* `New.Data.spaceY`: the spaces Y_j with their lattices; `New.Data.spaceW`:\
+        \ the diagonal spaces W_j.\n* `New.Data.goodForms`: the image of the idempotent e₀ on forms of principal\
+        \ level at the chosen\n  places.\n* `New.Data.isCuspKernel_typeKernel_paramW`: for signs such that entries\
+        \ of ς at indices of opposite\n  sign differ by at least h, the kernel of this parameter (`New.Data.paramW`\
+        \ = 2ς) is a cusp kernel\n  of order h₂.\n* `New.Data.paramsCorrespond_descentPair`, `New.Data.fitsParams_descentPair`:\
+        \ the parameters on W_j\n  and V_j correspond, by insertion of the block of the centre −w_j, and the descent\
+        \ pair (W_j, V_j)\n  satisfies `New.DescentPair.FitsParams`.\n\nNotions from other files:\n* `New.Space`:\
+        \ a hermitian space with a point, given by a matrix J over E and x in GL_n(\U0001D538) with xᴴJx\n  equal\
+        \ to diag(s) at the infinite places and 1 at the finite places.\n* `New.Data.TameChar`: a character of U(1)(\U0001D538\
         ) of weight 0 with tame part supported on a finite set Q\n  of places of norm prime to MN, Q disjoint from\
         \ its conjugate.\n* `New.Data.liftWeight`: the weight w_j = κ(σ) + j·h + h₂ at the infinite place σ, with\n\
         \  κ = `New.Data.weight`, h the gap and h₂ half the gap.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Objects.Weights:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2864,7 +2891,9 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Seesaw/AdmissibleCombinations.lean
       line: 9
-      endLine: 12
+      endLine: 17
+      startOffset: 272
+      endOffset: 1031
       text: 'This file provides tools for the computations at the finite places of the seesaw. A grading
 
         (`New.Grading`) presents a hermitian space `V` as `X` plus a string of `s` basis vectors, and
@@ -2873,21 +2902,27 @@ files:
 
         Integrality lemmas handle numbers integral away from `q` and `l`-adic units.
 
-        '
+        `New.Seesaw.IsAdmissibleCombination v A n d p B z` says that `z = ∑ r(x) v(x)` with `r` finitely
+
+        supported in `A`, denominator `d` away from `n`, and size `B` when `p` holds. Moved vacua
+
+        (translates of the vacuum vector of the Weil representation, moved by a finite unitary element) and
+
+        the values of the operators `V.schrodingerOp` attached to functions modulo `𝔪` are such
+
+        combinations of translates.'
     remainder:
       path: grh/src/New/UpperBound/Seesaw/AdmissibleCombinations.lean
-      line: 13
+      line: 17
       endLine: 49
-      text: "`New.Seesaw.IsAdmissibleCombination v A n d p B z` says that `z = ∑ r(x) v(x)` with `r` finitely\n\
-        supported in `A`, denominator `d` away from `n`, and size `B` when `p` holds. Moved vacua\n(translates of\
-        \ the vacuum vector of the Weil representation, moved by a finite unitary element) and\nthe values of the\
-        \ operators `V.schrodingerOp` attached to functions modulo `\U0001D52A` are such\ncombinations of translates.\n\
-        \n## Main definitions and results\n\n* `New.Seesaw.integralAway`, `New.Seesaw.IsAdmissibleCoeffs`: complex\
-        \ numbers integral away from\n  `n`, and finite families of coefficients with bounded denominator and, on\
-        \ demand, bounded size.\n* `New.Seesaw.weightedTranslations`, `New.Seesaw.translations`: finite adelic vectors\
-        \ with given\n  denominators away from `q`. They index the translates that may occur in a combination.\n\
-        * `New.Seesaw.isUnimodular_gradedLatticeBasis_gram`: if `N = π π̄`, the Gram matrix of\n  `New.gradedLatticeBasis`\
-        \ is hermitian and invertible over every subring.\n* `New.Seesaw.exists_conjTranspose_mul_gradedGram_mul_eq_signMatrix`:\
+      startOffset: 1031
+      endOffset: 3090
+      text: "\n\n## Main definitions and results\n\n* `New.Seesaw.integralAway`, `New.Seesaw.IsAdmissibleCoeffs`:\
+        \ complex numbers integral away from\n  `n`, and finite families of coefficients with bounded denominator\
+        \ and, on demand, bounded size.\n* `New.Seesaw.weightedTranslations`, `New.Seesaw.translations`: finite\
+        \ adelic vectors with given\n  denominators away from `q`. They index the translates that may occur in a\
+        \ combination.\n* `New.Seesaw.isUnimodular_gradedLatticeBasis_gram`: if `N = π π̄`, the Gram matrix of\n\
+        \  `New.gradedLatticeBasis` is hermitian and invertible over every subring.\n* `New.Seesaw.exists_conjTranspose_mul_gradedGram_mul_eq_signMatrix`:\
         \ for `N > 0` the form is\n  congruent over `ℂ` to a diagonal of signs, `(s + 1) / 2` of them negative.\n\
         * `New.Seesaw.IsAdmissibleCombination.bind`: substitution; denominators and sizes multiply. The\n  rules\
         \ for scalars, bilinear maps and pure tensors follow from it.\n* `New.Seesaw.isAdmissibleCombination_weil_vacElem`,\n\
@@ -2902,8 +2937,6 @@ files:
         \ characters ψ_w are\n  trivial, and μ(u) = ∏_v u_v^{e(v)} · ∏_w ψ_w(u mod w) whenever u has integral finite\
         \ part.\n\n## Relation to the literature\n\nSee `New.UpperBound.Seesaw.SeesawIdentity` for related work.\
         \ See\n`Lib.ClassField.Global.CMSplittingCharacters` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Seesaw.AdmissibleEvaluation:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2942,7 +2975,9 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Seesaw/AdmissibleEvaluation.lean
       line: 6
-      endLine: 11
+      endLine: 15
+      startOffset: 143
+      endOffset: 1054
       text: 'This file proves that the finite evaluation of a pair of edges takes translates of the vacuum to
 
         admissible combinations. It first gives a test for membership in the lattice of a graded space whose
@@ -2955,16 +2990,21 @@ files:
 
         isotropic subspace of the splitting. It follows that the evaluation of a translate of the vacuum is
 
-        '
+        `0` or a root of unity times a translate of the zero term of the vacuum, and that this zero term is
+
+        a nonzero multiple of the sum of the translates of the vacuum by representatives of `L''`. The two
+
+        conditions `LiftsNeighbours` and `MatchesDenominators` are checked for the middle double lift and
+
+        for the last double lift.'
     remainder:
       path: grh/src/New/UpperBound/Seesaw/AdmissibleEvaluation.lean
-      line: 12
+      line: 15
       endLine: 38
-      text: "`0` or a root of unity times a translate of the zero term of the vacuum, and that this zero term is\n\
-        a nonzero multiple of the sum of the translates of the vacuum by representatives of `L'`. The two\nconditions\
-        \ `LiftsNeighbours` and `MatchesDenominators` are checked for the middle double lift and\nfor the last double\
-        \ lift.\n\nNotions from other files:\n* A `Space` is a hermitian space over `E` with a point, an adelic\
-        \ basis that is orthonormal at the\n  finite places; the columns of its finite part `V.xFin` span the lattice\
+      startOffset: 1054
+      endOffset: 2602
+      text: "\n\nNotions from other files:\n* A `Space` is a hermitian space over `E` with a point, an adelic basis\
+        \ that is orthonormal at the\n  finite places; the columns of its finite part `V.xFin` span the lattice\
         \ of `V`. The space `V⁻` is\n  `V` with the form negated, and `flipSum V V''` is `V⁻ ⊕ V''`.\n* `Grading\
         \ V N (X ⊕ Unit) m` presents `V` as the orthonormal vectors `X ⊕ Unit` plus a string of `m`\n  basis vectors,\
         \ in which vector `i` pairs only with vector `m - 1 - i`, to `1`, or to `-N` if it is\n  the middle vector;\
@@ -2978,8 +3018,6 @@ files:
         * `IsScalingAtM N β δ κ` says that each factor of `κ` is `1` or `δ`, that `δ` has norm one and is\n  `1`\
         \ above `N`, that `β` is a unit above `N`, and that the denominators of `κ` are bounded by `β`\n  and `β̄`.\n\
         \n## Relation to the literature\n\nSee `New.UpperBound.Seesaw.SeesawIdentity` for related work.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Seesaw.Cut:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3374,31 +3412,36 @@ files:
     excerpt:
       path: grh/src/New/UpperBound/Seesaw/IntegralAsCosetSum.lean
       line: 6
-      endLine: 13
+      endLine: 17
+      startOffset: 129
+      endOffset: 1118
       text: "A finite set of cosets serves as a weighted fundamental domain. For subgroups `S`, `A`, `J` of `H`\n\
         and a finite `T ⊆ H ⧸ J`:\n* `New.Seesaw.coverMultiplicity`: the number of classes in `S ⧸ (S ⊓ A)` that\
         \ have a\n  representative `r` with `t ∈ r • T` (zero if infinite).\n* `New.Seesaw.exists_finset_coverMultiplicity_dvd_pow`:\
         \ for `H = New.Gf E ι`, levels `J ≤ A` and a\n  compact `D` on which the `q ^ n`-th powers of conjugates\
         \ of `J` fall into `A`, a `T` stable under\n  `S ⊓ A` whose multiplicities divide powers of `q` at the points\
-        \ of `T` and at the points with a\n  given property that forces their `S`-orbit to meet `D`.\n"
+        \ of `T` and at the points with a\n  given property that forces their `S`-orbit to meet `D`.\n* `New.Grading.exists_integral_eq_sum_over_cut`:\
+        \ if the periods of a function over the Bessel\n  subgroup factor over `T` and the multiplicities are non-zero\
+        \ on its support, its integral over the\n  quotient of the adelic group `New.G E ε` by the rational points\
+        \ of `New.Grading.besselGroup` is a\n  constant times a sum over `T` weighted by the inverse multiplicities."
     remainder:
       path: grh/src/New/UpperBound/Seesaw/IntegralAsCosetSum.lean
-      line: 14
+      line: 17
       endLine: 34
-      text: "* `New.Grading.exists_integral_eq_sum_over_cut`: if the periods of a function over the Bessel\n  subgroup\
-        \ factor over `T` and the multiplicities are non-zero on its support, its integral over the\n  quotient\
-        \ of the adelic group `New.G E ε` by the rational points of `New.Grading.besselGroup` is a\n  constant times\
-        \ a sum over `T` weighted by the inverse multiplicities.\n\nIn these names, a \"cut\" is such a finite set\
-        \ `T` of cosets.\n\nNotions from other files:\n* `New.G E ε = New.GInf E ε × New.Gf E ι`: the adelic unitary\
-        \ group, with its infinite and finite\n  parts.\n* `New.IsLevel J`: `J` is an open subgroup of the compact\
-        \ open subgroup `New.stdLevel E ι` of\n  integral points of `New.Gf E ι`; its index there is `New.stdLevelIndex\
-        \ J`.\n* `New.Grading.besselGroup`: the Bessel (Fourier–Jacobi) subgroup of `New.G E ε` attached to a\n\
-        \  grading, with finite part `New.Grading.besselFin` and rational points `New.Grading.ratBessel`.\n* `Subgroup.quotMeasure`:\
-        \ the measure on a group that computes integrals over the quotient by a\n  subgroup acting on the left;\
-        \ `New.Grading.besselMeasure` is this measure for the quotient of the\n  Bessel subgroup by its rational\
-        \ points.\n\n## Relation to the literature\n\nSee `New.UpperBound.Seesaw.SeesawIdentity` for related work.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+      startOffset: 1118
+      endOffset: 2007
+      text: "\n\nIn these names, a \"cut\" is such a finite set `T` of cosets.\n\nNotions from other files:\n* `New.G\
+        \ E ε = New.GInf E ε × New.Gf E ι`: the adelic unitary group, with its infinite and finite\n  parts.\n*\
+        \ `New.IsLevel J`: `J` is an open subgroup of the compact open subgroup `New.stdLevel E ι` of\n  integral\
+        \ points of `New.Gf E ι`; its index there is `New.stdLevelIndex J`.\n* `New.Grading.besselGroup`: the Bessel\
+        \ (Fourier–Jacobi) subgroup of `New.G E ε` attached to a\n  grading, with finite part `New.Grading.besselFin`\
+        \ and rational points `New.Grading.ratBessel`.\n* `Subgroup.quotMeasure`: the measure on a group that computes\
+        \ integrals over the quotient by a\n  subgroup acting on the left; `New.Grading.besselMeasure` is this measure\
+        \ for the quotient of the\n  Bessel subgroup by its rational points.\n\n## Relation to the literature\n\n\
+        See `New.UpperBound.Seesaw.SeesawIdentity` for related work.\n"
+    standaloneReview:
+      verdict: clear
+      reason: States the weighted coset-sum integral result and multiplicity construction.
   New.UpperBound.Seesaw.LevelIdeles:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3890,20 +3933,22 @@ files:
       path: grh/src/New/UpperBound/Seesaw/UnfoldingStages.lean
       line: 12
       endLine: 15
+      startOffset: 365
+      endOffset: 698
       text: 'A double theta integral over two definite unitary groups is a coefficient of the composite of two
 
         lifts. Two unfolding steps give the double lift of the finite evaluation. Starting from `𝒲_φ`, each
 
         unfolding step then gives an equivariant function on the next group `R_j`. Their supports are
 
-        bounded when the source form is ramified.
-
-        '
+        bounded when the source form is ramified.'
     remainder:
       path: grh/src/New/UpperBound/Seesaw/UnfoldingStages.lean
-      line: 16
+      line: 15
       endLine: 45
-      text: "\n## Main definitions and results\n\n* `New.Seesaw.DoubleLiftData.exists_integral_constTermAtStringMap_mul_eq`:\
+      startOffset: 698
+      endOffset: 2509
+      text: "\n\n## Main definitions and results\n\n* `New.Seesaw.DoubleLiftData.exists_integral_constTermAtStringMap_mul_eq`:\
         \ take the product of two\n  constant terms. Integrate it over the Bessel subgroup `New.Grading.besselGroup`\
         \ of `Y'`, and over\n  that of `Y` against an equivariant function `W`. The result is an integral over the\
         \ unitary group\n  of `X`. Its integrand is `W` times a constant times a theta integral over the unitary\
@@ -3921,8 +3966,6 @@ files:
         \ map (T*, T') from V' to V⁻ ⊕ V'', where\n  `T = Y.stringMap Y'` and `T' = Y'.stringMap Y''`.\n\n## Relation\
         \ to the literature\n\nSee `New.UpperBound.Seesaw.SeesawIdentity` for related work. See\n`Lib.Weil.CompactLift.DefiniteThetaLift`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.UpperBound.Size.ArchimedeanSize:
     group: New.UpperBound
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

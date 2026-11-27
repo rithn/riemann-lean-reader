@@ -222,7 +222,9 @@ files:
     excerpt:
       path: grh/src/Lib/LocalGL/Green/LabelCharacters.lean
       line: 7
-      endLine: 12
+      endLine: 13
+      startOffset: 170
+      endOffset: 805
       text: 'Let k be a finite field, and let T be an injective multiplicative character of an algebraically
 
         closed extension K of k. A label of degree r (`New.IsLabel`) is a monic squarefree polynomial c of
@@ -235,15 +237,17 @@ files:
 
         the elements e_c = `New.labelIdem` n c of ℂ[GL_n(k)] formed from Ξ_c (0 if c is not a label of
 
-        '
+        degree |n|), and computes the twist of Ξ_c by χ∘det.'
     remainder:
       path: grh/src/Lib/LocalGL/Green/LabelCharacters.lean
       line: 13
       endLine: 45
-      text: "degree |n|), and computes the twist of Ξ_c by χ∘det.\n\n## Main definitions and results\n\n* `New.rankPart_labelChar`,\
-        \ `New.rankInner_labelChar`: Ξ_c lives in dimension r, and the Ξ_c are\n  orthonormal.\n* `New.IsLabel.isIrreducibleChar_labelChar`:\
-        \ Ξ_c is an irreducible character of GL_r(k).\n  `New.lift_labelChar_self` says in the form `New.Lift` that\
-        \ Ξ_c is a genuine character, an\n  ℕ-combination of characters. It does not record irreducibility.\n* `New.labelIdem_orthogonal`:\
+      startOffset: 805
+      endOffset: 2718
+      text: "\n\n## Main definitions and results\n\n* `New.rankPart_labelChar`, `New.rankInner_labelChar`: Ξ_c lives\
+        \ in dimension r, and the Ξ_c are\n  orthonormal.\n* `New.IsLabel.isIrreducibleChar_labelChar`: Ξ_c is an\
+        \ irreducible character of GL_r(k).\n  `New.lift_labelChar_self` says in the form `New.Lift` that Ξ_c is\
+        \ a genuine character, an\n  ℕ-combination of characters. It does not record irreducibility.\n* `New.labelIdem_orthogonal`:\
         \ the e_c are orthogonal idempotents.\n* `New.hyperplaneSum_mul_labelIdem`: let l be a nonzero vector. Then\
         \ e_c kills the sum of χ(det h)⁻¹\n  h over the invertible h = 1 + u lᵀ, when the element of kˣ naming χ\
         \ (`New.charName`) is not a root\n  of c.\n* `New.tupleIdem`, `New.isCentralProj_tupleIdem`, `New.tupleIdem_orthogonal`:\
@@ -259,8 +263,6 @@ files:
         \ Kˣ is injective.\n* `New.thetaChar`: The character θ_x = T^a of K, where a is a chosen natural number\
         \ with\n  T(x) = exp(2πi/(Q−1))^a.\n\n## Relation to the literature\n\nKnown; see `Lib.LocalGL.Green.TauFunctions`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.LocalGL.Green.TauFunctions:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -398,7 +400,9 @@ files:
     excerpt:
       path: grh/src/Lib/LocalGL/Iwahori/HeckeDegrees.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 145
+      endOffset: 938
       text: 'Let `F` be the completion at `w`, with ring of integers `𝒪`, uniformiser `ϖ` and residue field of
 
         order `q`, and let `K0 = New.proIwahori` be the pro-`p` Iwahori subgroup of `GL_N(𝒪)`. An exponent
@@ -413,18 +417,21 @@ files:
 
         colength `j`) whose lattice contains the first `r` basis vectors. A count of hyperplanes over the
 
-        '
+        residue field relates `r` and `r + 1` and gives Satake''s formula for the eigenvalue on an exponent.
+
+        It also proves a duality of lattices for these operators.'
     remainder:
       path: grh/src/Lib/LocalGL/Iwahori/HeckeDegrees.lean
-      line: 14
+      line: 15
       endLine: 42
-      text: "residue field relates `r` and `r + 1` and gives Satake's formula for the eigenvalue on an exponent.\n\
-        It also proves a duality of lattices for these operators.\n\n## Main definitions and results\n\n* `New.heckeFun_iwahoriDoubleCoset_eq_iwahoriDegree_smul`:\
-        \ the operator of a dominant double coset\n  `K t K` (`K = proIwahori`) on `K`-fixed vectors, through the\
-        \ number `New.iwahoriDegree t` of its\n  cosets.\n* `New.partialCosets`, `New.partialHecke`: the lattices\
-        \ that contain the first `r` basis vectors,\n  and the sum over them. It is the `j`-th Hecke operator for\
-        \ `r = 0`, and `0` for `r = N`, `0 < j`.\n* `New.echelonRows`, `New.card_echelonRows_mem_residueKer`: the\
-        \ rows `(0, …, 0, 1, *, …, *)` over\n  the residue field, and how many of them kill a lattice.\n* `New.partialHecke_hyperplane_count`:\
+      startOffset: 938
+      endOffset: 2448
+      text: "\n\n## Main definitions and results\n\n* `New.heckeFun_iwahoriDoubleCoset_eq_iwahoriDegree_smul`: the\
+        \ operator of a dominant double coset\n  `K t K` (`K = proIwahori`) on `K`-fixed vectors, through the number\
+        \ `New.iwahoriDegree t` of its\n  cosets.\n* `New.partialCosets`, `New.partialHecke`: the lattices that\
+        \ contain the first `r` basis vectors,\n  and the sum over them. It is the `j`-th Hecke operator for `r\
+        \ = 0`, and `0` for `r = N`, `0 < j`.\n* `New.echelonRows`, `New.card_echelonRows_mem_residueKer`: the rows\
+        \ `(0, …, 0, 1, *, …, *)` over\n  the residue field, and how many of them kill a lattice.\n* `New.partialHecke_hyperplane_count`:\
         \ a count of hyperplanes that relates `r` and `r + 1`.\n* `New.IsExponent.apply_partialHecke`: Satake's\
         \ formula for the eigenvalue on an exponent, by\n  descent in `r`.\n\nNotions from other files:\n* `New.dominantTorus`:\
         \ The diagonal t with `v (t i) ≤ v (t j)` for i ≤ j.\n* `New.blockParahoric`: For a level function b on\
@@ -434,8 +441,6 @@ files:
         \ of ρ(h) over chosen\n  representatives h of the cosets hK in KgK.\n* `New.compactMean`: The mean of ρ(h)x\
         \ over h in a compact subgroup H, for a smooth ρ.\n\n## Relation to the literature\n\nKnown; see `Lib.LocalGL.Iwahori.SphericalExponents`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.LocalGL.Iwahori.ParahoricStructure:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -659,7 +664,9 @@ files:
     excerpt:
       path: grh/src/Lib/LocalGL/Iwahori/SortedExponents.lean
       line: 7
-      endLine: 13
+      endLine: 16
+      startOffset: 144
+      endOffset: 1020
       text: 'Let `ρ` be a smooth representation of `GL_N(F)`, where `F` has compact ring of integers and a
 
         uniformiser `ϖ` with `v ϖ = exp (-1)`. An exponent is sorted when the absolute values `‖θ i ϖ‖` of
@@ -674,16 +681,20 @@ files:
 
         vectors fixed by `New.proIwahori` in the span of the translates of any vector form a
 
-        '
+        finite-dimensional space. For such `ρ`, this file constructs eigenvectors with sorted characters. It
+
+        does so from a vector of parahoric type and from a vector with a nonzero projection along characters
+
+        of determinants.'
     remainder:
       path: grh/src/Lib/LocalGL/Iwahori/SortedExponents.lean
-      line: 14
+      line: 16
       endLine: 43
-      text: "finite-dimensional space. For such `ρ`, this file constructs eigenvectors with sorted characters. It\n\
-        does so from a vector of parahoric type and from a vector with a nonzero projection along characters\nof\
-        \ determinants.\n\n## Main definitions and results\n\n* `New.IsExponent.exists_sorted`: the characters of\
-        \ an exponent nonzero on a pro-p Iwahori fixed\n  `τ`-eigenvector `x` of the integral torus, which permutations\
-        \ preserving `τ` scale, can be\n  reordered so that the absolute values `‖θ i ϖ‖` do not increase.\n* `New.IsIwahoriEigen.exists_isExponent`:\
+      startOffset: 1020
+      endOffset: 2516
+      text: "\n\n## Main definitions and results\n\n* `New.IsExponent.exists_sorted`: the characters of an exponent\
+        \ nonzero on a pro-p Iwahori fixed\n  `τ`-eigenvector `x` of the integral torus, which permutations preserving\
+        \ `τ` scale, can be\n  reordered so that the absolute values `‖θ i ϖ‖` do not increase.\n* `New.IsIwahoriEigen.exists_isExponent`:\
         \ in the unitary case an eigenvector in a span of translates\n  with finite-dimensional pro-p Iwahori fixed\
         \ part gives an exponent.\n* `New.exists_sorted_isIwahoriEigen_of_diagGL_smul`, `New.exists_sorted_of_detChar`:\
         \ eigenvectors\n  with sorted characters, from a vector of parahoric type and from a vector with a nonzero\n\
@@ -696,8 +707,6 @@ files:
         \ by the mean over I₁.\n* `New.torusChar`: For characters θ_i of Fˣ, the character t ↦ ∏ θ_i(t_i) |t_i|^(N-1-i)\
         \ of the\n  diagonal torus.\n\n## Relation to the literature\n\nKnown; see `Lib.LocalGL.Iwahori.SphericalExponents`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.LocalGL.Iwahori.SphericalExponents:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -750,32 +759,31 @@ files:
     excerpt:
       path: grh/src/Lib/LocalGL/Iwahori/SphericalExponents.lean
       line: 6
-      endLine: 11
+      endLine: 8
+      startOffset: 140
+      endOffset: 366
       text: 'Let `F` be a field with a valuation in `ℤᵐ⁰` and compact ring of integers `𝒪`, with maximal ideal
 
         `𝔭`, uniformiser `ϖ` and residue field of order `q`, and let `K0 = New.proIwahori` be the pro-`p`
 
-        Iwahori subgroup of `GL_N(𝒪)`. An exponent is a linear form that is an eigenform for the torus
-
-        character `New.torusChar θ = ∏ θ_i(t_i) |t_i| ^ (N - 1 - i)`. This file proves that a non-zero
-
-        exponent for `New.torusChar θ` with unramified `θ_i` and non-increasing `|θ_i(ϖ)|` is non-zero on
-
-        the vectors fixed by `GL_N(𝒪)`. The proof uses orbit sums for the parahoric subgroups
-
-        '
+        Iwahori subgroup of `GL_N(𝒪)`.'
     remainder:
       path: grh/src/Lib/LocalGL/Iwahori/SphericalExponents.lean
-      line: 12
+      line: 8
       endLine: 44
-      text: "`P = New.blockParahoric (min m)`, whose columns before `m` lie in `\U0001D52D` below the diagonal,\
-        \ and the\npermutation matrices `New.permGL`. For `F` the completion of a number field at a finite place,\
-        \ it\nalso shows that the Hecke operator of `diag (ϖ, 1, …, 1)` keeps the `New.proIwahori`-fixed\neigenvectors,\
-        \ with eigenvalue depending only on the top left entry, of the stabiliser of a line,\n`New.blockParahoric\
-        \ (min 1)`, the matrices in `GL_N(\U0001D4AA)` whose first column is in `\U0001D52D` below the\ncorner.\n\
-        \n## Main definitions and results\n\n* `New.Patching.parahoricEigenspace`: for a level function `f` and\
-        \ a function `c` on the group, the\n  vectors fixed by `New.proIwahori` on which each `k` in the parahoric\
-        \ subgroup of `f` acts by the\n  scalar `c k`.\n* `New.Patching.parahoricEigenspace_mem_invtSubmodule`:\
+      startOffset: 366
+      endOffset: 2859
+      text: " An exponent is a linear form that is an eigenform for the torus\ncharacter `New.torusChar θ = ∏ θ_i(t_i)\
+        \ |t_i| ^ (N - 1 - i)`. This file proves that a non-zero\nexponent for `New.torusChar θ` with unramified\
+        \ `θ_i` and non-increasing `|θ_i(ϖ)|` is non-zero on\nthe vectors fixed by `GL_N(\U0001D4AA)`. The proof\
+        \ uses orbit sums for the parahoric subgroups\n`P = New.blockParahoric (min m)`, whose columns before `m`\
+        \ lie in `\U0001D52D` below the diagonal, and the\npermutation matrices `New.permGL`. For `F` the completion\
+        \ of a number field at a finite place, it\nalso shows that the Hecke operator of `diag (ϖ, 1, …, 1)` keeps\
+        \ the `New.proIwahori`-fixed\neigenvectors, with eigenvalue depending only on the top left entry, of the\
+        \ stabiliser of a line,\n`New.blockParahoric (min 1)`, the matrices in `GL_N(\U0001D4AA)` whose first column\
+        \ is in `\U0001D52D` below the\ncorner.\n\n## Main definitions and results\n\n* `New.Patching.parahoricEigenspace`:\
+        \ for a level function `f` and a function `c` on the group, the\n  vectors fixed by `New.proIwahori` on\
+        \ which each `k` in the parahoric subgroup of `f` acts by the\n  scalar `c k`.\n* `New.Patching.parahoricEigenspace_mem_invtSubmodule`:\
         \ the Hecke operator of `diag (ϖ, 1, …, 1)`\n  keeps this space when `f = min 1` and `c` is a function of\
         \ the top left entry.\n* `New.IsExponent.eq_zero_of_eq_zero_on_spherical`: if `l ≠ 0`, the `θ_i` are unramified\
         \ and\n  `|θ_i(ϖ)|` is non-increasing in `i`, then `l` is non-zero on the vectors fixed by `GL_N(\U0001D4AA\
@@ -791,7 +799,7 @@ files:
         \ I, Compositio 40 (1980), Prop.\n2.4, 2.5, 3.6; Haines–Kottwitz–Prasad, Iwahori–Hecke algebras (arXiv math/0309168)\
         \ §1.\n"
     needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+    reason: Excerpt may not be a standalone description
   Lib.LocalGL.Shintani.CosetDescent:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -920,7 +928,9 @@ files:
     excerpt:
       path: grh/src/Lib/LocalGL/Shintani/CosetRootChoice.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 162
+      endOffset: 956
       text: 'This file treats descent of class functions along a coset, as in Shintani descent. Given
 
         `π : E →* Γ`, `σ ∈ Γ` and `j : G → E`, it defines root choices over `σ`. It defines the induction
@@ -935,28 +945,29 @@ files:
 
         function equal to `Y` on `G` and to `Φ` off `G` is an irreducible character of `G ⋊ Γ`
 
-        '
+        (`New.IsIrreducibleChar.extend_semidirect`). Here `New.classInner` is the mean of `conj f * h`,
+
+        and `New.virtualChars` is the span of the characters.'
     remainder:
       path: grh/src/Lib/LocalGL/Shintani/CosetRootChoice.lean
-      line: 14
+      line: 15
       endLine: 40
-      text: "(`New.IsIrreducibleChar.extend_semidirect`). Here `New.classInner` is the mean of `conj f * h`,\nand\
-        \ `New.virtualChars` is the span of the characters.\n\n## Main definitions and results\n\n* `New.DescendsOnCoset`:\
-        \ the function `h` on `E` descends to `f` on `G` over the coset of `σ`:\n  `h s = f γ` for every `s : E`\
-        \ with `π s = σ` and every `γ : G` with `s ^ orderOf σ = j γ`.\n* `New.IsRootChoice`, `New.exists_isRootChoice`:\
-        \ a conjugation-equivariant choice, for each `γ`, of\n  a root `r γ` over `σ` with `r γ ^ orderOf σ = j\
-        \ γ`, and its existence for the units of an algebra\n  over a finite field with a semilinear Galois action.\n\
-        * `New.IsRootChoice.exists_conj_eq_of_map_eq`, `New.IsRootChoice.index_mul_finMean_eq_classInner`:\n  the\
-        \ roots meet every class over `σ`, and descent keeps inner products.\n* `New.IsRootChoice.descendsOnCoset_comp`:\
-        \ a function `g` invariant under the kernel of `π` descends\n  to `g ∘ r`.\n* `New.classInner_induceClassFn_of_surjective`:\
-        \ Frobenius reciprocity for `New.induceClassFn` when\n  `π ∘ ρ` is onto.\n* `New.DescendsOnCoset.induce`:\
-        \ descent commutes with induction.\n\nNotions from other files:\n* `New.IsIrreducibleChar`: `f` is an irreducible\
-        \ character, stated as three conditions: (a) `f` is a\n  character, (b) `New.classInner f f = 1`, and (c)\
-        \ for every class function `h` and every `y`, `f 1\n  * New.classInner f (h (· * y)) = New.classInner f\
-        \ h * f y`.\n\n## Relation to the literature\n\nKnown; see `Lib.LocalGL.Shintani.LiftingGreenCharacters`\
-        \ and `Lib.LocalGL.Green.CuspidalFunctions`\nfor sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 956
+      endOffset: 2338
+      text: "\n\n## Main definitions and results\n\n* `New.DescendsOnCoset`: the function `h` on `E` descends to\
+        \ `f` on `G` over the coset of `σ`:\n  `h s = f γ` for every `s : E` with `π s = σ` and every `γ : G` with\
+        \ `s ^ orderOf σ = j γ`.\n* `New.IsRootChoice`, `New.exists_isRootChoice`: a conjugation-equivariant choice,\
+        \ for each `γ`, of\n  a root `r γ` over `σ` with `r γ ^ orderOf σ = j γ`, and its existence for the units\
+        \ of an algebra\n  over a finite field with a semilinear Galois action.\n* `New.IsRootChoice.exists_conj_eq_of_map_eq`,\
+        \ `New.IsRootChoice.index_mul_finMean_eq_classInner`:\n  the roots meet every class over `σ`, and descent\
+        \ keeps inner products.\n* `New.IsRootChoice.descendsOnCoset_comp`: a function `g` invariant under the kernel\
+        \ of `π` descends\n  to `g ∘ r`.\n* `New.classInner_induceClassFn_of_surjective`: Frobenius reciprocity\
+        \ for `New.induceClassFn` when\n  `π ∘ ρ` is onto.\n* `New.DescendsOnCoset.induce`: descent commutes with\
+        \ induction.\n\nNotions from other files:\n* `New.IsIrreducibleChar`: `f` is an irreducible character, stated\
+        \ as three conditions: (a) `f` is a\n  character, (b) `New.classInner f f = 1`, and (c) for every class\
+        \ function `h` and every `y`, `f 1\n  * New.classInner f (h (· * y)) = New.classInner f h * f y`.\n\n##\
+        \ Relation to the literature\n\nKnown; see `Lib.LocalGL.Shintani.LiftingGreenCharacters` and `Lib.LocalGL.Green.CuspidalFunctions`\n\
+        for sources.\n"
   Lib.LocalGL.Shintani.LiftingGreenCharacters:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1005,7 +1016,9 @@ files:
     excerpt:
       path: grh/src/Lib/LocalGL/Shintani/LiftingGreenCharacters.lean
       line: 6
-      endLine: 11
+      endLine: 9
+      startOffset: 121
+      endOffset: 471
       text: 'For an extension `k''/k` of finite fields of prime degree, the file shows that Green''s characters
         of
 
@@ -1013,34 +1026,32 @@ files:
 
         similarity classes of square matrices over `k` of all sizes, with parabolic induction as product,
 
-        and μ is the inverse of the constant function 1 in it. For a label `c` (monic, squarefree,
-
-        `c(0) ≠ 0`), `New.labelChar T c` is the product Ξ_c of Green''s functions `New.greenTau T P` over the
-
-        irreducible factors `P` of `c`. `thetaChar T q x` is a character of `K` attached to `x` and a field
-
-        '
+        and μ is the inverse of the constant function 1 in it.'
     remainder:
       path: grh/src/Lib/LocalGL/Shintani/LiftingGreenCharacters.lean
-      line: 12
+      line: 9
       endLine: 54
-      text: "size `q`; for `x` in `k`, `thetaChar T |k| x` at the norm from `k'` is `thetaChar T |k'| x`.\n`New.Lift\
-        \ Z F F'` says that in each rank `m` one `Z`-combination of characters of\n`GL_m(k') ⋊ Gal(k'/k)` restricts\
-        \ to `F'` on `GL_m(k')` and is `F` of the norm on the cosets of the\n`σ` with fixed field `k` (`New.DescendsTo\
-        \ Φ F` for `F` over `k`; for `F'` over `k'`,\n`DescendsTo Φ F'` means `Φ ∘ inl = F'.evalGL`).\n\n## Main\
-        \ definitions and results\n\n* `New.sum_evalGL_prod_eq_zero_iff`: the element `∑ conj (χ g) g` of a parabolically\
-        \ induced\n  character `χ` kills a vector `v` if and only if the corresponding sum over the block upper\n\
-        \  triangular matrices kills all translates of `v`.\n* `New.exists_isChar_descendsTo_labelChar`: let `P`\
-        \ be irreducible of degree `r = [L : k]`, a label\n  (`IsLabel r P`), with a root `x`. Then one character\
-        \ of `GL_r(k') ⋊ Gal(k'/k)` descends both to\n  the cuspidal function of `θ_x` times `μ` and to `(-1) ^\
-        \ r Ξ_P μ` over `k'`. This is used to lift\n  `Ξ_P` from `k` to `k'`.\n* `New.lift_detChar`: the lift of\
-        \ `χ ∘ det`.\n* `New.DescendsTo.card_mul_classInner`: the inner product of two lifts in terms of the inner\n\
-        \  products over `k'` and over `k`.\n* `New.shintani_lift_labelChar`: the lift by true characters for any\
-        \ label (`New.IsLabel`: monic,\n  squarefree, non-zero constant term).\n\nNotions from other files:\n* `New.Hall.evalGL`:\
-        \ for `F : Hall k` and `g : GL n k`, the value of `F` at the similarity class of\n  the endomorphism of\
-        \ `n → k` given by `g`.\n* `New.blockHom b a`: the homomorphism sending a block upper triangular invertible\
-        \ matrix (for the\n  level function `b`) to its diagonal block of level `a`.\n* `New.classInner f h`: the\
-        \ inner product of complex functions on a finite set, the average of\n  `conj (f g) * h g`; `New.Hall.rankInner\
+      startOffset: 471
+      endOffset: 3405
+      text: " For a label `c` (monic, squarefree,\n`c(0) ≠ 0`), `New.labelChar T c` is the product Ξ_c of Green's\
+        \ functions `New.greenTau T P` over the\nirreducible factors `P` of `c`. `thetaChar T q x` is a character\
+        \ of `K` attached to `x` and a field\nsize `q`; for `x` in `k`, `thetaChar T |k| x` at the norm from `k'`\
+        \ is `thetaChar T |k'| x`.\n`New.Lift Z F F'` says that in each rank `m` one `Z`-combination of characters\
+        \ of\n`GL_m(k') ⋊ Gal(k'/k)` restricts to `F'` on `GL_m(k')` and is `F` of the norm on the cosets of the\n\
+        `σ` with fixed field `k` (`New.DescendsTo Φ F` for `F` over `k`; for `F'` over `k'`,\n`DescendsTo Φ F'`\
+        \ means `Φ ∘ inl = F'.evalGL`).\n\n## Main definitions and results\n\n* `New.sum_evalGL_prod_eq_zero_iff`:\
+        \ the element `∑ conj (χ g) g` of a parabolically induced\n  character `χ` kills a vector `v` if and only\
+        \ if the corresponding sum over the block upper\n  triangular matrices kills all translates of `v`.\n* `New.exists_isChar_descendsTo_labelChar`:\
+        \ let `P` be irreducible of degree `r = [L : k]`, a label\n  (`IsLabel r P`), with a root `x`. Then one\
+        \ character of `GL_r(k') ⋊ Gal(k'/k)` descends both to\n  the cuspidal function of `θ_x` times `μ` and to\
+        \ `(-1) ^ r Ξ_P μ` over `k'`. This is used to lift\n  `Ξ_P` from `k` to `k'`.\n* `New.lift_detChar`: the\
+        \ lift of `χ ∘ det`.\n* `New.DescendsTo.card_mul_classInner`: the inner product of two lifts in terms of\
+        \ the inner\n  products over `k'` and over `k`.\n* `New.shintani_lift_labelChar`: the lift by true characters\
+        \ for any label (`New.IsLabel`: monic,\n  squarefree, non-zero constant term).\n\nNotions from other files:\n\
+        * `New.Hall.evalGL`: for `F : Hall k` and `g : GL n k`, the value of `F` at the similarity class of\n  the\
+        \ endomorphism of `n → k` given by `g`.\n* `New.blockHom b a`: the homomorphism sending a block upper triangular\
+        \ invertible matrix (for the\n  level function `b`) to its diagonal block of level `a`.\n* `New.classInner\
+        \ f h`: the inner product of complex functions on a finite set, the average of\n  `conj (f g) * h g`; `New.Hall.rankInner\
         \ n F H` is the same over `GL_n(k)` for functions on\n  classes, `F.mulMoebius` is `F` times `μ`, and `New.finMean\
         \ f` is the average of `f` over a finite\n  type.\n\n## Relation to the literature\n\nKnown result: Shintani\
         \ lifting of characters of GL_n(F_q) to an extension field, with the lift\nidentified for Green's characters.\
@@ -1050,8 +1061,6 @@ files:
         \ no bijection of characters is\ngiven. Source: T. Shintani, J. Math. Soc. Japan 28 (1976) 396-414; A. Silberger\
         \ and E.-W. Zink, J.\nAlgebra 319 (2008) 4147-4176, Thm 5.1; for tensor induction, Gluck-Isaacs, Illinois\
         \ J. Math. 27\n(1983).\n\nSee also `Lib.LocalGL.Green.TauFunctions`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.LocalGL.SphericalChainLemma:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

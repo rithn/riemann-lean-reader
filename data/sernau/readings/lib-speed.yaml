@@ -42,17 +42,6 @@ files:
       line: 2
     - module: Main
     outsideReadings: []
-    excerpt:
-      path: grh/src/Lib/Speed.lean
-      line: 6
-      endLine: 8
-      text: 'The three settings of this file make instance search and `simp` faster in all files of the
-
-        development. They add no axiom, and no proof relies on them: with this file emptied, the other files
-
-        still compile, more slowly.
-
-        '
     needs_draft: true
-    reason: Opening module comment has fewer than 60 words
+    reason: No 40–180 word excerpt ends at a sentence boundary
 needs_draft: true

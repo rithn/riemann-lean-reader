@@ -1200,7 +1200,9 @@ files:
     excerpt:
       path: grh/src/Lib/DiscreteSeries/Character/OpenOrbitIntegral.lean
       line: 6
-      endLine: 11
+      endLine: 15
+      startOffset: 143
+      endOffset: 1087
       text: 'This file begins the computation of the orbital integrals of the discrete series coefficient
 
         `New.HCParam.dsCoeff l` of `G = U(diag ε)` over the compact torus. Here `l = 2λ` is the parameter,
@@ -1213,33 +1215,35 @@ files:
 
         an error given by an integral over the unitary matrices outside the open orbit `G B`. Here `B` is
 
-        '
+        the group of invertible matrices that are upper triangular for `l`, that is, `b i j = 0` whenever
+
+        `l j < l i`; they are lower triangular when the coordinates are listed with `λ` decreasing. If `o`
+
+        reverses the order of `l`, the error is small at `diag(t ^ o i)` for small `t = 2⁻¹ ^ s`, so a
+
+        Laurent polynomial that is a multiple of it has no monomial of low level.'
     remainder:
       path: grh/src/Lib/DiscreteSeries/Character/OpenOrbitIntegral.lean
-      line: 12
+      line: 15
       endLine: 43
-      text: "the group of invertible matrices that are upper triangular for `l`, that is, `b i j = 0` whenever\n\
-        `l j < l i`; they are lower triangular when the coordinates are listed with `λ` decreasing. If `o`\nreverses\
-        \ the order of `l`, the error is small at `diag(t ^ o i)` for small `t = 2⁻¹ ^ s`, so a\nLaurent polynomial\
-        \ that is a multiple of it has no monomial of low level.\n\n## Main definitions and results\n\n* `New.le_norm_weightMinors_twoPowDiagConj`:\
-        \ for unitary `u`, if `f` decreases along `l` by steps of\n  at least `|m|` and `h ≤ |l i - l j|`, a lower\
-        \ bound for `New.weightMinors l` at `u* diag(2^f) u`\n  by its value at `diag(2^f)` and the entry `u i j`.\n\
-        * `New.Orbital.orbital_eq_char_sub_offOrbitIntegral`: the formula for the orbital integral described\n \
-        \ above, with the error `New.Orbital.offOrbitIntegral`.\n* `New.Orbital.coeff_eq_zero_of_low_level`: if\
-        \ `l` has a gap and `o` reverses its order, a Laurent\n  polynomial that is a multiple of this error has\
-        \ no monomial of low level, by the bound\n  `New.Orbital.exists_norm_offOrbitIntegral_le`.\n\nNotions from\
-        \ other files:\n* `New.HCParam.HasGap`: `l = 2λ` has distinct entries of the parity of `card n - 1`, and\
-        \ those of\n  `λ` with different signs `ε` differ by at least `h`.\n* `New.paramAddRho`: The integer vector\
-        \ `λ + ρ`, for ρ the half sum of the roots positive for `l`.\n* `New.HCParam.dsCoeff`: The function c_λ\
-        \ on complex matrices given by Flensted-Jensen's integral\n  `New.HCParam.flenstedJensen`; on K = U(diag\
-        \ ε) ∩ U(n) it is m_Λ with Λ = λ + ρ − 2ρ_c.\n* `New.diagTorus`: For a tuple t of complex numbers of modulus\
-        \ one, the diagonal matrix diag(t) as\n  an element of U(diag ε); `New.diagTorusK x` is diag(x) as an element\
-        \ of `maxCompactU 1`, which is\n  U(n).\n* `New.Orbital.torusEval`: For a tuple x of unit complex numbers,\
-        \ the algebra homomorphism from\n  Laurent polynomials to ℂ sending the monomial of exponent ν to ∏ x_a^{ν_a}.\n\
-        \n## Relation to the literature\n\nThis is part of the known computation of the discrete series character\
-        \ on the compact Cartan\nsubgroup by orbital integrals, see `Lib.DiscreteSeries.Character.FormalDegree`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1087
+      endOffset: 2821
+      text: "\n\n## Main definitions and results\n\n* `New.le_norm_weightMinors_twoPowDiagConj`: for unitary `u`,\
+        \ if `f` decreases along `l` by steps of\n  at least `|m|` and `h ≤ |l i - l j|`, a lower bound for `New.weightMinors\
+        \ l` at `u* diag(2^f) u`\n  by its value at `diag(2^f)` and the entry `u i j`.\n* `New.Orbital.orbital_eq_char_sub_offOrbitIntegral`:\
+        \ the formula for the orbital integral described\n  above, with the error `New.Orbital.offOrbitIntegral`.\n\
+        * `New.Orbital.coeff_eq_zero_of_low_level`: if `l` has a gap and `o` reverses its order, a Laurent\n  polynomial\
+        \ that is a multiple of this error has no monomial of low level, by the bound\n  `New.Orbital.exists_norm_offOrbitIntegral_le`.\n\
+        \nNotions from other files:\n* `New.HCParam.HasGap`: `l = 2λ` has distinct entries of the parity of `card\
+        \ n - 1`, and those of\n  `λ` with different signs `ε` differ by at least `h`.\n* `New.paramAddRho`: The\
+        \ integer vector `λ + ρ`, for ρ the half sum of the roots positive for `l`.\n* `New.HCParam.dsCoeff`: The\
+        \ function c_λ on complex matrices given by Flensted-Jensen's integral\n  `New.HCParam.flenstedJensen`;\
+        \ on K = U(diag ε) ∩ U(n) it is m_Λ with Λ = λ + ρ − 2ρ_c.\n* `New.diagTorus`: For a tuple t of complex\
+        \ numbers of modulus one, the diagonal matrix diag(t) as\n  an element of U(diag ε); `New.diagTorusK x`\
+        \ is diag(x) as an element of `maxCompactU 1`, which is\n  U(n).\n* `New.Orbital.torusEval`: For a tuple\
+        \ x of unit complex numbers, the algebra homomorphism from\n  Laurent polynomials to ℂ sending the monomial\
+        \ of exponent ν to ∏ x_a^{ν_a}.\n\n## Relation to the literature\n\nThis is part of the known computation\
+        \ of the discrete series character on the compact Cartan\nsubgroup by orbital integrals, see `Lib.DiscreteSeries.Character.FormalDegree`.\n"
   Lib.DiscreteSeries.Character.WeylCharacterFormula:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1878,7 +1882,9 @@ files:
     excerpt:
       path: grh/src/Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean
       line: 7
-      endLine: 12
+      endLine: 14
+      startOffset: 197
+      endOffset: 897
       text: 'Let `G = New.USign ε` be the unitary group of `diag ε`, let `l = 2λ` be a parameter, and let
 
         `c_λ = New.HCParam.dsCoeff l` be its discrete series matrix coefficient. Norms of matrices are
@@ -1891,33 +1897,34 @@ files:
 
         realisation of the module `U(𝔤)c_λ` in `L²(G)`. The file also gives explicit Lipschitz and tail
 
-        '
+        estimates for `l` with a big gap (`New.HCParam.HasLargeGap`) and entries bounded by `L`. Their
+
+        constants are polynomial in `L`.'
     remainder:
       path: grh/src/Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean
-      line: 13
+      line: 14
       endLine: 48
-      text: "estimates for `l` with a big gap (`New.HCParam.HasLargeGap`) and entries bounded by `L`. Their\nconstants\
-        \ are polynomial in `L`.\n\n## Main definitions and results\n\n* `New.DiscreteSeries.norm_dsCoeff_le_pow`:\
-        \ if `l` has gap `h` (`New.HCParam.HasGap`) and `n` is\n  nonempty, then |c_λ(g)| ≤ (2/‖g‖)^c for natural\
-        \ numbers c ≤ h.\n* `New.HCParam.DsModule`, `New.HCParam.dsAction`, `New.HCParam.dsGenerator`: the module,\
-        \ its\n  `gl n`-action by right derivatives, and its generator, which is `K`-highest by\n  `New.isKHighest_dsGenerator`.\n\
-        * `New.exists_smear_dsCoeffSmooth_eq`: every element of the module is an average\n  ∫ α(y⁻¹) c_λ(g y) dy\
-        \ against a bump function α (a smearing of c_λ). This gives the decay bound\n  `New.HCParam.HasLargeGap.exists_decay_bound`.\n\
-        * `New.dsCoeff_schur_orthogonality`: Schur's product formula with the formal degree\n  `New.HCParam.formalDegree`.\n\
-        * `New.HCParam.HasLargeGap.toL2`: the embedding in `L²(G)`. The action is the derivative of right\n  translation\
-        \ (`New.HCParam.HasLargeGap.isDerivedAction_toL2`), and each function is its own matrix\n  coefficient against\
-        \ the generator\n  (`New.HCParam.HasLargeGap.inner_toL2_dsGenerator_rightRegularL2`).\n* `New.HCParam.HasLargeGap.isUnitaryCasimirGe`:\
-        \ the induced inner product is invariant, and the\n  Casimir operator is at least `New.HCParam.casimirValue\
-        \ l`.\n\nNotions from other files:\n* `New.HCParam.IsKHighest`: a vector x of a gl_n-module is K-highest\
-        \ of weight ν if each E_aa acts\n  on it by ν_a and the compact raising operators kill it.\n* `New.HCParam.dsCoeff`:\
-        \ the function c_λ(g) = Ξ(a, a⁻¹g) of a complex matrix g, with a the block\n  diagonal part of g and Ξ the\
-        \ normalised integral `New.HCParam.flenstedJensen`.\n* `New.HCParam.HasGap`: the entries of `l = 2λ` are\
-        \ distinct and congruent to `n − 1` mod 2, and\n  `|λ_i − λ_j| ≥ h` whenever `ε_i ≠ ε_j`.\n* `New.HCParam.formalDegree`:\
-        \ for signs ε and l = 2λ, the reciprocal of the integral of |c_λ|² over\n  U(diag ε) for the Haar measure\
-        \ normalised by the compact dual.\n\n## Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`,\n\
+      startOffset: 897
+      endOffset: 2964
+      text: "\n\n## Main definitions and results\n\n* `New.DiscreteSeries.norm_dsCoeff_le_pow`: if `l` has gap `h`\
+        \ (`New.HCParam.HasGap`) and `n` is\n  nonempty, then |c_λ(g)| ≤ (2/‖g‖)^c for natural numbers c ≤ h.\n\
+        * `New.HCParam.DsModule`, `New.HCParam.dsAction`, `New.HCParam.dsGenerator`: the module, its\n  `gl n`-action\
+        \ by right derivatives, and its generator, which is `K`-highest by\n  `New.isKHighest_dsGenerator`.\n* `New.exists_smear_dsCoeffSmooth_eq`:\
+        \ every element of the module is an average\n  ∫ α(y⁻¹) c_λ(g y) dy against a bump function α (a smearing\
+        \ of c_λ). This gives the decay bound\n  `New.HCParam.HasLargeGap.exists_decay_bound`.\n* `New.dsCoeff_schur_orthogonality`:\
+        \ Schur's product formula with the formal degree\n  `New.HCParam.formalDegree`.\n* `New.HCParam.HasLargeGap.toL2`:\
+        \ the embedding in `L²(G)`. The action is the derivative of right\n  translation (`New.HCParam.HasLargeGap.isDerivedAction_toL2`),\
+        \ and each function is its own matrix\n  coefficient against the generator\n  (`New.HCParam.HasLargeGap.inner_toL2_dsGenerator_rightRegularL2`).\n\
+        * `New.HCParam.HasLargeGap.isUnitaryCasimirGe`: the induced inner product is invariant, and the\n  Casimir\
+        \ operator is at least `New.HCParam.casimirValue l`.\n\nNotions from other files:\n* `New.HCParam.IsKHighest`:\
+        \ a vector x of a gl_n-module is K-highest of weight ν if each E_aa acts\n  on it by ν_a and the compact\
+        \ raising operators kill it.\n* `New.HCParam.dsCoeff`: the function c_λ(g) = Ξ(a, a⁻¹g) of a complex matrix\
+        \ g, with a the block\n  diagonal part of g and Ξ the normalised integral `New.HCParam.flenstedJensen`.\n\
+        * `New.HCParam.HasGap`: the entries of `l = 2λ` are distinct and congruent to `n − 1` mod 2, and\n  `|λ_i\
+        \ − λ_j| ≥ h` whenever `ε_i ≠ ε_j`.\n* `New.HCParam.formalDegree`: for signs ε and l = 2λ, the reciprocal\
+        \ of the integral of |c_λ|² over\n  U(diag ε) for the Haar measure normalised by the compact dual.\n\n##\
+        \ Relation to the literature\n\nKnown; see `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`,\n\
         `Lib.DiscreteSeries.FlenstedJensen.PsiKTypes` and `Lib.DiscreteSeries.CuspKernel` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.DiscreteSeries.Haar.CayleyChart:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2037,26 +2044,34 @@ files:
     excerpt:
       path: grh/src/Lib/DiscreteSeries/Haar/GramCoordinates.lean
       line: 6
-      endLine: 11
-      text: "Let `J` be a hermitian matrix. The Gram map sends a tuple of vectors, the columns of a complex\nmatrix\
-        \ `Y`, to the hermitian matrix `T = Yᴴ J Y`. Tuples carry Lebesgue measure `dY`, and hermitian\nmatrices\
-        \ the product `dT` of the Lebesgue measures of the entries on and above the diagonal.\n\n* `New.joinCols`,\
-        \ `New.joinCol`: joining two groups of columns into one matrix; this preserves\n  volume (`New.measurePreserving_joinCols`,\
-        \ `New.measurePreserving_joinCol`).\n"
+      endLine: 8
+      startOffset: 80
+      endOffset: 367
+      text: 'Let `J` be a hermitian matrix. The Gram map sends a tuple of vectors, the columns of a complex
+
+        matrix `Y`, to the hermitian matrix `T = Yᴴ J Y`. Tuples carry Lebesgue measure `dY`, and hermitian
+
+        matrices the product `dT` of the Lebesgue measures of the entries on and above the diagonal.'
     remainder:
       path: grh/src/Lib/DiscreteSeries/Haar/GramCoordinates.lean
-      line: 12
+      line: 8
       endLine: 23
-      text: "* `New.hermOfReal`, `New.gramCoords`: real coordinates on hermitian matrices, and the Gram map in\n\
-        \  these coordinates.\n* `New.lintegral_eq_skewOfReal_add_hermOfReal`: Lebesgue measure on matrices `Z =\
-        \ S + T / 2` of size\n  `n`, with `S` skew-hermitian and `T` hermitian, is `2 ^ (-n) dS dT`.\n* `New.exists_measurePreserving_hermBlocks`,\
-        \ `New.exists_measurePreserving_hermCorner`: cutting a\n  hermitian matrix into the corresponding blocks\
-        \ preserves volume.\n\nNotions from other files:\n* `New.skewOfReal`: the skew-hermitian matrix with given\
-        \ real coordinates, normalised so that\n  Lebesgue measure in the coordinates is that of the entries on\
-        \ and above the diagonal.\n* `New.skewCoords`: the real-linear left inverse of `New.skewOfReal`, inverse\
-        \ to it on\n  skew-hermitian matrices.\n"
+      startOffset: 367
+      endOffset: 1321
+      text: "\n\n* `New.joinCols`, `New.joinCol`: joining two groups of columns into one matrix; this preserves\n\
+        \  volume (`New.measurePreserving_joinCols`, `New.measurePreserving_joinCol`).\n* `New.hermOfReal`, `New.gramCoords`:\
+        \ real coordinates on hermitian matrices, and the Gram map in\n  these coordinates.\n* `New.lintegral_eq_skewOfReal_add_hermOfReal`:\
+        \ Lebesgue measure on matrices `Z = S + T / 2` of size\n  `n`, with `S` skew-hermitian and `T` hermitian,\
+        \ is `2 ^ (-n) dS dT`.\n* `New.exists_measurePreserving_hermBlocks`, `New.exists_measurePreserving_hermCorner`:\
+        \ cutting a\n  hermitian matrix into the corresponding blocks preserves volume.\n\nNotions from other files:\n\
+        * `New.skewOfReal`: the skew-hermitian matrix with given real coordinates, normalised so that\n  Lebesgue\
+        \ measure in the coordinates is that of the entries on and above the diagonal.\n* `New.skewCoords`: the\
+        \ real-linear left inverse of `New.skewOfReal`, inverse to it on\n  skew-hermitian matrices.\n"
     needs_draft: true
-    reason: Excerpt may not be a standalone description
+    reason: Only introduces the Gram map and measures; it states no result of the file.
+    standaloneReview:
+      verdict: needs-draft
+      reason: Only introduces the Gram map and measures; it states no result of the file.
   Lib.DiscreteSeries.Haar.GramFibre:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2356,25 +2371,29 @@ files:
     excerpt:
       path: grh/src/Lib/DiscreteSeries/Holomorphic/HighestVectorExtension.lean
       line: 7
-      endLine: 7
+      endLine: 9
+      startOffset: 194
+      endOffset: 483
       text: 'The group is `New.USign ε = U(diag ε)` with compact subgroup `New.maxCompactU ε = U(diag ε) ∩ U(n)`.
 
-        '
+        Every element of the compact subgroup is an exponential, and every element of the group is a product
+
+        of two exponentials, so each element is joined to `1` by an analytic path in the group.'
     remainder:
       path: grh/src/Lib/DiscreteSeries/Holomorphic/HighestVectorExtension.lean
-      line: 8
+      line: 9
       endLine: 49
-      text: "Every element of the compact subgroup is an exponential, and every element of the group is a product\n\
-        of two exponentials, so each element is joined to `1` by an analytic path in the group. A function\n`F`\
-        \ on a product of copies of this group is holomorphic of weight `u` for the order `o`\n(`New.IsHolOfWeight\
-        \ ε o u F ε'`) if it extends analytically to products `h * b` of tuples by\n`F' (h * b) = (∏ τ, diagChar\
-        \ (u τ) (b τ)) * F h`. Here each `b τ` is triangular for `o`, and `h τ`,\n`b τ` are block diagonal for `ε'`\
-        \ (no condition for `ε' = 1`). For injective `o`, products of\nprincipal minors `New.weightMinors` of dominant\
-        \ weights (`weightMinors l g` is the product over\nintegers `t` of the principal minor of `g` on `{i | t\
-        \ ≤ l i}`, divided by `det g` when `t ≤ 0`) and\ncoefficients of highest vectors are such functions. For\
-        \ dominant weights the file computes their\nweighted means over circles and, for a single copy of the group,\
-        \ their integrals against\n`conj (weightMinors w)` over `New.maxCompactU ε`.\n\n## Main definitions and\
-        \ results\n\n* `New.exists_expU_eq_maxCompactU`: an element of the compact subgroup\n  `New.maxCompactU\
+      startOffset: 483
+      endOffset: 3182
+      text: " A function\n`F` on a product of copies of this group is holomorphic of weight `u` for the order `o`\n\
+        (`New.IsHolOfWeight ε o u F ε'`) if it extends analytically to products `h * b` of tuples by\n`F' (h * b)\
+        \ = (∏ τ, diagChar (u τ) (b τ)) * F h`. Here each `b τ` is triangular for `o`, and `h τ`,\n`b τ` are block\
+        \ diagonal for `ε'` (no condition for `ε' = 1`). For injective `o`, products of\nprincipal minors `New.weightMinors`\
+        \ of dominant weights (`weightMinors l g` is the product over\nintegers `t` of the principal minor of `g`\
+        \ on `{i | t ≤ l i}`, divided by `det g` when `t ≤ 0`) and\ncoefficients of highest vectors are such functions.\
+        \ For dominant weights the file computes their\nweighted means over circles and, for a single copy of the\
+        \ group, their integrals against\n`conj (weightMinors w)` over `New.maxCompactU ε`.\n\n## Main definitions\
+        \ and results\n\n* `New.exists_expU_eq_maxCompactU`: an element of the compact subgroup\n  `New.maxCompactU\
         \ ε = U(diag ε) ∩ U(n)` is the exponential of a block diagonal element of the Lie\n  algebra (take the logarithm\
         \ by the functional calculus).\n* `New.exists_eq_expU_mul_expU`: every element of the group is a product\
         \ of two exponentials, by the\n  polar decomposition `New.exists_polar`.\n* `New.isHolOfWeight_weightMinors`,\
@@ -2392,8 +2411,6 @@ files:
         \ times a Borel subgroup instead of the bounded domain.\nSource: Harish-Chandra, Representations of semisimple\
         \ Lie groups IV-VI, Amer. J. Math. 77 (1955), 78\n(1956); A. Knapp (1986); A. Koranyi, A simplified approach\
         \ to the holomorphic discrete series, arXiv\n2312.16350.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.DiscreteSeries.Holomorphic.MaximalCompactMinors:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2508,18 +2525,20 @@ files:
       path: grh/src/Lib/DiscreteSeries/Holomorphic/ModelFunction.lean
       line: 6
       endLine: 8
+      startOffset: 160
+      endOffset: 446
       text: 'For signs `ε` on the indices and weights `u τ`, the model function `New.holMinorsPi ε u` is a
 
         product over τ of quotients of products of principal minors `New.weightMinors` with weights
 
-        `u τ + c τ` and `c τ`. Here `c τ` is a large constant on the indices of sign `1` and zero elsewhere.
-
-        '
+        `u τ + c τ` and `c τ`. Here `c τ` is a large constant on the indices of sign `1` and zero elsewhere.'
     remainder:
       path: grh/src/Lib/DiscreteSeries/Holomorphic/ModelFunction.lean
-      line: 9
+      line: 8
       endLine: 43
-      text: "In the main results the order `o` puts the signs `1` first and each weight `u τ` is K-dominant for\n\
+      startOffset: 446
+      endOffset: 2844
+      text: "\nIn the main results the order `o` puts the signs `1` first and each weight `u τ` is K-dominant for\n\
         it. With the indices numbered `1, …, n` along `o` and `u τ (n + 1) = 0`, each quotient is then the\nproduct\
         \ of the leading minors of size `i` to the powers `u τ i - u τ (i + 1)`, and the model\nfunction is holomorphic\
         \ of weight `u` (`New.IsHolOfWeight`). Let `w` be a K-dominant weight that\njumps up by at least `γ > 500\
@@ -2542,8 +2561,6 @@ files:
         \ 1 is\n  no restriction.\n* `New.IsPosFirstOrder`, `New.IsKDominant`: The order o has distinct values and\
         \ puts the signs +1\n  first; the weight w satisfies w_j ≤ w_i whenever ε_i = ε_j and o_i < o_j.\n\n## Relation\
         \ to the literature\n\nKnown; see `Lib.DiscreteSeries.Holomorphic.HighestVectorExtension` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.DiscreteSeries.Holomorphic.PeaksAwayFromCusp:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2684,7 +2701,9 @@ files:
     excerpt:
       path: grh/src/Lib/DiscreteSeries/Rigidity/HighestVectorsAndFiltration.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 201
+      endOffset: 981
       text: 'The setting is a `gl_n`-module with an invariant inner product and a lower bound, depending on `l`,
 
         for the Casimir operator (`New.IsUnitaryCasimirGe l ρ`). It is studied through the increasing
@@ -2699,14 +2718,17 @@ files:
 
         (`New.HCParam.lowestKType`). Then the file shows that `Ω_K` grows along the filtration. With norm
 
-        '
+        bounds on the `M_s` it also shows that a bounded coefficient map is determined on `x` by its values
+
+        at `1` on the `M_s`.'
     remainder:
       path: grh/src/Lib/DiscreteSeries/Rigidity/HighestVectorsAndFiltration.lean
-      line: 14
+      line: 15
       endLine: 55
-      text: "bounds on the `M_s` it also shows that a bounded coefficient map is determined on `x` by its values\n\
-        at `1` on the `M_s`.\n\n## Main definitions and results\n\n* `New.HCParam.exists_highest_vector`: a nonzero\
-        \ finite-dimensional \U0001D528-stable subspace contains a\n  highest weight vector.\n* `New.HCParam.IsKHighest.finite_filtration`:\
+      startOffset: 981
+      endOffset: 3513
+      text: "\n\n## Main definitions and results\n\n* `New.HCParam.exists_highest_vector`: a nonzero finite-dimensional\
+        \ \U0001D528-stable subspace contains a\n  highest weight vector.\n* `New.HCParam.IsKHighest.finite_filtration`:\
         \ for an invariant inner product, M_s has finite\n  dimension.\n* `New.HCParam.IsKHighest.norm_apply_le_of_mem_filtration`:\
         \ a matrix `X` maps `M_s` into `M_{s+1}`\n  (`New.GlModule.apply_mem_filtration_succ`), with an explicit\
         \ bound for the norm of this action\n  (`New.HCParam.IsKHighest.norm_apply_le_mul_norm`).\n* `New.mem_orthogonal_filtration_of_casimirK`:\
@@ -2729,8 +2751,6 @@ files:
         \ Classification of discrete series by minimal K-type, Represent. Theory 19\n(2015) 167-185, Thm 1.1; earlier\
         \ Hotta-Parthasarathy, Invent. Math. 26 (1974) 133-178; Schmid, Ann.\nof Math. 102 (1975) 535-564; Vogan-Zuckerman,\
         \ Compositio 53 (1984) Prop 6.1; Nelson, Analytic\nvectors, Ann. of Math. 70 (1959) 572-615.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.DiscreteSeries.Rigidity.KernelFixes:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2862,7 +2882,9 @@ files:
     excerpt:
       path: grh/src/Lib/DiscreteSeries/Rigidity/RepresentationsAndCasimirs.lean
       line: 6
-      endLine: 11
+      endLine: 14
+      startOffset: 141
+      endOffset: 974
       text: 'This file treats representations of the unitary group `New.U J` (the matrices g with gᴴJg = J) and
 
         modules over `gl n` (`New.GlModule`), where `E_ab` acts by `New.GlModule.E`. Signs `ε : n → ℤˣ` fix
@@ -2875,28 +2897,30 @@ files:
 
         sum of the roots e_a − e_b with r(a, b) that are positive for this order. `New.GlModule.casimirK` is
 
-        '
+        the sum of `E_ab E_ba` over the pairs with `ε_a = ε_b`. For the constant sign it is the full Casimir
+
+        operator of `gl n`. κ_λ = |λ|² − |ρ|² is `New.HCParam.casimirValue l`, where ρ in this formula is
+
+        the half sum of the positive roots.'
     remainder:
       path: grh/src/Lib/DiscreteSeries/Rigidity/RepresentationsAndCasimirs.lean
-      line: 12
+      line: 14
       endLine: 36
-      text: "the sum of `E_ab E_ba` over the pairs with `ε_a = ε_b`. For the constant sign it is the full Casimir\n\
-        operator of `gl n`. κ_λ = |λ|² − |ρ|² is `New.HCParam.casimirValue l`, where ρ in this formula is\nthe half\
-        \ sum of the positive roots.\n\n## Main definitions and results\n\n* `New.GlModule`: a module over the Lie\
-        \ algebra of complex matrices; `New.GlModule.E` is the action\n  of an elementary matrix, `New.GlModule.casimir`\
-        \ and `New.GlModule.casimirK` are Casimir operators.\n* `New.IsUnitaryRep`: a representation on a normed\
-        \ space that is strongly continuous, of polynomial\n  growth, and preserves a positive definite hermitian\
-        \ form.\n* `New.IsDerivedAction`, `New.GlModule.IsCoeffMap`: the module is the derivative of a\n  representation,\
-        \ or of a family of linear maps indexed by the group, along `New.expU` (the matrix\n  exponential).\n* `New.IsUnitaryCasimirGe`:\
-        \ the inner product is invariant, ⟨E_ab v, w⟩ = ε_a ε_b ⟨v, E_ba w⟩, and\n  the full Casimir operator is\
-        \ bounded below by κ_λ.\n* `New.HCParam.IsKHighest.casimirK_eq_smul`: if `l.HasGap g`, the Casimir operator\
-        \ of \U0001D528 acts on a\n  K-highest vector by `New.HCParam.casimirKValue`.\n* `New.HCParam.IsKHighest.sum_card_sq_add_mul_nonneg`:\
-        \ if `l.HasGap g`, the inner product is\n  invariant and the full Casimir operator is bounded below by κ_λ,\
-        \ a nonzero K-highest vector of\n  weight Λ + ν gives Σ_a (n² + ν_a(ν_a + l_a)) ≥ 0, that is, |ν|² + 2⟨ν,\
-        \ λ⟩ ≥ −n³.\n\n## Relation to the literature\n\nLowest K-type and Casimir value are known to determine a\
-        \ discrete series coefficient, via analytic\nvectors. See `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 974
+      endOffset: 2348
+      text: "\n\n## Main definitions and results\n\n* `New.GlModule`: a module over the Lie algebra of complex matrices;\
+        \ `New.GlModule.E` is the action\n  of an elementary matrix, `New.GlModule.casimir` and `New.GlModule.casimirK`\
+        \ are Casimir operators.\n* `New.IsUnitaryRep`: a representation on a normed space that is strongly continuous,\
+        \ of polynomial\n  growth, and preserves a positive definite hermitian form.\n* `New.IsDerivedAction`, `New.GlModule.IsCoeffMap`:\
+        \ the module is the derivative of a\n  representation, or of a family of linear maps indexed by the group,\
+        \ along `New.expU` (the matrix\n  exponential).\n* `New.IsUnitaryCasimirGe`: the inner product is invariant,\
+        \ ⟨E_ab v, w⟩ = ε_a ε_b ⟨v, E_ba w⟩, and\n  the full Casimir operator is bounded below by κ_λ.\n* `New.HCParam.IsKHighest.casimirK_eq_smul`:\
+        \ if `l.HasGap g`, the Casimir operator of \U0001D528 acts on a\n  K-highest vector by `New.HCParam.casimirKValue`.\n\
+        * `New.HCParam.IsKHighest.sum_card_sq_add_mul_nonneg`: if `l.HasGap g`, the inner product is\n  invariant\
+        \ and the full Casimir operator is bounded below by κ_λ, a nonzero K-highest vector of\n  weight Λ + ν gives\
+        \ Σ_a (n² + ν_a(ν_a + l_a)) ≥ 0, that is, |ν|² + 2⟨ν, λ⟩ ≥ −n³.\n\n## Relation to the literature\n\nLowest\
+        \ K-type and Casimir value are known to determine a discrete series coefficient, via analytic\nvectors.\
+        \ See `Lib.DiscreteSeries.Rigidity.HighestVectorsAndFiltration`.\n"
   Lib.DiscreteSeries.Theta.BlockRule:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

@@ -792,7 +792,9 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/AutomorphicForms/Cuspidality.lean
       line: 9
-      endLine: 16
+      endLine: 17
+      startOffset: 271
+      endOffset: 1096
       text: 'This file studies forms of type `e` (`New.Space.IsForm`) on the adelic unitary group of a hermitian
 
         space `V`, for a cusp kernel `e` (`New.IsCuspKernel`). At a point with a short lattice vector,
@@ -809,19 +811,20 @@ files:
 
         of a rational isotropic subspace, so forms are cuspidal. Forms then decay faster than every power
 
-        '
+        of the height, and those of a fixed level span a finite-dimensional space.'
     remainder:
       path: grh/src/Lib/Adelic/AutomorphicForms/Cuspidality.lean
       line: 17
       endLine: 66
-      text: "of the height, and those of a fixed level span a finite-dimensional space.\n\n## Main definitions and\
-        \ results\n\n* `New.Space.exists_cuspFrame`: let `N ≠ 0` be a natural number in the different of `E`, `M\
-        \ ≠ 0` and\n  `0 < δ ≤ 1`. If the first minimum is less than `(δ / (M κ²))ⁿ`, with `κ = New.cuspConst E\
-        \ n N`,\n  short lattice vectors span a rational isotropic subspace `A ≠ 0` and its orthogonal\n  (`New.Space.CuspFrame`),\
-        \ and `N_A` lies in `(Γ ∩ N_A) Z_δ J(M)` (`New.Space.RadicalCovered`),\n  where `Z_δ` is the real ball of\
-        \ radius `δ` about `1` and `J(M)` is the principal level `M`.\n* `New.Space.IsCuspidal`, `New.Space.IsForm.isCuspidal`:\
-        \ cuspidal functions; forms are cuspidal.\n* `New.Space.IsCuspidal.norm_le_of_firstMinimum_lt`: at such\
-        \ a point `g`, a cuspidal function of\n  level `M` is at most its oscillation under real right translations\
+      startOffset: 1096
+      endOffset: 4672
+      text: "\n\n## Main definitions and results\n\n* `New.Space.exists_cuspFrame`: let `N ≠ 0` be a natural number\
+        \ in the different of `E`, `M ≠ 0` and\n  `0 < δ ≤ 1`. If the first minimum is less than `(δ / (M κ²))ⁿ`,\
+        \ with `κ = New.cuspConst E n N`,\n  short lattice vectors span a rational isotropic subspace `A ≠ 0` and\
+        \ its orthogonal\n  (`New.Space.CuspFrame`), and `N_A` lies in `(Γ ∩ N_A) Z_δ J(M)` (`New.Space.RadicalCovered`),\n\
+        \  where `Z_δ` is the real ball of radius `δ` about `1` and `J(M)` is the principal level `M`.\n* `New.Space.IsCuspidal`,\
+        \ `New.Space.IsForm.isCuspidal`: cuspidal functions; forms are cuspidal.\n* `New.Space.IsCuspidal.norm_le_of_firstMinimum_lt`:\
+        \ at such a point `g`, a cuspidal function of\n  level `M` is at most its oscillation under real right translations\
         \ of size `δ`.\n* `New.Space.exists_norm_mul_height_pow_le`, `New.Space.IsForm.mem_rapidFunctions`: forms\
         \ decay\n  faster than every power of the height, uniformly at a fixed level.\n* `New.Space.finite_levelSpace`:\
         \ the forms of a fixed level span a finite-dimensional space.\n\nNotions from other files:\n* `New.Space`:\
@@ -850,8 +853,6 @@ files:
         \ Math. 231 (2012), arXiv 1106.2149; G. Muić,\nSmooth cuspidal automorphic forms and integrable discrete\
         \ series, arXiv 1610.05483 (cuspidality\nthrough N. Wallach, On the constant term of a square integrable\
         \ automorphic form, 1984).\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Adelic.AutomorphicForms.HeckeEigenforms:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1704,28 +1705,28 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/QuotientMeasure/MovingTheQuotient.lean
       line: 6
-      endLine: 13
-      text: "Let `Λ → R` be a homomorphism from a countable group to a subgroup `R` of a group `G`, and let `F`\n\
-        on `R × G` be invariant under the diagonal action of `Λ`. The integral of `F` over\n`Λ \\ (R × G)` may be\
-        \ computed as an integral over `R × (Λ \\ G)` or over `(Λ \\ R) × G`\n(`New.integral_cutoff_swap`).\n\n\
-        Notions from other files:\n* `New.orbitMeasure ν μ`: the measure `μ` weighted by a chosen cutoff; it computes\
-        \ integrals over\n  the quotient.\n"
+      endLine: 9
+      startOffset: 95
+      endOffset: 392
+      text: 'Let `Λ → R` be a homomorphism from a countable group to a subgroup `R` of a group `G`, and let `F`
+
+        on `R × G` be invariant under the diagonal action of `Λ`. The integral of `F` over
+
+        `Λ \ (R × G)` may be computed as an integral over `R × (Λ \ G)` or over `(Λ \ R) × G`
+
+        (`New.integral_cutoff_swap`).'
     remainder:
       path: grh/src/Lib/Adelic/QuotientMeasure/MovingTheQuotient.lean
-      line: 14
+      line: 9
       endLine: 18
-      text: '
-
-        ## Relation to the literature
-
-
-        A consequence of a known result: the integral over a quotient does not depend on the cutoff. See
-
-        `Lib.Adelic.QuotientMeasure.Basic`.
-
-        '
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+      startOffset: 392
+      endOffset: 699
+      text: "\n\nNotions from other files:\n* `New.orbitMeasure ν μ`: the measure `μ` weighted by a chosen cutoff;\
+        \ it computes integrals over\n  the quotient.\n\n## Relation to the literature\n\nA consequence of a known\
+        \ result: the integral over a quotient does not depend on the cutoff. See\n`Lib.Adelic.QuotientMeasure.Basic`.\n"
+    standaloneReview:
+      verdict: clear
+      reason: States the quotient integral interchange result.
   Lib.Adelic.QuotientMeasure.UnfoldingInStages:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1850,7 +1851,9 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/Reduction/DefiniteClassSums.lean
       line: 7
-      endLine: 10
+      endLine: 13
+      startOffset: 175
+      endOffset: 796
       text: 'For a hermitian space `V : New.Space E n s`, the rational unitary group embeds in the adelic unitary
 
         group `New.G E s` with image `V.Γ`, and in its finite part with image `V.Γf`. Mahler''s criterion
@@ -1859,15 +1862,19 @@ files:
 
         the rational points when all signs agree. For the signs `1`, it also gives finiteness of classes.
 
-        '
+        For such a space, the integral over `Γ \ G` of a suitable invariant function is then a class
+
+        sum. Here `K₀` is `New.stdLevel`, and `New.classSum` sums over the double cosets `Γf \ G_f / K` with
+
+        weights `1 / #(Γf ∩ g K g⁻¹)`.'
     remainder:
       path: grh/src/Lib/Adelic/Reduction/DefiniteClassSums.lean
-      line: 11
+      line: 13
       endLine: 42
-      text: "For such a space, the integral over `Γ \\ G` of a suitable invariant function is then a class\nsum.\
-        \ Here `K₀` is `New.stdLevel`, and `New.classSum` sums over the double cosets `Γf \\ G_f / K` with\nweights\
-        \ `1 / #(Γf ∩ g K g⁻¹)`.\n\n## Main definitions and results\n\n* `New.Space.mahler_criterion`: Mahler's\
-        \ criterion; the `g` of bounded height lie in `V.Γ * C` for\n  one compact set `C`.\n* `New.Space.isCocompact_of_definite`:\
+      startOffset: 796
+      endOffset: 2520
+      text: "\n\n## Main definitions and results\n\n* `New.Space.mahler_criterion`: Mahler's criterion; the `g`\
+        \ of bounded height lie in `V.Γ * C` for\n  one compact set `C`.\n* `New.Space.isCocompact_of_definite`:\
         \ if all signs agree, the adelic group is compact modulo\n  `V.Γ`. `New.Space.isCocompact_Gamma` is the\
         \ case of the signs `1`.\n* `New.Space.isCocompact_finitePart`: for the signs `1`, the finite part of the\
         \ group is\n  compact modulo `V.Γf`.\n* `New.Space.hasFiniteType_of_isLevel`: for the signs `1`, finitely\
@@ -1884,8 +1891,9 @@ files:
         \ `New.IsLevel`: an open subgroup of `K₀`, with index `New.stdLevelIndex` in `K₀`.\n\n## Relation to the\
         \ literature\n\nKnown; see `Lib.Adelic.Reduction.FiniteVolume` and `Lib.Adelic.QuotientMeasure.Basic` for\
         \ sources.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States compactness, finiteness and the class-sum integral formula.
   Lib.Adelic.Reduction.FiniteVolume:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2276,7 +2284,9 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/TraceFormula/Convergence.lean
       line: 8
-      endLine: 13
+      endLine: 16
+      startOffset: 183
+      endOffset: 1002
       text: 'Let `k` be a function on the real points that decays against a high power of the norm, and let `φ`
 
         be a test function on the finite points. The sums of `(k ⊗ φ)(x⁻¹ γ x)` over rational points `γ`
@@ -2289,24 +2299,26 @@ files:
 
         `A` cancel along the unipotent radical. So the sum over the `γ` whose characteristic polynomial lies
 
-        '
+        in a given set is bounded uniformly in `x` and in the set, and the sum over the `γ` with irreducible
+
+        polynomial is bounded absolutely. These are known arguments for convergence in a simple trace
+
+        formula (cf. Flicker and Kazhdan).'
     remainder:
       path: grh/src/Lib/Adelic/TraceFormula/Convergence.lean
-      line: 14
+      line: 16
       endLine: 30
-      text: "in a given set is bounded uniformly in `x` and in the set, and the sum over the `γ` with irreducible\n\
-        polynomial is bounded absolutely. These are known arguments for convergence in a simple trace\nformula (cf.\
-        \ Flicker and Kazhdan).\n\nNotions from other files:\n* `New.Space E n s`: a hermitian form `J` over `E`\
-        \ with an adelic point. `G E s` is the unitary\n  group `GInf E s × Gf E n`, and `V.ratEmbed` embeds the\
-        \ rational unitary group `U V.J` in it.\n* `New.Space.height`: `V.height x` is the inverse of the first\
-        \ minimum, cut off at `1`, of the space\n  `V.move x` whose point is moved by `x`.\n* `New.IsCuspKernel\
-        \ B k`: `k` is a minimal idempotent kernel on the real points with decay of order\n  `B`, an integrable\
-        \ moment and a compactly supported function that reproduces it.\n\n## Main definitions and results\n\n*\
-        \ `New.Space.exists_tsum_enorm_kernelTerm_le_height`: the bound by a power of the height.\n* `New.Space.exists_norm_tsum_polyTerm_le`:\
-        \ the uniform bound for a set of polynomials.\n* `New.Space.exists_tsum_enorm_irreducibleTerm_le`: the absolute\
-        \ bound for irreducible polynomials.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1002
+      endOffset: 1859
+      text: "\n\nNotions from other files:\n* `New.Space E n s`: a hermitian form `J` over `E` with an adelic point.\
+        \ `G E s` is the unitary\n  group `GInf E s × Gf E n`, and `V.ratEmbed` embeds the rational unitary group\
+        \ `U V.J` in it.\n* `New.Space.height`: `V.height x` is the inverse of the first minimum, cut off at `1`,\
+        \ of the space\n  `V.move x` whose point is moved by `x`.\n* `New.IsCuspKernel B k`: `k` is a minimal idempotent\
+        \ kernel on the real points with decay of order\n  `B`, an integrable moment and a compactly supported function\
+        \ that reproduces it.\n\n## Main definitions and results\n\n* `New.Space.exists_tsum_enorm_kernelTerm_le_height`:\
+        \ the bound by a power of the height.\n* `New.Space.exists_norm_tsum_polyTerm_le`: the uniform bound for\
+        \ a set of polynomials.\n* `New.Space.exists_tsum_enorm_irreducibleTerm_le`: the absolute bound for irreducible\
+        \ polynomials.\n"
   Lib.Adelic.TraceFormula.CoprimeFactors:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2358,22 +2370,24 @@ files:
       path: grh/src/Lib/Adelic/TraceFormula/CoprimeFactors.lean
       line: 7
       endLine: 9
+      startOffset: 114
+      endOffset: 409
       text: 'Let `w` be a split place, `A, B` coprime non-units of `E_w[X]`, and `C` the set of elements of the
 
         finite adelic group `Gf E n` with characteristic polynomial `A B` at `w`. An invariant distribution
 
-        `I` on `C` kills every test function `φ` that is cuspidal at `w` (`eq_zero_of_coprime_factors`).
-
-        '
+        `I` on `C` kills every test function `φ` that is cuspidal at `w` (`eq_zero_of_coprime_factors`).'
     remainder:
       path: grh/src/Lib/Adelic/TraceFormula/CoprimeFactors.lean
-      line: 10
+      line: 9
       endLine: 43
-      text: "\nLet `H` be the block diagonal subgroup of `GL_n(E_w)` with blocks of sizes `deg A` and `deg B`, `N`\n\
-        the group of the unipotent matrices `1 + z` with `z` an upper right block, and `X ⊆ C` the set of\nthe `y`\
-        \ whose component `y_w` is block diagonal, with `A, B` as characteristic polynomials of the\nblocks up to\
-        \ scalars. First `φ` is replaced by the mean of its conjugates under `GL_n(O_w)`.\n\n* Step 1, images. The\
-        \ projection onto the kernel of `A(y_w)` along the kernel of `B(y_w)` is a fixed\n  polynomial in `y_w`\
+      startOffset: 409
+      endOffset: 2773
+      text: "\n\nLet `H` be the block diagonal subgroup of `GL_n(E_w)` with blocks of sizes `deg A` and `deg B`,\
+        \ `N`\nthe group of the unipotent matrices `1 + z` with `z` an upper right block, and `X ⊆ C` the set of\n\
+        the `y` whose component `y_w` is block diagonal, with `A, B` as characteristic polynomials of the\nblocks\
+        \ up to scalars. First `φ` is replaced by the mean of its conjugates under `GL_n(O_w)`.\n\n* Step 1, images.\
+        \ The projection onto the kernel of `A(y_w)` along the kernel of `B(y_w)` is a fixed\n  polynomial in `y_w`\
         \ for `y ∈ C`. So `X` is a slice of `C` for `H` (`isSlice_blockLocus`), and test\n  functions `Ψ` on `GL_n(E_w)\
         \ × X` can be integrated over the fibres of `(g, y) ↦ g y g⁻¹`.\n* Step 2. If the integrals of `Ψ (·, y)`\
         \ vanish, then `I` kills the image of `Ψ`. This is\n  `IsInvariantDistribution.eq_zero_of_isImage`, proved\
@@ -2392,8 +2406,6 @@ files:
         \ `Ψ` over the\n  fibres.\n\n## Relation to the literature\n\nPart of a known result: in a simple trace\
         \ formula with a cuspidal test function the terms that are\nnot elliptic vanish (Deligne and Kazhdan). The\
         \ proof here is a descent of invariant distributions to\nthe block diagonal subgroup.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Adelic.TraceFormula.CuspidalComparison:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2805,12 +2817,21 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/TraceFormula/LevelAlgebra.lean
       line: 6
-      endLine: 12
+      endLine: 8
+      startOffset: 88
+      endOffset: 291
       text: 'For a representation `ρ` of a group `G` and a subgroup `K`, the elements of the group algebra
 
         `ℂ[G]` that map `K`-fixed vectors to `K`-fixed vectors form an algebra, and it acts on the
 
-        `K`-fixed vectors.
+        `K`-fixed vectors.'
+    remainder:
+      path: grh/src/Lib/Adelic/TraceFormula/LevelAlgebra.lean
+      line: 8
+      endLine: 17
+      startOffset: 291
+      endOffset: 620
+      text: '
 
 
         Notions from other files:
@@ -2818,12 +2839,6 @@ files:
 
         * `levelSpace ρ K`: the subspace of the vectors that `ρ k` fixes for every `k ∈ K`.
 
-        '
-    remainder:
-      path: grh/src/Lib/Adelic/TraceFormula/LevelAlgebra.lean
-      line: 13
-      endLine: 17
-      text: '
 
         ## Relation to the literature
 
@@ -2833,8 +2848,9 @@ files:
         action on these vectors. The related class sums are in `Lib.Adelic.Hecke.ClassSums`.
 
         '
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States the algebra of operators preserving fixed vectors and its action.
   Lib.Adelic.TraceFormula.LevelCut:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2882,7 +2898,9 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/TraceFormula/LevelCut.lean
       line: 9
-      endLine: 14
+      endLine: 15
+      startOffset: 243
+      endOffset: 863
       text: 'Let `w` be a split place at which the level `K` is maximal, and let `K''` be the level that is the
 
         stabiliser `J` of a line at `w` and agrees with `K` elsewhere. On the vectors of level `K''` of a
@@ -2895,24 +2913,24 @@ files:
 
         traces of the `A ^ l * T⁺ ^ m`, `l, m ≥ 1`, at level `K''` determine the trace of `A` at level `K`
 
-        '
+        (`trace_eq_of_trace_cutLevel_eq`).'
     remainder:
       path: grh/src/Lib/Adelic/TraceFormula/LevelCut.lean
       line: 15
       endLine: 29
-      text: "(`trace_eq_of_trace_cutLevel_eq`).\n\nNotions from other files:\n* `levelSpace ρ K`: the vectors of\
-        \ the representation `ρ` that are fixed by `K`; `levelAlgebra ρ K`:\n  the elements of the group algebra\
-        \ that map this space to itself.\n* `Gf E n`: the group of finite-adelic unitary elements, whose component\
-        \ at `w` is `g.atPlace w` in\n  `GL n (LocField w)`; `localIntGL n w`: the group `GL_n(\U0001D4AA_w)`; `stdLevel\
-        \ E n`: the finite-adelic\n  unitary elements that are integral at every place; `maxCompactAt n w`: those\
-        \ elements of\n  `stdLevel E n` that are trivial away from `w` and its conjugate.\n* `ofSplitPlace hw x`:\
-        \ the finite-adelic unitary element with component `x` at the split place `w`;\n  `offPlace hw g`: the part\
-        \ of `g` away from `w` and its conjugate.\n* `lineStabilizer w i`: the stabiliser in `GL_n(\U0001D4AA_w)`\
-        \ of the `i`-th coordinate line modulo `w`;\n  `lineHecke w i` and `lineHeckeLower w i` act as its Hecke\
-        \ operators `T⁺` and `T⁻`.\n* `LineRelation d c A T⁺ T⁻ e`: `T⁻` is adjoint to `T⁺`, `T⁺ T⁻ = d (1 + c e)`,\
-        \ `e` is idempotent,\n  `A` commutes with `T⁺` and `T⁻`, and `d, c > 0`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 863
+      endOffset: 1914
+      text: "\n\nNotions from other files:\n* `levelSpace ρ K`: the vectors of the representation `ρ` that are fixed\
+        \ by `K`; `levelAlgebra ρ K`:\n  the elements of the group algebra that map this space to itself.\n* `Gf\
+        \ E n`: the group of finite-adelic unitary elements, whose component at `w` is `g.atPlace w` in\n  `GL n\
+        \ (LocField w)`; `localIntGL n w`: the group `GL_n(\U0001D4AA_w)`; `stdLevel E n`: the finite-adelic\n \
+        \ unitary elements that are integral at every place; `maxCompactAt n w`: those elements of\n  `stdLevel\
+        \ E n` that are trivial away from `w` and its conjugate.\n* `ofSplitPlace hw x`: the finite-adelic unitary\
+        \ element with component `x` at the split place `w`;\n  `offPlace hw g`: the part of `g` away from `w` and\
+        \ its conjugate.\n* `lineStabilizer w i`: the stabiliser in `GL_n(\U0001D4AA_w)` of the `i`-th coordinate\
+        \ line modulo `w`;\n  `lineHecke w i` and `lineHeckeLower w i` act as its Hecke operators `T⁺` and `T⁻`.\n\
+        * `LineRelation d c A T⁺ T⁻ e`: `T⁻` is adjoint to `T⁺`, `T⁺ T⁻ = d (1 + c e)`, `e` is idempotent,\n  `A`\
+        \ commutes with `T⁺` and `T⁻`, and `d, c > 0`.\n"
   Lib.Adelic.TraceFormula.LineCount:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3098,38 +3116,37 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/TraceFormula/LineStabiliser.lean
       line: 8
-      endLine: 13
+      endLine: 11
+      startOffset: 176
+      endOffset: 488
       text: 'Let `w` be a finite place of the number field `E`, with local field `LocField w` (the `E_w` of
 
         `GL_n(E_w)`), valuation `v`, ring of integers `𝒪`, uniformiser `ϖ` and residue field of `q`
 
         elements. In the formulas, `n` also stands for the cardinality of the index type `n`, and the
 
-        exponent `n - 2` is an integer. Let `J_line ⊂ GL_n(𝒪)` be the stabiliser of the line of a basis
-
-        vector `e_i` modulo `w`. We write `diag (ϖ, 1, …, 1)` for the diagonal matrix with `ϖ` at the index
-
-        `i` and `1` elsewhere. Let `T⁺`, `T⁻` be the operators of the double cosets of this matrix and of
-
-        '
+        exponent `n - 2` is an integer.'
     remainder:
       path: grh/src/Lib/Adelic/TraceFormula/LineStabiliser.lean
-      line: 14
+      line: 11
       endLine: 34
-      text: "its inverse, and let `e_sph` be the mean over chosen lifts to `GL_n(\U0001D4AA)` of the elements of\
-        \ `GL_n` of\nthe residue field, which on vectors fixed by the kernel of the reduction modulo `w` is the\
-        \ mean over\n`GL_n(\U0001D4AA)`. On the vectors fixed by `J_line`, `T⁻` is the adjoint of `T⁺` in a unitary\
-        \ representation\n(`inner_lineRaise`), and `T⁺ T⁻ = q ^ (n - 2) (1 + (q ^ n - 1) e_sph)` (`lineRaise_lineLower`).\
-        \ The\npositive powers of `lineHecke`, the element of the group algebra that acts as `T⁺`, are supported\
-        \ on\nintegral matrices whose characteristic polynomial has the simple root `0` modulo `w`\n(`lineHecke_pow_mem_spanOn`).\n\
-        \nNotions from other files:\n* `localIntGL n w` is `GL_n(\U0001D4AA)`, and `reduceGL` is its reduction to\
-        \ `GL_n` of the residue field\n  `ResField w`.\n* `parabolic lev` is the subgroup of invertible matrices\
-        \ that are block upper triangular for the\n  level function `lev`.\n* `levelSpace ρ J` is the space of vectors\
-        \ fixed by `J` in the representation `ρ`.\n* `heckeCoset ρ J t` is the sum of `ρ g` over chosen representatives\
-        \ `g` of the cosets in\n  `J t J / J`.\n\n## Relation to the literature\n\nA relation in the Hecke algebra\
-        \ of a parahoric subgroup of `GL_n`, proved by a direct count of\ncosets.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 488
+      endOffset: 1953
+      text: " Let `J_line ⊂ GL_n(\U0001D4AA)` be the stabiliser of the line of a basis\nvector `e_i` modulo `w`.\
+        \ We write `diag (ϖ, 1, …, 1)` for the diagonal matrix with `ϖ` at the index\n`i` and `1` elsewhere. Let\
+        \ `T⁺`, `T⁻` be the operators of the double cosets of this matrix and of\nits inverse, and let `e_sph` be\
+        \ the mean over chosen lifts to `GL_n(\U0001D4AA)` of the elements of `GL_n` of\nthe residue field, which\
+        \ on vectors fixed by the kernel of the reduction modulo `w` is the mean over\n`GL_n(\U0001D4AA)`. On the\
+        \ vectors fixed by `J_line`, `T⁻` is the adjoint of `T⁺` in a unitary representation\n(`inner_lineRaise`),\
+        \ and `T⁺ T⁻ = q ^ (n - 2) (1 + (q ^ n - 1) e_sph)` (`lineRaise_lineLower`). The\npositive powers of `lineHecke`,\
+        \ the element of the group algebra that acts as `T⁺`, are supported on\nintegral matrices whose characteristic\
+        \ polynomial has the simple root `0` modulo `w`\n(`lineHecke_pow_mem_spanOn`).\n\nNotions from other files:\n\
+        * `localIntGL n w` is `GL_n(\U0001D4AA)`, and `reduceGL` is its reduction to `GL_n` of the residue field\n\
+        \  `ResField w`.\n* `parabolic lev` is the subgroup of invertible matrices that are block upper triangular\
+        \ for the\n  level function `lev`.\n* `levelSpace ρ J` is the space of vectors fixed by `J` in the representation\
+        \ `ρ`.\n* `heckeCoset ρ J t` is the sum of `ρ g` over chosen representatives `g` of the cosets in\n  `J\
+        \ t J / J`.\n\n## Relation to the literature\n\nA relation in the Hecke algebra of a parahoric subgroup\
+        \ of `GL_n`, proved by a direct count of\ncosets.\n"
   Lib.Adelic.TraceFormula.OffPlace:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3728,7 +3745,9 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/Unitary/CongruenceLevels.lean
       line: 6
-      endLine: 11
+      endLine: 13
+      startOffset: 142
+      endOffset: 893
       text: 'Let G_f = `New.Gf` be the finite adelic unitary group of the CM field E. Let Ô = `New.Ô` be the
 
         integral finite adeles of E. Let K₀ = `New.stdLevel` be the elements of G_f lying in GL_n(Ô). This
@@ -3741,24 +3760,26 @@ files:
 
         subgroup H. If the places are finitely many, distinct, and none is conjugate to any w_j, then
 
-        '
+        reduction is onto the product. For a character χ of H, the vectors on which this level acts through
+
+        reduction and χ carry an action of the groups that normalise H and fix χ.'
     remainder:
       path: grh/src/Lib/Adelic/Unitary/CongruenceLevels.lean
-      line: 12
+      line: 13
       endLine: 44
-      text: "reduction is onto the product. For a character χ of H, the vectors on which this level acts through\n\
-        reduction and χ carry an action of the groups that normalise H and fix χ.\n\n## Main definitions and results\n\
-        \n* `New.exists_congruenceGL_subset`: every neighbourhood of `1` in `GL n` of the finite adeles\n  contains\
-        \ a principal congruence subgroup of integer level. Here `New.Ô` is the ring of integral\n  finite adeles,\
-        \ and `New.congruenceGL I id` is the group of matrices in `GL n` of it that are `1`\n  modulo `I`.\n* `New.principalLevel`,\
-        \ `New.isOpen_principalLevel`: the principal level of an integer a, open for\n  a ≠ 0.\n* `New.levelOf`:\
-        \ the k in K₀ whose reductions at a family of places w_i lie in a subgroup H of ∏\n  GL_n(k_{w_i}); it is\
-        \ open for a finite family (`New.isOpen_levelOf`).\n* `New.exists_reduceFamily_eq`, `New.relIndex_levelOf`:\
-        \ if the w_i are finitely many, distinct, and\n  none is conjugate to a w_j, reduction is onto the product\
-        \ and the level has index [∏ GL_n : H].\n* `New.relIndex_principalLevel_le`: the index of the principal\
-        \ level of `a ≠ 0` is at most\n  `N(a) ^ (n ^ 2)`, where `N(a)` is the norm of `a`.\n* `New.levelRep`: a\
-        \ group that normalises `H` and fixes `χ` acts on the vectors on which the level\n  `New.levelOf w H` acts\
-        \ through reduction and `χ`.\n\nNotions from other files:\n* `New.Gf.atPlace`, `New.stdLevel.reduceAt`:\
+      startOffset: 893
+      endOffset: 2822
+      text: "\n\n## Main definitions and results\n\n* `New.exists_congruenceGL_subset`: every neighbourhood of `1`\
+        \ in `GL n` of the finite adeles\n  contains a principal congruence subgroup of integer level. Here `New.Ô`\
+        \ is the ring of integral\n  finite adeles, and `New.congruenceGL I id` is the group of matrices in `GL\
+        \ n` of it that are `1`\n  modulo `I`.\n* `New.principalLevel`, `New.isOpen_principalLevel`: the principal\
+        \ level of an integer a, open for\n  a ≠ 0.\n* `New.levelOf`: the k in K₀ whose reductions at a family of\
+        \ places w_i lie in a subgroup H of ∏\n  GL_n(k_{w_i}); it is open for a finite family (`New.isOpen_levelOf`).\n\
+        * `New.exists_reduceFamily_eq`, `New.relIndex_levelOf`: if the w_i are finitely many, distinct, and\n  none\
+        \ is conjugate to a w_j, reduction is onto the product and the level has index [∏ GL_n : H].\n* `New.relIndex_principalLevel_le`:\
+        \ the index of the principal level of `a ≠ 0` is at most\n  `N(a) ^ (n ^ 2)`, where `N(a)` is the norm of\
+        \ `a`.\n* `New.levelRep`: a group that normalises `H` and fixes `χ` acts on the vectors on which the level\n\
+        \  `New.levelOf w H` acts through reduction and `χ`.\n\nNotions from other files:\n* `New.Gf.atPlace`, `New.stdLevel.reduceAt`:\
         \ The component at w of an element of G_f, and the\n  reduction modulo w of an element of K₀. Elements of\
         \ `trivialOn n P` have component 1 at each place\n  in P.\n* `New.ResField`: The residue field of the completion\
         \ E_w of E at the finite place w.\n* `New.levelSpace`: The vectors v with π(k)v = χ(k)v for all k in the\
@@ -3767,8 +3788,6 @@ files:
         \ levels of a global modulus, in\nthe unitary group of the identity form. Source: V. Platonov, A. Rapinchuk,\
         \ Algebraic groups and\nnumber theory, ch. 3 and 5; B. H. Gross, Algebraic modular forms, Israel J. Math.\
         \ 113 (1999) 61-93.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Adelic.Unitary.Defs:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3813,35 +3832,39 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/Unitary/Defs.lean
       line: 8
-      endLine: 10
+      endLine: 14
+      startOffset: 192
+      endOffset: 846
       text: 'This file defines unitary groups over the adeles of a CM field `E`, with signs `s` at the infinite
 
         places. `New.Gf` is the finite adelic unitary group of the identity form, `New.stdLevel` is its
 
         integral subgroup K_0, and `New.G` is the product G_∞ × G_f. A level is an open subgroup of K_0.
 
-        '
+        Given a CM type of `E` (`CMType E`, which fixes a complex embedding at each infinite place), a
+
+        hermitian space with a point is a form J over E together with an adelic matrix x such that xᴴJx is
+
+        diag(s) at the infinite places and 1 at the finite ones; it yields a rational subgroup and a
+
+        lattice. The mass is defined for the standard space, where J = 1 and x = 1.'
     remainder:
       path: grh/src/Lib/Adelic/Unitary/Defs.lean
-      line: 11
+      line: 14
       endLine: 37
-      text: "Given a CM type of `E` (`CMType E`, which fixes a complex embedding at each infinite place), a\nhermitian\
-        \ space with a point is a form J over E together with an adelic matrix x such that xᴴJx is\ndiag(s) at the\
-        \ infinite places and 1 at the finite ones; it yields a rational subgroup and a\nlattice. The mass is defined\
-        \ for the standard space, where J = 1 and x = 1.\n\nNotions from earlier files:\n* `\U0001D538 E`, `\U0001D538\
-        f E`: the adeles of `E` and its finite adeles; `Ô E`: the integral finite adeles;\n  `toAdele : E →+* \U0001D538\
-        \ E` is the embedding of E in its adeles.\n* `LocField w`, `LocInt w`: the completion E_w at a finite place\
-        \ w and its ring of integers;\n  `evalAt w` takes a finite adele to its component at w.\n* `U J`: the group\
-        \ of invertible matrices g with gᴴJg = J.\n* `intGL n O`: the matrices in GL_n(R) that, with their inverses,\
-        \ have entries in the subring O;\n  `congruenceGL M e`: those of them whose rows e(i) are congruent to rows\
-        \ of 1 modulo M.\n* `star w`: the complex conjugate of a finite place w; w is split (`IsSplit`) if `star\
-        \ w ≠ w`.\n  `star` on finite adeles is complex conjugation, and `conjLoc h : E_u →+* E_w` is the map it\n\
-        \  induces when `star u = w`.\n\n## Main definitions and results\n\n* `New.Gf`: the finite adelic unitary\
-        \ group G_f.\n* `New.G`: the adelic unitary group G = G_∞ × G_f.\n* `New.mass`: the mass of the genus of\
-        \ O_E^l.\n\n## Relation to the literature\n\nKnown; see `Lib.Adelic.Unitary.WeakApproximation` and `Lib.Adelic.Witt.IwasawaDecomposition`\
-        \ for\nsources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 846
+      endOffset: 1961
+      text: "\n\nNotions from earlier files:\n* `\U0001D538 E`, `\U0001D538f E`: the adeles of `E` and its finite\
+        \ adeles; `Ô E`: the integral finite adeles;\n  `toAdele : E →+* \U0001D538 E` is the embedding of E in\
+        \ its adeles.\n* `LocField w`, `LocInt w`: the completion E_w at a finite place w and its ring of integers;\n\
+        \  `evalAt w` takes a finite adele to its component at w.\n* `U J`: the group of invertible matrices g with\
+        \ gᴴJg = J.\n* `intGL n O`: the matrices in GL_n(R) that, with their inverses, have entries in the subring\
+        \ O;\n  `congruenceGL M e`: those of them whose rows e(i) are congruent to rows of 1 modulo M.\n* `star\
+        \ w`: the complex conjugate of a finite place w; w is split (`IsSplit`) if `star w ≠ w`.\n  `star` on finite\
+        \ adeles is complex conjugation, and `conjLoc h : E_u →+* E_w` is the map it\n  induces when `star u = w`.\n\
+        \n## Main definitions and results\n\n* `New.Gf`: the finite adelic unitary group G_f.\n* `New.G`: the adelic\
+        \ unitary group G = G_∞ × G_f.\n* `New.mass`: the mass of the genus of O_E^l.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.Adelic.Unitary.WeakApproximation` and `Lib.Adelic.Witt.IwasawaDecomposition` for\nsources.\n"
   Lib.Adelic.Unitary.GramMatrix:
     group: Lib.Adelic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -4300,29 +4323,41 @@ files:
     excerpt:
       path: grh/src/Lib/Adelic/Witt/WittTheorem.lean
       line: 7
-      endLine: 8
+      endLine: 17
+      startOffset: 170
+      endOffset: 1189
       text: '`J` is a hermitian matrix over a commutative ring with involution, with form
 
         `h(u, v) = star u ⬝ᵥ J *ᵥ v`, and `New.U J` is the group of invertible `g` with `gᴴ * J * g = J`.
 
-        '
+        For invertible such `J`, Witt''s theorem says that left invertible matrices with equal Gram matrices
+
+        differ by an element of `New.U J`. It is proved over a field with nontrivial involution using
+
+        quasi-reflections. Let `E` be a CM field that contains a primitive root of unity of order 5040
+
+        (`New.HasPrimitiveRoot5040 E`). Over its integral finite adeles `New.Ô E`, invertible hermitian
+
+        matrices have orthonormal bases, units fixed by conjugation are norms, and Witt''s theorem is proved
+
+        for the standard hermitian form and primitive matrices, with an integral unitary matrix. For the
+
+        split form `T.splitGram` with `ϱ` hyperbolic planes and middle block `T`, the file then studies the
+
+        frame `f = (e₁, …, e_ϱ, z)` (`𝔰.besselFrame`, whose last entry `𝔰.besselFrame 𝔰.top` is `z`) and the
+
+        action of the unipotent group `New.Shape.Form.besselU` on it.'
     remainder:
       path: grh/src/Lib/Adelic/Witt/WittTheorem.lean
-      line: 9
+      line: 17
       endLine: 46
-      text: "For invertible such `J`, Witt's theorem says that left invertible matrices with equal Gram matrices\n\
-        differ by an element of `New.U J`. It is proved over a field with nontrivial involution using\nquasi-reflections.\
-        \ Let `E` be a CM field that contains a primitive root of unity of order 5040\n(`New.HasPrimitiveRoot5040\
-        \ E`). Over its integral finite adeles `New.Ô E`, invertible hermitian\nmatrices have orthonormal bases,\
-        \ units fixed by conjugation are norms, and Witt's theorem is proved\nfor the standard hermitian form and\
-        \ primitive matrices, with an integral unitary matrix. For the\nsplit form `T.splitGram` with `ϱ` hyperbolic\
-        \ planes and middle block `T`, the file then studies the\nframe `f = (e₁, …, e_ϱ, z)` (`\U0001D530.besselFrame`,\
-        \ whose last entry `\U0001D530.besselFrame \U0001D530.top` is `z`) and the\naction of the unipotent group\
-        \ `New.Shape.Form.besselU` on it.\n\n## Main definitions and results\n\n* `New.quasiReflection`: the quasi-reflection\
-        \ along `v`, for a unit `σ` with `σ + star σ = h(v, v)`.\n* `New.witt_of_quasiReflection_mem`: left invertible\
-        \ `X`, `Y` with the same Gram matrix satisfy\n  `g * X = Y` for some `g` in any subgroup of `New.U J` that\
-        \ contains all quasi-reflections.\n* `New.witt`: the same with `g` in `New.U J`.\n* `New.exists_orthonormal_Ô`:\
-        \ a hermitian matrix invertible over `Ô` is `Ô`-congruent to `1`.\n* `New.witt_Ô`: Witt's theorem for primitive\
+      startOffset: 1189
+      endOffset: 2946
+      text: "\n\n## Main definitions and results\n\n* `New.quasiReflection`: the quasi-reflection along `v`, for\
+        \ a unit `σ` with `σ + star σ = h(v, v)`.\n* `New.witt_of_quasiReflection_mem`: left invertible `X`, `Y`\
+        \ with the same Gram matrix satisfy\n  `g * X = Y` for some `g` in any subgroup of `New.U J` that contains\
+        \ all quasi-reflections.\n* `New.witt`: the same with `g` in `New.U J`.\n* `New.exists_orthonormal_Ô`: a\
+        \ hermitian matrix invertible over `Ô` is `Ô`-congruent to `1`.\n* `New.witt_Ô`: Witt's theorem for primitive\
         \ `n × k` matrices over `Ô`.\n* `New.exists_unitary_eq_eichlerMap`: for hermitian `J`, the Eichler map\n\
         \  `v ↦ v + h(u, v) x - h(x, v) (u + ς x)` (`New.eichlerMap`) is an isometry if `x` is isotropic, `u`\n\
         \  is orthogonal to `x` and `ς + star ς = h(u, u)`.\n\nNotions from other files:\n* `New.Shape`: the data\
@@ -4335,6 +4370,4 @@ files:
         \ of the frame.\n* `New.intGL`: for a subring O of R, the subgroup GL_n(O) of GL_n(R): matrices with entries\
         \ in O\n  whose inverse has entries in O.\n\n## Relation to the literature\n\nKnown; see `Lib.Adelic.Witt.IwasawaDecomposition`,\
         \ `Lib.DiscreteSeries.Bruhat.FloorGroups` and\n`Lib.DiscreteSeries.Bruhat.ComplexPlace` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
 needs_draft: true

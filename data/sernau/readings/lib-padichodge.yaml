@@ -72,7 +72,9 @@ files:
     excerpt:
       path: grh/src/Lib/PadicHodge/ArtinSchreierSequence.lean
       line: 6
-      endLine: 11
+      endLine: 14
+      startOffset: 135
+      endOffset: 965
       text: '`New.Period.OFlat = O^♭` is the tilt of the ring of integers of `ℂ_p`, and `New.Period.CFlat = C^♭`
 
         is its fraction field. We write `New.Period.WittCFlat = W(C^♭)` and `A_inf = W(O^♭)`; the prime is
@@ -85,22 +87,26 @@ files:
 
         elements of type `GroupOverGp.G`) that maps to `Gp p`, and a representation of Γ on a ℤ_p-module T,
 
-        '
+        the module W(C^♭) ⊗ T with the diagonal action of ℤ × Γ is built, together with base change of
+
+        linear and bilinear maps. For T = ℤ_p/p^m(1) this gives an Artin–Schreier sequence: φ − 1 is onto,
+
+        and its kernel modulo W(𝔪^♭)·(1 ⊗ 1) is ℤ_p/p^m.'
     remainder:
       path: grh/src/Lib/PadicHodge/ArtinSchreierSequence.lean
-      line: 12
+      line: 14
       endLine: 45
-      text: "the module W(C^♭) ⊗ T with the diagonal action of ℤ × Γ is built, together with base change of\nlinear\
-        \ and bilinear maps. For T = ℤ_p/p^m(1) this gives an Artin–Schreier sequence: φ − 1 is onto,\nand its kernel\
-        \ modulo W(\U0001D52A^♭)·(1 ⊗ 1) is ℤ_p/p^m.\n\n## Main definitions and results\n\n* `New.Lift.wittOfMaxIdeal`:\
-        \ the kernel of the reduction `A_inf → W(k)`; by\n  `New.Lift.mem_wittOfMaxIdeal` its elements are the Witt\
-        \ vectors none of whose coefficients is a\n  unit.\n* `New.Lift.WittCFlat.eventually_smul_sub_mem`: for\
-        \ `a`, `d` in `W(C^♭)` and `g` near `1` in\n  `New.Gp p`, the element `(g • a - a) * d` lies in `W(\U0001D52A\
-        ) + p ^ m W(C^♭)`.\n* `New.Lift.DiagTensor`: the module W(C^♭) ⊗ T with its diagonal action.\n* `New.Lift.smallPart`:\
-        \ the A_inf-submodule W(\U0001D52A^♭)·(1 ⊗ 1) of M = W(C^♭) ⊗ ℤ_p/p^m(1).\n* `New.Lift.TateTwist.exists_eq_phi_smul_sub`,\n\
-        \  `New.Lift.TateTwist.exists_sub_mk_one_mem_smallPart_of_phi_smul_sub_mem` and\n  `New.Lift.TateTwist.eq_zero_of_mk_one_mem_smallPart`:\
-        \ φ − 1 is onto M, and its kernel modulo\n  W(\U0001D52A^♭)·(1 ⊗ 1) is ℤ_p/p^m.\n* `New.Lift.TateTwist.eventually_map_smul_sub_mem_smallPart`:\
-        \ let ρ be a representation with\n  ρ(g)y − y divisible by p^m for g near 1, and let L be a linear map from\
+      startOffset: 965
+      endOffset: 2768
+      text: "\n\n## Main definitions and results\n\n* `New.Lift.wittOfMaxIdeal`: the kernel of the reduction `A_inf\
+        \ → W(k)`; by\n  `New.Lift.mem_wittOfMaxIdeal` its elements are the Witt vectors none of whose coefficients\
+        \ is a\n  unit.\n* `New.Lift.WittCFlat.eventually_smul_sub_mem`: for `a`, `d` in `W(C^♭)` and `g` near `1`\
+        \ in\n  `New.Gp p`, the element `(g • a - a) * d` lies in `W(\U0001D52A) + p ^ m W(C^♭)`.\n* `New.Lift.DiagTensor`:\
+        \ the module W(C^♭) ⊗ T with its diagonal action.\n* `New.Lift.smallPart`: the A_inf-submodule W(\U0001D52A\
+        ^♭)·(1 ⊗ 1) of M = W(C^♭) ⊗ ℤ_p/p^m(1).\n* `New.Lift.TateTwist.exists_eq_phi_smul_sub`,\n  `New.Lift.TateTwist.exists_sub_mk_one_mem_smallPart_of_phi_smul_sub_mem`\
+        \ and\n  `New.Lift.TateTwist.eq_zero_of_mk_one_mem_smallPart`: φ − 1 is onto M, and its kernel modulo\n\
+        \  W(\U0001D52A^♭)·(1 ⊗ 1) is ℤ_p/p^m.\n* `New.Lift.TateTwist.eventually_map_smul_sub_mem_smallPart`: let\
+        \ ρ be a representation with\n  ρ(g)y − y divisible by p^m for g near 1, and let L be a linear map from\
         \ W(C^♭) ⊗ ρ into M. Then\n  for each v, L(gv − v) lies in W(\U0001D52A^♭)·(1 ⊗ 1) for g near 1.\n\nNotions\
         \ from other files:\n* `New.Period.toWittResidue`: the ring map `A_inf = W(O^♭) → W(k)`, `k` the residue\
         \ field of `O^♭`,\n  that reduces each Witt coordinate.\n* `New.Lift.FrobGroup Γ`: the group `ℤ × Γ`; `FrobGroup.snd`\
@@ -110,8 +116,6 @@ files:
         \ tilt. Only the φ−1 step of Herr's complex\nis treated, on Witt vectors of the tilt of C_p modulo p^m,\
         \ and the Γ-step is not treated. Source: L.\nHerr, Sur la cohomologie galoisienne des corps p-adiques, Bull.\
         \ SMF 126 (1998) 563–600.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.PadicHodge.BlochKato:
     group: Lib.PadicHodge
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -517,28 +521,30 @@ files:
     excerpt:
       path: grh/src/Lib/PadicHodge/Crystalline/HodgeTateForms.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 174
+      endOffset: 882
       text: "`New.Period.hodgeTateMaps ρ γ u` is the `PadicAlgCl p`-space of `γ`-semilinear maps `f : T → ℂ_[p]`\n\
         with `f (ρ g x) = χ(g) ^ (-u) • toGp g • f x` for `g` near `1`. Here `toGp` is the map to `Gp p`\ngiven\
         \ by the instance `[OverGp Γ p]`, and the instance `[ThePrime p]` fixes `p` as a prime. For\n`toGp` of open\
         \ image and `T` finite over `R`:\n* `New.Period.hodgeTateMaps.mem_span_same_weight`: a map of weight `u`\
         \ in the `ℂ_[p]`-span of maps\n  `f i` of weights `k i` lies in the `PadicAlgCl p`-span of those with `k\
-        \ i = u`;\n* `New.Period.finite_hodgeTateMaps`: each space has finite dimension;\n"
+        \ i = u`;\n* `New.Period.finite_hodgeTateMaps`: each space has finite dimension;\n* `New.Period.hasJumps_of_basis`:\
+        \ the weights of a `ℂ_[p]`-basis of such maps are the jumps\n  (`New.Period.HasJumps`)."
     remainder:
       path: grh/src/Lib/PadicHodge/Crystalline/HodgeTateForms.lean
-      line: 14
+      line: 15
       endLine: 31
-      text: "* `New.Period.hasJumps_of_basis`: the weights of a `ℂ_[p]`-basis of such maps are the jumps\n  (`New.Period.HasJumps`).\n\
-        \nThe input is that an element of `ℂ_[p]` fixed near `1` is algebraic, and is zero if it is fixed\nafter\
-        \ twisting by a nonzero power of `χ`.\n\nNotions from other files:\n* `New.Period.nearOne`: The filter 'near\
-        \ 1' on Γ: the pull-back along `toGp : Γ → G_p` of the filter\n  of neighbourhoods of the identity.\n* `New.cyclotomicGp`:\
-        \ The p-adic cyclotomic character χ of G_p = Gal(Q̄_p over Q_p) (`New.Gp`); for\n  `g : Γ`, `χ g` means\
-        \ χ applied to `toGp g`.\n* `New.Period.jump`, `New.Period.HasJumps`: the multiplicity of the jump u is\
-        \ the dimension over\n  `PadicAlgCl p` of `hodgeTateMaps ρ γ u`; a multiset J of integers gives the jumps\
-        \ if each u occurs\n  in J with that multiplicity.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Crystalline.Regularity`\
-        \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 882
+      endOffset: 1658
+      text: "\n\nThe input is that an element of `ℂ_[p]` fixed near `1` is algebraic, and is zero if it is fixed\n\
+        after twisting by a nonzero power of `χ`.\n\nNotions from other files:\n* `New.Period.nearOne`: The filter\
+        \ 'near 1' on Γ: the pull-back along `toGp : Γ → G_p` of the filter\n  of neighbourhoods of the identity.\n\
+        * `New.cyclotomicGp`: The p-adic cyclotomic character χ of G_p = Gal(Q̄_p over Q_p) (`New.Gp`); for\n  `g\
+        \ : Γ`, `χ g` means χ applied to `toGp g`.\n* `New.Period.jump`, `New.Period.HasJumps`: the multiplicity\
+        \ of the jump u is the dimension over\n  `PadicAlgCl p` of `hodgeTateMaps ρ γ u`; a multiset J of integers\
+        \ gives the jumps if each u occurs\n  in J with that multiplicity.\n\n## Relation to the literature\n\n\
+        Known; see `Lib.PadicHodge.Crystalline.Regularity` for sources.\n"
   Lib.PadicHodge.Crystalline.HodgeTateJumps:
     group: Lib.PadicHodge
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -770,31 +776,40 @@ files:
     excerpt:
       path: grh/src/Lib/PadicHodge/Kisin/Bicommutant.lean
       line: 6
-      endLine: 6
+      endLine: 13
+      startOffset: 114
+      endOffset: 778
       text: 'This file works in B^+ = `BPlus` = A_max[1/p], where A_max = `Amax` has image `amaxImage` in B^+.
 
-        '
+        It defines the ring S_B of a chart, the elements of B^+ whose multiplication commutes with all
+
+        `S`-linear maps of B^+ that keep `amaxImage`. It shows that S_B is the closure of `S[E/p]` with `p`
+
+        inverted, and that every `S`-linear map of A_inf extends to an S_B-linear map of B^+ that keeps
+
+        `amaxImage`. Most identities for the extensions are checked on A_inf by a density principle: an
+
+        additive map of B^+ that keeps `amaxImage` and kills A_inf is zero
+
+        (`New.Lift.Chart.eq_zero_of_map_ainfToBPlus_eq_zero`). The file ends with results on divisibility
+
+        by `z` in B^+.'
     remainder:
       path: grh/src/Lib/PadicHodge/Kisin/Bicommutant.lean
-      line: 7
+      line: 13
       endLine: 32
-      text: "It defines the ring S_B of a chart, the elements of B^+ whose multiplication commutes with all\n`S`-linear\
-        \ maps of B^+ that keep `amaxImage`. It shows that S_B is the closure of `S[E/p]` with `p`\ninverted, and\
-        \ that every `S`-linear map of A_inf extends to an S_B-linear map of B^+ that keeps\n`amaxImage`. Most identities\
-        \ for the extensions are checked on A_inf by a density principle: an\nadditive map of B^+ that keeps `amaxImage`\
-        \ and kills A_inf is zero\n(`New.Lift.Chart.eq_zero_of_map_ainfToBPlus_eq_zero`). The file ends with results\
-        \ on divisibility\nby `z` in B^+.\n\n## Main definitions and results\n\n* `New.Lift.Chart.bicommutant`:\
-        \ the ring S_B of the elements of B^+ whose multiplication commutes\n  with all S-linear maps B^+ → B^+\
-        \ that keep the image of A_max.\n* `New.Lift.Chart.extendToBPlus`: an S-linear map of A_inf extends to an\
-        \ S_B-linear map of B^+\n  keeping the image of A_max.\n\nNotions from other files:\n* `New.Period.Amax`:\
-        \ Colmez's period ring A_max, the p-adic completion of A_inf[X]/(pX − ξ).\n* `New.Period.FrobGal`: The monoid\
-        \ ℕ × G_p; the pair (n, g) acts on A_inf as φ^n g.\n* `New.Lift.Chart.S`: the ring `S`, the image in A_inf\
-        \ of the chart's map Λ[[X]] → A_inf.\n* `New.Lift.Chart.E`: the image `E` in `S` of the series X^e A + p;\
-        \ it equals ξ times a unit.\n* `New.Lift.Chart.adicBasis`: a chosen (p, z)-adic topological basis of A_inf\
-        \ over `S`, whose\n  coordinate at `New.Lift.Chart.oneIndex` is the identity on `S`.\n\n## Relation to the\
-        \ literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 778
+      endOffset: 1746
+      text: "\n\n## Main definitions and results\n\n* `New.Lift.Chart.bicommutant`: the ring S_B of the elements\
+        \ of B^+ whose multiplication commutes\n  with all S-linear maps B^+ → B^+ that keep the image of A_max.\n\
+        * `New.Lift.Chart.extendToBPlus`: an S-linear map of A_inf extends to an S_B-linear map of B^+\n  keeping\
+        \ the image of A_max.\n\nNotions from other files:\n* `New.Period.Amax`: Colmez's period ring A_max, the\
+        \ p-adic completion of A_inf[X]/(pX − ξ).\n* `New.Period.FrobGal`: The monoid ℕ × G_p; the pair (n, g) acts\
+        \ on A_inf as φ^n g.\n* `New.Lift.Chart.S`: the ring `S`, the image in A_inf of the chart's map Λ[[X]] →\
+        \ A_inf.\n* `New.Lift.Chart.E`: the image `E` in `S` of the series X^e A + p; it equals ξ times a unit.\n\
+        * `New.Lift.Chart.adicBasis`: a chosen (p, z)-adic topological basis of A_inf over `S`, whose\n  coordinate\
+        \ at `New.Lift.Chart.oneIndex` is the identity on `S`.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame`\
+        \ for sources.\n"
   Lib.PadicHodge.Kisin.Charts:
     group: Lib.PadicHodge
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -852,7 +867,9 @@ files:
     excerpt:
       path: grh/src/Lib/PadicHodge/Kisin/Charts.lean
       line: 6
-      endLine: 12
+      endLine: 15
+      startOffset: 131
+      endOffset: 1044
       text: 'A chart `c` presents a power series ring `S = Λ⟦z⟧` inside `New.Period.Ainf` (A_inf), the Witt
 
         vectors of the tilt `New.Period.OFlat` of the integers of `ℂ_p`. Here `Λ` is the ring of Witt
@@ -867,29 +884,31 @@ files:
 
         absolute Galois group of `ℚ_p`, acts on A_inf; the class `ThePrime p` fixes the prime `p`
 
-        '
+        throughout. The maps `θ ∘ φ^{-n}` show that elements of the tilt fixed by the Galois elements fixing
+
+        `S` are approximated from `S`. `S`-linear maps of A_inf extend to B^+ = `BPlus` = A_max[1/p], where
+
+        A_max = `Amax` has image `amaxImage` in B^+.'
     remainder:
       path: grh/src/Lib/PadicHodge/Kisin/Charts.lean
-      line: 13
+      line: 15
       endLine: 40
-      text: "throughout. The maps `θ ∘ φ^{-n}` show that elements of the tilt fixed by the Galois elements fixing\n\
-        `S` are approximated from `S`. `S`-linear maps of A_inf extend to B^+ = `BPlus` = A_max[1/p], where\nA_max\
-        \ = `Amax` has image `amaxImage` in B^+.\n\nThis file constructs charts and their ring `S`, and gives A_inf\
-        \ a topological basis over `S`. It\nproves that Frobenius preserves `S` and proves Weierstrass division\
-        \ by `φ^n E`. It studies the maps\n`θ ∘ φ^{-n}` and proves the approximation theorem for fixed elements\
-        \ of the tilt. The extension of\n`S`-linear maps to B^+ is treated in `Lib.PadicHodge.Kisin.Bicommutant`.\n\
-        \n## Main definitions and results\n\n* `New.Lift.Chart.φ`: Frobenius preserves `S`. `New.Lift.Chart.weierstrass_division`:\
-        \ division by\n  `φ^n E`.\n* `New.Lift.thetaPhiInv`: the map `θ ∘ φ^{-n}` to the integers of `ℂ_p`. Modulo\
-        \ `p` it is the `n`-th\n  component of the reduction modulo `p` (`New.Lift.mk_thetaPhiInv_eq_coeff`), and\
-        \ its kernel is\n  generated by `φ^n E` (`New.Lift.frobE_dvd_iff`).\n* `New.Lift.Chart.eventually_exists_coeff_eq_of_fixed`:\
-        \ the approximation theorem, from Ax's theorem\n  (`New.Period.ax_mem_closure_fixedField`) and `New.Lift.Chart.mem_of_fixed_thetaPhiInvS`.\n\
+      startOffset: 1044
+      endOffset: 2439
+      text: "\n\nThis file constructs charts and their ring `S`, and gives A_inf a topological basis over `S`. It\n\
+        proves that Frobenius preserves `S` and proves Weierstrass division by `φ^n E`. It studies the maps\n`θ\
+        \ ∘ φ^{-n}` and proves the approximation theorem for fixed elements of the tilt. The extension of\n`S`-linear\
+        \ maps to B^+ is treated in `Lib.PadicHodge.Kisin.Bicommutant`.\n\n## Main definitions and results\n\n*\
+        \ `New.Lift.Chart.φ`: Frobenius preserves `S`. `New.Lift.Chart.weierstrass_division`: division by\n  `φ^n\
+        \ E`.\n* `New.Lift.thetaPhiInv`: the map `θ ∘ φ^{-n}` to the integers of `ℂ_p`. Modulo `p` it is the `n`-th\n\
+        \  component of the reduction modulo `p` (`New.Lift.mk_thetaPhiInv_eq_coeff`), and its kernel is\n  generated\
+        \ by `φ^n E` (`New.Lift.frobE_dvd_iff`).\n* `New.Lift.Chart.eventually_exists_coeff_eq_of_fixed`: the approximation\
+        \ theorem, from Ax's theorem\n  (`New.Period.ax_mem_closure_fixedField`) and `New.Lift.Chart.mem_of_fixed_thetaPhiInvS`.\n\
         \nNotions from other files:\n* `New.Lift.AdicBasis`: A topological basis of `M` over `S` for the `I`-adic\
         \ topology: vectors `b i`\n  whose finite combinations are dense, with linear forms `coord i` on `M` that\
         \ read off the\n  coefficients of a finite combination.\n* `New.Period.FrobGal`: The monoid ℕ × G_p; the\
         \ pair (n, g) acts on A_inf as φ^n g.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame`\
         \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.PadicHodge.Kisin.FrameTheorem:
     group: Lib.PadicHodge
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1175,7 +1194,9 @@ files:
     excerpt:
       path: grh/src/Lib/PadicHodge/Kisin/KummerChartExistence.lean
       line: 7
-      endLine: 11
+      endLine: 13
+      startOffset: 169
+      endOffset: 777
       text: 'Let Λ = `New.Lift.WittFq f` be the ring of Witt vectors of the field with p^f elements inside O^♭,
 
         with p implicit, and let θ be Fontaine''s map from A_inf to O_C. The group ℤ × Γ acts on O^♭, A_inf
@@ -1186,24 +1207,24 @@ files:
 
         the subfield of ℚ̄_p fixed by the image. Every such field has a Kummer chart: a chart
 
-        '
+        S = Λ⟦z⟧ ⊂ A_inf with a subgroup Γ'' of Γ of index prime to p, such that j(Γ'') fixes Λ and θ(z) and
+
+        moves z to every [ε]^l z.'
     remainder:
       path: grh/src/Lib/PadicHodge/Kisin/KummerChartExistence.lean
-      line: 12
+      line: 13
       endLine: 33
-      text: "S = Λ⟦z⟧ ⊂ A_inf with a subgroup Γ' of Γ of index prime to p, such that j(Γ') fixes Λ and θ(z) and\n\
-        moves z to every [ε]^l z.\n\n## Main definitions and results\n\n* `New.Lift.wittToQpBar`: the restriction\
-        \ of θ to Λ, with values in the algebraic closure of\n  `ℚ_[p]`; it is injective (`New.Lift.wittToQpBar_injective`).\n\
-        * `New.Lift.FrobGroup`: the group ℤ × Γ, with Frobenius `New.Lift.FrobGroup.φ`.\n* `New.Lift.KummerChart`:\
-        \ a Kummer chart; `New.Lift.KummerChart.IsUnramified`: it is unramified.\n* `New.Lift.exists_kummerChart`:\
-        \ every such field has a Kummer chart, with ef the degree of the\n  field.\n\nNotions from other files:\n\
-        * `New.Period.OFlat`: The ring O^♭, the inverse limit of O_C/p along x ↦ x^p, where O_C is the ring\n  of\
-        \ integers of C_p.\n* `New.Lift.Chart`: A Λ-algebra map Λ[[X]] → A_inf with image S, sending X to a non-unit\
-        \ Teichmüller\n  lift z and a series X^e A + p, A a unit, to an element E that generates ker θ.\n\n## Relation\
-        \ to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame` and `Lib.PadicHodge.PeriodRings.DeRhamPeriods`\n\
-        for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 777
+      endOffset: 1725
+      text: "\n\n## Main definitions and results\n\n* `New.Lift.wittToQpBar`: the restriction of θ to Λ, with values\
+        \ in the algebraic closure of\n  `ℚ_[p]`; it is injective (`New.Lift.wittToQpBar_injective`).\n* `New.Lift.FrobGroup`:\
+        \ the group ℤ × Γ, with Frobenius `New.Lift.FrobGroup.φ`.\n* `New.Lift.KummerChart`: a Kummer chart; `New.Lift.KummerChart.IsUnramified`:\
+        \ it is unramified.\n* `New.Lift.exists_kummerChart`: every such field has a Kummer chart, with ef the degree\
+        \ of the\n  field.\n\nNotions from other files:\n* `New.Period.OFlat`: The ring O^♭, the inverse limit of\
+        \ O_C/p along x ↦ x^p, where O_C is the ring\n  of integers of C_p.\n* `New.Lift.Chart`: A Λ-algebra map\
+        \ Λ[[X]] → A_inf with image S, sending X to a non-unit Teichmüller\n  lift z and a series X^e A + p, A a\
+        \ unit, to an element E that generates ker θ.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame`\
+        \ and `Lib.PadicHodge.PeriodRings.DeRhamPeriods`\nfor sources.\n"
   Lib.PadicHodge.Kisin.Modules:
     group: Lib.PadicHodge
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

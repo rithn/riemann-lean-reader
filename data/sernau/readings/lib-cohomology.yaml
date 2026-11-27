@@ -46,7 +46,9 @@ files:
     excerpt:
       path: grh/src/Lib/Cohomology/Etale/Basic.lean
       line: 6
-      endLine: 11
+      endLine: 13
+      startOffset: 134
+      endOffset: 855
       text: 'Fix a category `C` of test objects and a coefficient functor `F : C ⥤ Ab`. A space is a functor
 
         `Y : C ⥤ Type 1`, and its cohomology is `New.Variety.H N F n = Extⁿ(N, F)` with `N = ℤ[Y]`, computed
@@ -59,28 +61,29 @@ files:
 
         for an abelian group `Λ`. The file proves stability properties of test rings, formal functoriality
 
-        '
+        of `H` and the additive Yoneda lemma, and it fixes vocabulary for fixed point formulas and
+
+        congruence relations with Frobenius.'
     remainder:
       path: grh/src/Lib/Cohomology/Etale/Basic.lean
-      line: 12
+      line: 13
       endLine: 38
-      text: "of `H` and the additive Yoneda lemma, and it fixes vocabulary for fixed point formulas and\ncongruence\
-        \ relations with Frobenius.\n\n## Main definitions and results\n\n* `New.Variety.H N F n = Extⁿ(N, F)` and\
-        \ `New.Variety.freeAb` (the functor `Y ↦ ℤ[Y]`), with\n  pull-back `New.Variety.H.map` in `N` and push-forward\
-        \ `New.Variety.H.push` in `F`.\n* `New.Variety.IsCohomEquiv F α`: `α` is bijective on all `Extⁿ(-, F)`.\n\
-        \  `New.Variety.IsCohomDense F U`: the subfunctor `U` gives such an equivalence over every point\n  `New.Variety.pointMap\
-        \ y`.\n* `New.Variety.IsTest`, `New.Variety.TestRing`: test rings and their category. A test ring is\n \
-        \ reduced and absolutely integrally closed, and divisibility in it is total after a partition by an\n  idempotent.\n\
-        * `New.Variety.locConstCoeff`, `New.Variety.TestCohomology.map`: the coefficients A ↦ {locally\n  constant\
-        \ Spec A → Λ} on test rings, and pull-back on cohomology.\n* `New.Variety.IsTest.pi`, `New.Variety.IsTest.localization`,\
-        \ `New.Variety.IsTest.quotient`:\n  products, localisations and quotients by radical ideals of test rings\
-        \ are test rings.\n* `New.Variety.H.dimension_shift_induction`: induction on classes by dimension shifting.\
-        \ Identities\n  between maps of `Ext` groups are checked in degree zero and on connecting maps.\n\nNotions\
-        \ from other files:\n* `New.Variety.IsAbsIntegrallyClosed`: A is absolutely integrally closed: every monic\
-        \ polynomial\n  over A of positive degree has a root in A.\n\n## Relation to the literature\n\nKnown; see\
-        \ `Lib.Cohomology.Etale.FilteredLimits` and `Lib.Cohomology.WoodsHole` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 855
+      endOffset: 2291
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.H N F n = Extⁿ(N, F)` and `New.Variety.freeAb`\
+        \ (the functor `Y ↦ ℤ[Y]`), with\n  pull-back `New.Variety.H.map` in `N` and push-forward `New.Variety.H.push`\
+        \ in `F`.\n* `New.Variety.IsCohomEquiv F α`: `α` is bijective on all `Extⁿ(-, F)`.\n  `New.Variety.IsCohomDense\
+        \ F U`: the subfunctor `U` gives such an equivalence over every point\n  `New.Variety.pointMap y`.\n* `New.Variety.IsTest`,\
+        \ `New.Variety.TestRing`: test rings and their category. A test ring is\n  reduced and absolutely integrally\
+        \ closed, and divisibility in it is total after a partition by an\n  idempotent.\n* `New.Variety.locConstCoeff`,\
+        \ `New.Variety.TestCohomology.map`: the coefficients A ↦ {locally\n  constant Spec A → Λ} on test rings,\
+        \ and pull-back on cohomology.\n* `New.Variety.IsTest.pi`, `New.Variety.IsTest.localization`, `New.Variety.IsTest.quotient`:\n\
+        \  products, localisations and quotients by radical ideals of test rings are test rings.\n* `New.Variety.H.dimension_shift_induction`:\
+        \ induction on classes by dimension shifting. Identities\n  between maps of `Ext` groups are checked in\
+        \ degree zero and on connecting maps.\n\nNotions from other files:\n* `New.Variety.IsAbsIntegrallyClosed`:\
+        \ A is absolutely integrally closed: every monic polynomial\n  over A of positive degree has a root in A.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Etale.FilteredLimits` and `Lib.Cohomology.WoodsHole`\
+        \ for sources.\n"
   Lib.Cohomology.Etale.BijectiveComparisons:
     group: Lib.Cohomology
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -134,7 +137,9 @@ files:
     excerpt:
       path: grh/src/Lib/Cohomology/Etale/BijectiveComparisons.lean
       line: 6
-      endLine: 11
+      endLine: 14
+      startOffset: 139
+      endOffset: 978
       text: 'For a set-valued functor of points `Y` on a category `C` with coefficients `F`, cohomology is
 
         `Hⁿ(Y, F) = New.Variety.H (freeAb.obj Y) F n`, an `Ext` group in functors to abelian groups, where
@@ -147,24 +152,27 @@ files:
 
         `c.pull (freeAbMap u) n : Hⁿ(Y, F) → Hⁿ(Y'', F'')`. The file gives criteria for these maps to be
 
-        '
+        bijective. The tools are dévissage and Čech descent along covers, and pointwise descriptions of
+
+        bijections and pull-back squares. The file also builds cocycle classes from witnesses of a relation
+
+        `R ⊆ V × L`, relative to a subfunctor `U ⊆ V`, by a Čech-type complex.'
     remainder:
       path: grh/src/Lib/Cohomology/Etale/BijectiveComparisons.lean
-      line: 12
+      line: 14
       endLine: 54
-      text: "bijective. The tools are dévissage and Čech descent along covers, and pointwise descriptions of\nbijections\
-        \ and pull-back squares. The file also builds cocycle classes from witnesses of a relation\n`R ⊆ V × L`,\
-        \ relative to a subfunctor `U ⊆ V`, by a Čech-type complex.\n\n## Main definitions and results\n\n* `New.Variety.witnessed.universalClass`,\
-        \ `New.Variety.witnessed.cocycleClass`: splicing the short\n  exact sequences into which the complex of\
-        \ points with witnesses splits gives a universal class;\n  its push-forward along a cocycle with values\
-        \ in `F` is a class in `Extⁿ(ℤ[V]/ℤ[U], F)`.\n* `New.Variety.cech_descent_step`, `New.Variety.Devissage.allBijective_freeAb_range_of_cech`:\
-        \ Čech\n  descent of bijectivity from `E` and its fibre powers `New.Variety.cech p m` to the image of\n\
-        \  `p : E ⟶ Y`.\n* `New.Variety.IsCover`: `p` is a cover for `F`, that is, the inclusion of its image induces\n\
-        \  bijections on all `Extⁿ(ℤ[-], F)`; pointwise surjections are covers\n  (`New.Variety.IsPointwiseSurjective.isCover`).\n\
-        * `New.Variety.Comparison.IsBijective`: for a natural map `α : N' ⟶ c.functor ⋙ N`, the maps\n  `c.pull\
-        \ α n : Extⁿ(N, F) → Extⁿ(N', F')` are bijective in all degrees; for `α = freeAbMap u` these\n  are the\
-        \ maps `Hⁿ(Y, F) → Hⁿ(Y', F')`.\n* `New.Variety.Comparison.isBijective_of_fibres`: it is enough to test\
-        \ on the fibres over the points\n  of `Y`; the proof is Čech descent (`New.Variety.Comparison.bijectiveUpTo_of_cech_pred`),\
+      startOffset: 978
+      endOffset: 3437
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.witnessed.universalClass`, `New.Variety.witnessed.cocycleClass`:\
+        \ splicing the short\n  exact sequences into which the complex of points with witnesses splits gives a universal\
+        \ class;\n  its push-forward along a cocycle with values in `F` is a class in `Extⁿ(ℤ[V]/ℤ[U], F)`.\n* `New.Variety.cech_descent_step`,\
+        \ `New.Variety.Devissage.allBijective_freeAb_range_of_cech`: Čech\n  descent of bijectivity from `E` and\
+        \ its fibre powers `New.Variety.cech p m` to the image of\n  `p : E ⟶ Y`.\n* `New.Variety.IsCover`: `p`\
+        \ is a cover for `F`, that is, the inclusion of its image induces\n  bijections on all `Extⁿ(ℤ[-], F)`;\
+        \ pointwise surjections are covers\n  (`New.Variety.IsPointwiseSurjective.isCover`).\n* `New.Variety.Comparison.IsBijective`:\
+        \ for a natural map `α : N' ⟶ c.functor ⋙ N`, the maps\n  `c.pull α n : Extⁿ(N, F) → Extⁿ(N', F')` are bijective\
+        \ in all degrees; for `α = freeAbMap u` these\n  are the maps `Hⁿ(Y, F) → Hⁿ(Y', F')`.\n* `New.Variety.Comparison.isBijective_of_fibres`:\
+        \ it is enough to test on the fibres over the points\n  of `Y`; the proof is Čech descent (`New.Variety.Comparison.bijectiveUpTo_of_cech_pred`),\
         \ one\n  condition of `New.Variety.BijectiveUpTo` at a time.\n* `New.Variety.Comparison.HasUniversalPoints.isBijective`:\
         \ representable fibres with equal\n  coefficients (`New.Variety.Comparison.IsUnivPoint`) suffice;\n  `New.Variety.Comparison.isBijective_of_adj`\
         \ is the case of an adjunction.\n\nNotions from other files:\n* `New.Variety.H`: The group Ext^n(N,F) in\
@@ -177,8 +185,6 @@ files:
         \  Ext^n(N,F) → Ext^n(N',F) is bijective for every n.\n* `New.Variety.freeAbMap`: For u: Y' → Y∘φ, the induced\
         \ map of free abelian group functors\n  Z[Y'] → Z[Y]∘φ.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Hodge.FixedPointFormula`\
         \ and `Lib.Cohomology.Etale.FilteredLimits` for\nsources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Cohomology.Etale.DenseSubfunctors:
     group: Lib.Cohomology
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -757,18 +763,22 @@ files:
     excerpt:
       path: grh/src/Lib/Cohomology/Hodge/CupProduct.lean
       line: 6
-      endLine: 14
+      endLine: 13
+      startOffset: 148
+      endOffset: 626
       text: "Products in the cohomology `New.Variety.H N F n = Ext^n(N, F)` of functors from `C` to abelian\ngroups\
         \ (`New.Variety.AbFunctor C`).\n\n* `New.Variety.abTensor`, `New.Variety.HasFlatValues`: the pointwise tensor\
         \ product, exact for flat\n  values.\n* `New.Variety.TotalH`: the direct sum of all `Ext^n(N, F)`, with\
         \ the Yoneda product\n  `New.Variety.TotalH.comp` and the action `New.Variety.TotalH.map` of exact functors\n\
-        \  (`IsExactFunctor`: sending exact sequences to exact sequences). Pull-back and push-forward become\n \
-        \ products with classes of degree zero, so degrees need no tracking.\n"
+        \  (`IsExactFunctor`: sending exact sequences to exact sequences)."
     remainder:
       path: grh/src/Lib/Cohomology/Hodge/CupProduct.lean
-      line: 15
+      line: 13
       endLine: 33
-      text: "* `New.Variety.TotalH.exact_triangle`: the long exact sequence, as an exact triangle.\n* `New.Variety.cup`:\
+      startOffset: 626
+      endOffset: 1784
+      text: " Pull-back and push-forward become\n  products with classes of degree zero, so degrees need no tracking.\n\
+        * `New.Variety.TotalH.exact_triangle`: the long exact sequence, as an exact triangle.\n* `New.Variety.cup`:\
         \ the external product, natural in the spaces (`New.Variety.cup_map`) and in the\n  site (`New.Variety.Comparison.pull_cup`).\n\
         \n`comp x y` is written in diagram order: `x` in `TotalH M N`, `y` in `TotalH N F`.\n\nNotions from other\
         \ files:\n* `New.Variety.H.map`, `New.Variety.H.push`: the maps Ext^n(N,F) → Ext^n(N',F) and\n  Ext^n(N,F)\
@@ -778,8 +788,9 @@ files:
         \ → Ext^n(N',F') obtained by restricting along φ, pushing by β and pulling by α.\n* `New.Variety.restrictAlong`:\
         \ for a functor φ: C' → C and a category D, the functor N ↦ N∘φ from\n  functors C → D to functors C' →\
         \ D.\n\n## Relation to the literature\n\nKnown; see `Lib.Cohomology.Hodge.FixedPointFormula` for sources.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: Identifies the cohomology products and the pointwise tensor and Yoneda constructions.
   Lib.Cohomology.Hodge.DepthVanishing:
     group: Lib.Cohomology
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1052,22 +1063,31 @@ files:
     excerpt:
       path: grh/src/Lib/Cohomology/Hodge/FixedPointFormula.lean
       line: 9
-      endLine: 10
+      endLine: 16
+      startOffset: 237
+      endOffset: 983
       text: 'Let `W`, `X` be functors from `k`-algebras to sets (`New.Variety.CommAlg k ⥤ Type 1`), standing for
 
         schemes, and let `u c : W ⟶ X` be two maps. A coincidence is a point `x` of `W` with `c x = u x`.
 
-        '
+        The file proves the fixed point formula in Hodge cohomology `Hdg^d(W)`, that is
+
+        `HodgeH (freeAb.obj W) d`, computed on square-zero extensions `A ⊕ M`: a pulled-back diagonal class
+
+        is a sum of point classes `New.Variety.pointClass d w` over the coincidences, weighted by Jacobian
+
+        determinants. If `k` is algebraically closed, `X` is separated, every `k[ε]`-valued coincidence is
+
+        constant and finitely many charts of `W` contain all field-valued coincidences, then the
+
+        coincidences form a finite set of rational points, which carry these local terms.'
     remainder:
       path: grh/src/Lib/Cohomology/Hodge/FixedPointFormula.lean
-      line: 11
+      line: 16
       endLine: 68
-      text: "The file proves the fixed point formula in Hodge cohomology `Hdg^d(W)`, that is\n`HodgeH (freeAb.obj\
-        \ W) d`, computed on square-zero extensions `A ⊕ M`: a pulled-back diagonal class\nis a sum of point classes\
-        \ `New.Variety.pointClass d w` over the coincidences, weighted by Jacobian\ndeterminants. If `k` is algebraically\
-        \ closed, `X` is separated, every `k[ε]`-valued coincidence is\nconstant and finitely many charts of `W`\
-        \ contain all field-valued coincidences, then the\ncoincidences form a finite set of rational points, which\
-        \ carry these local terms.\n\n## Main definitions and results\n\n* `New.Variety.ConstIfCoincident`, `New.Variety.IsCoincidenceSet`:\
+      startOffset: 983
+      endOffset: 4500
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.ConstIfCoincident`, `New.Variety.IsCoincidenceSet`:\
         \ reduced coincidences, and a\n  finite set of rational points that lists them all.\n* `New.Variety.HasJacobianRatio`:\
         \ the local term, the determinant of `(t du - dc) (du - dc)⁻¹`.\n* `New.Variety.IsTangentPoly.hasJacobianRatio_eval_div`:\
         \ a tangent polynomial `P` with `P 1 ≠ 0`\n  gives this term as `P t / P 1`; by `New.Variety.IsTangentPoly.constIfCoincident`\
@@ -1101,8 +1121,6 @@ files:
         \ sections 2-3; V. Srinivas, Gysin maps and cycle classes for Hodge cohomology, Proc. Indian\nAcad. Sci.\
         \ Math. Sci. 103 (1993) 209-247; Hartshorne, Residues and Duality (1966) III.9 for the\nsymbol.\n\nSee also\
         \ `Lib.Cohomology.WoodsHole` and `Lib.Cohomology.PointClass.LinearIndependence`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Cohomology.Hodge.GrothendieckSymbol:
     group: Lib.Cohomology
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2738,30 +2756,42 @@ files:
     excerpt:
       path: grh/src/Lib/Cohomology/ProperBaseChange/Theorem.lean
       line: 8
-      endLine: 9
+      endLine: 18
+      startOffset: 239
+      endOffset: 1281
       text: 'Spaces are functors on rings. A space is proper over `A` (`New.Variety.IsProperOver`) if its
 
         diagonal is cut out by ideals and a valuative criterion holds with one universal point.
 
-        '
+        `New.Variety.TestOver` A is the category of A-algebras that are test rings (absolutely integrally
+
+        closed reduced rings where any two elements are comparable for divisibility after splitting by an
+
+        idempotent; `testIncl` includes them in rings), `New.Variety.H` N F n is Extⁿ(N, F) among functors
+
+        to abelian groups, and the coefficients are ℤ/ℓ for a prime ℓ invertible in the base. The file
+
+        proves proper base change over an absolutely integrally closed local domain that is a valuation ring
+
+        and derives three consequences: injectivity of restriction to the residue fibre, invariance of
+
+        cohomology under extension of algebraically closed fields, and openness of zero sets of classes.
+
+        These results then give detection at points for coefficients that are ℤ/ℓ on the zero locus of a
+
+        family of ideals, in the form used to prove that Leray–Hirsch maps are bijective.'
     remainder:
       path: grh/src/Lib/Cohomology/ProperBaseChange/Theorem.lean
-      line: 10
+      line: 18
       endLine: 65
-      text: "`New.Variety.TestOver` A is the category of A-algebras that are test rings (absolutely integrally\n\
-        closed reduced rings where any two elements are comparable for divisibility after splitting by an\nidempotent;\
-        \ `testIncl` includes them in rings), `New.Variety.H` N F n is Extⁿ(N, F) among functors\nto abelian groups,\
-        \ and the coefficients are ℤ/ℓ for a prime ℓ invertible in the base. The file\nproves proper base change\
-        \ over an absolutely integrally closed local domain that is a valuation ring\nand derives three consequences:\
-        \ injectivity of restriction to the residue fibre, invariance of\ncohomology under extension of algebraically\
-        \ closed fields, and openness of zero sets of classes.\nThese results then give detection at points for\
-        \ coefficients that are ℤ/ℓ on the zero locus of a\nfamily of ideals, in the form used to prove that Leray–Hirsch\
-        \ maps are bijective.\n\n## Main definitions and results\n\n* `New.Variety.IsProperOver.proper_base_change`:\
-        \ for `Y` proper over an absolutely integrally closed\n  valuation ring `A` in which `ℓ` is invertible,\
-        \ the closed fibre of `Y` has the cohomology of `Y`.\n* `New.Variety.IsProperOver.injective_map_residue`:\
-        \ over an absolutely integrally closed local\n  domain that is a valuation ring, a class is determined by\
-        \ its restriction to the fibre over the\n  residue field.\n* `New.Variety.IsProperOver.isTestCohomEquiv_field_extension`:\
-        \ cohomology does not change under an\n  extension `S → T` of algebraically closed fields over `R`.\n* `New.Variety.IsProperOver.isOpen_zero_set_and_eq_zero`:\
+      startOffset: 1281
+      endOffset: 4646
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.IsProperOver.proper_base_change`: for `Y` proper\
+        \ over an absolutely integrally closed\n  valuation ring `A` in which `ℓ` is invertible, the closed fibre\
+        \ of `Y` has the cohomology of `Y`.\n* `New.Variety.IsProperOver.injective_map_residue`: over an absolutely\
+        \ integrally closed local\n  domain that is a valuation ring, a class is determined by its restriction to\
+        \ the fibre over the\n  residue field.\n* `New.Variety.IsProperOver.isTestCohomEquiv_field_extension`: cohomology\
+        \ does not change under an\n  extension `S → T` of algebraically closed fields over `R`.\n* `New.Variety.IsProperOver.isOpen_zero_set_and_eq_zero`:\
         \ over a test ring, the primes at which a\n  class vanishes form an open set, and a class that vanishes\
         \ at every prime is zero.\n* `New.Variety.IsDetectedAtPoints`: the property of a coefficient F that classes\
         \ over a test are\n  detected at the residue fields of its primes (zero sets are open, and a class that\
@@ -2788,8 +2818,6 @@ files:
         \ a Mayer–Vietoris splitting, together with Kummer theory. Source: Artin, SGA 4 Exp. XII 5.1,\n5.4, 5.5\
         \ (1973); Stacks Project Tag 095S; reduction to spaces of places as in Scholze, Étale\ncohomology of diamonds\
         \ (2017), Thm 19.2 and Lemma 19.4, after Huber, Math. Ann. 295 (1993).\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Cohomology.SmoothBaseChange:
     group: Lib.Cohomology
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2858,16 +2886,20 @@ files:
       path: grh/src/Lib/Cohomology/SmoothBaseChange.lean
       line: 7
       endLine: 14
+      startOffset: 196
+      endOffset: 740
       text: "From local charts to whole varieties, for cohomology computed on test rings.\n\n* `New.Variety.algToBaseChange`,\
         \ `New.Variety.isBijective_algToBaseChange`: the cohomology of the\n  base change `Y_A` on all test rings\
         \ agrees with that of `Y` on tests over `A`\n  (`New.Variety.TestOver`).\n* `New.Variety.ComparedTheory.mem_of_isClosedClass_of_isCharting`:\
         \ a class of functors governed by\n  `New.Variety.ComparedTheory.IsFiniteLerayHirsch` that contains the\
-        \ point contains every functor\n  charted by pieces étale over tori (`New.Variety.IsCharting`).\n"
+        \ point contains every functor\n  charted by pieces étale over tori (`New.Variety.IsCharting`)."
     remainder:
       path: grh/src/Lib/Cohomology/SmoothBaseChange.lean
-      line: 15
+      line: 14
       endLine: 42
-      text: "* `New.Variety.isTestCohomEquiv_baseChangeTransition`: let `A` be a valuation ring of an algebraic\n\
+      startOffset: 740
+      endOffset: 2542
+      text: "\n* `New.Variety.isTestCohomEquiv_baseChangeTransition`: let `A` be a valuation ring of an algebraic\n\
         \  closure `Ω` of `ℚ`, of residue characteristic `p ≠ ℓ`, and let `Y` be charted; then the mod `ℓ`\n  cohomology\
         \ of `Y_A` and of `Y_Ω` agree.\n\n`D.IsFiniteLerayHirsch N` says that the cohomology of `N` with locally\
         \ constant `ZMod ℓ`\ncoefficients is finite and computes that of the theory `D`. The functor\n`relFreeAb\
@@ -2885,8 +2917,9 @@ files:
         \ Artin, SGA 4 Exp. XV 2.1, XVI 1.2\n(1973); Stacks Project Tag 0EYQ; for the route through the class of\
         \ the diagonal, Zavyalov, Poincaré\nduality in abstract 6-functor formalisms (arXiv 2301.03821) and Li-Reinecke-Zavyalov\
         \ (arXiv\n2410.08200).\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States the base-change comparison and charting result.
   Lib.Cohomology.TorsionTheories:
     group: Lib.Cohomology
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3078,7 +3111,9 @@ files:
     excerpt:
       path: grh/src/Lib/Cohomology/WoodsHole.lean
       line: 6
-      endLine: 13
+      endLine: 16
+      startOffset: 144
+      endOffset: 1118
       text: 'The main theorem, `New.Variety.ellAdicCohom.woods_hole`: if a combination `∑ b_i u_i` of maps
 
         `W → Y` kills all Hodge classes of `Y` under the Hodge–Tate map `λ_h` (`New.Variety.hodgeTateMap`),
@@ -3095,53 +3130,55 @@ files:
 
         `New.Variety.map_scaledGraph_baseChange_cross`, and
 
-        '
+        `New.Variety.sum_mul_hodgeTateMap_scaledGraph_eq_zero` is the vanishing of the weighted sum.
+
+        `New.Variety.HodgeH` is Hodge cohomology, `New.Variety.algPoints` the functor of points, and
+
+        `New.Variety.HasAtlas` a finite cover by charts with `d` étale coordinates.'
     remainder:
       path: grh/src/Lib/Cohomology/WoodsHole.lean
-      line: 14
+      line: 16
       endLine: 74
-      text: "`New.Variety.sum_mul_hodgeTateMap_scaledGraph_eq_zero` is the vanishing of the weighted sum.\n`New.Variety.HodgeH`\
-        \ is Hodge cohomology, `New.Variety.algPoints` the functor of points, and\n`New.Variety.HasAtlas` a finite\
-        \ cover by charts with `d` étale coordinates.\n\n## Overview of this theory\n\nThroughout, `ℓ` is a fixed\
-        \ prime. Cohomology of a functor `X` to sets, with coefficients in a\nfunctor `F` to abelian groups, is\
-        \ `Extⁿ(ℤ[X], F)`. Here `ℤ[X]` is the free abelian group functor on\n`X`, and the Ext is taken in functors\
-        \ on test objects: rings, or pairs of a ring and a module.\n\nOn absolutely integrally closed rings `A`\
-        \ (every monic polynomial of positive degree has a root),\nlocally constant functions on `Spec A` give `\U0001D53D\
-        _ℓ`-cohomology. Their Witt vectors give\n`ℤ_ℓ`-cohomology. `New.Variety.ellAdicCohom` is `X ↦ ℚ_ℓ ⊗ Hⁿ(X\
-        \ ×_R Ω, ℤ_ℓ)`, for `X` over a ring\n`R` and an `R`-algebra `Ω`. Test objects may also be pairs `(B, M)`\
-        \ of a `k`-algebra `B` and a\n`B`-module `M`. On these, `New.Variety.HodgeH` of a functor `N` in degree\
-        \ `q` is `Ext^q` from\n`(B, M) ↦ N(B ⊕ M)` to `(B, M) ↦ ⋀_B M`.\n\n* `New.Variety.IsProperOver.proper_base_change`:\
-        \ let `A` be an absolutely integrally closed local\n  domain that is a valuation ring, with `ℓ` a unit in\
-        \ `A`. Let `Y` be proper over `Spec A`. Then\n  restriction from `Y` to its closed fibre is bijective on\
-        \ `\U0001D53D_ℓ`-cohomology in every degree.\n* `New.Variety.isTestCohomEquiv_baseChangeTransition`: let\
-        \ `A` be a valuation ring of an algebraic\n  closure `ℚ̄` of `ℚ`, with a prime `p` in its maximal ideal\
-        \ and `ℓ` a unit. Let `A` be an algebra\n  over a ring `R`, and let `Y` over `R` be built from charts étale\
-        \ over tori\n  (`New.Variety.IsCharted`). Then pull-back `Hⁿ(Y_A, \U0001D53D_ℓ) → Hⁿ(Y_ℚ̄, \U0001D53D_ℓ)`\
-        \ is bijective for all `n`.\n* `New.Variety.ellAdicCohom.woods_hole`: let `R ⊆ E → k ⊆ ℚ̄_p`, with `E` a\
-        \ field of characteristic\n  0 and `k` algebraically closed. Let `Y` be proper and `W` projective over `R`.\
-        \ Let `Y` over `E`\n  and `W` over `k` have atlases of dimension `d`. Let `uᵢ : W ⟶ Y` be maps, and let\
-        \ `bᵢ ∈ k` be\n  almost all zero. Let `λ_h` be the Hodge–Tate map `New.Variety.hodgeTateMap h`. Assume that\n\
-        \  `h > d`, or that `∑ bᵢ λ_h(uᵢ^* x) = 0`, read over `k`, for all `x` of degree at most `d` in\n  `HodgeH`\
-        \ of `Y` over `E`. Then `New.Variety.IsNullFamily` holds: for `c : W ⟶ Y`, if each\n  coincidence `c y =\
-        \ uᵢ y`, `y ∈ W(k)`, has a tangent polynomial `P` with `P(1) ≠ 0`, the terms\n  `bᵢ · (coefficient of degree\
-        \ h of P) / P(1)` add up to zero.\n\nThese replace proper base change (SGA 4, XII) and smooth base change\
-        \ (SGA 4), here with coefficients\n`\U0001D53D_ℓ` over such rings. They also replace half of the holomorphic\
-        \ Lefschetz (Woods Hole) formula of\nAtiyah and Bott, for `h`-forms and correspondences. No comparison with\
-        \ étale or coherent cohomology\nis stated.\n\nStructure of the development. `Etale`: descent, Mayer–Vietoris,\
-        \ limits, `ℓ`-adic coefficients.\n`ProperBaseChange`: cover `X` by points with values in valuation rings,\
-        \ and reduce to the valuation\nrings of a single field. `LerayHirsch`, `TorsionTheories`, `ProjectiveLine`:\
-        \ `1` and the first Chern\nclass of `O(1)` form a basis of the cohomology of `ℙ¹`. With duality from `Lib.PadicComparison`,\n\
-        `SmoothBaseChange` follows. `Hodge`: point classes, the Künneth formula, local terms of the\ndiagonal. `PointClass`:\
-        \ the Hodge–Tate map of `Lib.PadicComparison` keeps distinct point classes\nindependent, by reduction to\
-        \ `ℙᵈ` and `ℙ¹`.\n\n## This file\n\nNotions from other files:\n* `New.Variety.HodgeH.baseChange`: Base change:\
-        \ for an E-algebra k, the additive map from the Hodge\n  cohomology over E of N to that over k of N restricted\
-        \ to k-algebras.\n\n## Relation to the literature\n\nKnown result: Half of the holomorphic Lefschetz (Woods\
-        \ Hole) formula for h-forms and\ncorrespondences. No trace is computed here. The statement is that if a\
-        \ combination of pull-backs\nkills the Hodge classes of degree at most the dimension d under the Hodge–Tate\
-        \ map λ_h, then the z^h\ncoefficients of the local terms det(1−zA)/det(1−A) at simple coincidences add up\
-        \ to zero. Source:\nM. F. Atiyah, R. Bott, A Lefschetz fixed point formula for elliptic complexes II, Ann.\
-        \ of Math. 88\n(1968) 451-491; G. Kondyrev, A. Prikhodko, Holomorphic Atiyah-Bott formula for correspondences,\n\
-        Arnold Math. J. (2022); SGA5 III 6.12.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1118
+      endOffset: 5146
+      text: "\n\n## Overview of this theory\n\nThroughout, `ℓ` is a fixed prime. Cohomology of a functor `X` to\
+        \ sets, with coefficients in a\nfunctor `F` to abelian groups, is `Extⁿ(ℤ[X], F)`. Here `ℤ[X]` is the free\
+        \ abelian group functor on\n`X`, and the Ext is taken in functors on test objects: rings, or pairs of a\
+        \ ring and a module.\n\nOn absolutely integrally closed rings `A` (every monic polynomial of positive degree\
+        \ has a root),\nlocally constant functions on `Spec A` give `\U0001D53D_ℓ`-cohomology. Their Witt vectors\
+        \ give\n`ℤ_ℓ`-cohomology. `New.Variety.ellAdicCohom` is `X ↦ ℚ_ℓ ⊗ Hⁿ(X ×_R Ω, ℤ_ℓ)`, for `X` over a ring\n\
+        `R` and an `R`-algebra `Ω`. Test objects may also be pairs `(B, M)` of a `k`-algebra `B` and a\n`B`-module\
+        \ `M`. On these, `New.Variety.HodgeH` of a functor `N` in degree `q` is `Ext^q` from\n`(B, M) ↦ N(B ⊕ M)`\
+        \ to `(B, M) ↦ ⋀_B M`.\n\n* `New.Variety.IsProperOver.proper_base_change`: let `A` be an absolutely integrally\
+        \ closed local\n  domain that is a valuation ring, with `ℓ` a unit in `A`. Let `Y` be proper over `Spec\
+        \ A`. Then\n  restriction from `Y` to its closed fibre is bijective on `\U0001D53D_ℓ`-cohomology in every\
+        \ degree.\n* `New.Variety.isTestCohomEquiv_baseChangeTransition`: let `A` be a valuation ring of an algebraic\n\
+        \  closure `ℚ̄` of `ℚ`, with a prime `p` in its maximal ideal and `ℓ` a unit. Let `A` be an algebra\n  over\
+        \ a ring `R`, and let `Y` over `R` be built from charts étale over tori\n  (`New.Variety.IsCharted`). Then\
+        \ pull-back `Hⁿ(Y_A, \U0001D53D_ℓ) → Hⁿ(Y_ℚ̄, \U0001D53D_ℓ)` is bijective for all `n`.\n* `New.Variety.ellAdicCohom.woods_hole`:\
+        \ let `R ⊆ E → k ⊆ ℚ̄_p`, with `E` a field of characteristic\n  0 and `k` algebraically closed. Let `Y`\
+        \ be proper and `W` projective over `R`. Let `Y` over `E`\n  and `W` over `k` have atlases of dimension\
+        \ `d`. Let `uᵢ : W ⟶ Y` be maps, and let `bᵢ ∈ k` be\n  almost all zero. Let `λ_h` be the Hodge–Tate map\
+        \ `New.Variety.hodgeTateMap h`. Assume that\n  `h > d`, or that `∑ bᵢ λ_h(uᵢ^* x) = 0`, read over `k`, for\
+        \ all `x` of degree at most `d` in\n  `HodgeH` of `Y` over `E`. Then `New.Variety.IsNullFamily` holds: for\
+        \ `c : W ⟶ Y`, if each\n  coincidence `c y = uᵢ y`, `y ∈ W(k)`, has a tangent polynomial `P` with `P(1)\
+        \ ≠ 0`, the terms\n  `bᵢ · (coefficient of degree h of P) / P(1)` add up to zero.\n\nThese replace proper\
+        \ base change (SGA 4, XII) and smooth base change (SGA 4), here with coefficients\n`\U0001D53D_ℓ` over such\
+        \ rings. They also replace half of the holomorphic Lefschetz (Woods Hole) formula of\nAtiyah and Bott, for\
+        \ `h`-forms and correspondences. No comparison with étale or coherent cohomology\nis stated.\n\nStructure\
+        \ of the development. `Etale`: descent, Mayer–Vietoris, limits, `ℓ`-adic coefficients.\n`ProperBaseChange`:\
+        \ cover `X` by points with values in valuation rings, and reduce to the valuation\nrings of a single field.\
+        \ `LerayHirsch`, `TorsionTheories`, `ProjectiveLine`: `1` and the first Chern\nclass of `O(1)` form a basis\
+        \ of the cohomology of `ℙ¹`. With duality from `Lib.PadicComparison`,\n`SmoothBaseChange` follows. `Hodge`:\
+        \ point classes, the Künneth formula, local terms of the\ndiagonal. `PointClass`: the Hodge–Tate map of\
+        \ `Lib.PadicComparison` keeps distinct point classes\nindependent, by reduction to `ℙᵈ` and `ℙ¹`.\n\n##\
+        \ This file\n\nNotions from other files:\n* `New.Variety.HodgeH.baseChange`: Base change: for an E-algebra\
+        \ k, the additive map from the Hodge\n  cohomology over E of N to that over k of N restricted to k-algebras.\n\
+        \n## Relation to the literature\n\nKnown result: Half of the holomorphic Lefschetz (Woods Hole) formula\
+        \ for h-forms and\ncorrespondences. No trace is computed here. The statement is that if a combination of\
+        \ pull-backs\nkills the Hodge classes of degree at most the dimension d under the Hodge–Tate map λ_h, then\
+        \ the z^h\ncoefficients of the local terms det(1−zA)/det(1−A) at simple coincidences add up to zero. Source:\n\
+        M. F. Atiyah, R. Bott, A Lefschetz fixed point formula for elliptic complexes II, Ann. of Math. 88\n(1968)\
+        \ 451-491; G. Kondyrev, A. Prikhodko, Holomorphic Atiyah-Bott formula for correspondences,\nArnold Math.\
+        \ J. (2022); SGA5 III 6.12.\n"
 needs_draft: true

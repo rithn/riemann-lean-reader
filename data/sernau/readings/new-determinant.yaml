@@ -52,18 +52,20 @@ files:
       path: grh/src/New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean
       line: 8
       endLine: 10
+      startOffset: 213
+      endOffset: 492
       text: 'At every infinite place, the parameter of `Y₀` and minus the parameter of `Ỹ^0_0 = Y₀ ⊕ E ẽ` are
 
         steep in the sense of `New.DiscreteSeries.IsSteep`. Separately, at deep level the period over `V`
 
-        of a Poincaré series on `V ⊕ ⟨1⟩` is approximated by the term of the identity coset.
-
-        '
+        of a Poincaré series on `V ⊕ ⟨1⟩` is approximated by the term of the identity coset.'
     remainder:
       path: grh/src/New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean
-      line: 11
+      line: 10
       endLine: 46
-      text: "\n## Main definitions and results\n\n* `New.Data.exists_isSteep`: for one numbering of the indices,\
+      startOffset: 492
+      endOffset: 3237
+      text: "\n\n## Main definitions and results\n\n* `New.Data.exists_isSteep`: for one numbering of the indices,\
         \ the parameter of `Y₀` (`z = false`)\n  and minus that of `Ỹ^0_0` (`z = true`) satisfy `New.DiscreteSeries.IsSteep`\
         \ at every infinite\n  place `τ`. That is, the highest weight `New.HCParam.lowestKType` of the lowest `K`-type\
         \ vanishes\n  on a block of indices of sign `+`. On the other indices the signs alternate and it decreases\n\
@@ -89,8 +91,6 @@ files:
         \ `New.Space.quotMeasure`: the rational points of a hermitian space `V` inside the\n  adelic unitary group\
         \ `G E s`, and the measure on a fundamental domain for them.\n* `New.principalLevel`: the finite adelic\
         \ integral points congruent to `1` modulo an element `a`\n  of the ring of integers of `E`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Determinant.AuxiliaryForms.DeepLevelVanishing:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -282,7 +282,9 @@ files:
     excerpt:
       path: grh/src/New/Determinant/AuxiliaryForms/FirstPath.lean
       line: 8
-      endLine: 13
+      endLine: 14
+      startOffset: 207
+      endOffset: 865
       text: 'The first path consists of the spaces `Ỹ^m_0, …, Ỹ^0_0` and `Y₀, …, Y_m`, which are hermitian spaces
 
         over the CM field `D.E`. These are the nodes `(z, 0, i)`, the first columns of the two grids:
@@ -295,29 +297,28 @@ files:
 
         `Θ^♭ = D.transposedChain 1 true 0`. The letter `ϑ` stands for an `m`-fold twist (`D.MFoldTwist`): a
 
-        '
+        tame character whose powers up to the `m`-th are non-trivial at each place of its modulus `Q`.'
     remainder:
       path: grh/src/New/Determinant/AuxiliaryForms/FirstPath.lean
       line: 14
       endLine: 40
-      text: "tame character whose powers up to the `m`-th are non-trivial at each place of its modulus `Q`.\n\n\
-        Notions from other files:\n* `New.Data.GridForm` and `New.Data.TriangleForm`: in the grid of the `Y` (the\
-        \ Boolean `false`) the\n  conjugate forms and the forms at a node; in the grid of the `Ỹ` (the Boolean `true`)\
-        \ the forms and\n  the conjugate forms.\n* `New.Data.triangleModulus`: the modulus of the point data along\
-        \ the first column of a grid. It is\n  `\U0001D52A₀ = π_M Q` for the `Y` and `\U0001D51F = π_M ^ b` for\
-        \ the `Ỹ`, with `π_M = D.piM`.\n* `New.Data.triangleGLCard`: the index `n_\U0001D52A₀(Y_i)` or `n_\U0001D51F\
-        (Ỹ^i_0)` of the level of that modulus.\n  Each lift and each transposed lift along the column is multiplied\
-        \ by the index of its smaller\n  space; for the `Ỹ` these factors are constants.\n* `New.Data.principalForms`:\
-        \ the forms of the level `J_M = D.chosenLevel`, here on `Y₀`.\n* `New.Data.lowerChainUpTo`: the chain of\
-        \ twisted lifts from `Y₀` to `Y_j`; for `j = m` it is `Θ_ϑ`.\n\n## Main definitions and results\n\n* `New.Data.eq_zero_of_weightedChain_triangleLift_eq_zero`,\n\
-        \  `New.Data.gridLevelForms_eq_map_transposedChain`: the chain of the `Ỹ` is injective on level `\U0001D51F\
-        `,\n  and its transpose `Θ^♭` is onto that level.\n* `New.Data.IsFlatRestriction`: the map `res^♭`, given\
-        \ by its pairings;\n  `New.Data.exists_isFlatRestriction_range_eq_top`: at a suitable real point it is onto.\n\
-        * `New.Data.exists_isPathDatum_integral_eq`: the pairing with the lifts of a restriction is a\n  constant\
-        \ multiple of a period of path data on the first path.\n\n## Relation to the literature\n\nSee `New.Determinant.AuxiliaryForms.DeepLevelVanishing`\
-        \ for related work.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 865
+      endOffset: 2393
+      text: "\n\nNotions from other files:\n* `New.Data.GridForm` and `New.Data.TriangleForm`: in the grid of the\
+        \ `Y` (the Boolean `false`) the\n  conjugate forms and the forms at a node; in the grid of the `Ỹ` (the\
+        \ Boolean `true`) the forms and\n  the conjugate forms.\n* `New.Data.triangleModulus`: the modulus of the\
+        \ point data along the first column of a grid. It is\n  `\U0001D52A₀ = π_M Q` for the `Y` and `\U0001D51F\
+        \ = π_M ^ b` for the `Ỹ`, with `π_M = D.piM`.\n* `New.Data.triangleGLCard`: the index `n_\U0001D52A₀(Y_i)`\
+        \ or `n_\U0001D51F(Ỹ^i_0)` of the level of that modulus.\n  Each lift and each transposed lift along the\
+        \ column is multiplied by the index of its smaller\n  space; for the `Ỹ` these factors are constants.\n\
+        * `New.Data.principalForms`: the forms of the level `J_M = D.chosenLevel`, here on `Y₀`.\n* `New.Data.lowerChainUpTo`:\
+        \ the chain of twisted lifts from `Y₀` to `Y_j`; for `j = m` it is `Θ_ϑ`.\n\n## Main definitions and results\n\
+        \n* `New.Data.eq_zero_of_weightedChain_triangleLift_eq_zero`,\n  `New.Data.gridLevelForms_eq_map_transposedChain`:\
+        \ the chain of the `Ỹ` is injective on level `\U0001D51F`,\n  and its transpose `Θ^♭` is onto that level.\n\
+        * `New.Data.IsFlatRestriction`: the map `res^♭`, given by its pairings;\n  `New.Data.exists_isFlatRestriction_range_eq_top`:\
+        \ at a suitable real point it is onto.\n* `New.Data.exists_isPathDatum_integral_eq`: the pairing with the\
+        \ lifts of a restriction is a\n  constant multiple of a period of path data on the first path.\n\n## Relation\
+        \ to the literature\n\nSee `New.Determinant.AuxiliaryForms.DeepLevelVanishing` for related work.\n"
   New.Determinant.AuxiliaryForms.GridFirstColumns:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -360,7 +361,9 @@ files:
     excerpt:
       path: grh/src/New/Determinant/AuxiliaryForms/GridFirstColumns.lean
       line: 9
-      endLine: 13
+      endLine: 15
+      startOffset: 240
+      endOffset: 856
       text: 'The first path goes from `Ỹ^m_0` to `Ỹ^0_0 = Y₀ ⊕ E ẽ₀` and from `Y₀` to `Y_m`. Its spaces are the
 
         nodes `(z, 0, i)`, the first columns of the two grids: `(false, 0, i)` is `Y_i` and `(true, 0, i)`
@@ -371,31 +374,32 @@ files:
 
         the two iterated transposed lifts `New.Data.transposedChain`. The sum `Ψ⁰` of the translates of
 
-        '
+        `Ψ¹`, weighted by the characters of the edges, is a path datum, and its period is the number of
+
+        translates times that of `Ψ¹`.'
     remainder:
       path: grh/src/New/Determinant/AuxiliaryForms/GridFirstColumns.lean
-      line: 14
+      line: 15
       endLine: 40
-      text: "`Ψ¹`, weighted by the characters of the edges, is a path datum, and its period is the number of\ntranslates\
-        \ times that of `Ψ¹`.\n\n## Main definitions and results\n\n* `New.Data.exists_petersson_eq_diagonalPeriodForm`:\
-        \ the period with a form on `Ỹ^0_0`, as a\n  functional of the form on `Y₀`, is a Petersson product.\n*\
-        \ `New.Data.diagonalPeriodForm_tupleAction`: translating the matrices by a family that is `1` at\n  the\
-        \ ends and `diag(g, 1)` at `(0, 0)` of the `Ỹ`, `g` being its member at `(0, 0)` of the `Y`,\n  multiplies\
-        \ the period by the characters of the edges.\n* `New.Data.firstPointDatum`, `New.Data.firstPathDatum`: the\
-        \ functions `Ψ¹` and `Ψ⁰`.\n* `New.Data.exists_isPathDatum_diagonalPeriodForm_eq`: the period of the iterated\
-        \ transposed lifts\n  is a constant times the period of path data on the first path.\n\nNotions from other\
-        \ files:\n* `New.Data.triangleModulus`: the modulus `\U0001D52A₀ = π_M Q` for the chain of the `Y` and `\U0001D51F\
-        \ = π_M ^ b`\n  for that of the `Ỹ`, with `π_M = D.piM`. `New.Data.gridModulus` is `\U0001D52A = \U0001D51F\
-        Q`, where `Q` comes\n  from the twist `ϑ`. `New.Data.triangleGLCard` is the index `n_\U0001D52A₀(Y_i)` or\
-        \ `n_\U0001D51F(Ỹ^i_0)`.\n* `New.Data.levelIndex`: the index of the level `New.Data.nodeLevel` at a node,\
-        \ which is the level\n  `\U0001D52A` at the `Y_i` and the level `\U0001D51F` elsewhere.\n* `New.Data.diagonalPeriodForm`:\
-        \ the period of a conjugate form on `Y^j_j` and a form on `Ỹ^j_j`\n  along the embedding of unitary groups,\
-        \ shifted on the line by a scalar from the twist, at a real\n  point.\n* `New.Data.EdgeTuple`: a matrix\
-        \ modulo `\U0001D52A` for each pair of nodes. A `NodeFamily` of invertible\n  matrices acts on it by `New.Data.tupleAction`;\
-        \ `New.Data.edgeCharProd` is the product of the\n  characters of the edges at the determinants of such a\
-        \ family.\n* `New.GridPath.formMap`: the composite of the maps by the matrices of a tuple along a path.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 856
+      endOffset: 2553
+      text: "\n\n## Main definitions and results\n\n* `New.Data.exists_petersson_eq_diagonalPeriodForm`: the period\
+        \ with a form on `Ỹ^0_0`, as a\n  functional of the form on `Y₀`, is a Petersson product.\n* `New.Data.diagonalPeriodForm_tupleAction`:\
+        \ translating the matrices by a family that is `1` at\n  the ends and `diag(g, 1)` at `(0, 0)` of the `Ỹ`,\
+        \ `g` being its member at `(0, 0)` of the `Y`,\n  multiplies the period by the characters of the edges.\n\
+        * `New.Data.firstPointDatum`, `New.Data.firstPathDatum`: the functions `Ψ¹` and `Ψ⁰`.\n* `New.Data.exists_isPathDatum_diagonalPeriodForm_eq`:\
+        \ the period of the iterated transposed lifts\n  is a constant times the period of path data on the first\
+        \ path.\n\nNotions from other files:\n* `New.Data.triangleModulus`: the modulus `\U0001D52A₀ = π_M Q` for\
+        \ the chain of the `Y` and `\U0001D51F = π_M ^ b`\n  for that of the `Ỹ`, with `π_M = D.piM`. `New.Data.gridModulus`\
+        \ is `\U0001D52A = \U0001D51FQ`, where `Q` comes\n  from the twist `ϑ`. `New.Data.triangleGLCard` is the\
+        \ index `n_\U0001D52A₀(Y_i)` or `n_\U0001D51F(Ỹ^i_0)`.\n* `New.Data.levelIndex`: the index of the level\
+        \ `New.Data.nodeLevel` at a node, which is the level\n  `\U0001D52A` at the `Y_i` and the level `\U0001D51F\
+        ` elsewhere.\n* `New.Data.diagonalPeriodForm`: the period of a conjugate form on `Y^j_j` and a form on `Ỹ^j_j`\n\
+        \  along the embedding of unitary groups, shifted on the line by a scalar from the twist, at a real\n  point.\n\
+        * `New.Data.EdgeTuple`: a matrix modulo `\U0001D52A` for each pair of nodes. A `NodeFamily` of invertible\n\
+        \  matrices acts on it by `New.Data.tupleAction`; `New.Data.edgeCharProd` is the product of the\n  characters\
+        \ of the edges at the determinants of such a family.\n* `New.GridPath.formMap`: the composite of the maps\
+        \ by the matrices of a tuple along a path.\n"
   New.Determinant.AuxiliaryForms.GridPaths:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -442,28 +446,32 @@ files:
     excerpt:
       path: grh/src/New/Determinant/AuxiliaryForms/GridPaths.lean
       line: 6
-      endLine: 7
+      endLine: 10
+      startOffset: 81
+      endOffset: 392
       text: 'The combinatorics of the paths along which forms are moved through the two grids of unitary groups,
 
         the grid of the `Y^i_j` and the grid of the `Ỹ^i_j`. Here only the indices occur.
 
-        '
+
+        A path goes from `(m, 0)` to `(0, m)` by steps up (`j` grows) or left (`i` falls) and meets the
+
+        diagonal once, at some `(l, l)`.'
     remainder:
       path: grh/src/New/Determinant/AuxiliaryForms/GridPaths.lean
-      line: 8
+      line: 10
       endLine: 23
-      text: "\nA path goes from `(m, 0)` to `(0, m)` by steps up (`j` grows) or left (`i` falls) and meets the\n\
-        diagonal once, at some `(l, l)`. Its first half lies in the grid of the `Ỹ` and its second half in\nthat\
-        \ of the `Y`. Both halves are recorded in one shape, as paths from `(0, m)` to `(l, l)` by steps\ndown or\
-        \ right. The half in the grid of the `Y` is read backwards, the way conjugate forms move. The\nhalf in the\
-        \ grid of the `Ỹ` is read forwards, the way forms move, with the two indices exchanged: a\nstep left is\
-        \ recorded as a step down, and a step up as a step right.\n\n## Main definitions and results\n\n* `New.GridPath`:\
-        \ a monotone path in one grid. `New.TwoGridPath`: a path through both grids, given\n  by two halves that\
-        \ meet on the diagonal.\n* `New.TwoGridPath.Turn`: a turn replaces a node `(i, j)` by `(i + 1, j + 1)`.\n\
-        * `New.TwoGridPath.exists_turn`: every path but the last can be turned.\n* `New.TwoGridPath.turn_induction`:\
-        \ induction backwards along turns, one at each `(i, j)` with\n  `i, j < m`, from the last path to the first.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 392
+      endOffset: 1297
+      text: " Its first half lies in the grid of the `Ỹ` and its second half in\nthat of the `Y`. Both halves are\
+        \ recorded in one shape, as paths from `(0, m)` to `(l, l)` by steps\ndown or right. The half in the grid\
+        \ of the `Y` is read backwards, the way conjugate forms move. The\nhalf in the grid of the `Ỹ` is read forwards,\
+        \ the way forms move, with the two indices exchanged: a\nstep left is recorded as a step down, and a step\
+        \ up as a step right.\n\n## Main definitions and results\n\n* `New.GridPath`: a monotone path in one grid.\
+        \ `New.TwoGridPath`: a path through both grids, given\n  by two halves that meet on the diagonal.\n* `New.TwoGridPath.Turn`:\
+        \ a turn replaces a node `(i, j)` by `(i + 1, j + 1)`.\n* `New.TwoGridPath.exists_turn`: every path but\
+        \ the last can be turned.\n* `New.TwoGridPath.turn_induction`: induction backwards along turns, one at each\
+        \ `(i, j)` with\n  `i, j < m`, from the last path to the first.\n"
   New.Determinant.AuxiliaryForms.LastPath:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -708,25 +716,31 @@ files:
     excerpt:
       path: grh/src/New/Determinant/AuxiliaryForms/SpanningForms.lean
       line: 9
-      endLine: 10
+      endLine: 13
+      startOffset: 271
+      endOffset: 690
       text: 'Let `Ξ = New.Data.lastPathPeriod Ψ y` be the sum attached to the last path. Its denominators are
 
         small at the primes that do not divide `Nm Q` and, for the trivial twist, its conjugates are small.
 
-        '
+        Going back through the turns to the first path, and reading the values of a form from its pairings
+
+        with delta forms, we get integrality and size for the chain of lifts from `Y₀` to `Y_m` on the
+
+        restrictions of short forms.'
     remainder:
       path: grh/src/New/Determinant/AuxiliaryForms/SpanningForms.lean
-      line: 11
+      line: 13
       endLine: 47
-      text: "Going back through the turns to the first path, and reading the values of a form from its pairings\n\
-        with delta forms, we get integrality and size for the chain of lifts from `Y₀` to `Y_m` on the\nrestrictions\
-        \ of short forms. Throughout, `ϑ` is an `m`-fold twist, `Q` is its finite set of places,\n`ϑ.normQ` is `Nm\
-        \ Q`, and sizes are measured by the parameters `x = D.x` and `b = D.b`. The\nmodulus `\U0001D52A = gridModulus\
-        \ ϑ` of the twist is the product of the chosen places to the power\n`D.natB` (the number `b` as a natural\
-        \ number), times `Q`. The other numbers of the data that occur\nare the level `D.M`, the order `D.q₁` of\
-        \ the root of unity that generates `E` over\n`K = ℚ(√-P.d)`, the prime `P.d`, the ranks `D.n j` and the\
-        \ parameter `D.r`; at most\n`D.natB * D.r ^ 4` boxes occur in each diagram of a weight on the last path.\n\
-        \n## Main definitions and results\n\n* `New.Data.exists_mul_lastPathPeriod_mem_embValRing`, `New.Data.norm_lastPathPeriod_le`:\n\
+      startOffset: 690
+      endOffset: 3210
+      text: " Throughout, `ϑ` is an `m`-fold twist, `Q` is its finite set of places,\n`ϑ.normQ` is `Nm Q`, and sizes\
+        \ are measured by the parameters `x = D.x` and `b = D.b`. The\nmodulus `\U0001D52A = gridModulus ϑ` of the\
+        \ twist is the product of the chosen places to the power\n`D.natB` (the number `b` as a natural number),\
+        \ times `Q`. The other numbers of the data that occur\nare the level `D.M`, the order `D.q₁` of the root\
+        \ of unity that generates `E` over\n`K = ℚ(√-P.d)`, the prime `P.d`, the ranks `D.n j` and the parameter\
+        \ `D.r`; at most\n`D.natB * D.r ^ 4` boxes occur in each diagram of a weight on the last path.\n\n## Main\
+        \ definitions and results\n\n* `New.Data.exists_mul_lastPathPeriod_mem_embValRing`, `New.Data.norm_lastPathPeriod_le`:\n\
         \  denominators and conjugates of `Ξ`.\n* `New.Data.exists_integral_lowerChainUpTo_eq_lastPathPeriod`: the\
         \ index of the level times the\n  pairing with the chain of lifts of a restriction is a constant multiple\
         \ of `Ξ` divided by the\n  constants of the turns.\n* `New.Data.exists_dualPairing_eq_mul_lastPathPeriod`:\
@@ -745,8 +759,6 @@ files:
         * `New.Data.lowerChain ϑ`: the chain of lifts, that is the composite of the `m` theta lifts from\n  `Y₀`\
         \ to `Y_m`, with values in algebraic forms. `New.Data.lowerChainAtLevel ϑ` is the same map with\n  values\
         \ in the forms of the last level and its character; `levelY ϑ m` fixes these forms.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Determinant.AuxiliaryForms.Turns:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1186,7 +1198,9 @@ files:
     excerpt:
       path: grh/src/New/Determinant/Chain/TriangleLifts.lean
       line: 7
-      endLine: 13
+      endLine: 16
+      startOffset: 182
+      endOffset: 1071
       text: 'This file arranges the theta lifts between the hermitian spaces `D.gridSpace i z 0 n` in a triangle
 
         of positions `(i, n)`. The flag `z` selects one of two chains of spaces; see
@@ -1201,28 +1215,30 @@ files:
 
         and the norm of the first lift of row `i` on the subspace of fixed level. It also defines the left
 
-        '
+        and reversed pairs, the descents `New.Data.triangleTransposedLift` from `(i, n + 1)` to `(i + 1, n)`
+
+        along a left pair, and the ascents `New.Data.triangleReversedLift` from `(i + 1, n)` to `(i, n + 1)`
+
+        along the reversed pair.'
     remainder:
       path: grh/src/New/Determinant/Chain/TriangleLifts.lean
-      line: 14
+      line: 16
       endLine: 39
-      text: "and reversed pairs, the descents `New.Data.triangleTransposedLift` from `(i, n + 1)` to `(i + 1, n)`\n\
-        along a left pair, and the ascents `New.Data.triangleReversedLift` from `(i + 1, n)` to `(i, n + 1)`\nalong\
-        \ the reversed pair.\n\n## Main definitions and results\n\n* `New.Data.TriangleForm`, `New.Data.triangleLift`,\
-        \ `New.Data.triangleNegEquiv`,\n  `New.Data.triangleBase`, `New.Data.triangleEmbedding`: the forms at `(i,\
-        \ n)`, the lift to\n  `(i, n + 1)`, the copies at `(i, 0)` of the forms at `(0, 0)`, the subspace of fixed\
-        \ level, and\n  its embedding at `(i, 0)`.\n* `New.Data.triangleFirstLift`, `New.Data.exists_hasSum_inner_triangleFirstLift`:\
-        \ the first lift of\n  a row, read on forms at `(0, 0)`; for `i < m`, its injectivity and norm on the subspace\
-        \ of fixed\n  level, by Rallis' formula `New.SiegelWeil.rallis_inner_product_cosetTerm`.\n\nNotions from\
-        \ other files:\n* `New.Data.gridSpace`: The hermitian space at the node (i, j) of grid z with offset o,\
-        \ for the\n  signs `New.Data.gridSigns`.\n* `New.Data.chosenLevel`: The level J_M consists of the elements\
-        \ of K₀ = `New.stdLevel` that are 1\n  modulo the chosen places `New.Data.chosenPlace`.\n* `New.Data.triangleModulus`,\
+      startOffset: 1071
+      endOffset: 2330
+      text: "\n\n## Main definitions and results\n\n* `New.Data.TriangleForm`, `New.Data.triangleLift`, `New.Data.triangleNegEquiv`,\n\
+        \  `New.Data.triangleBase`, `New.Data.triangleEmbedding`: the forms at `(i, n)`, the lift to\n  `(i, n +\
+        \ 1)`, the copies at `(i, 0)` of the forms at `(0, 0)`, the subspace of fixed level, and\n  its embedding\
+        \ at `(i, 0)`.\n* `New.Data.triangleFirstLift`, `New.Data.exists_hasSum_inner_triangleFirstLift`: the first\
+        \ lift of\n  a row, read on forms at `(0, 0)`; for `i < m`, its injectivity and norm on the subspace of\
+        \ fixed\n  level, by Rallis' formula `New.SiegelWeil.rallis_inner_product_cosetTerm`.\n\nNotions from other\
+        \ files:\n* `New.Data.gridSpace`: The hermitian space at the node (i, j) of grid z with offset o, for the\n\
+        \  signs `New.Data.gridSigns`.\n* `New.Data.chosenLevel`: The level J_M consists of the elements of K₀ =\
+        \ `New.stdLevel` that are 1\n  modulo the chosen places `New.Data.chosenPlace`.\n* `New.Data.triangleModulus`,\
         \ `New.Data.triangleGLCard`: the modulus \U0001D52A of the triangle, and the\n  order of the general linear\
         \ group of a node modulo \U0001D52A. A lift times this order is the lift for the\n  measure that gives the\
         \ principal level of \U0001D52A the volume 1.\n\n## Relation to the literature\n\nSee `New.Determinant.Chain.ChainNorms`\
         \ for related work.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Determinant.Chain.TriangleNorms:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1272,28 +1288,30 @@ files:
       path: grh/src/New/Determinant/Chain/TriangleNorms.lean
       line: 6
       endLine: 9
+      startOffset: 119
+      endOffset: 409
       text: 'The group `New.parabolic (New.blockNumber j)` consists of the invertible block upper triangular
 
         matrices whose diagonal blocks are one copy of `N` and `j` copies of `T`. Its order is
 
         `#GL N R * (#GL T R) ^ j` times a power of `#R` whose exponent does not depend on the commutative
 
-        ring `R`.
-
-        '
+        ring `R`.'
     remainder:
       path: grh/src/New/Determinant/Chain/TriangleNorms.lean
-      line: 10
+      line: 9
       endLine: 38
-      text: "\nAn abstract triangle of spaces `F i n` has arrows `a t i n : F i n → F i (n + 1)` along row `i` and\n\
-        `d t i n : F i (n + 1) → F (i + 1) n` down to the next row. The map `j i` embeds `V` in `F i 0`. The\narrows\
-        \ depend on a parameter `t : I`. An abstract relation `M c f` between functions `c : I → ℂ` and\n`f : I\
-        \ → ℝ`, unital and multiplicative, is read \"`c` has modulus `f`\". For nonzero weights, weighted\nchains\
-        \ along a row are injective on `V`. If the constants of the squares have prescribed moduli\n`L r k`, the\
-        \ squares obey an adjoint law and the Gram forms of the first arrows are given, then the\nGram form of a\
-        \ full chain and the modulus of its constant are computed by induction. In the\napplication `F i n` is attached\
-        \ to the interval `[i + 1, i + n]`, the arrow `a` adds the greatest\nelement, and `d` stands for the adjoint\
-        \ of the map that adds the least element.\n\n## Main definitions and results\n\n* `New.exists_card_parabolic_blockNumber_eq`:\
+      startOffset: 409
+      endOffset: 2393
+      text: "\n\nAn abstract triangle of spaces `F i n` has arrows `a t i n : F i n → F i (n + 1)` along row `i`\
+        \ and\n`d t i n : F i (n + 1) → F (i + 1) n` down to the next row. The map `j i` embeds `V` in `F i 0`.\
+        \ The\narrows depend on a parameter `t : I`. An abstract relation `M c f` between functions `c : I → ℂ`\
+        \ and\n`f : I → ℝ`, unital and multiplicative, is read \"`c` has modulus `f`\". For nonzero weights, weighted\n\
+        chains along a row are injective on `V`. If the constants of the squares have prescribed moduli\n`L r k`,\
+        \ the squares obey an adjoint law and the Gram forms of the first arrows are given, then the\nGram form\
+        \ of a full chain and the modulus of its constant are computed by induction. In the\napplication `F i n`\
+        \ is attached to the interval `[i + 1, i + n]`, the arrow `a` adds the greatest\nelement, and `d` stands\
+        \ for the adjoint of the map that adds the least element.\n\n## Main definitions and results\n\n* `New.exists_card_parabolic_blockNumber_eq`:\
         \ the order of the group of block triangular matrices\n  `New.parabolic (New.blockNumber j)`.\n* `New.Exchange.IsTriangle`,\
         \ `New.Exchange.weightedChain`: the conditions of a triangle; the\n  weighted chain of a row.\n* `New.Exchange.HasSquareModuli`:\
         \ the moduli of the constants of the squares and the adjoint law.\n* `New.Exchange.IsTriangle.eq_zero_of_weightedChain_eq_zero`:\
@@ -1304,8 +1322,6 @@ files:
         \ of `N` and `j` copies of `T`, and\n  the number of the block of an index (`0` on `N`, and `l` on the `l`-th\
         \ copy of `T`).\n* `New.compUpTo L j`: for linear maps `L i : M i → M (i + 1)`, the composite\n  `L (j -\
         \ 1) ∘ ⋯ ∘ L 0 : M 0 → M j`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Determinant.Exchange.ConeImage:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1361,7 +1377,9 @@ files:
     excerpt:
       path: grh/src/New/Determinant/Exchange/ConeImage.lean
       line: 8
-      endLine: 13
+      endLine: 16
+      startOffset: 165
+      endOffset: 1013
       text: 'Let `W'' = W ⊕ H` and `V'' = V ⊕ H`, with adapted splittings and isotropic lines `A` and `B` in the
 
         hyperbolic planes, and let the rank of `W` be even. For `0 < z`, every Schwartz vector `v` for
@@ -1374,31 +1392,33 @@ files:
 
         slices of this `v''` along `A` (its values in the mixed model attached to `A`, as a function of a
 
-        '
+        vector of `V''` at the infinite places) are `β x • k x v^B`, where `v` is the zero term of `v^B`
+
+        along `Hom(W, B)`, `β` is a bump function near the vector `x_B` that spans `B`, and the smooth
+
+        family `k x` carries `x_B` to `x` for isotropic `x` in the support of `β`.'
     remainder:
       path: grh/src/New/Determinant/Exchange/ConeImage.lean
-      line: 14
+      line: 16
       endLine: 39
-      text: "vector of `V'` at the infinite places) are `β x • k x v^B`, where `v` is the zero term of `v^B`\nalong\
-        \ `Hom(W, B)`, `β` is a bump function near the vector `x_B` that spans `B`, and the smooth\nfamily `k x`\
-        \ carries `x_B` to `x` for isotropic `x` in the support of `β`.\n\nIn the code `A` and `X` are the splittings\
-        \ of `W'` and `V'` that define the two lines, the adelic\nvector `x_B` that spans `B` is `X.kAdelic`, and\
-        \ `lineVector X w` is its component at the infinite\nplace `w`. The word real refers to the components at\
-        \ the infinite places of `E`.\n\n* `PairFock E s t` is the Fock space of the pair with signs `s` and `t`;\
-        \ a vector is Schwartz\n  (`IsSchwartzVector`) if all its weighted norms are finite.\n* `realPairWeil γ\
-        \ γ'` is the Weil representation of the real points `GInf` of the two unitary groups\n  on this space, with\
-        \ `(x, y)` twisted by `det y ^ γ * det x ^ (-γ')`.\n* A splitting is adapted (`IsBaseAdapted`) if its adelic\
-        \ frames are orthonormal at the infinite\n  places and integral at the finite places.\n* `cone A X μ z v'`\
-        \ is the integral of `coneIntegrand A X μ true z v'` over the pairs `(κ, a)` of a\n  point of the maximal\
-        \ compact subgroup `maxCompact E t'` of `U(V')` and a family of non-zero\n  complex numbers indexed by the\
-        \ infinite places.\n* `thetaLarge W V \U0001D520 v Φ` is the theta integral over `[U(V)]` of the datum with\
-        \ real part `v` and\n  component `Φ` at the ramified places of `\U0001D520`, as a function on `U(W)`.\n\
-        * A `SplitTameChar E μ` is a tamely ramified character of weight `μ`, all `μ w > 0`, of the norm-one\n \
-        \ adeles, with a non-empty set of ramified places that contains no conjugate of one of its places;\n  so\
-        \ the ramified places are split over the totally real subfield.\n\n## Relation to the literature\n\nSee\
-        \ `New.Determinant.Exchange.TheoremForPartners` for related work.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1013
+      endOffset: 2540
+      text: "\n\nIn the code `A` and `X` are the splittings of `W'` and `V'` that define the two lines, the adelic\n\
+        vector `x_B` that spans `B` is `X.kAdelic`, and `lineVector X w` is its component at the infinite\nplace\
+        \ `w`. The word real refers to the components at the infinite places of `E`.\n\n* `PairFock E s t` is the\
+        \ Fock space of the pair with signs `s` and `t`; a vector is Schwartz\n  (`IsSchwartzVector`) if all its\
+        \ weighted norms are finite.\n* `realPairWeil γ γ'` is the Weil representation of the real points `GInf`\
+        \ of the two unitary groups\n  on this space, with `(x, y)` twisted by `det y ^ γ * det x ^ (-γ')`.\n* A\
+        \ splitting is adapted (`IsBaseAdapted`) if its adelic frames are orthonormal at the infinite\n  places\
+        \ and integral at the finite places.\n* `cone A X μ z v'` is the integral of `coneIntegrand A X μ true z\
+        \ v'` over the pairs `(κ, a)` of a\n  point of the maximal compact subgroup `maxCompact E t'` of `U(V')`\
+        \ and a family of non-zero\n  complex numbers indexed by the infinite places.\n* `thetaLarge W V \U0001D520\
+        \ v Φ` is the theta integral over `[U(V)]` of the datum with real part `v` and\n  component `Φ` at the ramified\
+        \ places of `\U0001D520`, as a function on `U(W)`.\n* A `SplitTameChar E μ` is a tamely ramified character\
+        \ of weight `μ`, all `μ w > 0`, of the norm-one\n  adeles, with a non-empty set of ramified places that\
+        \ contains no conjugate of one of its places;\n  so the ramified places are split over the totally real\
+        \ subfield.\n\n## Relation to the literature\n\nSee `New.Determinant.Exchange.TheoremForPartners` for related\
+        \ work.\n"
   New.Determinant.Exchange.EquivariantDifference:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1539,6 +1559,8 @@ files:
       path: grh/src/New/Determinant/Exchange/ExplicitMatching.lean
       line: 9
       endLine: 15
+      startOffset: 292
+      endOffset: 764
       text: '`New.Rows.exists_stdClassSum_eq_mul_integral_modKernel` follows from the identity
 
         `New.Exchange.exchange_identity` for the positive definite standard space `I_a` of rank `card a`,
@@ -1550,14 +1572,14 @@ files:
 
         functionals on two Fock spaces that holds for one polynomial and its translates, and moves it to
 
-        explicit products of determinants.
-
-        '
+        explicit products of determinants.'
     remainder:
       path: grh/src/New/Determinant/Exchange/ExplicitMatching.lean
-      line: 16
+      line: 15
       endLine: 51
-      text: "\n## Main definitions and results\n\n* `New.Rows.matchedPoly`: the explicit polynomial for the pair\
+      startOffset: 764
+      endOffset: 3222
+      text: "\n\n## Main definitions and results\n\n* `New.Rows.matchedPoly`: the explicit polynomial for the pair\
         \ of signs on `b` and on `n`.\n* `New.Rows.realPairWeil_stackedDetProd`, `New.Rows.realPairWeil_matchedPoly`:\
         \ the laws of\n  `New.Rows.stackedDetProd` and `New.Rows.matchedPoly` under the real Weil representation\n\
         \  `New.realPairWeil`.\n* `New.Rows.exists_mul_apply_eq_apply_matchedPoly`: the matching of `New.Rows.stackedDetProd`\
@@ -1581,8 +1603,9 @@ files:
         \ (after Kudla–Rallis, 1994; Ichino, 2004); Kashiwara–Vergne, On the\nSegal–Shale–Weil representations and\
         \ harmonic polynomials, 1978; Böcherer–Schulze-Pillot, Siegel\nmodular forms and theta series attached to\
         \ quaternion algebras, 1991.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: Identifies the exchange identity and the archimedean matching step.
   New.Determinant.Exchange.LargeTriple:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1637,7 +1660,9 @@ files:
     excerpt:
       path: grh/src/New/Determinant/Exchange/LargeTriple.lean
       line: 10
-      endLine: 16
+      endLine: 19
+      startOffset: 350
+      endOffset: 1258
       text: 'The theta kernel of the dual pair (U(X), U(V)) is unfolded along a splitting of X over W₁ with an
 
         isotropic frame. It becomes a sum of terms `New.Space.Splitting.thetaTerm` indexed by rational
@@ -1652,16 +1677,20 @@ files:
 
         `V = V'' ⊕ W₁`, and `X` equal to `W₁` plus a hyperbolic space. Then the identity between the theta
 
-        '
+        integrals `New.Exchange.thetaLarge` and `New.Exchange.thetaSmall` for standard data follows from an
+
+        identity of periods over `[U W₁]`, under conditions on the rank of `W₁`, the signs and the data,
+
+        when `W₁` splits off a hyperbolic plane.'
     remainder:
       path: grh/src/New/Determinant/Exchange/LargeTriple.lean
-      line: 17
+      line: 19
       endLine: 50
-      text: "integrals `New.Exchange.thetaLarge` and `New.Exchange.thetaSmall` for standard data follows from an\n\
-        identity of periods over `[U W₁]`, under conditions on the rank of `W₁`, the signs and the data,\nwhen `W₁`\
-        \ splits off a hyperbolic plane.\n\n## Main definitions and results\n\n* `New.Exchange.thetaTerm_eq_and_centreCoeff_eq_zero`:\
-        \ the terms are integrable\n  (`hasIntegrableTerms_localDatum_of_eq_stdDatum`), each is an explicit factor\
-        \ times a value of\n  `New.Exchange.thetaOnRealData` (`thetaTerm_localDatum_of_eq_stdDatum`), and the Fourier\n\
+      startOffset: 1258
+      endOffset: 3330
+      text: "\n\n## Main definitions and results\n\n* `New.Exchange.thetaTerm_eq_and_centreCoeff_eq_zero`: the terms\
+        \ are integrable\n  (`hasIntegrableTerms_localDatum_of_eq_stdDatum`), each is an explicit factor times a\
+        \ value of\n  `New.Exchange.thetaOnRealData` (`thetaTerm_localDatum_of_eq_stdDatum`), and the Fourier\n\
         \  coefficient of the theta integral at `j • T` (`j` the purely imaginary element of the Weil data)\n  vanishes\
         \ if some signs represent the Gram matrices of all points with non-zero real slice but do\n  not represent\
         \ the matrix T (`centreCoeff_thetaIntegral_localDatum_eq_zero`).\n* `New.Exchange.thetaOnRealData_boxProd_eq_mul`:\
@@ -1679,8 +1708,6 @@ files:
         (V), y over real vectors in Fock coordinates.\n* `New.Exchange.IntegralFrame.stdDatum`: for a frame with\
         \ blocks K, I, L and a function G, the\n  function y ↦ G(y (K|I)) on integral y, and 0 elsewhere.\n\n##\
         \ Relation to the literature\n\nSee `New.Determinant.Exchange.TheoremForPartners` for related work.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Determinant.Exchange.MatchingPartners:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2412,7 +2439,9 @@ files:
     excerpt:
       path: grh/src/New/Determinant/Norms/AdjointThetaLift.lean
       line: 9
-      endLine: 14
+      endLine: 16
+      startOffset: 230
+      endOffset: 945
       text: 'For a descent pair (`New.DescentPair`, a descent datum) with spaces W and V, the lift Θ_W is the
 
         theta lift from forms on W to algebraic forms on V. The descent `New.DescentPair.normalizedDescent`
@@ -2425,15 +2454,18 @@ files:
 
         level `J_M`. For the pair `New.Data.descentPair D ϑ j`, which is `(W_j, V_j)` with a tame character
 
-        '
+        ξ = `ϑ`, the lift Θ_{j,ξ} = `New.Data.singleLift` goes from the forms of level `J_M` on W_j to the
+
+        definite space V_j.'
     remainder:
       path: grh/src/New/Determinant/Norms/AdjointThetaLift.lean
-      line: 15
+      line: 16
       endLine: 51
-      text: "ξ = `ϑ`, the lift Θ_{j,ξ} = `New.Data.singleLift` goes from the forms of level `J_M` on W_j to the\n\
-        definite space V_j.\n\n## Main definitions and results\n\n* `New.DescentPair.thetaLift`: the lift Θ_W from\
-        \ forms on W to forms on V. It is the lift\n  `New.formLift` by the datum `New.DescentPair.fockDatum` of\
-        \ the highest vector, read as an\n  algebraic form.\n* `New.Data.singleLift`: the lift Θ_{j,ξ} on `New.Data.principalForms`\
+      startOffset: 945
+      endOffset: 3288
+      text: "\n\n## Main definitions and results\n\n* `New.DescentPair.thetaLift`: the lift Θ_W from forms on W\
+        \ to forms on V. It is the lift\n  `New.formLift` by the datum `New.DescentPair.fockDatum` of the highest\
+        \ vector, read as an\n  algebraic form.\n* `New.Data.singleLift`: the lift Θ_{j,ξ} on `New.Data.principalForms`\
         \ on W_j. It is Θ_W for the\n  pair `New.Data.descentPair` when 1 ≤ j ≤ m and 0 otherwise.\n* `New.DescentPair.inner_thetaLift`:\
         \ `New.DescentPair.normalizedDescent` is adjoint to\n  `New.DescentPair.thetaLift`, for the Petersson product\
         \ on `W` and the class sum product on `V`.\n* `New.Data.coe_adjoint_singleLift`, `New.Data.normalizedDescent_eq_zero_iff`:\
@@ -2453,8 +2485,6 @@ files:
         \ 1992;\nCossutta–Marshall, Theta lifting and cohomology growth in p-adic towers, arXiv 1106.2765, 2011;\n\
         Rallis, Injectivity properties of liftings associated to Weil representations, 1984; Rallis,\nL-functions\
         \ and the oscillator representation, 1987.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Determinant.Norms.VectorKernel:
     group: New.Determinant
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

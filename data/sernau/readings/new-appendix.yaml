@@ -295,7 +295,9 @@ files:
     excerpt:
       path: grh/src/New/Appendix/DiscreteSeries/OneMinor.lean
       line: 7
-      endLine: 12
+      endLine: 14
+      startOffset: 150
+      endOffset: 902
       text: 'Estimates for one principal minor `det_S`, in terms of the blocks that cross the set `S` of indices,
 
         that is, the entries `(i, j)` with exactly one of `i`, `j` in `S`: its size on a unitary matrix
@@ -308,23 +310,23 @@ files:
 
         error, `exp (tr P Z + ‖[P, Z]‖² / 4)`, where `P` is the projection to `S` and `‖[P, Z]‖` is the norm
 
-        '
+        of the two blocks of `Z` that cross `S`. A third estimate for one minor is
+
+        `exists_det_one_add_proj_mul_eq_exp` in `New.Appendix.DiscreteSeries.MinorSecondOrder`.'
     remainder:
       path: grh/src/New/Appendix/DiscreteSeries/OneMinor.lean
-      line: 13
+      line: 14
       endLine: 30
-      text: "of the two blocks of `Z` that cross `S`. A third estimate for one minor is\n`exists_det_one_add_proj_mul_eq_exp`\
-        \ in `New.Appendix.DiscreteSeries.MinorSecondOrder`.\n\nThe matrix `ĝ` differs from `exp Z` by unipotent\
-        \ factors. Block diagonal triangular factors multiply\nFlensted-Jensen's coefficient by a character of their\
-        \ diagonal if the matrices involved are\naccretive (`flenstedJensen_triangular_mul_mul_triangular`), so\
-        \ for small `Z` the coefficient is the\nsame at `ĝ` and at `exp Z` (`flenstedJensen_reducedExp`).\n\nAll\
-        \ norms of matrices are Frobenius norms, and `ε : n → ℤˣ` is a vector of signs. Notation:\n* `principalMinor\
+      startOffset: 902
+      endOffset: 1768
+      text: "\n\nThe matrix `ĝ` differs from `exp Z` by unipotent factors. Block diagonal triangular factors multiply\n\
+        Flensted-Jensen's coefficient by a character of their diagonal if the matrices involved are\naccretive (`flenstedJensen_triangular_mul_mul_triangular`),\
+        \ so for small `Z` the coefficient is the\nsame at `ĝ` and at `exp Z` (`flenstedJensen_reducedExp`).\n\n\
+        All norms of matrices are Frobenius norms, and `ε : n → ℤˣ` is a vector of signs. Notation:\n* `principalMinor\
         \ X p`, `coordProj p`: the principal minor `det_S X` and the diagonal projection for\n  the set `S` of indices\
         \ satisfying `p`.\n* `blockDiagAlg ε`: the matrices that vanish at `(i, j)` whenever `ε i ≠ ε j`.\n* `lowerMask\
         \ ε o Z`: the matrix that keeps the entries `(i, j)` of `Z` with `o j < o i` and\n  `ε i = ε j`.\n\n## Relation\
         \ to the literature\n\nSee `New.Appendix.DiscreteSeries.Periods` for related work.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Appendix.DiscreteSeries.Periods:
     group: New.Appendix
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -376,20 +378,22 @@ files:
       path: grh/src/New/Appendix/DiscreteSeries/Periods.lean
       line: 8
       endLine: 11
+      startOffset: 199
+      endOffset: 527
       text: 'This file proves lower bounds for periods of discrete series coefficients. Let
 
         `j : S →* U(ε) × U(η)` be a homomorphism and write `θ` for the function `laplaceIntegrand` on `S`.
 
         Laplace''s method bounds the volume of a large ball by a power of `β` times `‖∫ θ‖`, where `β` bounds
 
-        the dimensions and the entries of the parameters.
-
-        '
+        the dimensions and the entries of the parameters.'
     remainder:
       path: grh/src/New/Appendix/DiscreteSeries/Periods.lean
-      line: 12
+      line: 11
       endLine: 55
-      text: "\n## Main definitions and results\n\n* The values of `θ` lie in a cone about the positive real axis,\
+      startOffset: 527
+      endOffset: 3505
+      text: "\n\n## Main definitions and results\n\n* The values of `θ` lie in a cone about the positive real axis,\
         \ up to an exponentially small error\n  (`IsLaplaceDatum.norm_laplaceIntegrand_le_mul_re_add`). With the\
         \ decay of the coefficients, `θ` is\n  integrable and the volume of a large ball is at most a power of `β`\
         \ times `‖∫ θ‖`\n  (`IsLaplaceDatum.laplace_method`). The file `PositionGroup` applies this to the group\
@@ -418,8 +422,6 @@ files:
         \ asymptotics for coherent states are known in the literature.\nRelated work: Nelson–Venkatesh, The orbit\
         \ method and analysis of automorphic forms, 2021; H. He, On\nthe Gan–Gross–Prasad conjecture for U(p,q),\
         \ 2017; B. Sun, Matrix coefficients of cohomologically\ninduced representations, 2007.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Appendix.DiscreteSeries.PositionGroup:
     group: New.Appendix
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

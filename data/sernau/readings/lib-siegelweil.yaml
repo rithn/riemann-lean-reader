@@ -52,7 +52,9 @@ files:
     excerpt:
       path: grh/src/Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean
       line: 7
-      endLine: 12
+      endLine: 14
+      startOffset: 175
+      endOffset: 897
       text: 'Let `S` and `T` be hermitian spaces. The two unitary groups act by `New.SiegelWeil.splitWeil S T` on
 
         the function space of `Hom(S, T)`. The file defines complete splittings of `S`, Lagrangians and the
@@ -65,35 +67,35 @@ files:
 
         normalised torus of a second splitting. It then shows, by the Hecke maximum principle, that a
 
-        '
+        continuous invariant functional vanishes if it is dominated by the norms of the zero terms of the
+
+        vacuum and `rank T > rank S > 0`.'
     remainder:
       path: grh/src/Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean
-      line: 13
+      line: 14
       endLine: 48
-      text: "continuous invariant functional vanishes if it is dominated by the norms of the zero terms of the\n\
-        vacuum and `rank T > rank S > 0`.\n\n## Main definitions and results\n\n* `New.SiegelWeil.CompleteSplitting\
-        \ S p`: splittings of `S` into `p` hyperbolic planes;\n  `New.SiegelWeil.Lagrangian S`: Lagrangians. Every\
-        \ Lagrangian comes from a splitting\n  (`New.SiegelWeil.Lagrangian.exists_completeSplitting`), and one is\
-        \ chosen for each\n  (`New.SiegelWeil.Lagrangian.chosenSplitting`).\n* `New.SiegelWeil.mixedValue`, `New.SiegelWeil.Lagrangian.zeroTerm`:\
-        \ the value `f[x]` in the model\n  of a splitting, and the zero term `f[0]` of a Lagrangian, which depends\
-        \ on the Lagrangian only\n  (`New.SiegelWeil.zeroTerm_lagrangian_eq_theta`).\n* `New.SiegelWeil.theta_normalisedTorus_le`:\
-        \ if `rank T > rank S`, an integrable bound for theta,\n  uniform along the torus `New.SiegelWeil.normalisedTorus`.\n\
-        * `New.SiegelWeil.norm_zeroTerm_parabolic_mul`: an element `g` with `g k = k a` multiplies the norm\n  of\
-        \ the zero term by `√|det a| ^ rank T`.\n* `New.SiegelWeil.exists_zeroTerm_normalisedTorus_le`: an upper\
-        \ bound, along the normalised torus\n  `New.SiegelWeil.normalisedTorus T P x`, for the zero term of a second\
-        \ splitting.\n* `New.SiegelWeil.eq_zero_of_le_tsum_zeroTerm`: let `S` have even positive rank less than\
-        \ that of\n  `T`, with summable zero terms. A continuous functional `ℓ` that is invariant under the group\
-        \ of\n  `T` and is dominated, up to an additive constant, by the sum of the norms of the zero terms of the\n\
-        \  translated vacuum is zero.\n\nNotions from other files:\n* `New.pairWeil`: the representation `(g, h)\
-        \ ↦ a (det h) b (det g)⁻¹ ω (x ↦ h x g⁻¹)` of the product\n  of the two adelic unitary groups on the function\
-        \ space of `Hom(S, T)`.\n* `New.Space.Splitting.homSource`, `New.Space.Splitting.homSlice`: the splitting\
-        \ of `Hom(S, T)` over\n  `Hom(S₁, T)` induced by a splitting of `S` over `S₁`, and the term `f ↦ f[x]` of\
-        \ its mixed model\n  at an adelic matrix `x`.\n* `New.Space.schrodingerOp`: the operator on `\U0001D4AE\
-        \ V` attached to a function `Ψ` above a set of split\n  places; the indicator `New.boxIndicator` gives the\
-        \ projection `New.Space.projOn` on the vacua\n  there.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.Formula.WeilRange`\
-        \ for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 897
+      endOffset: 3018
+      text: "\n\n## Main definitions and results\n\n* `New.SiegelWeil.CompleteSplitting S p`: splittings of `S`\
+        \ into `p` hyperbolic planes;\n  `New.SiegelWeil.Lagrangian S`: Lagrangians. Every Lagrangian comes from\
+        \ a splitting\n  (`New.SiegelWeil.Lagrangian.exists_completeSplitting`), and one is chosen for each\n  (`New.SiegelWeil.Lagrangian.chosenSplitting`).\n\
+        * `New.SiegelWeil.mixedValue`, `New.SiegelWeil.Lagrangian.zeroTerm`: the value `f[x]` in the model\n  of\
+        \ a splitting, and the zero term `f[0]` of a Lagrangian, which depends on the Lagrangian only\n  (`New.SiegelWeil.zeroTerm_lagrangian_eq_theta`).\n\
+        * `New.SiegelWeil.theta_normalisedTorus_le`: if `rank T > rank S`, an integrable bound for theta,\n  uniform\
+        \ along the torus `New.SiegelWeil.normalisedTorus`.\n* `New.SiegelWeil.norm_zeroTerm_parabolic_mul`: an\
+        \ element `g` with `g k = k a` multiplies the norm\n  of the zero term by `√|det a| ^ rank T`.\n* `New.SiegelWeil.exists_zeroTerm_normalisedTorus_le`:\
+        \ an upper bound, along the normalised torus\n  `New.SiegelWeil.normalisedTorus T P x`, for the zero term\
+        \ of a second splitting.\n* `New.SiegelWeil.eq_zero_of_le_tsum_zeroTerm`: let `S` have even positive rank\
+        \ less than that of\n  `T`, with summable zero terms. A continuous functional `ℓ` that is invariant under\
+        \ the group of\n  `T` and is dominated, up to an additive constant, by the sum of the norms of the zero\
+        \ terms of the\n  translated vacuum is zero.\n\nNotions from other files:\n* `New.pairWeil`: the representation\
+        \ `(g, h) ↦ a (det h) b (det g)⁻¹ ω (x ↦ h x g⁻¹)` of the product\n  of the two adelic unitary groups on\
+        \ the function space of `Hom(S, T)`.\n* `New.Space.Splitting.homSource`, `New.Space.Splitting.homSlice`:\
+        \ the splitting of `Hom(S, T)` over\n  `Hom(S₁, T)` induced by a splitting of `S` over `S₁`, and the term\
+        \ `f ↦ f[x]` of its mixed model\n  at an adelic matrix `x`.\n* `New.Space.schrodingerOp`: the operator on\
+        \ `\U0001D4AE V` attached to a function `Ψ` above a set of split\n  places; the indicator `New.boxIndicator`\
+        \ gives the projection `New.Space.projOn` on the vacua\n  there.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.SiegelWeil.Formula.WeilRange` for sources.\n"
   Lib.SiegelWeil.Formula.StrongApproximation:
     group: Lib.SiegelWeil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -420,34 +422,34 @@ files:
     excerpt:
       path: grh/src/Lib/SiegelWeil/NeighbourLattices.lean
       line: 8
-      endLine: 13
+      endLine: 11
+      startOffset: 176
+      endOffset: 544
       text: 'Let E be a CM field with Weil data (`WeilData E`, used here for a primitive 5040th root of unity,
 
         hence √-1, and an element of trace 1), so that every finite place of its real subfield is split or
 
         inert; let L = Ô^n be the standard lattice (`New.stdLattice`) with the form ⟨x, z⟩ = x* z, and w a
 
-        finite place of E with uniformiser ϖ and residue field k_w of order q_w. A vector x that is
-
-        supported at w, lies outside L, and has ϖx ∈ L and ⟨x, x⟩ integral defines a neighbour L₁ = L₀ + Ôx
-
-        of L, where L₀ = {z ∈ L : ⟨x, z⟩ integral}. A quasi-reflection ρ supported on w and its conjugate
-
-        '
+        finite place of E with uniformiser ϖ and residue field k_w of order q_w.'
     remainder:
       path: grh/src/Lib/SiegelWeil/NeighbourLattices.lean
-      line: 14
+      line: 11
       endLine: 49
-      text: "maps L₁ into L. The same ρ serves all x with the same line of ϖx in k_w^n and the same residue of\n\
-        ϖ⟨b, cx − b⟩, where b is a fixed such vector with this line and c a unit with cx − b ∈ L; these\nresidues\
-        \ number at most √q_w, and at most one if w is split. A lattice γL ≠ L, for γ unitary, holds\nsuch a vector\
-        \ x at some place w, and passing from γ to ργ divides the index [L : L ∩ γ⁻¹L] = [γL : L\n∩ γL] by at least\
-        \ q_w. So a step from L to L₁ towards γL is read as a step from γL to ργL towards L.\nThis file treats one\
-        \ step; the steps are summed in `Lib.SiegelWeil.UnramifiedSeries.RallisSeries`.\n\nIf w is split, L₁ is\
-        \ L enlarged by a line at w and cut down to a hyperplane at w̄. So the steps at w\nand at w̄ go up by a\
-        \ line and down by a hyperplane at w. If w is inert, the line of ϖx determines L₀\nand its dual L + Ôx,\
-        \ and the residues index the isotropic lines other than L/L₀ in the hermitian\nplane (L + Ôx)/L₀.\n\n##\
-        \ Main definitions and results\n\n* `New.SiegelWeil.IsNeighbourVector`, `New.SiegelWeil.MapsNeighbour`:\
+      startOffset: 544
+      endOffset: 3097
+      text: " A vector x that is\nsupported at w, lies outside L, and has ϖx ∈ L and ⟨x, x⟩ integral defines a neighbour\
+        \ L₁ = L₀ + Ôx\nof L, where L₀ = {z ∈ L : ⟨x, z⟩ integral}. A quasi-reflection ρ supported on w and its\
+        \ conjugate\nmaps L₁ into L. The same ρ serves all x with the same line of ϖx in k_w^n and the same residue\
+        \ of\nϖ⟨b, cx − b⟩, where b is a fixed such vector with this line and c a unit with cx − b ∈ L; these\n\
+        residues number at most √q_w, and at most one if w is split. A lattice γL ≠ L, for γ unitary, holds\nsuch\
+        \ a vector x at some place w, and passing from γ to ργ divides the index [L : L ∩ γ⁻¹L] = [γL : L\n∩ γL]\
+        \ by at least q_w. So a step from L to L₁ towards γL is read as a step from γL to ργL towards L.\nThis file\
+        \ treats one step; the steps are summed in `Lib.SiegelWeil.UnramifiedSeries.RallisSeries`.\n\nIf w is split,\
+        \ L₁ is L enlarged by a line at w and cut down to a hyperplane at w̄. So the steps at w\nand at w̄ go up\
+        \ by a line and down by a hyperplane at w. If w is inert, the line of ϖx determines L₀\nand its dual L +\
+        \ Ôx, and the residues index the isotropic lines other than L/L₀ in the hermitian\nplane (L + Ôx)/L₀.\n\n\
+        ## Main definitions and results\n\n* `New.SiegelWeil.IsNeighbourVector`, `New.SiegelWeil.MapsNeighbour`:\
         \ the vector x, and the relation\n  ρL₁ ⊆ L.\n* `New.SiegelWeil.neighbourResidues`: the residue classes\
         \ that tell apart the neighbours with the\n  same line; `New.SiegelWeil.card_neighbourResidues_le_one` and\n\
         \  `New.SiegelWeil.card_neighbourResidues_sq_le` bound their number.\n* `New.SiegelWeil.exists_family_mapsNeighbour`:\
@@ -461,8 +463,6 @@ files:
         \ finite adeles\nand its translates by unitary elements are treated; split and inert places are treated\
         \ by the same\nstep, taken at w or at its conjugate. Source: M. Greenberg, J. Voight, Lattice methods for\
         \ algebraic\nmodular forms on classical groups (2014), section 5.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.SiegelWeil.OneVector.ClassGaussSums:
     group: Lib.SiegelWeil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1108,7 +1108,9 @@ files:
     excerpt:
       path: grh/src/Lib/SiegelWeil/RallisInner/SharpData.lean
       line: 8
-      endLine: 13
+      endLine: 15
+      startOffset: 222
+      endOffset: 921
       text: 'This file proves Rallis'' inner product formula for the theta lift `New.Space.lift` from `U(S)` to
 
         `U(T)` when `rk T > 2 rk S`, for data `v ⊗ F` with `F` sharp (`New.SiegelWeil.IsSharp`). It starts
@@ -1121,15 +1123,18 @@ files:
 
         𝔪 ≠ (1), with `S₀` the set of places of 𝔪𝔪̄ and the mass `c` the mean of `|Ψ|²` over the index of
 
-        '
+        `J`. Finally it computes the vacuum sum in rank one as a partial Hecke L-value over a partial
+
+        Euler product.'
     remainder:
       path: grh/src/Lib/SiegelWeil/RallisInner/SharpData.lean
-      line: 14
+      line: 15
       endLine: 71
-      text: "`J`. Finally it computes the vacuum sum in rank one as a partial Hecke L-value over a partial\nEuler\
-        \ product.\n\n## Main definitions and results\n\n* `New.SiegelWeil.IsSharp.petersson_lift_eq_integral`:\
-        \ for a sharp datum the Petersson product\n  (`New.Space.petersson`) of two lifts is a real integral against\
-        \ the series\n  `New.SiegelWeil.rallisSeries` of the places off `S₀`. The finite points are cut into cosets\
+      startOffset: 921
+      endOffset: 4904
+      text: "\n\n## Main definitions and results\n\n* `New.SiegelWeil.IsSharp.petersson_lift_eq_integral`: for a\
+        \ sharp datum the Petersson product\n  (`New.Space.petersson`) of two lifts is a real integral against the\
+        \ series\n  `New.SiegelWeil.rallisSeries` of the places off `S₀`. The finite points are cut into cosets\
         \ in\n  `New.SiegelWeil.IsSharp.hasSum_integral_weilMatrixCoeff_mul`.\n* `New.SiegelWeil.exists_petersson_formLift_eq_rallisSeries`:\
         \ for `v` an edge (`New.IsEdge`) from\n  type `e`, the lift is injective on `J`-invariant forms of type\
         \ `e`, and the product of two lifts\n  is a multiple of the pairing with the series; `New.SiegelWeil.rallis_inner_product_cosetTerm`\n\
@@ -1166,8 +1171,6 @@ files:
         \ of Math. 102 (1975); method: T. Yang, Theta\nliftings and Hecke L-functions, J. reine angew. Math. 485\
         \ (1997); Harris, Li, Skinner, The Rallis\ninner product formula and p-adic L-functions (2005); Finis, Ann.\
         \ of Math. 163 (2006).\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.SiegelWeil.Reproduction:
     group: Lib.SiegelWeil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1301,7 +1304,9 @@ files:
     excerpt:
       path: grh/src/Lib/SiegelWeil/SingularForms/CentreCoefficients.lean
       line: 8
-      endLine: 13
+      endLine: 17
+      startOffset: 230
+      endOffset: 1152
       text: 'This file studies the Fourier coefficients `New.Space.Splitting.centreCoeff` of a continuous
 
         function f on the adelic unitary group of W that is left invariant under the rational points. The
@@ -1314,21 +1319,25 @@ files:
 
         shifts n₊(a), n₋(b) move u and u'' along k. The file studies the partial mean f⁺ of the coefficient
 
-        '
+        along `D` at a p×p matrix T over the shifts n₋(b), and the function φ⁺_g(a) = f⁺(n₊(a) g).
+
+        Exchanging u and u'' gives f⁻ and φ⁻_g; the functions φ⁺_g and φ⁻_g behave like a function and its
+
+        Fourier transform. The file also defines equivariant lifts of local data and representability at the
+
+        infinite places for comparing theta integrals.'
     remainder:
       path: grh/src/Lib/SiegelWeil/SingularForms/CentreCoefficients.lean
-      line: 14
+      line: 17
       endLine: 46
-      text: "along `D` at a p×p matrix T over the shifts n₋(b), and the function φ⁺_g(a) = f⁺(n₊(a) g).\nExchanging\
-        \ u and u' gives f⁻ and φ⁻_g; the functions φ⁺_g and φ⁻_g behave like a function and its\nFourier transform.\
-        \ The file also defines equivariant lifts of local data and representability at the\ninfinite places for\
-        \ comparing theta integrals.\n\n## Main definitions and results\n\n* `New.Exchange.IsEquivariantLift`: a\
-        \ linear map from local data at `\U0001D520.ramifiedPlaces` to functions\n  on the unitary group of `X`,\
-        \ sending a given submodule of Schwartz–Bruhat functions to automorphic\n  functions.\n* `New.Space.Splitting.lineShift`,\
-        \ `New.Space.Splitting.partialMean`,\n  `New.Space.Splitting.shiftedMean`: the shifts n₊(a), the partial\
-        \ mean f⁺ and the function φ⁺_g.\n* `New.Space.Splitting.centreCoeff_eq_mul_of_shiftedMean_eq_smul`,\n \
-        \ `New.Space.Splitting.shiftedMean_symm_eq_smul`: for det T ≠ 0, a relation φ⁺_{g'} = c φ⁺_g passes\n  to\
-        \ the coefficients along `D` at the points n₋(b) n₊(a) g and to φ⁻.\n* `New.Space.Splitting.partialMean_radicalElement_mul`:\
+      startOffset: 1152
+      endOffset: 3196
+      text: "\n\n## Main definitions and results\n\n* `New.Exchange.IsEquivariantLift`: a linear map from local\
+        \ data at `\U0001D520.ramifiedPlaces` to functions\n  on the unitary group of `X`, sending a given submodule\
+        \ of Schwartz–Bruhat functions to automorphic\n  functions.\n* `New.Space.Splitting.lineShift`, `New.Space.Splitting.partialMean`,\n\
+        \  `New.Space.Splitting.shiftedMean`: the shifts n₊(a), the partial mean f⁺ and the function φ⁺_g.\n* `New.Space.Splitting.centreCoeff_eq_mul_of_shiftedMean_eq_smul`,\n\
+        \  `New.Space.Splitting.shiftedMean_symm_eq_smul`: for det T ≠ 0, a relation φ⁺_{g'} = c φ⁺_g passes\n \
+        \ to the coefficients along `D` at the points n₋(b) n₊(a) g and to φ⁻.\n* `New.Space.Splitting.partialMean_radicalElement_mul`:\
         \ singularity. Let f⁺ be invariant under the\n  shears at a nonempty set of finite places (`New.Space.Splitting.ShearInvariant`)\
         \ at all points\n  that fix e·k for an adele e (`New.Space.Splitting.frameStabilizer`). Then f⁺(h g) = f⁺(g)\
         \ for h in\n  the adelic radical of the stabiliser of the line of u, whenever g and h g fix e·k. The proof\n\
@@ -1342,8 +1351,6 @@ files:
         \ with tame part non-trivial exactly on a non-empty finite set S of places disjoint from its\n  conjugate.\n\
         * `New.Space.Splitting.comp`: From splittings of V over V₀ (rank p) and V₀ over V₁ (rank q), the\n  splitting\
         \ of V over V₁ with frames (k, ik'), (l, il') and embedding ii'.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.SiegelWeil.SingularForms.UnimodularCoefficients:
     group: Lib.SiegelWeil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1401,7 +1408,9 @@ files:
     excerpt:
       path: grh/src/Lib/SiegelWeil/SingularForms/UnimodularCoefficients.lean
       line: 7
-      endLine: 13
+      endLine: 15
+      startOffset: 158
+      endOffset: 1012
       text: 'The file first computes how conjugation scales Haar measure on the hermitian `1 × 1` matrices, which
 
         parametrise the centre of the unipotent radical of the stabiliser of an isotropic line. Its main
@@ -1416,16 +1425,18 @@ files:
 
         matrix `γ` on `S ∪ S̄` and by `1` elsewhere, where the normalised index `δ⁻¹ γᴴ T γ` is unimodular
 
-        '
+        on `S ∪ S̄` and `δ = ȷκκ̄`. Then this coefficient vanishes at all points that fix the frame off
+
+        `S ∪ S̄`. Lattices on `S ∪ S̄` are given by matrices `γ` whose columns span them.'
     remainder:
       path: grh/src/Lib/SiegelWeil/SingularForms/UnimodularCoefficients.lean
-      line: 14
+      line: 15
       endLine: 55
-      text: "on `S ∪ S̄` and `δ = ȷκκ̄`. Then this coefficient vanishes at all points that fix the frame off\n`S\
-        \ ∪ S̄`. Lattices on `S ∪ S̄` are given by matrices `γ` whose columns span them.\n\n## Main definitions\
-        \ and results\n\n* `New.Exchange.closurePart`: the endomorphism that keeps the components on `S ∪ S̄` and\
-        \ replaces\n  all others by 1.\n* `New.Exchange.StraightPoint`, `New.Exchange.exists_straightPoint`: points\
-        \ whose lattice splits\n  along the two isotropic lines, and the straightening of a point by singularity.\n\
+      startOffset: 1012
+      endOffset: 3666
+      text: "\n\n## Main definitions and results\n\n* `New.Exchange.closurePart`: the endomorphism that keeps the\
+        \ components on `S ∪ S̄` and replaces\n  all others by 1.\n* `New.Exchange.StraightPoint`, `New.Exchange.exists_straightPoint`:\
+        \ points whose lattice splits\n  along the two isotropic lines, and the straightening of a point by singularity.\n\
         * `New.Exchange.centreCoeff_eq_zero_of_unimodular`: the vanishing theorem.\n\nNotions from other files:\n\
         * `New.Space.Splitting`: a decomposition of a hermitian space into two dual isotropic frames k, l\n  and\
         \ an orthogonal complement with inclusion ι and form ε₀; `A.symm` exchanges k and l, and\n  `A.comp B` has\
@@ -1448,8 +1459,6 @@ files:
         \ Source: E. Freitag, Singular Modular Forms and Theta\nRelations, Lecture Notes in Math. 1487, Springer\
         \ 1991; see also J.-S. Li, Automorphic forms with\ndegenerate Fourier coefficients, Amer. J. Math. 119 (1997).\n\
         \nThe tower property for the constant term of a theta lift along an isotropic line is in\n`Lib.SiegelWeil.Tower.LargeSideConstantTerm`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.SiegelWeil.Tower.ConstantTerm:
     group: Lib.SiegelWeil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1664,7 +1673,9 @@ files:
     excerpt:
       path: grh/src/Lib/SiegelWeil/Tower/FunctionalEquation.lean
       line: 7
-      endLine: 12
+      endLine: 14
+      startOffset: 172
+      endOffset: 885
       text: 'Tate''s argument for the base change of a character of `[U(1)]` of positive weight `μ` that is tamely
 
         ramified at split places. The zeta integral `𝒵` of `exists_zetaIntegral`, whose values `𝒵(x)` and
@@ -1677,25 +1688,26 @@ files:
 
         `1 ≤ z < min μ + 1`. As `L` has no zero at real `x ≥ 1`, the extension has no zero at the integers
 
-        '
+        `j > -min μ` (`exists_analytic_extension_ne_zero`). The file also computes the theta kernels of
+
+        pairs in which one space is `0`.'
     remainder:
       path: grh/src/Lib/SiegelWeil/Tower/FunctionalEquation.lean
-      line: 13
+      line: 14
       endLine: 30
-      text: "`j > -min μ` (`exists_analytic_extension_ne_zero`). The file also computes the theta kernels of\npairs\
-        \ in which one space is `0`.\n\nNotions from other files:\n* `Space E n s`: a hermitian space over the field\
-        \ `E` with basis indexed by `n` and signs `s`;\n  `stdSpace E Empty` is the space `0`, `W.θ` the theta functional\
-        \ and `W.vacElem` the vacuum.\n* `pairTheta W V α β f`: the theta kernel of `(W, V)` twisted by the characters\
-        \ `α` and `β`;\n  `localDatum W V v Φ \U0001D520.readsAt` is the datum with archimedean part `v`, the function\
-        \ `Φ` at the\n  ramified places of `\U0001D520` and the vacuum elsewhere; `thetaLarge W V \U0001D520 v Φ`\
-        \ integrates the kernel at\n  this datum over `[U(V)]`.\n* `SplitTameChar E μ`: a character `ν` of `[U(1)]`\
-        \ of positive weight `μ`, tamely ramified exactly\n  at a non-empty set `S` of split places; `ν.L S` is\
-        \ its `L`-function without `S ∪ S̄`.\n\n## Relation to the literature\n\nKnown result: analytic continuation\
-        \ and functional equation of Hecke `L`-functions. Only real\narguments `x > -min μ` and absolute values\
-        \ are treated. Source: J. Tate, Fourier analysis in number\nfields and Hecke's zeta-functions (thesis, 1950),\
-        \ §2.5 and Main Theorem 4.4.1.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 885
+      endOffset: 1911
+      text: "\n\nNotions from other files:\n* `Space E n s`: a hermitian space over the field `E` with basis indexed\
+        \ by `n` and signs `s`;\n  `stdSpace E Empty` is the space `0`, `W.θ` the theta functional and `W.vacElem`\
+        \ the vacuum.\n* `pairTheta W V α β f`: the theta kernel of `(W, V)` twisted by the characters `α` and `β`;\n\
+        \  `localDatum W V v Φ \U0001D520.readsAt` is the datum with archimedean part `v`, the function `Φ` at the\n\
+        \  ramified places of `\U0001D520` and the vacuum elsewhere; `thetaLarge W V \U0001D520 v Φ` integrates\
+        \ the kernel at\n  this datum over `[U(V)]`.\n* `SplitTameChar E μ`: a character `ν` of `[U(1)]` of positive\
+        \ weight `μ`, tamely ramified exactly\n  at a non-empty set `S` of split places; `ν.L S` is its `L`-function\
+        \ without `S ∪ S̄`.\n\n## Relation to the literature\n\nKnown result: analytic continuation and functional\
+        \ equation of Hecke `L`-functions. Only real\narguments `x > -min μ` and absolute values are treated. Source:\
+        \ J. Tate, Fourier analysis in number\nfields and Hecke's zeta-functions (thesis, 1950), §2.5 and Main Theorem\
+        \ 4.4.1.\n"
   Lib.SiegelWeil.Tower.LargeSideConstantTerm:
     group: Lib.SiegelWeil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1753,23 +1765,25 @@ files:
       path: grh/src/Lib/SiegelWeil/Tower/LargeSideConstantTerm.lean
       line: 8
       endLine: 11
+      startOffset: 205
+      endOffset: 540
       text: 'Let `W'' = W ⊕ H` and `V'' = V ⊕ H` be hermitian spaces over the CM field `E`, with `H` a hyperbolic
 
         plane and `W` of even rank. On standard data, the constant term of the theta integral of `(W'', V'')`
 
         along the new isotropic line of `W''` unfolds to Tate''s integral `𝒵(e + 1)`, `e = rk V - rk W / 2`,
 
-        for the base change of the character.
-
-        '
+        for the base change of the character.'
     remainder:
       path: grh/src/Lib/SiegelWeil/Tower/LargeSideConstantTerm.lean
-      line: 12
+      line: 11
       endLine: 50
-      text: "\nNeither side of Poisson's formula on the line has a term at `0`, so `\U0001D4B5` is analytic on the\
-        \ real\nline. For `x ≥ 1` its value is, up to an explicit factor, `L(x)` times the theta integral of\n`(W,\
-        \ V)` at a cone integral (`New.Exchange.exists_zetaIntegral`). This gives the constant term for\n`e ≥ 0`\
-        \ (`New.Exchange.exists_planeConstantTerm_eq_thetaLarge_cone`) and, through the other side of\nPoisson's\
+      startOffset: 540
+      endOffset: 3293
+      text: "\n\nNeither side of Poisson's formula on the line has a term at `0`, so `\U0001D4B5` is analytic on\
+        \ the real\nline. For `x ≥ 1` its value is, up to an explicit factor, `L(x)` times the theta integral of\n\
+        `(W, V)` at a cone integral (`New.Exchange.exists_zetaIntegral`). This gives the constant term for\n`e ≥\
+        \ 0` (`New.Exchange.exists_planeConstantTerm_eq_thetaLarge_cone`) and, through the other side of\nPoisson's\
         \ formula, for `e < 0` (`New.Exchange.exists_planeConstantTerm_eq_thetaLarge_dualCone`).\n\n## Main definitions\
         \ and results\n\n* `New.Exchange.exists_planeConstantTerm_eq_thetaLarge_cone`: for `z = rk V - rk W / 2\
         \ ≥ 0`, with\n  `rk W = card n` even, a Schwartz vector `v'` and integral `y`, the constant term along `A`\
@@ -1794,8 +1808,9 @@ files:
         \ factor whose size is given by a Hecke L-value. Source: S. Rallis, On the Howe duality\nconjecture, Compositio\
         \ Math. 51 (1984), Thm I.1.1; for the unitary case, C. Wu, Irreducibility of\ntheta lifting for unitary\
         \ groups, J. Number Theory 133 (2013), Prop. 3.1.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States the constant-term unfolding to a Tate integral.
   Lib.SiegelWeil.Tower.LineGaussSums:
     group: Lib.SiegelWeil
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2335,7 +2350,9 @@ files:
     excerpt:
       path: grh/src/Lib/SiegelWeil/UnramifiedSeries/VacuumCoefficients.lean
       line: 9
-      endLine: 15
+      endLine: 17
+      startOffset: 287
+      endOffset: 1115
       text: 'This file defines the coefficients of the vacuum `New.SiegelWeil.vacuumCoeff`, the representatives
 
         `New.SiegelWeil.cosetRep` of the cosets of `localLevel n A` and the series
@@ -2350,27 +2367,27 @@ files:
 
         steps at a place to a neighbouring lattice and bounds it for `2 * card n < M`. If these weights over
 
-        '
+        `A` and its conjugate add up to at most `1 / 3`, it bounds the sum of the moduli of the coefficients
+
+        (`New.SiegelWeil.tsum_ofReal_norm_vacuumCoeff_le`).'
     remainder:
       path: grh/src/Lib/SiegelWeil/UnramifiedSeries/VacuumCoefficients.lean
-      line: 16
+      line: 17
       endLine: 43
-      text: "`A` and its conjugate add up to at most `1 / 3`, it bounds the sum of the moduli of the coefficients\n\
-        (`New.SiegelWeil.tsum_ofReal_norm_vacuumCoeff_le`).\n\n## Main definitions and results\n\n* `New.SiegelWeil.vacuumCoeff`,\
-        \ `New.SiegelWeil.cosetRep`, `New.SiegelWeil.rallisSeries`: the\n  coefficients, the representatives of\
-        \ the cosets and the series.\n* `New.SiegelWeil.stepWeight`: the number `stepWeight n M w`, with the bounds\n\
-        \  `New.SiegelWeil.tsum_stepWeight_conjClosure_singleton_le` and\n  `New.SiegelWeil.summable_stepWeight`.\n\
-        \nNotions from other files:\n* `localLevel n A`: the points of `Gf E n` integral at the places of `A`; `stdLevel\
-        \ E n`: the points\n  integral at all finite places.\n* `supportedOn n A`: the points with component `1`\
-        \ outside `A` and its conjugate, whose union is\n  `A.conjClosure`; `trivialOn n A`: the points with component\
-        \ `1` at `A`.\n* `finMultiplier`: the multiplier of a finite point; its squared modulus is the index\n \
-        \ `[L : L ∩ γ⁻¹ L] = [γ L : L ∩ γ L]` at the point `γ`.\n* `AutChar E`: the characters `b` of the norm-one\
-        \ adeles of `E` trivial on the norm-one elements of\n  `E`; `detFin 1 g`: the determinant of the finite\
-        \ point `g`, as such an adele with component `1` at\n  the infinite places.\n* `HasLevel y K`: right translation\
-        \ by each point of `K` fixes the function `y` on the adelic points\n  `G E s`, the products of a point of\
-        \ `GInf E s` (the real points, the only part that depends on the\n  signs `s : n → ℤˣ`) and a point of `Gf\
-        \ E n`.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.UnramifiedSeries.RallisSeries` for\
-        \ sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1115
+      endOffset: 2542
+      text: "\n\n## Main definitions and results\n\n* `New.SiegelWeil.vacuumCoeff`, `New.SiegelWeil.cosetRep`, `New.SiegelWeil.rallisSeries`:\
+        \ the\n  coefficients, the representatives of the cosets and the series.\n* `New.SiegelWeil.stepWeight`:\
+        \ the number `stepWeight n M w`, with the bounds\n  `New.SiegelWeil.tsum_stepWeight_conjClosure_singleton_le`\
+        \ and\n  `New.SiegelWeil.summable_stepWeight`.\n\nNotions from other files:\n* `localLevel n A`: the points\
+        \ of `Gf E n` integral at the places of `A`; `stdLevel E n`: the points\n  integral at all finite places.\n\
+        * `supportedOn n A`: the points with component `1` outside `A` and its conjugate, whose union is\n  `A.conjClosure`;\
+        \ `trivialOn n A`: the points with component `1` at `A`.\n* `finMultiplier`: the multiplier of a finite\
+        \ point; its squared modulus is the index\n  `[L : L ∩ γ⁻¹ L] = [γ L : L ∩ γ L]` at the point `γ`.\n* `AutChar\
+        \ E`: the characters `b` of the norm-one adeles of `E` trivial on the norm-one elements of\n  `E`; `detFin\
+        \ 1 g`: the determinant of the finite point `g`, as such an adele with component `1` at\n  the infinite\
+        \ places.\n* `HasLevel y K`: right translation by each point of `K` fixes the function `y` on the adelic\
+        \ points\n  `G E s`, the products of a point of `GInf E s` (the real points, the only part that depends\
+        \ on the\n  signs `s : n → ℤˣ`) and a point of `Gf E n`.\n\n## Relation to the literature\n\nKnown; see\
+        \ `Lib.SiegelWeil.UnramifiedSeries.RallisSeries` for sources.\n"
 needs_draft: true

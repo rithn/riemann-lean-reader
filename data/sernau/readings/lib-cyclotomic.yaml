@@ -138,7 +138,9 @@ files:
     excerpt:
       path: grh/src/Lib/Cyclotomic/Kolyvagin/ReciprocityComponentBounds.lean
       line: 8
-      endLine: 13
+      endLine: 17
+      startOffset: 225
+      endOffset: 1106
       text: 'The file studies cocycles on `Gal(Ω/ℚ)`, with `Ω` an algebraic closure of ℚ. Here
 
         `New.cyclotomicPowDirichlet l e ψ` is `cyc^e ψ` with `cyc` the `l`-adic cyclotomic character. The
@@ -151,15 +153,20 @@ files:
 
         and zero at `New.cmConj`, a complex conjugation. Reciprocity laws at primes `q ≡ 1` relate the value
 
-        '
+        of one cocycle at a Frobenius element to the ramification of another. Using these laws and
+
+        Chebotarev''s theorem, the file bounds these components in two ways. One bound is an annihilation
+
+        result analogous to Stickelberger''s theorem. The other uses Kolyvagin''s descent with the Euler
+
+        system of Gauss sums.'
     remainder:
       path: grh/src/Lib/Cyclotomic/Kolyvagin/ReciprocityComponentBounds.lean
-      line: 14
+      line: 17
       endLine: 52
-      text: "of one cocycle at a Frobenius element to the ramification of another. Using these laws and\nChebotarev's\
-        \ theorem, the file bounds these components in two ways. One bound is an annihilation\nresult analogous\
-        \ to Stickelberger's theorem. The other uses Kolyvagin's descent with the Euler\nsystem of Gauss sums.\n\
-        \n## Main definitions and results\n\n* `New.OddPart.artin_reciprocity_of_mem_component`: Artin reciprocity\
+      startOffset: 1106
+      endOffset: 3417
+      text: "\n\n## Main definitions and results\n\n* `New.OddPart.artin_reciprocity_of_mem_component`: Artin reciprocity\
         \ over ℚ(μ_{N m}), where the\n  prime q ≡ 1 splits completely, pairs a cocycle `x` with a number `y`; only\
         \ the places above q\n  contribute.\n* `New.OddPart.reciprocity_mod_ell`: the same law modulo `l` for a\
         \ cocycle κ for cyc^(e+1) ψ; if\n  `2 (a ^ e - 1) x φ ≠ 0`, then κ vanishes on the inertia group of `B`.\n\
@@ -182,8 +189,6 @@ files:
         \ ℓ, at most\nv_ℓ(X)+1 Galois elements detect its classes. Source: J. Coates, W. Sinnott, An analogue of\n\
         Stickelberger's theorem for the higher K-groups, Invent. Math. 24 (1974); K. Rubin, Euler Systems,\n2000,\
         \ III.4, Thm 4.6.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.Cyclotomic.OddSha:
     group: Lib.Cyclotomic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -336,33 +341,38 @@ files:
     excerpt:
       path: grh/src/Lib/Cyclotomic/Stickelberger.lean
       line: 7
-      endLine: 13
+      endLine: 11
+      startOffset: 189
+      endOffset: 532
       text: "Gauss sums over `\U0001D53D_p` give a family of elements `J x` of `Ωˣ`, `Ω = ℚ̄`, indexed by torsion\
         \ points\n`x` of `ℚ/ℤ`, with a known Galois action and a distribution relation up to elements of finite\
         \ order.\n\n* `New.OddPart.floorDiff`, `New.OddPart.sum_floorDiff`: the integer `⌊c ⟨x⟩⌋ - ⌊c ⟨-x⟩⌋` and\
-        \ its\n  distribution relation (Hermite's identity).\n* `New.OddPart.exists_galUnitsRep_gaussSum_eq`, `New.OddPart.stickelberger`:\
-        \ Galois action on Gauss\n  sums, and their orders at a place `B` above `p`.\n"
+        \ its\n  distribution relation (Hermite's identity)."
     remainder:
       path: grh/src/Lib/Cyclotomic/Stickelberger.lean
-      line: 14
+      line: 11
       endLine: 35
-      text: "* `New.OddPart.exists_isJacobiFamily`: the family `J`, built from the quotients\n  `j t = g(χ) ^ c\
-        \ / g(χ ^ c)` as `j t / j (-t)`.\n\nNotions from other files:\n* `Ω` is `ℚ̄`, and `DiscreteUnits Ω` is `Ωˣ`\
-        \ written additively: a sum is a product, `c • u` is\n  `u ^ c`. `galUnitsRep σ` is the action of `σ ∈ Gal(Ω/ℚ)`\
-        \ on it.\n* `ClosurePlace`: a valuation subring `B` of `Ω`; it lies above `p` when `B.valuation p < 1`,\
-        \ and\n  `centrePrime Ω B` is the prime ideal of `\U0001D4DE Ω` that it defines; `principalUnits B` is the\
-        \ subgroup\n  of `DiscreteUnits Ω` of the `u` with `B.valuation (u - 1) < 1`, that is `u ≡ 1` at `B`.\n\
-        * `ordRat ℚ B u`: the order of `u` at `B`, normalised so that a prime `p` below `B` has order one.\n* `cyclotomicCharMod\
-        \ Ω N σ`: the cyclotomic character of `σ` modulo `N`, the unit `a` with\n  `σ ζ = ζ ^ a` for every `N`-th\
-        \ root of unity `ζ`.\n* `New.QZ`: the group `ℚ/ℤ`; `New.QZ.fracRep x = ⟨x⟩` is the representative in `[0,\
-        \ 1)`, and\n  `New.QZ.ofZMod r b = b / r`.\n\n## Relation to the literature\n\nKnown result: Stickelberger's\
-        \ factorisation of Gauss sums and the Davenport–Hasse product relation.\nHere only prime fields are treated,\
-        \ and characters are named by the valuation of their Gauss sum.\nThe product relation is proved for Jacobi-type\
-        \ quotients of Gauss sums and only up to a root of\nunity. Source: L. Washington, Introduction to Cyclotomic\
-        \ Fields, 2nd ed. 1997, 6.2 and Thm 15.1; for\nthe product relation, H. Davenport, H. Hasse, J. reine angew.\
-        \ Math. 172 (1935).\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+      startOffset: 532
+      endOffset: 2163
+      text: "\n* `New.OddPart.exists_galUnitsRep_gaussSum_eq`, `New.OddPart.stickelberger`: Galois action on Gauss\n\
+        \  sums, and their orders at a place `B` above `p`.\n* `New.OddPart.exists_isJacobiFamily`: the family `J`,\
+        \ built from the quotients\n  `j t = g(χ) ^ c / g(χ ^ c)` as `j t / j (-t)`.\n\nNotions from other files:\n\
+        * `Ω` is `ℚ̄`, and `DiscreteUnits Ω` is `Ωˣ` written additively: a sum is a product, `c • u` is\n  `u ^\
+        \ c`. `galUnitsRep σ` is the action of `σ ∈ Gal(Ω/ℚ)` on it.\n* `ClosurePlace`: a valuation subring `B`\
+        \ of `Ω`; it lies above `p` when `B.valuation p < 1`, and\n  `centrePrime Ω B` is the prime ideal of `\U0001D4DE\
+        \ Ω` that it defines; `principalUnits B` is the subgroup\n  of `DiscreteUnits Ω` of the `u` with `B.valuation\
+        \ (u - 1) < 1`, that is `u ≡ 1` at `B`.\n* `ordRat ℚ B u`: the order of `u` at `B`, normalised so that a\
+        \ prime `p` below `B` has order one.\n* `cyclotomicCharMod Ω N σ`: the cyclotomic character of `σ` modulo\
+        \ `N`, the unit `a` with\n  `σ ζ = ζ ^ a` for every `N`-th root of unity `ζ`.\n* `New.QZ`: the group `ℚ/ℤ`;\
+        \ `New.QZ.fracRep x = ⟨x⟩` is the representative in `[0, 1)`, and\n  `New.QZ.ofZMod r b = b / r`.\n\n##\
+        \ Relation to the literature\n\nKnown result: Stickelberger's factorisation of Gauss sums and the Davenport–Hasse\
+        \ product relation.\nHere only prime fields are treated, and characters are named by the valuation of their\
+        \ Gauss sum.\nThe product relation is proved for Jacobi-type quotients of Gauss sums and only up to a root\
+        \ of\nunity. Source: L. Washington, Introduction to Cyclotomic Fields, 2nd ed. 1997, 6.2 and Thm 15.1; for\n\
+        the product relation, H. Davenport, H. Hasse, J. reine angew. Math. 172 (1935).\n"
+    standaloneReview:
+      verdict: clear
+      reason: Describes Gauss-sum Galois and distribution relations and a floor-difference construction.
   Lib.Cyclotomic.Voronoi:
     group: Lib.Cyclotomic
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -411,54 +421,37 @@ files:
     excerpt:
       path: grh/src/Lib/Cyclotomic/Voronoi.lean
       line: 6
-      endLine: 11
-      text: "The analytic input to the bound for the odd part of Ш: one nonzero integer X of controlled size\nthat,\
-        \ times c ^ (e + 1) - 1, lies in all the Stickelberger ideals for N and e.\n\n* `New.OddPart.IsStickelbergerBound`:\
-        \ the two properties required of X, as a structure.\n* `New.OddPart.exists_isStickelbergerBound`: such an\
-        \ X exists with X ≤ 2 ^ (N + e + 3) ^ 6, for\n  e ≥ 1.\n"
+      endLine: 9
+      startOffset: 118
+      endOffset: 381
+      text: 'The analytic input to the bound for the odd part of Ш: one nonzero integer X of controlled size
+
+        that, times c ^ (e + 1) - 1, lies in all the Stickelberger ideals for N and e.
+
+
+        * `New.OddPart.IsStickelbergerBound`: the two properties required of X, as a structure.'
     remainder:
       path: grh/src/Lib/Cyclotomic/Voronoi.lean
-      line: 12
+      line: 9
       endLine: 31
-      text: '
-
-        The idea: the generalised Bernoulli numbers of all characters mod N, corrected where they vanish for
-
-        reasons of parity, are the eigenvalues of one integer matrix. Its determinant is nonzero
-
-        (`New.OddPart.sum_mul_bernoulli_ne_zero`), is divisible by each eigenvalue, and is bounded by
-
-        the Fourier series of the Bernoulli polynomial. Voronoi''s congruence
-
-        (`New.OddPart.voronoi_congruence_bernoulli`) links the Bernoulli numbers to the Stickelberger sums;
-
-        it rests on a congruence for power sums along an arithmetic progression
-
-        (`New.OddPart.exists_sq_dvd_factorial_mul_sum_pow_sub`).
-
-
-        ## Relation to the literature
-
-
-        Known result: Voronoi''s congruence for twisted power sums and the trivial zeros of Dirichlet
-
-        L-functions. Here the congruence is twisted by a possibly imprimitive character and stated for power
-
-        sums. One non-zero integer with an explicit size bound has the following property. For c ≡ 1 mod N,
-
-        (c ^ (e + 1) - 1) X is congruent, modulo every m prime to c, to 2 w times the twisted Stickelberger
-
-        sum, where w does not depend on m. This holds for every character ψ with ψ(-1) = -(-1) ^ e and
-
-        values in a domain of characteristic 0. In addition, for every prime l, some c ≡ 1 mod N prime to l
-
-        has (c ^ e - 1) (c ^ (e + 1) - 1) ∣ X. Source: K. Ireland, M. Rosen, A Classical Introduction to
-
-        Modern Number Theory, 2nd ed. 1990; for the untwisted statement also M. Eberl, Kummer''s congruence,
-
-        Archive of Formal Proofs 2024.
-
-        '
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+      startOffset: 381
+      endOffset: 1919
+      text: "\n* `New.OddPart.exists_isStickelbergerBound`: such an X exists with X ≤ 2 ^ (N + e + 3) ^ 6, for\n\
+        \  e ≥ 1.\n\nThe idea: the generalised Bernoulli numbers of all characters mod N, corrected where they vanish\
+        \ for\nreasons of parity, are the eigenvalues of one integer matrix. Its determinant is nonzero\n(`New.OddPart.sum_mul_bernoulli_ne_zero`),\
+        \ is divisible by each eigenvalue, and is bounded by\nthe Fourier series of the Bernoulli polynomial. Voronoi's\
+        \ congruence\n(`New.OddPart.voronoi_congruence_bernoulli`) links the Bernoulli numbers to the Stickelberger\
+        \ sums;\nit rests on a congruence for power sums along an arithmetic progression\n(`New.OddPart.exists_sq_dvd_factorial_mul_sum_pow_sub`).\n\
+        \n## Relation to the literature\n\nKnown result: Voronoi's congruence for twisted power sums and the trivial\
+        \ zeros of Dirichlet\nL-functions. Here the congruence is twisted by a possibly imprimitive character and\
+        \ stated for power\nsums. One non-zero integer with an explicit size bound has the following property. For\
+        \ c ≡ 1 mod N,\n(c ^ (e + 1) - 1) X is congruent, modulo every m prime to c, to 2 w times the twisted Stickelberger\n\
+        sum, where w does not depend on m. This holds for every character ψ with ψ(-1) = -(-1) ^ e and\nvalues in\
+        \ a domain of characteristic 0. In addition, for every prime l, some c ≡ 1 mod N prime to l\nhas (c ^ e\
+        \ - 1) (c ^ (e + 1) - 1) ∣ X. Source: K. Ireland, M. Rosen, A Classical Introduction to\nModern Number Theory,\
+        \ 2nd ed. 1990; for the untwisted statement also M. Eberl, Kummer's congruence,\nArchive of Formal Proofs\
+        \ 2024.\n"
+    standaloneReview:
+      verdict: clear
+      reason: States the controlled integer required for the Stickelberger bound.
 needs_draft: true

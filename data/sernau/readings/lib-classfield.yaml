@@ -134,32 +134,37 @@ files:
     excerpt:
       path: grh/src/Lib/ClassField/Avatar/LocalGlobalCompatibility.lean
       line: 6
-      endLine: 16
+      endLine: 12
+      startOffset: 123
+      endOffset: 502
       text: "Local-global compatibility, including the places above `ℓ`, for the ℓ-adic avatar of an algebraic\n\
         Hecke character `θ` of a CM field `E` satisfying `New.HasPrimitiveRoot5040`.\n\n* `New.GaloisRep.avatarCompatAt_of_hasPrimitiveRoot5040`:\
         \ the statement\n  `New.GaloisRep.AvatarCompatAt w θ` at every finite place `w`.\n\nA base change reduces\
-        \ to a split place `w`, one with `star w ≠ w`. There\n(`New.GaloisRep.avatarCompatAt_of_isSplit`) `θ = θ₁\
-        \ (θ / θ₁)`, with `θ₁` the character of a rank one\neigenform (`New.GaloisRep.sphericalCompat_of_odd`, `New.GaloisRep.Attached.exists_det_eq_avatar`)\n\
-        and `θ / θ₁` of type `0` at the embeddings inducing `w`\n(`New.GaloisRep.avatarCompatAt_of_type_eq_zero`).\n"
+        \ to a split place `w`, one with `star w ≠ w`."
     remainder:
       path: grh/src/Lib/ClassField/Avatar/LocalGlobalCompatibility.lean
-      line: 17
+      line: 12
       endLine: 35
-      text: "\nNotions from other files:\n* `New.AlgHeckeChar`: pairs of a character of the finite ideles and its\
-        \ infinity type.\n* `New.AlgHeckeChar.avatar`: the ℓ-adic character of `Gal(Ω/E)` attached to such a pair.\n\
-        * `New.GaloisRep.AvatarCompatAt`: at each place of `Ω` over `w` the avatar has finite type\n  (`IsFiniteTypeAt`),\
-        \ its jumps are minus the type of `θ`, and inertia and geometric Frobenius\n  elements act through `θ` and\
-        \ local class field theory.\n* `New.IsEigenform`, `New.HasHeckePolyAt`: `f ≠ 0` has Hecke polynomial `P\
-        \ u` at almost all places\n  `u` of prime norm; `f` is spherical at a split place with the given Hecke polynomial.\n\
-        \n## Relation to the literature\n\nKnown result: the existence of the ℓ-adic avatar of an algebraic Hecke\
-        \ character and its local\nbehaviour. The avatar is constructed over totally complex fields (in an imported\
-        \ file). For the CM\nfields used here, the behaviour at places above ℓ is read from the rank-one case of\
-        \ the Galois\nrepresentations of `Lib.GaloisRep.Main.OddRank` rather than from Lubin–Tate theory. Source:\
-        \ J.-P.\nSerre, Abelian ℓ-adic representations and elliptic curves, 1968, II–III (locally algebraic =\n\
-        Hodge–Tate, Tate's theorem); B. Conrad, Lifting global representations with local properties,\nApp. B (crystalline\
-        \ case).\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+      startOffset: 502
+      endOffset: 2080
+      text: " There\n(`New.GaloisRep.avatarCompatAt_of_isSplit`) `θ = θ₁ (θ / θ₁)`, with `θ₁` the character of a\
+        \ rank one\neigenform (`New.GaloisRep.sphericalCompat_of_odd`, `New.GaloisRep.Attached.exists_det_eq_avatar`)\n\
+        and `θ / θ₁` of type `0` at the embeddings inducing `w`\n(`New.GaloisRep.avatarCompatAt_of_type_eq_zero`).\n\
+        \nNotions from other files:\n* `New.AlgHeckeChar`: pairs of a character of the finite ideles and its infinity\
+        \ type.\n* `New.AlgHeckeChar.avatar`: the ℓ-adic character of `Gal(Ω/E)` attached to such a pair.\n* `New.GaloisRep.AvatarCompatAt`:\
+        \ at each place of `Ω` over `w` the avatar has finite type\n  (`IsFiniteTypeAt`), its jumps are minus the\
+        \ type of `θ`, and inertia and geometric Frobenius\n  elements act through `θ` and local class field theory.\n\
+        * `New.IsEigenform`, `New.HasHeckePolyAt`: `f ≠ 0` has Hecke polynomial `P u` at almost all places\n  `u`\
+        \ of prime norm; `f` is spherical at a split place with the given Hecke polynomial.\n\n## Relation to the\
+        \ literature\n\nKnown result: the existence of the ℓ-adic avatar of an algebraic Hecke character and its\
+        \ local\nbehaviour. The avatar is constructed over totally complex fields (in an imported file). For the\
+        \ CM\nfields used here, the behaviour at places above ℓ is read from the rank-one case of the Galois\nrepresentations\
+        \ of `Lib.GaloisRep.Main.OddRank` rather than from Lubin–Tate theory. Source: J.-P.\nSerre, Abelian ℓ-adic\
+        \ representations and elliptic curves, 1968, II–III (locally algebraic =\nHodge–Tate, Tate's theorem); B.\
+        \ Conrad, Lifting global representations with local properties,\nApp. B (crystalline case).\n"
+    standaloneReview:
+      verdict: clear
+      reason: States local-global compatibility for the avatar at finite places.
   Lib.ClassField.GaloisCohomology.ContinuousCocycles:
     group: Lib.ClassField
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -290,7 +295,9 @@ files:
     excerpt:
       path: grh/src/Lib/ClassField/GaloisCohomology/KummerCyclicClasses.lean
       line: 8
-      endLine: 13
+      endLine: 15
+      startOffset: 225
+      endOffset: 956
       text: 'This file studies the Galois cohomology of `Ωˣ` for a group Γ acting on a field Ω. The group `Ωˣ` is
 
         written additively (`New.DiscreteUnits`, with action `New.unitsRep`). In the last two sections Γ is
@@ -303,19 +310,22 @@ files:
 
         pairings, and a descent lemma for semilinear actions. Finally it shows that the classes vanishing on
 
-        '
+        U are the symbols (χ, w), and that (χ, w) = 0 exactly when w is a norm from U, that is, a field norm
+
+        from the field cut out by χ.'
     remainder:
       path: grh/src/Lib/ClassField/GaloisCohomology/KummerCyclicClasses.lean
-      line: 14
+      line: 15
       endLine: 58
-      text: "U are the symbols (χ, w), and that (χ, w) = 0 exactly when w is a norm from U, that is, a field norm\n\
-        from the field cut out by χ.\n\n## Main definitions and results\n\n* `New.cupProduct`, `New.cupProduct_flip`:\
-        \ the cup product of 1-cocycles, with values in `H²`, and\n  its anticommutativity; `New.DiscreteModule.evalCup`\
-        \ is the case of the evaluation pairing.\n* `New.Period.mem_span_fixed`: for a semilinear action, a vector\
-        \ fixed by a subgroup U of finite\n  index is a linear combination of invariant vectors, provided every\
-        \ element outside U moves some\n  U-fixed scalar. The invariant vectors are traces over the finitely many\
-        \ cosets, and Dedekind's\n  independence of characters shows that their span contains the vector.\n* `New.hilbert90_unitsRep`:\
-        \ Hilbert 90, every continuous 1-cocycle with values in `Ωˣ` is a\n  coboundary.\n* `New.exists_kummer_cocycle`:\
+      startOffset: 956
+      endOffset: 3852
+      text: "\n\n## Main definitions and results\n\n* `New.cupProduct`, `New.cupProduct_flip`: the cup product of\
+        \ 1-cocycles, with values in `H²`, and\n  its anticommutativity; `New.DiscreteModule.evalCup` is the case\
+        \ of the evaluation pairing.\n* `New.Period.mem_span_fixed`: for a semilinear action, a vector fixed by\
+        \ a subgroup U of finite\n  index is a linear combination of invariant vectors, provided every element outside\
+        \ U moves some\n  U-fixed scalar. The invariant vectors are traces over the finitely many cosets, and Dedekind's\n\
+        \  independence of characters shows that their span contains the vector.\n* `New.hilbert90_unitsRep`: Hilbert\
+        \ 90, every continuous 1-cocycle with values in `Ωˣ` is a\n  coboundary.\n* `New.exists_kummer_cocycle`:\
         \ if `Γ` fixes the `n`-th roots of unity (`ζ ^ k` is\n  `New.rootPowHom Ω n k` for a chosen primitive `n`-th\
         \ root of unity `ζ`), an invariant `x = a ^ n`\n  gives a homomorphism `f : Γ → ℤ/n` with `g a / a = ζ ^\
         \ f g`.\n* `New.mk_eq_neg_cyclicClass_ofZModCocycle`: the cup product of `g ↦ g a / a` with `ξ : Γ → ℤ/n`\
@@ -337,8 +347,6 @@ files:
         \ come from\n`Lib.ClassField.GaloisCohomology.ShapiroCorestriction`. Source: J.-P. Serre, Galois Cohomology\n\
         (1997); Neukirch–Schmidt–Wingberg, Cohomology of Number Fields (2nd ed. 2008), Ch. I, VI;\nAtiyah–Wall in\
         \ Cassels–Fröhlich (1967), IV §8.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.ClassField.GaloisCohomology.ShapiroCorestriction:
     group: Lib.ClassField
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1731,25 +1739,35 @@ files:
     excerpt:
       path: grh/src/Lib/ClassField/Grunwald.lean
       line: 11
-      endLine: 13
+      endLine: 20
+      startOffset: 369
+      endOffset: 1299
       text: 'The file studies continuous characters `χ : Γ → ℚ/ℤ` of absolute Galois groups `Γ = Gal(Ω/E)` (`Ω`
 
         the algebraic closure; `New.EmbeddedNumberField E`: a number field with an embedding into `Ω`) of CM
 
         fields `E` that are killed by a prime `p`, and the cyclic extensions of degree `p` they cut out.
 
-        '
+        Grunwald''s theorem in prime degree produces such characters with prescribed local behaviour. If `E`
+
+        is stably unramified (here: `New.HasPrimitiveRoot5040 E`, a primitive 5040th root of unity lies in
+
+        `E`) and the symmetrised character is nonzero and kills inertia above `p`, the field cut out by the
+
+        symmetrised character is a step of degree `p` over `E`. Weil data lift to stably unramified CM
+
+        extensions `L` whose CM type restricts to that of `E` and whose relative different is prime to the
+
+        places fixed by conjugation. Together these results give a step of prime degree with Weil data and a
+
+        prescribed completion at a split place.'
     remainder:
       path: grh/src/Lib/ClassField/Grunwald.lean
-      line: 14
+      line: 20
       endLine: 63
-      text: "Grunwald's theorem in prime degree produces such characters with prescribed local behaviour. If `E`\n\
-        is stably unramified (here: `New.HasPrimitiveRoot5040 E`, a primitive 5040th root of unity lies in\n`E`)\
-        \ and the symmetrised character is nonzero and kills inertia above `p`, the field cut out by the\nsymmetrised\
-        \ character is a step of degree `p` over `E`. Weil data lift to stably unramified CM\nextensions `L` whose\
-        \ CM type restricts to that of `E` and whose relative different is prime to the\nplaces fixed by conjugation.\
-        \ Together these results give a step of prime degree with Weil data and a\nprescribed completion at a split\
-        \ place.\n\n## Main definitions and results\n\n* `New.grunwald`: a character of the finite ideles of a totally\
+      startOffset: 1299
+      endOffset: 4064
+      text: "\n\n## Main definitions and results\n\n* `New.grunwald`: a character of the finite ideles of a totally\
         \ complex field, killed by `p`, agrees\n  with a Galois character killed by `p` at finitely many given places,\
         \ and on the units at every\n  place whose norm is not prime.\n* `New.QZChar.symmetrise`, `New.QZChar.abelianLift_symmetrise`:\
         \ for a CM field, the character\n  `g ↦ χ g + χ (gᶜ)`; on the Artin symbol of an idele `a` it is `χ a +\
@@ -1775,8 +1793,6 @@ files:
         \ one on units at all primes of degree above one. It\nyields a CM extension of prime degree with prescribed\
         \ tame completion at a split place. Source:\nArtin–Tate, Class Field Theory (1968), ch. X; S. Wang, Grunwald–Wang\
         \ theorem, an effective version,\narXiv 1401.0389 (2014).\n\nSee also `Lib.Weil.MixedModel.ZeroTerm`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.ClassField.HeckeCharacter.AlgebraicValues:
     group: Lib.ClassField
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2065,7 +2081,9 @@ files:
     excerpt:
       path: grh/src/Lib/ClassField/HeckeCharacter/SplittingCharacters.lean
       line: 6
-      endLine: 11
+      endLine: 12
+      startOffset: 86
+      endOffset: 765
       text: 'Here a pair of spaces is indexed by two characters `ν_S`, `ν_T` of `[U(1)]`; one can also use
 
         splitting characters `χ_S`, `χ_T`. The two descriptions agree: `ν ↦ ν.spaceChar k`, the Hecke
@@ -2078,12 +2096,14 @@ files:
 
         for products, inverses and hyperbolic planes, the character of `[U(1)]` that gives the power of `υ`
 
-        '
+        by minus the signature of a space, and the splitting characters of a pair with one character.'
     remainder:
       path: grh/src/Lib/ClassField/HeckeCharacter/SplittingCharacters.lean
       line: 12
       endLine: 17
-      text: 'by minus the signature of a space, and the splitting characters of a pair with one character.
+      startOffset: 765
+      endOffset: 931
+      text: '
 
 
         ## Relation to the literature
@@ -2094,8 +2114,6 @@ files:
         Source: Harris–Kudla–Sweet (1996), §1.
 
         '
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.ClassField.HeckeCharacter.TameModulus:
     group: Lib.ClassField
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2141,7 +2159,9 @@ files:
     excerpt:
       path: grh/src/Lib/ClassField/HeckeCharacter/TameModulus.lean
       line: 9
-      endLine: 15
+      endLine: 17
+      startOffset: 268
+      endOffset: 1126
       text: 'This file evaluates characters of U(1)(𝔸), the norm-one ideles of the CM field E, on determinants of
 
         elements of K₀ = `New.stdLevel E n`. Here `New.stdLevel E n` is the stabiliser of the standard
@@ -2156,14 +2176,16 @@ files:
 
         the character `ξ |·| ^ (k / 2)` of the product of the completions at `P`. For a modulus 𝔪
 
-        '
+        (`New.Modulus`, an ideal of O_E prime to its conjugate), the reduction K₀ → GL_n(O_E/𝔪) is onto, and
+
+        a character tame for 𝔪 is given on determinants of K₀ by a character of O_E/𝔪.'
     remainder:
       path: grh/src/Lib/ClassField/HeckeCharacter/TameModulus.lean
-      line: 16
+      line: 17
       endLine: 42
-      text: "(`New.Modulus`, an ideal of O_E prime to its conjugate), the reduction K₀ → GL_n(O_E/\U0001D52A) is\
-        \ onto, and\na character tame for \U0001D52A is given on determinants of K₀ by a character of O_E/\U0001D52A\
-        .\n\n## Main definitions and results\n\n* `New.Exchange.SplitTameChar.character_detFin_eq_of_mem_stdLevel`,\n\
+      startOffset: 1126
+      endOffset: 2620
+      text: "\n\n## Main definitions and results\n\n* `New.Exchange.SplitTameChar.character_detFin_eq_of_mem_stdLevel`,\n\
         \  `New.Exchange.upsilonU1_detFin_eq_one_of_mem_stdLevel`: on determinants of `stdLevel E n`, a tame\n \
         \ character is its local character at the ramified places, and `New.WeilData.upsilonU1` is trivial.\n* `New.Rows.exists_reductionGL_eq`,\
         \ `New.Rows.liftMod`: reduction `New.Modulus.reductionGL` :\n  K₀ → GL_n(O_E/\U0001D52A) is onto, with lifts\
@@ -2178,8 +2200,6 @@ files:
         \ x x̄ = 1.\n* `New.Exchange.SplitTameChar.semilocalChar`: The character t ↦ ν(t/t̄) of ∏_{w∈S} E_w, t read\
         \ as an\n  idele supported on S, extended by 0 to non-invertible elements.\n\n## Relation to the literature\n\
         \nKnown; see `Lib.ClassField.Global.CMSplittingCharacters` for sources.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.ClassField.HeckeL.ContinuationAtOne:
     group: Lib.ClassField
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

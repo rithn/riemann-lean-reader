@@ -48,25 +48,28 @@ files:
     excerpt:
       path: grh/src/New/Derivatives/Divisibility/Count.lean
       line: 7
-      endLine: 12
+      endLine: 18
+      startOffset: 187
+      endOffset: 1170
       text: "* `New.norm_jet_le_of_isHomogeneous`: Legendre's bound for the jet of an integral series along a\n\
         \  homogeneous integral polynomial.\n* `New.minorProd`, `New.predictedDivisibility`: products of minors,\
         \ and the divisibility predicted\n  by their shape.\n* `New.Parameters.norm_jet_minorProd_le_of_hasNormalForm`:\
         \ the count. The jet of a series with the\n  normal form along a product of minors has the predicted divisibility,\
-        \ up to an error term.\n"
+        \ up to an error term.\n* `New.Parameters.norm_jet_minorProd_le_of_charges`: the count with charges. The\
+        \ columns of height\n  one at a set of marked places are removed from the prediction, and powers `p ^ w`\
+        \ of `p` on the\n  rows, the charges, pay for them. The exponents `w` satisfy the condition of `New.IsChargeExponent`\n\
+        \  for pairs of columns that occur in `κ`, and `New.fillingCharge` is their sum over the boxes.\n* `New.exists_norm_schurJet_le_norm_jet_minorProd`:\
+        \ an entry of the Schur matrix may be replaced by\n  a product of minors of `z y` with `y` integral."
     remainder:
       path: grh/src/New/Derivatives/Divisibility/Count.lean
-      line: 13
+      line: 18
       endLine: 56
-      text: "* `New.Parameters.norm_jet_minorProd_le_of_charges`: the count with charges. The columns of height\n\
-        \  one at a set of marked places are removed from the prediction, and powers `p ^ w` of `p` on the\n  rows,\
-        \ the charges, pay for them. The exponents `w` satisfy the condition of `New.IsChargeExponent`\n  for pairs\
-        \ of columns that occur in `κ`, and `New.fillingCharge` is their sum over the boxes.\n* `New.exists_norm_schurJet_le_norm_jet_minorProd`:\
-        \ an entry of the Schur matrix may be replaced by\n  a product of minors of `z y` with `y` integral.\n\n\
-        A linear substitution makes the couplings that matter in the degree of the jet divisible by `π_p`,\nso that\
-        \ the series becomes integral in that degree. Legendre's bound applies, and the chain rule\ngives the factor\
-        \ whose valuation is deducted. Each box gains about `γ_p`, and the deduction is\n`v(π_p)` times a sum of\
-        \ numbers `New.deductionTerm`. The argument is carried out once, with charges\n(`New.Parameters.norm_jet_minorProd_le_of_isChargeExponent`);\
+      startOffset: 1170
+      endOffset: 3847
+      text: "\n\nA linear substitution makes the couplings that matter in the degree of the jet divisible by `π_p`,\n\
+        so that the series becomes integral in that degree. Legendre's bound applies, and the chain rule\ngives\
+        \ the factor whose valuation is deducted. Each box gains about `γ_p`, and the deduction is\n`v(π_p)` times\
+        \ a sum of numbers `New.deductionTerm`. The argument is carried out once, with charges\n(`New.Parameters.norm_jet_minorProd_le_of_isChargeExponent`);\
         \ the count itself is the case without\nmarked places and with all charges equal to one.\n\nNotions from\
         \ other files:\n* `valRingCp p`: the valuation ring of `ℂ_[p]`; its elements are called integral, and a\
         \ lower bound\n  for a valuation is written as an upper bound for the norm.\n* `New.jet R Q F`: the number\
@@ -89,8 +92,9 @@ files:
         \ 1981; Chellali, Congruences\nentre nombres de Bernoulli–Hurwitz dans le cas supersingulier, 1990; Fujiwara,\
         \ On divisibilities of\nspecial values of real analytic Eisenstein series, 1988; Bannai–Kobayashi–Yasuda,\
         \ Radius of\nconvergence of the p-adic sigma function, 2017.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States the jet divisibility count and its charged version.
   New.Derivatives.Divisibility.NormalForm:
     group: New.Derivatives
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -771,18 +775,20 @@ files:
       path: grh/src/New/Derivatives/FormalGroup/ThetaProducts.lean
       line: 9
       endLine: 11
+      startOffset: 241
+      endOffset: 508
       text: 'The file treats products of theta functions at a prime `p` that is not split in `K = ℚ(√-d)`. Here
 
         `θ` is the theta function of the CM curve, `y` the parameter `C.translatedY` of the curve, composed
 
-        with the forms `u† z`, and `E` is `K` with a root of unity adjoined.
-
-        '
+        with the forms `u† z`, and `E` is `K` with a root of unity adjoined.'
     remainder:
       path: grh/src/New/Derivatives/FormalGroup/ThetaProducts.lean
-      line: 12
+      line: 11
       endLine: 37
-      text: "\nThe vectors `u` of `Eⁿ` form a resolution of the identity and are integral above `p`. The partner\
+      startOffset: 508
+      endOffset: 2296
+      text: "\n\nThe vectors `u` of `Eⁿ` form a resolution of the identity and are integral above `p`. The partner\
         \ of\nan infinite place `τ` of `E` is `-p ^ e τ`, and `Γ_e` is the coupling of the places with their\npartners.\
         \ Congruences modulo `π_p` between powers at a place and conjugation at its partner lead to\na normal form\
         \ for `∏ θ(u_j† z) ^ m j` times an integral series in the `y(u† z)`.\n\n## Main definitions and results\n\
@@ -799,8 +805,6 @@ files:
         \ multiplicities `m` satisfy `z = ∑ m j (u_j† z) u_j`,\n  where `u† z = ∑ conj (τ(u_c)) z_(τ,c)`.\n* `New.coupling`,\
         \ `New.HasNormalForm`: `Γ_e = ∑ z_(τ,c) ^ p ^ e * z_(τ',c)` with `τ'` the partner\n  of `τ`, and `F(ϖ z)\
         \ = W exp (c_ϖ ∑ λ_{e j} Γ_e ^ p ^ j)` with `W` integral.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   New.Derivatives.Sharpness.BoundAttained:
     group: New.Derivatives
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1155,7 +1159,9 @@ files:
     excerpt:
       path: grh/src/New/Derivatives/Sharpness/NearPairs.lean
       line: 7
-      endLine: 11
+      endLine: 13
+      startOffset: 160
+      endOffset: 819
       text: 'This file studies places at a prime `p` that does not split in `K = ℚ(√-d)`, their partners, and the
 
         `b`-places among them. A near pair is a `b`-place whose partner at an exponent `e < l₀ / 2` in `I_p`
@@ -1166,33 +1172,34 @@ files:
 
         pairs. Writing `v` for the `p`-adic valuation, the file then bounds the losses in the sharpness
 
-        '
+        bound: for `p ≤ k` the terms of the sums `R_τ = D.partnerMinSum p τ` not coming from a near pair are
+
+        covered by `v(B)` for a product `B` of consecutive integers.'
     remainder:
       path: grh/src/New/Derivatives/Sharpness/NearPairs.lean
-      line: 12
+      line: 13
       endLine: 44
-      text: "bound: for `p ≤ k` the terms of the sums `R_τ = D.partnerMinSum p τ` not coming from a near pair are\n\
-        covered by `v(B)` for a product `B` of consecutive integers.\n\nNotions from other files:\n* `New.Data P`:\
-        \ the data over the parameters `P = (q₀, d)`, with the size parameters `b`, `x`, `x₁`,\n  `k`, the exponent\
-        \ `s` and the group `D.Φ` of infinite places of the field `E`.\n* `l₀ = New.l₀ D.towerExp`: the least power\
-        \ of `3` above `27 s`, where `2 ^ s = m ^ 22`.\n* `D.bPlaces`, `D.weight`: the set of `b`-places and the\
-        \ weight `κ` of a place, equal to `b` at the\n  `b`-places and to `a / x₁` elsewhere, where `a = x b`.\n\
-        * `D.placeOfInt ν`: the place named by the integer `ν`; the partner of `τ` at the exponent `e` is\n  `P.partner\
-        \ D.towerExp p e τ = D.placeOfInt (-p ^ e) * τ`.\n* `P.placeClass`: the class of a place modulo a divisor\
-        \ of `q₁ = towerDeg s * q₀`.\n* `chiK d`: the character `χ_K = (· / d)`; `p` does not split in `K` if `χ_K(p)\
-        \ ≠ 1`.\n* `positivePartnerExponents d p`, `piPrimeValuation d p`, `gammaPrime d p`: the set `I_p`, which\
-        \ is\n  empty if `p` splits, and the numbers `v(π_p)` and `γ_p = v(π_p) ∑_{e ∈ I_p} p⁻ᵉ`.\n\n## Main definitions\
-        \ and results\n\n* `New.Data.summable_posPart_sub_weight`: the series in the predicted valuation `S_p` converges.\n\
-        * `New.Data.notMem_bPlaces_of_two_partners`: sparseness of the `b`-places along the powers of `-p`.\n* `New.Data.IsNearPair.exponent_unique`,\
-        \ `New.Data.IsNearPair.eq_and_eq_of_partner_eq`,\n  `New.Data.IsNearPair.end_ne_start`: for non-split `p\
-        \ ≤ k` no place occurs twice among the starts\n  and ends of near pairs; two pairs that share a place contradict\
-        \ sparseness.\n* `New.Data.lossProduct`: a product `B` of `n♯ = ⌈6 b / k⌉` consecutive integers, the last\
-        \ ones up\n  to `l` if `n♯ ≤ l`, with `v(n♯!) ≤ v(B)` and `v(l!) ≤ v((l - n♯)₊!) + v(B)`.\n* `New.Data.mul_sum_weight_sub_localPrimeSumTotal`:\
-        \ `γ_p |κ| - S_p = v(π_p) ∑ R_τ`, where `|κ|` is\n  the sum of the weights.\n* `New.Data.partnerMinSum_le`,\
-        \ `New.Data.error_le_padicValNat_lossProduct`: for `p ≤ k` the terms of\n  `R_τ` other than that of a near\
-        \ pair are covered by `v(B)`.\n\n## Relation to the literature\n\nLegendre's formula for `v(n!)` is classical.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 819
+      endOffset: 2825
+      text: "\n\nNotions from other files:\n* `New.Data P`: the data over the parameters `P = (q₀, d)`, with the\
+        \ size parameters `b`, `x`, `x₁`,\n  `k`, the exponent `s` and the group `D.Φ` of infinite places of the\
+        \ field `E`.\n* `l₀ = New.l₀ D.towerExp`: the least power of `3` above `27 s`, where `2 ^ s = m ^ 22`.\n\
+        * `D.bPlaces`, `D.weight`: the set of `b`-places and the weight `κ` of a place, equal to `b` at the\n  `b`-places\
+        \ and to `a / x₁` elsewhere, where `a = x b`.\n* `D.placeOfInt ν`: the place named by the integer `ν`; the\
+        \ partner of `τ` at the exponent `e` is\n  `P.partner D.towerExp p e τ = D.placeOfInt (-p ^ e) * τ`.\n*\
+        \ `P.placeClass`: the class of a place modulo a divisor of `q₁ = towerDeg s * q₀`.\n* `chiK d`: the character\
+        \ `χ_K = (· / d)`; `p` does not split in `K` if `χ_K(p) ≠ 1`.\n* `positivePartnerExponents d p`, `piPrimeValuation\
+        \ d p`, `gammaPrime d p`: the set `I_p`, which is\n  empty if `p` splits, and the numbers `v(π_p)` and `γ_p\
+        \ = v(π_p) ∑_{e ∈ I_p} p⁻ᵉ`.\n\n## Main definitions and results\n\n* `New.Data.summable_posPart_sub_weight`:\
+        \ the series in the predicted valuation `S_p` converges.\n* `New.Data.notMem_bPlaces_of_two_partners`: sparseness\
+        \ of the `b`-places along the powers of `-p`.\n* `New.Data.IsNearPair.exponent_unique`, `New.Data.IsNearPair.eq_and_eq_of_partner_eq`,\n\
+        \  `New.Data.IsNearPair.end_ne_start`: for non-split `p ≤ k` no place occurs twice among the starts\n  and\
+        \ ends of near pairs; two pairs that share a place contradict sparseness.\n* `New.Data.lossProduct`: a product\
+        \ `B` of `n♯ = ⌈6 b / k⌉` consecutive integers, the last ones up\n  to `l` if `n♯ ≤ l`, with `v(n♯!) ≤ v(B)`\
+        \ and `v(l!) ≤ v((l - n♯)₊!) + v(B)`.\n* `New.Data.mul_sum_weight_sub_localPrimeSumTotal`: `γ_p |κ| - S_p\
+        \ = v(π_p) ∑ R_τ`, where `|κ|` is\n  the sum of the weights.\n* `New.Data.partnerMinSum_le`, `New.Data.error_le_padicValNat_lossProduct`:\
+        \ for `p ≤ k` the terms of\n  `R_τ` other than that of a near pair are covered by `v(B)`.\n\n## Relation\
+        \ to the literature\n\nLegendre's formula for `v(n!)` is classical.\n"
   New.Derivatives.Sharpness.OneCurve:
     group: New.Derivatives
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

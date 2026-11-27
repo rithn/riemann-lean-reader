@@ -415,8 +415,17 @@ def build_readings(edition, files, groups, modules, theorems, *, preview):
                 require(path in module_by_path and modules[module_by_path[path]]["group"] == group
                         and (kind == "groups" or path == modules[name]["path"]), f"wrong excerpt source for {name}")
                 lines = files[path].decode("utf-8").splitlines(keepends=True)
-                require(1 <= start <= end <= len(lines) and excerpt["text"] == "".join(lines[start - 1:end]),
-                        f"reading excerpt does not match source for {name}")
+                source = files[path].decode("utf-8")
+                if "startOffset" in excerpt or "endOffset" in excerpt:
+                    a, b = excerpt.get("startOffset"), excerpt.get("endOffset")
+                    require(isinstance(a, int) and isinstance(b, int) and 0 <= a < b <= len(source)
+                            and source.count("\n", 0, a) + 1 == start
+                            and source.count("\n", 0, b - 1) + 1 == end
+                            and source[a:b] == excerpt["text"],
+                            f"reading excerpt offsets do not match source for {name}")
+                else:
+                    require(1 <= start <= end <= len(lines) and excerpt["text"] == "".join(lines[start - 1:end]),
+                            f"reading excerpt does not match source for {name}")
                 excerpt["github"] = github(edition, path, start, end)
             for claim in draft or ():
                 require(claim["sentence"] and claim["citations"], f"missing draft evidence for {name}")

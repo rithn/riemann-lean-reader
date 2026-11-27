@@ -363,23 +363,31 @@ files:
     excerpt:
       path: grh/src/Lib/General/Algebra/CohomologyBaseChange.lean
       line: 7
-      endLine: 9
+      endLine: 14
+      startOffset: 189
+      endOffset: 908
       text: 'Cohomology here is H^n(N, Φ) = Ext^n(N, Φ) in the category of functors from C to abelian groups,
 
         where Φ is a functor to S-modules. For a module M over an S-algebra T, the base change map
 
         `New.Variety.baseChangeMap` goes from M ⊗_S H^n(N, Φ) to H^n(N, M ⊗_S Φ).
 
-        '
+        `New.Variety.HasFlatBaseChange N` says that this map is bijective for all S, T, Φ, n and all M flat
+
+        over S. The file proves bijectivity for N = ℤ[h_A], with h_A the functor represented by A, by the
+
+        Yoneda lemma, shows that for flat M the maps admit dévissage in N, and transfers bijectivity along
+
+        bijective comparisons. It also shows that base change of algebras is left adjoint to restriction of
+
+        scalars, and that ring maps send powers of p to powers of p.'
     remainder:
       path: grh/src/Lib/General/Algebra/CohomologyBaseChange.lean
-      line: 10
+      line: 14
       endLine: 42
-      text: "`New.Variety.HasFlatBaseChange N` says that this map is bijective for all S, T, Φ, n and all M flat\n\
-        over S. The file proves bijectivity for N = ℤ[h_A], with h_A the functor represented by A, by the\nYoneda\
-        \ lemma, shows that for flat M the maps admit dévissage in N, and transfers bijectivity along\nbijective\
-        \ comparisons. It also shows that base change of algebras is left adjoint to restriction of\nscalars, and\
-        \ that ring maps send powers of p to powers of p.\n\n## Main definitions and results\n\n* `New.Variety.HasBaseChange.baseChangeMap_bijective_freeAb_reprBy`:\
+      startOffset: 908
+      endOffset: 2390
+      text: "\n\n## Main definitions and results\n\n* `New.Variety.HasBaseChange.baseChangeMap_bijective_freeAb_reprBy`:\
         \ the base change map is\n  bijective for N = ℤ[h_A], by the Yoneda lemma.\n* `New.Variety.HasBaseChange.devissage`:\
         \ for M flat it admits dévissage, being compatible with the\n  long exact sequences of short exact sequences.\n\
         * `New.Variety.Comparison.IsBijective.baseChangeMap_bijective_iff`: along a bijective comparison\n  from\
@@ -394,8 +402,6 @@ files:
         \ the S-algebra T, the functor X ↦ M ⊗_S X from\n  S-modules to T-modules.\n\n## Relation to the literature\n\
         \nThe arguments are the usual ones: the Yoneda lemma, exactness of tensoring with a flat module, and\nthe\
         \ tensor-hom adjunction.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.General.Algebra.FittingIdealsAndLengths:
     group: Lib.General
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -996,40 +1002,46 @@ files:
     excerpt:
       path: grh/src/Lib/General/Algebra/SeriesBounds.lean
       line: 7
-      endLine: 9
+      endLine: 15
+      startOffset: 165
+      endOffset: 1011
       text: 'The file first shows that, over an algebraically closed valued field, there is an integral point at
 
         which finitely many given polynomials are at least as large as all their coefficients. It then
 
         bounds the coefficients of power series built by exponentials, logarithms and roots over `ℂ_[p]`.
 
-        '
+        There `v` denotes the additive valuation with `v(p) = 1`, so that `‖c‖ = p ^ (-v(c))`, and `v(g)`
+
+        for a series `g` is the infimum of the valuations of its coefficients. `expSubst g` is `exp ℂ_[p]`
+
+        substituted at `g`, written `exp g`, and `logOf f` is `log ℂ_[p]`, the series of `log (1 + X)`,
+
+        substituted at `f - 1`, written `log f`. For `g(0) = 0` it proves that `exp g` is integral when
+
+        `v(g) ≥ 1 / (p - 1)`, gives a divisibility criterion for `exp g - 1`, and shows that `exp g` lies in
+
+        a ring `𝒪[[T]]` if its `m`-th power does, for `m` prime to `p`.'
     remainder:
       path: grh/src/Lib/General/Algebra/SeriesBounds.lean
-      line: 10
+      line: 15
       endLine: 42
-      text: "There `v` denotes the additive valuation with `v(p) = 1`, so that `‖c‖ = p ^ (-v(c))`, and `v(g)`\n\
-        for a series `g` is the infimum of the valuations of its coefficients. `expSubst g` is `exp ℂ_[p]`\nsubstituted\
-        \ at `g`, written `exp g`, and `logOf f` is `log ℂ_[p]`, the series of `log (1 + X)`,\nsubstituted at `f\
-        \ - 1`, written `log f`. For `g(0) = 0` it proves that `exp g` is integral when\n`v(g) ≥ 1 / (p - 1)`, gives\
-        \ a divisibility criterion for `exp g - 1`, and shows that `exp g` lies in\na ring `\U0001D4AA[[T]]` if\
-        \ its `m`-th power does, for `m` prime to `p`.\n\nThe imported notions used in the statements are these.\n\
-        \n* `seriesToCp` is the inclusion of the series with integral coefficients into all series over\n  `ℂ_[p]`.\
-        \ Its range consists of the series whose coefficients have norm at most `1`.\n* `IsSeriesGenerator B T`\
-        \ says that `T = X + ⋯` and that `B` is the ring of all integral series in\n  `T`, written `B = \U0001D4AA\
-        [[T]]`.\n\n## Main definitions and results\n\n* `New.exists_val_coeff_le_val_eval`: at one integral point,\
-        \ finitely many polynomials are at least\n  as large as all their coefficients.\n* `New.norm_coeff_expSubst_le_one`:\
-        \ `exp g` is integral if `g(0) = 0` and `v(g) ≥ 1 / (p - 1)`,\n  degree by degree.\n* `New.norm_coeff_expSubst_sub_one_le`,\
-        \ `New.IsSeriesGenerator.mem_of_expSubst_smul_eq`: for\n  `v(c) ≥ 1 / (p - 1)` and `g(0) = 0`, the number\
-        \ `c` divides `exp g - 1` if it divides `g`, and,\n  for `c ≠ 0` and in a ring `\U0001D4AA[[T]]`, `c` divides\
-        \ `g` if it divides `exp g - 1`.\n* `New.IsSeriesGenerator.expSubst_mem_of_pow_mem`: if `g(0) = 0` and `(exp\
-        \ g) ^ m ∈ \U0001D4AA[[T]]` with `m`\n  prime to `p`, then `exp g ∈ \U0001D4AA[[T]]`.\n\n## Relation to\
-        \ the literature\n\nKnown result: the Gauss norm equals the supremum norm on the unit polydisc over an algebraically\n\
-        closed valued field. Source: Bosch, Güntzer and Remmert, *Non-Archimedean Analysis*.\n\nKnown result: the\
-        \ integrality of the `p`-adic exponential and logarithm on series of large enough\nvaluation, and of the\
-        \ binomial series with exponent in `ℤ_p`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+      startOffset: 1011
+      endOffset: 2452
+      text: "\n\nThe imported notions used in the statements are these.\n\n* `seriesToCp` is the inclusion of the\
+        \ series with integral coefficients into all series over\n  `ℂ_[p]`. Its range consists of the series whose\
+        \ coefficients have norm at most `1`.\n* `IsSeriesGenerator B T` says that `T = X + ⋯` and that `B` is the\
+        \ ring of all integral series in\n  `T`, written `B = \U0001D4AA[[T]]`.\n\n## Main definitions and results\n\
+        \n* `New.exists_val_coeff_le_val_eval`: at one integral point, finitely many polynomials are at least\n\
+        \  as large as all their coefficients.\n* `New.norm_coeff_expSubst_le_one`: `exp g` is integral if `g(0)\
+        \ = 0` and `v(g) ≥ 1 / (p - 1)`,\n  degree by degree.\n* `New.norm_coeff_expSubst_sub_one_le`, `New.IsSeriesGenerator.mem_of_expSubst_smul_eq`:\
+        \ for\n  `v(c) ≥ 1 / (p - 1)` and `g(0) = 0`, the number `c` divides `exp g - 1` if it divides `g`, and,\n\
+        \  for `c ≠ 0` and in a ring `\U0001D4AA[[T]]`, `c` divides `g` if it divides `exp g - 1`.\n* `New.IsSeriesGenerator.expSubst_mem_of_pow_mem`:\
+        \ if `g(0) = 0` and `(exp g) ^ m ∈ \U0001D4AA[[T]]` with `m`\n  prime to `p`, then `exp g ∈ \U0001D4AA[[T]]`.\n\
+        \n## Relation to the literature\n\nKnown result: the Gauss norm equals the supremum norm on the unit polydisc\
+        \ over an algebraically\nclosed valued field. Source: Bosch, Güntzer and Remmert, *Non-Archimedean Analysis*.\n\
+        \nKnown result: the integrality of the `p`-adic exponential and logarithm on series of large enough\nvaluation,\
+        \ and of the binomial series with exponent in `ℤ_p`.\n"
   Lib.General.Algebra.SeriesCongruences:
     group: Lib.General
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -1585,30 +1597,33 @@ files:
       path: grh/src/Lib/General/Analysis/PackingAndSobolev.lean
       line: 5
       endLine: 8
+      startOffset: 119
+      endOffset: 447
       text: 'The first results count and sum over points `f i` of a finite-dimensional real normed space `V` at
 
         mutual distance at least `m > 0`. Here `d = finrank ℝ V`. The remaining results bound the value of a
 
         function at a point by `L²` norms of the function and of its derivatives, first on an interval and
 
-        then at the corner of a cube.
-
-        '
+        then at the corner of a cube.'
     remainder:
       path: grh/src/Lib/General/Analysis/PackingAndSobolev.lean
-      line: 9
+      line: 8
       endLine: 24
-      text: "\n## Main definitions and results\n\n* `New.encard_le_of_separated`: at most `(1 + 2R/m)^d` such points\
-        \ lie in the ball `‖x‖ ≤ R`,\n  where `R ≥ 0`, by comparing volumes.\n* `New.tsum_le_of_separated`: if `u\
-        \ i ≥ 1`, `‖f i‖ ≤ R * u i`, `R ≥ 0`, `d < A` and\n  `A ≤ c (A - d)`, then `∑ u i ^ (-A) ≤ (1 + 2R/m)^d\
+      startOffset: 447
+      endOffset: 1382
+      text: "\n\n## Main definitions and results\n\n* `New.encard_le_of_separated`: at most `(1 + 2R/m)^d` such\
+        \ points lie in the ball `‖x‖ ≤ R`,\n  where `R ≥ 0`, by comparing volumes.\n* `New.tsum_le_of_separated`:\
+        \ if `u i ≥ 1`, `‖f i‖ ≤ R * u i`, `R ≥ 0`, `d < A` and\n  `A ≤ c (A - d)`, then `∑ u i ^ (-A) ≤ (1 + 2R/m)^d\
         \ * c`, by the layer bound\n  `New.DiscreteSeries.integral_rpow_neg_le_of_measure_le`.\n* `New.tsum_inv_pow_le_of_separated`:\
         \ if the points satisfy `‖f i‖ ≥ m` and `n ≥ d + 2`, then\n  `∑ ‖f i‖⁻¹ ^ n ≤ (5/m)^n`.\n* `New.sobolev_trace`:\
         \ if `‖g'‖ ≤ b` pointwise on `[0, ε]`, where `0 < ε ≤ 1`, then\n  `‖g 0‖² ≤ ∫₀^ε (2/ε) (‖g‖² + b²)`.\n*\
         \ `New.sobolev_trace_cube`: its iteration over the coordinates of a cube `[0, ε] ^ D` and a\n  parameter\
         \ space, for functions `f i` indexed by the words `i` in a finite alphabet, where the\n  norms of the partial\
         \ derivatives of `f i` are bounded by `Λ ∑ l, ‖f (l :: i)‖`, the sum over the\n  letters `l`.\n"
-    needs_draft: true
-    reason: Excerpt may not be a standalone description
+    standaloneReview:
+      verdict: clear
+      reason: States the separated-point counts and Sobolev bounds.
   Lib.General.Combinatorics:
     group: Lib.General
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -2768,7 +2783,9 @@ files:
     excerpt:
       path: grh/src/Lib/General/Groups/ProfiniteCharacters.lean
       line: 7
-      endLine: 13
+      endLine: 14
+      startOffset: 162
+      endOffset: 906
       text: '`New.QZ` is `ℚ/ℤ` with the discrete topology, and a character of a profinite group `G`
 
         (`New.QZChar G`) is a continuous homomorphism `G → ℚ/ℤ`. The file first proves elementary facts:
@@ -2783,15 +2800,16 @@ files:
 
         build Artin maps from their values on characters. `New.QZChar.abelianLift χ` denotes the map
 
-        '
+        induced by `χ` on the abelianisation, with values written multiplicatively.'
     remainder:
       path: grh/src/Lib/General/Groups/ProfiniteCharacters.lean
       line: 14
       endLine: 37
-      text: "induced by `χ` on the abelianisation, with values written multiplicatively.\n\n## Main definitions\
-        \ and results\n\n* `New.QZ.exists_extend`: for abelian groups, homomorphisms to a divisible group extend\
-        \ along any\n  homomorphism whose kernel they kill.\n* `New.card_hom_QZ`: a finite abelian group and its\
-        \ dual have the same order.\n* `New.QZChar.mem_of_forall_abelianLift`, `New.QZChar.abelianization_ext`:\
+      startOffset: 906
+      endOffset: 2371
+      text: "\n\n## Main definitions and results\n\n* `New.QZ.exists_extend`: for abelian groups, homomorphisms\
+        \ to a divisible group extend along any\n  homomorphism whose kernel they kill.\n* `New.card_hom_QZ`: a\
+        \ finite abelian group and its dual have the same order.\n* `New.QZChar.mem_of_forall_abelianLift`, `New.QZChar.abelianization_ext`:\
         \ characters separate a\n  point from a closed subgroup of the abelianisation, and hence separate points.\n\
         * `New.QZChar.exists_hom_abelianLift_eq`: every additive map from characters to `ℚ/ℤ` is evaluation\n  at\
         \ a point of the abelianisation, in a form that is multiplicative in a parameter.\n* `New.QZChar.continuous_iff_forall_isOpen_ker_comp`:\
@@ -2803,8 +2821,6 @@ files:
         \ the continuous `f : G → M` with\n  `f (g h) = f g + ρ g (f h)`; `New.QZChar G` is the case of the trivial\
         \ action on `ℚ/ℤ`.\n* `New.QZChar.toHom χ`: the character `χ` as a group homomorphism to `ℚ/ℤ` written\n\
         \  multiplicatively; `New.QZChar.ker χ` is its kernel.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.General.LinearAlgebra.BlockEmbeddings:
     group: Lib.General
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -3192,17 +3208,24 @@ files:
       path: grh/src/Lib/General/LinearAlgebra/IdempotentRadical.lean
       line: 6
       endLine: 9
+      startOffset: 114
+      endOffset: 436
       text: 'For an idempotent matrix `ε`, the matrices `1 + ε Y (1 - ε)` form the unipotent radical of the
 
         parabolic subgroup that keeps the image of `ε`. If a polynomial in `g` is a projection onto the
 
         image of `ε`, then every translate of `g` by the radical is conjugate to `g` under the radical
 
-        (`semiconjBy_radicalHom_aeval_sub`).
+        (`semiconjBy_radicalHom_aeval_sub`).'
+    remainder:
+      path: grh/src/Lib/General/LinearAlgebra/IdempotentRadical.lean
+      line: 9
+      endLine: 9
+      startOffset: 436
+      endOffset: 437
+      text: '
 
         '
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.General.LinearAlgebra.IntegralLattices:
     group: Lib.General
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
@@ -4663,7 +4686,9 @@ files:
     excerpt:
       path: grh/src/Lib/General/NumberTheory/ImaginaryQuadraticField.lean
       line: 6
-      endLine: 11
+      endLine: 13
+      startOffset: 147
+      endOffset: 918
       text: 'This file studies the imaginary quadratic field `K = ℚ(√-d)` (`New.QuadField`) for `d ≡ 3 mod 4`,
 
         realised inside `ℂ`, and the Dirichlet characters attached to it. Throughout, `New.chiK d p` is the
@@ -4676,18 +4701,20 @@ files:
 
         absolute norm. For a prime `d ≡ 7 mod 8` the file determines the ring of integers and the different
 
-        '
+        of `K`. For `d ≡ 3 mod 4` it shows how a rational prime `p` decomposes in `K`. It also proves two
+
+        consequences of lifting the exponent at `2` for integers, which do not involve `K`.'
     remainder:
       path: grh/src/Lib/General/NumberTheory/ImaginaryQuadraticField.lean
-      line: 12
+      line: 13
       endLine: 31
-      text: "of `K`. For `d ≡ 3 mod 4` it shows how a rational prime `p` decomposes in `K`. It also proves two\n\
-        consequences of lifting the exponent at `2` for integers, which do not involve `K`.\n\n## Main definitions\
-        \ and results\n\n* `New.chiK`, `New.quadTwist`: the Legendre symbol `(·/d)` as an integer-valued character,\
-        \ and its\n  product with a complex character `χ` modulo `N`, a character modulo `N * d`.\n* `New.QuadField`:\
-        \ the field. For `d ≡ 3` modulo `4` it is a quadratic CM field\n  (the degree is `New.QuadField.finrank_eq_two`).\
-        \ For a prime `d ≡ 3` modulo `4` it embeds in any\n  field of characteristic zero with a primitive `d`-th\
-        \ root of unity\n  (`New.QuadField.embOfPrimitiveRoot`).\n* `New.QuadField.different_eq_span_and_adjoin_betaK`:\
+      startOffset: 918
+      endOffset: 2175
+      text: "\n\n## Main definitions and results\n\n* `New.chiK`, `New.quadTwist`: the Legendre symbol `(·/d)` as\
+        \ an integer-valued character, and its\n  product with a complex character `χ` modulo `N`, a character modulo\
+        \ `N * d`.\n* `New.QuadField`: the field. For `d ≡ 3` modulo `4` it is a quadratic CM field\n  (the degree\
+        \ is `New.QuadField.finrank_eq_two`). For a prime `d ≡ 3` modulo `4` it embeds in any\n  field of characteristic\
+        \ zero with a primitive `d`-th root of unity\n  (`New.QuadField.embOfPrimitiveRoot`).\n* `New.QuadField.different_eq_span_and_adjoin_betaK`:\
         \ for a prime `d ≡ 7` modulo `8`, the integers\n  of `K` are `ℤ[(1 + √-d) / 2]` and the different is `(√-d)`.\n\
         * `New.FinPlace.q_eq_pow_inertiaDeg`, `New.FinPlace.inertiaDeg_dvd_iff_forall_pow_eq`: the norm of\n  `w`\
         \ is `p ^ f` with `f` the residue degree, and `f` is the order of Frobenius;\n  `New.FinPlace.exists_q_eq_pow`\
@@ -4695,8 +4722,6 @@ files:
         \ `w` has degree one iff the Legendre symbol `(p / d)` is not `-1`.\n* `New.QuadField.span_eq_or_exists_span_eq_mul`:\
         \ `p` is inert in `K`, or it is the product of two\n  places of degree one; `New.QuadField.prime_inert_or_eq_mul`\
         \ also lists the places above `p`.\n"
-    needs_draft: true
-    reason: No 60–120 word excerpt ends at a source-line sentence boundary
   Lib.General.NumberTheory.LargeResidueField:
     group: Lib.General
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207

@@ -19,7 +19,7 @@ import sernau_data as sd
 
 ROOT = sd.REPO
 INPUT = sd.INPUTS
-SOURCE = ROOT.parent / 'site' / 'src' / 'sernau' / '72fead102f663d5c7a407964a13dc0cf9d977207'
+SOURCE = ROOT.parent / 'site-sharing' / 'src' / 'sernau' / '72fead102f663d5c7a407964a13dc0cf9d977207'
 WORD = re.compile(r"[^\W_]+(?:[.'’-][^\W_]+)*", re.UNICODE)
 
 
@@ -79,40 +79,38 @@ def extract(row, module, modules, source, revision):
         record.update(needs_draft=True, reason='Missing opening module comment')
         return record
     begin, end, _ = found
-    count = len(WORD.findall(intro))
-    candidates = []
-    for i in range(begin, end + 1):
-        part = ''.join(lines[begin-1:i])
-        n = len(WORD.findall(part))
-        if 60 <= n <= 120 and re.search(r'[.!?][\s\u201d"\')\]]*$', lines[i-1].rstrip()):
-            candidates.append(i)
-    # Skip a heading and blank lines at the beginning while preserving full lines.
-    start = begin
-    while start <= end and (not lines[start-1].strip() or lines[start-1].lstrip().startswith('#')):
-        start += 1
-    candidates = [i for i in range(start, end + 1)
-                  if 60 <= len(WORD.findall(''.join(lines[start-1:i]))) <= 120
-                  and re.search(r'[.!?][\s\u201d"\')\]]*$', lines[i-1].rstrip())]
-    if not candidates and start <= end:
-        fallback = [i for i in range(start, end + 1) if len(WORD.findall(''.join(lines[start-1:i]))) <= 120]
-        sentences = [i for i in fallback if re.search(r'[.!?][\s\u201d"\')\]]*$', lines[i-1].rstrip())]
-        stop = (sentences or fallback or [start])[-1]
-        record['excerpt'] = dict(path=row['path'], line=start, endLine=stop, text=''.join(lines[start-1:stop]))
-        if stop < end:
-            record['remainder'] = dict(path=row['path'], line=stop+1, endLine=end, text=''.join(lines[stop:end]))
-    if candidates:
-        stop = candidates[0]
-        record['excerpt'] = dict(path=row['path'], line=start, endLine=stop, text=''.join(lines[start-1:stop]))
-        if stop < end:
-            record['remainder'] = dict(path=row['path'], line=stop+1, endLine=end, text=''.join(lines[stop:end]))
-    if count < 60:
-        record.update(needs_draft=True, reason='Opening module comment has fewer than 60 words')
-    elif not candidates:
-        record.update(needs_draft=True, reason='No 60–120 word excerpt ends at a source-line sentence boundary')
-    elif re.search(r'\b(?:TODO|FIXME)\b', record['excerpt']['text'], re.I):
-        record.update(needs_draft=True, reason='Excerpt contains a TODO or FIXME')
-    elif not re.search(r'\b(?:file|we|prove[sd]?|show[sn]?|defin(?:e|es|ed)|construct(?:s|ed)?|theorem|lemma|establish(?:es|ed)?|provides?|is|are)\b', record['excerpt']['text'], re.I):
-        record.update(needs_draft=True, reason='Excerpt may not be a standalone description')
+    start = sum(len(line) for line in lines[:begin - 1])
+    limit = sum(len(line) for line in lines[:end])
+    while start < limit:
+        line_end = source.find('\n', start, limit)
+        line_end = limit if line_end < 0 else line_end + 1
+        if source[start:line_end].strip() and not source[start:line_end].lstrip().startswith('#'):
+            break
+        start = line_end
+    body = source[start:limit]
+    # Sentence punctuation must be followed by whitespace or the end of the comment.
+    ends = [m.end() for m in re.finditer(r"[.!?][\u201d\"')\]]*(?=\s|$)", body)]
+    candidates = [i for i in ends if 40 <= len(WORD.findall(body[:i])) <= 180]
+    paragraph = re.search(r'\n[ \t]*\n', body)
+    paragraph_end = len(body[:paragraph.start()].rstrip()) if paragraph else len(body.rstrip())
+    if paragraph_end in candidates:
+        stop = paragraph_end
+    else:
+        stop = candidates[0] if candidates else None
+    def span(a, b):
+        return dict(path=row['path'], line=source.count('\n', 0, a) + 1,
+                    endLine=source.count('\n', 0, b - 1) + 1,
+                    startOffset=a, endOffset=b, text=source[a:b])
+    if stop is not None:
+        record['excerpt'] = span(start, start + stop)
+        if start + stop < limit:
+            record['remainder'] = span(start + stop, limit)
+        if re.search(r'\b(?:TODO|FIXME)\b', record['excerpt']['text'], re.I):
+            record.update(needs_draft=True, reason='Excerpt contains a TODO or FIXME')
+        elif not re.search(r'\b(?:file|we|prove[sd]?|show[sn]?|defin(?:e|es|ed)|construct(?:s|ed)?|theorem|lemma|establish(?:es|ed)?|provides?|is|are)\b', record['excerpt']['text'], re.I):
+            record.update(needs_draft=True, reason='Excerpt may not be a standalone description')
+    else:
+        record.update(needs_draft=True, reason='No 40–180 word excerpt ends at a sentence boundary')
     return record
 
 
@@ -146,7 +144,7 @@ def main():
         name = row['module']
         records = by_group[row['group']]['files']
         old = records.get(name) or pilot['files'].get(name)
-        if old and (old.get('origin') == 'explorer-draft' or not old.get('mechanical')):
+        if old and (old.get('origin') == 'explorer-draft' or not old.get('mechanical') or not old.get('needs_draft') or old.get('standaloneReview')):
             records[name] = old
         else:
             records[name] = extract(row, modules[name], modules, files[row['path']].decode(), edition['revision'])
