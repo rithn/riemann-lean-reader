@@ -3,6 +3,17 @@
 # links for the affected dated passage and supporting sources.
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
+- date: 2026-11-27
+  title: Schoenfeld bound checked with the compact proof
+  published_at: 2026-11-27T14:37:59Z
+  items:
+    - "MIT reports paranoid Comparator passes for an RH equivalence and Schoenfeld’s bound derived using the compact edition."
+  links:
+    - label: Dated checks
+      url: /timeline/#nov-26
+    - label: MIT verification report
+      url: https://math.mit.edu/~drew/shortgrh/#schoenfeld
+
 - date: 2026-11-26
   title: Covolumes and Dirichlet Zeros
   items:
