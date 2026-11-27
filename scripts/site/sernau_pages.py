@@ -9,6 +9,7 @@ from urllib.parse import quote
 
 from explorer_views import breadcrumbs, map_overview, result_link, route_intro
 from proof_editions import COMPARISON as COMPARE, ROUTES, SERNAU_PASS_UTC, VERIFICATION_URL as MIT
+from sernau_readings import MARKDOWN
 from site_release import replace_file
 
 MAP, ROUTE, LIST, READER = (ROUTES['sernau'][name] for name in ('map', 'route', 'list', 'reader'))
@@ -57,10 +58,11 @@ def list_group_row(group):
 
 
 def module_row(module):
+    reading = f'{link(module["readHref"], "Read this file")} · ' if "readHref" in module else ""
     return (
         f'<li data-module-row="{esc(module["name"])}">{link(module["href"], module["label"])}'
         f'<small><code>{esc(module["name"])}.lean</code> · {module["depth"]} module steps · '
-        f'{link(module["github"], "Pinned source")}</small></li>'
+        f'{reading}{link(module["github"], "Pinned source")}</small></li>'
     )
 
 
@@ -160,7 +162,7 @@ def edge_list(group, neighbors, data, incoming):
     return f'<ul class="sr-edge-list">{"".join(items)}</ul>' if items else '<p class="sr-muted">None among the readable groups.</p>'
 
 
-def group_content(group, data, share_slot, resources):
+def group_content(group, data, share_slot, resources, reading):
     groups = {g["id"]: g for g in data["groups"]}
     modules = [data["modules"][name] for name in group["modules"]]
     route = " <span aria-hidden=\"true\">→</span> ".join(link(groups[name]["href"], name) for name in group["route"])
@@ -169,6 +171,7 @@ def group_content(group, data, share_slot, resources):
         "New": "The upstream project puts the argument and its setup under New.",
         "Lib": "The upstream project puts background and supporting material under Lib.",
     }.get(folder, "One of the readable project’s two entry modules.")
+    overview = reading_section("Group overview", reading) + "\n" if reading else ""
     return f"""
 {breadcrumbs([('Sernau readable', MAP), ('Source group', '')])}
 <section class="sr-subhero">
@@ -190,7 +193,7 @@ def group_content(group, data, share_slot, resources):
     <p>{number(group["moduleCount"])} member files · {number(group["reach"])} other readable files reachable from its members.</p>
   </section>
 </div>
-<div class="sr-group-layout">
+{overview}<div class="sr-group-layout">
   <section class="sr-card">
     <h2>Member modules</h2>
     <ul class="sr-rows">{"".join(module_row(m) for m in modules)}</ul>
@@ -200,6 +203,84 @@ def group_content(group, data, share_slot, resources):
     <section class="sr-card"><h2>Imported by</h2>{edge_list(group, group["importers"], data, True)}</section>
   </div>
 </div>"""
+
+
+def reading_section(title, record):
+    return f'<section class="sr-card sr-reading"><h2>{esc(title)}</h2>{record["html"]}</section>'
+
+
+def reading_resources(record, guides):
+    return [guides[slug] for slug in record["outsideReadings"]]
+
+
+def static_reading(module, group, record, modules, resources):
+    name = module["name"]
+    links = [(module["href"], "Open interactive viewer"), (module["raw"], "Raw Lean source"),
+             (module["github"], "Pinned source")]
+    header = f"""
+{breadcrumbs([('Sernau readable', MAP), (group["id"], group["href"]), ('File reading', '')])}
+<section class="sr-subhero">
+  <h1>{esc(module["label"])}</h1>
+  <p><code>{esc(name)}.lean</code></p>
+  <p class="sr-actions">{link(*links[0], ' class="sr-primary"')}
+    <span>{" · ".join(link(href, label) for href, label in links[1:])}</span></p>
+</section>"""
+    body = [header, reading_section("Reading", record)]
+    mirror = [
+        f'`{name}.lean` · [{group["id"]}]({group["href"]})',
+        " · ".join(f"[{label}]({href})" for href, label in links),
+        "## Reading",
+        record["markdown"],
+    ]
+    headlined = {entry["name"] for entry in record["headlineTheorems"]}
+    if headlined:
+        statements = []
+        mirror.append("## Main theorem statements")
+        for entry in record["headlineTheorems"]:
+            declaration, line = entry["name"], entry["line"]
+            pinned = f'[Pinned line {line}]({entry["github"]})'
+            related = " · ".join(f'[`{ref["name"]}`]({ref["href"]})' for ref in entry["references"])
+            summary = (f'{entry["statement"]}\n\n'
+                       f'[`{declaration}`]({entry["href"]}) · {pinned}\n\n'
+                       f'Uses {related}')
+            statements.append(
+                f'<li class="sr-read-anchor" id="{esc(declaration)}">'
+                f'<h3 id="L{line}" class="sr-read-anchor">{esc(entry["label"])}</h3>{MARKDOWN.render(summary)}</li>'
+            )
+            mirror.extend([f'### {entry["label"]}', summary])
+        body.append(f'<section class="sr-card sr-reading"><h2>Main theorem statements</h2>'
+                    f'<ul class="sr-rows">{"".join(statements)}</ul></section>')
+
+    declarations = []
+    mirror.append("## Declarations")
+    for decl in record["declarations"]:
+        declaration, line = decl["name"], decl["line"]
+        anchors = "" if declaration in headlined else f' id="{esc(declaration)}"'
+        line_anchor = "" if declaration in headlined else f' id="L{line}"'
+        title = f'[`{declaration}`]({decl["href"]}) · [Pinned line {line}]({decl["github"]})'
+        signature = f'```lean\n{decl["signature"]}\n```'
+        source_links = MARKDOWN.render(title)
+        declarations.append(
+            f'<li class="sr-read-anchor"{anchors}><div class="sr-read-anchor"{line_anchor}>'
+            f'{source_links}</div>{MARKDOWN.render(signature)}</li>'
+        )
+        mirror.extend([title, signature])
+    body.append(f'<section class="sr-card sr-reading"><h2>Declarations</h2>'
+                f'<ul class="sr-rows">{"".join(declarations)}</ul></section>')
+
+    chain = [f'`{name}`']
+    for step in record["routeToMain"][:-1]:
+        importer, line = step["importer"], step["line"]
+        chain.append(f'[`{importer}`]({modules[importer]["href"]}#L{line}) '
+                     f'([pinned import]({step["github"]}))')
+    route = " → ".join(chain)
+    body.append(f'<section class="sr-card sr-reading"><h2>Import route to Main</h2>{MARKDOWN.render(route)}</section>')
+    mirror.extend(["## Import route to Main", route])
+    if resources:
+        outside = "\n".join(f"- [{label}]({href})" for href, label in resources)
+        body.append(f'<section class="sr-card sr-reading"><h2>Outside reading</h2>{MARKDOWN.render(outside)}</section>')
+        mirror.extend(["## Outside reading", outside])
+    return "\n".join(body), "\n\n".join(mirror)
 
 
 def route_content(data):
@@ -347,18 +428,32 @@ def build_sernau_pages(data, render, *, share_slot, group_guides):
         LIST, "Sernau readable · Groups and Lean files", "A text index of the readable edition’s groups and Lean files.",
         "list", list_content(data), groups_md, noindex=True,
     )
-    for group in data["groups"]:
-        resources = [*group_guides.get(group["id"], []), ("/status/#shorter-editions", "Verification of the shorter editions")]
+    groups = {group["id"]: group for group in data["groups"]}
+    for group in groups.values():
+        reading = data["readings"]["groups"].get(group["id"])
+        guides = group_guides.get(group["id"], {})
+        outside = reading_resources(reading, guides) if reading else list(guides.values())
+        resources = [*outside, ("/status/#shorter-editions", "Verification of the shorter editions")]
         resources_md = " · ".join(f"[{label}]({href})" for href, label in resources)
-        md = "\n".join(
-            f'- [{m["label"]}]({m["href"]}) · `{m["name"]}` · [Pinned source]({m["github"]})'
-            for name in group["modules"] for m in [data["modules"][name]]
-        )
+        members = []
+        for name in group["modules"]:
+            module = data["modules"][name]
+            read = f' · [Read this file]({module["readHref"]})' if "readHref" in module else ""
+            members.append(f'- [{module["label"]}]({module["href"]}) · `{name}`{read} · [Pinned source]({module["github"]})')
+        summary_md = f'\n\n## Group overview\n\n{reading["markdown"]}' if reading else ""
         render(
             group["href"], f'{group["label"]} · Sernau readable',
             f'{group["id"]} is a readable-edition source group with {group["moduleCount"]} Lean files.',
-            "group", group_content(group, data, share_slot, resources), f"{resources_md}\n\n## Member modules\n\n{md}",
+            "group", group_content(group, data, share_slot, resources, reading),
+            f"{resources_md}{summary_md}\n\n## Member modules\n\n" + "\n".join(members),
         )
+    for name, record in data["readings"]["files"].items():
+        module = data["modules"][name]
+        group = groups[module["group"]]
+        guides = reading_resources(record, group_guides.get(group["id"], {}))
+        body, mirror = static_reading(module, group, record, data["modules"], guides)
+        render(module["readHref"], f"{name}.lean · Sernau readable",
+               f"Read {name}.lean with pinned declarations and the import route to Main.", "read", body, mirror)
     render(
         READER, "Lean source reader · Sernau readable", "Read the pinned Lean files of the Sernau readable edition.",
         "reader", reader_content(data), noindex=True,

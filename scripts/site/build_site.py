@@ -1674,7 +1674,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     view = view or route.split('/')[0] or 'map'
     readable = edition == 'sernau'
     engine = edition or 'alpoge'
-    overlay = view in ('page', 'learn', 'route', 'reader') or (readable and view == 'group')
+    overlay = view in ('page', 'learn', 'route', 'reader') or (readable and view in ('group', 'read'))
     map_url, list_url, route_url = (ROUTES[engine][name] for name in ('map', 'list', 'route'))
     attributes = {'data-route': route, 'data-edition': edition, 'data-engine': engine, 'data-view': view}
     if embed_target:
@@ -1738,6 +1738,8 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         scripts += '\n' + json_script('guide-presentation', GUIDE_PRESENTATION)
     if view == 'reader':
         scripts += '\n' + json_script('edition-theorems', sernau_data['theorems'])
+        if readable and sernau_data['previewReadings']:
+            scripts += '\n' + json_script('sernau-preview-readings', sernau_data['previewReadings'])
     if view == 'map' and path != '/':
         page_head += f'<link rel="preload" as="fetch" href="{H(entry["overview"])}" crossorigin="anonymous">\n'
         if readable:
@@ -1746,7 +1748,8 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
             if key in entry:
                 page_head += f'<link rel="preload" as="script" href="{H(entry[key])}">\n'
     t = fill_slots(
-        TPL, title=H(title, quote=False), description=HA(desc), head=page_head, styles=styles,
+        TPL.replace('  @PANEL_HEADING@\n', '') if view == 'read' else TPL,
+        title=H(title, quote=False), description=HA(desc), head=page_head, styles=styles,
         body_attributes=body_attributes, shell_script=f'<script src="{SHELL_F}" defer></script>',
         skip_target='#pagebody' if overlay else list_url,
         skip_text='Skip to content' if overlay else 'Skip to the list view of the map',
@@ -1905,7 +1908,7 @@ def fit(name):
     return cut_title(name, TITLE_MAX - len(suffix)) + suffix
 
 # ---------- shared bits
-for sub in ('theme', 'cluster', 'changelog', 'route', 'learn'):
+for sub in ('theme', 'cluster', 'changelog', 'route', 'learn', 'sernau/read'):
     shutil.rmtree(os.path.join(OUT, sub), ignore_errors=True)
 def ctitle(k):
     return NAMES[k]['title'] if k in NAMES else folder_label(CL[k]['folders'])
@@ -3124,7 +3127,7 @@ def render_readable(path, title, desc, kind, body, md=None, noindex=False):
          img=readable_image, edition='sernau', view=kind, noindex=noindex)
 
 build_sernau_pages(sernau_data, render_readable, share_slot=SHARE_SLOT,
-                   group_guides={group: [(GPATH[slug], GUIDE_TITLES[slug]) for slug in slugs]
+                   group_guides={group: {slug: (GPATH[slug], GUIDE_TITLES[slug]) for slug in slugs}
                                  for group, slugs in READABLE_GROUP_GUIDES.items()})
 
 # Embed shells are static. The selected view and filters live in the query string.
