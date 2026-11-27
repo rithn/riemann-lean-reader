@@ -10,14 +10,14 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "27 Nov 2026"
+as_of: "26 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
-**Yes, as of 27 November 2026, Levent Alpöge’s Lean proof of the Riemann hypothesis, released on 20 November, has been independently verified. The Lean FRO and the Mathlib Initiative certified that the statement and proof are correct on 21 November 2026.** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+**Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 November 2026. On 21 November the Lean FRO and the Mathlib Initiative certified that its statement and proof are correct, and independent checks since then have passed. [No refereed paper has been announced yet](#publication-and-the-clay-prize).** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
-*Last updated 27 November 2026.*
+*Last updated 26 November 2026.*
 
 ## What changed
 
@@ -91,7 +91,7 @@ The statement certifies four things:
 
 The joint statement covers the Riemann hypothesis. Sutherland's checks also cover all three Dirichlet L-function statements. See [how we know](/how-we-know/) for how the four certification criteria work. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Sutherland](https://math.mit.edu/~drew/grh/))
 
-## Publication and the Clay prize
+## Publication and the Clay prize {#publication-and-the-clay-prize}
 
 As of 24 Nov 2026 we have found no announcement of a refereed paper on the proof. Alpöge's four-page note is his only write-up so far; he says he intends "to write it properly". The Clay Millennium Prize rules require a solution to be published in a qualifying outlet, at least two years to pass after publication, and general acceptance in the mathematics community. ([note](https://alpo.ge/remark.pdf), [Clay rules](https://www.claymath.org/millennium-problems/rules/), [rules in full, §4 and §6](https://www.claymath.org/wp-content/uploads/2022/03/millennium_prize_rules_0.pdf))
 
@@ -144,3 +144,14 @@ The proof is a library of 175,187 Lean files (175,027 on our map), grouped into 
 ## About this site
 
 riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropic, the Lean FRO, the Lean and Mathlib communities, and the Mathlib Initiative.
+
+## Changelog
+
+- **27 Nov 2026.** Moved the current answer and the latest checks to the top; added links to the evidence pages.
+- **26 Nov 2026.** Recorded the completed v4.36.0 Comparator run on the original archive’s exports.
+- **25 Nov 2026.** Corrected the scope of the five theorems in `Main.lean` and clarified the scope of the verification runs on the [timeline](/timeline/#nov-24).
+- **24 Nov 2026, restructure.** This page now gives the current answer only. The dated log "What changed when" moved to the [timeline](/timeline/); repeated detail was shortened.
+- **24 Nov 2026, later.** Added Alpöge's two clarifying posts (23 Nov, 22:03 UTC; 24 Nov, 03:01 UTC), a short list of named reactions, and a short entry on the objection that the proof is a tautology, with the full text in the [FAQ](/faq/#tautology).
+- **24 Nov 2026.** Updated the checks to Sutherland's page as last updated 24 Nov 2026 at 05:25 UTC: Lean's default and paranoid kernels and the unmodified Comparator v4.33.0 accept; the `lake comparator` run on Lean v4.36.0 is still in progress. Corrected the date of Sutherland's con-leche runs to 20 Nov. Added a section on refereed publication and the Clay prize rules.
+- **23 Nov 2026.** Updated the checks to Sutherland's page as last updated 22 Nov 2026 at 16:20 UTC. Added "Community work on the proof".
+- **22 Nov 2026.** First version.
