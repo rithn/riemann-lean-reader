@@ -1,6 +1,6 @@
 ---
 title: "Has the Riemann hypothesis been solved? Proof status"
-description: "The 20 November Lean proof was certified on 21 November. See the independent verification results for the original archive and both Sernau rewrites."
+description: "Levent Alpöge’s Lean proof of the Riemann hypothesis was certified on 21 November 2026. See the proof status and independent verification results."
 h1: "Has the Riemann hypothesis been solved?"
 path: /status/
 target_queries:
@@ -15,13 +15,25 @@ as_of: "26 Nov 2026"
 
 # Has the Riemann hypothesis been solved?
 
-*As of 26 Nov 2026. See the [timeline](/timeline/) for the dated record.*
+**Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 November 2026. On 21 November the Lean FRO and the Mathlib Initiative certified that its statement and proof are correct, and independent checks since then have passed. [No refereed paper has been announced yet](#publication-and-the-clay-prize). On 25 November Luke Sernau released [two shorter rewrites](/shorter-riemann-hypothesis-proof/), readable and compact, which have also [passed independent checks](#shorter-editions).** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
-**Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 Nov 2026. On 21 Nov the Lean FRO and the Mathlib Initiative certified that the statement and the proof of the Riemann hypothesis are correct. Independent checkers have compiled all 175,187 modules, replayed the proof through Lean's kernel and checked the exported proof with several independent programs.**
+*Last updated 26 November 2026.*
 
-**Verification update, 26 Nov 2026.** Andrew Sutherland reports a full paranoid Comparator pass for each of Luke Sernau’s two shorter editions. Michael Rubinstein’s Waterloo team reports a compact-edition paranoid pass, and Sho Sonoda reports standard Comparator passes for both editions. [Shorter-edition checks](#shorter-editions) · [Timeline](/timeline/#nov-26)
+## What changed
 
-[Follow updates via RSS](/changelog/feed.xml). Paste the link into your feed reader to get new updates.
+- **26 November 2026.** Andrew Sutherland reported full paranoid Comparator passes for both of Luke Sernau’s shorter editions. [MIT results](https://math.mit.edu/~drew/shortgrh/) · [Shorter-edition checks](#shorter-editions)
+- **26 November 2026.** Michael Rubinstein’s Waterloo team reported a paranoid Comparator pass for the compact edition. Sho Sonoda reported standard Comparator passes for both editions. [Additional verification reports](#additional-shorter-checks)
+- **25 November 2026.** Sutherland’s Comparator run on the original proof export passed the statement, axiom and kernel checks. [MIT verification log](https://math.mit.edu/~drew/grh/)
+
+See the [timeline](/timeline/) for the full dated record or [follow updates via RSS](/changelog/feed.xml).
+
+## Check the evidence
+
+- [How we know the proof is correct](/how-we-know/) explains the statement comparison and independent checks.
+- [Compare the shorter editions and their verification results](/shorter-riemann-hypothesis-proof/#verification).
+- [Is the proof a tautology?](/faq/#tautology) covers the objection and the verifiers’ response.
+- [Sutherland’s MIT verification guide](/guides/sutherland/) and [Rubinstein’s Waterloo verification guide](/guides/rubinstein-check/) collect the original-archive checks.
+- [Guides to reading the Lean proof](/guides/) cover the original and shorter editions.
 
 ## What was released
 
@@ -80,7 +92,7 @@ The statement certifies four things:
 
 The joint statement covers the Riemann hypothesis. Sutherland's checks also cover all three Dirichlet L-function statements. See [how we know](/how-we-know/) for how the four certification criteria work. ([joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/), [Sutherland](https://math.mit.edu/~drew/grh/))
 
-## Publication and the Clay prize
+## Publication and the Clay prize {#publication-and-the-clay-prize}
 
 As of 24 Nov 2026 we have found no announcement of a refereed paper on the proof. Alpöge's four-page note is his only write-up so far; he says he intends "to write it properly". The Clay Millennium Prize rules require a solution to be published in a qualifying outlet, at least two years to pass after publication, and general acceptance in the mathematics community. ([note](https://alpo.ge/remark.pdf), [Clay rules](https://www.claymath.org/millennium-problems/rules/), [rules in full, §4 and §6](https://www.claymath.org/wp-content/uploads/2022/03/millennium_prize_rules_0.pdf))
 
@@ -136,6 +148,7 @@ riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropi
 
 ## Changelog
 
+- **27 Nov 2026.** Moved the current answer, including Sernau's shorter editions, and the latest checks to the top; added links to the evidence pages.
 - **26 Nov 2026.** Recorded the completed v4.36.0 Comparator run on the original archive’s exports.
 - **25 Nov 2026.** Corrected the scope of the five theorems in `Main.lean` and clarified the scope of the verification runs on the [timeline](/timeline/#nov-24).
 - **24 Nov 2026, restructure.** This page now gives the current answer only. The dated log "What changed when" moved to the [timeline](/timeline/); repeated detail was shortened.

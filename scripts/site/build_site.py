@@ -2143,6 +2143,7 @@ def fl_link_text(k):
     return f'Read its Lean files, in plain English ({len(FL[k])} {"file" if len(FL[k]) == 1 else "files"})'
 def fl_link(k):   # #10: the cluster page's link to its /lean/ page
     return f'<p class="lflink"><a class="btn" href="{CPATH[k]}lean/">{H(fl_link_text(k))} <span class="arr">→</span></a></p>' if FL.get(k) else ''
+TRACE_PARTS = {'k0199': 'k0200', 'k0200': 'k0199'}
 for k, p in CPATH.items():
     n, c = NAMES.get(k, {}), CL[k]
     title = n.get('title') or folder_label(c['folders'])
@@ -2170,6 +2171,9 @@ for k, p in CPATH.items():
                          clink(x) for i, x in enumerate(up))
                + f'</ol><p class="meta">Each step is an import.' + (f' This is 1 of {"99+" if nr > 99 else nr} shortest routes.' if nr > 1 else '') + '</p>')
     on_route = set(up)
+    related = [(TPATH[th], f'Theme: {TNAME[th]}')]
+    if other_part := TRACE_PARTS.get(k):
+        related.insert(0, (CPATH[other_part], ctitle(other_part)))
     body = (breadcrumbs([('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (k, '')]) +
             f'<div class="eyebrow">Alpöge original · Cluster {k}</div><h1>{H(title)}</h1>'
             f'<p class="meta tags">{H(ctag_line(k))}</p>' + (CK_BADGE if k in CHECKED else '') + SHARE_SLOT
@@ -2183,7 +2187,7 @@ for k, p in CPATH.items():
             + (f'<h2>References</h2>{refs}' if refs else '')
             + neighbours('Builds on', uses[k], on_route) + neighbours('Needed by', sorted(used_by[k]), on_route)
             + f'<p class="meta">{len(members[k])} Lean files, main folder {H(c["folders"][0][0] if c["folders"] else "")}.</p>'
-            + explore((TPATH[th], f'Theme: {TNAME[th]}'), main_link=k != main))
+            + explore(*related, main_link=k != main))
     page(p, fit(title), cluster_desc(k, n.get('plain') or f'Cluster {k} of the Lean proof of the Riemann hypothesis.'), f'cluster/{k}', body,
          [crumbs_ld(('Alpöge original', ALPOGE_MAP), (TNAME[th], TPATH[th]), (title, p))],
          img=(og_url(f'og/c/{k}.png'), f'{title}: cluster {k} of the Lean proof of the Riemann hypothesis'))
@@ -2310,6 +2314,8 @@ learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyeb
          '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT + '<p class="lede">From the Riemann hypothesis down to school maths: '
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
+         '<p>For worked explanations, see <a href="/guides/rubinstein-zeta/">Rubinstein’s guide to the zeta function argument</a>'
+         ' or <a href="/guides/eto/">Eto’s illustrated introduction to the proof</a>.</p>'
          f'<ul class="learning-tree">{learning_tree}</ul>'
          f'<h2>More background concepts <span class="n">{len(more_concepts)}</span></h2><ul class="rows">'
          + ''.join(f'<li><a href="/concept/{H(n["id"])}"><span class="kind concept">concept</span>'
@@ -2573,6 +2579,8 @@ for i, (f, fm, t, *rest) in enumerate(DRAFTS):
         DRAFTS[i] = (f, fm, t2, *rest)
 KNOWN_PATHS |= {'/alpoge/', '/sernau/', '/sernau/route/', '/sernau/list/'}
 KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS} | {'/guides/'} | set(GPATH.values())
+READABLE_GROUPS = {group['id']: group for group in sernau_data['groups']}
+KNOWN_PATHS |= {group['href'] for group in READABLE_GROUPS.values()}
 # site links added under a page's own text (the drafts are published as written, so these are not part of them)
 RELATED = {'/status/': [('/core/', CORE_NAV), ('/proof-in-numbers/', NUMBERS_NAV),
                         ('/timeline/', 'Timeline of the Riemann hypothesis, 1748 to the 2026 Lean proof')]}
@@ -2592,11 +2600,12 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
     trail = breadcrumbs([('Home', '/'), (crumb, '')])
-    share = SHARE_SLOT if path == '/status/' else ''
     if folded := fm.get('fold_sections'):
-        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{share}{article_html(html_body, folded)}</article>'
+        body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
     else:
-        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{share}{html_body}'
+        body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
+    if path == '/status/':
+        body += SHARE_SLOT
     rel = RELATED.get(path, [])
     assert all(u in KNOWN_PATHS for u, _ in rel)
     if rel:
@@ -2716,8 +2725,24 @@ def dist_txt(k):
     d = dist.get(k)
     return 'not reached' if d is None else '0 (main theorem)' if d == 0 else str(d)
 
+GUIDE_TITLES = {g['slug']: g['title'] for g in GD if g['page']}
+GUIDE_TITLES.update({g['slug']: g['title'] for g, _ in guide_readings})
+RELATED_GUIDES = GUIDE_CATALOGUE.get('related_guides', {})
+READABLE_GROUP_GUIDES = GUIDE_CATALOGUE.get('readable_group_guides', {})
+assert all(slug in GPATH and all(other in GPATH and other != slug for other in targets)
+           for slug, targets in RELATED_GUIDES.items())
+assert all(group in READABLE_GROUPS and all(slug in GPATH for slug in slugs)
+           for group, slugs in READABLE_GROUP_GUIDES.items())
+
 def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
     path = GPATH[g['slug']]
+    related = [(label, GPATH[slug]) for slug, label in RELATED_GUIDES.get(g['slug'], {}).items()]
+    related += [(READABLE_GROUPS[group]['label'], READABLE_GROUPS[group]['href'])
+                for group, slugs in READABLE_GROUP_GUIDES.items() if g['slug'] in slugs]
+    if related:
+        links = '\n## Related reading\n\n' + ''.join(f'- [{label}]({href})\n' for label, href in related)
+        content += md_html(links)
+        md += md_abs(links)
     name = g['name'] or 'No author named'
     trail = [('Home', '/'), ('Guides', '/guides/'), (name, path)]
     sfx = f' · {name}'
@@ -3043,7 +3068,9 @@ def render_readable(path, title, desc, kind, body, md=None, noindex=False):
     page(path, title, desc, '' if kind == 'map' else kind, body, ld_graph, .85 if kind == 'map' else .6, md=md,
          img=readable_image, edition='sernau', view=kind, noindex=noindex)
 
-build_sernau_pages(sernau_data, render_readable, share_slot=SHARE_SLOT)
+build_sernau_pages(sernau_data, render_readable, share_slot=SHARE_SLOT,
+                   group_guides={group: [(GPATH[slug], GUIDE_TITLES[slug]) for slug in slugs]
+                                 for group, slugs in READABLE_GROUP_GUIDES.items()})
 
 # Embed shells are static. The selected view and filters live in the query string.
 for normal, embed_path in EMBED_PATHS.items():

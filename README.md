@@ -4,6 +4,56 @@ On 20 Nov 2026 Levent Alpöge released a [Lean formalization and announcement no
 
 The release contains 175,187 Lean files and about 17.4 million lines. [RH Lean Explorer](https://riemannhypothesissolved.com/) maps the source, links to [reading guides](https://riemannhypothesissolved.com/guides/), and maintains a dated [verification status](https://riemannhypothesissolved.com/status/). This repository contains the site's generator and the original source-text audit. The original folder descriptions are inferred from file and folder names.
 
+## Find the import graph and source
+
+The Explorer publishes static JSON under `/api/` and `/data/`. Start with the API catalogue for endpoint descriptions and the edition index for the full source revision of each map. [API catalogue](https://riemannhypothesissolved.com/api/) · [OpenAPI JSON](https://riemannhypothesissolved.com/api/openapi.json) · [Edition index](https://riemannhypothesissolved.com/api/editions.json)
+
+| Edition | Where to look |
+|---|---|
+| Alpöge original | The [cluster index](https://riemannhypothesissolved.com/api/clusters.json) maps an ID to its current page. The [map overview](https://riemannhypothesissolved.com/data/overview.json) has cluster coordinates and import edges in `clusters[].uses`, expressed as cluster numbers such as `677` for `k0677`. The [cluster detail](https://riemannhypothesissolved.com/data/c/k0677.json) lists modules in `files[].m` and their direct imports in `files[].imp`. The [module index](https://riemannhypothesissolved.com/data/modules.json) provides the reverse lookup in rows of `[folderIndex, moduleName, clusterNumber]`, with the module prefix in `folders[folderIndex]`. |
+| Sernau readable | The [edition API](https://riemannhypothesissolved.com/api/sernau/index.json) links to groups, dependencies, and module source links. Read `overviewUrl` and `fileGraphUrl` from the [map manifest](https://riemannhypothesissolved.com/data/sernau/manifest.json) to find the versioned map JSON and file import graph. |
+
+An import edge points from the importing module or group to its dependency. Record the edition and full source revision with a lookup so readers can distinguish the original archive from the readable rewrite.
+
+### Reproduce a pinned lookup
+
+Run this from the generator checkout with the built site at `../site-sharing`, or pass your build directory as the argument. This example looks up cluster `k0677`, finds its `Main` module, and reads the published copy of the file.
+
+```sh
+uv run --no-project python - ../site-sharing <<'PY'
+import json
+import sys
+from pathlib import Path
+
+site = Path(sys.argv[1])
+
+def read_json(path):
+    return json.loads((site / path).read_text(encoding="utf-8"))
+
+edition = next(e for e in read_json("api/editions.json")["editions"] if e["id"] == "alpoge")
+cluster_id = "k0677"
+cluster = next(c for c in read_json("api/clusters.json")["clusters"] if c["id"] == cluster_id)
+detail = read_json(f"data/c/{cluster_id}.json")
+module = next(f for f in detail["files"] if f["m"] == "Main")
+source_file = "src/" + module["m"].replace(".", "/") + ".lean"
+assert (site / cluster["path"].lstrip("/") / "index.html").is_file()
+source = (site / source_file).read_text(encoding="utf-8")
+line, statement = next(
+    (line, text) for line, text in enumerate(source.splitlines(), 1)
+    if text.startswith("theorem riemannHypothesis :")
+)
+print(cluster_id, edition["revision"], f"{source_file}:{line}")
+print(f'{edition["source"]}/blob/{edition["revision"]}/{source_file}#L{line}')
+print(statement)
+PY
+```
+
+For the current original archive pin, the first line is `k0677 40e56bab026552e089d7afcfeff08d2defb9c005 src/Main.lean:4`. [Pinned Main.lean](https://github.com/leanprover-community/riemann-hypothesis/blob/40e56bab026552e089d7afcfeff08d2defb9c005/src/Main.lean#L4)
+
+### Report a correction
+
+Open an issue in the generator repository. Include the edition, cluster ID, full source revision, file and line, plus the text or import edge to correct and the change the source supports. For example, use `Alpöge original · k0677 · 40e56bab026552e089d7afcfeff08d2defb9c005 · src/Main.lean:4` to identify the statement in the lookup above. [Generator GitHub issues](https://github.com/rithn/riemann-lean-reader/issues)
+
 ## Building the readable edition
 
 The site generator builds Alpöge's original map and Sernau's readable edition together. The readable source, group inventory, English labels and theorem references are pinned in [data/sernau](data/sernau/edition.json). The first build fetches the exact upstream Git revision into a temporary object cache. Set `SERNAU_CACHE_DIR` to a durable location, or set `SERNAU_SOURCE_DIR` to a Git checkout at the pinned revision for an offline source build.
@@ -60,6 +110,6 @@ scripts/scan_keywords.sh lean/src                        # the keyword scan
 ## Help wanted
 
 - **Correct the folder guesses** in FOLDERS.md by opening an issue or PR, ideally with a file you actually read.
-- **Map the import graph,** especially for the flat folders with 40k files, where names don't help.
+- **Correct the import map** using the [source lookup and issue instructions](#report-a-correction) above.
 
 Prepared with Claude Code. Corrections are very welcome.

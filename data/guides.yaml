@@ -1438,6 +1438,30 @@ guides:
     clusters_basis: Exact file paths from the pinned links in Appendix A. The declaration index also includes names that match the local file and line and appear on the cited page.
     retrieved: '2026-11-25'
 
+# Related site pages for guide entries, keyed by guide slug.
+related_guides:
+  lean-statement:
+    sutherland: Sutherland’s independent checks at MIT
+    rubinstein-check: Rubinstein’s independent checks at Waterloo
+  sutherland:
+    lean-statement: Lean FRO and Mathlib Initiative certification
+    rubinstein-check: Rubinstein’s independent checks at Waterloo
+  rubinstein-check:
+    sutherland: Sutherland’s independent checks at MIT
+  chojecki:
+    chojecki-sernau: Chojecki’s exposition of the compact edition
+  naskrecki:
+    naskrecki-sernau: Naskręcki’s reading of the compact edition
+  sonoda-readable:
+    grh-lean-handbook: The GRH Lean Handbook
+  grh-lean-handbook:
+    sonoda-readable: Sonoda’s source-linked theorem graph
+
+# Readable source groups linked by the guides that discuss their proof steps.
+readable_group_guides:
+  Main: [sonoda-readable, grh-lean-handbook]
+  New.Reduction: [sonoda-readable]
+
 # Reading guides share the catalogue and page layout. Their source links are
 # editorial references. Original archive map citations stay in the guides above.
 hub_guides:
