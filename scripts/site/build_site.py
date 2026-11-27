@@ -1753,7 +1753,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
             styles = '<link rel="preload" as="font" type="font/woff2" href="/fonts/source-serif-4.f71693e59b.woff2" crossorigin>\n' + styles
         body = switch + body
     if readable and view != 'map':
-        body = f'<main id="main" class="sr-main">{body}</main>'
+        body = f'<div id="main" class="sr-main">{body}</div>'
     footer = fill_slots(FOOTER_TPL, list=list_url, route=route_url,
                         list_label='List view' if edition else 'Alpöge cluster list',
                         route_label='Route from Main' if edition else 'Alpöge route',
@@ -1795,12 +1795,10 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         status_chip=status_html, panel_sheet='half' if view in ('list', 'cluster', 'theme') else 'peek',
         panel_attributes=' inert' if overlay else '', panel_heading=panel_heading,
         panel_content='' if overlay else body, panel_footer='' if overlay else footer, overlay_footer=footer if overlay else '',
-        overlay_hidden=str(not overlay).lower(), active_map=map_url, overlay_content=body if overlay else '',
+        overlay_hidden=str(not overlay).lower(), header_map=map_url if edition else '/', overlay_content=body if overlay else '',
         list=list_url, route=route_url, filters=map_filters(sernau_data) if readable and view == 'map' else '',
         scripts=scripts,
     )
-    if path == '/404.html':
-        t = re.sub(r'<a id="close"[^>]*>.*?</a>', '', t, flags=re.S)
     nk = NAV_KEY(path)
     if nk:
         t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">', 1)
