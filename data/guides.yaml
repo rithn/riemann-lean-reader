@@ -744,18 +744,18 @@ guides:
       role_source: https://www.ihes.fr/~rzhang/
       role_note: 'Home page: ''I am a postdoctoral fellow at the Institut des Hautes Études Scientifiques (IHES).'' The IHES directory lists ''Post-doctorant, Mathématiques'' (01/06/2026 - 30/05/2028). IHES is a research institute, not a university: placed in group 1 as an academic mathematics post (judgement call).'
       order_group: 1
-      photo: research/guides/photos-src/zhang.jpg
-      photo_source: https://www.ihes.fr/en/scholars/phdstudents-postdocs/
-      photo_url: https://gestion.ihes.fr//uploads/applicant/0092443/6a1d815474f3f_zhang_R.JPG.jpg
-      photo_note: 'IHES directory entry ''Zhang Robin''. Only 91 x 125 px (as published): fine for the 48 px hover, soft at 96 px. His own home page has no portrait (only a poster, wine, teaching and cookbook images).'
+      photo: data/guide-photos/zhang-profile.png
+      photo_source: https://www.ihes.fr/~rzhang/
+      photo_url: https://www.ihes.fr/~rzhang/images/profile.png
+      photo_note: Portrait published on his homepage.
     title: A preliminary note on Alpöge’s proposed proof of the Generalized Riemann Hypothesis
     posted_at:
       url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf
       date: '2026-11-22'
       note: 'The PDF prints ''Date: November 22, 2026''. His home page lists the note as ''A preliminary note on GRH, November 2026''. File Last-Modified 22 Nov 2026 20:33 GMT.'
     format: pdf
-    licence: none stated
-    licence_note: No licence text in the PDF or on the home page.
+    licence_note: No licence text in the IHES PDF or on the home page; Hexagon v2 lists CC BY 4.0.
+    edition_citation: "IHES copy · 22 Nov 2026 · licence unstated. [Hexagon v2](https://hexagonmath.org/2611.00809v2) · revision 22 Nov 2026 · 76 pages · CC BY 4.0."
     host_copy: false
     versions:
     - version: single file
@@ -765,6 +765,13 @@ guides:
       sha256: 3bd82fa3d242fe473cb371cbab0a8d211cb7dd05f72ba2db1b4c4ef8f27478a3
       md5: ab2b209e4985275510c82120c680f19e
       note: 'Last-Modified 22 Nov 2026 20:33:19 GMT. The file is replaced in place at the same URL: pin by hash.'
+    - version: Hexagon v2
+      date: '2026-11-22'
+      url: https://hexagonmath.org/pdf/2611.00809v2
+      pages: 76
+      sha256: 81b11a64cb4d1085a1ad91231febde6b0cceb290492db79228ae685335842a22
+      licence: CC BY 4.0
+      note: 'Revision dated 22 November; the Hexagon record publication date is 21 November.'
     status: explains
     status_quote: The main purpose of this preliminary report is to begin looking for some of the sources, provenance, and mathematical history behind the proposed proof of the generalized Riemann hypothesis announced by Levent Alpöge using a Claude model [Alp26] on November 20, 2026.
     status_quote_url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf (page 1, "Statement from the author")
@@ -1465,6 +1472,76 @@ readable_group_guides:
 # Reading guides share the catalogue and page layout. Their source links are
 # editorial references. Original archive map citations stay in the guides above.
 hub_guides:
+  - id: nelson-grh-exercises
+    clusters: [k0173, k0244, k0248, k0403, k0437, k0463, k0466, k0630, k0648, k0650, k0685, k0695, k0701, k0760, k0762, k0768, k0770, k0774, k0779, k0791, k0793, k0798, k0876, k0896, k0903, k0971, k1057, k1087, k1102, k1110, k1112, k1114, k1116, k1117, k1119, k1138, k1141, k1143, k1148, k1165, k1169, k1176, k1183, k1186, k1188, k1193, k1198, k1362, k1363, k1381, k1625, k1628, k1630, k1633, k1636, k1638, k1640, k1642, k1651, k1655, k1660, k1681, k1691, k1703, k1705, k1841, k1896, k1907, k1917, k2273, k2282, k2404, k2440, k2461, k2463, k2467, k2503, k2545, k2571, k2572]
+    clusters_basis: "Exact declaration names in the pinned original-route sheets; evidence: research/guides/n-1127/nelson-original-map.tsv."
+    slug: nelson-exercises
+    page: true
+    edition: readable
+    author:
+      name: Paul Nelson
+      name_source: https://github.com/ultronozm
+      home: https://ultronozm.github.io/math/
+      role: Professor of mathematics at Aarhus University
+      role_source: https://pure.au.dk/portal/en/persons/paul.nelson%40math.au.dk/
+      order_group: 1
+      photo: null
+      photo_source: null
+    title: GRH via exercises
+    url: https://github.com/ultronozm/grh-workbook/tree/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a
+    date: '2026-11-25'
+    snapshot_date: '2026-11-27'
+    language: English
+    status: explains
+    ai_statement:
+      quote: The sheets are drafts written and refereed by AI agents (Claude, Codex and Gemini).
+      url: https://raw.githubusercontent.com/ultronozm/grh-workbook/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a/20261125T012000--grh-workbook__guide.org
+    detail: Exercise sheets presenting the shorter proof, with models, a flowchart and a list of statements taken on trust.
+    reading: |
+      ## Where to start
+
+      Use the workbook index and flowchart to choose a sequence of exercises. The sheets introduce ingredients in simple cases; the overview lists statements taken from Lean without proof.
+
+      ## Edition and scope
+
+      The 27 November snapshot is in English. It follows Sernau’s readable edition at `72fead1`. Parts VI–IX present the whole proof, according to the status file. The earlier route through the original archive is preserved separately. The workbook explains the proof; it is not an independent verification.
+    links:
+      - {title: Workbook website, url: "https://ultronozm.github.io/grh-workbook/"}
+      - {title: Pinned status, url: "https://raw.githubusercontent.com/ultronozm/grh-workbook/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a/STATUS.md"}
+
+  - id: bolan-grh-manuscript
+    slug: bolan
+    page: true
+    edition: readable
+    author:
+      name: Matthew Bolan
+      name_source: https://github.com/mjtb49
+      home: https://github.com/mjtb49
+      role: PhD candidate in mathematics at the University of Toronto
+      role_source: https://github.com/mjtb49
+      order_group: 2
+      photo: null
+      photo_source: null
+    title: The Alpöge–Claude argument for Dirichlet GRH
+    url: https://github.com/mjtb49/GRH/tree/7fcfd68898
+    source_label: Pinned repository and author’s note
+    date: '2026-11-26'
+    status: explains
+    ai_statement:
+      quote: The exposition was prepared with OpenAI Codex.
+      url: https://raw.githubusercontent.com/mjtb49/GRH/7fcfd68898/README.md
+    detail: A 436-page manuscript with source notes linking the exposition to Lean files. Bolan says the examples are not yet backed by Lean.
+    reading: |
+      ## Where to start
+
+      Begin with Theorem 1.1, then section 2.1 on printed page 5. Superscript source notes link to Lean files; section 1.4 separates estimates specific to the argument from known mathematics.
+
+      ## Edition and scope
+
+      This snapshot follows Sernau’s readable edition at `72fead1` and incorporates arguments from the Lean community revision at `120962b4`; Appendix A identifies those passages. The manuscript explains the proof; it is not an independent verification.
+    links:
+      - {title: Download pinned manuscript (PDF), url: "https://raw.githubusercontent.com/mjtb49/GRH/7fcfd68898/manuscript.pdf"}
+
   - id: sonoda-readable-analysis
     slug: sonoda-readable
     page: true
