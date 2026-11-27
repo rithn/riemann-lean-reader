@@ -1492,12 +1492,11 @@ hub_guides:
     date: '2026-11-25'
     snapshot_date: '2026-11-27'
     language: English
-    snapshot_note: Combined PDF page count for the pinned snapshot unverified.
     status: explains
     ai_statement:
       quote: The sheets are drafts written and refereed by AI agents (Claude, Codex and Gemini).
       url: https://raw.githubusercontent.com/ultronozm/grh-workbook/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a/20261125T012000--grh-workbook__guide.org
-    detail: Exercise sheets presenting the shorter proof, with models, a flowchart and a list of statements taken on trust. The pinned draft says AI agents wrote and refereed the sheets.
+    detail: Exercise sheets presenting the shorter proof, with models, a flowchart and a list of statements taken on trust.
     reading: |
       ## Where to start
 
@@ -1505,7 +1504,7 @@ hub_guides:
 
       ## Edition and scope
 
-      The 27 November snapshot is in English. Combined PDF page count for the pinned snapshot unverified. This snapshot follows Sernau’s readable edition at `72fead1`. Parts VI–IX present the whole proof, according to the status file. The earlier route through the original archive is preserved separately. The workbook explains the proof; it is not an independent verification.
+      The 27 November snapshot is in English. It follows Sernau’s readable edition at `72fead1`. Parts VI–IX present the whole proof, according to the status file. The earlier route through the original archive is preserved separately. The workbook explains the proof; it is not an independent verification.
     links:
       - {title: Workbook website, url: "https://ultronozm.github.io/grh-workbook/"}
       - {title: Pinned status, url: "https://raw.githubusercontent.com/ultronozm/grh-workbook/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a/STATUS.md"}
@@ -1524,8 +1523,8 @@ hub_guides:
       photo: null
       photo_source: null
     title: The Alpöge–Claude argument for Dirichlet GRH
-    url: https://raw.githubusercontent.com/mjtb49/GRH/7fcfd68898/manuscript.pdf
-    source_label: Download pinned manuscript (PDF)
+    url: https://github.com/mjtb49/GRH/tree/7fcfd68898
+    source_label: Pinned repository and author’s note
     date: '2026-11-26'
     status: explains
     ai_statement:
@@ -1541,7 +1540,7 @@ hub_guides:
 
       This snapshot follows Sernau’s readable edition at `72fead1` and incorporates arguments from the Lean community revision at `120962b4`; Appendix A identifies those passages. The manuscript explains the proof; it is not an independent verification.
     links:
-      - {title: Pinned repository and author’s note, url: "https://github.com/mjtb49/GRH/tree/7fcfd68898"}
+      - {title: Download pinned manuscript (PDF), url: "https://raw.githubusercontent.com/mjtb49/GRH/7fcfd68898/manuscript.pdf"}
 
   - id: sonoda-readable-analysis
     slug: sonoda-readable

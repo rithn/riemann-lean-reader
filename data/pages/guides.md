@@ -50,6 +50,7 @@ Map links and node counts refer to the original archive. The counts show where g
 ## Other tools
 
 - **riemann.world.** [riemann.world](https://riemann.world/) is a zoomable map of Alpöge’s original Lean files, with their declarations and source.
+- **GRH proof explorer (draft).** [GRH proof explorer](https://math.mit.edu/~drew/grhexplorer/) by Andrew Sutherland is a map, dependency graph and search for both editions of Sernau’s shorter proof. The page marks itself as a draft.
 
 ## Suggest a guide
 
@@ -60,5 +61,4 @@ Post to [@SomTheBuilder](https://x.com/SomTheBuilder) on X with the link. We lis
 - **23 Nov 2026.** First version, with 11 guides.
 - **24 Nov 2026.** One list of 10 guides instead of two groups. Nine have their own page, with links to the nodes of the map they cite.
 - **24 Nov 2026, evening.** 13 more guides, 23 in all, 22 with their own page. A guide is labelled "AI-assisted" when its author says AI helped make it (we quote the author), or, for one guide, when its commit history says so. Each guide shows how many nodes of the map it names, 0 included.
-
-- **27 Nov 2026.** Added Nelson’s exercise sheets and Bolan’s manuscript; recorded Hexagon v2 for Zhang’s note.
+- **27 Nov 2026.** Added Nelson’s exercise sheets and Bolan’s manuscript; recorded Hexagon v2 for Zhang’s note; listed Sutherland’s GRH proof explorer under Other tools.
