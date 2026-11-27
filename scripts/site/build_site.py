@@ -1716,6 +1716,8 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     switch = edition_switch(edition, view)
     panel_heading = switch if not overlay else ''
     if overlay:
+        if view != 'reader':
+            styles = '<link rel="preload" as="font" type="font/woff2" href="/fonts/source-serif-4.f71693e59b.woff2" crossorigin>\n' + styles
         body = switch + body
     if readable and view != 'map':
         body = f'<main id="main" class="sr-main">{body}</main>'
