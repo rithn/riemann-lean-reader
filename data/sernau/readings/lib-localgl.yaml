@@ -3,7 +3,9 @@ overview:
   group: Lib.LocalGL
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: Start with `Lib.LocalGL.Iwahori.SortedExponents`, where exponents for
       smooth representations of a general linear group can, under the stated fixed-vector
@@ -12,13 +14,20 @@ overview:
     - module: Lib.LocalGL.Iwahori.SortedExponents
       line: 5
       endLine: 16
-  - sentence: For unitary representations with a finite-dimensional fixed part in
-      the relevant span of translates, the file also constructs eigenvectors with
-      sorted characters.
+  - sentence: "In the unitary setting, the file constructs pro-p Iwahori eigenvectors with sorted characters from vectors of the stated parahoric type or with a nonzero projection along determinant characters, under the corresponding finiteness assumptions on pro-p Iwahori invariants in spans of translates."
     citations:
     - module: Lib.LocalGL.Iwahori.SortedExponents
       line: 11
       endLine: 16
+    - module: Lib.LocalGL.Iwahori.SortedExponents
+      line: 23
+      endLine: 27
+    - module: Lib.LocalGL.Iwahori.SortedExponents
+      line: 515
+      endLine: 535
+    - module: Lib.LocalGL.Iwahori.SortedExponents
+      line: 838
+      endLine: 859
   - sentence: "`Lib.LocalGL.Iwahori.SphericalExponents` studies when an exponent with
       unramified, size-ordered characters is nonzero on spherical vectors."
     citations:
@@ -780,7 +789,9 @@ files:
     group: Lib.LocalGL
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
     draft:
     - sentence: For a general linear group over a valued field with compact ring of integers,
         this file studies linear forms that are exponents for a torus character.

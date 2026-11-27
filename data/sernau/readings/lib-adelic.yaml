@@ -3,7 +3,9 @@ overview:
   group: Lib.Adelic
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "Begin with Adeles.Basic for finite adeles of a number field and their integral subring, together with their topology, maps induced by field embeddings, and base change."
     citations:

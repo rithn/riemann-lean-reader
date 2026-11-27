@@ -3,20 +3,32 @@ overview:
   group: Lib.Weil
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: The WeilOperators module constructs operators on a vacuum model, shows their cocycle relation and
-      inner product preservation, and treats orthogonal sums and transport along isomorphisms.
+  - sentence: "`WeilOperators` constructs Weil operators on the reproducing model of a vacuum, proves the cocycle relation and inner-product preservation for a normalized cocycle, and treats orthogonal sums and transport along isomorphisms."
     citations:
     - module: Lib.Weil.Construction.WeilOperators
       line: 6
       endLine: 11
-  - sentence: When the cocycle is trivial, it also constructs a Weil representation that intertwines the Heisenberg
-      operators and is continuous.
+    - module: Lib.Weil.Construction.WeilOperators
+      line: 15
+      endLine: 17
+    - module: Lib.Weil.Construction.WeilOperators
+      line: 196
+      endLine: 212
+  - sentence: "For a trivial cocycle, `WeilOperators` constructs the Weil representation and proves that it intertwines the Heisenberg operators. If `G` is first countable, the representation action is jointly continuous."
     citations:
     - module: Lib.Weil.Construction.WeilOperators
-      line: 6
-      endLine: 9
+      line: 246
+      endLine: 250
+    - module: Lib.Weil.Construction.WeilOperators
+      line: 261
+      endLine: 266
+    - module: Lib.Weil.Construction.WeilOperators
+      line: 334
+      endLine: 341
   - sentence: The Fock.Basic module builds a real-place Fock model, with polynomial times Gaussian vectors and compatibility
       with products over coordinate splittings and real places.
     citations:

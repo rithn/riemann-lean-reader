@@ -3,7 +3,9 @@ overview:
   group: New.Determinant
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: Chain.SquareLaw develops linear algebra over a finite ring with a multiplicative character, relating
       functions on two matrix spaces through matched functions.
@@ -11,27 +13,33 @@ overview:
     - module: New.Determinant.Chain.SquareLaw
       line: 4
       endLine: 14
-  - sentence: It also derives an identity for Fourier transforms under the stated primitive-character and shape
-      conditions.
+  - sentence: "Under the specified matrix shapes, primitive additive and multiplicative characters, and an assumed square law, `Chain.SquareLaw` proves an identity between sums involving the Fourier transforms of the weights."
     citations:
     - module: New.Determinant.Chain.SquareLaw
       line: 18
       endLine: 21
-  - sentence: Exchange.OneSquare compares paths of theta lifts going up then down and down then up, with an equality
-      up to a scalar for matched functions.
+    - module: New.Determinant.Chain.SquareLaw
+      line: 477
+      endLine: 493
+  - sentence: "For a square satisfying `IsSquare`, `Exchange.OneSquare` proves that the down-then-up sum weighted by one function equals a possibly zero scalar times the up-then-down sum weighted by its matching function."
     citations:
     - module: New.Determinant.Exchange.OneSquare
-      line: 6
+      line: 11
       endLine: 17
-  - sentence: Twist.FitTwists defines L-value ratios and records conditions on families of twists, including small
-      ratio heights and small denominators for projections to lifts.
+    - module: New.Determinant.Exchange.OneSquare
+      line: 750
+      endLine: 764
+  - sentence: "`Twist.FitTwists` defines twisted-to-untwisted Hecke L-value ratios. Regular families have moduli prime to the indexing primes, bounded heights for the relevant inverse ratios, and a budget for the logarithmic denominators of projections to lifts."
     citations:
     - module: New.Determinant.Twist.FitTwists
-      line: 6
-      endLine: 12
+      line: 74
+      endLine: 80
     - module: New.Determinant.Twist.FitTwists
-      line: 20
-      endLine: 27
+      line: 194
+      endLine: 203
+    - module: New.Determinant.Twist.FitTwists
+      line: 214
+      endLine: 231
   declarations: []
   routeToMain: []
   outsideReadings: []

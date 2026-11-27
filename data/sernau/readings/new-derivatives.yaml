@@ -3,7 +3,9 @@ overview:
   group: New.Derivatives
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: FormalGroup.ThetaProducts studies products of theta functions at primes that do not split in the quadratic
       field, using vectors that resolve the identity.
@@ -16,21 +18,22 @@ overview:
     - module: New.Derivatives.FormalGroup.ThetaProducts
       line: 13
       endLine: 16
-  - sentence: Vacuum.Divisibility bounds valuations of derivatives of Taylor series of standard data along homogeneous
-      integral polynomials, and describes a normal form at non-split primes.
+  - sentence: "`Vacuum.Divisibility` gives lower bounds on valuations of Taylor derivatives along homogeneous integral polynomials and proves a normal form at non-split primes for the scaled theta Taylor series of level-one standard data on a standard space."
     citations:
-    - module: New.Derivatives.Vacuum.Divisibility
-      line: 6
-      endLine: 9
     - module: New.Derivatives.Vacuum.Divisibility
       line: 21
       endLine: 26
-  - sentence: Sharpness.BoundAttained gives upper bounds for valuations of suitable Taylor coefficients of indicator
-      data, including a statement that works simultaneously at every prime.
+    - module: New.Derivatives.Vacuum.Divisibility
+      line: 156
+      endLine: 175
+  - sentence: "`Sharpness.BoundAttained` gives upper valuation bounds for scaled Taylor coefficients of indicator data. In its all-primes result, one nonzero number with bounded conjugates works at every prime, with a suitable coefficient and indicator datum chosen at each prime and scaling by factorials and the vacuum factor."
     citations:
     - module: New.Derivatives.Sharpness.BoundAttained
-      line: 4
+      line: 6
       endLine: 13
+    - module: New.Derivatives.Sharpness.BoundAttained
+      line: 381
+      endLine: 390
   declarations: []
   routeToMain: []
   outsideReadings: []

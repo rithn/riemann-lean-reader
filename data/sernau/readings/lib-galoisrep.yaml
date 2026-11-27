@@ -3,15 +3,18 @@ overview:
   group: Lib.GaloisRep
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: Begin with `Lib.GaloisRep.LocalGlobal.IwahoriCompatibility`, which studies
-      an attached representation at a split place and relates level information on
-      an eigenform to polynomials killing Frobenius and inertia.
+  - sentence: "At split places, `Lib.GaloisRep.LocalGlobal.IwahoriCompatibility` uses level information on an eigenform to obtain polynomials that annihilate the attached representation’s Frobenius and inertia operators away from ℓ, and the corresponding linear operators on periods above ℓ."
     citations:
     - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
       line: 7
       endLine: 18
+    - module: Lib.GaloisRep.LocalGlobal.IwahoriCompatibility
+      line: 34
+      endLine: 36
   - sentence: At pro-p Iwahori level the characters are tamely ramified, and sorting
       them supplies roots of these polynomials; the file also treats certain parahoric
       types.
@@ -1182,7 +1185,9 @@ files:
     group: Lib.GaloisRep
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
     draft:
     - sentence: This file defines a tame exponent using the action of an inertia element
         on a root of a uniformiser, read through a multiplicative character.

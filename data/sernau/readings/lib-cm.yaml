@@ -3,7 +3,9 @@ overview:
   group: Lib.CM
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "Start with KroneckerLimit, which computes the first two terms at one of the Epstein zeta function of a complex lattice in terms of its area and discriminant."
     citations:
@@ -23,11 +25,17 @@ overview:
     - module: Lib.CM.ChowlaSelberg
       line: 11
       endLine: 16
-  - sentence: "It includes oddness of the class number, a zeta factorization, a complex multiplication law for theta translates, and a formula for areas of conjugate lattices."
+  - sentence: "For these fields the file gives odd class number and a Dedekind zeta factorization for real s > 1. It gives a complex multiplication law for theta translates on lattices of the form Ω₀𝒪_K and a common area for the conjugate lattices after scaling each by the corresponding conjugate of a single unit."
     citations:
     - module: Lib.CM.ChowlaSelberg
       line: 11
       endLine: 16
+    - module: Lib.CM.ChowlaSelberg
+      line: 20
+      endLine: 29
+    - module: Lib.CM.ChowlaSelberg
+      line: 692
+      endLine: 702
   declarations: []
   routeToMain: []
   outsideReadings: []

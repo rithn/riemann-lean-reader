@@ -3,7 +3,9 @@ overview:
   group: Statements
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: Start with `RiemannZetaZerosOnLine`, which asks that a zero of the Riemann zeta function, outside the listed negative even integers and away from 1, have real part one half.
     citations:
@@ -15,11 +17,16 @@ overview:
     - module: Statements
       line: 6
       endLine: 8
-  - sentence: '`DirichletLZerosOnLine` puts zeros in the open critical strip on the line, while `PrimitiveDirichletLZerosOnLine` restricts the same assertion to primitive characters.'
+  - sentence: "`DirichletLZerosOnLine` is the assertion that each Dirichlet L-function zero with 0 < Re s < 1 has Re s = 1/2. `PrimitiveDirichletLZerosOnLine` makes the same assertion for primitive characters."
     citations:
     - module: Statements
       line: 10
       endLine: 16
+  - sentence: The file imports Mathlib and defines these as propositions.
+    citations:
+    - module: Statements
+      line: 1
+      endLine: 3
   declarations: []
   routeToMain:
   - module: Statements
@@ -38,7 +45,9 @@ files:
     group: Statements
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
     draft:
     - sentence: '`RiemannZetaZerosOnLine` is the proposition that a zero of the Riemann zeta function has real part one half if it is not one of the listed negative even integers and is not 1.'
       citations:
@@ -50,7 +59,7 @@ files:
       - module: Statements
         line: 6
         endLine: 8
-    - sentence: The two remaining propositions place Dirichlet L-function zeros in the open critical strip on the line, with `PrimitiveDirichletLZerosOnLine` restricted to primitive characters.
+    - sentence: "The two remaining definitions state the assertions that Dirichlet L-function zeros with 0 < Re s < 1 lie on Re s = 1/2, first for all characters and then for primitive characters."
       citations:
       - module: Statements
         line: 10

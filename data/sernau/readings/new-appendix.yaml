@@ -3,32 +3,51 @@ overview:
   group: New.Appendix
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: The GaussianShape module studies a discrete series coefficient near the identity, where it is close
-      to a phase times a number between zero and one.
+  - sentence: "`GaussianShape` estimates the discrete-series coefficient for a large-gap parameter near the identity, approximating it by a phase times a number in `[0, 1]`."
     citations:
     - module: New.Appendix.DiscreteSeries.GaussianShape
-      line: 5
-      endLine: 10
-  - sentence: It describes the coefficient as a mean over a compact group of a quotient of products of minors and
-      combines estimates for individual minors.
+      line: 7
+      endLine: 9
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 332
+      endLine: 338
+  - sentence: "The coefficient is given by a normalized integral over the maximal compact group of a quotient of products of minors, and `GaussianShape` multiplies the single-minor estimates over the threshold sets of a weight."
     citations:
     - module: New.Appendix.DiscreteSeries.GaussianShape
       line: 9
-      endLine: 12
-  - sentence: Localization shows decay away from the maximal compact subgroup and finds a near-identity representative
-      with the same integrand value under its stated smallness assumptions.
+      endLine: 10
+    - module: New.Appendix.DiscreteSeries.GaussianShape
+      line: 15
+      endLine: 25
+    - module: Lib.DiscreteSeries.FlenstedJensen.Defs
+      line: 180
+      endLine: 193
+  - sentence: "`Localization` proves decay of a large-gap coefficient as the noncompact part grows. Under the Laplace datum and smallness hypotheses, it finds a point with the same integrand value whose two image components are near the identity."
     citations:
     - module: New.Appendix.DiscreteSeries.Localization
       line: 7
       endLine: 12
-  - sentence: Periods imports both modules and uses Laplace’s method to bound a ball volume in terms of the norm
-      of an integral of the product of coefficients.
+    - module: New.Appendix.DiscreteSeries.Localization
+      line: 517
+      endLine: 523
+    - module: New.Appendix.DiscreteSeries.Localization
+      line: 664
+      endLine: 670
+  - sentence: "`Periods` imports `GaussianShape` and `Localization` and uses Laplace’s method to bound a ball’s volume by a power of the size parameter times the norm of the integral of the first coefficient multiplied by the conjugate of the second and the factor `exp(-φ)`."
     citations:
     - module: New.Appendix.DiscreteSeries.Periods
       line: 1
       endLine: 11
+    - module: New.Appendix.DiscreteSeries.Periods
+      line: 32
+      endLine: 33
+    - module: New.Appendix.DiscreteSeries.Periods
+      line: 490
+      endLine: 502
   declarations: []
   routeToMain: []
   outsideReadings: []

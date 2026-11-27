@@ -3,21 +3,23 @@ overview:
   group: Lib.PadicComparison
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: Begin with `Lib.PadicComparison.Primitive.ComparisonTheorem`, which
-      compares mod-p cohomology after tensoring with the tilt of the p-adic integers
-      to cohomology on p-adic tests with tilted coefficients for proper, charted schemes.
+  - sentence: "For proper schemes charted over Ω, `Lib.PadicComparison.Primitive.ComparisonTheorem` compares mod-p cohomology tensored with the tilt of O_C, the ring of integers of ℂₚ, with the cohomology of their points on p-adic tests with tilted coefficients."
     citations:
     - module: Lib.PadicComparison.Primitive.ComparisonTheorem
       line: 4
       endLine: 10
-  - sentence: For proper, charted schemes and the stated acyclicity hypothesis, it
-      gives finite mod-p cohomology and a bijective comparison map.
+    - module: Lib.PadicComparison.Primitive.ComparisonTheorem
+      line: 219
+      endLine: 229
+  - sentence: "Under the stated properness, charting, and acyclicity hypotheses, the geometric mod-p cohomology is finite in every degree. The comparison map is bijective when the base also maps compatibly to O_C."
     citations:
     - module: Lib.PadicComparison.Primitive.ComparisonTheorem
-      line: 14
-      endLine: 16
+      line: 219
+      endLine: 244
   - sentence: "`Lib.PadicComparison.Crystalline.ComparisonMap` studies another comparison,
       involving a divided-power reduction and period coefficients."
     citations:
@@ -216,7 +218,9 @@ files:
     group: Lib.PadicComparison
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
     draft:
     - sentence: This file studies a crystalline comparison between cohomology on divided-power
         reductions with period coefficients and cohomology on p-adic tests.
@@ -237,12 +241,14 @@ files:
       - module: Lib.PadicComparison.Crystalline.ComparisonMap
         line: 30
         endLine: 37
-    - sentence: Under further hypotheses on the base and a charting, pulled-back classes
-        span the period cohomology when that cohomology is finite.
+    - sentence: "For a complete discrete valuation ring with uniformiser p, the stated reduction isomorphism, and a charting V, classes pulled back from divided-power reductions over that ring span the period cohomology of V in each degree if it is finitely generated over `Bmax` in every degree."
       citations:
       - module: Lib.PadicComparison.Crystalline.ComparisonMap
         line: 13
         endLine: 19
+      - module: Lib.PadicComparison.Crystalline.ComparisonMap
+        line: 1180
+        endLine: 1198
     mechanical: true
     declarations:
     - module: Lib.PadicComparison.Crystalline.ComparisonMap

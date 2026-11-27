@@ -3,28 +3,39 @@ overview:
   group: Lib.ClassField
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "Global.ArtinMap studies local and global Artin maps into the abelianized absolute Galois group of a number field."
     citations:
     - module: Lib.ClassField.Global.ArtinMap
       line: 4
       endLine: 10
-  - sentence: "Its results describe the global symbol as a product of local symbols, establish continuity, and relate Artin maps across an extension through the norm."
+  - sentence: "Under any continuous ℚ/ℤ-valued Galois character written multiplicatively, the value of the Artin symbol of a finite idele is the product of the values of its local symbols. The global Artin map is continuous and compatible with norms along extensions."
     citations:
     - module: Lib.ClassField.Global.ArtinMap
-      line: 17
-      endLine: 20
+      line: 6
+      endLine: 9
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 215
+      endLine: 221
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 246
+      endLine: 247
+    - module: Lib.ClassField.Global.ArtinMap
+      line: 263
+      endLine: 272
   - sentence: "Global.ArtinReciprocity addresses reciprocity on finite ideles and presents results from class field theory and local duality."
     citations:
     - module: Lib.ClassField.Global.ArtinReciprocity
       line: 5
       endLine: 12
-  - sentence: "For a totally complex field, its factorization result takes a continuous homomorphism on finite ideles that is trivial on field units and factors it continuously through the Artin map."
+  - sentence: "For a totally complex number field, `New.exists_comp_artinMap` in `Global.ExistenceTheorem` gives a continuous factorization through the Artin map for any continuous homomorphism from the finite ideles to a T₁ group that is trivial on Kˣ."
     citations:
-    - module: Lib.ClassField.Global.ArtinReciprocity
-      line: 20
-      endLine: 21
+    - module: Lib.ClassField.Global.ExistenceTheorem
+      line: 879
+      endLine: 885
   declarations: []
   routeToMain: []
   outsideReadings: []

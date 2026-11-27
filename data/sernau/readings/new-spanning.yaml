@@ -587,7 +587,9 @@ files:
     group: New.Spanning
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
     draft:
     - sentence: This file studies the Gram matrix of a fixed frame and its translate in a real unitary group, over an
         open set of invertible matrices.
@@ -4207,7 +4209,9 @@ files:
     group: New.Spanning
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
     draft:
     - sentence: For admissible filling data, this file considers a measurable domain of representatives modulo the level,
         with each coordinate bounded in modulus.

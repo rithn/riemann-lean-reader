@@ -3,7 +3,9 @@ overview:
   group: Lib.PadicHodge
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: Start with `Lib.PadicHodge.Crystalline.Basic` for the definitions of
       crystalline and potentially crystalline representations in terms of fixed vectors
@@ -15,12 +17,14 @@ overview:
     - module: Lib.PadicHodge.Crystalline.Basic
       line: 19
       endLine: 22
-  - sentence: The file also introduces Hodge–Tate maps and the multiset of their weights,
-      together with linear Frobenius operators and polynomials that annihilate them.
+  - sentence: "The file defines Hodge–Tate maps and the multiplicity of each weight, specifies when a multiset records those multiplicities, and defines linear Frobenius and a polynomial annihilation condition for potentially crystalline representations."
     citations:
     - module: Lib.PadicHodge.Crystalline.Basic
-      line: 23
-      endLine: 27
+      line: 193
+      endLine: 226
+    - module: Lib.PadicHodge.Crystalline.Basic
+      line: 252
+      endLine: 259
   - sentence: "`Lib.PadicHodge.Crystalline.Regularity` proves regularity of the period
       ring and closure properties for crystalline and potentially crystalline representations."
     citations:

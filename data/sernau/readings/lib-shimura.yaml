@@ -3,7 +3,9 @@ overview:
   group: Lib.Shimura
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "`Lib.Shimura.ComplexTheta.DimensionFormula` is an entry point for theta
       functions on complex tori with positive Appell–Humbert data."

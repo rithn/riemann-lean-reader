@@ -3,15 +3,18 @@ overview:
   group: Lib.General
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: This group contains general-purpose results in several areas; `Lib.General.Analysis.FiniteFourier`
-      develops finite Fourier analysis on matrices over a finite commutative ring
-      with a primitive additive character.
+  - sentence: "`Lib.General` includes finite Fourier analysis on matrices over a finite commutative ring with a primitive additive character, as well as linear algebra results on basis extensions and Gram determinants."
     citations:
     - module: Lib.General.Analysis.FiniteFourier
       line: 3
       endLine: 7
+    - module: Lib.General.LinearAlgebra.GramDeterminant
+      line: 3
+      endLine: 15
   - sentence: It includes orthogonality for nonzero linear forms, an unnormalised
       matrix Fourier transform and its inversion formula, and an expansion of functions
       in characters.

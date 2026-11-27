@@ -3,7 +3,9 @@ overview:
   group: Lib.Cohomology
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "Etale.Basic models cohomology of a space represented by a functor using Ext groups in a category of abelian-group-valued functors."
     citations:
@@ -23,11 +25,14 @@ overview:
     - module: Lib.Cohomology.Hodge.CupProduct
       line: 4
       endLine: 14
-  - sentence: "Its external product is natural both in the spaces and in comparisons of sites, relating the cohomology constructions across those settings."
+  - sentence: "Under the flatness hypotheses, the external product is natural in both space arguments. Pullback along a site comparison commutes with the product when the comparison respects coefficient multiplication."
     citations:
     - module: Lib.Cohomology.Hodge.CupProduct
-      line: 15
-      endLine: 17
+      line: 451
+      endLine: 464
+    - module: Lib.Cohomology.Hodge.CupProduct
+      line: 528
+      endLine: 541
   declarations: []
   routeToMain: []
   outsideReadings: []

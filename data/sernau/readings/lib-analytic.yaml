@@ -3,18 +3,26 @@ overview:
   group: Lib.Analytic
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "DirichletTheta studies a Gaussian-weighted theta series and relates its Mellin transform to a Dirichlet series."
     citations:
     - module: Lib.Analytic.DirichletTheta
       line: 4
       endLine: 8
-  - sentence: "For a nonprincipal character of the appropriate parity, Poisson summation gives the formula in the right half-plane; for a primitive character it also gives a transformation formula in absolute value."
+  - sentence: "For a nonprincipal character of matching parity, a Poisson summation bound near zero and analytic continuation give the Mellin formula for its L-function on Re s > 0. If the character is also primitive, the absolute value of its theta series is invariant under t ↦ 1/(qt) for t > 0, where q is its conductor."
     citations:
     - module: Lib.Analytic.DirichletTheta
-      line: 8
-      endLine: 11
+      line: 395
+      endLine: 401
+    - module: Lib.Analytic.DirichletTheta
+      line: 417
+      endLine: 437
+    - module: Lib.Analytic.DirichletTheta
+      line: 442
+      endLine: 474
   - sentence: "EntireLFunction treats quadratic twists, a meromorphic continuation condition for transforms of error terms, and logarithmic derivatives of Dirichlet L-functions."
     citations:
     - module: Lib.Analytic.EntireLFunction

@@ -3,7 +3,9 @@ overview:
   group: Lib.Cyclotomic
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "Stickelberger studies Gauss sums over prime fields and builds a family of Jacobi-type quotients with Galois and distribution relations."
     citations:
@@ -26,11 +28,14 @@ overview:
     - module: Lib.Cyclotomic.OddSha
       line: 40
       endLine: 49
-  - sentence: "Its model of the odd part of the relevant Tate–Shafarevich group comes with a uniform length bound; the file states that no comparison with the actual group is proved."
+  - sentence: "For the odd cocycle model over a CM subfield of ℚ(μ_N) and a fixed twist cutoff, one positive integer X gives a length bound v_O(X) across primes and admissible coefficient rings. The file leaves the comparison with the Tate–Shafarevich group open."
     citations:
     - module: Lib.Cyclotomic.OddSha
       line: 14
       endLine: 22
+    - module: Lib.Cyclotomic.OddSha
+      line: 645
+      endLine: 651
   declarations: []
   routeToMain: []
   outsideReadings: []

@@ -3,7 +3,9 @@ overview:
   group: Lib.GLn
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "SchurModule.Basic sets up a polynomial model for representations of products of general linear groups over a commutative ring."
     citations:

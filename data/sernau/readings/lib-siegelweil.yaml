@@ -3,15 +3,21 @@ overview:
   group: Lib.SiegelWeil
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: Begin with `Lib.SiegelWeil.Formula.WeilRange`, which develops reduction
-      theory for a split hermitian space and proves the Siegel–Weil formula when the
-      other space has rank greater than twice the number of hyperbolic planes.
+  - sentence: "`Lib.SiegelWeil.Formula.WeilRange` develops reduction theory for a hermitian space split into p hyperbolic planes and proves the formula for the specified unimodular pair over a CM field with `WeilData` when the other space has rank greater than 2p."
     citations:
     - module: Lib.SiegelWeil.Formula.WeilRange
       line: 5
       endLine: 12
+    - module: Lib.SiegelWeil.Formula.WeilRange
+      line: 44
+      endLine: 47
+    - module: Lib.SiegelWeil.Formula.WeilRange
+      line: 745
+      endLine: 764
   - sentence: Its Siegel sets and summable bounds on zero terms enter the proof, whose
       formula expresses a theta mean as a sum of zero terms.
     citations:
@@ -24,12 +30,14 @@ overview:
     - module: Lib.SiegelWeil.Tower.ConstantTerm
       line: 7
       endLine: 10
-  - sentence: Under vanishing and integrability hypotheses, it unfolds the sum over
-      isotropic lines into an integral in Iwasawa coordinates.
+  - sentence: "When the zero-vector term vanishes and the Iwasawa integrand is integrable, the integral of the constant-term sum, grouped by isotropic lines, equals a nonzero constant times an integral in Iwasawa coordinates."
     citations:
     - module: Lib.SiegelWeil.Tower.ConstantTerm
       line: 20
       endLine: 22
+    - module: Lib.SiegelWeil.Tower.ConstantTerm
+      line: 664
+      endLine: 684
   declarations: []
   routeToMain:
   - module: Lib.SiegelWeil.Formula.LagrangianZeroTerms

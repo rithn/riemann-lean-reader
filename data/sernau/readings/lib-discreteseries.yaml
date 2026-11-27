@@ -3,7 +3,9 @@ overview:
   group: Lib.DiscreteSeries
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
   - sentence: "Haar.CayleyChart constructs a Haar measure on a unitary group using a Cayley chart and real coordinates on skew-hermitian matrices."
     citations:
@@ -2026,7 +2028,9 @@ files:
     group: Lib.DiscreteSeries
     revision: 72fead102f663d5c7a407964a13dc0cf9d977207
     origin: explorer-draft
-    review: pending
+    review: passed
+    reviewed: 2026-11-27
+    reviewer: "independent Codex review against pinned source"
     draft:
     - sentence: "For a hermitian matrix, the Gram map takes the columns of a complex matrix to their matrix of pairings; the file uses Lebesgue measures on the input and on hermitian coordinates."
       citations:
@@ -2038,11 +2042,14 @@ files:
       - module: Lib.DiscreteSeries.Haar.GramCoordinates
         line: 10
         endLine: 11
-    - sentence: "Real coordinates describe hermitian matrices and the Gram map, while a decomposition into skew-hermitian and hermitian parts gives a measure factor of two to the negative matrix size."
+    - sentence: "The file gives real coordinates for hermitian matrices and expresses the Gram map in them. For complex n × n matrices written as Z = S + T/2 with skew-hermitian S and hermitian T, the Lebesgue measure is 2⁻ⁿ times the product of the coordinate measures."
       citations:
       - module: Lib.DiscreteSeries.Haar.GramCoordinates
         line: 12
         endLine: 15
+      - module: Lib.DiscreteSeries.Haar.GramCoordinates
+        line: 374
+        endLine: 379
     - sentence: "The file also gives measure-preserving coordinates for splitting a hermitian matrix into blocks or separating a corner."
       citations:
       - module: Lib.DiscreteSeries.Haar.GramCoordinates

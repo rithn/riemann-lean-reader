@@ -3,20 +3,29 @@ overview:
   group: New.UpperBound
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: ElementaryDivisors.ElementaryDivisorTheorem bounds the mean exponent of elementary divisors of an
-      edge Hecke operator outside a small proportion, under size conditions.
+  - sentence: "Under the large-degree conditions, `ElementaryDivisorTheorem` bounds the colength of `Y L + p^m L` in `L` for the induced edge Hecke action `Y`, with a corresponding quotient-length bound over a discrete valuation ring."
     citations:
     - module: New.UpperBound.ElementaryDivisors.ElementaryDivisorTheorem
-      line: 7
-      endLine: 13
-  - sentence: Divisibility.LocalDivisibility bounds the gauge of a composite lift prime by prime, using a chain
-      expansion away from one prime and elementary-divisor bounds at exceptional primes.
+      line: 1158
+      endLine: 1174
+    - module: New.UpperBound.ElementaryDivisors.ElementaryDivisorTheorem
+      line: 1216
+      endLine: 1240
+  - sentence: "`Divisibility.LocalDivisibility` bounds the composite-lift gauge at each prime for ramified source forms in a submodule of controlled colength and twists of level prime to that prime. It uses the chain expansion away from `N` and elementary-divisor estimates at exceptional primes."
     citations:
     - module: New.UpperBound.Divisibility.LocalDivisibility
       line: 8
       endLine: 14
+    - module: New.UpperBound.Divisibility.LocalDivisibility
+      line: 37
+      endLine: 45
+    - module: New.UpperBound.Divisibility.LocalDivisibility
+      line: 402
+      endLine: 417
   - sentence: Size.Estimates supplies numerical bounds used for heights and indices, including bounds for class
       counts and the weighted sum of allowed losses.
     citations:

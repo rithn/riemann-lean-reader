@@ -3,26 +3,38 @@ overview:
   group: New.Main
   revision: 72fead102f663d5c7a407964a13dc0cf9d977207
   origin: explorer-draft
-  review: pending
+  review: passed
+  reviewed: 2026-11-27
+  reviewer: "independent Codex review against pinned source"
   draft:
-  - sentence: This group contains the single module New.Main, which imports New.Reduction.OneSidedBound and carries
-      out the final passage from half-plane nonvanishing to zeros on the critical line.
+  - sentence: "`New.Main` imports `New.Reduction.OneSidedBound` and proves that the critical-line statements follow from right-half-plane nonvanishing. The top-level `Main` applies these deductions to `New.grh`."
     citations:
     - module: New.Main
       line: 1
-      endLine: 8
+      endLine: 16
+    - module: New.Main
+      line: 21
+      endLine: 28
+    - module: New.Main
+      line: 44
+      endLine: 47
+    - module: Main
+      line: 2
+      endLine: 5
+    - module: Main
+      line: 15
+      endLine: 17
   - sentence: Its first deduction assumes nonvanishing to the right of one half, with the stated exception at the
       pole, and places Dirichlet L-function zeros in the open critical strip on the line.
     citations:
     - module: New.Main
       line: 25
       endLine: 28
-  - sentence: The argument reflects a zero across the line using the functional equation, then applies nonvanishing
-      to both the original and reflected zeros.
+  - sentence: "The functional equation sends a zero at `s` for `χ` to a zero at `1 − s` for `χ⁻¹`. The nonvanishing hypothesis gives real part at most `1/2` for both zeros."
     citations:
     - module: New.Main
       line: 30
-      endLine: 43
+      endLine: 42
   - sentence: The second deduction gives the corresponding statement for zeta zeros outside the listed negative
       even integers and 1.
     citations:
