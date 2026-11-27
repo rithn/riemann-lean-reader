@@ -175,13 +175,15 @@ def group_content(group, data, share_slot, resources, reading):
         "Lib": "The upstream project puts background and supporting material under Lib.",
     }.get(folder, "One of the readable project’s two entry modules.")
     overview = reading_section("Group overview", reading) + "\n" if reading else ""
-    reading_note = reading_parts(reading)[0] if reading else ""
+    note = reading_parts(reading)[0] if reading else ""
+    note_text = re.sub(r'^<p class="provenance">◇ |</p>$|</?strong>', "", note)
+    note_text = re.sub(r"^((?:<[^>]+>)*)([A-Z])", lambda m: m.group(1) + m.group(2).lower(), note_text)
+    merged_note = f'<p class="provenance">◇ {provenance(group)}' + (f" · {note_text}" if note_text else "") + "</p>"
     return f"""
 {breadcrumbs([('Sernau readable', MAP), ('Source group', '')])}
 <section class="sr-subhero">
   <h1>{esc(group["label"])}</h1>
-  <p class="provenance">◇ {provenance(group)}</p>
-  {reading_note}
+  {merged_note}
   <p><code>{esc(group["id"])}</code></p>
   <p>{scope}</p>
   <p class="sr-actions">{link(MAP + "?group=" + quote(group["slug"]), "Locate on the map →", ' class="sr-primary"')}</p>
@@ -213,7 +215,7 @@ def group_content(group, data, share_slot, resources, reading):
 def reading_parts(record):
     html = record.get("html", "")
     match = re.match(r'<p>(<strong>Written by AI, checked against the code</strong>|<strong>Draft, under review</strong>|<a [^>]+>Upstream documentation written by Claude</a>)</p>\s*', html)
-    return (f'<p class="provenance">◇ {match.group(1)}</p>', html[match.end():]) if match else ('', html)
+    return (f'<p class="provenance">◇ {re.sub(r"</?strong>", "", match.group(1))}</p>', html[match.end():]) if match else ('', html)
 
 
 def reading_section(title, record):

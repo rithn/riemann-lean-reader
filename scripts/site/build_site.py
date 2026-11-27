@@ -1772,6 +1772,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         scripts=scripts,
     )
     if path == '/404.html':
+        t = re.sub(r'<a id="close"[^>]*>.*?</a>', '', t, flags=re.S)
         t = re.sub(r'<script\b(?![^>]*type="application/ld\+json")[^>]*>.*?</script>', '', t, flags=re.S)
     nk = NAV_KEY(path)
     if nk:
@@ -3124,7 +3125,7 @@ page(ALPOGE_MAP, 'Alpöge original · Lean proof of the Riemann hypothesis', ORI
      img=(SITE + '/og.png?v=2', 'Map of the original Lean proof of the Riemann hypothesis'))
 page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, 'page',
      '<h1>Page not found</h1><p class="lede">We couldn’t find that page.</p>'
-     '<form action="/list/"><label>Search the proof <input type="search" name="q"></label> <button type="submit">Search</button></form>'
+     '<form class="notfound-search" action="/list/"><label>Search the proof <input type="search" name="q"></label> <button type="submit" class="btn">Search</button></form>'
      '<p><a href="/">Home</a> · <a href="/status/">Status</a> · <a href="/guides/">Guides</a> · <a href="/learn/">Learn</a></p>')
 page(ROUTES['alpoge']['reader'], 'Lean source and concepts · Alpöge original',
      'Read Lean source files, follow declaration links, and explore the concepts behind the original Lean proof of the Riemann hypothesis.',
