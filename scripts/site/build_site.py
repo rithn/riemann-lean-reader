@@ -10,7 +10,7 @@ No Lean source text is copied: files appear by module name and path only.
 import os, re, sys, json, glob, shutil, datetime, collections
 import yaml, networkx as nx
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
@@ -1626,6 +1626,13 @@ def head(path, title, desc, lds, md=True, img=None):
             f'<meta name="twitter:image" content="{H(img)}">\n')
 SHARE_RE = re.compile(r'<p class="sharebar" data-share-slot></p>| <span class="report">.*?</span>')
 SHARE_SLOT = '<p class="sharebar" data-share-slot></p>'
+NEWSLETTER_URL = 'https://replace-with-your-substack.invalid'
+if (urlsplit(NEWSLETTER_URL).hostname or '').endswith('.invalid'):
+    print('WARNING: NEWSLETTER_URL is a placeholder. Omitting signup from /status/ and /changelog/.', file=sys.stderr)
+    NEWSLETTER_HTML = ''
+else:
+    NEWSLETTER_HTML = ('<p>Get an email when the status changes '
+                       f'<a class="btn" href="{H(NEWSLETTER_URL)}" target="_blank" rel="noopener">Subscribe on Substack</a></p>')
 def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
     m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
@@ -1774,12 +1781,13 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None,
     # Use the existing content revision date for the byline, sitemap and Article.
     if path in BYLINED_PAGES:
         author = H(EDITOR['name'])
+        display_date = datetime.date.fromisoformat(date).strftime('%-d %b %Y')
         byline = (f'<p class="meta article-byline">By <a href="{AUTHOR_PATH}">{author}</a> · '
-                  f'Updated <time datetime="{date}">{date}</time></p>')
+                  f'Updated <time datetime="{date}">{display_date}</time></p>')
         body = body.replace('</h1>', '</h1>' + byline, 1)
         if md is not None:
             heading, _, content = md.partition('\n\n')
-            md = f'{heading}\n\nBy [{EDITOR["name"]}]({AUTHOR_ID}) · Updated {date}\n\n{content}'
+            md = f'{heading}\n\nBy [{EDITOR["name"]}]({AUTHOR_ID}) · Updated {display_date}\n\n{content}'
     if path in BYLINED_PAGES or path == '/about/':
         lds = [*lds, EDITOR]
     has_md = not is404 and (not noindex or md is not None)
@@ -2622,6 +2630,10 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
     lv = level_split(t)
     html_body = levels_html(*lv) if lv else figures_html(md_html(t), 'main')
     html_body = re.sub(r'^<p><em>', '<p class="meta asof"><em>', html_body, count=1)
+    if path == '/status/':
+        assert html_body.count('<p>{{newsletter}}</p>\n') == 1
+        html_body = html_body.replace('<p>{{newsletter}}</p>\n', NEWSLETTER_HTML + '\n' if NEWSLETTER_HTML else '')
+        t = t.replace('{{newsletter}}\n\n', to_md(NEWSLETTER_HTML) + '\n' if NEWSLETTER_HTML else '')
     if path == '/core/' and FL:   # #10: after each core cluster's "Cluster page" link, a link to its /lean/ page (HTML and Markdown)
         for k in FL:
             a_ = f'<a href="{CPATH[k]}">Cluster page</a>'
@@ -2967,6 +2979,7 @@ def change_html(e):
 clog = (breadcrumbs([('Home', '/'), ('Changelog', '')]) + '<div class="eyebrow">Changelog</div>'
         '<h1>What changed on this site</h1><p class="lede">Dated changes to the map, its pages and the proof status it reports. '
         'Follow along with the <a href="/changelog/feed.xml">RSS feed</a> or <a href="' + X_SITE + '">@RiemannMap on X</a>.</p>'
+        + NEWSLETTER_HTML
         + ''.join(f'<h2 id="{e["anchor"]}">{H(e["title"])} <small>{datetime.date.fromisoformat(str(e["date"])).strftime("%-d %b %Y")}</small></h2>'
                   + change_html(e) for e in CHANGES))
 page('/changelog/', 'Changelog · RH Lean Explorer', 'Dated changes to the map of the Lean proof of the Riemann hypothesis: '
