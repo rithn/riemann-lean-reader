@@ -10,21 +10,21 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "27 Nov 2026"
+as_of: "28 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 November 2026. On 21 November the Lean FRO and the Mathlib Initiative certified that its statement and proof are correct, and independent checks since then have passed. [No refereed paper has been announced yet](#publication-and-the-clay-prize). On 25 November Luke Sernau released [two shorter rewrites](/shorter-riemann-hypothesis-proof/), readable and compact, which have also [passed independent checks](#shorter-editions).** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
-*Last updated 27 November 2026.*
+*Last updated 28 November 2026.*
 
 ## What changed
 
 - **27 November 2026.** Sutherland reported that paranoid Comparator accepted a Lean equivalence between RH and Schoenfeld’s explicit bound, and the bound derived using the compact edition. The checks finished on 26 November. [MIT report](https://math.mit.edu/~drew/shortgrh/#schoenfeld) · [Dated details](/timeline/#nov-26)
 
 - **26 November 2026.** Andrew Sutherland reported full paranoid Comparator passes for both of Luke Sernau’s shorter editions. [MIT results](https://math.mit.edu/~drew/shortgrh/) · [Shorter-edition checks](#shorter-editions)
-- **26 November 2026.** Michael Rubinstein’s Waterloo team reported a paranoid Comparator pass for the compact edition. Sho Sonoda reported standard Comparator passes for both editions. [Additional verification reports](#additional-shorter-checks)
+- **26 November 2026.** Michael Rubinstein’s Waterloo team reported a paranoid Comparator pass for the compact edition. Sho Sonoda reported standard Comparator passes for both editions. [Shorter-edition checks](#shorter-editions)
 - **25 November 2026.** Sutherland’s Comparator run on the original proof export passed the statement, axiom and kernel checks. [MIT verification log](https://math.mit.edu/~drew/grh/)
 
 See the [timeline](/timeline/) for the full dated record or [follow updates via RSS](/changelog/feed.xml).
@@ -48,7 +48,27 @@ See the [timeline](/timeline/) for the full dated record or [follow updates via 
 
 ## What was verified
 
-These checks cover the original 20 November release.
+Independent checkers have verified both the original 20 November release and Luke Sernau’s two shorter editions of 25 November.
+
+### Shorter editions (Sernau, 25 November) {#shorter-editions}
+
+The readable (`grh/`, 803 modules) and compact (`grh-compact/`, 794 modules) editions prove the same five theorems as the original, on Lean v4.35.0 and Mathlib commit `56a00585`. Every check below used the pinned commit `72fead10`. [Release and five-statement comparison](/shorter-riemann-hypothesis-proof/) · [Pinned source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207)
+
+| Check | Who | Result |
+|---|---|---|
+| Full compile (Lean v4.35.0, Mathlib `56a00585`) | Andrew Sutherland (MIT), sandboxed; Michael Rubinstein (Waterloo), compact only; Sho Sonoda | Both editions compile with no errors |
+| Kernel replay of every module (`leanchecker`) | Sutherland; Rubinstein, compact only | Readable 803 of 803, compact 794 of 794 accepted |
+| Axioms used | Sutherland | Only `propext`, `Classical.choice`, `Quot.sound`, in both editions |
+| Exports made on two machines, compared | Sutherland | Byte-identical, both editions |
+| Statement comparison (`--compare`), con-leche and con-ron | Sutherland | All five theorems accepted, both editions |
+| nanoda, con-leche and con-ron on the full export | Sutherland | All accept, both editions |
+| Sandboxed `lake comparator --paranoid` | Sutherland | “Your solution is okay!” for both editions on 26 November. Compact passed on two machines. Readable passed on one; on the other, the operator stopped lean4lean at a memory threshold, so that run has no verdict. |
+| `lake comparator --paranoid`, sandbox disabled | Rubinstein, compact only | Passed, 26 November, 05:34 UTC |
+| Standard Comparator v4.35.0 | Sonoda | Lean’s default kernel and nanoda accept both editions |
+
+Sutherland and Rubinstein ran their checks with Claude Code. Waterloo’s cluster blocks the sandbox, so its run lacks the sandbox guarantee that MIT’s has. The joint certification below concerns the original release. [Sutherland (MIT), updated 27 November at 17:27 UTC](https://math.mit.edu/~drew/shortgrh/) · [Rubinstein (Waterloo)](https://mrubinst.github.io/grh-lean-compact-check/) · [Sonoda](https://shosonoda.github.io/lean-rh-alpoge/grh.html#grh-comparator) · [Compact verification walkthrough](/how-we-know/#verify-compact)
+
+### Original release (20 November) {#original-checks}
 
 | Check | Who | Result |
 |---|---|---|
@@ -65,23 +85,6 @@ These checks cover the original 20 November release.
 | Axioms used | Sutherland | Only `propext`, `Classical.choice`, `Quot.sound` |
 
 Sutherland’s log was last updated on 25 November 2026 at 22:05 UTC. Sutherland and Rubinstein ran their checks with Claude Code. Elliot Arledge and Bartosz Naskręcki published their own results. [Sutherland](https://math.mit.edu/~drew/grh/) · [Rubinstein](https://mrubinst.github.io/grh-lean-verification/) · [Arledge](https://github.com/Infatoshi/rh-verification-receipts) · [Naskręcki](https://nasqret.github.io/riemann-rev/) · [Timeline](/timeline/)
-
-## Independent checks of the shorter editions {#shorter-editions}
-
-Luke Sernau released the readable and compact rewrites on 25 November. Both use Lean v4.35.0 and Mathlib at commit `56a00585`, and prove the same five theorems as the original. Sutherland’s independent checks used pinned commit `72fead10`. [Release and five-statement comparison](/shorter-riemann-hypothesis-proof/) · [Pinned source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207)
-
-| Check | Readable (`grh/`) | Compact (`grh-compact/`) |
-|---|---|---|
-| Sandboxed build and module replay | Passed, 803 of 803 modules replayed | Passed, 794 of 794 modules replayed |
-| Axiom audit and statement matching | Each theorem uses only `propext`, `Classical.choice` and `Quot.sound`. Con-leche and con-ron each matched all five statements to the challenge. | Same three axioms and all five matches in both checkers. |
-| Full sandboxed `lake comparator --paranoid` on 26 November | Passed on machine B at 02:47:54 UTC. On machine A, the operator stopped lean4lean at a memory threshold. That run has no verdict. | Passed on machine B at 00:49:14 UTC and on machine A at 01:39:22 UTC. |
-
-On both editions the proof exports were reproduced byte for byte across the two machines and accepted by nanoda, con-leche and con-ron. These results are Sutherland’s independent checks. The joint certification below concerns the original 20 November release. [MIT results, updated 27 November at 14:04 UTC](https://math.mit.edu/~drew/shortgrh/) · [Compact verification walkthrough](/how-we-know/#verify-compact)
-
-### Additional verification reports {#additional-shorter-checks}
-
-- **Waterloo · 26 November, 05:34 UTC.** Michael Rubinstein’s Waterloo team reports compiling and replaying all 794 compact-edition modules at `72fead10` and completing paranoid Comparator on 26 November at 05:34 UTC. Its cluster run disabled the sandbox. MIT’s separate run used a sandbox. [Waterloo report](https://mrubinst.github.io/grh-lean-compact-check/)
-- **Sho Sonoda · 26 November.** Sonoda reports building both editions at `72fead10` (803 readable modules and 794 compact modules) and running standard Comparator v4.35.0. Lean’s default kernel and nanoda accepted both. His report describes the sandbox setup and a seccomp wrapper. [Report and run details](https://shosonoda.github.io/lean-rh-alpoge/grh.html#grh-comparator)
 
 ## What was certified, and by whom
 
@@ -152,6 +155,7 @@ riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropi
 
 ## Changelog
 
+- **28 Nov 2026.** Put the shorter editions’ checks first under “What was verified”, in one Check, Who, Result table covering MIT, Waterloo and Sonoda.
 - **27 Nov 2026.** Added Sutherland’s checked Schoenfeld bound and equivalence to the latest developments.
 
 - **27 Nov 2026.** Moved the current answer, including Sernau's shorter editions, and the latest checks to the top; added links to the evidence pages.

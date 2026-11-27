@@ -55,6 +55,6 @@ For a reading order that continues from these declarations into the main estimat
 
 ## What did independent checks confirm? {#verification}
 
-Waterloo reports a paranoid Comparator pass for the compact edition with the sandbox disabled. Sho Sonoda reports standard Comparator passes for both editions. Both reports use the pinned revision `72fead10`. [Run details by edition and verifier](/status/#additional-shorter-checks)
+Waterloo reports a paranoid Comparator pass for the compact edition with the sandbox disabled. Sho Sonoda reports standard Comparator passes for both editions. Both reports use the pinned revision `72fead10`. [Run details by edition and verifier](/status/#shorter-editions)
 
 On Lean v4.35.0, Sutherland’s sandboxed checks built both shorter projects, matched all five statements against the challenge, found only Lean’s three standard axioms and replayed the checked proofs with several kernels. The full paranoid Comparator run passed for the compact edition on two machines and for the readable edition on the larger machine. The other readable run was stopped at a memory threshold and has no verdict. The original archive has its own independent verification record and a 21 November joint certification covering classical RH. [MIT shorter-edition results](https://math.mit.edu/~drew/shortgrh/) · [MIT original results](https://math.mit.edu/~drew/grh/) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/) · [Dated results](/status/#shorter-editions)
