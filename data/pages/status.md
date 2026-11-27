@@ -10,16 +10,18 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "26 Nov 2026"
+as_of: "27 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 November 2026. On 21 November the Lean FRO and the Mathlib Initiative certified that its statement and proof are correct, and independent checks since then have passed. [No refereed paper has been announced yet](#publication-and-the-clay-prize). On 25 November Luke Sernau released [two shorter rewrites](/shorter-riemann-hypothesis-proof/), readable and compact, which have also [passed independent checks](#shorter-editions).** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
-*Last updated 26 November 2026.*
+*Last updated 27 November 2026.*
 
 ## What changed
+
+- **27 November 2026.** Sutherland reported that paranoid Comparator accepted a Lean equivalence between RH and Schoenfeld’s explicit bound, and the bound derived using the compact edition. The checks finished on 26 November. [MIT report](https://math.mit.edu/~drew/shortgrh/#schoenfeld) · [Dated details](/timeline/#nov-26)
 
 - **26 November 2026.** Andrew Sutherland reported full paranoid Comparator passes for both of Luke Sernau’s shorter editions. [MIT results](https://math.mit.edu/~drew/shortgrh/) · [Shorter-edition checks](#shorter-editions)
 - **26 November 2026.** Michael Rubinstein’s Waterloo team reported a paranoid Comparator pass for the compact edition. Sho Sonoda reported standard Comparator passes for both editions. [Additional verification reports](#additional-shorter-checks)
@@ -74,7 +76,7 @@ Luke Sernau released the readable and compact rewrites on 25 November. Both use 
 | Axiom audit and statement matching | Each theorem uses only `propext`, `Classical.choice` and `Quot.sound`. Con-leche and con-ron each matched all five statements to the challenge. | Same three axioms and all five matches in both checkers. |
 | Full sandboxed `lake comparator --paranoid` on 26 November | Passed on machine B at 02:47:54 UTC. On machine A, the operator stopped lean4lean at a memory threshold. That run has no verdict. | Passed on machine B at 00:49:14 UTC and on machine A at 01:39:22 UTC. |
 
-On both editions the proof exports were reproduced byte for byte across the two machines and accepted by nanoda, con-leche and con-ron. These results are Sutherland’s independent checks. The joint certification below concerns the original 20 November release. [MIT results, updated 26 November at 02:50 UTC](https://math.mit.edu/~drew/shortgrh/) · [Compact verification walkthrough](/how-we-know/#verify-compact)
+On both editions the proof exports were reproduced byte for byte across the two machines and accepted by nanoda, con-leche and con-ron. These results are Sutherland’s independent checks. The joint certification below concerns the original 20 November release. [MIT results, updated 27 November at 14:04 UTC](https://math.mit.edu/~drew/shortgrh/) · [Compact verification walkthrough](/how-we-know/#verify-compact)
 
 ### Additional verification reports {#additional-shorter-checks}
 
@@ -149,6 +151,8 @@ The proof is a library of 175,187 Lean files (175,027 on our map), grouped into 
 riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropic, the Lean FRO, the Lean and Mathlib communities, and the Mathlib Initiative.
 
 ## Changelog
+
+- **27 Nov 2026.** Added Sutherland’s checked Schoenfeld bound and equivalence to the latest developments.
 
 - **27 Nov 2026.** Moved the current answer, including Sernau's shorter editions, and the latest checks to the top; added links to the evidence pages.
 - **26 Nov 2026.** Recorded the completed v4.36.0 Comparator run on the original archive’s exports.
