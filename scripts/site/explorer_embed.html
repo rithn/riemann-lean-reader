@@ -7,12 +7,16 @@
 <meta name="description" content="@DESCRIPTION@">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="@CANONICAL@">
+@THEME_HEAD@
 @STYLES@
 @SHELL_SCRIPT@
 </head>
 <body @BODY_ATTRIBUTES@>
 <header class="topbar">
   <a id="embed-open" href="@OPEN_URL@" target="_blank" rel="noopener">Open in RH Lean Explorer</a>
+  <button type="button" class="theme-toggle" aria-label="Dark theme" title="Dark theme" aria-pressed="false" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8.9 8.9 0 0 1 8.8 4 8.9 8.9 0 1 0 20 15.2Z"/></svg>
+  </button>
   <span data-share-slot hidden></span>
 </header>
 @SHARE_MENU@

@@ -1368,6 +1368,15 @@ import html, hashlib, secrets, email.utils
 from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = (Path(HERE) / 'explorer_shell.html').read_text(encoding='utf-8')
+# Set the theme before the stylesheet can paint. CSS also follows the system without JavaScript.
+THEME_HEAD = """<script>
+(() => {
+  let theme;
+  try { theme = localStorage.getItem('rh-theme'); } catch {}
+  if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  document.documentElement.dataset.theme = theme;
+})();
+</script>"""
 SHARE_TPL = Path(HERE, "explorer_share.html").read_text(encoding="utf-8")
 EMBED_TPL = (Path(HERE) / 'explorer_embed.html').read_text(encoding='utf-8')
 FOOTER_TPL = (Path(HERE) / 'explorer_footer.html').read_text(encoding='utf-8')
@@ -1710,7 +1719,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
             open_url=H(embed_target + '?utm_source=embed&utm_medium=iframe'), styles=styles,
             shell_script=f'<script src="{SHELL_F}" defer></script>', body_attributes=body_attributes,
             map=viewport, filters=map_filters(sernau_data) if readable else '',
-            share_menu=share_menu, scripts=json_script('explorer-config', config),
+            theme_head=THEME_HEAD, share_menu=share_menu, scripts=json_script('explorer-config', config),
         )
     status_html = '<a class="status-chip ok" href="/status/">Verified · 21 Nov 2026</a>'
     switch = edition_switch(edition, view)
@@ -1756,7 +1765,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         body_attributes=body_attributes, shell_script=f'<script src="{SHELL_F}" defer></script>',
         skip_target='#pagebody' if overlay else list_url,
         skip_text='Skip to content' if overlay else 'Skip to the list view of the map',
-        map=viewport, share_menu=share_menu,
+        map=viewport, theme_head=THEME_HEAD, share_menu=share_menu,
         status_chip=status_html, panel_sheet='half' if view in ('list', 'cluster', 'theme') else 'peek',
         panel_attributes=' inert' if overlay else '', panel_heading=panel_heading,
         panel_content='' if overlay else body, panel_footer='' if overlay else footer, overlay_footer=footer if overlay else '',

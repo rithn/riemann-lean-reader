@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>@TITLE@</title>
 <meta name="description" content="@DESCRIPTION@">
-<meta name="theme-color" content="#070b1a">
 <!--head-->@HEAD@<!--/head-->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%23070b1a' stroke='%23f5c46b' stroke-width='3'/><text x='32' y='44' font-size='34' text-anchor='middle' fill='%23f5c46b' font-family='Georgia,serif' font-style='italic'>ζ</text></svg>">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+@THEME_HEAD@
 @STYLES@
 @SHELL_SCRIPT@
 </head>
@@ -36,6 +36,9 @@
     <div id="results" hidden></div>
   </div>
   @STATUS_CHIP@
+  <button type="button" class="theme-toggle" aria-label="Dark theme" title="Dark theme" aria-pressed="false" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8.9 8.9 0 0 1 8.8 4 8.9 8.9 0 1 0 20 15.2Z"/></svg>
+  </button>
   <span data-share-slot hidden></span>
 </header>
 
