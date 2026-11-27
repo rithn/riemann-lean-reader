@@ -1465,14 +1465,32 @@ def ld(obj):  # JSON-LD block; '</' escaped so text cannot close the script tag
     return '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', **obj}, ensure_ascii=False).replace('</', '<\\/') + '</script>\n'
 ORG_ID, SITE_ID = SITE + '/#org', SITE + '/#website'
 ORG = {'@type': 'Organization', '@id': ORG_ID, 'name': SITE_NAME, 'url': SITE + '/', 'logo': SITE + '/logo.png', 'sameAs': [X_SITE]}
+AUTHOR_PATH = '/about/#author'
+AUTHOR_PHOTO = '/about/soumya-sharma.webp'
+AUTHOR_ID = SITE + AUTHOR_PATH
+EDITOR = {
+    '@type': 'Person', '@id': AUTHOR_ID, 'name': 'Soumya Sharma', 'url': AUTHOR_ID,
+    'image': SITE + AUTHOR_PHOTO, 'jobTitle': 'Founder, Livo Assistant',
+    'alumniOf': [
+        {'@type': 'CollegeOrUniversity', 'name': 'IIT Delhi'},
+        {'@type': 'CollegeOrUniversity', 'name': 'IIM Ahmedabad'},
+    ],
+    'sameAs': ['https://x.com/SomTheBuilder', 'https://www.linkedin.com/in/rithn', 'https://github.com/rithn'],
+}
+BYLINED_PAGES = {
+    '/status/', '/timeline/', '/how-we-know/', '/faq/', '/proof-in-numbers/',
+    '/what-is-the-riemann-hypothesis/', '/why-it-matters/', '/learn/',
+    '/shorter-riemann-hypothesis-proof/', '/guides/', '/press/',
+}
 RH_THING = {'@type': 'Thing', 'name': 'Riemann hypothesis', 'sameAs': 'https://en.wikipedia.org/wiki/Riemann_hypothesis'}
 def crumbs_ld(*items):  # (name, path) pairs, home first
     return {'@type': 'BreadcrumbList', 'itemListElement': [
         {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': SITE + p} for i, (n, p) in enumerate(items)]}
 def article_ld(path, headline, desc, published):
+    author_id = AUTHOR_ID if path in BYLINED_PAGES else ORG_ID
     return {'@type': 'Article', '@id': SITE + path + '#article', 'headline': headline, 'description': desc,
             'url': SITE + path, 'mainEntityOfPage': SITE + path, 'inLanguage': 'en',
-            'datePublished': published + 'T00:00:00Z', 'dateModified': '{{UPDATED}}T00:00:00Z', 'author': {'@id': ORG_ID},
+            'datePublished': published + 'T00:00:00Z', 'dateModified': '{{UPDATED}}T00:00:00Z', 'author': {'@id': author_id},
             'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isPartOf': {'@id': SITE_ID}, 'image': SITE + '/og.png?v=2'}
 def faq_ld(pairs):
     """FAQPage for (question, answer) pairs; answers may hold simple HTML (links, lists).
@@ -1753,6 +1771,17 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None,
 
     date = lastmod(path, title, desc, SHARE_RE.sub('', body), mirror=md)
     body = body.replace('{{UPDATED}}', date)
+    # Use the existing content revision date for the byline, sitemap and Article.
+    if path in BYLINED_PAGES:
+        author = H(EDITOR['name'])
+        byline = (f'<p class="meta article-byline">By <a href="{AUTHOR_PATH}">{author}</a> · '
+                  f'Updated <time datetime="{date}">{date}</time></p>')
+        body = body.replace('</h1>', '</h1>' + byline, 1)
+        if md is not None:
+            heading, _, content = md.partition('\n\n')
+            md = f'{heading}\n\nBy [{EDITOR["name"]}]({AUTHOR_ID}) · Updated {date}\n\n{content}'
+    if path in BYLINED_PAGES or path == '/about/':
+        lds = [*lds, EDITOR]
     has_md = not is404 and (not noindex or md is not None)
     if canonical:
         page_head = (CLARITY_TAG + f'<meta name="robots" content="noindex">\n<link rel="canonical" href="{SITE}{canonical}">\n'
@@ -2568,7 +2597,7 @@ for item in GUIDE_CATALOGUE.get('hub_guides', []):
     guide_readings.append((g, item['reading']))
 
 KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {
-    '/', '/learn/', '/route/', '/list/', '/changelog/', '/changelog/feed.xml', '/api/',
+    '/', '/learn/', '/route/', '/list/', '/changelog/', '/changelog/feed.xml', '/api/', AUTHOR_PHOTO,
 }
 DRAFTS = [(f, *read_draft(f), crumb, eb, pr) for f, crumb, eb, pr in CONTENT]
 OLD_PATHS = {**TOLD, **COLD}   # a draft linking to a renamed cluster or theme gets its current address

@@ -55,9 +55,17 @@ Each kind of fact on this site has one source. Pages link their sources.
 - **News, dates and times.** Each item links to its source. Times are in UTC only where the source gives UTC.
 - **How facts were checked.** Each claim in the fact sheet behind the pages was read in its cited source on 22 Nov 2026, and the checks on [status](/status/) were read again on 23 Nov 2026. The pages were written from that fact sheet.
 
-## Who made it
+## Who made it {#author}
 
-Made by Soumya Sharma ([@SomTheBuilder](https://x.com/SomTheBuilder)). Soumya studied computer science at IIT Delhi and is a founder of Livo Assistant, which builds AI systems that check documents against their sources. Soumya is not a number theorist: the maths on this site comes from the proof and its cited sources, and corrections are welcome.
+![Soumya Sharma](/about/soumya-sharma.webp)
+
+**Soumya Sharma** built and edits RH Lean Explorer.
+
+Computer Science, IIT Delhi · MBA, IIM Ahmedabad · [Founder, Livo Assistant](https://livoassistant.com)
+
+[X](https://x.com/SomTheBuilder) · [LinkedIn](https://www.linkedin.com/in/rithn) · [GitHub](https://github.com/rithn)
+
+Soumya is not a number theorist: the maths on this site comes from the proof and its cited sources, and corrections are welcome.
 
 Updates are posted on X by [@RiemannMap](https://x.com/RiemannMap). The [changelog](/changelog/) lists dated changes, with an RSS feed. The scripts and data are at [github.com/rithn/riemann-lean-reader](https://github.com/rithn/riemann-lean-reader).
 
