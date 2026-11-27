@@ -1,0 +1,111 @@
+"""Build the compact proof's learning guide from the reviewed concept map."""
+
+from html import escape
+from pathlib import PurePosixPath
+import re
+
+import yaml
+
+from explorer_views import breadcrumbs
+
+
+LEVELS = {'curious': 'Curious', 'undergrad': 'Undergraduate', 'grad': 'Graduate', 'Lean': 'Lean'}
+
+
+def concept_path(slug):
+    return f'/learn/{slug}/'
+
+
+def html_list(items, tag='ul'):
+    return f'<{tag}>' + ''.join(f'<li>{item}</li>' for item in items) + f'</{tag}>'
+
+
+class ConceptMap:
+    def __init__(self, data_dir, edition):
+        concepts = yaml.safe_load((data_dir / 'concepts.yaml').read_text(encoding='utf-8'))['concepts']
+        parts = yaml.safe_load((data_dir / 'parts.yaml').read_text(encoding='utf-8'))
+        self.concepts = {c['id']: c for c in concepts}
+        self.parts = {part['id']: part for part in parts}
+        self.references = yaml.safe_load((data_dir / 'references.yaml').read_text(encoding='utf-8'))
+        assert len(self.concepts) == len(concepts), 'Duplicate learning concept ID'
+        assert len(self.parts) == len(parts), 'Duplicate proof part ID'
+        assert self.references.keys() <= self.concepts.keys(), 'References name an unknown learning concept'
+        assert all(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', slug)
+                   for slug in self.concepts.keys() | self.parts.keys()), 'Invalid learning concept or proof part ID'
+
+        compact = PurePosixPath(edition['compact']['sourceRoot']).parent
+        self.source = f'{edition["repository"]}/blob/{edition["revision"]}/{compact}/'
+        compact_lean = self.source + 'src/'
+        mathlib = f'https://github.com/leanprover-community/mathlib4/blob/{edition["mathlibRevision"]}/'
+        for slug, concept in self.concepts.items():
+            assert concept['level'] in LEVELS, f'Unknown learning level for {slug}'
+            assert concept['used_by'] and set(concept['used_by']) <= self.parts.keys(), f'Unknown or missing proof parts for {slug}'
+            assert concept['lean_location'] and all(
+                location['url'].startswith((compact_lean, mathlib)) for location in concept['lean_location']
+            ), f'Lean locations for {slug} must use the compact or Mathlib source pin'
+        for key, part in self.parts.items():
+            seen = set()
+            for slug in part['path']:
+                assert slug in self.concepts and slug not in seen, f'Missing or repeated concept {slug} in {key}'
+                assert set(self.concepts[slug]['prerequisites']) <= seen, f'Prerequisites for {slug} must precede it in {key}'
+                seen.add(slug)
+            assert all(c['id'] in seen for c in concepts if key in c['used_by']), f'Incomplete learning path for {key}'
+
+    def concept_link(self, slug):
+        return f'<a href="{concept_path(slug)}">{escape(self.concepts[slug]["name"])}</a>'
+
+    def overview(self):
+        guide = self.source + 'GUIDE.md'
+        parts = []
+        for key, part in self.parts.items():
+            path = html_list((self.concept_link(slug) for slug in part['path']), 'ol')
+            source = self.source + part['lean']
+            parts.append(
+                f'<h3 id="compact-{key}">{escape(part["title"])}</h3>'
+                f'<p>{escape(part["summary"])} <a href="{escape(source)}">Lean source</a></p>'
+                '<details class="article-detail"><summary>Learn this first</summary>'
+                f'<div>{path}</div></details>'
+            )
+        return (
+            '<div class="evidence-article"><h2 id="compact-proof">Sernau’s compact proof</h2>'
+            f'<p>Six parts from the <a href="{escape(guide)}">compact edition guide</a>. '
+            'Each path puts prerequisites before the concepts that use them.</p>'
+            '<p class="meta">AI-drafted summaries and learning paths.</p>'
+            + ''.join(parts) + '</div>'
+        )
+
+    def reading_list(self, concept):
+        # Keep the more specific notes from the concept map when the reference inventory repeats a URL.
+        readings = {ref['url']: (ref['title'], 'Checked' if ref['checked'] else 'Unchecked')
+                    for ref in self.references.get(concept['id'], [])}
+        readings.update({ref['url']: (ref['title'], ref['status'][0].upper() + ref['status'][1:].replace('; ', ' · '))
+                         for ref in concept['sources']})
+        return html_list(f'<a href="{escape(url)}">{escape(title)}</a> '
+                         f'<span class="meta">· {escape(status)}</span>'
+                         for url, (title, status) in readings.items())
+
+    def pages(self):
+        for slug, concept in self.concepts.items():
+            name, definition = concept['name'], concept['definition']
+            path = concept_path(slug)
+            trail = [('Home', '/'), ('Learning path', '/learn/'), (name, path)]
+            prerequisites = (html_list(self.concept_link(key) for key in concept['prerequisites'])
+                             if concept['prerequisites'] else '<p>No prerequisites in this guide.</p>')
+            parts = html_list(f'<a href="/learn/#compact-{key}">{escape(self.parts[key]["title"])}</a>'
+                              for key in concept['used_by'])
+            locations = html_list(f'<a href="{escape(loc["url"])}"><code>{escape(loc["path"])}</code></a> '
+                                  f'<span class="meta">· {escape(loc["status"])}</span>'
+                                  for loc in concept['lean_location'])
+            body = (
+                breadcrumbs([*trail[:-1], (name, '')])
+                + '<article class="evidence-article">'
+                f'<h1>{escape(name)}</h1><p class="meta">{LEVELS[concept["level"]]} · AI-drafted reading guide</p>'
+                f'<p class="article-lead">{escape(definition)}</p>'
+                f'<h2>Prerequisites</h2>{prerequisites}'
+                f'<h2>Where it’s used in the compact proof</h2>{parts}'
+                f'<h2>Lean locations</h2>{locations}'
+                '<h2>Sources and further reading</h2>'
+                '<p class="meta">Checked sources were opened during review. Any limits on coverage appear beside the source.</p>'
+                + self.reading_list(concept) + '</article>'
+            )
+            yield path, name, definition, body, trail

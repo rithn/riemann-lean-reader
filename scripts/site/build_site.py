@@ -1905,7 +1905,7 @@ def fit(name):
     return cut_title(name, TITLE_MAX - len(suffix)) + suffix
 
 # ---------- shared bits
-for sub in ('theme', 'cluster', 'changelog', 'route'):
+for sub in ('theme', 'cluster', 'changelog', 'route', 'learn'):
     shutil.rmtree(os.path.join(OUT, sub), ignore_errors=True)
 def ctitle(k):
     return NAMES[k]['title'] if k in NAMES else folder_label(CL[k]['folders'])
@@ -2322,6 +2322,11 @@ STATUS_FACTS = [
 STATUS_VERIFICATION_AS_OF = STATUS_FACTS[-1]['date']
 
 # ---------- learning path: one disclosure tree for static and interactive navigation
+from learning_concepts import ConceptMap, concept_path
+
+concept_map = ConceptMap(Path(REPO) / 'data' / 'concept-map', sernau_edition)
+assert not ON_LEARN.intersection(f'compact-{key}' for key in ('proof', *concept_map.parts)), 'Learning path anchors overlap'
+
 def tli(i, seen, depth=0):
     n = TT.get(i)
     if not n:
@@ -2345,14 +2350,19 @@ seen = set()
 learning_tree = ''.join(tli(r, seen) for r in core['roots'])
 more_concepts = sorted((n for n in TT.values() if n['kind'] == 'concept' and n['id'] not in seen),
                        key=lambda n: -len(used_concepts[n['id']]))
-LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through its main steps '
-           'down to background maths, linked to the code.')
+LEARN_D = ('Learn the Lean proof of the Riemann hypothesis through six paths for Sernau’s compact edition '
+           'and the dependency tree for Alpöge’s original proof.')
 learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyebrow">Learning path</div>'
-         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT + '<p class="lede">From the Riemann hypothesis down to school maths: '
+         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT
+         + '<p class="lede">Follow the six parts of Sernau’s compact proof or explore the '
+         '<a href="/learn/#alpoge-learning-tree">Alpöge original learning tree</a>.</p>'
+         + concept_map.overview()
+         + '<div class="evidence-article"><h2 id="alpoge-learning-tree">Alpöge original learning tree</h2>'
+         '<p>From the Riemann hypothesis down to school maths, '
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          '<p>For worked explanations, see <a href="/guides/rubinstein-zeta/">Rubinstein’s guide to the zeta function argument</a>'
-         ' or <a href="/guides/eto/">Eto’s illustrated introduction to the proof</a>.</p>'
+         ' or <a href="/guides/eto/">Eto’s illustrated introduction to the proof</a>.</p></div>'
          f'<ul class="learning-tree">{learning_tree}</ul>'
          f'<h2>More background concepts <span class="n">{len(more_concepts)}</span></h2><ul class="rows">'
          + ''.join(f'<li><a href="/concept/{H(n["id"])}"><span class="kind concept">concept</span>'
@@ -2363,6 +2373,8 @@ assert seen == ON_LEARN, 'learn_href() and the /learn/ page disagree on which en
 page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
      [article_ld('/learn/', 'The Riemann hypothesis proof, step by step: a learning path', LEARN_D, '2026-11-21'),
       crumbs_ld(('Home', '/'), ('Learning path', '/learn/')), ORG], .8)
+for path, name, definition, body, trail in concept_map.pages():
+    page(path, cut_title(name), meta_desc(definition), 'page', body, [crumbs_ld(*trail)])
 
 # ---------- /route/: how the proof is structured, from the main theorem down (keep numbers in step with the data)
 DEPTHS = collections.Counter(dist.values())
@@ -2616,6 +2628,7 @@ for i, (f, fm, t, *rest) in enumerate(DRAFTS):
         DRAFTS[i] = (f, fm, t2, *rest)
 KNOWN_PATHS |= {'/alpoge/', '/sernau/', '/sernau/route/', '/sernau/list/'}
 KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS} | {'/guides/'} | set(GPATH.values())
+KNOWN_PATHS |= {concept_path(slug) for slug in concept_map.concepts}
 READABLE_GROUPS = {group['id']: group for group in sernau_data['groups']}
 KNOWN_PATHS |= {group['href'] for group in READABLE_GROUPS.values()}
 # site links added under a page's own text (the drafts are published as written, so these are not part of them)
