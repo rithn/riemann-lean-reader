@@ -2982,11 +2982,13 @@ readable_image = (SITE + sernau_card, f'Sernau readable map showing {readable_to
 page('/', HOME_T, HOME_DESC, '', readable_overview(sernau_data, home=True),
      [WEBSITE, ORG, DATASET, READABLE_DATASET], 1.0, img=readable_image, edition=DEFAULT)
 page(ALPOGE_MAP, 'Alpöge original · Lean proof of the Riemann hypothesis', ORIGINAL_DESC,
-     '', original_map, [WEBSITE, ORG, DATASET], .85, md=overview_markdown(original_map), edition='alpoge')
+     '', original_map, [WEBSITE, ORG, DATASET], .85, md=overview_markdown(original_map), edition='alpoge',
+     img=(SITE + '/og.png?v=2', 'Map of the original Lean proof of the Riemann hypothesis'))
 page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
      '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
      '<a href="/alpoge/">Open the Alpöge map</a>, <a href="/sernau/">open the Sernau map</a> or <a href="/status/">read how the proof was checked</a>.</p>')
-page(ROUTES['alpoge']['reader'], 'Lean source reader · Alpöge original', 'Open a Lean source file or concept from the original Alpöge archive.',
+page(ROUTES['alpoge']['reader'], 'Lean source and concepts · Alpöge original',
+     'Read Lean source files, follow declaration links, and explore the concepts behind the original Lean proof of the Riemann hypothesis.',
      'page', '<h1>Alpöge original reader</h1><p>Use JavaScript to open a file or concept in the reader.</p>'
      f'<p><a href="{H(original_main["github"])}">Read the pinned main theorem</a> · <a href="/learn/">Browse the learning path</a></p>',
      edition='alpoge', view='reader', noindex=True)
