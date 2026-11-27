@@ -27,6 +27,7 @@ from proof_editions import (COMPARISON, DEFAULT, NAMES as EDITION_NAMES, ORIGINA
                             VERIFICATION_URL as SERNAU_VERIFICATION, VIRTUAL_ENTRIES,
                             edition_api, verification_api)
 from site_dates import chash, content_revision
+import depth_figure
 from alpoge_layout import pack_constellation
 
 D, OUT = sys.argv[1], sys.argv[2]
@@ -2322,6 +2323,16 @@ page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
 
 # ---------- /route/: how the proof is structured, from the main theorem down (keep numbers in step with the data)
 DEPTHS = collections.Counter(dist.values())
+CLUSTER_MEDIAN = statistics.median(dist.values())
+FILE_MEDIAN = statistics.median(fdist.values())
+PEAK_DEPTH = max(DEPTHS, key=DEPTHS.get)
+DEPTH_CAPTION = (f'{DEPTHS[PEAK_DEPTH]:,} of {len(dist):,} clusters are {PEAK_DEPTH} import steps away. '
+                 f'The median cluster is {CLUSTER_MEDIAN:g} steps away across {len(dist):,} clusters. '
+                 f'The median file is {FILE_MEDIAN:g} steps away across {len(fdist):,} Lean files.')
+CC_BY = 'https://creativecommons.org/licenses/by/4.0/'
+DEPTH_TABLE = ('| Import steps | Clusters |\n|---:|---:|\n'
+               + '\n'.join(f'| {depth} | {count:,} |' for depth, count in sorted(DEPTHS.items())) + '\n')
+depth_figure.write_depth_figure(OUT, DEPTHS, CLUSTER_MEDIAN, FILE_MEDIAN, len(fdist), SITE)
 def _plural(n, w):
     return f'{n:,} {w}{"" if n == 1 else "s"}'
 DEPTH_KS = {d: sorted((k for k in CL if dist.get(k) == d), key=lambda k: -fcount[k]) for d in (1, 2)}
@@ -2467,13 +2478,28 @@ def zeros_figure(sfx):
     return (f'<figure class="zfig" id="zeros-{sfx}"><svg viewBox="0 0 {W_} {H_}" role="img" aria-labelledby="zt-{sfx} zd-{sfx}">'
             f'<title id="zt-{sfx}">The critical strip and the first ten zeros of the Riemann zeta function</title>'
             f'<desc id="zd-{sfx}">{H(ZEROS_DESC)}</desc>' + ''.join(o) + f'</svg><figcaption>{H(ZEROS_CAP)}</figcaption></figure>')
-def zeros_md(t):   # the figure in the Markdown copies: its caption and the list of zeros
+def figures_md(t):
     t = re.sub(r'(?m)^(##+ .*?)\s*\{#[\w-]+\}\s*$', r'\1', t)   # heading ids ({#tautology}, {#nov-24}) are for the HTML only
-    return re.sub(r'(?m)^\{\{figure:zeros\}\}$', lambda m: (
+    t = re.sub(r'(?m)^\{\{figure:zeros\}\}$', lambda m: (
         f'*Figure: the critical strip and the first ten zeros.* {ZEROS_CAP}\n\n'
         f'Heights of the first ten non-trivial zeros, each at ½ + it: {ZEROS_TXT} ([LMFDB](https://www.lmfdb.org/zeros/zeta/)).'), t)
+    return t.replace('{{figure:import-depth}}',
+                     f'**{depth_figure.TITLE}.** {DEPTH_CAPTION}\n\n'
+                     f'RH Lean Explorer (riemannhypothesissolved.com) · [CC BY 4.0]({CC_BY})\n\n'
+                     f'[PNG]({depth_figure.ASSET}.png) · [SVG]({depth_figure.ASSET}.svg)\n\n{DEPTH_TABLE}')
 def figures_html(h, sfx):
-    return h.replace('<p>{{figure:zeros}}</p>', zeros_figure(sfx))
+    h = h.replace('<p>{{figure:zeros}}</p>', zeros_figure(sfx))
+    marker = '<p>{{figure:import-depth}}</p>'
+    if marker not in h:
+        return h
+    asset = depth_figure.ASSET
+    figure = (f'<figure class="depth-figure"><img src="{asset}.svg" width="{depth_figure.WIDTH}" height="{depth_figure.HEIGHT}" '
+              f'loading="lazy" alt="Bar chart of cluster counts by import depth. The counts are in the table below.">'
+              f'<figcaption>{DEPTH_CAPTION}<br>RH Lean Explorer (riemannhypothesissolved.com) · '
+              f'<a href="{CC_BY}">CC BY 4.0</a></figcaption></figure>'
+              f'<p class="cta"><a class="btn" href="{asset}.png" download>Download PNG</a> '
+              f'<a class="btn" href="{asset}.svg" download>Download SVG</a></p>')
+    return h.replace(marker, figure + md_html(DEPTH_TABLE))
 def md_abs(t):   # Markdown copies are read off-site: make site links absolute
     return re.sub(r'\]\((/[^)\s]*)\)', lambda m: f']({SITE}{m.group(1)})', t)
 def h2_sections(t):   # [intro, '## …', '## …', …], split at H2 lines outside code fences
@@ -2580,7 +2606,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
         pairs = faq_pairs(t)
         assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
         lds.insert(1, faq_ld(pairs))
-    page(path, fm['title'], fm['description'], 'page', body, lds, pr, fm=True, md=md_abs(zeros_md(f'# {h1}\n\n{t}' + (
+    page(path, fm['title'], fm['description'], 'page', body, lds, pr, fm=True, md=md_abs(figures_md(f'# {h1}\n\n{t}' + (
         '\n## More on this site\n\n' + ''.join(f'- [{x}]({u})\n' for u, x in rel) if rel else ''))))
     if lv:   # one Markdown file per level: title, a one-line intro, the level's section, the closing links
         before, secs, after = lv
@@ -2591,7 +2617,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             lmd = (f'# {h1} ({n})\n\n{intro}\n\n*{n} level of three ({others}). Full page with every level: {SITE}{path}*\n\n'
                    + re.sub(r'^(## .*?)\s*\{#\w+\}', r'\1', secs[l].strip()) + '\n\n' + (more + '\n' if more else ''))
             open(os.path.join(OUT, path.strip('/'), f'{l}.md'), 'w').write(
-                md_abs(zeros_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
+                md_abs(figures_md(lmd)) + f'\n---\n\n{h1} ({n}). Web page: {SITE}{path}#{l} · site map for machines: {SITE}/llms.txt\n')
 LEVEL_PAGES = [p for f, fm, t, *_ in DRAFTS if level_split(t) for p in [fm['path']]]
 
 # ---------- /guides/ and /guides/<slug>/. The hub uses the same listing for
