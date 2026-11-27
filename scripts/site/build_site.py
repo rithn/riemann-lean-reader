@@ -23,7 +23,7 @@ if __name__ == '__main__' and '_RH_SITE_STAGE_STATE' not in os.environ:
     sys.exit()
 STAGE_STATE = os.environ['_RH_SITE_STAGE_STATE']
 sys.path.insert(0, HERE)
-from proof_editions import (COMPARISON, DEFAULT, NAMES as EDITION_NAMES, ORIGINAL, ROUTES, SERNAU_PASS_UTC,
+from proof_editions import (COMPARISON, DEFAULT, ORIGINAL, ROUTES,
                             VERIFICATION_URL as SERNAU_VERIFICATION, VIRTUAL_ENTRIES,
                             edition_api, verification_api)
 from site_dates import chash, content_revision
@@ -361,7 +361,6 @@ ST_SHORT = f'{ST_CERT} {ST_MORE}'
 ST_META = plain(ST_CERT)
 ST_META_SHORT = 'Certified by the Lean FRO and the Mathlib Initiative on 21 Nov 2026.'   # the home meta description (160-character cap)
 ST_CHIP = 'certified 21 Nov'   # header chip label; its tooltip is ST_META
-ST_CHIP_SHORT = 'Certified'      # the chip's label on narrow screens
 # long form: /api/status.json, llms.txt, llms-full.txt
 ST_RELEASE = (f'On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis, and of the generalized Riemann hypothesis '
               f'(GRH) for Dirichlet L-functions, as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, with a note at '
@@ -1369,6 +1368,7 @@ import html, hashlib, secrets, email.utils
 from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = (Path(HERE) / 'explorer_shell.html').read_text(encoding='utf-8')
+SHARE_TPL = Path(HERE, "explorer_share.html").read_text(encoding="utf-8")
 EMBED_TPL = (Path(HERE) / 'explorer_embed.html').read_text(encoding='utf-8')
 FOOTER_TPL = (Path(HERE) / 'explorer_footer.html').read_text(encoding='utf-8')
 H = html.escape
@@ -1645,15 +1645,11 @@ else:
 def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
     m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
-ORIGINAL_STATUS = {'href': '/status/', 'title': f'{ST_META} How it was checked.',
-                   'label': f'Lean proof {ST_CHIP}: status of the proof', 'short': ST_CHIP_SHORT, 'text': ST_CHIP}
-SERNAU_PASS_TIME = datetime.datetime.fromisoformat(SERNAU_PASS_UTC).strftime('%-d %B %Y at %H:%M:%S UTC')
-READABLE_STATUS = {'href': SERNAU_VERIFICATION, 'title': f'Andrew Sutherland’s readable paranoid Comparator run passed on {SERNAU_PASS_TIME}.',
-                   'label': 'Sernau readable verification at MIT', 'short': 'Checked', 'text': 'Comparator passed'}
+EDITION_NAMES = {'sernau': 'Readable (Sernau)', 'alpoge': 'Original (Alpöge)'}
 EXPLORER_CONFIG = {
     'alpoge': {'src': APP_F, 'version': OV_V, 'overview': f'/data/overview.json?v={OV_V}',
                'fileLocator': LEAN_LOCATOR,
-               'dependency': 'https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'},
+               'dependency': '/vendor/d3.v7.9.0.min.js'},
     'sernau': {'src': SERNAU_F, 'map': SERNAU_MAP_F, 'overview': sernau_edition['overviewUrl']},
 }
 HEADLINE_CROSSWALK = {
@@ -1674,13 +1670,12 @@ def edition_switch(edition, view):
     links = []
     for key, href, label in pairs:
         current = ' aria-current="page"' if key == edition else ''
-        if not current and view not in ('map', 'list', 'route'):
-            label = f'Open {label} map'
         links.append(f'<a href="{href}" data-edition="{key}" data-edition-link{current}>{label}</a>')
-    return f'<nav class="edition-switch" aria-label="Proof edition">{"".join(links)}</nav>'
+    return f'<nav class="edition-switch" aria-label="Edition">{"".join(links)}</nav>'
 
 def shell(path, title, desc, route, body, page_head, *, edition='', view=None, embed_target=None):
     body = re.sub(r'<div class="eyebrow">[^<]*</div>', '', body)
+    body = body.replace(SHARE_SLOT, '')
     view = view or route.split('/')[0] or 'map'
     readable = edition == 'sernau'
     engine = edition or 'alpoge'
@@ -1708,21 +1703,17 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         viewport = '<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
     entry = EXPLORER_CONFIG[engine].copy()
     config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), 'embedPaths': EMBED_PATHS, engine: entry}
+    share_menu = SHARE_TPL
     if embed_target:
-        if not readable:
-            entry['dependency'] = '/vendor/d3.v7.9.0.min.js'
         return fill_slots(
             EMBED_TPL, title=H(title), description=HA(desc), canonical=H(SITE + embed_target),
             open_url=H(embed_target + '?utm_source=embed&utm_medium=iframe'), styles=styles,
             shell_script=f'<script src="{SHELL_F}" defer></script>', body_attributes=body_attributes,
             map=viewport, filters=map_filters(sernau_data) if readable else '',
-            scripts=json_script('explorer-config', config),
+            share_menu=share_menu, scripts=json_script('explorer-config', config),
         )
-    status = READABLE_STATUS if readable else ORIGINAL_STATUS
-    status_html = (f'<a class="status-chip ok" href="{H(status["href"])}" title="{H(status["title"])}" aria-label="{H(status["label"])}">'
-                   f'<i></i><span>{"Sernau readable" if readable else "Lean proof"} · <b>{H(status["text"])}</b></span>'
-                   f'<small class="cshort">{H(status["short"])}</small></a>')
-    switch = edition_switch(edition, view) if edition else ''
+    status_html = '<a class="status-chip ok" href="/status/">Verified · 21 Nov 2026</a>'
+    switch = edition_switch(edition, view)
     panel_heading = switch if not overlay else ''
     if overlay:
         body = switch + body
@@ -1763,7 +1754,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         body_attributes=body_attributes, shell_script=f'<script src="{SHELL_F}" defer></script>',
         skip_target='#pagebody' if overlay else list_url,
         skip_text='Skip to content' if overlay else 'Skip to the list view of the map',
-        map=viewport, search_placeholder='Search groups, theorems, Lean files…' if readable else 'Search clusters, concepts, Lean files…',
+        map=viewport, share_menu=share_menu,
         status_chip=status_html, panel_sheet='half' if view in ('list', 'cluster', 'theme') else 'peek',
         panel_attributes=' inert' if overlay else '', panel_heading=panel_heading,
         panel_content='' if overlay else body, panel_footer='' if overlay else footer, overlay_footer=footer if overlay else '',
@@ -1773,7 +1764,6 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     )
     if path == '/404.html':
         t = re.sub(r'<a id="close"[^>]*>.*?</a>', '', t, flags=re.S)
-        t = re.sub(r'<script\b(?![^>]*type="application/ld\+json")[^>]*>.*?</script>', '', t, flags=re.S)
     nk = NAV_KEY(path)
     if nk:
         t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">', 1)
