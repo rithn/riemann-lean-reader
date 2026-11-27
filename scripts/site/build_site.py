@@ -1728,6 +1728,11 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     # Original Lean appendices have a strict per-page HTML budget and quote source.
     if view in ('page', 'learn', 'route', 'group', 'read') and not path.startswith('/cluster/'):
         body = math_markup.html(body)
+    # Change the prose presentation after calculating dates and Markdown copies.
+    fragments = re.split(r'(<pre\b[^>]*>.*?</pre>|<code\b[^>]*>.*?</code>|<[^>]+>)', body, flags=re.S)
+    body = ''.join(re.sub(r'\b(L-functions?|Yang-Baxter|p-adic)\b',
+                          lambda match: match[0].replace('-', '‑'), text) if i % 2 == 0 else text
+                   for i, text in enumerate(fragments))
     if 'class="katex"' in body or (engine == 'alpoge' and view in ('reader', 'route')):
         styles += f'\n<link rel="stylesheet" href="{KATEX_F}">'
     viewport = '' if path == '/404.html' else '<canvas id="sky" aria-label="Map of clusters"></canvas>'
@@ -1770,6 +1775,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         entry.pop('map')
     if readable and view == 'reader':
         entry.update({key: sernau_edition[key] for key in ('repository', 'revision', 'sourceRoot')})
+        entry['verification'] = SERNAU_VERIFICATION
     scripts = json_script('explorer-config', config)
     scripts += '\n' + json_script('result-row', RESULT_ROW)
     if engine == 'alpoge':
