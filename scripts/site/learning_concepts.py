@@ -11,6 +11,27 @@ from explorer_views import breadcrumbs
 
 LEVELS = {'curious': 'Curious', 'undergrad': 'Undergraduate', 'grad': 'Graduate', 'Lean': 'Lean'}
 
+# A keyed lookup keeps internal review wording out of the published labels and rejects new statuses.
+SOURCE_LABELS = {
+    True: 'Checked',
+    False: None,
+    'checked local source': 'Lean source',
+    'checked pinned Mathlib online': 'Lean source',
+    'checked; proof source; outside lesson on exact jets UNVERIFIED': 'Lean source',
+    'checked; proof-specific source': 'Checked',
+    'checked; background': 'Background',
+    'checked; general background': 'Background',
+    'checked; Selmer/cohomology background': 'Background',
+    'checked; classical setting': 'Background · Classical setting',
+    'checked; classical background; compact determinant definition in Lean file': 'Background · Classical setting',
+    'checked; classical example; compact local transfer is in Lean file': 'Background · Classical example',
+    'checked classical background; exact compact jet construction UNVERIFIED': 'Background · Classical setting',
+    'checked classical background; exact CM period construction UNVERIFIED': 'Background · Classical setting',
+    'checked; general background; exact lesson or proof-specific correspondence UNVERIFIED': 'Background',
+    'checked background; exact twist argument UNVERIFIED in notes': 'Background',
+    'checked site guide; original PDF UNVERIFIED (fetch failed)': None,
+}
+
 
 def concept_path(slug):
     return f'/learn/{slug}/'
@@ -30,6 +51,8 @@ class ConceptMap:
         assert len(self.concepts) == len(concepts), 'Duplicate learning concept ID'
         assert len(self.parts) == len(parts), 'Duplicate proof part ID'
         assert self.references.keys() <= self.concepts.keys(), 'References name an unknown learning concept'
+        if any(not isinstance(ref['checked'], bool) for refs in self.references.values() for ref in refs):
+            raise ValueError('Reference inventory checked status must be true or false')
         assert all(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', slug)
                    for slug in self.concepts.keys() | self.parts.keys()), 'Invalid learning concept or proof part ID'
 
@@ -75,14 +98,22 @@ class ConceptMap:
         )
 
     def reading_list(self, concept):
-        # Keep the more specific notes from the concept map when the reference inventory repeats a URL.
-        readings = {ref['url']: (ref['title'], 'Checked' if ref['checked'] else 'Unchecked')
+        # Use the more specific review for URLs that also appear in the reference inventory.
+        readings = {ref['url']: (ref['title'], SOURCE_LABELS[ref['checked']])
                     for ref in self.references.get(concept['id'], [])}
-        readings.update({ref['url']: (ref['title'], ref['status'][0].upper() + ref['status'][1:].replace('; ', ' · '))
+        readings.update({ref['url']: (ref['title'], SOURCE_LABELS[ref['status']])
                          for ref in concept['sources']})
-        return html_list(f'<a href="{escape(url)}">{escape(title)}</a> '
-                         f'<span class="meta">· {escape(status)}</span>'
-                         for url, (title, status) in readings.items())
+        lean_urls = {loc['url'] for loc in concept['lean_location']}
+        items = [f'<a href="{escape(url)}">{escape(title)}</a> <span class="meta">· {escape(label)}</span>'
+                 for url, (title, label) in readings.items() if label and url not in lean_urls]
+        if not items:
+            return ''
+        return (
+            '<h2>Sources and further reading</h2>'
+            '<p class="meta">Checked sources were opened and cover this concept, Background sources cover the general topic, '
+            'and Lean source links point to pinned Lean or Mathlib files.</p>'
+            + html_list(items)
+        )
 
     def pages(self):
         for slug, concept in self.concepts.items():
@@ -94,7 +125,7 @@ class ConceptMap:
             parts = html_list(f'<a href="/learn/#compact-{key}">{escape(self.parts[key]["title"])}</a>'
                               for key in concept['used_by'])
             locations = html_list(f'<a href="{escape(loc["url"])}"><code>{escape(loc["path"])}</code></a> '
-                                  f'<span class="meta">· {escape(loc["status"])}</span>'
+                                  f'<span class="meta">· {escape(SOURCE_LABELS[loc["status"]])}</span>'
                                   for loc in concept['lean_location'])
             body = (
                 breadcrumbs([*trail[:-1], (name, '')])
@@ -104,8 +135,6 @@ class ConceptMap:
                 f'<h2>Prerequisites</h2>{prerequisites}'
                 f'<h2>Where it’s used in the compact proof</h2>{parts}'
                 f'<h2>Lean locations</h2>{locations}'
-                '<h2>Sources and further reading</h2>'
-                '<p class="meta">Checked sources were opened during review. Any limits on coverage appear beside the source.</p>'
                 + self.reading_list(concept) + '</article>'
             )
             yield path, name, definition, body, trail
