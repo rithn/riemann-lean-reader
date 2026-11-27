@@ -1793,7 +1793,7 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None,
             md = f'{heading}\n\nBy [{EDITOR["name"]}]({AUTHOR_ID}) · Updated {display_date}\n\n{content}'
     if path in BYLINED_PAGES or path == '/about/':
         lds = [*lds, EDITOR]
-    has_md = not is404 and (not noindex or md is not None)
+    has_md = not path.startswith("/sernau/read/") and not is404 and (not noindex or md is not None)
     if canonical:
         page_head = (CLARITY_TAG + f'<meta name="robots" content="noindex">\n<link rel="canonical" href="{SITE}{canonical}">\n'
                      f'<link rel="alternate" type="application/json" href="{canonical}">\n')
@@ -3117,7 +3117,7 @@ page(ROUTES['alpoge']['reader'], 'Lean source and concepts · Alpöge original',
 def render_readable(path, title, desc, kind, body, md=None, noindex=False):
     suffix = ' · Sernau readable'
     if title.endswith(suffix) and len(title) > TITLE_MAX:
-        title = cut_title(title.removesuffix(suffix), TITLE_MAX - len(suffix)) + suffix
+        title = cut_title(title.removesuffix(suffix), TITLE_MAX - len(suffix) - 1) + suffix
     ld_graph = [WEBSITE, ORG, READABLE_DATASET] if kind == 'map' else []
     if md is not None:
         markdown_header = f'# {title}\n\nSernau readable · `{sernau_edition["revision"]}`\n\n{desc}\n\n'
@@ -3242,7 +3242,7 @@ API_INDEX = {'name': SITE_NAME + ' API', 'description': 'Static JSON about the m
                       'new_in_proof': 'the cluster rests on the proof\'s own named constructions',
                       'note': 'editorial tags derived from descriptions and concept tags; they may be wrong',
                       'map_filters': 'the map takes the same filters in its URL, e.g. /alpoge/?field=av,aut&d=0-4&era=1960s&level=phd&new=1; /list/ too'},
-             'markdown': 'every HTML page has a Markdown copy at <page>index.md, e.g. /status/index.md; pages with levels also have '
+             'markdown': 'HTML pages have a Markdown copy at <page>index.md, e.g. /status/index.md, except Sernau file readings; pages with levels also have '
                          '<page>simple.md, student.md and expert.md, e.g. /what-is-the-riemann-hypothesis/student.md',
              'feeds': {'/changelog/feed.xml': 'RSS 2.0 changelog', '/sitemap.xml': 'all pages'}, 'source': GH,
              'openapi': '/api/openapi.json', 'license': API_STATUS['license']}

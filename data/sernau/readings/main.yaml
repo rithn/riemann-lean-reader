@@ -1,0 +1,137 @@
+group: Main
+overview:
+  group: Main
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: '2026-11-27'
+  reviewer: independent Codex review against pinned source
+  excerpt:
+    path: grh/src/Main.lean
+    line: 4
+    endLine: 4
+    text: '/-- **The Riemann Hypothesis**, as stated in Mathlib. -/
+
+      '
+  draft:
+  - sentence: Start at the declaration `riemannHypothesis`, where the proof supplies the classical Riemann hypothesis
+      in the form used by Mathlib.
+    citations:
+    - module: Main
+      line: 4
+      endLine: 5
+  - sentence: The same file states Dirichlet nonvanishing to the right of the critical line, with the exception
+      at 1 for the principal character, and places Dirichlet zeros in the open critical strip on the line.
+    citations:
+    - module: Main
+      line: 10
+      endLine: 17
+  - sentence: Both the zeta and critical-strip conclusions call deductions in `New.Main` with `New.grh` as their
+      input.
+    citations:
+    - module: Main
+      line: 5
+      endLine: 5
+    - module: Main
+      line: 17
+      endLine: 17
+    - module: New.Main
+      line: 25
+      endLine: 28
+    - module: New.Main
+      line: 44
+      endLine: 47
+  - sentence: Follow that input to `New.Reduction.OneSidedBound` to see where the half-plane theorem is proved.
+    citations:
+    - module: New.Reduction.OneSidedBound
+      line: 237
+      endLine: 241
+  declarations:
+  - module: Main
+    name: riemannHypothesis
+    line: 5
+    signature: 'theorem riemannHypothesis : RiemannHypothesis'
+  - module: Main
+    name: LFunction_ne_zero_of_half_lt_re
+    line: 13
+    signature: 'theorem LFunction_ne_zero_of_half_lt_re : DirichletLNonvanishingRightOfHalf'
+  - module: Main
+    name: LFunction_eq_zero_re
+    line: 17
+    signature: 'theorem LFunction_eq_zero_re : DirichletLZerosOnLine'
+  routeToMain:
+  - module: Main
+  outsideReadings:
+  - sonoda-readable
+  - grh-lean-handbook
+files:
+  Main:
+    group: Main
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: explorer-draft
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
+    excerpt:
+      path: grh/src/Main.lean
+      line: 10
+      endLine: 12
+      text: '/-- **The Generalized Riemann Hypothesis, half-plane form.** For every Dirichlet character χ,
+
+        L(s, χ) ≠ 0 when re s > 1/2, except at s = 1 for the trivial character, where nothing
+
+        is stated. -/
+
+        '
+    draft:
+    - sentence: '`LFunction_ne_zero_of_half_lt_re` is proved directly by `New.grh`. It asserts nonvanishing for
+        `Re s > 1/2` and excludes `s = 1` for the principal character.'
+      citations:
+      - module: Main
+        line: 10
+        endLine: 13
+      - module: New.Reduction.OneSidedBound
+        line: 237
+        endLine: 239
+    - sentence: For zeros in the open critical strip, `LFunction_eq_zero_re` feeds that same result to `New.zeros_on_line`.
+      citations:
+      - module: Main
+        line: 15
+        endLine: 17
+      - module: New.Main
+        line: 25
+        endLine: 28
+    - sentence: The primitive-character version specializes the strip result, and the classical Riemann hypothesis
+        applies the zeta deduction `New.zeta_zeros_on_line` to `New.grh`.
+      citations:
+      - module: Main
+        line: 19
+        endLine: 22
+      - module: Main
+        line: 4
+        endLine: 5
+      - module: New.Main
+        line: 44
+        endLine: 47
+    declarations:
+    - module: Main
+      name: riemannHypothesis
+      line: 5
+      signature: 'theorem riemannHypothesis : RiemannHypothesis'
+    - module: Main
+      name: LFunction_ne_zero_of_half_lt_re
+      line: 13
+      signature: 'theorem LFunction_ne_zero_of_half_lt_re : DirichletLNonvanishingRightOfHalf'
+    - module: Main
+      name: LFunction_eq_zero_re
+      line: 17
+      signature: 'theorem LFunction_eq_zero_re : DirichletLZerosOnLine'
+    routeToMain:
+    - module: Main
+    outsideReadings: []
+    headlineTheorems:
+    - riemannHypothesis
+    - riemannZeta_eq_zero_re
+    - LFunction_ne_zero_of_half_lt_re
+    - LFunction_eq_zero_re
+    - LFunction_eq_zero_re_of_isPrimitive

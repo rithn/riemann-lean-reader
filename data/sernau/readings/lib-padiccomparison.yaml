@@ -1,0 +1,1991 @@
+group: Lib.PadicComparison
+overview: null
+files:
+  Lib.PadicComparison.Completion:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Completion
+      name: New.Variety.HasFlatBaseChange.isBijective_of_isReductionMod
+      line: 414
+      signature: "lemma HasFlatBaseChange.isBijective_of_isReductionMod [ThePrime p]\n    [IsDomain W] [IsDiscreteValuationRing\
+        \ W]\n    [Module.Flat W S] {Θ : C ⥤ CommAlg W} {X : C ⥤ CommAlg S} (hN : HasFlatBaseChange N)\n    (hW\
+        \ : IsCompleteTorsionFree W) (hS : IsCompleteTorsionFree S)\n    (hΘ : ∀ A : C, IsCompleteTorsionFree (Θ.obj\
+        \ A)) (hp : Irreducible (p : W))\n    (j : \U0001D7ED C ⋙ asModules Θ ⋙ tensorWith S S ⟶ asModules X)\n\
+        \    (h_rank : ∀ n : ℕ, IsSMulDivisible (pullₗ j (\U0001D7D9 N) n).ker (p : S) →\n      Module.rank W (H\
+        \ N (moduleCoeff (asModules Θ)) n) < Cardinal.aleph0)\n    (hX : ∀ A : C, IsCompleteTorsionFree (X.obj A))\n\
+        \    -- `j` is bijective mod `p`: it carries a reduction mod `p` back to a reduction mod `p`\n    (hj :\
+        \ ∀ (A : C) {Y : Type} [AddCommGroup Y] (q : X.obj A →+ Y),\n      IsReductionMod p q → IsReductionMod p\
+        \ (q ∘ j.app A)) :\n    (ofModuleHom (\U0001D7ED C) j).IsBijective (\U0001D7D9 N)"
+    routeToMain:
+    - module: Lib.PadicComparison.Completion
+      importer: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+      line: 1
+    - module: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 1
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Completion.lean
+      line: 6
+      endLine: 10
+      text: 'This file shows that comparison maps of cohomology are bijective, by reduction modulo a scalar and
+
+        successive approximation. `New.Variety.H N F n` is `Extⁿ(N, F)` in the category `AbFunctor C` of
+
+        functors `C ⥤ Ab`. `New.Variety.moduleCoeff Φ` is a module-valued functor `Φ` (`act a` is
+
+        multiplication by `a` on it, `push N q n` is the map on `Hⁿ` induced by `q`, and `a • x` on `Hⁿ` is
+
+        `push N (act a) n x`), read as such a functor of coefficients.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Completion.lean
+      line: 11
+      endLine: 46
+      text: "\n## Main definitions and results\n\n* `New.Variety.IsDerivedComplete`: derived π-completeness, the\
+        \ bijectivity of `New.shiftDiff π` on\n  sequences. It passes to powers `ι → X`, to retracts up to a power\
+        \ of π, to cohomology\n  (`New.Variety.IsDerivedComplete.cohomology`) and, in finite rank, to base change\n\
+        \  (`New.Variety.IsDerivedComplete.baseChange`).\n* `New.Variety.Comparison.IsBijective.of_mod`: a comparison\
+        \ of complete cohomology groups that is\n  bijective modulo `a` is bijective.\n* `New.Variety.IsCompletionBijective`,\
+        \ `New.Variety.moduleCompletionIso`: linear maps that are\n  bijective on p-adic completions, and the p-adic\
+        \ completion of an algebra, as a module.\n* `New.Variety.HasFlatBaseChange.isBijective_of_isReductionMod`:\
+        \ `Hⁿ(N, S ⊗ Θ) → Hⁿ(N, X)` is\n  bijective if `S ⊗ Θ → X` is so modulo p. The cohomology of `N` must commute\
+        \ with flat base change.\n  `W` must be a discrete valuation ring with uniformiser p, and `S` must be flat\
+        \ over `W`. The lemma\n  also needs completeness and no p-torsion of `W`, `S` and every value of `Θ` and\
+        \ `X`, and finite\n  rank of `Hⁿ(N, Θ)` for each n where the kernel of the map on `Hⁿ` is p-divisible.\n\
+        \nNotions from other files:\n* `New.shiftDiff`: The operator (x_j) ↦ (x_j − π x_{j+1}) on sequences in a\
+        \ module.\n* `New.Variety.Comparison.IsBijective`: For a functor φ: C' → C, a map β: F∘φ → F' and α: N'\
+        \ → N∘φ,\n  the map Ext^n(N, F) → Ext^n(N', F') is bijective for every n.\n* `New.Variety.IsReductionMod`:\
+        \ The map f is surjective, and f(x) = 0 exactly when x is a multiple\n  m·y of m.\n* `New.Variety.HasFlatBaseChange`:\
+        \ a functor N to abelian groups has it if M ⊗_S Hⁿ(N, Φ) → Hⁿ(N, M\n  ⊗_S Φ) is bijective for all n, all\
+        \ functors Φ to S-modules and all S-flat M.\n* `New.Variety.Comparison.restrict`: The cohomological comparison\
+        \ datum along a functor φ: C' → C\n  from an abelian-group-valued functor N to N∘φ, with identity coefficient\
+        \ map.\n\n## Relation to the literature\n\nKnown result: Derived completeness for a principal ideal, covering\
+        \ Nakayama, finiteness and\ncompleted base change. Only modules and Ext groups are treated, and completeness\
+        \ is defined as\nbijectivity of x_n - a x_(n+1) on sequences. Base change is proved for modules of finite\
+        \ rank over a\ndiscrete valuation ring, with bounded torsion shown by hand. Source: Stacks Project 091N,\
+        \ 091P,\n0G1U, 09BA, 0CQY; B. Bhatt, Torsion completions are bounded, JPAA (2019); L. Positselski,\nContraadjusted\
+        \ modules, contramodules, and reduced cotorsion modules, arXiv 1605.03934.\n"
+  Lib.PadicComparison.Crystalline.ComparisonMap:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      name: New.Variety.span_range_crysComparison_pull_eq_top
+      line: 1189
+      signature: "lemma span_range_crysComparison_pull_eq_top (hi_iso : IsIso i) [IsDomain S]\n    [IsDiscreteValuationRing\
+        \ S] (hS : IsCompleteTorsionFree S) (hV : IsCharting V)\n    (hp : Irreducible (p : S))\n    (h_fin : ∀\
+        \ n : ℕ,\n      Module.Finite Bmax\n        (H (freeAb.obj (PadicTest.algFunctor ⋙ restrictAlg R OC ⋙ V.toFunctor))\n\
+        \          (moduleCoeff (asModules (crysThickening ⋙ ι _) ⋙ tensorWith Bmax Bmax)) n))\n    (n : ℕ) :\n\
+        \    Submodule.span Bmax\n      (Set.range (crysComparison.pull (freeAbMap (toCrysPoints V i)) n)) = ⊤"
+    routeToMain:
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Crystalline/ComparisonMap.lean
+      line: 7
+      endLine: 13
+      text: 'Write A_inf = `New.Period.Ainf`, A_max = `New.Period.Amax`, B_max = `New.Period.Bmax`, and 𝔡(B) =
+
+        `New.Variety.pdIdeal` B for the ideal of the x with n! ∣ x^n for all n. Here ξ = `New.Period.xi`
+
+        generates the kernel of θ : A_inf → O_C. Fix an action of A_inf on A_max satisfying
+
+        `New.Variety.CrysPeriodAlgebra`. For a functor P on O_C-algebras, the crystalline comparison
+
+        compares two cohomologies. The first is that of D ↦ P(D/𝔡(D)) on p-torsion-free p-complete
+
+        A_max-algebras D, with coefficients B_max ⊗ D. The second is that of P on p-adic tests. Finally, let
+
+        S be a complete discrete valuation ring with uniformiser p, let O_C be an algebra over a ring R with
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Crystalline/ComparisonMap.lean
+      line: 14
+      endLine: 65
+      text: "a map R → S/\U0001D521(S), let A_max be an S-algebra, and assume a given natural map from D ↦ D/\U0001D521\
+        (D) (as\nR-algebras via O_C → A_max/\U0001D521(A_max)) to D ↦ D/\U0001D521(D) (via R → S/\U0001D521(S))\
+        \ on p-torsion-free p-complete\nA_max-algebras is an isomorphism; let V be a subfunctor of a functor X on\
+        \ R-algebras with\n`New.Variety.IsCharting` V (V covers X and is built from charts étale over tori). Then\
+        \ the classes\npulled back from D ↦ V(D/\U0001D521) on p-torsion-free p-complete S-algebras span the period\
+        \ cohomology of V\nover B_max when it is finite.\n\n## Main definitions and results\n\n* `New.Variety.CrysPeriodAlgebra`:\
+        \ the properties of an A_inf-algebra structure on A_max that the\n  comparison needs.\n* `New.Variety.exists_crysPeriodAlgebra`:\
+        \ for each y in O_C with p ∣ y^N, there is an algebra\n  structure as in `New.Variety.CrysPeriodAlgebra`\
+        \ that is equivariant for Frobenius and Galois and\n  whose map O_C → A_max/\U0001D521(A_max) kills y.\n\
+        * `New.Variety.HasCrysComparison`: the comparison along `New.Variety.crysThickening` and\n  `New.Variety.testToPdReduction`\
+        \ is bijective in every degree.\n* `New.Variety.hasCrysComparison_of_witt`, `New.Variety.hasCrysComparison_of_etale`:\n\
+        \  `New.Variety.HasCrysComparison` holds for P = Hom_{A_inf}(T, −), with scalars restricted from O_C\n \
+        \ to A_inf, when the A_inf-algebra T maps to W(b), for a perfect π-torsion-free O^♭-algebra b, by a\n  map\
+        \ bijective on p-adic completions. It also holds for P = Hom(B, −) with B étale over O_C[G],\n  where G\
+        \ is a ℚ≥0-module.\n* `New.Variety.hasCrysComparison_chart`: the comparison holds for Hom_R(B, −) on O_C-algebras\
+        \ when B\n  is étale over R[X_1, …, X_d], each X_i going to a unit t_i. Adjoining all roots of the t_i reduces\n\
+        \  it to `New.Variety.hasCrysComparison_of_etale`.\n* `New.Variety.span_range_crysComparison_pull_eq_top`:\
+        \ for S a complete discrete valuation ring with\n  uniformiser p, the classes pulled back from the cohomology\
+        \ of D ↦ V(D/\U0001D521) span the period\n  cohomology of V over B_max when it is finite.\n\nNotions from\
+        \ other files:\n* `New.OC`: The ring of integers O_C of the field C_p of p-adic complex numbers.\n* `New.Period.OFlat`:\
+        \ The ring O^♭, the inverse limit of O_C/p along x ↦ x^p;\n  π = p♭ = `New.Variety.pFlat` is ξ mod p, the\
+        \ zeroth Witt coefficient of ξ.\n* `New.Variety.PadicTest`: A p-adic test: a non-empty family of cells (`New.Variety.IsCell`)\
+        \ with a\n  ring map from O_C to their product S (`ProdRing`); S^♭ is the tilt of S and θ : W(S^♭) → S is\n\
+        \  Fontaine's map.\n* `New.Period.Amax`: Colmez's period ring A_max, the p-adic completion of A_inf[X]/(pX\
+        \ − ξ).\n* `New.Variety.compatibleRoots`: The functor of characters ℚ≥0 → A on O_C-algebras A, with the\
+        \ twist\n  by s ↦ (ε^s)^♯ as an endomorphism (a functor on O_C-algebras × Bℕ, `New.Variety.TimesBNat`).\n\
+        * `New.Variety.IsLine`: A map Y → U from a functor with an endomorphism is a line if the cohomology\n  of\
+        \ U maps bijectively to that of Y on the product with Bℕ.\n\n## Relation to the literature\n\nKnown result:\
+        \ Crystalline comparison for p-adic étale cohomology with good reduction. Only\ncrystallinity is proved\
+        \ here. It is for cohomology on p-adic test rings, which is not identified\nwith étale cohomology. There\
+        \ is no filtration and no identification with crystalline cohomology.\nInvariants come from p-complete torsion-free\
+        \ rings modulo elements with divided powers, and they are\ncompared on toric towers one coordinate at a\
+        \ time. Source: Bhatt, Morrow, Scholze, Integral p-adic\nHodge theory, 2018, Publ. IHÉS 128, Thm 1.1(i)\
+        \ (first proved in Faltings, Crystalline cohomology and\np-adic Galois representations, 1989); for the site,\
+        \ Bhatt, Prismatic F-gauges, 2022, Rem. 2.5.12;\nfor the line lemma, Andreatta–Brinon, Acyclicité géométrique\
+        \ de B_cris relatif, 2013, Comment. Math.\nHelv. 88.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicComparison.Crystalline.DividedPowerEnvelope:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+      name: New.Variety.koszulExact_pd_line
+      line: 492
+      signature: "lemma koszulExact_pd_line {K : Type} [CommRing K] [Algebra A K] (E : CrysTest A) [Algebra B E]\n\
+        \    [IsScalarTower A B E] [Zero I] {b : Basis (I × ℕ) B T} {j : T →ₗ[B] E}\n    (hj : IsCompletionBijective\
+        \ p j) {u : I → E} {y : ℕ → E} {v : E.obj} {t : B.obj} {q : A}\n    (hb : ∀ (a : I) (n : ℕ), j (b (a, n))\
+        \ = u a * y n)\n    (hy : ∀ n : ℕ, (algebraMap B E t - v) ^ n = n ! * y n) (hv_unit : IsUnit v) (hu_zero\
+        \ : u 0 = 1)\n    (hq_dvd : (p : A) ^ 3 ∣ q) (hq_unit : IsUnit (algebraMap A K q)) (γ : E →ₐ[B] E)\n   \
+        \ (hγv : γ v = (q + 1) • v)\n    (hγu : ∀ a : I, a ≠ 0 → ∃ η : A, γ (u a) = (η + 1) • u a ∧ p * η ∣ q) :\n\
+        \    KoszulExact (ULift.map.{0, _, 1, 1} (((Algebra.linearMap B E).restrictScalars A).baseChange K))\n \
+        \     (ULift.map ((γ.toLinearMap.restrictScalars A).baseChange K))"
+    routeToMain:
+    - module: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 1
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Crystalline/DividedPowerEnvelope.lean
+      line: 7
+      endLine: 10
+      text: 'For a prime `p` (fixed by the class `New.ThePrime p`) and a `p`-torsion-free, `p`-adically
+
+        complete ring `S` (`New.Variety.IsCompleteTorsionFree`), `New.Variety.pdIdeal S` is the ideal of the
+
+        `x` with `n ! ∣ x ^ n` for all `n`. The file proves lifting results along `S → S ⧸ pdIdeal S`. It
+
+        then constructs the divided power envelope of a subset `J` of `T` and proves its universal property.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Crystalline/DividedPowerEnvelope.lean
+      line: 11
+      endLine: 39
+      text: "Finally it treats one divided power variable `z = t - v`.\n\n## Main definitions and results\n\n* `New.Variety.IsCompleteTorsionFree.monoidHom_lift_bijective`,\n\
+        \  `New.Variety.IsCompleteTorsionFree.existsUnique_witt_lift`: multiplicative maps from a perfect\n  monoid,\
+        \ and ring maps from a perfect ring via its Witt vectors, lift uniquely from `S ⧸ pdIdeal S`\n  to `S`.\n\
+        * `New.Variety.IsCompletionBijective.comp_bijective`: maps to a `p`-complete ring extend uniquely\n  along\
+        \ a map that is bijective modulo every power of `p` (`New.Variety.IsCompletionBijective`).\n* `New.Variety.preEnvelope`,\
+        \ `New.Variety.Envelope`: adjoin the `x ^ n / n !`, `x ∈ J`, inside\n  `T ⊗ ℚ`, then complete; `New.Variety.Envelope.existsUnique_lift`\
+        \ is the universal property.\n* `New.Variety.exists_preEnvelope_basis`: if `T` has the `B`-basis `u a *\
+        \ v ^ n`, the uncompleted\n  envelope of `z = t - v` has the basis `u a * z ^ n / n !`.\n* `New.Variety.koszulExact_pd_line`:\
+        \ take an endomorphism `γ` that scales the unit `v` by `1 + q`\n  with `p ^ 3 ∣ q`. It must also scale each\
+        \ `u a` with `a ≠ 0` by `1 + η` with `p * η ∣ q`, and\n  `u 0 = 1`. Then the sequence `0 → B → E → E → 0`\
+        \ given by `γ - 1` is exact after a base change\n  that inverts `q`. The proof uses a shift `S` of the basis\
+        \ such that `(γ - 1) S` is `q * v` times\n  `1 - p W` for an endomorphism `W`.\n\nNotions from other files:\n\
+        * `New.Variety.CrysTest`: the category of `p`-torsion-free, `p`-adically complete `S`-algebras\n  (`New.Variety.IsCompleteTorsionFree`);\
+        \ an object `E` is read as its underlying ring.\n* `New.Variety.KoszulExact`: for a map `i` and an endomorphism\
+        \ `g`, the map `i` is injective, every\n  fixed point of `g` lies in the image of `i`, and `z ↦ g z - z`\
+        \ is onto.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicComparison.Crystalline.ComparisonMap`\
+        \ for sources.\n"
+  Lib.PadicComparison.CrystallineFrobenius:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      name: New.Variety.ellAdicCohom.isCrystalline_and_linearFrob_rel
+      line: 713
+      signature: "lemma ellAdicCohom.isCrystalline_and_linearFrob_rel {p : ℕ} [ThePrime p] {R : CommRingCat}\n \
+        \   (K : Type) [Field K] [Algebra R Ω] [Algebra K Ω] [Algebra R K] [IsScalarTower R K Ω]\n    {A : ClosurePlace}\
+        \ [I : GaloisRep.PadicPlaceEmbedding K A p]\n    (hR : ∀ r : R, algebraMap R Ω r ∈ A) {W Y : Over (Spec\
+        \ R)} [IsNoetherianRing R]\n    [hY_charted : IsCharted Y R] [IsCharted Y Ω] [IsProper Y.hom] (n : ℕ) [IsProper\
+        \ W.hom]\n    [IsCharted W Ω] {ι : Type} [Fintype.{0} ι] (u : ι → (W ⟶ Y)) (a : ι → ℕ)\n    (γ : ι → decompGroup\
+        \ Gal(Ω/K) A) (m : ι → ℤ)\n    (h_cong : CongruenceRelation m {r : R | A.valuation (algebraMap R Ω r) <\
+        \ 1} p a u)\n    (hW : ∀ i : ι, IsWeilPair (I.toGp (γ i)) (a i)) :\n    let ρ : Representation ℚ_[p] (decompGroup\
+        \ Gal(Ω/K) A) ((ellAdicCohom R Ω n).obj (.op Y))"
+    routeToMain:
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/CrystallineFrobenius.lean
+      line: 7
+      endLine: 11
+      text: 'The `p`-adic cohomology `New.Variety.ellAdicCohom` of a proper scheme `Y` is crystalline when `Y` is
+
+        charted (`New.Variety.IsCharted`) over a noetherian ring `R` that maps into the valuation ring of a
+
+        `p`-adic place of `Ω`, and over `Ω`. A congruence relation Σ n_i [Frob^{a_i} u_i(x)] = 0 between
+
+        maps of proper schemes (`New.Variety.CongruenceRelation`) gives the same relation between the
+
+        operators on `New.Period.Bmax ⊗ Vⁿ(Y)`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/CrystallineFrobenius.lean
+      line: 12
+      endLine: 79
+      text: "\n## Overview of this theory\n\nLet `R` be a commutative ring and `Ω` a fixed algebraic closure of\
+        \ `ℚ` that is an `R`-algebra. Call\na scheme charted over a ring if it is built from charts étale over tori\
+        \ (`New.Variety.IsCharted`).\nLet `Vⁿ(Y)` be `New.Variety.ellAdicCohom` for `ℓ = p`, that is, `ℚ_p ⊗ Hⁿ(Y_Ω,\
+        \ ℤ_p)`. A place above\n`p` is given by a valuation ring `A` of `Ω` containing the image of `R`.\n\n* `New.Variety.finite_and_primitive_comparison`:\
+        \ let `Y` be proper over `R` and charted over an\n  algebraically closed field `Ω` mapping to `ℂ_p`. Let\
+        \ `M` be a module over the tilt `O♭` of\n  `O_{ℂ_p}`, with `B ↦ B ⊗ M` acyclic along tilting at perfect\
+        \ `O♭`-algebras. Then the cohomology of\n  `Y_Ω` commutes with flat extension of coefficients, and each\
+        \ `Hⁿ(Y_Ω, \U0001D53D_p)` is finite. If also `R`\n  maps compatibly to `O_{ℂ_p}`, the cohomology of `Y_Ω`\
+        \ with coefficients (locally constant `O♭`)\n  `⊗ M` maps bijectively to that of `S ↦ Y(S)`. Here `S` runs\
+        \ over the `p`-adic test rings\n  (`New.Variety.PadicTest`), with coefficients `S♭ ⊗ M`.\n* `New.Variety.exists_period_map`:\
+        \ let `R` map to `O_{ℂ_p}` compatibly with an embedding `Ω → ℚ̄_p`.\n  Let `S` be a `p`-torsion-free, `p`-adically\
+        \ complete `A_inf`-algebra and `K` a flat `S`-algebra\n  over `ℚ_p`, as in `IsPeriodRingPair`. There are\
+        \ `K`-linear maps from `K ⊗ Vⁿ(Y)` to `Hⁿ` of\n  `T ↦ Y(T)` on test rings `T`, with coefficients built from\
+        \ `K` and `W(T♭)`. These maps are natural\n  and Galois-compatible. They are bijective when `Y` is proper\
+        \ and charted over `Ω`.\n* `New.Variety.ellAdicCohom.isCrystalline_and_linearFrob_rel`: let `R` be noetherian,\
+        \ `K` a field,\n  and `Y` proper and charted over `R` and over `Ω`. Then the decomposition group of `A`\
+        \ over `K`\n  acts crystallinely on `Vⁿ(Y)`. Let `W` be proper and charted over `Ω`, with maps `uᵢ : W ⟶\
+        \ Y`.\n  Suppose that `∑ mᵢ [Frob^{aᵢ}(uᵢ x)] = 0` at the field-valued points `x` of the special fibre of\n\
+        \  `W`. Suppose also that each `γᵢ` in the decomposition group acts on the residue field as\n  `x ↦ x ^\
+        \ (1/p^aᵢ)`. Then `∑ mᵢ uᵢ^* ∘ linearFrob(γᵢ, aᵢ) = 0` on `Bmax ⊗ Vⁿ(Y)`.\n* `New.Variety.exists_hasHodgeTateWeight`:\
+        \ let `Y` be proper, smooth of relative dimension `d` and\n  charted over `Ω`. Let `E` be a field between\
+        \ `R` and `Ω`, and let `E → k → ℚ̄_p` be compatible,\n  with a section `ε` of `k → ℚ̄_p`. Fix `h`, a proper\
+        \ `W`, and a class `x` in degree-`q` Hodge\n  cohomology of `Y` over `E`. Then there are `v` in `ℂ_p ⊗ V^(q+h)(Y)`\
+        \ and an `ε`-semilinear map `Θ`\n  with two properties. First, `v` has Hodge–Tate weight `h` for the decomposition\
+        \ group over `E`.\n  Second, `hodgeTateMap h (u^* x) = Θ(u^* v)` for every `u : W ⟶ Y`.\n\nThese replace\
+        \ the primitive, crystalline and Hodge–Tate comparison theorems (Faltings, Scholze,\nBhatt–Morrow–Scholze)\
+        \ as used in `Lib.Shimura.Eigenspace`. There is no integral form, no Hodge–Tate\ndecomposition, and no identification\
+        \ with étale or crystalline cohomology.\n\n`Descent` defines the test rings and proves acyclicity for almost\
+        \ coefficients. `Duality` on powers\nof `ℙ¹`, with `Lib.Cohomology.SmoothBaseChange`, extends the comparison\
+        \ from a point to `Y`.\n`Primitive` deduces the first result and lifts it to periods by `Completion`; the\
+        \ map is in\n`HodgeTate.PeriodMap`. `Crystalline` uses `ToricTower` (roots of one unit at a time) for the\n\
+        crystalline statement, and `CrystallineFrobenius` treats Frobenius. `HodgeTate` builds the\nHodge–Tate map.\n\
+        \n## Main definitions and results\n\n* `New.Variety.exists_cancels_frobPow_locally`: if p divides a power\
+        \ of z and a fixed power of z\n  divides the image of \U0001D534, then near each maximal ideal of a test\
+        \ the relation holds modulo z.\n\nNotions from other files:\n* `New.Variety.Cancels`: the integers m_i add\
+        \ up to zero on every fibre of a family v_i, that is, Σ\n  m_i [v_i] = 0 in the free abelian group on the\
+        \ v_i.\n* `New.Variety.CongruenceRelation`: Σ m_i [F_i u_i(x)] = 0 (`New.Variety.Cancels`) for every point\
+        \ x\n  of W in a field of characteristic p that kills \U0001D534, where F_i is the a_i-th iterate of Frobenius.\n\
+        * `New.Period.Bmax`: The period ring B = B^+[1/μ] (Colmez's B_max, not Fontaine's B_cris), over\n  which\
+        \ crystalline representations are defined.\n* `New.Period.linearFrob`: β_{s,m}: a chosen B-linear endomorphism\
+        \ of B⊗T agreeing with φ^m\n  j(s) ⊗ ρ(s) on D_pcris(T), if one exists (arbitrary otherwise).\n\n## Relation\
+        \ to the literature\n\nKnown result: Congruence relation for the crystalline Frobenius. In the literature,\
+        \ characteristic\npolynomials are compared through cycle classes. Here a relation among Frobenius twists\
+        \ of maps,\ngiven on points of the special fibre, is carried directly to a relation among operators on\n\
+        crystalline invariants. Source: Scholl, Motives for modular forms, 1990, Invent. Math. 100, §4.2.3,\nthrough\
+        \ Katz–Messing, Some consequences of the Riemann hypothesis for varieties over finite fields,\n1974, Invent.\
+        \ Math. 23, Thm 2(2); for the ramified base, Berthelot–Ogus, F-isocrystals and de Rham\ncohomology I, 1983,\
+        \ Invent. Math. 72.\n"
+  Lib.PadicComparison.Descent.AlmostDescent:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Descent.AlmostDescent
+      name: New.Variety.isAcyclicOnPerfect_almostCoeff
+      line: 927
+      signature: "lemma isAcyclicOnPerfect_almostCoeff (hN : ∀ x : N, pFlat • x = 0) :\n    IsAcyclicOnPerfect (moduleCoeff\
+        \ (almostCoeff N))"
+    routeToMain:
+    - module: Lib.PadicComparison.Descent.AlmostDescent
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 2
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Descent/AlmostDescent.lean
+      line: 7
+      endLine: 13
+      text: 'The tilt O♭ (`New.Period.OFlat`) has maximal ideal 𝔪 (`New.Variety.MaxIdealFlat`) and contains p♭
+
+        (`New.Variety.pFlat`); N is an O♭-module killed by p♭. The coefficient functor
+
+        `New.Variety.almostCoeff N` sends an O♭-algebra b to b ⊗ N ⊗ 𝔪, a case of
+
+        `New.Variety.tensorCoeff`.
+
+        For these coefficients, a map of perfect O♭-algebras that is onto on points in tilts of tests is a
+
+        cover. By Čech descent, the points of a perfect algebra in tilts are acyclic. Auxiliary results
+
+        treat 𝔪² = 𝔪 and Witt vectors of O♭-algebras.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Descent/AlmostDescent.lean
+      line: 14
+      endLine: 44
+      text: "\n## Main definitions and results\n\n* `New.Variety.isCover_of_points`: if p^♭ kills N, a map b → b'\
+        \ of perfect O^♭-algebras that is onto\n  on points with values in tilts of tests is a cover (`New.Variety.IsCover`)\
+        \ for the coefficients\n  D ↦ D ⊗ N ⊗ \U0001D52A.\n* `New.Variety.isAcyclicAt_perfectTilt`: for N killed\
+        \ by p♭, the points of a perfect O♭-algebra in\n  tilts of tests are acyclic (`New.Variety.IsAcyclicAt`)\
+        \ for the coefficients b ↦ b ⊗ N ⊗ \U0001D52A. This\n  holds on the category of perfect O♭-algebras.\n*\
+        \ `New.Variety.isAcyclicOnPerfect_almostCoeff`: the same on all O♭-algebras, for b perfect.\n\nNotions from\
+        \ other files:\n* `New.Period.OFlat`: The ring O^♭, the inverse limit of O_C/p along x ↦ x^p, where O_C\
+        \ is the ring\n  of integers of C_p.\n* `New.Variety.moduleCoeff`, `New.Variety.tensorWith`: A functor Φ\
+        \ to S-modules regarded as\n  coefficients for cohomology, and M ⊗_S Φ for an S-module M.\n* `New.Variety.pFlat`:\
+        \ The element p^♭ = ξ mod p of O^♭ = A_inf/p, the zeroth Witt coefficient of\n  the generator ξ of the kernel\
+        \ of θ.\n* `New.Variety.PadicTest`: A non-empty family of cells (`New.Variety.IsCell`) with a ring map from\n\
+        \  O_C = `New.OC` to their product; `TiltRing` is the tilt of the product.\n\n## Relation to the literature\n\
+        \nKnown result: Almost acyclicity of the structure sheaf for the v-topology. The statement holds for\nany\
+        \ perfect algebra over the tilt of O_C, as cohomology on products of complete absolutely\nintegrally closed\
+        \ valuation rings modulo p♭, with the maximal ideal put into the coefficients so\nthat the result is exact.\
+        \ The proof passes to a valuation ring. Source: P. Scholze, Étale cohomology\nof diamonds, arXiv 1709.07343\
+        \ (2017), Theorem 8.7, Proposition 8.8; for perfect rings B. Bhatt, P.\nScholze, Projectivity of the Witt\
+        \ vector affine Grassmannian, Invent. Math. 209 (2017), Theorem 4.1;\npoints argument O. Gabber, S. Kelly,\
+        \ Points in algebraic geometry, J. Pure Appl. Algebra 219 (2015),\nTheorem 2.3.\n"
+  Lib.PadicComparison.Descent.TestCategory:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Descent.TestCategory
+      name: New.Variety.pdIdeal_le_comap
+      line: 75
+      signature: 'lemma pdIdeal_le_comap : pdIdeal B ≤ comap f (pdIdeal k)'
+    routeToMain:
+    - module: Lib.PadicComparison.Descent.TestCategory
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 3
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Descent/TestCategory.lean
+      line: 7
+      endLine: 13
+      text: 'This file sets up basic objects of the p-adic and crystalline comparison, for a prime p.
+
+        O_C = `New.OC` is the ring of integers of ℂ_p, O♭ = `New.Period.OFlat` is its tilt, and
+
+        ξ = `New.Period.xi` generates ker θ in A_inf = W(O♭). The prime p is implicit in `New.Period.OFlat`
+
+        and `New.Period.xi`. The file defines the ideal 𝔡(S) of the x with n! ∣ x^n for all n, and
+
+        categories of p-complete p-torsion-free test rings. Finally, it collects the commutative algebra of
+
+        flatness, reduction modulo an element and Witt vectors that is used throughout the p-adic
+
+        comparison.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Descent/TestCategory.lean
+      line: 14
+      endLine: 37
+      text: "\n## Main definitions and results\n\n* `New.Variety.pdIdeal`: the ideal \U0001D521(S) of the x with\
+        \ n! ∣ x^n for all n.\n  `New.Variety.pdIdeal_le_comap`: ring maps send \U0001D521(B) into \U0001D521(k).\n\
+        * `New.Variety.IsCompleteTorsionFree` and `New.Variety.CrysTest`: p-torsion-free p-complete rings,\n  and\
+        \ the category of such S-algebras. `New.Variety.CrysTest.restrictScalars` restricts scalars.\n* `New.Variety.baseChangeMap`,\
+        \ `New.Variety.HasFlatBaseChange`: the map M ⊗ H^n(N, Φ) → H^n(N,\n  M ⊗ Φ), and the statement that it is\
+        \ bijective for flat M.\n* `New.Variety.IsCell`, `New.Variety.PadicTest`: cells, and p-adic tests, which\
+        \ are non-empty\n  products S of cells with a map from O_C = `New.OC`.\n* `New.Variety.PadicTest.tilt`,\
+        \ `New.Variety.algCompletion`, `New.Variety.wittFunctor`,\n  `New.Variety.periodAlg`: tilt, p-adic completion,\
+        \ Witt vectors, and the completion of T ⊗ W(b)\n  over A_inf.\n\nNotions from other files:\n* `New.Variety.Comparison`:\
+        \ A comparison from F on C to F' on C': a functor φ: C' → C with a natural\n  transformation β: F∘φ → F'.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.PadicComparison.Crystalline.ComparisonMap`, `Lib.PadicComparison.Completion`,\n\
+        `Lib.PadicComparison.Descent.AlmostDescent` and `Lib.PadicComparison.HodgeTate.PeriodMap` for\nsources.\n"
+  Lib.PadicComparison.Descent.TestCovers:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Descent.TestCovers
+      name: New.Variety.hasFlatBaseChange_of_iso_reprBy
+      line: 609
+      signature: "lemma hasFlatBaseChange_of_iso_reprBy {B : CommAlg OC} {Y : PadicTest ⥤ Type 1}\n    (e : algFunctor\
+        \ ⋙ reprBy B ≅ Y) :\n    HasFlatBaseChange (freeAb Y)"
+    routeToMain:
+    - module: Lib.PadicComparison.Descent.TestCovers
+      importer: Lib.PadicComparison.HodgeTate.GenericFibre
+      line: 2
+    - module: Lib.PadicComparison.HodgeTate.GenericFibre
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 3
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Descent/TestCovers.lean
+      line: 8
+      endLine: 13
+      text: 'A cell is a p-complete, absolutely integrally closed valuation ring in which p is neither zero nor
+        a
+
+        unit. A p-adic test c is a non-empty product S = `c.ProdRing` of cells over O_C. Its tilt is
+
+        S♭ = `c.TiltRing`. ξ generates the kernel of Fontaine''s map θ : W(S♭) → S, and
+
+        π = `New.Variety.pFlat` is ξ mod p. The file computes the tilt and the kernel of θ for tests. For
+
+        perfect b, it identifies algebra maps b → S♭ with algebra maps O_C ⊗ W(b) → S (`wittFunctor` sends b
+
+        to W(b) over A_inf, and `algBaseChange OC` is O_C ⊗_{A_inf} –), so tilting is fully faithful on
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Descent/TestCovers.lean
+      line: 14
+      endLine: 52
+      text: "tests. It also produces cells over primes and covers by tests, and proves flat base change for\nℤ[Y∘ι],\
+        \ for ι full, faithful and with covering points, when Y is affinely covered.\n\n## Main definitions and\
+        \ results\n\n* `New.Variety.PadicTest.tiltPiEquiv`, `New.Variety.PadicTest.isPerfectTorsionFree_tilt`: S♭\
+        \ is the\n  product of the tilts of the cells; it is perfect and has no π-torsion.\n* `New.Variety.PadicTest.ker_theta`:\
+        \ the kernel of Fontaine's θ : W(S♭) → S is generated by ξ.\n* `New.Variety.PadicTest.thetaIso`: O_C ⊗_{A_inf}\
+        \ W(S♭) ≅ S, naturally in the test.\n* `New.Variety.homTiltIso`: for perfect `b`, algebra maps `b → c.TiltRing`\
+        \ correspond to algebra\n  maps `O_C ⊗ W(b) → c.ProdRing` by `f ↦ θ ∘ W(f)`, naturally in the test `c`.\n\
+        * `New.Variety.hasCoveringPoints_padic`: if an algebra has a point in some test, then all its points\n \
+        \ in tests factor through a single point.\n* `New.Variety.IsAffinelyCovered.hasFlatBaseChange`, `New.Variety.hasFlatBaseChange_of_iso_reprBy`:\n\
+        \  ℤ[Y∘ι] has flat base change (`New.Variety.HasFlatBaseChange`: its base change maps are bijective\n  in\
+        \ all degrees) for affinely covered Y, when ι is full, faithful and has covering points. ℤ[Y] has\n  flat\
+        \ base change for Y isomorphic to the points of an O_C-algebra.\n\nNotions from other files:\n* `New.OC`:\
+        \ The ring of integers O_C of the field C_p of p-adic complex numbers.\n* `New.Variety.PadicTest.algFunctor`:\
+        \ The functor from p-adic tests to commutative O_C-algebras\n  sending a test to its product ring S with\
+        \ its structure map; `reprBy B` is the functor of points\n  R ↦ (algebra maps B → R), and `Sigma F` is the\
+        \ type of pairs (c, point of `F c`).\n* `New.Variety.freeAb`: The functor sending a set-valued functor Y\
+        \ to Z[Y], whose value at A is the\n  free abelian group on Y(A).\n* `New.Variety.IsAffinelyCovered`: `X`\
+        \ is separated and, after restriction along `ι`, covered by one\n  affine: there are a `k`-algebra `B` and\
+        \ a point `y` of `X(B)` such that, for every object `c`,\n  each point of `X(ι c)` is the image of `y` under\
+        \ some map `B → ι c`.\n\n## Relation to the literature\n\nKnown result: Tilting and untilting for products\
+        \ of perfectoid valuation rings over O_C. Only\nproducts of p-complete absolutely integrally closed valuation\
+        \ rings over O_C are treated, and such a\nring is recovered from the Witt vectors of its tilt. Tilting is\
+        \ fully faithful, and maps from a\nperfect algebra to the tilt are maps from its untilt. Source: B. Bhatt,\
+        \ M. Morrow, P. Scholze,\nIntegral p-adic Hodge theory, Publ. Math. IHES 128 (2018), Lemma 3.10; P. Scholze,\
+        \ Perfectoid\nspaces, Publ. Math. IHES 116 (2012), Theorem 5.2.\n\nSee also `Lib.PadicComparison.Descent.AlmostDescent`\
+        \ and `Lib.Cohomology.Etale.FilteredLimits`.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicComparison.Duality.GoodPairs:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Duality.GoodPairs
+      name: New.Variety.ComparedTheory.isFiniteLerayHirsch_standard_etale
+      line: 655
+      signature: "lemma isFiniteLerayHirsch_standard_etale\n    (L : D.IsFiniteLerayHirsch (relFreeAb (IdealFamily.ofMaximalIdeal\
+        \ (A"
+    routeToMain:
+    - module: Lib.PadicComparison.Duality.GoodPairs
+      importer: Lib.Cohomology.SmoothBaseChange
+      line: 2
+    - module: Lib.Cohomology.SmoothBaseChange
+      importer: Lib.Shimura.CongruenceRelation.EichlerShimura
+      line: 1
+    - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+      importer: Lib.Shimura.Eigenspace
+      line: 4
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Duality/GoodPairs.lean
+      line: 7
+      endLine: 13
+      text: 'Spaces are set-valued functors on the tests over `A` (`New.Variety.TestOver`, the full subcategory
+
+        of `A`-algebras satisfying `IsTest`). A pair `(Y, U)` is the functor
+
+        `New.Variety.relFreeAb U = ℤ[Y] / ℤ[U]`. The pair is good,
+
+        `New.Variety.ComparedTheory.IsFiniteLerayHirsch D`, if its cohomology with locally constant
+
+        `ℤ/ℓ`-coefficients is finite and compares bijectively with the theory `D`. Here
+
+        `New.Variety.offClosedFibre Y` is the part of `Y` on tests where the maximal ideal of `A` generates
+
+        the unit ideal.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Duality/GoodPairs.lean
+      line: 14
+      endLine: 40
+      text: "\n* `New.Variety.ComparedTheory.isFiniteLerayHirsch_iff_of_locally_bijective`: excision along a map\n\
+        \  that is Zariski-locally bijective on pairs.\n* `New.Variety.ComparedTheory.isFiniteLerayHirsch_of_prod_projLine`:\
+        \ goodness descends from the\n  product with `(ℙ¹, ℙ¹ ∖ (0 : 1))`.\n* `New.Variety.ComparedTheory.isFiniteLerayHirsch_principal_open`:\
+        \ principal opens of affine space\n  inside `(ℙ¹)^d`, by Alexander duality.\n* `New.Variety.ComparedTheory.isFiniteLerayHirsch_standard_etale`:\
+        \ standard étale charts, by two\n  excisions.\n\nNotions from other files:\n* `New.Variety.projLine.unimodularRow`:\
+        \ homogeneous coordinates (1 + uv, v) of a point of P¹(B) with\n  chosen representative (u, v); `New.Variety.projLine.affinePt\
+        \ x` is the point (x : 1).\n* `New.Variety.ComparedTheory`: a theory along g with morphisms to its coefficient\
+        \ from the locally\n  constant ℤ/ℓ-valued functions, such that it and `New.Variety.Theory.locallyConstant`\
+        \ satisfy the\n  projective line formula.\n* `New.Variety.IsZariskiLocallyTop ι U`: every point of `Y` lies\
+        \ in `U` after inverting some element\n  outside any given maximal ideal, that is, `U` is all of `Y` Zariski-locally.\n\
+        \n## Relation to the literature\n\nKnown result: Comparison of cohomology theories by duality, via a diagonal\
+        \ kernel on products of P¹.\nThis step is common to several comparison theorems. It concerns torsion coefficient\
+        \ theories in\nwhich the projective line is computed. In these theories, a class supported on the diagonal\
+        \ of\n(P¹)^d carries finiteness and comparison from the point to standard étale charts over affine space.\n\
+        Sources for the theorems: SGA 4 XVI, SGA 4½ Finitude/Dualité; Faltings, Scholze primitive\ncomparison. The\
+        \ proof is in the spirit of Dold–Puppe dualisability.\n"
+  Lib.PadicComparison.Duality.LineIntegration:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Duality.LineIntegration
+      name: New.Variety.ComparedTheory.isFiniteLerayHirsch_topPoints_of_surjective
+      line: 883
+      signature: "lemma isFiniteLerayHirsch_topPoints_of_surjective {J : Type*} {d : J → ℕ}\n    {θ : ∀ i : J,\n\
+        \      H (restrictAlong (elementsProj (ringOf (\U0001D7ED (TestOver A)) ⋙ projLinePow (Fin m))) N)\n   \
+        \     (I.zerosCoeff\n          (locConstAlong (elementsProj (ringOf (\U0001D7ED (TestOver A)) ⋙ projLinePow\
+        \ (Fin m)))))\n        (d i)}\n    (h_surj : Surjective (lerayHirsch θ (relFreeAb I.topPoints)))\n    (hN\
+        \ : D.IsFiniteLerayHirsch N) :\n    D.IsFiniteLerayHirsch (relFreeAb I.topPoints)"
+    routeToMain:
+    - module: Lib.PadicComparison.Duality.LineIntegration
+      importer: Lib.Cohomology.ProjectiveLine.ConstantLineFormula
+      line: 2
+    - module: Lib.Cohomology.ProjectiveLine.ConstantLineFormula
+      importer: Lib.Cohomology.SmoothBaseChange
+      line: 1
+    - module: Lib.Cohomology.SmoothBaseChange
+      importer: Lib.Shimura.CongruenceRelation.EichlerShimura
+      line: 1
+    - module: Lib.Shimura.CongruenceRelation.EichlerShimura
+      importer: Lib.Shimura.Eigenspace
+      line: 4
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Duality/LineIntegration.lean
+      line: 6
+      endLine: 12
+      text: 'The file gives the geometric step of the duality for a zero locus in (ℙ¹)^d: a kernel class is moved
+
+        between points one coordinate at a time. In the first section, g is a functor from C to tests over
+
+        A, ℓ is invertible in A, and I is a family of ideals on the points of a functor X on tests. η
+
+        denotes the class `New.Variety.etaClass`; `M.HasLineFormula` (the projective line formula) says
+
+        that, for every S, each class from S over the points of ℙ¹ is a·1 + b·η for unique a, b restricted
+
+        from the base. The file then sets up the formal comparison of two cohomology theories on tests over
+
+        `A`, using integration over `ℙ¹`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Duality/LineIntegration.lean
+      line: 13
+      endLine: 45
+      text: "\n## Main definitions and results\n\n* `New.Variety.IdealFamily.exists_move_kernel`: a class at the\
+        \ point t(q) is moved to t(q') by\n  multiplying with the classes η(q_j) + η(q'_j).\n* `New.Variety.TorsionCoeff.HasLineFormula.integrate`:\
+        \ integration `a + η b ↦ b` over `ℙ¹`, given\n  `New.Variety.TorsionCoeff.HasLineFormula`.\n* `New.Variety.ComparedTheory`,\
+        \ `New.Variety.ComparedTheory.IsFiniteLerayHirsch`: a theory with maps\n  from the locally constant `ZMod\
+        \ ℓ` coefficients, and the property that these maps compute its\n  cohomology from finite groups.\n* `New.Variety.NaturalOp`:\
+        \ operations on cohomology, natural in the theory, with parameters in `ℙ¹`.\n* `New.Variety.ComparedTheory.isClosedClass_isFiniteLerayHirsch`,\n\
+        \  `New.Variety.ComparedTheory.isFiniteLerayHirsch_of_shortExact`,\n  `New.Variety.ComparedTheory.isFiniteLerayHirsch_iff_of_isCohomEquiv`,\n\
+        \  `New.Variety.ComparedTheory.isFiniteLerayHirsch_of_retract`: the property passes along short exact\n\
+        \  sequences, equivalences and retracts by operations.\n* `New.Variety.ComparedTheory.isFiniteLerayHirsch_of_integrate_params`,\n\
+        \  `New.Variety.ComparedTheory.isFiniteLerayHirsch_topPoints_of_surjective`: it passes to pairs in\n  `(ℙ¹)^m`,\
+        \ by self-duality.\n\nNotions from other files:\n* `New.Variety.TestOver`: The category of tests over A:\
+        \ the full subcategory of commutative\n  A-algebras whose underlying rings are test rings.\n* `New.Variety.TorsionCoeff`:\
+        \ a functor F on C to abelian groups, killed by ℓ, with Zariski descent\n  for the rings g(c). A `New.Variety.Theory`\
+        \ is one that also behaves well on closed loci.\n* `New.Variety.IdealFamily`: For a functor ι from C to\
+        \ commutative rings, ideals I_c of ι(c) such\n  that I_b is generated by the image of I_a for every morphism\
+        \ a → b.\n* `New.Variety.IdealFamily.topLocus`: the subfunctor of the one-point functor that is non-empty\n\
+        \  exactly where I_c is the unit ideal.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicComparison.Duality.GoodPairs`\
+        \ for sources.\n"
+  Lib.PadicComparison.HodgeTate.ExtCocycles:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.HodgeTate.ExtCocycles
+      name: New.Variety.contraction_mul
+      line: 339
+      signature: "lemma contraction_mul {s : M' →ₗ[T'] M'} (hs : ∀ m : M', s m = -m) (x y : ExteriorAlgebra T M)\
+        \ :\n    contraction φ (x * y) =\n      exteriorMap s (exteriorMapSnd φ x) * contraction φ y +\n       \
+        \ contraction φ x * exteriorMapSnd φ y"
+    routeToMain:
+    - module: Lib.PadicComparison.HodgeTate.ExtCocycles
+      importer: Lib.Cohomology.TorsionTheories
+      line: 5
+    - module: Lib.Cohomology.TorsionTheories
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 1
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/HodgeTate/ExtCocycles.lean
+      line: 6
+      endLine: 13
+      text: 'For functors `N`, `F` from `C` to abelian groups (`New.Variety.AbFunctor C`),
+
+        `New.Variety.TotalH N F = ⨁ₙ Extⁿ(N, F)` is the total Ext group. Its Yoneda product is
+
+        `New.Variety.TotalH.comp x y`, with `x` first. A morphism `f` gives the class
+
+        `New.Variety.TotalH.homClass f` of degree 0, and `New.Variety.TotalH.map Φ` applies an exact functor
+
+        `Φ` degree by degree. The file proves a sign rule for connecting classes and attaches to a 1-cocycle
+
+        a class in `Ext¹`. For a semilinear map `φ = (φ₀, φ₁) : M → T'' × M''`, it also defines
+
+        `New.Variety.contraction φ : ⋀ M → ⋀ M''`, which contracts with `φ₀` and applies `φ₁` to the
+
+        remaining factors, and proves a product rule for it.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/HodgeTate/ExtCocycles.lean
+      line: 14
+      endLine: 31
+      text: "\n## Main definitions and results\n\n* `New.Variety.TotalH.extClass_sign_comm`: the connecting classes\
+        \ of a short exact sequence of\n  functors `Ψ → Ξ → Φ` commute with a class of degree `a` up to the sign\
+        \ `(-1) ^ a`.\n* `New.Variety.Cocycle`, `New.Variety.Cocycle.cohomClass`: a 1-cocycle from `F` to `G` twists\n\
+        \  `G × F` into an extension of `F` by `G`, hence a class in `Ext¹(F, G)`.\n* `New.Variety.contraction_mul`:\
+        \ `New.Variety.contraction φ` is a graded derivation along\n  `New.Variety.exteriorMapSnd φ`, the ring map\
+        \ of `φ₁`.\n\nNotions from other files:\n* `New.Variety.abTensor`: The pointwise tensor product over ℤ of\
+        \ two such functors, as a bifunctor.\n* `New.Variety.restrictAlong`: For φ: C' → C, the functor N ↦ N∘φ\
+        \ from functors on C to functors on\n  C', with values in D.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.PadicComparison.HodgeTate.PeriodMap` for sources.\n"
+  Lib.PadicComparison.HodgeTate.GaloisWeight:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.HodgeTate.GaloisWeight
+      name: New.Variety.HodgeTatePair.contractionPow_galTwist
+      line: 134
+      signature: "lemma HodgeTatePair.contractionPow_galTwist [EmbeddedInQpBar p k] (g : Gp p) (h : ℕ) :\n    pullbackAlong\
+        \ (twistForms g)\n        (comp (TotalH.map (restrictAlong (galTwist g)) (contractionPow h))\n         \
+        \ (TotalH.homClass (toTest.whiskerLeft (twistGenericCoeff g)))) =\n      contractionPow h"
+    routeToMain:
+    - module: Lib.PadicComparison.HodgeTate.GaloisWeight
+      importer: Lib.PadicComparison.HodgeTate.PeriodMap
+      line: 2
+    - module: Lib.PadicComparison.HodgeTate.PeriodMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 2
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/HodgeTate/GaloisWeight.lean
+      line: 6
+      endLine: 12
+      text: 'An element `g` of `Gal(ℚ̄_p/ℚ_p)` twists a p-adic test `c` by precomposing its structure map
+
+        `O_C → R` with `g` (`New.Variety.PadicTest.twist`). The twist leaves the rings `R`, `K = R[1/p]` and
+
+        `B = W(R♭)[1/p] / (ker θ)²` unchanged. Write `μ = [ε] − 1` and `χ` for the cyclotomic character.
+
+        Suppose `g` fixes `E` and `New.Variety.restrictToPairs ξ` is the image under
+
+        `New.Variety.hodgeTateMap h` of a Hodge class defined over `E`, and that `χ(g⁻¹)` is the image in
+
+        ℚ̄_p of some `t : k`. Then the twist by `g` multiplies `New.Variety.restrictToPairs ξ` by
+
+        `χ(g⁻¹)^h`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/HodgeTate/GaloisWeight.lean
+      line: 13
+      endLine: 39
+      text: "\n## Main definitions and results\n\n* `New.Variety.thickeningOver.mulMu_twist`: the inclusion `ι :\
+        \ K → B` (multiplication by `μ`)\n  changes by the cyclotomic character `χ(g⁻¹)` (`New.cyclotomicGp`), as\
+        \ `g⁻¹ μ ≡ χ(g⁻¹) μ` modulo\n  `μ²`.\n* `New.Variety.HodgeTatePair.galTwist`: the twist on pairs `(c, K^n)`\
+        \ (`New.Variety.HodgeTatePair`).\n* `New.Variety.HodgeTatePair.contractionPow_galTwist`: the classes\n \
+        \ `New.Variety.HodgeTatePair.contractionPow` (the `h`-th power of the contraction class, then the\n  projection\
+        \ to degree zero) are compatible with the twist.\n\nNotions from other files:\n* `New.Variety.PadicTest`:\
+        \ A p-adic test: a non-empty family of cells (`New.Variety.IsCell`) with a\n  ring map from O_C to their\
+        \ product R.\n* `New.Variety.thickeningOver.mulMu`: The additive map ι: K → B sending θ(x) to the class\
+        \ of μx,\n  where μ = [ε] − 1.\n* `New.Variety.HodgeTatePair`: A pair (S,M) of a p-adic test S and a free\
+        \ module M of finite rank\n  over T = S[1/p]; `New.Variety.HodgeTatePair.pairAlg` sends it to B_{S,M} =\
+        \ B_S ×_T (T ⊕ M).\n* `New.Variety.hodgeTateMap`: The map λ_h: restrict a Hodge class along B_{S,M} → T\
+        \ ⊕ M, apply the\n  h-th power of the contraction class, and project ⋀M to degree zero.\n* `New.Variety.restrictToPairs`:\
+        \ Restriction along B_{S,M} → T, from the cohomology of N(T) on\n  p-adic tests S to that of N(B_{S,M})\
+        \ on pairs. `New.Variety.PairRestrictBijective` says that it is\n  bijective in all degrees.\n\n## Relation\
+        \ to the literature\n\nKnown; see `Lib.PadicComparison.HodgeTate.PeriodMap` for sources.\n"
+  Lib.PadicComparison.HodgeTate.GenericFibre:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.HodgeTate.GenericFibre
+      name: New.Variety.thickeningOver.exact_mulMu_proj
+      line: 444
+      signature: "lemma exact_mulMu_proj :\n    Surjective (proj c) ∧ Function.Injective (mulMu c) ∧ Exact (mulMu\
+        \ c) (proj c)"
+    routeToMain:
+    - module: Lib.PadicComparison.HodgeTate.GenericFibre
+      importer: Lib.PadicComparison.Primitive.PeriodCoefficients
+      line: 3
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/HodgeTate/GenericFibre.lean
+      line: 8
+      endLine: 11
+      text: 'Let `c` be a p-adic test with ring R = `c.ProdRing`, a product of valuation rings over O_C. Put K =
+
+        R[1/p] (`New.Variety.PadicTest.GenericRing`) and B = W(R♭)[1/p]/(ker θ)², where θ is Fontaine''s map.
+
+        Since p is not a zero divisor in R, the map R → K is injective. B is a square-zero extension of K by
+
+        K, and the map ℚ̄_p → K lifts uniquely to B over ℤ_p. Both constructions are functorial in `c`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/HodgeTate/GenericFibre.lean
+      line: 12
+      endLine: 28
+      text: "\n## Main definitions and results\n\n* `New.Variety.genericOver`, `New.Variety.thickeningOver`: `c\
+        \ ↦ K` and `c ↦ B` as functors to\n  `k`-algebras.\n* `New.Variety.thickeningOver.exact_mulMu_proj`: `0\
+        \ → K → B → K → 0` is exact; the first map comes\n  from multiplication by `μ` (`New.Period.mu`).\n* `New.Variety.exists_periodAlg_iso_genericAlg`,\
+        \ `New.Variety.hasZariskiDescent_genericOver`: `K` as\n  a completed tensor product; Zariski descent.\n\n\
+        Notions from other files:\n* `New.Variety.PadicTest.TiltRing`: The tilt R♭, the inverse limit of R/p along\
+        \ Frobenius.\n* `New.Period.Ainf`: The ring A_inf of p-typical Witt vectors over the tilt O♭ of O_C.\n\n\
+        ## Relation to the literature\n\nKnown; see `Lib.PadicComparison.HodgeTate.PeriodMap` for sources.\n"
+  Lib.PadicComparison.HodgeTate.Map:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.HodgeTate.Map
+      name: New.Variety.PairH.map
+      line: 402
+      signature: "def PairH.map (α : N' ⟶ N) : PairH N →ₗ[k] PairH N' where\n  toAddHom"
+    routeToMain:
+    - module: Lib.PadicComparison.HodgeTate.Map
+      importer: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      line: 4
+    - module: Lib.Cohomology.PointClass.ProjectiveNonvanishing
+      importer: Lib.Cohomology.PointClass.LinearIndependence
+      line: 1
+    - module: Lib.Cohomology.PointClass.LinearIndependence
+      importer: Lib.Cohomology.WoodsHole
+      line: 1
+    - module: Lib.Cohomology.WoodsHole
+      importer: Lib.Shimura.Eigenspace
+      line: 1
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/HodgeTate/Map.lean
+      line: 6
+      endLine: 8
+      text: 'The field `k` is embedded in `ℚ̄_p`, so it has characteristic zero. For a `p`-adic test `S`, put
+
+        `T = S[1/p]`, and let `B_S = W(S^♭)[1/p] / (ker θ)²` be the square-zero extension
+
+        `New.Variety.thickeningOver` of `T` by `T`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/HodgeTate/Map.lean
+      line: 9
+      endLine: 50
+      text: "Put `B_{S,M} = B_S ×_T (T ⊕ M)`. All groups are `Ext` groups of functors to abelian groups\n(`New.Variety.H`).\
+        \ On pairs `(S, M)` with `M = T ^ n`, the Hodge–Tate map `λ_h` restricts a Hodge\nclass to the pairs. It\
+        \ then composes it with the `h`-th Yoneda power of the class of a contraction\ncocycle, followed by the\
+        \ projection to degree zero. So `λ_h` lands in the cohomology of `N(B_{S,M})`\non pairs. This map is natural,\
+        \ turns scaling by `t` into multiplication by `t ^ h`, and satisfies a\nbinomial product rule.\n\n## Main\
+        \ definitions and results\n\n* `New.Variety.HodgeTatePair`: pairs `(S, M)` with `M = T ^ n`; a map has a\
+        \ semilinear part\n  `M → T' × M'`.\n* `New.Variety.HodgeTatePair.contractionPow`: the `h`-th Yoneda power\
+        \ of the class of the\n  contraction cocycle `New.Variety.HodgeTatePair.contractionCocycle`, followed by\
+        \ the projection to\n  degree zero. It is `k`-linear (`New.Variety.HodgeTatePair.act_comp_contractionPow`)\n\
+        \  and has weight `h` (`New.Variety.HodgeTatePair.scaleModule_comp_contractionPow`).\n* `New.Variety.hodgeTateMap`:\
+        \ restrict a class of `New.Variety.HodgeH` to these pairs and compose\n  with `contractionPow h`. `New.Variety.restrictToPairs`\
+        \ maps the degree-`n` cohomology of `N(T)` on\n  `p`-adic tests to the same target `New.Variety.PairH`.\n\
+        * `New.Variety.PairRestrictBijective`: restriction along `B_{S,M} → T` is bijective on cohomology in\n \
+        \ all degrees.\n* `New.Variety.PairRestrictBijective.exists_hodgeTateMap_eq`: under this hypothesis,\n \
+        \ `hodgeTateMap h x` for `x` of degree `q` comes from a class of degree `q + h`.\n* `New.Variety.IsChartCovered.pairRestrictBijective`:\
+        \ `PairRestrictBijective` holds for `ℤ[X]` if\n  `X` is covered by étale charts. The map `B_{S,M} → T` is\
+        \ a square-zero extension\n  (`New.Variety.HodgeTatePair.isSquareZero_toGeneric`), so the lifts of a point\
+        \ of a chart of\n  dimension `n` are represented by one pair `(S, T ^ n)`.\n\nNotions from other files:\n\
+        * `New.Variety.PadicTest`: a p-adic test, a non-empty family of cells (`New.Variety.IsCell`) with a\n  ring\
+        \ map from O_C to their product.\n* `New.Variety.Cocycle`: a 1-cocycle from F to G, homomorphisms D(f):\
+        \ F(c) → G(d) for f: c → d, with\n  D(gf) = G(g)D(f) + D(g)F(f); `D.cohomClass` is its class in Ext¹(F,\
+        \ G).\n* `New.Variety.contraction`: for semilinear φ = (φ₀, φ₁): M → T' × M', the map ⋀M → ⋀M' that\n  contracts\
+        \ with φ₀ and applies φ₁.\n* `New.Variety.TotalH`: the total Ext group, the direct sum of the Ext^n(N,F)\
+        \ over all n ≥ 0;\n  `comp x y` is the Yoneda product, `x` followed by `y`.\n* `New.Variety.HodgeH`: Hodge\
+        \ cohomology of a functor N on k-algebras, Ext^q from (A, M) ↦ N(A ⊕ M)\n  to (A, M) ↦ ⋀_A M on pairs of\
+        \ a k-algebra A and a free module M = A^ι.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicComparison.HodgeTate.PeriodMap`\
+        \ for sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicComparison.HodgeTate.PeriodMap:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.HodgeTate.PeriodMap
+      name: New.Variety.exists_hasHodgeTateWeight
+      line: 271
+      signature: "lemma New.Variety.exists_hasHodgeTateWeight {p h : ℕ} {R : CommRingCat} {E k : Type} [Field k]\n\
+        \    [Field E] [EmbeddedInQpBar p k] [Algebra R Ω] [Algebra R E] [Algebra E k] [Algebra E Ω]\n    [IsScalarTower\
+        \ R E Ω] {Y : Over (Spec R)} [IsCharted Y Ω] [IsProper Y.hom] {A : ClosurePlace}\n    [I : GaloisRep.PadicPlaceEmbedding\
+        \ E A p] (hR : ∀ r : R, algebraMap R Ω r ∈ A)\n    (he_compat : ∀ x : E, algebraMap k (PadicAlgCl p) (algebraMap\
+        \ E k x) = I.e (algebraMap E Ω x))\n    (d : ℕ) [SmoothOfRelativeDimension d Y.hom] (ε : PadicAlgCl p →+*\
+        \ k)\n    (hε_section : ∀ z : PadicAlgCl p, algebraMap k (PadicAlgCl p) (ε z) = z)\n    {W : Over (Spec\
+        \ R)} [IsProper W.hom] {q : ℕ}\n    (x : HodgeH (freeAb.obj ((algPoints E R).obj Y)) q) :\n    ∃ v : ℂ_[p]\
+        \ ⊗[ℤ_[p]] (ellAdicCohom R Ω (q + h)).obj ⟨Y⟩,\n      ∃ Θ : ℂ_[p] ⊗[ℤ_[p]] (ellAdicCohom R Ω (q + h)).obj\
+        \ ⟨W⟩ →ₛₗ[ε]\n        PairH (restrictAlg E k ⋙ freeAb.obj (algPointsOf E R W)),\n      -- (a) `v` has Hodge–Tate\
+        \ weight `h` under the decomposition group of `A`\n      HasHodgeTateWeight (ellAdicCohom.galoisAction R\
+        \ Ω (decompGroup Gal(Ω/E) A) Y (q + h)) h v ∧\n      -- (b) `Θ` sends the pull-back of `v` along any `u`\
+        \ to `hodgeTateMap h` of the pull-back of\n      -- `x`\n      ∀ u : W ⟶ Y, hodgeTateMap h (x.map (freeAb.map\
+        \ ((algPoints E R).map u))).baseChange =\n        Θ ((((ellAdicCohom R Ω (q + h)).map u.op).hom.restrictScalars\
+        \ ℤ_[p]).baseChange ℂ_[p]\n          v)"
+    routeToMain:
+    - module: Lib.PadicComparison.HodgeTate.PeriodMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 2
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/HodgeTate/PeriodMap.lean
+      line: 9
+      endLine: 12
+      text: 'This file compares the geometric cohomology `New.Variety.ellAdicCohom R Ω n` of an `R`-scheme `Y`
+
+        (`Ω` an `R`-algebra on which a group `Γ` acts by ring maps fixing the image of `R`), written
+
+        `V^n(Y)`, with the cohomology of the points of `Y` in `p`-adic tests. A vector has weight `h`
+
+        (`New.HasHodgeTateWeight`) if Galois acts on it by the `(-h)`-th power of the cyclotomic character.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/HodgeTate/PeriodMap.lean
+      line: 13
+      endLine: 45
+      text: "\n## Main definitions and results\n\n* `New.Variety.toTwistAlg`: the identity of a `p`-adic test as\
+        \ an `R`-algebra map to its Galois\n  twist.\n* `New.Variety.exists_period_map`: the period map is natural,\
+        \ Galois equivariant, and bijective for\n  proper charted `Y`. It is the pull-back along the comparison\
+        \ of\n  `New.Variety.exists_primitive_period_comparison`.\n* `New.Variety.exists_hasHodgeTateWeight`: the\
+        \ value of the Hodge–Tate map on a Hodge class comes\n  from a vector of weight `h`, naturally in maps to\
+        \ `Y`.\n\nNotions from other files:\n* `New.Variety.PadicTest`: A p-adic test c: a non-empty family of cells,\
+        \ whose product is the ring\n  `c.ProdRing`, with a ring map from O_C, the integers of ℂ_p, to that product.\n\
+        * `New.Variety.PadicTest.twist`: For g in G_p, the endofunctor of p-adic tests that keeps the ring\n  and\
+        \ precomposes its structure map O_C → c.ProdRing with the action of g.\n\n## Relation to the literature\n\
+        \nKnown result: The primitive comparison theorem and the period isomorphism. Here coefficients are\nconstant,\
+        \ schemes are proper and charted (`New.Variety.IsCharted`), cohomology is taken on test\nrings, and the\
+        \ maximal ideal is put into the coefficients. The result is deduced from the duality\ncomparison on products\
+        \ of projective lines, without almost finiteness. Source: P. Scholze, p-adic\nHodge theory for rigid-analytic\
+        \ varieties, Forum Math. Pi 1 (2013), Thm 1.3 and 5.1; for the method,\nB. Zavyalov, Poincaré duality in\
+        \ abstract 6-functor formalisms, arXiv 2301.03821, Thm 3.3.3 and\nAppl. 1.3.4; Li–Reinecke–Zavyalov, arXiv\
+        \ 2410.08200, §6.4.\n\nKnown result: The Hodge–Tate map from Hodge cohomology to p-adic étale cohomology.\
+        \ The target here\nis cohomology on test rings, which is not identified with étale cohomology. Only the\
+        \ natural\nmultiplicative map into the part of weight h is built, from the torsor of lifts modulo the square\
+        \ of\nthe kernel of Fontaine's map, and bijectivity is not proved. Source: Scholze, p-adic Hodge theory\n\
+        for rigid-analytic varieties, Forum Math. Pi 1 (2013), Cor. 1.8; the construction follows Bhatt, The\nHodge–Tate\
+        \ decomposition via perfectoid spaces, Arizona Winter School 2017, §3.4.\n"
+  Lib.PadicComparison.Primitive.ComparisonTheorem:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Primitive.ComparisonTheorem
+      name: New.Variety.ellAdicCohom.continuous_galoisAction
+      line: 376
+      signature: "lemma ellAdicCohom.continuous_galoisAction (n : ℕ) (K : Type*) [Field K] [Algebra K Ω] [Algebra\
+        \ R K]\n    [IsScalarTower R K Ω] [G : IsProGalois Gal(Ω/K) K Ω]\n    (x : (ellAdicCohom R Ω n).obj (Opposite.op\
+        \ Y)) {N : ℕ}\n    (l : ellAdicCohom R Ω n ⟨Y⟩ →ₗ[ℚ_[p]] Fin N → PadicAlgCl p) :\n    Continuous fun g :\
+        \ Gal(Ω/K) ↦ l (galoisAction R Ω Gal(Ω/K) Y n g x)"
+    routeToMain:
+    - module: Lib.PadicComparison.Primitive.ComparisonTheorem
+      importer: Lib.PadicComparison.HodgeTate.PeriodMap
+      line: 3
+    - module: Lib.PadicComparison.HodgeTate.PeriodMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 2
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Primitive/ComparisonTheorem.lean
+      line: 6
+      endLine: 10
+      text: 'This file concerns a proper scheme `Y` over `R` that is charted over an algebraic closure `Ω` of `ℚ`
+
+        (`New.Variety.IsCharted`). A p-adic test is a product of valuation rings over `O_C`, the integers of
+
+        `ℂ_p`, and `O^♭` is the tilt of `O_C`. The primitive comparison theorem compares the mod `p`
+
+        cohomology of `Y`, tensored with `O^♭`, with the cohomology of its points in p-adic tests with
+
+        tilted coefficients.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Primitive/ComparisonTheorem.lean
+      line: 11
+      endLine: 45
+      text: "\n## Main definitions and results\n\n* `New.Variety.finite_and_primitive_comparison`: let `Y` be proper\
+        \ over `R` and charted over `Ω`,\n  and assume `IsAcyclicOnPerfect (moduleCoeff (tensorCoeff M))`. Then\
+        \ `Y_Ω` has flat base change and\n  finite mod `p` cohomology, and the comparison map is bijective.\n* `New.Variety.finite_padic_cohomology`:\
+        \ the cohomology with coefficients `ℤ_p` is finitely\n  generated; hence `New.Variety.ellAdicCohom R Ω n`,\
+        \ which is `ℚ_p ⊗` this module, is\n  finite-dimensional at `Y`.\n* `New.Variety.ellAdicCohom.continuous_galoisAction`:\
+        \ the Galois action\n  `New.Variety.ellAdicCohom.galoisAction` is continuous, tested on a vector and a linear\
+        \ map to\n  `Q̄_p ^ N`. Modulo `p ^ k` a class is defined over finitely many elements of `Ω`, so it is fixed\n\
+        \  by an open subgroup.\n\nNotions from other files:\n* `New.Variety.genericTestOver`: The functor sending\
+        \ a p-adic test with ring R to R[1/p], a test\n  over Ω with algebra structure through Ω → ℂ_p.\n* `New.Variety.primitiveMap`:\
+        \ The natural map O^♭ ⊗ LC(Spec S[1/p], \U0001D53D_p) → S^♭ on p-adic tests S,\n  with LC the locally constant\
+        \ functions; its source is `New.Variety.oFlatLocConst`.\n* `New.Variety.HasFlatBaseChange` N: M ⊗ Hⁿ(N,\
+        \ Φ) → Hⁿ(N, M ⊗ Φ) is bijective for flat M.\n* `New.Variety.testPoints`: For R → O_C, the functor sending\
+        \ an R-scheme X to the functor S ↦ X(S)\n  of its points over R in p-adic tests.\n* `New.Variety.H`: `H\
+        \ N F n` is Extⁿ(N, F) among functors to abelian groups; for\n  `N = freeAb X = ℤ[X]` it is the cohomology\
+        \ Hⁿ(X, F). `testIncl ⋙ X` restricts `X` to test rings.\n\n## Relation to the literature\n\nKnown result:\
+        \ Finiteness and Galois continuity of p-adic étale cohomology. The result is stated for\ncohomology on test\
+        \ rings, not identified with étale cohomology, of proper schemes charted over an\nalgebraic closure of Q,\
+        \ with constant coefficients, where integral coefficients are the Witt vectors\nof the mod p functions.\
+        \ Finiteness is lifted from finiteness modulo p, which comes from the\nprimitive comparison. Source: SGA\
+        \ 4, Exp. XIV (Artin), finiteness for proper morphisms; Scholze 2013\nThm 1.1; by duality, Zavyalov arXiv\
+        \ 2301.03821 Appl. 1.3.4.\n\nSee also `Lib.PadicComparison.HodgeTate.PeriodMap`.\n"
+  Lib.PadicComparison.Primitive.PeriodCoefficients:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      name: New.Variety.CoeffCompBijective.periodAlg_of_almostCoeff
+      line: 398
+      signature: "lemma CoeffCompBijective.periodAlg_of_almostCoeff {C C' : Type 1} [Category C] [Category C'] {p\
+        \ : ℕ}\n    [ThePrime p] {N : AbFunctor C} {N' : AbFunctor C'} {φ : C' ⥤ C} {α : N' ⟶ φ ⋙ N}\n    (hN :\
+        \ HasFlatBaseChange N) {S K : Type} [CommRing S] [Algebra Ainf S] [CommRing K] [Algebra S K]\n    [Flat\
+        \ S K] (hK : IsPeriodRingPair p S K) {ψ : C ⥤ CommAlg OFlat} {ψ' : C' ⥤ CommAlg OFlat}\n    {β : φ ⋙ ψ ⟶\
+        \ ψ'}\n    (hN' : ∀ G : CommAlg OFlat ⥤ ModuleCat S,\n      AllBijective fun n : ℕ ↦ baseChangeMap K K N'\
+        \ (ψ' ⋙ G) n)\n    (hψ : ∀ A : C, IsPerfectTorsionFree (ψ A)) (hψ' : ∀ A : C', IsPerfectTorsionFree (ψ'\
+        \ A))\n    (h_red : CoeffCompBijective β α (almostCoeff (OFlat ⊗[Ainf] S))) :\n    CoeffCompBijective β\
+        \ α (asModules (periodAlg S) ⋙ tensorWith K K)"
+    routeToMain:
+    - module: Lib.PadicComparison.Primitive.PeriodCoefficients
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Primitive/PeriodCoefficients.lean
+      line: 9
+      endLine: 17
+      text: "This file treats the `p`-adic side of the comparison of cohomologies. A `p`-adic test `c`\n(`New.Variety.PadicTest`)\
+        \ has a ring `R = c.ProdRing`, a generic ring `R[1/p] = c.GenericRing` and a\ntilt `R♭` (`New.Variety.PadicTest.tilt`),\
+        \ an algebra over `O♭ = OFlat`. Here `^` denotes `p`-adic\ncompletion. `S` is an `A_inf`-algebra and `K`\
+        \ is an `S`-algebra.\n\n## Main definitions and results\n\n* `New.Variety.bijective_prod_tilt`: bijectivity\
+        \ of `x ↦ (f x, g x)`, which recognises a product,\n  passes from the rings of `p`-adic tests to their tilts.\n"
+    remainder:
+      path: grh/src/Lib/PadicComparison/Primitive/PeriodCoefficients.lean
+      line: 18
+      endLine: 47
+      text: "* `New.Variety.IsPeriodRingPair`: `S` is `p`-torsion-free and `p`-complete, `p` divides the image of\n\
+        \  `ξ`, and `τ` is a unit in `K`.\n* `New.Variety.hasPartitions_periodAlg`: a functor `Ψ` with an isomorphism\
+        \ `θ` from the period\n  coefficients `asModules (tilt ⋙ periodAlg S) ⋙ tensorWith K K` turns a product\
+        \ of two tests into a\n  product (`New.Variety.HasPartitions`).\n* `New.Variety.CoeffCompBijective.periodAlg_of_almostCoeff`:\
+        \ for an `A_inf`-algebra `S` with\n  `IsPeriodRingPair p S K` and `Flat S K`, under base-change hypotheses\
+        \ on `N` and `N'` and with\n  `ψ`, `ψ'` perfect and torsion-free, bijectivity of a comparison of cohomology\
+        \ groups\n  (`New.Variety.CoeffCompBijective`) passes from the coefficients `b ↦ b ⊗ (O♭ ⊗ S) ⊗ \U0001D52A\
+        `\n  (`New.Variety.almostCoeff`) to the coefficients `b ↦ K ⊗ (S ⊗ W(b))^` (`New.Variety.periodAlg`).\n\
+        \  The bridge is the ideal `W(\U0001D52A)` of `A_inf` (`New.Lift.wittOfMaxIdeal`). It reduces to `\U0001D52A\
+        ` modulo\n  `p` and contains `τ` (`New.Period.tau`).\n* `New.Variety.primitiveMap`: the `O♭`-algebra map\
+        \ `O♭ ⊗_{\U0001D53D_p} LC(Spec R[1/p]) → R♭` that extends\n  `New.Variety.locConstToTilt`, where `LC` denotes\
+        \ locally constant functions.\n* `New.Variety.tiltTheory`: with coefficients `R ↦ R♭ ⊗_{O♭} M`, a theory\
+        \ (`New.Variety.Theory`)\n  along `New.Variety.genericTestOver`.\n\nNotions from other files:\n* `New.Period.OFlat`:\
+        \ the ring `O♭`, the inverse limit of `O_C / p` along `x ↦ x ^ p`.\n* `New.Variety.IsPerfectTorsionFree\
+        \ b`: the `O♭`-algebra `b` is perfect, and `pFlat`, the class of\n  `ξ` modulo `p`, is a non-zero-divisor\
+        \ on it.\n* `New.Variety.CoeffCompBijective β α F`: the comparison of cohomology groups along `β` and `α`\
+        \ is\n  bijective in every degree for the coefficients `F`.\n* `New.Variety.moduleCoeff F`: a functor `F`\
+        \ to modules, read as a functor to abelian groups, to\n  serve as coefficients of cohomology.\n\n## Relation\
+        \ to the literature\n\nKnown; see `Lib.PadicComparison.Descent.TestCovers` and `Lib.PadicComparison.HodgeTate.PeriodMap`\n\
+        for sources.\n"
+  Lib.PadicComparison.Primitive.Periods:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.Primitive.Periods
+      name: New.Variety.exists_primitive_period_comparison
+      line: 304
+      signature: "lemma exists_primitive_period_comparison {p : ℕ} [ThePrime p] {S : Type} [CommRing S]\n    [Algebra\
+        \ Ainf S] [Algebra ℤ_[p] S] [IsScalarTower ℤ_[p] Ainf S] (K : Type) [CommRing K]\n    [Algebra S K] [Module.Flat\
+        \ S K] [Algebra ℤ_[p] K] [IsScalarTower ℤ_[p] S K]\n    {Ψ : PadicTest ⥤ ModuleCat K} (θ : asModules (tilt\
+        \ ⋙ periodAlg S) ⋙ tensorWith K K ≅ Ψ)\n    (hS : IsPeriodRingPair p S K) :\n    ∃ γ : genericTest ⋙ asModules\
+        \ (wittLocConst p) ⋙ tensorWith K K ⟶ Ψ,\n      (∀ (c : PadicTest) (a : K) (x : (wittLocConst p).obj (genericTest.obj\
+        \ c)),\n        γ.app c (a ⊗ₜ x) =\n          θ.hom.app c (a ⊗ₜ wittToPeriodAlg S (tilt.obj c)\n       \
+        \     (WittVector.map (locConstToTilt.app c).hom.toRingHom x))) ∧\n      ∀ {N : AbFunctor TestRing} {N'\
+        \ : AbFunctor PadicTest} {α : N' ⟶ genericTest ⋙ N},\n        HasFlatBaseChange N → HasFlatBaseChange N'\
+        \ →\n        (∀ n : ℕ, Module.Finite ℤ_[p] (H N ellAdicCoeff n)) →\n        CoeffCompBijective primitiveMap\
+        \ α (almostCoeff (OFlat ⊗[Ainf] S)) →\n        (ofModuleHom genericTest γ).IsBijective α"
+    routeToMain:
+    - module: Lib.PadicComparison.Primitive.Periods
+      importer: Lib.PadicComparison.HodgeTate.PeriodMap
+      line: 4
+    - module: Lib.PadicComparison.HodgeTate.PeriodMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 2
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/Primitive/Periods.lean
+      line: 7
+      endLine: 13
+      text: 'The primitive comparison, passed from coefficients modulo `p` to period coefficients. For a `p`-adic
+
+        test `c` with ring `R`, let `L` be the ring of locally constant `𝔽_p`-valued functions on
+
+        `Spec R[1/p]` (for a test ring `A`, the same ring on `Spec A`; a `p`-adic test gives `A = R[1/p]`).
+
+        `New.Variety.primitiveMap` is the natural map of `O♭`-algebras from `O♭ ⊗ L` to the tilt `R♭`; on
+
+        `1 ⊗ L` it restricts to `locConstToTilt : L → R♭`, `ℓ ↦ primitiveMap (1 ⊗ ℓ)`. Let `S` be an
+
+        `A_inf`-algebra and `K` an `S`-algebra, and let `Ψ` be isomorphic (by `θ`) to the period
+
+        coefficients `c ↦ K ⊗ (S ⊗ W(R♭))^`, where `^` is `p`-adic completion.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/Primitive/Periods.lean
+      line: 14
+      endLine: 40
+      text: "\n* `New.Variety.primitivePeriodMap`: the natural map `K ⊗ W(L) → Ψ` induced by\n  `New.Variety.primitiveMap`.\n\
+        * `New.Variety.primitivePeriodMap_isBijective`: this map is bijective on cohomology under several\n  conditions.\
+        \ `S` and `K` form a period ring pair, and `K` is flat over `S`. `N` and `N'` have flat\n  base change.\
+        \ The cohomology of `N` with coefficients `ℤ_p` is finite over `ℤ_[p]`. The map that\n  `New.Variety.primitiveMap`\
+        \ induces on the coefficients `b ↦ b ⊗ (O♭ ⊗ S) ⊗ \U0001D52A` is bijective on\n  cohomology.\n* `New.Variety.exists_primitive_period_comparison`:\
+        \ the same, in existential form.\n\nNotions from other files:\n* `New.Variety.CoeffCompBijective β α F`:\
+        \ the comparison of cohomology groups along `β` and `α` is\n  bijective in every degree for the coefficients\
+        \ `F`.\n* `New.Variety.HasFlatBaseChange N`: the cohomology of `N` commutes with flat extension of the\n\
+        \  coefficients.\n* `New.Variety.IsPeriodRingPair`: `S` is `p`-torsion-free and `p`-complete, `p` divides\
+        \ the image of\n  `ξ` in `S`, and `τ` is a unit in `K`.\n* `New.Variety.almostCoeff`: for an `O♭`-module\
+        \ `N`, the functor `b ↦ b ⊗ N ⊗ \U0001D52A` on `O♭`-algebras,\n  `\U0001D52A` the maximal ideal of `O♭`.\n\
+        * `New.Variety.oFlatLocConst`: the functor from test rings to `O♭`-algebras sending `A` to\n  `O♭ ⊗_{\U0001D53D\
+        _p} LC(A)`, `LC(A)` the locally constant functions `Spec A → \U0001D53D_p`.\n* `New.Variety.ellAdicCoeff`:\
+        \ the coefficient `ℤ_ℓ` (here `ℓ = p`): a test ring `A` goes to the Witt\n  vectors of the ring of locally\
+        \ constant functions `Spec A → \U0001D53D_ℓ`.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicComparison.HodgeTate.PeriodMap`\
+        \ for sources.\n"
+  Lib.PadicComparison.ToricTower:
+    group: Lib.PadicComparison
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicComparison.ToricTower
+      name: New.Variety.PadicTest.isLine_compatibleRoots
+      line: 745
+      signature: "lemma PadicTest.isLine_compatibleRoots\n    (h_acyclic : IsAcyclicOnPerfect (moduleCoeff (tensorCoeff\
+        \ M)))\n    (c : PadicTest) (v : (algFunctor ⋙ underlyingSet) c) (hv : IsUnit v.down) :\n    -- (a) the\
+        \ systems of roots of `v` have flat base change\n    HasFlatBaseChange (freeAb (TimesBNat.incl PadicTest\
+        \ ⋙ compatibleRootsAt algFunctor v)) ∧\n    -- (b) they form a line\n    IsLine (tilt ⋙ moduleCoeff (tensorCoeff\
+        \ M)) (Y"
+    routeToMain:
+    - module: Lib.PadicComparison.ToricTower
+      importer: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+      line: 2
+    - module: Lib.PadicComparison.Crystalline.DividedPowerEnvelope
+      importer: Lib.PadicComparison.Crystalline.ComparisonMap
+      line: 1
+    - module: Lib.PadicComparison.Crystalline.ComparisonMap
+      importer: Lib.PadicComparison.CrystallineFrobenius
+      line: 1
+    - module: Lib.PadicComparison.CrystallineFrobenius
+      importer: Lib.Shimura.Eigenspace
+      line: 2
+    - module: Lib.Shimura.Eigenspace
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 4
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicComparison/ToricTower.lean
+      line: 6
+      endLine: 11
+      text: 'Write Bℕ for the one-object category of the monoid ℕ. A functor on C × Bℕ (`New.Variety.TimesBNat`)
+
+        is a functor Y on C with an endomorphism γ. Its cohomology plays the part of that of the homotopy
+
+        quotient by γ. Cohomology is Hⁿ(Y, F) = Extⁿ(ℤ[Y], F) in functors to abelian groups. Y is a line
+
+        over a functor U on C (`New.Variety.IsLine`) if a map from Y to U is bijective on cohomology. Root
+
+        systems of a unit are defined on O_C-algebras, twisted by the character s ↦ (ε^s)^♯. For a unit `v`
+
+        of a `p`-adic test (`New.Variety.PadicTest`: its ring `ProdRing` is a product of cells `Cell j`,
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicComparison/ToricTower.lean
+      line: 12
+      endLine: 54
+      text: "`TiltRing` is its tilt, and `algFunctor` sends it to `ProdRing` as an O_C-algebra), they form a line\n\
+        for the coefficients `tilt ⋙ moduleCoeff (tensorCoeff M)`, provided `moduleCoeff (tensorCoeff M)` is\nacyclic\
+        \ on perfect rings (`New.Variety.IsAcyclicOnPerfect`). This is proved by representing them,\nthrough tilting,\
+        \ by the ring of periodic sequences. There the twist becomes the shift.\n\n## Main definitions and results\n\
+        \n* `New.Variety.TimesBNat.shortExact_wangComplex`: the short exact sequence\n  0 → ℤ[Y × ℕ] → ℤ[Y × ℕ]\
+        \ → ℤ[Y] → 0 (`New.Variety.TimesBNat.wangComplex`;\n  `New.Variety.TimesBNat.shortExact_induced` is the\
+        \ same with the two maps written out). Its long\n  exact sequence is the Wang sequence, since Y × ℕ on C\
+        \ × Bℕ has the cohomology of Y on C\n  (`New.Variety.TimesBNat.isLine_fst`).\n* `New.Variety.IsLine.of_acyclic`:\
+        \ a criterion for Y to be a line over a representable functor\n  Hom(A, −), in terms of the kernel and cokernel\
+        \ of γ - 1 on coefficients\n  (`New.Variety.KoszulExact`).\n* `New.Variety.compatibleRoots`: A ↦ characters\
+        \ ℚ≥0 → A, that is, elements with a compatible system\n  of n-th roots for all n ≥ 1.\n* `New.Variety.CompatibleRootsAreLines`:\
+        \ the property of coefficients F and a functor ψ to\n  O_C-algebras that the root systems of every unit\
+        \ of every ψ(A) form a line (`New.Variety.IsLine`)\n  over Hom(A, −).\n* `New.Variety.periodicSeq.koszulExact_shift`:\
+        \ in characteristic `p`, the constants contain the\n  kernel of the shift minus the identity, and this map\
+        \ is onto (`New.Variety.KoszulExact`). This\n  also holds after tensoring with a module.\n* `New.Variety.PadicTest.isLine_compatibleRoots`:\
+        \ if `moduleCoeff (tensorCoeff M)` is acyclic on\n  perfect rings (`New.Variety.IsAcyclicOnPerfect`), root\
+        \ systems of `v` have flat base change\n  (`New.Variety.HasFlatBaseChange`) and form a line (`New.Variety.IsLine`)\
+        \ for the coefficients\n  `tilt ⋙ moduleCoeff (tensorCoeff M)`.\n\nNotions from other files:\n* `New.Variety.freeAb`:\
+        \ The functor sending a set-valued functor Y to ℤ[Y], whose value at A is the\n  free abelian group on Y(A).\n\
+        * `New.OC`: The ring of integers O_C of the field C_p of p-adic complex numbers.\n* `New.Period.OFlat`:\
+        \ The ring O^♭, the inverse limit of O_C/p along x ↦ x^p, where O_C is the ring\n  of integers of C_p.\n\
+        \n## Relation to the literature\n\nKnown result: Faltings' toric towers and their Koszul complexes. Here\
+        \ the variables are treated one\nat a time, and the discrete monoid generated by one automorphism replaces\
+        \ continuous cohomology of\nZ_p^d, so that Wang sequences replace the Koszul complex. Source: P. Scholze,\
+        \ p-adic Hodge theory\nfor rigid-analytic varieties, Forum Math. Pi 1 (2013), Lemmas 4.5 and 5.5; Bhatt,\
+        \ Morrow, Scholze\n2018, Lemma 7.3; Stacks project, tag 0EBS; G. Faltings, p-adic Hodge theory, J. Amer.\
+        \ Math. Soc. 1\n(1988).\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+needs_draft: true

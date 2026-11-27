@@ -1,0 +1,2208 @@
+group: Lib.PadicHodge
+overview: null
+files:
+  Lib.PadicHodge.ArtinSchreierSequence:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.ArtinSchreierSequence
+      name: New.Lift.TateTwist.eventually_map_smul_sub_mem_smallPart
+      line: 467
+      signature: "lemma TateTwist.eventually_map_smul_sub_mem_smallPart {m : ℕ} {ρ : Rep ℤ_[p] Γ}\n    (h_near :\
+        \ ∀ y : ρ, ∀ᶠ g : GroupOverGp.G in nearOne Γ, ∃ w : ρ, ρ.ρ g y - y = p ^ m • w)\n    (L : DiagTensor ρ →ₗ[WittCFlat]\
+        \ DiagTensor (Rep.of (charRep (QuotSpan ((p : ℤ_[p]) ^ m)) χ)))\n    (v : DiagTensor ρ) :\n    ∀ᶠ g : GroupOverGp.G\
+        \ in nearOne Γ, L (inr g • v - v) ∈ smallPart m"
+    routeToMain:
+    - module: Lib.PadicHodge.ArtinSchreierSequence
+      importer: Lib.PadicHodge.Kisin.Modules
+      line: 2
+    - module: Lib.PadicHodge.Kisin.Modules
+      importer: Lib.PadicHodge.Kisin.FrameTheorem
+      line: 1
+    - module: Lib.PadicHodge.Kisin.FrameTheorem
+      importer: New.Congruences.Lifting.ExponentLattices
+      line: 1
+    - module: New.Congruences.Lifting.ExponentLattices
+      importer: New.Congruences.Lifting.HodgeExpansion
+      line: 2
+    - module: New.Congruences.Lifting.HodgeExpansion
+      importer: New.Congruences.Lifting.CupProductBound
+      line: 1
+    - module: New.Congruences.Lifting.CupProductBound
+      importer: New.Congruences.Lifting.TameCharts
+      line: 1
+    - module: New.Congruences.Lifting.TameCharts
+      importer: New.Congruences.Lifting.CupOrthogonalityBounds
+      line: 4
+    - module: New.Congruences.Lifting.CupOrthogonalityBounds
+      importer: New.Congruences.LocalLoss.CrystallineCocycles
+      line: 1
+    - module: New.Congruences.LocalLoss.CrystallineCocycles
+      importer: New.Congruences.LocalLoss.LocalLattices
+      line: 2
+    - module: New.Congruences.LocalLoss.LocalLattices
+      importer: New.Congruences.Selmer.MainSummands
+      line: 2
+    - module: New.Congruences.Selmer.MainSummands
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 5
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/ArtinSchreierSequence.lean
+      line: 6
+      endLine: 11
+      text: '`New.Period.OFlat = O^♭` is the tilt of the ring of integers of `ℂ_p`, and `New.Period.CFlat = C^♭`
+
+        is its fraction field. We write `New.Period.WittCFlat = W(C^♭)` and `A_inf = W(O^♭)`; the prime is
+
+        fixed by `[ThePrime p]`, and `New.Gp p` is the Galois group of `ℚ̄_p` over `ℚ_p`. The ideal
+
+        `W(𝔪) = W(𝔪^♭)` of `A_inf` is introduced, and the sets `W(𝔪) + p ^ m W(C^♭)` serve as neighbourhoods
+
+        of `0` for which the Galois action on `W(C^♭)` is continuous. For a group Γ (`[GroupOverGp p]`,
+
+        elements of type `GroupOverGp.G`) that maps to `Gp p`, and a representation of Γ on a ℤ_p-module T,
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/ArtinSchreierSequence.lean
+      line: 12
+      endLine: 45
+      text: "the module W(C^♭) ⊗ T with the diagonal action of ℤ × Γ is built, together with base change of\nlinear\
+        \ and bilinear maps. For T = ℤ_p/p^m(1) this gives an Artin–Schreier sequence: φ − 1 is onto,\nand its kernel\
+        \ modulo W(\U0001D52A^♭)·(1 ⊗ 1) is ℤ_p/p^m.\n\n## Main definitions and results\n\n* `New.Lift.wittOfMaxIdeal`:\
+        \ the kernel of the reduction `A_inf → W(k)`; by\n  `New.Lift.mem_wittOfMaxIdeal` its elements are the Witt\
+        \ vectors none of whose coefficients is a\n  unit.\n* `New.Lift.WittCFlat.eventually_smul_sub_mem`: for\
+        \ `a`, `d` in `W(C^♭)` and `g` near `1` in\n  `New.Gp p`, the element `(g • a - a) * d` lies in `W(\U0001D52A\
+        ) + p ^ m W(C^♭)`.\n* `New.Lift.DiagTensor`: the module W(C^♭) ⊗ T with its diagonal action.\n* `New.Lift.smallPart`:\
+        \ the A_inf-submodule W(\U0001D52A^♭)·(1 ⊗ 1) of M = W(C^♭) ⊗ ℤ_p/p^m(1).\n* `New.Lift.TateTwist.exists_eq_phi_smul_sub`,\n\
+        \  `New.Lift.TateTwist.exists_sub_mk_one_mem_smallPart_of_phi_smul_sub_mem` and\n  `New.Lift.TateTwist.eq_zero_of_mk_one_mem_smallPart`:\
+        \ φ − 1 is onto M, and its kernel modulo\n  W(\U0001D52A^♭)·(1 ⊗ 1) is ℤ_p/p^m.\n* `New.Lift.TateTwist.eventually_map_smul_sub_mem_smallPart`:\
+        \ let ρ be a representation with\n  ρ(g)y − y divisible by p^m for g near 1, and let L be a linear map from\
+        \ W(C^♭) ⊗ ρ into M. Then\n  for each v, L(gv − v) lies in W(\U0001D52A^♭)·(1 ⊗ 1) for g near 1.\n\nNotions\
+        \ from other files:\n* `New.Period.toWittResidue`: the ring map `A_inf = W(O^♭) → W(k)`, `k` the residue\
+        \ field of `O^♭`,\n  that reduces each Witt coordinate.\n* `New.Lift.FrobGroup Γ`: the group `ℤ × Γ`; `FrobGroup.snd`\
+        \ is the projection to `Γ`, `inr g` is\n  `(0, g)` and `φ` is `(1, 1)`, which acts as the Frobenius.\n*\
+        \ `New.Period.nearOne Γ`: the filter \"near `1`\" on `Γ`, pulled back from the neighbourhoods of `1`\n \
+        \ in `Gp p`.\n\n## Relation to the literature\n\nKnown result: The Artin–Schreier–Witt resolution over the\
+        \ tilt. Only the φ−1 step of Herr's complex\nis treated, on Witt vectors of the tilt of C_p modulo p^m,\
+        \ and the Γ-step is not treated. Source: L.\nHerr, Sur la cohomologie galoisienne des corps p-adiques, Bull.\
+        \ SMF 126 (1998) 563–600.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicHodge.BlochKato:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.BlochKato
+      name: New.Period.crysCocycles.apply_eq_zero_of_cyclotomicGp
+      line: 842
+      signature: "lemma crysCocycles.apply_eq_zero_of_cyclotomicGp {a : ℕ}\n    (h_twist : ∀ (g : Γ) (x : T), ρ\
+        \ g x = (χ g ^ (-a : ℤ)).val • x) {c : Γ → T}\n    (hc : c ∈ crysCocycles ρ) {s : Γ} (hρs : ρ s = 1)\n \
+        \   (hs_mem_inertia : a = 0 → IsWeilPair (toGp s) 0) :\n    c s = 0"
+    routeToMain:
+    - module: Lib.PadicHodge.BlochKato
+      importer: New.Congruences.FirstOrder.TateTwistCocycles
+      line: 1
+    - module: New.Congruences.FirstOrder.TateTwistCocycles
+      importer: New.Congruences.FirstOrder.TraceRelations
+      line: 2
+    - module: New.Congruences.FirstOrder.TraceRelations
+      importer: New.Congruences.FirstOrder.RibetElement
+      line: 2
+    - module: New.Congruences.FirstOrder.RibetElement
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 3
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/BlochKato.lean
+      line: 7
+      endLine: 14
+      text: 'Let `T` be a finite free `ℤ_[p]`-module of rank d with an action `ρ` of a group Γ, and let
+
+        j = `𝒥.toGp`, given by the structure `𝒥 : New.Period.OverGp Γ p`, map Γ with open image of index n
+
+        to the absolute Galois group `New.Gp` of ℚ_p. The Bloch–Kato cocycles
+
+        Z_f(T) = `New.Period.crysCocycles ρ` are the maps Γ → T that become coboundaries over the period
+
+        ring B = `New.Period.Bmax`. χ = `New.Period.χ` is the cyclotomic character `New.cyclotomicGp`
+
+        composed with j. The file proves basic properties of Z_f(T), builds admissible extensions from
+
+        crystalline cocycles of potentially crystalline representations, studies reduction modulo p^m, and
+
+        computes the rank of Z_f(T) and its vanishing.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/BlochKato.lean
+      line: 15
+      endLine: 54
+      text: "\n## Main definitions and results\n\n* `New.Period.IsPotentiallyCrystalline.exists_hodge_basis`: for\
+        \ potentially crystalline T, in a\n  ℤ_p-basis of T, an automorphism of B_dR^ι that makes the action of\
+        \ Γ coordinatewise and carries\n  (B_dR^+)^ι to the lattice given by the jumps of T.\n* `New.Period.extensionRep`,\
+        \ `New.Period.isAdmissible_extensionRep`: the extension of a trivial\n  module by T given by cocycles in\
+        \ `New.Period.crysCocycles` is admissible along the same filter as\n  T (`New.Period.IsAdmissible`).\n*\
+        \ `New.Period.IsPotentiallyCrystalline.reducedCocycle`: for an equivariant additive map `q` from `T`\n \
+        \ to a discrete module `V` with kernel `p ^ m T`, the map sending a crystalline cocycle `c` to the\n  continuous\
+        \ cocycle `q ∘ c`.\n* `New.Period.crysCocycles.finrank_eq`: for potentially crystalline T, Z_f(T) is finitely\
+        \ generated\n  over ℤ_p of rank d + n·(number of negative Hodge–Tate jumps).\n* `New.Period.IsPotentiallyCrystalline.exists_coboundary_eq_smul`:\
+        \ for potentially crystalline T\n  with positive jumps, Z_f(T) is torsion modulo coboundaries.\n* `New.Period.crysCocycles.apply_eq_zero_of_cyclotomicGp`:\
+        \ let Γ act through χ^(−a) with a ≥ 0. Then\n  crystalline cocycles vanish where the action is trivial.\
+        \ When a = 0 we also need j(s) to lie in\n  inertia.\n\nNotions from other files:\n* `New.Period.IsPotentiallyCrystalline`:\
+        \ the elements of Bmax ⊗ T fixed by all g with j(g) near 1\n  span Bmax ⊗ T over Bmax.\n* `New.DiscreteModule`:\
+        \ A discrete Γ-module over R: an R-module with the discrete topology and a\n  continuous R-linear action\
+        \ of the topological group Γ.\n* `New.DiscreteModule.HoldsCorestrictions`: for a discrete Γ-module V, an\
+        \ open subgroup U of Γ and\n  groups of cocycles Y′ ≤ Z¹(U, V) and Y ≤ Z¹(Γ, V), the group Y contains every\
+        \ coboundary and a\n  corestriction of each y in Y′: there is a cocycle F with values in the functions Γ/U\
+        \ → V whose\n  Shapiro image is y and whose sum over Γ/U lies in Y.\n* `New.Period.jump`: The multiplicity\
+        \ of the Hodge–Tate jump u at γ: the dimension over Q̄_p (zero\n  if infinite) of the γ-semilinear f : T\
+        \ → ℂ_p with f(gx) = χ(g)^(−u)·g f(x) for g near 1.\n\n## Relation to the literature\n\nKnown result: Bloch–Kato\
+        \ finite local condition, rank formula. Here it is treated on cocycles of a\nlattice in a potentially crystalline\
+        \ representation. The rank is counted from the fundamental exact\nsequence. Local duality is not treated\
+        \ in this file, only the reduction of crystalline cocycles\nmodulo p^m. Source: S. Bloch, K. Kato, L-functions\
+        \ and Tamagawa numbers of motives, Grothendieck\nFestschrift I (1990), Prop. 3.8, Cor. 3.8.4; J. Bellaïche,\
+        \ An introduction to the conjecture of\nBloch and Kato, Clay Summer School notes (2009), Prop. 2.8, Thm\
+        \ 2.1.\n"
+  Lib.PadicHodge.Characters:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Characters
+      name: New.GaloisRep.AvatarCompatAt.isSphericalAbove_of_unramified
+      line: 1089
+      signature: "lemma AvatarCompatAt.isSphericalAbove_of_unramified {θ : AlgHeckeChar E} (h_av : AvatarCompatAt\
+        \ w θ)\n    (h_unr : New.CharUnramifiedAt θ.character w) :\n    IsSphericalAbove ((scalar (Fin 1)).comp\
+        \ (avatar θ)) Eq (fun τ : E →+* ℂ ↦ {-θ.infinityType τ}) w\n      (X - C (ιℓ (heckeCoeff θ.character ∅ w)))"
+    routeToMain:
+    - module: Lib.PadicHodge.Characters
+      importer: Lib.GaloisRep.Main.AttachedRepresentations
+      line: 2
+    - module: Lib.GaloisRep.Main.AttachedRepresentations
+      importer: New.Congruences.Selmer.StickelbergerSystems
+      line: 1
+    - module: New.Congruences.Selmer.StickelbergerSystems
+      importer: New.Congruences.Selmer.LValueSystems
+      line: 2
+    - module: New.Congruences.Selmer.LValueSystems
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 4
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Characters.lean
+      line: 8
+      endLine: 11
+      text: 'The file constructs the `p`-adic avatar of an algebraic Hecke character of a totally complex field
+
+        `K`. This is a continuous character of the absolute Galois group `Γ`, defined after fixing
+
+        `ι : ℂ ≃ ℚ̄_p`. The file then studies local conditions on a Galois representation `r` at a place `A`
+
+        of `Ω`: finite type, good, Hodge–Tate jumps, and polynomials killing an element.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Characters.lean
+      line: 12
+      endLine: 61
+      text: "\n## Main definitions and results\n\n* `New.AlgHeckeChar.avatar`: the continuous character of `Γ` obtained\
+        \ from an algebraic Hecke\n  character `(θ, n)` by correcting `ι ∘ θ` at the places above `p`. It is multiplicative\
+        \ in\n  `(θ, n)`.\n* `New.GaloisRep.localConditions_twist`: how the local conditions `New.GaloisRep.IsFiniteTypeAt`\n\
+        \  (finite type), `New.GaloisRep.IsGoodAt` (unramified, or crystalline above `ℓ`),\n  `New.GaloisRep.JumpsRelAt`\
+        \ (Hodge–Tate jumps) and `New.GaloisRep.PolyKillsAt` (a polynomial kills\n  an element) behave when a representation\
+        \ is multiplied by a character. It collects the four\n  lemmas `IsFiniteTypeAt.twist`, `IsGoodAt.twist`,\
+        \ `JumpsRelAt.twist` and `PolyKillsAt.twist`.\n* `New.Period.isPotentiallyCrystalline_of_unramified_char`:\
+        \ take a continuous `p`-adic character `ν`\n  of an open subgroup of `G_p`, trivial on inertia near `1`.\
+        \ An algebra on which `ν` acts by scalars\n  is potentially crystalline (`IsPotentiallyCrystalline.of_unramified_char`)\
+        \ with the jumps of the\n  trivial action (`jump_eq_jump_one_of_unramified_char`). Weil elements act on\
+        \ its Weil–Deligne\n  representation through `ν` (`isKilledBy_X_sub_C_of_unramified_char`).\n* `New.GaloisRep.localConditions_char_of_finite_image_inertia`:\
+        \ the conditions for a character with\n  finite image on inertia, collected from `IsFiniteTypeAt.scalar_of_finite_image_inertia`,\n\
+        \  `hasJumpsAt_zero_of_finite_image_inertia` and `polyKillsAt_X_sub_C_of_finite_image_inertia`.\n* `New.GaloisRep.AvatarCompatAt`:\
+        \ local-global compatibility for the ℓ-adic avatar\n  `New.AlgHeckeChar.avatar` of an algebraic Hecke character\
+        \ θ of a totally complex field E;\n  `New.GaloisRep.AvatarCompatAt.isSphericalAbove_of_unramified` is its\
+        \ consequence where θ is\n  unramified.\n* `New.GaloisRep.avatarCompatAt_of_type_eq_zero`: it holds at a\
+        \ place w of E if the infinity type\n  vanishes at the embeddings over w.\n\nNotions from other files:\n\
+        * `New.AlgHeckeChar`: The type of algebraic Hecke characters of K: pairs (θ, n) of a character of\n  the\
+        \ finite ideles and its infinity type, as in `New.algHeckeChars`.\n* `New.Period.IsPotentiallyCrystalline`:\
+        \ the elements of `Bmax ⊗ T` fixed by all `g` near `1`\n  (`New.Period.Dpcris`) span `Bmax ⊗ T` over `Bmax`.\n\
+        * `New.GaloisRep.HasJumpsAt`: For each local datum at `A` with embedding `e`, each `g` in\n  `Gal(ℚ̄_ℓ/ℚ_ℓ)`\
+        \ and the embedding `γ` of `ℚ̄_ℓ` in `ℂ_ℓ` given by `g`, the Hodge–Tate jumps of\n  `r` at `γ`, with multiplicity,\
+        \ are `J` at the embedding `ι_ℓ⁻¹ ∘ g⁻¹ ∘ e` of `E` in `ℂ`.\n* `New.Period.IsKilledBy`: `T` is potentially\
+        \ crystalline and the polynomial `P` kills\n  `New.Period.linearFrob ρ s k`, the `Bmax`-linear extension\
+        \ of `φ ^ k s ⊗ ρ s` from `Dpcris`.\n* `New.IsFrob`: `σ` stabilises the valuation subring `A` and `σ • x\
+        \ ≡ x ^ q` modulo the maximal\n  ideal for all `x ∈ A`.\n\n## Relation to the literature\n\nKnown result:\
+        \ Characters with finite image on inertia are potentially crystalline of weight 0. Only\nthe potentially\
+        \ unramified case of the theorem on locally algebraic characters is covered, together\nwith the jumps and\
+        \ the action of Weil elements. The period is a solution of Lang's equation for GL_1\nin A_inf with coefficients,\
+        \ and no Lubin–Tate theory is used. Source: B. Conrad, Lifting global\nrepresentations with local properties\
+        \ (preprint 2011), Appendix B; J.-P. Serre, Abelian l-adic\nrepresentations (1968), III, Appendix.\n\nSee\
+        \ also `Lib.ClassField.Avatar.LocalGlobalCompatibility` and\n`Lib.PadicHodge.Crystalline.Regularity`.\n"
+  Lib.PadicHodge.Crystalline.Basic:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Crystalline.Basic
+      name: New.Period.equivFun_tensorAction
+      line: 680
+      signature: "lemma equivFun_tensorAction (g : Γ) (y : TensorProduct ℤ_[p] B T) :\n    (e.baseChange B).equivFun\
+        \ (tensorAction B (toGp g) (ρ g) y) =\n      coordAction ρ e g ((e.baseChange B).equivFun y)"
+    routeToMain:
+    - module: Lib.PadicHodge.Crystalline.Basic
+      importer: Lib.ClassField.Places.TameInertia
+      line: 2
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Crystalline/Basic.lean
+      line: 7
+      endLine: 10
+      text: 'This file concerns a representation `ρ` of a group `Γ` on an `R`-module `T`. The group `Γ` carries
+        a
+
+        homomorphism `j` (the field `toGp` of `New.Period.OverGp`) with open image in the Galois group
+
+        `New.Gp p` of `ℚ_[p]`. Tensor products are over `ℤ_[p]` and the period ring is `New.Period.Bmax`;
+
+        the class `ThePrime p` makes `p` a prime (it supplies the `Fact p.Prime` needed by `OverGp`).
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Crystalline/Basic.lean
+      line: 11
+      endLine: 41
+      text: "\n\"Near `1`\" means along the filter `New.Period.nearOne`, which takes the place of passing to a finite\n\
+        extension. Let `B` be a `ℤ_[p]`-algebra with an action of `New.Gp p`. The diagonal action\n`New.Period.tensorAction`\
+        \ of `g` on `B ⊗ T` is `j(g) ⊗ ρ(g)`. For a filter `F` on `Γ`,\n`New.Period.fixedPeriods ρ B F` is the set\
+        \ of elements of `B ⊗ T` fixed by the diagonal action for\n`F`-almost all `g`. `New.Period.IsAdmissible\
+        \ ρ F` says that for `B = Bmax` this set spans `B ⊗ T`\nover `B`.\n\n## Main definitions and results\n\n\
+        * `New.Period.IsCrystalline`, `New.Period.IsPotentiallyCrystalline`: the vectors of `Bmax ⊗ T` fixed\n \
+        \ by `Γ`, or fixed near `1` (`New.Period.Dpcris`), span `Bmax ⊗ T`.\n* `New.Period.crysCocycles`: the functions\
+        \ `Γ → T` that become coboundaries in `Bmax ⊗ T`.\n* `New.Period.hodgeTateMaps`, `New.Period.HasJumps`:\
+        \ Hodge–Tate maps `T → ℂ_[p]` of weight `u` along\n  `γ : R → ℂ_[p]`, and the multiset of weights counted\
+        \ with the dimensions of these spaces.\n* `New.Period.IsWeilPair`, `New.Period.linearFrob`, `New.Period.IsKilledBy`:\
+        \ the action of `φ ^ m s`\n  on `Dpcris`, extended linearly, and the polynomials over `R` that annihilate\
+        \ it.\n* `New.Period.IsAdmissible.tate_twist`, `New.Period.isAdmissible_of_cyclotomicGp_zpow`: twists by\n\
+        \  powers of the cyclotomic character, through the unit of `New.Period.exists_tate_twist_unit`.\n* `New.Period.equivFun_tensorAction`:\
+        \ in the coordinates given by a finite basis `e` of `T`, the\n  diagonal action is `New.Period.coordAction`.\n\
+        \nNotions from other files:\n* `New.Period.Bmax`: the period ring B⁺[1/μ] (Colmez's B_max), used here in\
+        \ place of B_cris.\n* `New.Period.FrobGal`: the monoid ℕ × `Gp p`; on the period rings with a Frobenius\
+        \ `φ`, the pair\n  `(n, g)` acts as `φ ^ n ∘ g`.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Crystalline.Regularity`,\
+        \ `Lib.PadicHodge.BlochKato` and\n`Lib.PadicHodge.Kisin.PeriodMatrixFrame` for sources.\n"
+  Lib.PadicHodge.Crystalline.FixedRatios:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Crystalline.FixedRatios
+      name: New.Period.Bmax.exists_witt_ratio
+      line: 390
+      signature: "lemma Period.Bmax.exists_witt_ratio {a b : Bmax} (hb : b ≠ 0)\n    (h_ratio : ∀ᶠ g : Gp p in nhds\
+        \ 1, b * g • a = g • b * a) :\n    ∃ (f : ℕ+) (n : ℕ), ∃ w : WittFq f, p ^ n * a = (w : Ainf) * b"
+    routeToMain:
+    - module: Lib.PadicHodge.Crystalline.FixedRatios
+      importer: Lib.PadicHodge.BlochKato
+      line: 1
+    - module: Lib.PadicHodge.BlochKato
+      importer: New.Congruences.FirstOrder.TateTwistCocycles
+      line: 1
+    - module: New.Congruences.FirstOrder.TateTwistCocycles
+      importer: New.Congruences.FirstOrder.TraceRelations
+      line: 2
+    - module: New.Congruences.FirstOrder.TraceRelations
+      importer: New.Congruences.FirstOrder.RibetElement
+      line: 2
+    - module: New.Congruences.FirstOrder.RibetElement
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 3
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Crystalline/FixedRatios.lean
+      line: 7
+      endLine: 11
+      text: 'The period ring `B = B⁺[1/μ]` (`New.Period.Bmax`, `New.Period.BPlus`) lies inside `B_dR`, and `φ`
+
+        denotes its Frobenius. This file shows that bounded poles of the `φ^n y` control the denominators
+
+        of `y` in `μ`, and that a `φ`-fixed element of `B` lying in `B_dR⁺` is in `ℚ_[p]`. Using charts
+
+        (`New.Lift.Chart`), it shows that a ratio of two periods that is fixed by an open subgroup of `G_p`
+
+        lies in `W(𝔽_q)[1/p]` for some `q`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Crystalline/FixedRatios.lean
+      line: 12
+      endLine: 32
+      text: "\n## Main definitions and results\n\n* `New.Period.pow_smul_mem_range_BPlus`: if the image of `φ^n(y)`\
+        \ in `B_dR` lies in\n  `t^(−a)B_dR⁺` for every `n ≥ 0`, then `ν^a y` lies in the image of `B⁺` for every\
+        \ `ν` in `A_inf`\n  divisible by `μ`.\n* `New.Period.Bmax.exists_padic_eq_of_frobEnd_fixed`: kernel in the\
+        \ fundamental exact sequence: an\n  element `y` of `B` with `φ(y) = y` whose image in `B_dR` lies in `B_dR⁺`\
+        \ belongs to `ℚ_[p]`.\n* `New.Period.exists_pow_mul_eq_wittFq_mul_of_isChartOf`, `New.Period.Bmax.exists_witt_ratio`:\
+        \ a\n  ratio of two periods that is fixed by an open subgroup of `G_p` lies in `W(\U0001D53D_q)[1/p]` for\
+        \ some\n  `q`, for a given chart and in general.\n\nNotions from other files:\n* `New.Period.BdRPlus`: the\
+        \ ξ-adic completion of B⁺, with fraction field `New.Period.BdR`.\n* `New.Period.BPlus`, `New.Period.Bmax`:\
+        \ B⁺ = A_max[1/p] and B = B⁺[1/μ], μ = [ε] − 1.\n* `New.Lift.Chart.bicommutant`: the S-algebra S_B of the\
+        \ y in B⁺ whose multiplication commutes with\n  every S-linear endomorphism of B⁺ that keeps the image of\
+        \ A_max.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Crystalline.Regularity` for sources.\n"
+  Lib.PadicHodge.Crystalline.HodgeTateForms:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Crystalline.HodgeTateForms
+      name: New.Period.hasJumps_of_basis
+      line: 164
+      signature: "lemma hasJumps_of_basis [Fintype ι] {u : ι → ℤ} {b : Basis ι ℂ_[p] (T →ₛₗ[toRingHom γ] ℂ_[p])}\n\
+        \    (hb_mem : ∀ i : ι, b i ∈ hodgeTateMaps ρ γ (u i)) :\n    HasJumps ρ γ (univ.val.map u)"
+    routeToMain:
+    - module: Lib.PadicHodge.Crystalline.HodgeTateForms
+      importer: Lib.PadicHodge.Crystalline.HodgeTateJumps
+      line: 1
+    - module: Lib.PadicHodge.Crystalline.HodgeTateJumps
+      importer: Lib.GaloisRep.Main.LocalConditions
+      line: 2
+    - module: Lib.GaloisRep.Main.LocalConditions
+      importer: New.Congruences.LocalLoss.Basic
+      line: 1
+    - module: New.Congruences.LocalLoss.Basic
+      importer: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      line: 3
+    - module: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 1
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Crystalline/HodgeTateForms.lean
+      line: 7
+      endLine: 13
+      text: "`New.Period.hodgeTateMaps ρ γ u` is the `PadicAlgCl p`-space of `γ`-semilinear maps `f : T → ℂ_[p]`\n\
+        with `f (ρ g x) = χ(g) ^ (-u) • toGp g • f x` for `g` near `1`. Here `toGp` is the map to `Gp p`\ngiven\
+        \ by the instance `[OverGp Γ p]`, and the instance `[ThePrime p]` fixes `p` as a prime. For\n`toGp` of open\
+        \ image and `T` finite over `R`:\n* `New.Period.hodgeTateMaps.mem_span_same_weight`: a map of weight `u`\
+        \ in the `ℂ_[p]`-span of maps\n  `f i` of weights `k i` lies in the `PadicAlgCl p`-span of those with `k\
+        \ i = u`;\n* `New.Period.finite_hodgeTateMaps`: each space has finite dimension;\n"
+    remainder:
+      path: grh/src/Lib/PadicHodge/Crystalline/HodgeTateForms.lean
+      line: 14
+      endLine: 31
+      text: "* `New.Period.hasJumps_of_basis`: the weights of a `ℂ_[p]`-basis of such maps are the jumps\n  (`New.Period.HasJumps`).\n\
+        \nThe input is that an element of `ℂ_[p]` fixed near `1` is algebraic, and is zero if it is fixed\nafter\
+        \ twisting by a nonzero power of `χ`.\n\nNotions from other files:\n* `New.Period.nearOne`: The filter 'near\
+        \ 1' on Γ: the pull-back along `toGp : Γ → G_p` of the filter\n  of neighbourhoods of the identity.\n* `New.cyclotomicGp`:\
+        \ The p-adic cyclotomic character χ of G_p = Gal(Q̄_p over Q_p) (`New.Gp`); for\n  `g : Γ`, `χ g` means\
+        \ χ applied to `toGp g`.\n* `New.Period.jump`, `New.Period.HasJumps`: the multiplicity of the jump u is\
+        \ the dimension over\n  `PadicAlgCl p` of `hodgeTateMaps ρ γ u`; a multiset J of integers gives the jumps\
+        \ if each u occurs\n  in J with that multiplicity.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Crystalline.Regularity`\
+        \ for sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicHodge.Crystalline.HodgeTateJumps:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Crystalline.HodgeTateJumps
+      name: New.Period.IsPotentiallyCrystalline.sum_jump_eq_jump_overZp
+      line: 819
+      signature: "lemma IsPotentiallyCrystalline.sum_jump_eq_jump_overZp (h : IsPotentiallyCrystalline ρ) :\n  \
+        \  -- (a)\n    (∀ u : ℤ, ∑ γ : R →ₐ[ℤ_[p]] ℂ_[p], jump ρ γ u = jump (overZp ρ) (ofId ℤ_[p] ℂ_[p]) u) ∧\n\
+        \    -- (b)\n    ∀ (ζ : R) (w : ℂ_[p]) (u : ℤ) (F : Set (T →ₛₗ[toRingHom (ofId ℤ_[p] ℂ_[p])] ℂ_[p])),\n\
+        \      (∀ f ∈ F,\n        f ∈ hodgeTateMaps (overZp ρ) (ofId ℤ_[p] ℂ_[p]) u ∧\n        ∀ t : T, f (ζ • t)\
+        \ = w * f t) →\n      finrank ℂ_[p] (span ℂ_[p] F) ≤ ∑ γ : R →ₐ[ℤ_[p]] ℂ_[p] with γ ζ = w, jump ρ γ u"
+    routeToMain:
+    - module: Lib.PadicHodge.Crystalline.HodgeTateJumps
+      importer: Lib.GaloisRep.Main.LocalConditions
+      line: 2
+    - module: Lib.GaloisRep.Main.LocalConditions
+      importer: New.Congruences.LocalLoss.Basic
+      line: 1
+    - module: New.Congruences.LocalLoss.Basic
+      importer: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      line: 3
+    - module: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 1
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Crystalline/HodgeTateJumps.lean
+      line: 6
+      endLine: 11
+      text: 'This file works with the period ring B_dR⁺, its uniformiser `t` and its residue map θ to ℂ_p. An
+
+        invertible matrix `U` of de Rham periods with `N g · g U = U` for `g` near 1 is brought into the
+
+        form `New.Period.hodgeMatrix W k` by an algebraic change of basis, and the columns of θ(W) are then
+
+        Hodge–Tate vectors. From this the file builds Hodge–Tate frames of potentially crystalline
+
+        representations, counts their jumps, and computes the jumps under base change, restriction of
+
+        scalars, twists, duals and submodules of products.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Crystalline/HodgeTateJumps.lean
+      line: 12
+      endLine: 52
+      text: "\n## Main definitions and results\n\n* `New.Period.exists_isHodgeFrame`: an invertible `U` over B_dR\
+        \ with `N g · g U = U` becomes\n  `hodgeMatrix W k`, with `W` invertible over B_dR⁺, after an algebraic\
+        \ change of basis of\n  determinant 1.\n* `New.Period.IsPotentiallyCrystalline.exists_isHodgeTateFrame`:\
+        \ there is an invertible `P` over\n  `ℂ_[p]` whose columns are Hodge–Tate vectors of weights `k` (`New.Period.IsHodgeTateFrame`);\
+        \ the\n  `k i` are the jumps, and the rows of `P⁻¹` form a basis of Hodge–Tate maps\n  (`New.Period.hodgeTateMaps`).\n\
+        * `New.Period.IsPotentiallyCrystalline.exists_hasJumps`: the number of jumps is the rank.\n* `New.Period.jump_baseChange`,\
+        \ `New.Period.IsPotentiallyCrystalline.sum_jump_eq_jump_overZp`:\n  extension, restriction of scalars.\n\
+        * `New.Period.jump_twist_of_period`, `New.Period.jump_twist_cyclotomicGp`,\n  `New.Period.hasJumps_of_cyclotomicGp_zpow`:\
+        \ twists shift jumps.\n* `New.Period.exists_jump_of_jointly_injective`: a jump of a submodule of ∏ S_i is\
+        \ a jump of some\n  S_i.\n\nNotions from other files:\n* `New.Period.BdRPlus`, `New.Period.BdR` (built for\
+        \ the prime p fixed by the instance `ThePrime p`,\n  hence written without `p`): the discrete valuation\
+        \ ring B_dR⁺, with uniformiser `t`\n  (`New.Period.tPeriod`) and residue map θ to ℂ_p (`New.Period.thetaBdR`),\
+        \ and its fraction field\n  B_dR.\n* `New.cyclotomicGp`: The p-adic cyclotomic character χ of G_p = Gal(Q̄_p\
+        \ over Q_p) (`New.Gp`);\n  `New.Period.χ` is its composite with `toGp : Γ → G_p`, the map supplied by the\
+        \ class `OverGp Γ p`;\n  the \"open image\" of `toGp` assumed in the lemmas comes with this class.\n* `New.Period.nearOne`:\
+        \ The filter 'near 1' on Γ: the pull-back along `toGp` of the filter of\n  neighbourhoods of the identity.\n\
+        * `New.Period.IsPotentiallyCrystalline`: ρ is potentially crystalline: the vectors of Bmax ⊗ T (Bmax\n \
+        \ the crystalline period ring B_max, a ℤ_p-algebra on which G_p acts) fixed by `toGp g ⊗ ρ g` for\n  `g`\
+        \ near 1 span Bmax ⊗ T.\n* `New.Period.hodgeTateMaps`, `New.Period.jump`: the space of γ-semilinear forms\
+        \ f on T with f(g\n  x) = χ(g)^(−u) · g f(x) for g near 1, and its dimension, the multiplicity of the jump\
+        \ u.\n* `New.Period.overZp`: A representation of Γ on a module T over a Z_p-algebra R, regarded as a\n \
+        \ Z_p-linear representation.\n* `New.Period.HasJumps`: The property of a multiset J of integers that for\
+        \ every integer u the\n  multiplicity of the jump u of T at γ equals its count in J.\n\n## Relation to the\
+        \ literature\n\nKnown; see `Lib.PadicHodge.Crystalline.Regularity` for sources.\n"
+  Lib.PadicHodge.Crystalline.Regularity:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Crystalline.Regularity
+      name: New.Period.IsPotentiallyCrystalline.isCrystalline_of_inertia_fixes
+      line: 727
+      signature: "lemma New.Period.IsPotentiallyCrystalline.isCrystalline_of_inertia_fixes {p : ℕ} [ThePrime p]\n\
+        \    {Γ R T : Type*} [Group Γ] [CommRing R] [AddCommGroup T] [Module R T] [Algebra ℤ_[p] R]\n    [Module\
+        \ ℤ_[p] T] [IsScalarTower ℤ_[p] R T] [\U0001D4A5 : OverGp Γ p] {ρ : Representation R Γ T}\n    (h : IsPotentiallyCrystalline\
+        \ ρ)\n    (hI : ∀ s : Γ, IsWeilPair (toGp s) 0 → linearFrob ρ s 0 = 1) :\n    IsCrystalline ρ"
+    routeToMain:
+    - module: Lib.PadicHodge.Crystalline.Regularity
+      importer: Lib.GaloisRep.Main.LocalConditions
+      line: 3
+    - module: Lib.GaloisRep.Main.LocalConditions
+      importer: New.Congruences.LocalLoss.Basic
+      line: 1
+    - module: New.Congruences.LocalLoss.Basic
+      importer: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      line: 3
+    - module: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 1
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Crystalline/Regularity.lean
+      line: 6
+      endLine: 10
+      text: 'This file proves the regularity of the period ring `B = New.Period.Bmax` and shows that
+
+        representations admissible along a filter have bases of fixed elements. It proves closure
+
+        properties of crystalline and potentially crystalline representations under subobjects, quotients
+
+        of tensor products and twisted duals. It also shows that a potentially crystalline representation
+
+        is crystalline when the linear Frobenius operators are trivial on inertia.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Crystalline/Regularity.lean
+      line: 11
+      endLine: 45
+      text: "\n## Main definitions and results\n\n* `New.Period.fontaine_regularity`, `New.Period.IsAdmissible.exists_basis`:\
+        \ regularity of `B`; bases\n  of fixed elements.\n* `New.Period.IsAdmissible.of_jointly_injective`, `New.Period.IsKilledBy.of_jointly_injective`:\n\
+        \  subobjects of finite sums.\n* `New.Period.linearFrob_apply`, `New.Period.linearFrob_mul`,\n  `New.Period.linearFrob_twist_cyclotomicGp`,\n\
+        \  `New.Period.IsPotentiallyCrystalline.eventually_linearFrob_eq_one`: the operators are\n  multiplicative\
+        \ and change by a power of `p` under Tate twists. They are trivial on inertia near\n  `1` if `T` is finite\
+        \ free.\n* `New.Period.IsAdmissible.of_bilinear`, `New.Period.linearFrob_baseChangePairing`: quotients of\n\
+        \  tensor products.\n* `New.Period.IsAdmissible.of_pairing`: twisted duals.\n* `New.Period.IsPotentiallyCrystalline.isCrystalline_of_inertia_fixes`:\
+        \ descent from inertia.\n\nNotions from other files:\n* `New.Period.BPlus`, `New.Period.Bmax`: B⁺ = A_max[1/p]\
+        \ and B = B⁺[1/μ], μ = [ε] − 1.\n* `New.Period.nearOne`: The filter 'near 1' on Γ: the pull-back along j:\
+        \ Γ → G_p of the filter of\n  neighbourhoods of the identity.\n* `New.Period.IsWeilPair`: (s, m) is a Weil\
+        \ pair if s acts on the residue field of the integers of\n  Q̄_p as x ↦ x^(1/p^m); m = 0 means that s is\
+        \ in inertia.\n\n## Relation to the literature\n\nKnown result: Potentially crystalline representations,\
+        \ Hodge–Tate weights and Weil–Deligne\nFrobenius. Here the representations are abstract modules over any\
+        \ p-adic coefficient ring, with\nColmez's B_max as period ring and \"crystalline\" defined by the invariants\
+        \ spanning. Polynomials\nkilling one linear Frobenius replace the Weil–Deligne representation. Source: J.-M.\
+        \ Fontaine,\nReprésentations p-adiques semi-stables (Exp. III §1, §5) and Représentations l-adiques\npotentiellement\
+        \ semi-stables (Exp. VIII 2.3), Astérisque 223 (1994); O. Brinon, B. Conrad, CMI\nSummer School notes on\
+        \ p-adic Hodge theory (2009), 2.3.1, 5.2.1, 6.3, 9.1–9.3.\n\nSee also `Lib.PadicHodge.PeriodRings.DeRhamPeriods`\
+        \ and `Lib.PadicHodge.Kisin.PeriodMatrixFrame`.\n"
+  Lib.PadicHodge.Kisin.Bicommutant:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.Bicommutant
+      name: New.Lift.Chart.bicommutant
+      line: 89
+      signature: 'def bicommutant : Subalgebra c.S BPlus'
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.Bicommutant
+      importer: Lib.PadicHodge.Crystalline.FixedRatios
+      line: 1
+    - module: Lib.PadicHodge.Crystalline.FixedRatios
+      importer: Lib.PadicHodge.BlochKato
+      line: 1
+    - module: Lib.PadicHodge.BlochKato
+      importer: New.Congruences.FirstOrder.TateTwistCocycles
+      line: 1
+    - module: New.Congruences.FirstOrder.TateTwistCocycles
+      importer: New.Congruences.FirstOrder.TraceRelations
+      line: 2
+    - module: New.Congruences.FirstOrder.TraceRelations
+      importer: New.Congruences.FirstOrder.RibetElement
+      line: 2
+    - module: New.Congruences.FirstOrder.RibetElement
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 3
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/Bicommutant.lean
+      line: 6
+      endLine: 6
+      text: 'This file works in B^+ = `BPlus` = A_max[1/p], where A_max = `Amax` has image `amaxImage` in B^+.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/Bicommutant.lean
+      line: 7
+      endLine: 32
+      text: "It defines the ring S_B of a chart, the elements of B^+ whose multiplication commutes with all\n`S`-linear\
+        \ maps of B^+ that keep `amaxImage`. It shows that S_B is the closure of `S[E/p]` with `p`\ninverted, and\
+        \ that every `S`-linear map of A_inf extends to an S_B-linear map of B^+ that keeps\n`amaxImage`. Most identities\
+        \ for the extensions are checked on A_inf by a density principle: an\nadditive map of B^+ that keeps `amaxImage`\
+        \ and kills A_inf is zero\n(`New.Lift.Chart.eq_zero_of_map_ainfToBPlus_eq_zero`). The file ends with results\
+        \ on divisibility\nby `z` in B^+.\n\n## Main definitions and results\n\n* `New.Lift.Chart.bicommutant`:\
+        \ the ring S_B of the elements of B^+ whose multiplication commutes\n  with all S-linear maps B^+ → B^+\
+        \ that keep the image of A_max.\n* `New.Lift.Chart.extendToBPlus`: an S-linear map of A_inf extends to an\
+        \ S_B-linear map of B^+\n  keeping the image of A_max.\n\nNotions from other files:\n* `New.Period.Amax`:\
+        \ Colmez's period ring A_max, the p-adic completion of A_inf[X]/(pX − ξ).\n* `New.Period.FrobGal`: The monoid\
+        \ ℕ × G_p; the pair (n, g) acts on A_inf as φ^n g.\n* `New.Lift.Chart.S`: the ring `S`, the image in A_inf\
+        \ of the chart's map Λ[[X]] → A_inf.\n* `New.Lift.Chart.E`: the image `E` in `S` of the series X^e A + p;\
+        \ it equals ξ times a unit.\n* `New.Lift.Chart.adicBasis`: a chosen (p, z)-adic topological basis of A_inf\
+        \ over `S`, whose\n  coordinate at `New.Lift.Chart.oneIndex` is the identity on `S`.\n\n## Relation to the\
+        \ literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame` for sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicHodge.Kisin.Charts:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.Charts
+      name: New.Lift.Chart.eventually_exists_coeff_eq_of_fixed
+      line: 758
+      signature: "lemma eventually_exists_coeff_eq_of_fixed {y : OFlat}\n    (h : ∀ g : Gp p, (∀ s : c.S, g • s.val\
+        \ = s) → g • y = y) (N : ℕ) :\n    ∀ᶠ n : ℕ in Filter.atTop, ∃ s : c.S, y.coeff N = PreTilt.coeff n s.val.constantCoeff"
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.Charts
+      importer: Lib.PadicHodge.Kisin.Bicommutant
+      line: 1
+    - module: Lib.PadicHodge.Kisin.Bicommutant
+      importer: Lib.PadicHodge.Crystalline.FixedRatios
+      line: 1
+    - module: Lib.PadicHodge.Crystalline.FixedRatios
+      importer: Lib.PadicHodge.BlochKato
+      line: 1
+    - module: Lib.PadicHodge.BlochKato
+      importer: New.Congruences.FirstOrder.TateTwistCocycles
+      line: 1
+    - module: New.Congruences.FirstOrder.TateTwistCocycles
+      importer: New.Congruences.FirstOrder.TraceRelations
+      line: 2
+    - module: New.Congruences.FirstOrder.TraceRelations
+      importer: New.Congruences.FirstOrder.RibetElement
+      line: 2
+    - module: New.Congruences.FirstOrder.RibetElement
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 3
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/Charts.lean
+      line: 6
+      endLine: 12
+      text: 'A chart `c` presents a power series ring `S = Λ⟦z⟧` inside `New.Period.Ainf` (A_inf), the Witt
+
+        vectors of the tilt `New.Period.OFlat` of the integers of `ℂ_p`. Here `Λ` is the ring of Witt
+
+        vectors of the field with `p ^ f` elements, and `z = [ϖ^♭]` is the Teichmüller lift of the chart''s
+
+        element `ϖ^♭ = c.varpiFlat` of the tilt (`c.seriesMap_X`). The chart sends `X ^ e * A + p`, where
+
+        `A` is the unit series `c.unitSeries`, to a generator `E` of the kernel of Fontaine''s map `θ`
+
+        (`New.Period.theta`). ξ = `New.Period.xi` also generates the kernel of `θ`. `New.Gp p` = G_p, the
+
+        absolute Galois group of `ℚ_p`, acts on A_inf; the class `ThePrime p` fixes the prime `p`
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/Charts.lean
+      line: 13
+      endLine: 40
+      text: "throughout. The maps `θ ∘ φ^{-n}` show that elements of the tilt fixed by the Galois elements fixing\n\
+        `S` are approximated from `S`. `S`-linear maps of A_inf extend to B^+ = `BPlus` = A_max[1/p], where\nA_max\
+        \ = `Amax` has image `amaxImage` in B^+.\n\nThis file constructs charts and their ring `S`, and gives A_inf\
+        \ a topological basis over `S`. It\nproves that Frobenius preserves `S` and proves Weierstrass division\
+        \ by `φ^n E`. It studies the maps\n`θ ∘ φ^{-n}` and proves the approximation theorem for fixed elements\
+        \ of the tilt. The extension of\n`S`-linear maps to B^+ is treated in `Lib.PadicHodge.Kisin.Bicommutant`.\n\
+        \n## Main definitions and results\n\n* `New.Lift.Chart.φ`: Frobenius preserves `S`. `New.Lift.Chart.weierstrass_division`:\
+        \ division by\n  `φ^n E`.\n* `New.Lift.thetaPhiInv`: the map `θ ∘ φ^{-n}` to the integers of `ℂ_p`. Modulo\
+        \ `p` it is the `n`-th\n  component of the reduction modulo `p` (`New.Lift.mk_thetaPhiInv_eq_coeff`), and\
+        \ its kernel is\n  generated by `φ^n E` (`New.Lift.frobE_dvd_iff`).\n* `New.Lift.Chart.eventually_exists_coeff_eq_of_fixed`:\
+        \ the approximation theorem, from Ax's theorem\n  (`New.Period.ax_mem_closure_fixedField`) and `New.Lift.Chart.mem_of_fixed_thetaPhiInvS`.\n\
+        \nNotions from other files:\n* `New.Lift.AdicBasis`: A topological basis of `M` over `S` for the `I`-adic\
+        \ topology: vectors `b i`\n  whose finite combinations are dense, with linear forms `coord i` on `M` that\
+        \ read off the\n  coefficients of a finite combination.\n* `New.Period.FrobGal`: The monoid ℕ × G_p; the\
+        \ pair (n, g) acts on A_inf as φ^n g.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame`\
+        \ for sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicHodge.Kisin.FrameTheorem:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.FrameTheorem
+      name: New.Lift.KummerChart.JumpLattice.smul_mem_kisinAinf
+      line: 1044
+      signature: "lemma smul_mem_kisinAinf {g : GroupOverGp.G} (hg : ∀ γ ∈ k.subgroup, g * γ * g⁻¹ ∈ k.subgroup)\n\
+        \    (hx : x ∈ L.kisinAinf) : inr g • x ∈ L.kisinAinf"
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.FrameTheorem
+      importer: New.Congruences.Lifting.ExponentLattices
+      line: 1
+    - module: New.Congruences.Lifting.ExponentLattices
+      importer: New.Congruences.Lifting.HodgeExpansion
+      line: 2
+    - module: New.Congruences.Lifting.HodgeExpansion
+      importer: New.Congruences.Lifting.CupProductBound
+      line: 1
+    - module: New.Congruences.Lifting.CupProductBound
+      importer: New.Congruences.Lifting.TameCharts
+      line: 1
+    - module: New.Congruences.Lifting.TameCharts
+      importer: New.Congruences.Lifting.CupOrthogonalityBounds
+      line: 4
+    - module: New.Congruences.Lifting.CupOrthogonalityBounds
+      importer: New.Congruences.LocalLoss.CrystallineCocycles
+      line: 1
+    - module: New.Congruences.LocalLoss.CrystallineCocycles
+      importer: New.Congruences.LocalLoss.LocalLattices
+      line: 2
+    - module: New.Congruences.LocalLoss.LocalLattices
+      importer: New.Congruences.Selmer.MainSummands
+      line: 2
+    - module: New.Congruences.Selmer.MainSummands
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 5
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/FrameTheorem.lean
+      line: 8
+      endLine: 14
+      text: 'Let `L` be a lattice datum over a Kummer chart `k`. The ring `S` of `k` has a variable `z` and the
+
+        element `E = z ^ e * unit + p`, and `k.frobE m` is `φ ^ m E`; `phiInvToBdR 0` is the map
+
+        `Ainf → BdR`. Let `h = L.jumpBound` and `τ = [ε^{1/p}] − 1`. A form is an `Ainf`-linear map
+
+        `W(C♭) ⊗ L → B_dR`. Those in `L.forms` are `Γ''`-equivariant on `1 ⊗ L`. They cut out the
+
+        `Ainf`-module `L.kisinAinf` and the Kisin module `N = L.kisinModule` over `S`. `L.ainfLattice` is
+
+        `Ainf ⊗ L`; `L.fracSpan` holds the `x` with `r • x ∈ L.ainfLattice` for some non-zero divisor `r` of
+
+        `Ainf`, and `L.frobKisinAinf l` is `φ ^ l (L.kisinAinf)`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/FrameTheorem.lean
+      line: 15
+      endLine: 82
+      text: "\n## Overview of this theory\n\nA chart (`New.Lift.Chart`) is a `Λ`-algebra map `Λ⟦X⟧ → A_inf`, with\
+        \ `Λ = W(\U0001D53D_{p^f})`. It sends `X`\nto a non-unit Teichmüller lift `z = [ϖ^♭]`. It sends some `X^e\
+        \ V + p`, with `V` a unit, to a\ngenerator `E` of `ker θ`. `S` is its image. `B⁺` (`New.Period.BPlus`) receives\
+        \ `A_inf` and maps to\n`B_max` (`New.Period.Bmax`) and `B_dR`. Its `S`-subalgebra `S_B` (`New.Lift.Chart.bicommutant`)\
+        \ is\nthe `p`-adic closure of `S[E/p]` with `p` inverted\n(`New.Lift.Chart.adjoinEDivPClosure_eq_bicommutant`).\
+        \ Put `μ = [ε] - 1`, with `ε` a compatible\nsystem of `p`-power roots of unity, and `τ = φ⁻¹ μ`.\n\n* Let\
+        \ `K` be the field fixed by an open subgroup `G_K` of `Gal(ℚ̄_p/ℚ_p)`. There is a Kummer chart\n  (`New.Lift.KummerChart`)\
+        \ with `Λ` and `θ z` fixed by `G_K` and `e f = [K : ℚ_p]`\n  (`New.Lift.exists_kummerChart`).\n* Let `c`\
+        \ be a chart for `G_K` (`IsChartOf`). Let `T` be a crystalline `ℤ_p`-lattice with action\n  `ρ`, whose jumps\
+        \ (the `k` with `New.Period.jump` nonzero) lie in `[-a, b]`. In a basis of `T`\n  there are three objects.\
+        \ The first is `P`, invertible over `B_max`, with `ρ(g) · g P = P`. The\n  second is a unit `v` with `E\
+        \ τ v = μ`. The third is `U` over `B⁺`, whose image in `B_max` is\n  `(E τ)^a P`. This `U` satisfies the\
+        \ predicate `IsPeriodMatrix` with height `a + b` and Frobenius\n  factor `v^a` (`New.Lift.Chart.IsChartOf.exists_isPeriodMatrixOf`).\n\
+        * Take such a `U` of height `h` and factor `v`. There are `Q` and `Q'` over `A_inf`, `Z` over `S_B`\n  and\
+        \ `B` over `S` with `Q Q' = τ^h`, `U Z = E^h Q` and `φ Q = v Q B`\n  (`New.Lift.Chart.IsPeriodMatrix.exists_frame`).\n\
+        * On a Kummer chart, let `h = jumpBound`. Let `N` be the `S`-module `kisinModule` and `M` its\n  `A_inf`-span\
+        \ `kisinAinf`. Then `τ^h` maps `M` into `ainfLattice` and back, and `E^h φ N ⊆ N`. Take\n  a crystalline\
+        \ form `λ` (`crysForms`, valued in `B_dR`). Then `E^h λ(N)` lies in the image of\n  `S_B`. Suppose `d ∈\
+        \ A_inf` is such that `d ∣ E^m r` in `B⁺` forces `d ∣ r`. Then `x ∈ M` lies in\n  `d M` once, for one `n`,\
+        \ `E^n λ(x) ∈ d B⁺` for all such `λ`\n  (`New.Lift.KummerChart.JumpLattice.mem_smul_kisinAinf_of_crysForms`).\n\
+        \nThis is a substitute, in the form needed here, for part of Kisin's theorem on the module of a\ncrystalline\
+        \ lattice (Kisin 2006; Bhatt–Morrow–Scholze 2018). The inclusion `E^n N ⊆ S φ N` and an\nequivalence of\
+        \ categories are not stated.\n\nContents of the files. `Charts`: coordinates and an approximation lemma.\n\
+        `Bicommutant`: extension to `B⁺`.\n`PeriodMatrixBasis`: `U`, and `Q` with `det Q ≠ 0`. `PeriodMatrixFrame`:\
+        \ `p ∤ det Q`, hence the\nframe. `KummerChartDeRham`: the different, and values in `B_dR`. `Modules`: `M`,\
+        \ `N` and the\n`B_dR`-valued forms. `FrameTheorem`: `N` as the `S`-span of the columns of `τ^{-h} Q`, using\n\
+        `Lib.PadicHodge.RadiusLemma`.\n\n## Main definitions and results\n\n* `New.Lift.KummerChart.JumpLattice.frame_theorem`:\
+        \ a relation `∑ c i • v i = 0` among vectors of\n  `L.valueFieldPoints L.fracSpan` still holds after applying\
+        \ any `k.S`-linear `f : Ainf → k.S` to\n  the coefficients (`New.Lift.KummerChart.JumpLattice.FrameProperties`).\n\
+        * `New.Lift.KummerChart.JumpLattice.valueFieldPoints_frobKisinAinf_eq_span`: the vectors of\n  `φ ^ l (L.kisinAinf)`\
+        \ on which all forms in `L.forms` take values in `k.valueField 0` form the\n  `S`-span of `φ ^ l N`.\n*\
+        \ `New.Lift.KummerChart.JumpLattice.smul_mem_kisinAinf`: an element `g` that conjugates `Γ'` into\n  itself\
+        \ preserves the module `New.Lift.KummerChart.JumpLattice.kisinAinf`. The reason is that\n  conjugation by\
+        \ `g` keeps forms `Γ'`-equivariant\n  (`New.Lift.KummerChart.JumpLattice.conjForm_mem_forms`).\n\nNotions\
+        \ from other files:\n* `New.Lift.KummerChart.JumpLattice`: A finite free O-module with an action of Γ, crystalline\
+        \ over\n  Γ', together with a finite set of integers for each embedding of O in `ℂ_[p]` that contains the\n\
+        \  jumps at that embedding. It also carries finite sets of integers indexed by `Letter`, which this\n  file\
+        \ does not use directly.\n* `New.Lift.KummerChart.JumpLattice.Ambient`: The module W(C^♭)⊗L for the lattice\
+        \ underlying L;\n  `DiagTensor.mk 1 t` is the vector 1 ⊗ t.\n* `New.Lift.KummerChart.JumpLattice.kisinAinf`:\
+        \ The x in A_inf[1/τ] ⊗ L with μ(φ^n x) in B_dR^+ for\n  all n ≥ 1 and all μ in `L.forms`, where τ = [ε^{1/p}]\
+        \ − 1. The Kisin module consists of those x on\n  which all forms in `L.forms` take values in the subfield\
+        \ `k.valueField 0` of B_dR.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame`\
+        \ and `Lib.PadicHodge.Kisin.Modules` for sources.\n"
+  Lib.PadicHodge.Kisin.KummerChartDeRham:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.KummerChartDeRham
+      name: New.Lift.KummerChart.smul_sub_mem_hodgeFil_of_valueField
+      line: 445
+      signature: "lemma smul_sub_mem_hodgeFil_of_valueField {m : ℕ} (t : Fin m → k.galMonoid)\n    (hx : x ∈ valueField\
+        \ a) (hx_int : x ∈ hodgeFil 0)\n    (hg : ∀ s : k.S,\n      (k.frobE a : Ainf) ∣ g • ∑ l : Fin m, t l •\
+        \ (s : Ainf) - ∑ l : Fin m, t l • (s : Ainf)) :\n    g • ∑ l : Fin m, t l • x - ∑ l : Fin m, t l • x ∈ hodgeFil\
+        \ 1"
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.KummerChartDeRham
+      importer: Lib.PadicHodge.Kisin.Modules
+      line: 3
+    - module: Lib.PadicHodge.Kisin.Modules
+      importer: Lib.PadicHodge.Kisin.FrameTheorem
+      line: 1
+    - module: Lib.PadicHodge.Kisin.FrameTheorem
+      importer: New.Congruences.Lifting.ExponentLattices
+      line: 1
+    - module: New.Congruences.Lifting.ExponentLattices
+      importer: New.Congruences.Lifting.HodgeExpansion
+      line: 2
+    - module: New.Congruences.Lifting.HodgeExpansion
+      importer: New.Congruences.Lifting.CupProductBound
+      line: 1
+    - module: New.Congruences.Lifting.CupProductBound
+      importer: New.Congruences.Lifting.TameCharts
+      line: 1
+    - module: New.Congruences.Lifting.TameCharts
+      importer: New.Congruences.Lifting.CupOrthogonalityBounds
+      line: 4
+    - module: New.Congruences.Lifting.CupOrthogonalityBounds
+      importer: New.Congruences.LocalLoss.CrystallineCocycles
+      line: 1
+    - module: New.Congruences.LocalLoss.CrystallineCocycles
+      importer: New.Congruences.LocalLoss.LocalLattices
+      line: 2
+    - module: New.Congruences.LocalLoss.LocalLattices
+      importer: New.Congruences.Selmer.MainSummands
+      line: 2
+    - module: New.Congruences.Selmer.MainSummands
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 5
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/KummerChartDeRham.lean
+      line: 6
+      endLine: 12
+      text: 'Fix a Kummer chart `k` (`New.Lift.KummerChart`) with ring `S ⊆ A_inf` and distinguished element `E`.
+
+        The file studies the elements p_a = φ^a E and δ = zτ of A_inf and bounds the different of the chart.
+
+
+        ## Main definitions and results
+
+
+        * `New.Lift.KummerChart.exists_derivative_dvd_p_pow`: a bound for the different.
+
+        * `New.Lift.phiInvToBdR`: the map `r ↦ φ^{-a} r` from `A_inf` to `B_dR`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/KummerChartDeRham.lean
+      line: 13
+      endLine: 36
+      text: "* `New.Lift.KummerChart.phiInvToBdR_mem_hodgeFil_one_iff`,\n  `New.Lift.KummerChart.phiInvToBdR_frobE_zpow_mem_hodgeFil`:\
+        \ it sends `r` to an element of positive\n  order exactly when `φ^a E` divides `r`, and the `m`-th power\
+        \ of the image of `φ^a E` has order at\n  least `m`.\n* `New.Lift.KummerChart.valueField`: the subfield\
+        \ `\U0001D4A6_a` of `B_dR` in which values are taken.\n* `New.Lift.KummerChart.sum_phiInvToBdR_map_mul_mem_of_mem_valueField`:\
+        \ `S`-linear maps `A_inf → S`\n  preserve linear relations over `\U0001D4A6_a`.\n* `New.Lift.KummerChart.smul_sub_mem_hodgeFil_of_valueField`:\
+        \ if `φ^a E` divides `gs − s` for all\n  `s` in `S`, then `g` fixes the elements of `\U0001D4A6_a` of order\
+        \ at least `0` modulo `t`; more generally,\n  the same holds for the sums `∑ l, t l s` and `∑ l, t l x`,\
+        \ with the `t l` in the Galois monoid.\n\nNotions from other files:\n* `New.Period.Ainf`: the ring A_inf\
+        \ of p-typical Witt vectors over the tilt O^♭ of the ring O_C of\n  integers of C_p.\n* `New.Period.tau`,\
+        \ `New.Period.xi`: τ = [ε^(1/p)] − 1, with φ τ = μ = [ε] − 1, and ξ = μ/τ.\n* `New.Lift.FrobGroup`: the\
+        \ group ℤ × Γ, acting on A_inf by (n, g) ↦ φ^n j(g).\n* `New.Lift.Chart.S`, `New.Lift.Chart.bicommutant`:\
+        \ for a chart, the Λ-subalgebra S of A_inf that is\n  the image of the chart's map Λ[[X]] → A_inf, with\
+        \ `k.coord₀ : A_inf → S` an S-linear retraction of\n  A_inf onto S, and the subalgebra S_B of B^+, the closure\
+        \ of S[E/p] with p inverted.\n* `New.Period.hodgeFil`: the step Fil^n = t^n B_dR^+ of the filtration of\
+        \ B_dR, for n in ℤ.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame`\
+        \ for sources.\n"
+  Lib.PadicHodge.Kisin.KummerChartExistence:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.KummerChartExistence
+      name: New.Lift.exists_kummerChart
+      line: 355
+      signature: "lemma exists_kummerChart (Γ : Type) [Group Γ] [\U0001D4A5 : OverGp Γ p] :\n    ∃ k : KummerChart\
+        \ ⟨Γ⟩, KummerChart.IsChartFor Γ k"
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.KummerChartExistence
+      importer: Lib.PadicHodge.Crystalline.FixedRatios
+      line: 2
+    - module: Lib.PadicHodge.Crystalline.FixedRatios
+      importer: Lib.PadicHodge.BlochKato
+      line: 1
+    - module: Lib.PadicHodge.BlochKato
+      importer: New.Congruences.FirstOrder.TateTwistCocycles
+      line: 1
+    - module: New.Congruences.FirstOrder.TateTwistCocycles
+      importer: New.Congruences.FirstOrder.TraceRelations
+      line: 2
+    - module: New.Congruences.FirstOrder.TraceRelations
+      importer: New.Congruences.FirstOrder.RibetElement
+      line: 2
+    - module: New.Congruences.FirstOrder.RibetElement
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 3
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/KummerChartExistence.lean
+      line: 7
+      endLine: 11
+      text: 'Let Λ = `New.Lift.WittFq f` be the ring of Witt vectors of the field with p^f elements inside O^♭,
+
+        with p implicit, and let θ be Fontaine''s map from A_inf to O_C. The group ℤ × Γ acts on O^♭, A_inf
+
+        and W(C^♭), where (n, g) acts as φ^n j(g) and φ is the bijective Frobenius. A local field is given
+
+        by `Γ : GroupOverGp p`, a group with a homomorphism j = `toGp` to `Gp p` of open image; the field is
+
+        the subfield of ℚ̄_p fixed by the image. Every such field has a Kummer chart: a chart
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/KummerChartExistence.lean
+      line: 12
+      endLine: 33
+      text: "S = Λ⟦z⟧ ⊂ A_inf with a subgroup Γ' of Γ of index prime to p, such that j(Γ') fixes Λ and θ(z) and\n\
+        moves z to every [ε]^l z.\n\n## Main definitions and results\n\n* `New.Lift.wittToQpBar`: the restriction\
+        \ of θ to Λ, with values in the algebraic closure of\n  `ℚ_[p]`; it is injective (`New.Lift.wittToQpBar_injective`).\n\
+        * `New.Lift.FrobGroup`: the group ℤ × Γ, with Frobenius `New.Lift.FrobGroup.φ`.\n* `New.Lift.KummerChart`:\
+        \ a Kummer chart; `New.Lift.KummerChart.IsUnramified`: it is unramified.\n* `New.Lift.exists_kummerChart`:\
+        \ every such field has a Kummer chart, with ef the degree of the\n  field.\n\nNotions from other files:\n\
+        * `New.Period.OFlat`: The ring O^♭, the inverse limit of O_C/p along x ↦ x^p, where O_C is the ring\n  of\
+        \ integers of C_p.\n* `New.Lift.Chart`: A Λ-algebra map Λ[[X]] → A_inf with image S, sending X to a non-unit\
+        \ Teichmüller\n  lift z and a series X^e A + p, A a unit, to an element E that generates ker θ.\n\n## Relation\
+        \ to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame` and `Lib.PadicHodge.PeriodRings.DeRhamPeriods`\n\
+        for sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.PadicHodge.Kisin.Modules:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.Modules
+      name: New.Lift.KummerChart.JumpLattice.formsOfType_subset_pred_of_notMem
+      line: 722
+      signature: "lemma formsOfType_subset_pred_of_notMem (h : n ∉ L.jumpSet i) :\n    L.formsOfType i n ⊆ L.formsOfType\
+        \ i (n - 1)"
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.Modules
+      importer: Lib.PadicHodge.Kisin.FrameTheorem
+      line: 1
+    - module: Lib.PadicHodge.Kisin.FrameTheorem
+      importer: New.Congruences.Lifting.ExponentLattices
+      line: 1
+    - module: New.Congruences.Lifting.ExponentLattices
+      importer: New.Congruences.Lifting.HodgeExpansion
+      line: 2
+    - module: New.Congruences.Lifting.HodgeExpansion
+      importer: New.Congruences.Lifting.CupProductBound
+      line: 1
+    - module: New.Congruences.Lifting.CupProductBound
+      importer: New.Congruences.Lifting.TameCharts
+      line: 1
+    - module: New.Congruences.Lifting.TameCharts
+      importer: New.Congruences.Lifting.CupOrthogonalityBounds
+      line: 4
+    - module: New.Congruences.Lifting.CupOrthogonalityBounds
+      importer: New.Congruences.LocalLoss.CrystallineCocycles
+      line: 1
+    - module: New.Congruences.LocalLoss.CrystallineCocycles
+      importer: New.Congruences.LocalLoss.LocalLattices
+      line: 2
+    - module: New.Congruences.LocalLoss.LocalLattices
+      importer: New.Congruences.Selmer.MainSummands
+      line: 2
+    - module: New.Congruences.Selmer.MainSummands
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 5
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/Modules.lean
+      line: 8
+      endLine: 12
+      text: 'For a Kummer chart `k : New.Lift.KummerChart Γ` there is a ring S ⊂ A_inf, the image of Λ⟦X⟧ with
+
+        Λ = W(𝔽_{p^f}), and a subgroup Γ'' of Γ. Kisin modules are defined inside `L.Ambient = W(C^♭) ⊗ L`
+
+        for a lattice L with prescribed jump sets. The objects are functorial in L and compatible with
+
+        Frobenius and with Γ''. They split according to the letters `i ∈ 𝔽_{p^f}ˣ`, on which the root of
+
+        unity ζ of the coefficients acts as the Teichmüller lift `ω i = letterTeich i`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/Modules.lean
+      line: 13
+      endLine: 57
+      text: "\n## Main definitions and results\n\n* `New.Lift.KummerChart.Letter`: the letters, the units i of \U0001D53D\
+        _{p^f}. For coefficients O with\n  ζ^(p^f − 1) = 1 (`New.Lift.KummerChart.Coeffs`), the letter i cuts out\
+        \ the part\n  `New.Lift.KummerChart.JumpLattice.letterPart` where ζ = [i].\n* `New.Lift.KummerChart.JumpLattice`:\
+        \ a lattice L, crystalline over Γ', with a finite set\n  `jumpSet i` of integers for each letter that holds\
+        \ its jumps at the embeddings above i.\n* `New.Lift.KummerChart.JumpLattice.forms`: forms, A_inf-linear\
+        \ maps to B_dR that are Γ'-equivariant\n  on 1 ⊗ L.\n* `New.Lift.KummerChart.JumpLattice.kisinAinf`, `New.Lift.KummerChart.JumpLattice.kisinModule`,\n\
+        \  `New.Lift.KummerChart.JumpLattice.kisinLoc`: an A_inf-module cut out by forms, the Kisin module N,\n\
+        \  and N with all φ^a E inverted.\n* `New.Lift.KummerChart.JumpLattice.mem_letterPart_iff_letterProj`,\n\
+        \  `New.Lift.KummerChart.JumpLattice.sum_letterProj`: `e i = letterProj i` projects onto the letter\n  `i`,\
+        \ and the `e i` sum to the identity.\n* `New.Lift.KummerChart.JumpLattice.exists_span_formsOfType_mod_pred`:\
+        \ the functionals of type `u`\n  at `i`, modulo those of type `u - 1`, are spanned over Q̄_p by at most\
+        \ `L.jumpMultiplicity i u` of\n  them.\n* `New.Lift.KummerChart.JumpLattice.formsOfType_subset_pred_of_notMem`:\
+        \ if `n ∉ L.jumpSet i`, the\n  functionals of type `n` at `i` are of type `n - 1`.\n\nNotions from other\
+        \ files:\n* `New.Lift.KummerChart`: a chart Λ⟦X⟧ → A_inf (ring `S`, element `E` generating ker θ,\n  `frobE\
+        \ a` = φ^a(E)) together with a subgroup Γ' of Γ whose fixed field it belongs to.\n* `New.Lift.GalLattice`:\
+        \ a finite free O-module with an O-linear representation of Γ.\n* `New.Period.WittCFlat`: the ring W(C^♭)\
+        \ of p-typical Witt vectors over the fraction field C^♭ of\n  the tilt O^♭ of the ring of integers of C_p.\n\
+        * `New.Period.overZp`: a representation of Γ on a module T over a Z_p-algebra R, regarded as a\n  Z_p-linear\
+        \ representation.\n* `New.Period.jump`: the multiplicity of a Hodge–Tate jump u of a representation at an\
+        \ embedding γ\n  of the coefficients into ℂ_p.\n\n## Relation to the literature\n\nKnown result: Hodge–Tate\
+        \ weights of Kisin modules. This is the analogue, for the Kisin module of one\nKummer chart inside A_inf,\
+        \ of the statements on Wach modules in the literature. This file proves\nonly the bounds on the weights,\
+        \ not that the Galois action is trivial modulo the variable. It holds\nper unramified embedding of the coefficients,\
+        \ and it gives only upper bounds by the multiplicity of\neach jump.\nSource: L. Berger, Limites de représentations\
+        \ cristallines, Compositio Math. 140 (2004), 1473–1498,\n§III; N. Wach, Représentations p-adiques potentiellement\
+        \ cristallines, Bull. SMF 124 (1996),\n375–400.\n\nSee also `Lib.PadicHodge.Kisin.PeriodMatrixFrame`.\n"
+  Lib.PadicHodge.Kisin.PeriodMatrixBasis:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.PeriodMatrixBasis
+      name: New.Lift.Chart.IsChartOf.exists_isPeriodMatrixOf
+      line: 954
+      signature: "lemma IsChartOf.exists_isPeriodMatrixOf (hc : IsChartOf c \U0001D4A5.toGp) (h : IsCrystalline\
+        \ ρ)\n    (e : Basis ι ℤ_[p] T)\n    (hab : ∀ k : ℤ, jump ρ (ofId ℤ_[p] ℂ_[p]) k ≠ 0 → -(a : ℤ) ≤ k ∧ k\
+        \ ≤ (b : ℤ)) :\n    ∃ (M : GL ι Bmax) (U : Matrix ι ι BPlus) (v : Ainfˣ),\n      c.IsPeriodMatrixOf ρ a\
+        \ b e M.val U v"
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.PeriodMatrixBasis
+      importer: Lib.PadicHodge.Kisin.PeriodMatrixFrame
+      line: 1
+    - module: Lib.PadicHodge.Kisin.PeriodMatrixFrame
+      importer: Lib.PadicHodge.Limit.CrystallineLimit
+      line: 3
+    - module: Lib.PadicHodge.Limit.CrystallineLimit
+      importer: Lib.ClassField.Avatar.HeckeBaseChange
+      line: 4
+    - module: Lib.ClassField.Avatar.HeckeBaseChange
+      importer: New.UpperBound.Objects.Columns
+      line: 1
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/PeriodMatrixBasis.lean
+      line: 7
+      endLine: 12
+      text: 'This file studies period matrices over a chart `c` (`New.Lift.Chart`). `A_inf ⊂ B⁺ = A_max[1/p]` are
+
+        the period rings `New.Period.Ainf`, `New.Period.BPlus`, and `amaxImage` is the image of `A_max` in
+
+        `B⁺`. A chart gives a subring `S` of `A_inf` with elements `z` and `E`. Here `E` is `ξ` times a
+
+        unit, and `ξ` generates the kernel of `θ`. `S_B` denotes `New.Lift.Chart.bicommutant`. Write
+
+        `μ = [ε] - 1` (`New.Period.mu`) and `τ = [ε^{1/p}] - 1` (`New.Period.tau`). Then `E τ` is `μ` times
+
+        a unit.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/PeriodMatrixBasis.lean
+      line: 13
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.Lift.Chart.IsPeriodMatrix`: period matrices `U` over `B⁺`\
+        \ of height `h`.\n* `New.Lift.Chart.IsPeriodMatrix.exists_basis`: a basis `Q`, `Z` for `U`\n  (`New.Lift.Chart.IsPeriodBasis`):\
+        \ the `x` over `A_inf` with `E ^ h x ∈ U S_B ^ d` are the `S`-span\n  of the columns of a nonsingular matrix\
+        \ `Q`.\n* `New.Lift.Chart.IsChartOf.exists_mem_bicommutant_of_fixed`: elements of `New.Period.Bmax` fixed\
+        \ by\n  `Γ` come from `c.bicommutant`, an `S`-subalgebra of `New.Period.BPlus` in which `p` is invertible\n\
+        \  (defined as a commutant, `New.Lift.Chart.bicommutant`).\n* `New.Lift.Chart.IsChartOf.exists_isPeriodMatrixOf`:\
+        \ if the Hodge–Tate jumps lie in `[-a, b]`, an\n  invariant basis `M` gives the period matrix `(E τ) ^ a\
+        \ M` of height `a + b`\n  (`New.Lift.Chart.IsPeriodMatrix`).\n\nNotions from other files:\n* `New.Period.mu`,\
+        \ `New.Period.tau`, `New.Period.xi`: The elements μ = [ε] − 1, τ = [ε^{1/p}] − 1\n  and ξ = ∑_{i<p} [ε^{1/p}]^i\
+        \ of A_inf, with ξτ = μ; brackets denote Teichmüller lifts, and ε = (1,\n  ζ_p, ζ_{p²}, …) is `New.Period.epsTilt`.\n\
+        * `New.Lift.Chart.z`, `New.Lift.Chart.E`: For a chart, the images in S of X and of the series X^e\n  A +\
+        \ p, A a unit of Λ[[X]]. Here Λ = `New.Lift.WittFq` = W(F_{p^f}).\n* `New.Period.jump`: The multiplicity\
+        \ of an integer as a Hodge–Tate jump of ρ at an embedding.\n* `New.Lift.Chart.IsChartOf`: The field of the\
+        \ chart contains the field fixed by the image of j:\n  Γ → G_p: every g in G_p that fixes Λ pointwise and\
+        \ fixes θ(z) lies in the image of j.\n* `New.Lift.Chart.extendToBPlus`: a chosen `S`-linear extension to\
+        \ `B⁺` of an `S`-linear map\n  `A_inf → A_inf`; it maps `amaxImage` into itself.\n* `New.Period.frobEnd`:\
+        \ the Frobenius endomorphism `φ` of the period rings.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Kisin.PeriodMatrixFrame`\
+        \ for sources.\n"
+  Lib.PadicHodge.Kisin.PeriodMatrixFrame:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Kisin.PeriodMatrixFrame
+      name: New.Lift.Chart.IsPeriodMatrix.exists_frame
+      line: 452
+      signature: "lemma IsPeriodMatrix.exists_frame {U : Matrix d d BPlus} {h : ℕ} {v : Ainfˣ}\n    (hU : c.IsPeriodMatrix\
+        \ U h v) :\n    ∃ (Q L : Matrix d d Ainf) (Z Z' : Matrix d d BPlus) (B : Matrix d d c.S),\n      Q * L =\
+        \ tau ^ h • 1 ∧\n      (∀ (i : d) (j : d), Z i j ∈ c.bicommutant) ∧\n      U * Z = c.E.val ^ h • Q.map ainfToBPlus\
+        \ ∧\n      Z' * Z = c.E.val ^ h • 1 ∧\n      Q.map frobEnd = v • (Q * B.map (↑)) ∧\n      ∀ g : Gp p, c.FixesThetaZ\
+        \ g → ∃ G : Matrix d d Ainf,\n        g • Z = Z * Matrix.map G ainfToBPlus"
+    routeToMain:
+    - module: Lib.PadicHodge.Kisin.PeriodMatrixFrame
+      importer: Lib.PadicHodge.Limit.CrystallineLimit
+      line: 3
+    - module: Lib.PadicHodge.Limit.CrystallineLimit
+      importer: Lib.ClassField.Avatar.HeckeBaseChange
+      line: 4
+    - module: Lib.ClassField.Avatar.HeckeBaseChange
+      importer: New.UpperBound.Objects.Columns
+      line: 1
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Kisin/PeriodMatrixFrame.lean
+      line: 6
+      endLine: 14
+      text: "The frame theorem `New.Lift.Chart.IsPeriodMatrix.exists_frame` for a period matrix `U`\n(`New.Lift.Chart.IsPeriodMatrix`)\
+        \ over a chart with ring `S ⊂ A_inf`: the basis `Q`, `Z` of\n`New.Lift.Chart.IsPeriodMatrix.exists_basis`\
+        \ is completed by partial inverses of `Q` and `Z`, a\nFrobenius matrix `B` over `S`, and the Galois action\
+        \ on `Z`. The key point is `p ∤ det Q`; it rests\non\n\n* `New.Lift.Chart.exists_det_ne_zero`: a nonzero\
+        \ determinant from a separating set of rows;\n* `New.exists_mulVec_eq_zero_and_forall_comp_eq`: Artin's\
+        \ minimal support argument over a valuation\n  ring, applied to the reduction of `Q` modulo `p` over the\
+        \ tilt `O^♭`.\n"
+    remainder:
+      path: grh/src/Lib/PadicHodge/Kisin/PeriodMatrixFrame.lean
+      line: 15
+      endLine: 38
+      text: "\nHere `π` is `WittVector.constantCoeff`, the reduction `A_inf → O^♭` modulo `p`, `ainfToBPlus` is\
+        \ the\nmap `A_inf → B⁺`, and `(n, g)` in `New.Period.FrobGal` acts as `φ ^ n g`.\n\nNotions from other files:\n\
+        * `New.Lift.Chart.E`: The image in S of the series X^e A + p; it equals ξ times a unit of A_inf.\n* `New.Lift.Chart.bicommutant`:\
+        \ The S-subalgebra S_B of those y in B⁺ whose multiplication commutes\n  with every S-linear endomorphism\
+        \ of B⁺ that maps `New.Period.amaxImage` into itself.\n* `New.Period.tau`: The element τ = [ε^{1/p}] − 1\
+        \ of A_inf, where the brackets denote the\n  Teichmüller lift.\n* `New.Lift.Chart.S`: For a chart, the Λ-subalgebra\
+        \ S of A_inf that is the image of the chart's map\n  Λ[[X]] → A_inf.\n* `New.Lift.Chart`: A chart: a Λ-algebra\
+        \ map Λ[[X]] → A_inf, Λ = W(F_{p^f}), sending X to a non-unit\n  Teichmüller lift z = [u] and a series X^e\
+        \ A + p, A a unit, to ξ times a unit.\n\n## Relation to the literature\n\nKnown result: Kisin lattice (Breuil–Kisin\
+        \ module) of a crystalline lattice. Only existence is proved\nhere, of a frame over A_inf with a Frobenius\
+        \ matrix over S, which spans the crystalline periods up\nto powers of E. Finite height is not stated, and\
+        \ there is no equivalence of categories. The proof\nworks directly by linear retractions onto the Breuil–Kisin\
+        \ ring, without slope theory or étale\nφ-modules. Source: M. Kisin, Crystalline representations and F-crystals,\
+        \ Progr. Math. 253 (2006),\n459–496; Bhatt–Morrow–Scholze, Integral p-adic Hodge theory, Publ. IHÉS 128\
+        \ (2018), 4.26–4.34;\nCais–Liu, On F-crystalline representations, Doc. Math. 21 (2016).\n"
+  Lib.PadicHodge.Limit.CrystallineLimit:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Limit.CrystallineLimit
+      name: New.Period.isCrystalline_of_trace_limit
+      line: 630
+      signature: "lemma isCrystalline_of_trace_limit [IsTopologicalGroup G]\n    {h : ℕ} (hR : Continuous R.rep)\
+        \ (hR_nondeg : IsTraceNondeg R.rep)\n    {X : ∀ η : I, ι η → PadicRep G p}\n    (hX_crys : ∀ (η : I) (x\
+        \ : ι η), IsCrystallineUpTo h (viaGroupRing w (X η x)))\n    (hX : ∀ (η : I) (x : ι η), Continuous (X η\
+        \ x).rep)\n    (happrox : ∀ ε > (0 : ℝ), ∃ η : I, ∀ y : ℤ_[p][G],\n      (∀ x : ι η, groupRingHom (X η x)\
+        \ y = 0) → ‖(groupRingHom R y).trace‖ ≤ ε) :\n    IsCrystalline (viaGroupRing w R)"
+    routeToMain:
+    - module: Lib.PadicHodge.Limit.CrystallineLimit
+      importer: Lib.ClassField.Avatar.HeckeBaseChange
+      line: 4
+    - module: Lib.ClassField.Avatar.HeckeBaseChange
+      importer: New.UpperBound.Objects.Columns
+      line: 1
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Limit/CrystallineLimit.lean
+      line: 9
+      endLine: 17
+      text: "Let `A = New.Period.Amax` and `B = New.Period.Bmax`, with tensor products over `ℤ_p`. A continuous,\n\
+        trace-nondegenerate `p`-adic limit of continuous crystalline representations with jumps in `[0, h]`\nis\
+        \ crystalline. The limit is formulated through representations of the group ring `ℤ_p[G]`,\nrestricted along\
+        \ a multiplicative map from a local Galois group.\n\n## Main definitions and results\n\n* `New.Period.IsCrystallineUpTo`:\
+        \ crystalline with all Hodge–Tate jumps (`New.Period.jump`) in [0,\n  h].\n"
+    remainder:
+      path: grh/src/Lib/PadicHodge/Limit/CrystallineLimit.lean
+      line: 18
+      endLine: 46
+      text: "* `New.Period.PadicRep`: a matrix representation of Γ over Q̄_p, bundled with its index set.\n* `New.Lift.uniform_period_bound`:\
+        \ one element `a` of the period ring `A = New.Period.Amax` bounds\n  the denominators of the periods of\
+        \ all crystalline `ℤ_p`-lattices with Hodge–Tate jumps in\n  `[0, h]` (`New.Period.IsCrystallineUpTo`).\
+        \ The element `a` is chosen for the given `Γ`, with its\n  `OverGp Γ p` instance (the map `toGp` to `G_p`),\
+        \ and for the given `h`.\n* `New.Period.exists_finite_groupRing_quotient`: the image of `ℤ_p[G]` in finitely\
+        \ many continuous\n  representations is a finite free `ℤ_p`-algebra with the properties\n  `New.Period.IsFiniteGroupRingQuotient`.\n\
+        * `New.Period.isCrystalline_of_trace_limit`: the limit theorem.\n\nNotions from other files:\n* `New.Period.IsCrystalline`:\
+        \ T is crystalline: the elements of B⊗T fixed by all of Γ span B⊗T over\n  B.\n* `New.Period.Amax`: Colmez's\
+        \ period ring A_max, the p-adic completion of A_inf[X]/(pX − ξ).\n* `New.Period.Bmax`: The period ring B\
+        \ = B^+[1/μ] (Colmez's B_max, used in place of Fontaine's\n  B_cris), over which crystalline representations\
+        \ are defined; B^+ = A[1/p] is `New.Period.BPlus`.\n* `New.IsTraceNondeg`: for a representation r, any x\
+        \ in the span of r(G) with tr(x r(g)) = 0 for all\n  g is zero.\n* `OverGp Γ p`: a group Γ with a homomorphism\
+        \ `toGp` to G_p = Gal(Q̄_p/Q_p) whose image is open.\n* `New.Period.fixedPeriods ρ B F`: the elements of\
+        \ B ⊗ T fixed by `toGp g ⊗ ρ g` for F-almost all g.\n* `New.Lift.Chart` c with `c.IsChartOf j`: a chart\
+        \ W(F_q)⟦X⟧ → A_inf with coefficients `WittFq c.f`,\n  sending X to z; `IsChartOf j` says that every g in\
+        \ G_p that fixes `WittFq c.f` pointwise and fixes\n  θ(z) lies in j(Γ).\n* `New.Lift.AdicBasis I A`: for\
+        \ an ideal I of a ring Λ and a Λ-module A, a topological basis of A\n  for the I-adic topology, with coordinate\
+        \ forms.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.Limit.TraceLimit` and `Lib.PadicHodge.RadiusLemma`\
+        \ for sources.\n"
+  Lib.PadicHodge.Limit.TraceLimit:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.Limit.TraceLimit
+      name: New.GaloisRep.local_clauses_of_trace_limit
+      line: 894
+      signature: "lemma local_clauses_of_trace_limit [PadicIso ℓ] {r : GalRep ℓ E m} {A : ClosurePlace}\n    {F\
+        \ : Filter I} [NeBot F] {a : (η : I) → ι η → PadicAlgCl ℓ}\n    {ρ : (η : I) → ι η → PadicRep Gal(Ω/E) ℓ}\n\
+        \    (h : IsTraceLimit r A F a ρ) {R R' : ℕ → ℕ → Prop} {J : (E →+* ℂ) → Multiset ℤ}\n    {J' : (η : I)\
+        \ → ι η → (E →+* ℂ) → Multiset ℤ}\n    (h_jump : ∀ (η : I) (i : ι η), JumpsRelAt (ρ η i).rep A R' (J' η\
+        \ i))\n    (h_rel : ∀ (τ : E →+* ℂ) (u : ℤ) (x : (η : I) → ι η → ℕ) (n : ℕ),\n      (∀ (η : I) (i : ι η),\
+        \ R' ((J' η i τ).count u) (x η i)) →\n      Tendsto (fun η : I ↦ ∑ i : ι η, a η i * x η i) F (nhds n) →\n\
+        \      R ((J τ).count u) n) :\n    IsGoodAt r A ∧\n    JumpsRelAt r A R J ∧\n    ∀ ⦃s : Gal(Ω/E)⦄ ⦃n : ℕ⦄\
+        \ ⦃P : (PadicAlgCl ℓ)[X]⦄ ⦃Q : (η : I) → ι η → (PadicAlgCl ℓ)[X]⦄,\n      P.natDegree < n →\n      (∀ (η\
+        \ : I) (i : ι η), (Q η i).natDegree < n ∧ PolyKillsAt (ρ η i).rep A s (Q η i)) →\n      (∀ l : ℕ, TendstoUniformly\n\
+        \          (fun (η : I) (g : Gal(Ω/E)) ↦\n            ∑ i : ι η, a η i * (Q η i).coeff l * ((ρ η i).rep\
+        \ g).val.trace)\n          (fun g : Gal(Ω/E) ↦ P.coeff l * (r g).val.trace) F) →\n      PolyKillsAt r A\
+        \ s P"
+    routeToMain:
+    - module: Lib.PadicHodge.Limit.TraceLimit
+      importer: Lib.GaloisRep.Main.CuspidalTypes
+      line: 3
+    - module: Lib.GaloisRep.Main.CuspidalTypes
+      importer: Lib.GaloisRep.Main.SeedRepresentation
+      line: 3
+    - module: Lib.GaloisRep.Main.SeedRepresentation
+      importer: Lib.GaloisRep.Main.SplitCase
+      line: 2
+    - module: Lib.GaloisRep.Main.SplitCase
+      importer: Lib.GaloisRep.Main.OddRank
+      line: 2
+    - module: Lib.GaloisRep.Main.OddRank
+      importer: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      line: 1
+    - module: Lib.ClassField.Avatar.LocalGlobalCompatibility
+      importer: Lib.GaloisRep.Main.AllRanks
+      line: 1
+    - module: Lib.GaloisRep.Main.AllRanks
+      importer: Lib.GaloisRep.TaylorWiles
+      line: 2
+    - module: Lib.GaloisRep.TaylorWiles
+      importer: New.Congruences.FirstOrder.TrianglePrimes
+      line: 2
+    - module: New.Congruences.FirstOrder.TrianglePrimes
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 4
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/Limit/TraceLimit.lean
+      line: 8
+      endLine: 18
+      text: 'The multiplicities of Hodge–Tate jumps can be read from traces with uniformly bounded denominators,
+
+        which lets jumps pass to `p`-adic limits of representations. These bounded denominators are used to
+
+        prove `New.GaloisRep.local_clauses_of_trace_limit`.
+
+
+        ## Overview of this theory
+
+
+        One period ring `B = New.Period.Bmax` defines crystalline and potentially crystalline
+
+        representations `T` of a group `Γ` mapping to `G_p = Gal(ℚ̄_p/ℚ_p)`, such as `G_K` with `K/ℚ_p`
+
+        finite. This ring is Colmez''s `B_max`, not Fontaine''s `B_cris`, and their comparison is not
+
+        formalised. `B` also gives a linear Frobenius and the crystalline cocycles `Z_f(T)`. The Hodge–Tate
+
+        jumps of `T` form a multiset of integers, defined via `ℂ_p ⊗ T`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/Limit/TraceLimit.lean
+      line: 19
+      endLine: 79
+      text: "\n* `New.Period.ax_mem_closure_fixedField`, `New.Period.tate_eq_zero_of_cyclotomicGp_twist`: for a\n\
+        \  subgroup `J` of `G_p`, `ℂ_p^J` lies in the closure of `ℚ̄_p^J`. An element of `ℂ_p(i)`, `i ≠ 0`,\n  fixed\
+        \ by an open subgroup is `0`.\n* `New.Period.IsAdmissible.of_jointly_injective`: being crystalline, or potentially\
+        \ crystalline,\n  passes to subrepresentations of finite direct sums.\n* `New.Period.crysCocycles.finrank_eq`:\
+        \ let `T` be a potentially crystalline `ℤ_p`-lattice with\n  jumps `J`. Then `Z_f(T)` is finitely generated\
+        \ of rank `rk T + n · #(negative jumps)`, where `n`\n  is the index of the image of `Γ` in `G_p`.\n* `New.GaloisRep.local_clauses_of_trace_limit`:\
+        \ let `r` be a continuous Galois representation with\n  non-degenerate trace form. Let its trace be a uniform\
+        \ limit of linear combinations of traces of\n  continuous representations unramified or crystalline at a\
+        \ place `A`. Require finitely many\n  approximations, or the same jumps for all terms. Then `r` is unramified\
+        \ or crystalline at `A`. Its\n  jumps follow if their multiplicities are compatible with the limit. A polynomial\
+        \ killing an\n  element `s` at `A` passes to `r`, given bounded degrees and convergence weighted by each\n\
+        \  coefficient.\n\nThe development proves only the parts of the standard theory that it uses: of the Ax–Sen–Tate\n\
+        theorem only Ax's weaker form, and of Tate's theorem only the statement on `H⁰`. The notions below\ntake\
+        \ the place of Fontaine's admissible representations, of the Weil–Deligne representation and of\nthe Bloch–Kato\
+        \ rank formula. For local–global compatibility of automorphic Galois representations,\nonly the passage\
+        \ to limits is proved, with `r` given. Crystalline means that the invariants span\n`B ⊗ T`.\n\nIn place\
+        \ of the Weil–Deligne representation stands `New.Period.linearFrob`. For `s ∈ Γ` and `m ∈ ℕ`,\nit is a chosen\
+        \ `B`-linear endomorphism of `B ⊗ T`. It agrees with `φ^m s ⊗ s` on `D_pcris(T)` when\none exists, where\
+        \ `φ` is the Frobenius of `B`. In place of `H¹_f` stands the rank of `Z_f(T)`.\n\nOrganisation of `Lib.PadicHodge`.\
+        \ (1) `PeriodRings`: Ax's theorem, `A_inf`, Fontaine's map `θ`,\n`B`, the period `t` of `ℤ_p(1)`, `B_dR`.\
+        \ (2) `TateSen`: Tate's theorem, invariants of `B_dR`.\n(3) `Crystalline`: `Basic` (definitions, twists),\
+        \ `HodgeTateJumps`, `Regularity` (regularity of\n`B`, using `Kisin`). (4) `BlochKato`: the rank, by the\
+        \ fundamental exact sequence; duality is in\n`Lib.ClassField.LocalDuality.CrystallineDuality`. (5) `Limit`:\
+        \ the trace-limit theorem.\n\n## Main definitions and results\n\n* `New.Period.exists_uniform_trace_sum_eq_jump`:\
+        \ the multiplicity of one jump is `t` times a sum of\n  traces with coefficients of norm at most `1`, where\
+        \ `t` is the same for every crystalline lattice\n  with jumps in `[0, n]` and depends only on `Γ`, `n` and\
+        \ the jump.\n\nNotions from other files:\n* `New.GaloisRep.HasJumpsAt`: For each local datum at `A` with\
+        \ embedding `e` and each `g` in\n  `Gal(ℚ̄_ℓ/ℚ_ℓ)`, the Hodge–Tate jumps of `r` at `g`, with multiplicity,\
+        \ are `J` at the embedding\n  `ι_ℓ⁻¹ ∘ g⁻¹ ∘ e` of `E` in `ℂ`.\n* `New.Period.IsKilledBy`: the form of `PolyKillsAt`\
+        \ above ℓ. For a Weil pair (s, k), with s acting\n  on residues as x ↦ x^(1/ℓ^k), it says that the representation\
+        \ T is potentially crystalline. It\n  also says that P kills the operator β = `linearFrob` on `Bmax ℓ` ⊗\
+        \ T, which acts as φ^k s on the\n  elements fixed by all g near 1.\n* `New.Period.IsPotentiallyCrystalline`:\
+        \ the elements of B⊗T fixed by all g with j(g) near 1 span\n  B⊗T over B.\n\n## Relation to the literature\n\
+        \nKnown result: Limits of crystalline representations with bounded weights are crystalline. Here the\nhypothesis\
+        \ is a uniform limit of traces with unbounded coefficients and ranks, and crystallinity is\nLiu's theorem\
+        \ applied to the image of the group ring. The file also proves limit formulas for the\nmultiplicities of\
+        \ jumps and for killing polynomials. Source: T. Liu, Torsion p-adic Galois\nrepresentations and a conjecture\
+        \ of Fontaine, Ann. Sci. ENS 40 (2007) 633–674; L. Berger, Limites de\nreprésentations cristallines, Compositio\
+        \ Math. 140 (2004) 1473–1498; for the passage from traces to\nthe image of the group ring, P. Wake, C. Wang-Erickson,\
+        \ Deformation conditions for\npseudorepresentations, Forum Math. Sigma 7 (2019).\n"
+  Lib.PadicHodge.PeriodRings.Ainf:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.PeriodRings.Ainf
+      name: New.Period.Ainf
+      line: 76
+      signature: 'abbrev Ainf : Type'
+    routeToMain:
+    - module: Lib.PadicHodge.PeriodRings.Ainf
+      importer: Lib.PadicComparison.Descent.TestCategory
+      line: 2
+    - module: Lib.PadicComparison.Descent.TestCategory
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 3
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/PeriodRings/Ainf.lean
+      line: 6
+      endLine: 14
+      text: "`G_p` is the absolute Galois group of `ℚ_p`, and `O_C` is the ring of integers of `ℂ_p`. Fontaine's\n\
+        ring `A_inf = W(O^♭)` is built from the tilt `O^♭` of `O_C`, together with Fontaine's map\n`θ : A_inf →\
+        \ O_C`, the Frobenius `φ`, and an action of `ℕ × G_p`.\n\n## Main definitions and results\n\n* `New.Period.OFlat`,\
+        \ `New.Period.CFlat`: the tilt O^♭ of O_C and its fraction field;\n  `New.Period.Ainf`, `New.Period.WittCFlat`:\
+        \ their rings of Witt vectors; `New.Period.theta`:\n  Fontaine's θ : A_inf → O_C.\n"
+    remainder:
+      path: grh/src/Lib/PadicHodge/PeriodRings/Ainf.lean
+      line: 15
+      endLine: 38
+      text: "* `New.Period.epsPow`: a homomorphism s ↦ ε^s from ℚ to O^♭ that untilts to primitive roots of\n  unity;\
+        \ `New.Period.tau` = [ε^(1/p)] − 1, `New.Period.mu` = [ε] − 1, `New.Period.xi` with ξ τ = μ.\n* `New.Period.FrobGal`\
+        \ = ℕ × G_p acts on O^♭ and A_inf, (n, g) as φⁿ g. Groups acting on O^♭ also\n  act on C^♭ and W(C^♭). `New.Period.frobEnd`\
+        \ is φ.\n* `New.Period.theta_eq_zero_iff_xi_dvd`: the kernel of `θ` is generated by `ξ`.\n* `New.Period.mu_dvd_of_theta_frobEnd`:\
+        \ `μ` divides every element killed by all `θ φ ^ j`.\n  `New.Period.tau_dvd_of_theta_frobEnd` gives the\
+        \ same for `τ` when only `j ≥ 1` is assumed.\n* `New.Period.Ainf.isAdicComplete_span_pair`: `A_inf` is adically\
+        \ complete for the ideal of any two\n  non-units.\n\nNotions from other files:\n* `New.actionOfHoms`: The\
+        \ action of a monoid M on a ring B by ring endomorphisms given by a family\n  f(m) with f(1) the identity\
+        \ and f(ab) = f(a)∘f(b).\n* `New.Variety.tiltMap`: For a ring homomorphism f: R → R', the induced ring homomorphism\
+        \ between\n  the inverse limits of R/p and R'/p along x ↦ x^p.\n* `New.shiftDiff`: For π in R, the operator\
+        \ (x_j) ↦ (x_j − π x_{j+1}) on sequences in an R-module.\n* `New.Variety.IsAbsIntegrallyClosed`: A ring\
+        \ is absolutely integrally closed if every monic\n  polynomial of positive degree over it has a root.\n\
+        * `PreTilt.untilt`: The multiplicative map x ↦ x^♯ from the tilt of a ring R to R.\n* `New.ThePrime p`:\
+        \ The class saying that the natural number p is prime.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.PeriodRings.DeRhamPeriods`\
+        \ for sources.\n"
+  Lib.PadicHodge.PeriodRings.AxTheorem:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.PeriodRings.AxTheorem
+      name: New.Period.exists_algebraic_of_fixed_near_one
+      line: 517
+      signature: "lemma exists_algebraic_of_fixed_near_one {x : ℂ_[p]} (hx : ∀ᶠ g : Gp p in nhds 1, g • x = x) :\n\
+        \    ∃ y : PadicAlgCl p, x = coe' y"
+    routeToMain:
+    - module: Lib.PadicHodge.PeriodRings.AxTheorem
+      importer: Lib.PadicHodge.PeriodRings.Ainf
+      line: 1
+    - module: Lib.PadicHodge.PeriodRings.Ainf
+      importer: Lib.PadicComparison.Descent.TestCategory
+      line: 2
+    - module: Lib.PadicComparison.Descent.TestCategory
+      importer: Lib.Adelic.AutomorphicForms.PAdicGauge
+      line: 3
+    - module: Lib.Adelic.AutomorphicForms.PAdicGauge
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 1
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/PeriodRings/AxTheorem.lean
+      line: 8
+      endLine: 12
+      text: 'This file studies the absolute Galois group `New.Gp` of `ℚ_p`, its action on `ℂ_p`, and its
+
+        invariants. For `p`-adically complete rings in which `p` is not a unit, the untilt and Fontaine''s
+
+        `θ` are natural, and they are onto if the ring is also absolutely integrally closed. Ax''s theorem
+
+        then describes the elements of `ℂ_p` fixed by a subgroup `J` of `New.Gp` as limits of algebraic
+
+        elements fixed by `J`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/PeriodRings/AxTheorem.lean
+      line: 13
+      endLine: 37
+      text: "\n## Main definitions and results\n\n* Tilting for a ring `R` in which `p` is not a unit. `New.Variety.tiltMap`\
+        \ makes Mathlib's\n  `PreTilt R p` functorial. For `p`-adically complete `R`, the untilt `x ↦ x^♯` and Fontaine's\
+        \ `θ`\n  are natural in `R` (`New.Variety.untilt_tiltMap`, `New.Variety.fontaineTheta_map_tiltMap`). Both\n\
+        \  are onto if `R` is absolutely integrally closed\n  (`New.Variety.fontaineTheta_surjective_of_isAbsIntegrallyClosed`).\
+        \ The tilt of a `p`-adically\n  complete valuation ring is a valuation ring.\n* The Galois group `New.Gp`\
+        \ of `ℚ̄_p / ℚ_p` and its cyclotomic character `New.cyclotomicGp`.\n* The continuous isometric action of\
+        \ `New.Gp` on `ℂ_p` (`New.completionAction`), which restricts\n  to an action by ring automorphisms on the\
+        \ ring of integers `New.OC`.\n* `O_C` is `p`-adically complete and absolutely integrally closed, with `O_C[1/p]\
+        \ = ℂ_p`.\n* `New.Period.ax_mem_closure_fixedField`: Ax's theorem; an element fixed by a subgroup `J` is\
+        \ a\n  limit of algebraic elements fixed by `J`.\n* `New.Period.exists_algebraic_of_fixed_near_one`: an\
+        \ element fixed by a neighbourhood of `1` is\n  algebraic.\n\nNotions from other files:\n* `New.cyclotomicChar`:\
+        \ the ℓ-adic cyclotomic character Γ → ℤ_ℓ^× of a group Γ that acts on a\n  field Ω by ring automorphisms;\
+        \ `New.cyclotomicGp` is the case Γ = `New.Gp p`, Ω = ℚ̄_p, ℓ = p.\n\n## Relation to the literature\n\nKnown;\
+        \ see `Lib.PadicHodge.PeriodRings.DeRhamPeriods` and `Lib.PadicHodge.TateSen` for sources.\n"
+  Lib.PadicHodge.PeriodRings.CrystallineRings:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.PeriodRings.CrystallineRings
+      name: New.Period.exists_Ainf_eq_of_contraction
+      line: 1019
+      signature: "lemma New.Period.exists_Ainf_eq_of_contraction {p : ℕ} [ThePrime p] (V : Set BPlus) (n : ℕ)\n\
+        \    (u : Ainf) (hV : ∀ v ∈ V, v ∈ amaxImage)\n    (h_phi : ∀ v ∈ V, ∃ w ∈ V, xi ^ n • v = u • frobEnd w)\
+        \ (v : BPlus) (hv : v ∈ V) :\n    ∃ a : Ainf, ↑a = p ^ n.succ * v"
+    routeToMain:
+    - module: Lib.PadicHodge.PeriodRings.CrystallineRings
+      importer: Lib.PadicHodge.PeriodRings.DeRhamPeriods
+      line: 2
+    - module: Lib.PadicHodge.PeriodRings.DeRhamPeriods
+      importer: Lib.PadicHodge.Crystalline.Basic
+      line: 2
+    - module: Lib.PadicHodge.Crystalline.Basic
+      importer: Lib.ClassField.Places.TameInertia
+      line: 2
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/PeriodRings/CrystallineRings.lean
+      line: 6
+      endLine: 12
+      text: '`New.Period.Ainf` is `A_inf`, for the prime `p` supplied by the class `ThePrime p`. In it, `ξ`
+
+        (`New.Period.xi`) generates the kernel of Fontaine''s `θ`, `μ = [ε] - 1 = ξ τ` with
+
+        `τ = [ε^(1/p)] - 1`, where `ε ∈ O^♭` is a compatible system `(1, ζ_p, ζ_{p²}, …)` of `p`-power roots
+
+        of unity and `[·]` is the Teichmüller lift, and `φ` is the Frobenius. The map `θ` is defined on `A`,
+
+        `B⁺` and `B_dR⁺` (`New.Period.thetaBdR`). The file studies `A` modulo `p` and its divisibility by
+
+        powers of `p`. It shows that `θ` has kernel `ξ B⁺` on `B⁺` and that `B_dR⁺` is a discrete valuation
+
+        ring. It deduces that `A`, `B⁺` and `B` are domains.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/PeriodRings/CrystallineRings.lean
+      line: 13
+      endLine: 43
+      text: "\n## Main definitions and results\n\n* `New.Period.Amax`: `A`, the `p`-adic completion of `A_inf[X]\
+        \ / (p X - ξ)`, with the existence half\n  of its universal property, `New.Period.Amax.exists_lift`.\n*\
+        \ `New.Period.BPlus`: `B⁺ = A[1/p]`; `New.Period.Bmax`: `B = B⁺[1/μ]`; `New.Period.BdRPlus`: the\n  `ξ`-adic\
+        \ completion `B_dR⁺` of `B⁺`.\n* `New.Period.actBmax`: the monoid `New.Period.FrobGal = ℕ × G_p`, with `G_p`\
+        \ the absolute Galois\n  group of `ℚ_p`, in which `(n, g)` stands for `φ^n g`, acts on `A`, `B⁺` and `B`.\
+        \ On `B` this needs\n  `New.Period.isUnit_smul_of_dvd_mu`, which rests on `New.Period.associated_p_frobEnd_xi`:\
+        \ `φ ξ` is\n  `p` times a unit.\n* `New.Period.thetaBPlus`: `θ` extends to `A`, with `X ↦ 0`, and to a map\
+        \ from `B⁺` onto `ℂ_[p]`\n  (`New.Period.thetaBPlus_surjective`).\n* `New.Period.BdRPlus.prime_xi`: `ξ`\
+        \ is prime in `B_dR⁺`, so `B_dR⁺` is a discrete valuation ring\n  with uniformiser `ξ`.\n* `New.Period.exists_Ainf_eq_of_contraction`:\
+        \ let `V ⊆ B⁺` (`New.Period.BPlus`) lie in the image\n  `New.Period.amaxImage` of the period ring `A`, and\
+        \ let every `v ∈ V` satisfy `ξ ^ n v = u φ(w)`\n  for some `w ∈ V`, with `u ∈ A_inf` fixed and `φ` the Frobenius.\
+        \ Then `p ^ (n + 1) V` lies in the\n  image of `A_inf`: each application of `φ` improves an approximation\
+        \ by `A_inf` by one power of\n  `p`.\n\nNotions from other files:\n* `New.Period.Ainf`: the ring `A_inf`\
+        \ of `p`-typical Witt vectors over the tilt `O^♭` of the ring of\n  integers of `ℂ_p`.\n* `New.Period.xi`:\
+        \ the element `ξ = ∑_{i < p} [ε^{1/p}]^i` of `A_inf`, so that `ξ τ = μ`.\n* `New.Period.theta`: Fontaine's\
+        \ ring homomorphism `θ` from `A_inf` onto the ring `New.OC p` of\n  integers of `ℂ_p`, sending the Teichmüller\
+        \ lift `[x]` to `x^♯`.\n\n## Relation to the literature\n\nKnown; see `Lib.PadicHodge.PeriodRings.DeRhamPeriods`\
+        \ for sources.\n"
+  Lib.PadicHodge.PeriodRings.DeRhamPeriods:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.PeriodRings.DeRhamPeriods
+      name: New.Period.Bmax.fundamental_sequence_surjective
+      line: 432
+      signature: "lemma Bmax.fundamental_sequence_surjective (a : Bmax) (β : BdR) :\n    ∃ y : Bmax, ∃ x : BdRPlus,\
+        \ frobEnd y - y = a ∧ (x : BdR) = y - β"
+    routeToMain:
+    - module: Lib.PadicHodge.PeriodRings.DeRhamPeriods
+      importer: Lib.PadicHodge.Crystalline.Basic
+      line: 2
+    - module: Lib.PadicHodge.Crystalline.Basic
+      importer: Lib.ClassField.Places.TameInertia
+      line: 2
+    - module: Lib.ClassField.Places.TameInertia
+      importer: Lib.ClassField.Local.ArtinMap
+      line: 3
+    - module: Lib.ClassField.Local.ArtinMap
+      importer: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.AlgebraicValues
+      importer: New.Derivatives.Field.WeilData
+      line: 2
+    - module: New.Derivatives.Field.WeilData
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 5
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/PeriodRings/DeRhamPeriods.lean
+      line: 7
+      endLine: 13
+      text: 'This file studies the Galois and Frobenius actions on Fontaine''s period rings for `ℂ_[p]`. We write
+
+        A_inf = `New.Period.Ainf` (Witt vectors of `OFlat`, the tilt of the integers of `ℂ_[p]`),
+
+        ε = `New.Period.epsTilt` (a compatible system of `p`-power roots of unity in the tilt), μ = [ε] − 1,
+
+        ξ for the generator of the kernel of θ, φ for Frobenius (`New.Period.frobEnd`) and χ for the
+
+        cyclotomic character `New.cyclotomicGp`. Let B_dR⁺ = `New.Period.BdRPlus`, the ξ-adic completion of
+
+        B⁺ = `New.Period.BPlus`. The fraction field B_dR of B_dR⁺ contains B = B⁺[1/μ] and Q̄_p
+
+        equivariantly.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/PeriodRings/DeRhamPeriods.lean
+      line: 14
+      endLine: 43
+      text: "\n## Main definitions and results\n\n* `New.Lift.mu_sq_dvd_smul_mu_sub`: in `New.Period.Ainf`, the\
+        \ Witt vectors of the tilt of the\n  integers of `ℂ_[p]`, an element `g` of the Galois group `New.Gp p`\
+        \ sends `μ = [ε] - 1` to `χ(g) μ`\n  modulo `μ ^ 2`. Here `ε` is `New.Period.epsTilt` and `χ` is the cyclotomic\
+        \ character. The\n  divisibility `μ ^ 2 ∣ g μ - χ(g) μ` holds in `A_inf` itself; the proof checks it modulo\
+        \ every\n  power of the ideal `(p, ξ)`, where `ξ` generates the kernel of Fontaine's map `θ`.\n* `New.Period.exists_tPeriod`:\
+        \ some unit multiple `t` of `p μ` has `φ t = p t` and `g t = χ(g) t`.\n* `New.Period.BdR`: the fraction\
+        \ field of B_dR⁺; G_p acts on it and B embeds in it equivariantly.\n* An embedding of Q̄_p in B_dR⁺, got\
+        \ by lifting along θ since Q̄_p is formally étale over ℚ_p;\n  `New.Period.thetaBdR_algebraMap_padicAlgCl`\
+        \ says it is a section of θ,\n  `New.Period.BdR.smul_algebraMap_padicAlgCl` that it is G_p-equivariant.\n\
+        * `New.Period.Bmax.fundamental_sequence_surjective`: (φ − 1, inclusion) maps B onto\n  B × B_dR / B_dR⁺,\
+        \ the surjectivity in the fundamental exact sequence.\n\nNotions from other files:\n* `New.Period.Amax`:\
+        \ The ring A, the p-adic completion of A_inf[ξ/p]; B⁺ = A[1/p].\n* `New.Period.mu`, `New.Period.tau`, `New.Period.xi`:\
+        \ The elements μ = [ε] − 1, τ = [ε^{1/p}] − 1\n  and ξ = Σ_{0 ≤ i < p} [ε^{1/p}]^i of A_inf; ξτ = μ and\
+        \ φ(τ) = μ.\n\n## Relation to the literature\n\nKnown result: Fontaine's period rings and the fundamental\
+        \ exact sequence. Here Colmez's B_max\nreplaces B_cris and the period t is built without logarithms. The\
+        \ part of Fontaine's regularity that\nis used, namely that the invariants of the fraction field of B already\
+        \ lie in B, is proved in\n`Lib.PadicHodge.Crystalline.Regularity` (`New.Period.fontaine_regularity`). Source:\
+        \ P. Colmez,\nThéorie d'Iwasawa des représentations de de Rham d'un corps local, Ann. of Math. 148 (1998),\n\
+        III.2-III.3; J.-M. Fontaine, Le corps des périodes p-adiques, Astérisque 223 (1994); X. Caruso, An\nintroduction\
+        \ to p-adic period rings (2019), §3.\n"
+  Lib.PadicHodge.RadiusLemma:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.RadiusLemma
+      name: New.Lift.Chart.radius_lemma
+      line: 477
+      signature: "lemma radius_lemma (ht_fixes : c.FixesThetaZ t)\n    (ht_z : t • c.z.val = teichmuller p epsTilt\
+        \ * c.z.val) {Z Z' : Matrix d d BPlus}\n    {h : ℕ} (hZ : ∀ i j : d, Z i j ∈ c.bicommutant) (hZ' : Z' *\
+        \ Z = c.E ^ h • 1)\n    {G : Matrix d d Ainf} (hG : t • Z = Z * G.map ainfToBPlus) {l : ℕ} (hl : 3 * c.e\
+        \ ≤ p ^ l)\n    (b : ℕ) :\n    ∃ (V : (Matrix d d Amax)ˣ) (C : Matrix d d BPlus), IsRadiusFactorization\
+        \ c Z l b V C"
+    routeToMain:
+    - module: Lib.PadicHodge.RadiusLemma
+      importer: Lib.PadicHodge.Limit.CrystallineLimit
+      line: 4
+    - module: Lib.PadicHodge.Limit.CrystallineLimit
+      importer: Lib.ClassField.Avatar.HeckeBaseChange
+      line: 4
+    - module: Lib.ClassField.Avatar.HeckeBaseChange
+      importer: New.UpperBound.Objects.Columns
+      line: 1
+    - module: New.UpperBound.Objects.Columns
+      importer: New.UpperBound.Size.ShortColumns
+      line: 4
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/RadiusLemma.lean
+      line: 6
+      endLine: 9
+      text: 'The radius lemma for a chart (`New.Lift.Chart`): a subring S of A_inf, the image of Λ⟦X⟧, where
+
+        Λ = W(𝔽_{p^𝔣}) are the constants; the image z of X is a Teichmüller lift, and E = z^e·(unit) + p is
+
+        an associate of ξ. Further A = `New.Period.Amax`, B⁺ = A[1/p] = `New.Period.BPlus`, φ is the
+
+        Frobenius, and t is a Galois element with `c.FixesThetaZ t`.
+
+        '
+    remainder:
+      path: grh/src/Lib/PadicHodge/RadiusLemma.lean
+      line: 10
+      endLine: 36
+      text: "\n* `New.Lift.Chart.exists_E_pow_mul_eq_tau_pow_mul_iff`: A_inf[1/τ] ∩ S_B[1/E] = S.\n* `New.Lift.Chart.tau_mul_z_dvd_smul_sub`:\
+        \ τz divides ty − y in B⁺ for every y in S_B.\n* `New.Lift.Chart.radius_lemma`: if tz = [ε]z, Z has entries\
+        \ in S_B with Z'·Z = E^h and tZ = Z·G for\n  some G over A_inf, and 3e ≤ p^l, then φ^l(Z) = φ^l(E)^b·C·V\
+        \ with C constant and V invertible over\n  A (`New.Lift.Chart.IsRadiusFactorization`).\n\nNotions from other\
+        \ files:\n* `New.Period.tau`, `New.Period.mu`, `New.Period.xi`: the elements τ = [ε^{1/p}] − 1, μ = [ε]\
+        \ − 1\n  and ξ of A_inf, with ξτ = μ; `New.Period.theta` is Fontaine's map θ : A_inf → O_C.\n* `New.Lift.Chart.ainfToBPlus`:\
+        \ the structure ring homomorphism from A_inf to B⁺.\n* `New.Lift.Chart.bicommutant`: the S-subalgebra S_B\
+        \ of the y in B⁺ whose multiplication commutes\n  with every S-linear endomorphism of B⁺ that preserves\
+        \ the image of A. It contains p⁻¹ and is the\n  p-adic closure of S[E/p] with p inverted (`New.Lift.Chart.adjoinEDivPClosure_eq_bicommutant`).\n\
+        * `New.Lift.Chart.FixesThetaZ`: `c.FixesThetaZ t` says that t fixes the constants Λ and θ(z).\n\n## Relation\
+        \ to the literature\n\nKnown result: Dwork's trick, giving an integral crystalline comparison with a uniform\
+        \ denominator.\nHere `radius_lemma` gives φ^l(Z) = φ^l(E)^b·C·V, with C fixed by every g that fixes Λ and\
+        \ V\ninvertible over A_max. Whenever e·A ≤ p^l·δ, the y with Vy natural modulo E^A span at least\np^{4δ}S^d.\n\
+        Source: M. Kisin, Crystalline representations and F-crystals, Progr. Math. 253 (2006), Lemma 1.2.6;\nM.\
+        \ Kisin, Potentially semi-stable deformation rings, JAMS 21 (2008), Lemma 2.2; B. Bhatt,\nP. Scholze, Prismatic\
+        \ F-crystals and crystalline Galois representations (2023), proof of Thm 5.6.\n\nSee also `Lib.PadicHodge.Kisin.PeriodMatrixFrame`.\n"
+  Lib.PadicHodge.TateSen:
+    group: Lib.PadicHodge
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.PadicHodge.TateSen
+      name: New.Period.BdR.exists_sub_mem_of_smul_sub_mem
+      line: 500
+      signature: "lemma BdR.exists_sub_mem_of_smul_sub_mem (S : Submodule BdRPlus BdR) {x : BdR}\n    (hx : ∀ g\
+        \ : Γ, toGp g • x - x ∈ S) :\n    ∃ a : localFieldOf Γ, x - a.val ∈ S"
+    routeToMain:
+    - module: Lib.PadicHodge.TateSen
+      importer: Lib.PadicHodge.Crystalline.HodgeTateForms
+      line: 2
+    - module: Lib.PadicHodge.Crystalline.HodgeTateForms
+      importer: Lib.PadicHodge.Crystalline.HodgeTateJumps
+      line: 1
+    - module: Lib.PadicHodge.Crystalline.HodgeTateJumps
+      importer: Lib.GaloisRep.Main.LocalConditions
+      line: 2
+    - module: Lib.GaloisRep.Main.LocalConditions
+      importer: New.Congruences.LocalLoss.Basic
+      line: 1
+    - module: New.Congruences.LocalLoss.Basic
+      importer: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      line: 3
+    - module: New.Congruences.GaloisRepresentations.SelmerHypotheses
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 1
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/PadicHodge/TateSen.lean
+      line: 7
+      endLine: 14
+      text: "Let `χ` be the cyclotomic character `New.cyclotomicGp` of `New.Gp p = Gal(ℚ̄_p/ℚ_p)`, where the\nclass\
+        \ `[ThePrime p]` says that `p` is prime. The file also defines the filtration tⁿ B_dR⁺ of the de\nRham period\
+        \ field B_dR = `New.Period.BdR`.\n\n## Main definitions and results\n\n* `New.Period.tate_eq_zero_of_cyclotomicGp_twist`:\
+        \ the only `x` in `ℂ_p` with\n  `χ(g) ^ u g x = χ(g) ^ v x` for all `g` near `1` is `0` when `u ≠ v`.\n"
+    remainder:
+      path: grh/src/Lib/PadicHodge/TateSen.lean
+      line: 15
+      endLine: 40
+      text: "* `New.Period.le_of_hodgeTate_stable`: for a subspace of `ℂ_p ^ ι` stable under the Galois action\n\
+        \  twisted by `χ ^ u i` in the coordinate `i`, the vectors of minimal support can be taken algebraic,\n\
+        \  fixed and supported on one weight, by the theorems of Tate and Ax.\n* `New.Period.hodgeFil`: the step\
+        \ tⁿ B_dR⁺, with t = `New.Period.tPeriod` a uniformiser of the\n  discrete valuation ring B_dR⁺ = `New.Period.BdRPlus`,\
+        \ on which g acts by g t = χ(g) t\n  (`New.Period.smul_tUnit_zpow`).\n* `New.Period.forall_smul_eq_iff_mem_localFieldOf`:\
+        \ an open subgroup fixes in ℂ_p exactly its fixed\n  field K in Q̄_p.\n* `New.Period.BdR.exists_sub_mem_of_smul_sub_mem`:\
+        \ an element of B_dR that is invariant modulo a\n  B_dR⁺-submodule S is congruent modulo S to an element\
+        \ of K; S = 0 gives the invariants of B_dR.\n\nNotions from other files:\n* `New.Period.OverGp`, `New.Period.localFieldOf\
+        \ Γ`: a homomorphism j = `toGp` from a group `Γ` to\n  `New.Gp p` with open image, and the subfield of Q̄_p\
+        \ fixed by that image.\n\n## Relation to the literature\n\nKnown result: The Ax–Sen–Tate theorem and Tate's\
+        \ vanishing of the invariants of C_p(i). Ax's theorem\nis not proved in this file; it comes from an imported\
+        \ file, as `ax_mem_closure_fixedField` and\n`exists_algebraic_of_fixed_near_one`, without the constant.\
+        \ Tate's theorem is stated for H⁰ only, on\nany open subgroup, and is proved from the boundedness of the\
+        \ normalised trace to Q_p. A consequence\nis that invariants of B_dR modulo a submodule come from the base\
+        \ field. Source: J. Ax, Zeros of\npolynomials over local fields: the Galois action, J. Algebra 15 (1970);\
+        \ J. Tate, p-divisible groups\n(1967), §3; proofs in Fontaine–Ouyang 3.3-3.5 and Brinon–Conrad §14.\n\n\
+        See also `Lib.PadicHodge.Crystalline.Regularity` and `Lib.PadicHodge.PeriodRings.DeRhamPeriods`.\n"
+needs_draft: true

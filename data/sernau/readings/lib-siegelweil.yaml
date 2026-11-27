@@ -1,0 +1,2376 @@
+group: Lib.SiegelWeil
+overview: null
+files:
+  Lib.SiegelWeil.Formula.LagrangianZeroTerms:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Formula.LagrangianZeroTerms
+      name: New.SiegelWeil.eq_zero_of_le_tsum_zeroTerm
+      line: 901
+      signature: "lemma New.SiegelWeil.eq_zero_of_le_tsum_zeroTerm {E n m : Type} {p : ℕ} [Field E] [CMType E]\n\
+        \    {s : n → ℤˣ} {t : m → ℤˣ} [WeilData E] [Fintype n] [DecidableEq n] [Fintype m] [DecidableEq m]\n  \
+        \  {S : Space E n s} {T : Space E m t} [Nonempty n]\n    (hn : Fintype.card n = 2 * p) (hm : 2 * p < Fintype.card\
+        \ m) {ℓ : \U0001D4AE (S.hom T) →L[ℂ] ℂ}\n    (hℓ : ∀ (h : G E t) (f : \U0001D4AE (S.hom T)), ℓ (splitWeil\
+        \ S T (1, h) f) = ℓ f)\n    (h_summable : ∀ f : \U0001D4AE (S.hom T), Summable fun L : Lagrangian S ↦ Lagrangian.zeroTerm\
+        \ T L f)\n    (h_bound : ∀ f : \U0001D4AE (S.hom T), BddAbove (Set.range fun g : G E s ↦\n      ‖ℓ (splitWeil\
+        \ S T (g, 1) f)‖ -\n        ∑' L : Lagrangian S, ‖Lagrangian.zeroTerm T L (splitWeil S T (g, 1) (vacElem\
+        \ (S.hom T)))‖))\n    {f : \U0001D4AE (S.hom T)} : ℓ f = 0"
+    routeToMain:
+    - module: Lib.SiegelWeil.Formula.LagrangianZeroTerms
+      importer: New.OneLift.FalseLifts.HyperbolicPlaneStep
+      line: 2
+    - module: New.OneLift.FalseLifts.HyperbolicPlaneStep
+      importer: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+      line: 1
+    - module: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 4
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean
+      line: 7
+      endLine: 12
+      text: 'Let `S` and `T` be hermitian spaces. The two unitary groups act by `New.SiegelWeil.splitWeil S T` on
+
+        the function space of `Hom(S, T)`. The file defines complete splittings of `S`, Lagrangians and the
+
+        zero term of a Lagrangian: the mean of `θ (ϱ z f)` over the maps `z : S → T` vanishing on it, adelic
+
+        modulo rational, where `ϱ z` is the Heisenberg translation by `z`. It computes the norm of the zero
+
+        term `P.lagrangian.zeroTerm T` of a splitting `P` under the parabolic, and bounds it along the
+
+        normalised torus of a second splitting. It then shows, by the Hecke maximum principle, that a
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean
+      line: 13
+      endLine: 48
+      text: "continuous invariant functional vanishes if it is dominated by the norms of the zero terms of the\n\
+        vacuum and `rank T > rank S > 0`.\n\n## Main definitions and results\n\n* `New.SiegelWeil.CompleteSplitting\
+        \ S p`: splittings of `S` into `p` hyperbolic planes;\n  `New.SiegelWeil.Lagrangian S`: Lagrangians. Every\
+        \ Lagrangian comes from a splitting\n  (`New.SiegelWeil.Lagrangian.exists_completeSplitting`), and one is\
+        \ chosen for each\n  (`New.SiegelWeil.Lagrangian.chosenSplitting`).\n* `New.SiegelWeil.mixedValue`, `New.SiegelWeil.Lagrangian.zeroTerm`:\
+        \ the value `f[x]` in the model\n  of a splitting, and the zero term `f[0]` of a Lagrangian, which depends\
+        \ on the Lagrangian only\n  (`New.SiegelWeil.zeroTerm_lagrangian_eq_theta`).\n* `New.SiegelWeil.theta_normalisedTorus_le`:\
+        \ if `rank T > rank S`, an integrable bound for theta,\n  uniform along the torus `New.SiegelWeil.normalisedTorus`.\n\
+        * `New.SiegelWeil.norm_zeroTerm_parabolic_mul`: an element `g` with `g k = k a` multiplies the norm\n  of\
+        \ the zero term by `√|det a| ^ rank T`.\n* `New.SiegelWeil.exists_zeroTerm_normalisedTorus_le`: an upper\
+        \ bound, along the normalised torus\n  `New.SiegelWeil.normalisedTorus T P x`, for the zero term of a second\
+        \ splitting.\n* `New.SiegelWeil.eq_zero_of_le_tsum_zeroTerm`: let `S` have even positive rank less than\
+        \ that of\n  `T`, with summable zero terms. A continuous functional `ℓ` that is invariant under the group\
+        \ of\n  `T` and is dominated, up to an additive constant, by the sum of the norms of the zero terms of the\n\
+        \  translated vacuum is zero.\n\nNotions from other files:\n* `New.pairWeil`: the representation `(g, h)\
+        \ ↦ a (det h) b (det g)⁻¹ ω (x ↦ h x g⁻¹)` of the product\n  of the two adelic unitary groups on the function\
+        \ space of `Hom(S, T)`.\n* `New.Space.Splitting.homSource`, `New.Space.Splitting.homSlice`: the splitting\
+        \ of `Hom(S, T)` over\n  `Hom(S₁, T)` induced by a splitting of `S` over `S₁`, and the term `f ↦ f[x]` of\
+        \ its mixed model\n  at an adelic matrix `x`.\n* `New.Space.schrodingerOp`: the operator on `\U0001D4AE\
+        \ V` attached to a function `Ψ` above a set of split\n  places; the indicator `New.boxIndicator` gives the\
+        \ projection `New.Space.projOn` on the vacua\n  there.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.Formula.WeilRange`\
+        \ for sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.SiegelWeil.Formula.StrongApproximation:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Formula.StrongApproximation
+      name: New.Exchange.IsAutFunction.apply_eq_apply_one
+      line: 158
+      signature: "lemma New.Exchange.IsAutFunction.apply_eq_apply_one {S : Set (FinPlace E)}\n    {D : G E s → ℂ}\
+        \ (hD : IsAutFunction W D) (hS : S.Nonempty)\n    (h_on : HasLevel D (Gf.supportedOn n S)) (hK : HasLevel\
+        \ D (stdLevel E n ⊓ Gf.trivialOn n S))\n    -- invariance under the radical implies invariance under the\
+        \ torus on the Levi subgroup\n    (h_torus : (∀ (c : Matrix m Unit (\U0001D538 E)) (z : Matrix Unit Unit\
+        \ (\U0001D538 E)) (g : G E s),\n        D (H.radicalElement c z * g) = D g) →\n      ∃ F : G E s₀ → ℂ, ∀\
+        \ (t : GL Unit (\U0001D538 E)) (g : G E s₀), D (H.levi (t, g)) = F g) :\n    ∀ g : G E s, D g = D 1"
+    routeToMain:
+    - module: Lib.SiegelWeil.Formula.StrongApproximation
+      importer: New.Determinant.Exchange.LargeTriple
+      line: 1
+    - module: New.Determinant.Exchange.LargeTriple
+      importer: New.Determinant.Exchange.RemovingPlanes
+      line: 1
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Formula/StrongApproximation.lean
+      line: 7
+      endLine: 13
+      text: 'This file proves that an automorphic function on a unitary group with a hyperbolic plane is constant
+
+        under level and torus hypotheses. This is the step that makes the period of a theta lift between
+
+        spaces of equal rank a constant. Strong approximation gives invariance under two opposite unipotent
+
+        radicals, Witt''s theorem reaches the rational points of the Levi factor, and weak approximation
+
+        with the Iwasawa decomposition gives all points. `New.Exchange.IsAutFunction W D` says that `D` is
+
+        continuous on the adelic unitary group of `W` and left invariant under rational points, and
+
+        `H : W.Splitting W₀ Unit` splits off a hyperbolic plane.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Formula/StrongApproximation.lean
+      line: 14
+      endLine: 48
+      text: "\n## Main definitions and results\n\n* `New.Exchange.IsAutFunction.apply_eq_apply_one`: an automorphic\
+        \ function on a unitary group with a\n  hyperbolic plane is constant if it is right invariant under `Gf.supportedOn\
+        \ n S` for a nonempty\n  set `S` of finite places, has level `stdLevel` away from `S`, and satisfies a hypothesis\
+        \ on the\n  torus of the plane.\n* `New.Exchange.exists_torus_mul_rational_fixes`: if `D` is left invariant\
+        \ under the radical\n  elements of every splitting of a hyperbolic plane off `W` with complement `W₀`, then\
+        \ for each set\n  `R` of finite places and each rational point `γ` of `W₀` it is left invariant under the\
+        \ components\n  on `R ∪ R̄` (`closurePart R`) of a Levi element with `W₀`-block `γ`.\n\nNotions from other\
+        \ files:\n* `New.Space`: a hermitian space with a point, given by a matrix J over E and x in GL_n(\U0001D538\
+        ) with xᴴJx\n  equal to diag(s) at the infinite places and 1 at the finite places.\n* `New.Space.Splitting.levi`:\
+        \ The homomorphism GL_p(\U0001D538) × G(V₀) → G(V) sending (m, g₀) to the element\n  with k ↦ km, ι ↦ ιg₀,\
+        \ l ↦ l m*⁻¹.\n* `New.Space.Splitting.radicalElement`: `P.radicalElement 0 b`, written `n(b)`, is the unipotent\n\
+        \  element with k ↦ k and l ↦ l − k(½ȷ⁻¹(b + b*)), where ȷ is the purely imaginary element of\n  `WeilData\
+        \ E`.\n\n## Relation to the literature\n\nA weak substitute for strong approximation for special unitary\
+        \ groups. Only the constancy of a\ncontinuous function `D` on the adelic points of the full unitary group\
+        \ is proved, under three\nhypotheses. First, `D` is left invariant under the rational points. Second, for\
+        \ a nonempty set `S`\nof finite places, `D` is right invariant under the points supported on `S` and the\
+        \ complex\nconjugates of its places, and under the integral finite adelic points that are trivial on `S`.\n\
+        Third, for a splitting of a hyperbolic plane: if `D` is left invariant under the unipotent radical\nof the\
+        \ parabolic subgroup fixing the isotropic line, then the values of `D` on the Levi subgroup\n`GL₁ × G(W₀)`,\
+        \ with `W₀` the complement of the plane, do not depend on the `GL₁` component.\n\nSource: M. Kneser, Starke\
+        \ Approximation in algebraischen Gruppen I, J. reine angew. Math. 218\n(1965); G. Shimura, Arithmetic of\
+        \ unitary groups, Ann. of Math. 79 (1964); survey A. Rapinchuk, MSRI\nPubl. 61 (2013).\n"
+  Lib.SiegelWeil.Formula.WeilRange:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Formula.WeilRange
+      name: New.SiegelWeil.siegel_weil
+      line: 757
+      signature: "theorem New.SiegelWeil.siegel_weil (P : SiegelWeil.CompleteSplitting S p)\n    (hm : 2 * card\
+        \ p < card m) :\n    (Summable fun L : Lagrangian S ↦ ‖Lagrangian.zeroTerm T L‖) ∧\n    ∀ f : \U0001D4AE\
+        \ (S.hom T),\n      Integrable (fun h : G E t ↦ θ (S.hom T) (splitWeil S T (1, h) f)) T.quotMeasure ∧\n\
+        \      ∫ h : G E t, θ (S.hom T) (splitWeil S T (1, h) f) ∂T.quotMeasure =\n        T.quotMeasure.real univ\
+        \ * ∑' L : Lagrangian S, Lagrangian.zeroTerm T L f"
+    routeToMain:
+    - module: Lib.SiegelWeil.Formula.WeilRange
+      importer: Lib.SiegelWeil.OneVector.SiegelClassSum
+      line: 2
+    - module: Lib.SiegelWeil.OneVector.SiegelClassSum
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 1
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Formula/WeilRange.lean
+      line: 7
+      endLine: 12
+      text: 'This file develops reduction theory for a hermitian space `S` split into `p` hyperbolic planes
+
+        (`P : New.SiegelWeil.CompleteSplitting S p`). It proves the Siegel–Weil formula for a space `T` of
+
+        rank greater than `2 p`. Write `a_x` for the Levi element `P.levi (Core.dyadicDiag x, 1)`, where
+
+        `New.Core.dyadicDiag x` is diagonal with entries `2 ^ x i` at the infinite places and `1` at the
+
+        finite places. Write `n(ν)` for `P.radicalElement 0 ν`. Siegel sets give the bound in the cusp used
+
+        in the proof of the formula.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Formula/WeilRange.lean
+      line: 13
+      endLine: 53
+      text: "\n## Main definitions and results\n\n* `New.SiegelWeil.exists_compact_parabolic_normal_form`: a normal\
+        \ form `δ⁻¹ g = n(ν) a_x⁻¹ κ`\n  adapted to a given rational Lagrangian.\n* `New.SiegelWeil.exists_siegel_set`:\
+        \ every adelic point is `γ a_x κ` with `γ` rational, `x ≥ 0`,\n  `κ` in a compact set.\n* `New.SiegelWeil.exists_summable_zeroTerm_bound`:\
+        \ in Weil's range the zero terms\n  `New.SiegelWeil.Lagrangian.zeroTerm`, composed with the normalised torus\
+        \ action\n  `New.SiegelWeil.normalisedTorus` (`splitWeil S T`, the Weil representation on `\U0001D4AE (S.hom\
+        \ T)`, of\n  `a_x` scaled by `2 ^ (-d * card m * ∑ i, x i)`, with `d` the number of infinite places), are\n\
+        \  bounded by one summable function of the Lagrangian.\n* `New.SiegelWeil.siegel_weil`: the mean of theta\
+        \ over `[U(T)]` is the sum of the zero terms.\n\nNotions from other files:\n* `New.Space`: a hermitian space\
+        \ with a point, given by a matrix J over E and x in GL_n(\U0001D538) with xᴴJx\n  equal to diag(s) at the\
+        \ infinite places and 1 at the finite places.\n* `New.SiegelWeil.CompleteSplitting`: The splittings S =\
+        \ lE^p ⊕ kE^p into two isotropic frames l and\n  k, which pair to p hyperbolic planes; `P.k` is the isotropic\
+        \ frame k and `P.kAdelic` is x⁻¹k, the\n  same frame in standard coordinates.\n* `New.Space.Splitting.levi`:\
+        \ The homomorphism GL_p(\U0001D538) × G(V₀) → G(V) sending (m, g₀) to the element\n  with k ↦ km, ι ↦ ιg₀,\
+        \ l ↦ l m*⁻¹.\n* `New.Space.Splitting.radicalElement`: `P.radicalElement 0 b`, written `n(b)`, is the unipotent\n\
+        \  element with k ↦ k and l ↦ l − k(½ȷ⁻¹(b + b*)), where ȷ is the purely imaginary element of\n  `WeilData\
+        \ E`.\n* `New.SiegelWeil.Lagrangian.zeroTerm`: The zero term along a Lagrangian L, which is the value at\
+        \ 0\n  (`New.SiegelWeil.mixedValue`) in the Schrödinger model of a chosen complete splitting with\n  kE^p\
+        \ = L.\n\n## Relation to the literature\n\nSiegel–Weil formula in the convergent range. Here a split space\
+        \ of rank 2p is paired\nwith a hermitian space of rank above 2p, both unimodular at every finite place,\
+        \ over a CM field `E`\nwith `WeilData E` (so it contains the 5040th roots of unity and E/E⁺ is unramified\
+        \ at the finite\nplaces), and the Eisenstein series is written as a sum over Lagrangians. Source: A. Weil,\
+        \ Sur la\nformule de Siegel dans la théorie des groupes classiques, Acta Math. 113 (1965), n° 52 Thm 5;\
+        \ the\nmethod of proof follows Andrianov (1979), Harris (1981), and P. Garrett, The Siegel-Weil formula\
+        \ in\nthe convergent range (notes, 2005).\n\nReduction theory, namely the existence of Siegel sets. The\
+        \ compactness criterion of Mahler that it\nuses is from `Lib.Adelic.Reduction.FiniteVolume`.\n"
+  Lib.SiegelWeil.Mass:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Mass
+      name: New.lintegral_gauss_sum_le_idealZeta
+      line: 367
+      signature: "lemma lintegral_gauss_sum_le_idealZeta (hμ : idealZeta (Ô E) μ ≤ 2) [Fintype n]\n    (hd : 2 *\
+        \ (μ + 1) ≤ card n) (Γ : \U0001D538f E) :\n    ∫⁻ b : selfAdjoint (\U0001D538f E), ‖∫ w : n → \U0001D538\
+        f E in (stdLattice E n : Set (n → \U0001D538f E)),\n        (ψf E ((2⁻¹ : E) * (b.val * (star w ⬝ᵥ w - Γ)))\
+        \ : ℂ)‖ₑ ≤\n      idealZeta (Ô E) μ * volÔ E ^ card n"
+    routeToMain:
+    - module: Lib.SiegelWeil.Mass
+      importer: Lib.Adelic.Adeles.SemilocalProducts
+      line: 1
+    - module: Lib.Adelic.Adeles.SemilocalProducts
+      importer: New.Spanning.RemainingTerms.Box
+      line: 1
+    - module: New.Spanning.RemainingTerms.Box
+      importer: New.UpperBound.Size.ClassCount
+      line: 1
+    - module: New.UpperBound.Size.ClassCount
+      importer: New.UpperBound.Size.Estimates
+      line: 1
+    - module: New.UpperBound.Size.Estimates
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 5
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Mass.lean
+      line: 8
+      endLine: 14
+      text: 'The mass `New.mass E l` is the sum of `1 / #Aut` over the double cosets `Γ \ G_f / K₀` of the
+
+        definite space `New.stdSpace E (Fin l)`. Here `G_f` is the unitary group over the finite adeles, `Γ`
+
+        (`New.stdRatPoints`) its rational points, `K₀` (`New.stdLevel`) the stabiliser of the standard
+
+        lattice, and `New.classSum` the weighted sum over these double cosets. If `E` is stably unramified,
+
+        the class sum in rank `j + 1` of the number of vectors of norm `1` is the mass in rank `j`. The file
+
+        also bounds adelic Gauss sums, integrated over the characters, by a value of the ideal zeta function
+
+        of a ring.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Mass.lean
+      line: 15
+      endLine: 40
+      text: "\n## Main definitions and results\n\n* `New.classSum_card_norm_one_eq_mass`: let `E` be stably unramified\
+        \ (`New.HasPrimitiveRoot5040`:\n  `E` contains a primitive root of unity of order `5040`, so it is unramified\
+        \ over its maximal real\n  subfield at all finite places). Then the class sum in rank `j + 1` of the number\
+        \ of lattice\n  vectors of norm `1` is the mass in rank `j`.\n* `New.idealZeta`: the sum ζ_R(s) of [R :\
+        \ I]^(−s) over the ideals I of finite index of a ring R.\n* `New.lintegral_le_idealZeta_mul`: let ζ_R(μ)\
+        \ ≤ 2. An integral is at most ζ_R(μ)·V if almost every\n  point x of the domain lies in some set S(I), for\
+        \ an ideal I of finite index, with\n  [R : I]^μ · f(x) · (measure of S(I)) ≤ V, for the integrand f.\n*\
+        \ `New.lintegral_gauss_sum_le_idealZeta`: if ζ_Ô(μ) ≤ 2 and 2(μ + 1) ≤ n, the integral over b of\n  |∫_{Ô^n}\
+        \ ψ_f(b(w*w − Γ)/2) dw| is at most ζ_Ô(μ)·vol(Ô^n).\n\nNotions from other files:\n* `New.stdSpace`: the\
+        \ definite space `I_n`, the sum of `n` norms with its standard lattice.\n\n## Relation to the literature\n\
+        \nPart of a known result, the mass formula for unimodular hermitian lattices: masses in consecutive\nranks\
+        \ are compared through the class sums of norm one vectors. See\n`Lib.SiegelWeil.OneVector.SiegelClassSum`.\n\
+        \nPart of a known result, Siegel's formula for representing a number by a hermitian form, with\nbounds on\
+        \ the local densities: the Gauss sums are bounded at all finite places at once, by sorting\nthe characters\
+        \ by their conductor ideal. See `Lib.SiegelWeil.OneVector.SiegelClassSum`.\n"
+  Lib.SiegelWeil.NeighbourLattices:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.NeighbourLattices
+      name: New.SiegelWeil.q_mul_norm_finMultiplier_mul_sq_le
+      line: 645
+      signature: "theorem q_mul_norm_finMultiplier_mul_sq_le [WeilData E] {z : n → \U0001D538f E} (hz : z ∈ stdLattice\
+        \ E n)\n    (h_vec : IsNeighbourVector w ((γ : Matrix n n (\U0001D538f E)) *ᵥ z))\n    (hρ : MapsNeighbour\
+        \ ρ ((γ : Matrix n n (\U0001D538f E)) *ᵥ z)) :\n    w.q * ‖finMultiplier (ρ * γ)‖ ^ 2 ≤ ‖finMultiplier γ‖\
+        \ ^ 2"
+    routeToMain:
+    - module: Lib.SiegelWeil.NeighbourLattices
+      importer: Lib.SiegelWeil.UnramifiedSeries.VacuumCoefficients
+      line: 4
+    - module: Lib.SiegelWeil.UnramifiedSeries.VacuumCoefficients
+      importer: Lib.SiegelWeil.RallisInner.Doubling
+      line: 2
+    - module: Lib.SiegelWeil.RallisInner.Doubling
+      importer: Lib.SiegelWeil.RallisInner.SharpData
+      line: 2
+    - module: Lib.SiegelWeil.RallisInner.SharpData
+      importer: New.Determinant.Norms.AdjointThetaLift
+      line: 2
+    - module: New.Determinant.Norms.AdjointThetaLift
+      importer: New.Spanning.Multiplicities.EqualMultiplicities
+      line: 3
+    - module: New.Spanning.Multiplicities.EqualMultiplicities
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 3
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/NeighbourLattices.lean
+      line: 8
+      endLine: 13
+      text: 'Let E be a CM field with Weil data (`WeilData E`, used here for a primitive 5040th root of unity,
+
+        hence √-1, and an element of trace 1), so that every finite place of its real subfield is split or
+
+        inert; let L = Ô^n be the standard lattice (`New.stdLattice`) with the form ⟨x, z⟩ = x* z, and w a
+
+        finite place of E with uniformiser ϖ and residue field k_w of order q_w. A vector x that is
+
+        supported at w, lies outside L, and has ϖx ∈ L and ⟨x, x⟩ integral defines a neighbour L₁ = L₀ + Ôx
+
+        of L, where L₀ = {z ∈ L : ⟨x, z⟩ integral}. A quasi-reflection ρ supported on w and its conjugate
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/NeighbourLattices.lean
+      line: 14
+      endLine: 49
+      text: "maps L₁ into L. The same ρ serves all x with the same line of ϖx in k_w^n and the same residue of\n\
+        ϖ⟨b, cx − b⟩, where b is a fixed such vector with this line and c a unit with cx − b ∈ L; these\nresidues\
+        \ number at most √q_w, and at most one if w is split. A lattice γL ≠ L, for γ unitary, holds\nsuch a vector\
+        \ x at some place w, and passing from γ to ργ divides the index [L : L ∩ γ⁻¹L] = [γL : L\n∩ γL] by at least\
+        \ q_w. So a step from L to L₁ towards γL is read as a step from γL to ργL towards L.\nThis file treats one\
+        \ step; the steps are summed in `Lib.SiegelWeil.UnramifiedSeries.RallisSeries`.\n\nIf w is split, L₁ is\
+        \ L enlarged by a line at w and cut down to a hyperplane at w̄. So the steps at w\nand at w̄ go up by a\
+        \ line and down by a hyperplane at w. If w is inert, the line of ϖx determines L₀\nand its dual L + Ôx,\
+        \ and the residues index the isotropic lines other than L/L₀ in the hermitian\nplane (L + Ôx)/L₀.\n\n##\
+        \ Main definitions and results\n\n* `New.SiegelWeil.IsNeighbourVector`, `New.SiegelWeil.MapsNeighbour`:\
+        \ the vector x, and the relation\n  ρL₁ ⊆ L.\n* `New.SiegelWeil.neighbourResidues`: the residue classes\
+        \ that tell apart the neighbours with the\n  same line; `New.SiegelWeil.card_neighbourResidues_le_one` and\n\
+        \  `New.SiegelWeil.card_neighbourResidues_sq_le` bound their number.\n* `New.SiegelWeil.exists_family_mapsNeighbour`:\
+        \ a family of ρ, indexed by lines and residue classes,\n  serves all x.\n* `New.SiegelWeil.exists_isNeighbourVector_mulVec`:\
+        \ a lattice γL ≠ L holds such a vector.\n* `New.SiegelWeil.q_mul_norm_finMultiplier_mul_sq_le`: one step\
+        \ lowers the index.\n\nNotions from other files:\n* `New.stdLattice E n`: the standard lattice Ô^n, where\
+        \ `Ô E` is the ring of integral finite adeles\n  in the finite adele ring `\U0001D538f E`; `singleAdele\
+        \ w a` is the finite adele with component a at w and 0\n  elsewhere, so `singleAdele w c • x` is the multiple\
+        \ c x at w.\n* `New.finMultiplier γ`: its squared absolute value is the index [L : L ∩ γ⁻¹L].\n\n## Relation\
+        \ to the literature\n\nKnown result: Kneser's neighbours. Here only the standard lattice over the integral\
+        \ finite adeles\nand its translates by unitary elements are treated; split and inert places are treated\
+        \ by the same\nstep, taken at w or at its conjugate. Source: M. Greenberg, J. Voight, Lattice methods for\
+        \ algebraic\nmodular forms on classical groups (2014), section 5.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.SiegelWeil.OneVector.ClassGaussSums:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.OneVector.ClassGaussSums
+      name: New.Floors.IntegralPlace.measure_residueClass_le_lintegral
+      line: 237
+      signature: "lemma measure_residueClass_le_lintegral (h : P.IsDisintegration volume J l) (hJ : Jᴴ = J)\n  \
+        \  (hψ : ∀ x : A, P.ψ (x + star x) = 1) (g : Aˣ) (x₀ : κ → A) (t : skewAdjoint A) :\n    l t (residueClass\
+        \ g x₀) ≤\n      ∫⁻ b : skewAdjoint A, ‖classGaussSum J g x₀ (P.skewUnit⁻¹.val * t) b‖ₑ ∂P.skewMeasure"
+    routeToMain:
+    - module: Lib.SiegelWeil.OneVector.ClassGaussSums
+      importer: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      line: 1
+    - module: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      importer: Lib.SiegelWeil.OneVector.StandardQuadrics
+      line: 2
+    - module: Lib.SiegelWeil.OneVector.StandardQuadrics
+      importer: New.Spanning.Frames.StandardLevel
+      line: 1
+    - module: New.Spanning.Frames.StandardLevel
+      importer: New.Spanning.MainTerm.FillingLevel
+      line: 1
+    - module: New.Spanning.MainTerm.FillingLevel
+      importer: New.Spanning.Frames.FixedLines
+      line: 4
+    - module: New.Spanning.Frames.FixedLines
+      importer: New.Spanning.MainTerm.FiniteSieveSystem
+      line: 1
+    - module: New.Spanning.MainTerm.FiniteSieveSystem
+      importer: New.Spanning.MainTerm.EnergyEstimate
+      line: 1
+    - module: New.Spanning.MainTerm.EnergyEstimate
+      importer: New.Spanning.Unfolding.MomentBounds
+      line: 1
+    - module: New.Spanning.Unfolding.MomentBounds
+      importer: New.Spanning.Unfolding.Moments
+      line: 2
+    - module: New.Spanning.Unfolding.Moments
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 4
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/OneVector/ClassGaussSums.lean
+      line: 6
+      endLine: 14
+      text: "Let `A` be a finite place (`New.Floors.IntegralPlace`) with ring of integers `R`, modulus `modulus`\n\
+        and a character `ψ` that is trivial on traces. Let `L` be the lattice of integral vectors and `g` a\nunit\
+        \ of `A`.\n\nNotions from other files:\n\n* `New.Floors.IntegralPlace`: a semilocal field with conjugation,\
+        \ a compact open subring `R` of\n  volume `1` that is self-dual for `ψ`, an integral `τ` with `τ + τ̄ =\
+        \ 1`, a skew unit\n  `δ = skewUnit`, a modulus and a measure `skewMeasure` on the skew elements, those with\
+        \ `b̄ = -b`.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/OneVector/ClassGaussSums.lean
+      line: 15
+      endLine: 34
+      text: "* `New.Floors.IntegralPlace.latticeMultiple κ g`: the lattice `g L` in `κ → A`.\n* `New.IsUnimodular\
+        \ R J`: the matrix `J` is hermitian and invertible over `R`.\n* `New.Floors.Place.IsDisintegration`: the\
+        \ measures `l t`, indexed by skew `t`, disintegrate a\n  measure along `x ↦ x* J x`, with `l t` living over\
+        \ the value `δ⁻¹ t`.\n\nMain definition and results:\n\n* `New.Floors.IntegralPlace.classGaussSum`: the\
+        \ Gauss sum of a hermitian form on a class modulo\n  `g L`.\n* `New.Floors.IntegralPlace.enorm_classGaussSum_sq_le`:\
+        \ Weyl differencing bounds it, for a\n  unimodular form, in terms of the denominator of the frequency.\n\
+        * `New.Floors.IntegralPlace.integral_classGaussSum`,\n  `New.Floors.IntegralPlace.measure_residueClass_le_lintegral`:\
+        \ by Fourier inversion, the mass of a\n  class on a quadric is the integral of its Gauss sums over the skew\
+        \ frequencies if they are\n  integrable, and it is always at most the integral of their modulus.\n\n## Relation\
+        \ to the literature\n\nKnown result: bounds for local densities of hermitian forms by Gauss sums, part of\
+        \ Siegel's formula\nfor representing a number by a hermitian form. See `Lib.SiegelWeil.OneVector.SiegelClassSum`.\n"
+  Lib.SiegelWeil.OneVector.FinitePlaceDensity:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.OneVector.FinitePlaceDensity
+      name: New.Floors.IntegralPlace.enorm_localDensity_le
+      line: 680
+      signature: "lemma IntegralPlace.enorm_localDensity_le (h : P.IsDisintegration volume J l) (hJ : Jᴴ = J)\n\
+        \    (hψ : ∀ x : A, P.ψ (x + star x) = 1) {f : (κ → A) → ℝ≥0} (hf : Continuous f)\n    (h_supp : HasCompactSupport\
+        \ f) (t : skewAdjoint A) :\n    ‖∫ b : skewAdjoint A, ∫ x : κ → A,\n      f x * P.ψ (P.element * b.1 * (star\
+        \ x ⬝ᵥ J *ᵥ x - P.skewUnit⁻¹.1 * t))\n      ∂volume ∂P.skewMeasure‖ₑ ≤ ∫⁻ x : κ → A, f x ∂l t"
+    routeToMain:
+    - module: Lib.SiegelWeil.OneVector.FinitePlaceDensity
+      importer: Lib.SiegelWeil.OneVector.ResidueClasses
+      line: 1
+    - module: Lib.SiegelWeil.OneVector.ResidueClasses
+      importer: Lib.SiegelWeil.OneVector.ClassGaussSums
+      line: 1
+    - module: Lib.SiegelWeil.OneVector.ClassGaussSums
+      importer: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      line: 1
+    - module: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      importer: Lib.SiegelWeil.OneVector.StandardQuadrics
+      line: 2
+    - module: Lib.SiegelWeil.OneVector.StandardQuadrics
+      importer: New.Spanning.Frames.StandardLevel
+      line: 1
+    - module: New.Spanning.Frames.StandardLevel
+      importer: New.Spanning.MainTerm.FillingLevel
+      line: 1
+    - module: New.Spanning.MainTerm.FillingLevel
+      importer: New.Spanning.Frames.FixedLines
+      line: 4
+    - module: New.Spanning.Frames.FixedLines
+      importer: New.Spanning.MainTerm.FiniteSieveSystem
+      line: 1
+    - module: New.Spanning.MainTerm.FiniteSieveSystem
+      importer: New.Spanning.MainTerm.EnergyEstimate
+      line: 1
+    - module: New.Spanning.MainTerm.EnergyEstimate
+      importer: New.Spanning.Unfolding.MomentBounds
+      line: 1
+    - module: New.Spanning.Unfolding.MomentBounds
+      importer: New.Spanning.Unfolding.Moments
+      line: 2
+    - module: New.Spanning.Unfolding.Moments
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 4
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean
+      line: 7
+      endLine: 11
+      text: 'Local measure estimates at a finite place, and Fourier inversion for local densities near a
+
+        hermitian quadric. A finite place `New.Floors.IntegralPlace A` is a place `New.Floors.Place A` (a
+
+        ring with involution, Haar measure, modulus `modulus`, character `ψ`, an element `τ` with
+
+        `τ + star τ = 1`, a skew unit δ = `skewUnit` and a Haar measure ν = `skewMeasure` on the skew
+
+        elements) with a compact open ring of integers `R` of volume `1`.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean
+      line: 12
+      endLine: 49
+      text: "\n## Main definitions and results\n\n* `New.Floors.IntegralPlace.exists_content`, `New.Floors.IntegralPlace.contentIndex`:\
+        \ the content of\n  a vector with a unit entry, and its index.\n* `New.Floors.IntegralPlace.lintegral_contentIndex_pow_le`:\
+        \ if `New.idealZeta integers μ ≤ 2` and\n  the dimension is large enough, the integral of a power of the\
+        \ index of a block of coordinates over\n  the vectors v with βv integral is at most `New.idealZeta integers\
+        \ μ` times a power of\n  `(modulus β)⁻¹`.\n* `New.Floors.IntegralPlace.topEichler`, `New.Floors.IntegralPlace.orbitPoint_topEichler`:\
+        \ an\n  explicit isometry `g` of `T.splitGram` with `FloorGroups.orbitPoint \U0001D530.top g` (that is `g⁻¹\
+        \ z` for\n  the last frame vector `z`) equal to `e`. With `l` the index of `z`, it is built from a vector\
+        \ `u`\n  such that h(u, y) = `y l` for all `y` and `u l = 0`. The equation holds if h(e, e) = h(z, z) and\n\
+        \  `e l` is a unit.\n* `New.Floors.IntegralPlace.ascConv_mconv_unfolding`: the mass of a coset of the congruence\
+        \ subgroup\n  `New.unitaryLevel`.\n* `New.Floors.IntegralPlace.setIntegral_eq_slab`,\n  `New.Floors.Place.IsDisintegration.setLIntegral_slab`:\
+        \ orthogonality of characters reduces the cut\n  double integral to the mass of a slab, and that mass is\
+        \ an integral of masses of quadrics.\n* `New.Floors.IntegralPlace.integral_skewMeasure_eq_toReal_lintegral`,\n\
+        \  `New.Floors.IntegralPlace.enorm_localDensity_le`: let `f ≥ 0` be continuous of compact support.\n  Let\
+        \ `J` be hermitian, let the measures `l b` on the quadrics disintegrate Haar measure along\n  `x ↦ x* J\
+        \ x` (`New.Floors.Place.IsDisintegration`), and let `ψ` be trivial on traces. If the outer\n  integral converges\
+        \ absolutely, the local density of `f` at `δ⁻¹ t` is the integral of `f` against\n  `l t`. Its norm is always\
+        \ at most this integral.\n\nNotions from other files:\n* `New.Shape.Form.splitGram`: The Gram matrix of\
+        \ ϱ hyperbolic planes and a middle space with Gram\n  matrix T: identity blocks pair the first and last\
+        \ ϱ indices, T is the middle block, all else is\n  zero.\n* `New.idealZeta`: The ideal zeta sum ∑ [R : I]^(−s)\
+        \ over the ideals I of finite index in R, for a\n  natural number s, with values in [0, ∞].\n* `New.Shape.BesselIndex`:\
+        \ The index set of the basis e₁, …, e_ϱ, x_i (i in κ), z, e*₁, …, e*_ϱ.\n\n## Relation to the literature\n\
+        \nKnown; see `Lib.SiegelWeil.OneVector.SiegelClassSum`, `Lib.Adelic.Adeles.Basic` and\n`Lib.Adelic.Witt.IwasawaDecomposition`\
+        \ for sources.\n"
+  Lib.SiegelWeil.OneVector.ResidueClasses:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.OneVector.ResidueClasses
+      name: New.Floors.IntegralPlace.residueClass
+      line: 53
+      signature: 'def residueClass (g : Aˣ) (x₀ : κ → A) : Set (κ → A)'
+    routeToMain:
+    - module: Lib.SiegelWeil.OneVector.ResidueClasses
+      importer: Lib.SiegelWeil.OneVector.ClassGaussSums
+      line: 1
+    - module: Lib.SiegelWeil.OneVector.ClassGaussSums
+      importer: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      line: 1
+    - module: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      importer: Lib.SiegelWeil.OneVector.StandardQuadrics
+      line: 2
+    - module: Lib.SiegelWeil.OneVector.StandardQuadrics
+      importer: New.Spanning.Frames.StandardLevel
+      line: 1
+    - module: New.Spanning.Frames.StandardLevel
+      importer: New.Spanning.MainTerm.FillingLevel
+      line: 1
+    - module: New.Spanning.MainTerm.FillingLevel
+      importer: New.Spanning.Frames.FixedLines
+      line: 4
+    - module: New.Spanning.Frames.FixedLines
+      importer: New.Spanning.MainTerm.FiniteSieveSystem
+      line: 1
+    - module: New.Spanning.MainTerm.FiniteSieveSystem
+      importer: New.Spanning.MainTerm.EnergyEstimate
+      line: 1
+    - module: New.Spanning.MainTerm.EnergyEstimate
+      importer: New.Spanning.Unfolding.MomentBounds
+      line: 1
+    - module: New.Spanning.Unfolding.MomentBounds
+      importer: New.Spanning.Unfolding.Moments
+      line: 2
+    - module: New.Spanning.Unfolding.Moments
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 4
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/OneVector/ResidueClasses.lean
+      line: 6
+      endLine: 15
+      text: "Let `A` be a finite place, `R` its ring of integers, `κ` an index type, `L` the lattice `R^κ` of\n\
+        integral vectors in `A^κ` and `g` a unit of `A`.\n\n* `New.Floors.IntegralPlace.latticeMultiple`, `New.Floors.IntegralPlace.residueClass`:\
+        \ the lattice\n  `g L` and its classes. They are compact and, for finite `κ`, open of volume `modulus g\
+        \ ^ card κ`.\n\nNotions from other files:\n\n* `New.Floors.IntegralPlace`: the structure `P` that makes\
+        \ `A` a finite place; `P.integers` is the\n  ring of integers `R`, and `P.modulus x` is the inverse of the\
+        \ generalised index of `x R` in `R`.\n"
+  Lib.SiegelWeil.OneVector.SemilocalDensityBounds:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      name: New.Floors.IntegralPlace.one_add_enorm_measure_intVectors_sub_one_le
+      line: 197
+      signature: "theorem one_add_enorm_measure_intVectors_sub_one_le (h : P.IsDisintegration volume J l)\n    (hJ\
+        \ : IsUnimodular P.integers J) (hψ : ∀ x : A, P.ψ (x + star x) = 1)\n      (hμ : idealZeta P.integers μ\
+        \ ≤ 2)\n    (h_rank : 2 * μ + 1 ≤ card κ) {t : skewAdjoint A} (ht : t.val ∈ P.integers) :\n    1 + ‖(l t\
+        \ (intVectors P.integers κ : Set (κ → A))).toReal - 1‖ₑ ≤ idealZeta P.integers μ"
+    routeToMain:
+    - module: Lib.SiegelWeil.OneVector.SemilocalDensityBounds
+      importer: Lib.SiegelWeil.OneVector.StandardQuadrics
+      line: 2
+    - module: Lib.SiegelWeil.OneVector.StandardQuadrics
+      importer: New.Spanning.Frames.StandardLevel
+      line: 1
+    - module: New.Spanning.Frames.StandardLevel
+      importer: New.Spanning.MainTerm.FillingLevel
+      line: 1
+    - module: New.Spanning.MainTerm.FillingLevel
+      importer: New.Spanning.Frames.FixedLines
+      line: 4
+    - module: New.Spanning.Frames.FixedLines
+      importer: New.Spanning.MainTerm.FiniteSieveSystem
+      line: 1
+    - module: New.Spanning.MainTerm.FiniteSieveSystem
+      importer: New.Spanning.MainTerm.EnergyEstimate
+      line: 1
+    - module: New.Spanning.MainTerm.EnergyEstimate
+      importer: New.Spanning.Unfolding.MomentBounds
+      line: 1
+    - module: New.Spanning.Unfolding.MomentBounds
+      importer: New.Spanning.Unfolding.Moments
+      line: 2
+    - module: New.Spanning.Unfolding.Moments
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 4
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/OneVector/SemilocalDensityBounds.lean
+      line: 6
+      endLine: 9
+      text: 'Let `A` be a finite place in the sense of `New.Floors.IntegralPlace`, which may be a product of
+
+        several completions, with ring of integers `R` and modulus `modulus`. Let `L` be the lattice of
+
+        integral vectors, let the character `ψ` be trivial on traces, and let `ζ_R(μ) = New.idealZeta R μ`
+
+        be at most `2`. No uniformizer is assumed: the Gauss sums are summed over the ideals of `R`.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/OneVector/SemilocalDensityBounds.lean
+      line: 10
+      endLine: 31
+      text: "\n* `New.Floors.IntegralPlace.measure_residueClass_le_idealZeta`: for a unimodular hermitian form of\n\
+        \  rank at least `2 μ + 1`, a class modulo `g L` has mass at most `ζ_R(μ) (modulus g)⁻¹` times its\n  volume\
+        \ on each quadric.\n* `New.Floors.IntegralPlace.one_add_enorm_measure_intVectors_sub_one_le`: on an integral\
+        \ quadric the\n  mass of `L` differs from `1` by at most `ζ_R(μ) - 1`.\n\nNotions from other files:\n* `IntegralPlace\
+        \ A`: the data `integers`, `ψ`, `element`, `skewUnit`, `skewMeasure` and `modulus` of\n  the place; `element`\
+        \ has trace `1`, and `skewMeasure` is a measure on the skew elements `b`, those\n  with `b̄ = -b`. `skewUnit`\
+        \ is a unit of `A` with integral inverse, and\n  `(a, b) ↦ element skewUnit⁻¹ a + b` carries `skewMeasure\
+        \ ⊗ skewMeasure` to Haar measure.\n* `IsUnimodular R J`: the matrix `J` is hermitian and lies in `GL_n(R)`.\n\
+        * `IsDisintegration volume J l`: the measures `l t`, on the quadrics `x* J x = skewUnit⁻¹ t`,\n  disintegrate\
+        \ the Haar measure.\n* `classGaussSum J g x₀ α b`: the integral of `ψ (element b (x* J x - α))` over the\
+        \ class\n  `x₀ + g L`.\n\n## Relation to the literature\n\nKnown result: bounds for local densities of hermitian\
+        \ forms by Gauss sums, part of Siegel's formula\nfor representing a number by a hermitian form. See `Lib.SiegelWeil.OneVector.SiegelClassSum`.\n"
+  Lib.SiegelWeil.OneVector.SiegelClassSum:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.OneVector.SiegelClassSum
+      name: New.abs_log_mass_ratio_sub_le
+      line: 852
+      signature: "lemma New.abs_log_mass_ratio_sub_le (E : Type) [Field E] [CMType E] [WeilData E] (j u : ℕ)\n \
+        \   (hu : 8 * Core.numInfPlaces E ≤ 2 ^ u) (hj : 4 * u + 12 ≤ j) :\n    |log (mass E (j + 1)) - log (mass\
+        \ E j) - Core.numInfPlaces E *\n      ((j + 1 / 2) * log (rootDiscr E) + log j.factorial - (j + 1) * log\
+        \ (2 * π))| ≤\n      2 / 2 ^ u"
+    routeToMain:
+    - module: Lib.SiegelWeil.OneVector.SiegelClassSum
+      importer: New.Spanning.Unfolding.FrameMass
+      line: 1
+    - module: New.Spanning.Unfolding.FrameMass
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 2
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/OneVector/SiegelClassSum.lean
+      line: 8
+      endLine: 16
+      text: "This file derives Siegel's formula for representation numbers from the Siegel–Weil formula\n`New.SiegelWeil.siegel_weil`.\
+        \ It applies that formula to the hyperbolic plane and to the positive\ndefinite space `stdSpace E κ` with\
+        \ form x*x, of rank at least 3. Laplace's integral for 1/Γ supplies\nthe archimedean factor.\n\n## Main\
+        \ definitions and results\n\n* `New.SiegelWeil.siegel_weil_one_vector`: the mean of `∑_ξ Ψ(h⁻¹ ξ)` is `Ψ(0)`\
+        \ plus the sum over\n  β in E⁺ of the integrals `∫ Ψ(x) ψ(β x* x / 2) dx`.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/OneVector/SiegelClassSum.lean
+      line: 17
+      endLine: 55
+      text: "* `New.SiegelWeil.siegel_weil_fourierCoeff`: the part of this formula that counts the vectors of\n\
+        \  one norm α ≠ 0, detected by a phase.\n* `New.normDensity`: the density at α of a function Φ₀ of finite\
+        \ adelic vectors, a Fourier integral\n  over the self-adjoint finite adeles.\n* `New.classSum_eq_mul_normDensity`:\
+        \ for totally positive α, the class sum (`New.classSum`) of the\n  numbers of representations of α by x*x,\
+        \ weighted by Φ₀, is the class sum of 1 times |D_E|^(1/4),\n  the factors at the infinite places and the\
+        \ density of Φ₀ at α.\n* One step of the mass formula, with an error term: `New.abs_log_mass_ratio_sub_le`\
+        \ estimates the\n  ratio of the masses `New.mass E (j + 1)` and `New.mass E j` of the genera of standard\
+        \ lattices. It\n  applies Siegel's formula `New.classSum_eq_mul_normDensity` to the vectors of norm `1`\
+        \ in the\n  standard lattice, whose class sum is `New.mass E j` by `New.classSum_card_norm_one_eq_mass`,\
+        \ and\n  bounds the density by a Gauss sum estimate.\n\nNotions from other files:\n* `New.SiegelWeil.mixedValue`:\
+        \ the slice f[x], the value of a test function f at a point x in the\n  Schrödinger model. The function\
+        \ x ↦ f[x] is called the Schrödinger function of f.\n* `New.SiegelWeil.Lagrangian.zeroTerm`: the functional\
+        \ ev_L attached to a Lagrangian L, the value\n  at 0 in a Schrödinger model along L.\n* `New.classSum`:\
+        \ the sum of a function over the classes of a level, weighted by 1/#Aut.\n* `New.mass`: the mass of the\
+        \ genus of O_E^l, the sum of 1/#Aut over its classes.\n\n## Relation to the literature\n\nKnown result:\
+        \ Siegel's formula for representing a number by a hermitian form. Here it is stated for\nthe representations\
+        \ of a totally positive number by a sum of at least three norms over a CM field\nwith enough roots of unity,\
+        \ a splitting character and a self-dual lattice, at any level and for any\nnonnegative invariant test function.\
+        \ The singular series is left as one adelic Fourier integral, and\nthe formula is read off from the Siegel–Weil\
+        \ formula. The local densities are not evaluated: for the\nstandard lattice the integral is estimated by\
+        \ Gauss sums and a zeta value. Source: A. Weil, Acta\nMath. 113 (1965), Thm 5 for one vector; classically,\
+        \ C. L. Siegel, Ann. of Math. 36 (1935), and\nH. Braun, Zur Theorie der hermitischen Formen, Abh. Math.\
+        \ Sem. Hamburg 14 (1941).\n\nKnown result: Mass formula for unimodular hermitian lattices, as the ratio\
+        \ of consecutive masses.\nOnly this ratio in large rank is obtained, up to an explicit error that depends\
+        \ on the field only\nthrough its degree, for CM fields with enough roots of unity (so unramified over the\
+        \ real subfield),\na splitting character and a self-dual rank-one lattice. It is derived from Siegel's formula\
+        \ for\nvectors of norm one and a Gauss sum bound. Source: W. T. Gan, J. Hanke, J.-K. Yu, On an exact mass\n\
+        formula of Shimura, Duke Math. J. 107 (2001); M. Kirschmer, Definite quadratic and hermitian forms\nwith\
+        \ small class number (2016), 4.2.7, 4.2.9.\n"
+  Lib.SiegelWeil.OneVector.StandardQuadrics:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.OneVector.StandardQuadrics
+      name: New.Floors.IntegralPlace.exists_kernel_isDisintegration_le
+      line: 143
+      signature: "theorem IntegralPlace.exists_kernel_isDisintegration_le {μ r : ℕ}\n    (hψ : ∀ x : A, P.ψ (x +\
+        \ star x) = 1) (hμ : idealZeta P.integers μ ≤ 2) (h_card : card κ = r + 1)\n    (h_rank : 2 * μ + 1 ≤ r)\
+        \ :\n    ∃ l : Kernel (skewAdjoint A) (κ → A), IsSFiniteKernel l ∧\n      P.IsDisintegration volume (1 :\
+        \ Matrix κ κ A) l ∧\n      ∀ (β : skewAdjoint A) (u : Aˣ), l β (coordinateBox κ {x : A | u.val * x ∈ P.integers})\
+        \ ≤\n        idealZeta P.integers μ * (P.modulus u)⁻¹ ^ r"
+    routeToMain:
+    - module: Lib.SiegelWeil.OneVector.StandardQuadrics
+      importer: New.Spanning.Frames.StandardLevel
+      line: 1
+    - module: New.Spanning.Frames.StandardLevel
+      importer: New.Spanning.MainTerm.FillingLevel
+      line: 1
+    - module: New.Spanning.MainTerm.FillingLevel
+      importer: New.Spanning.Frames.FixedLines
+      line: 4
+    - module: New.Spanning.Frames.FixedLines
+      importer: New.Spanning.MainTerm.FiniteSieveSystem
+      line: 1
+    - module: New.Spanning.MainTerm.FiniteSieveSystem
+      importer: New.Spanning.MainTerm.EnergyEstimate
+      line: 1
+    - module: New.Spanning.MainTerm.EnergyEstimate
+      importer: New.Spanning.Unfolding.MomentBounds
+      line: 1
+    - module: New.Spanning.Unfolding.MomentBounds
+      importer: New.Spanning.Unfolding.Moments
+      line: 2
+    - module: New.Spanning.Unfolding.Moments
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 4
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/OneVector/StandardQuadrics.lean
+      line: 7
+      endLine: 14
+      text: "At a finite place the standard hermitian form of rank at least two has a basis that begins with a\n\
+        hyperbolic pair. So the volume disintegrates along the form, and the local density bound applies to\nthe\
+        \ measures of its quadrics.\n\n* `New.Floors.IntegralPlace.isDisintegration_of_hyperbolic_basis`: the disintegration.\n\
+        * `New.Floors.IntegralPlace.exists_kernel_isDisintegration_le`: if ψ is trivial on traces,\n  ζ_R(μ) ≤ 2\
+        \ and the rank is at least 2μ + 2, then some s-finite kernel is a disintegration of the\n  volume for which\
+        \ the points y of a quadric with u y integral, for a unit u, have bounded mass.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/OneVector/StandardQuadrics.lean
+      line: 15
+      endLine: 26
+      text: "\nNotions from other files:\n* `New.Floors.Place.IsDisintegration`: a family of measures on the quadrics\
+        \ of a form, continuous\n  in the index, whose integral over the index is a given measure.\n* `New.Floors.Place.quadricMeasure`:\
+        \ the measure on a quadric of a hyperbolic plane plus a form.\n* `New.idealZeta`: the sum ζ_R(s) of [R :\
+        \ I]^(−s) over the ideals I of finite index in R.\n* `New.Floors.coordinateBox`: the vectors with all coordinates\
+        \ in a given set.\n\n## Relation to the literature\n\nKnown result: a local density bound for hermitian\
+        \ forms. See\n`Lib.SiegelWeil.OneVector.SiegelClassSum`.\n"
+  Lib.SiegelWeil.RallisInner.Doubling:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.RallisInner.Doubling
+      name: New.SiegelWeil.weilMatrixCoeff_mul
+      line: 601
+      signature: "lemma weilMatrixCoeff_mul {A : Set (FinPlace E)} (b : AutChar E) {f : \U0001D4AE (S.hom T)}\n\
+        \    (hf : projOn (S.hom T) A f = f) {γ : Gf E n} (hγ : γ ∈ supportedOn n A) {g : G E s}\n    (hg : g.2\
+        \ ∈ localLevel n A) :\n    weilMatrixCoeff b f f (γ * g) = vacuumCoeff (card m) b γ * weilMatrixCoeff b\
+        \ f f g"
+    routeToMain:
+    - module: Lib.SiegelWeil.RallisInner.Doubling
+      importer: Lib.SiegelWeil.RallisInner.SharpData
+      line: 2
+    - module: Lib.SiegelWeil.RallisInner.SharpData
+      importer: New.Determinant.Norms.AdjointThetaLift
+      line: 2
+    - module: New.Determinant.Norms.AdjointThetaLift
+      importer: New.Spanning.Multiplicities.EqualMultiplicities
+      line: 3
+    - module: New.Spanning.Multiplicities.EqualMultiplicities
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 3
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/RallisInner/Doubling.lean
+      line: 7
+      endLine: 12
+      text: 'This file defines the doubled datum `New.SiegelWeil.doubleDatum` on `Hom(S ⊕ S⁻, T)`, clean data
+
+        (`New.SiegelWeil.IsClean`) and sharp data (`New.SiegelWeil.IsSharp`), for hermitian spaces `S`,
+
+        `T` of ranks `n`, `m`. It applies Siegel–Weil to `S ⊕ S⁻` to prove the doubling identity for
+
+        `2 n < m`. It then integrates that identity to the inner product formula before the choice of a
+
+        sharp datum. It also computes the coefficient of a vacuum at points supported above a set of
+
+        places (`New.SiegelWeil.weilMatrixCoeff_mul`) and constructs an integral isotropic frame.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/RallisInner/Doubling.lean
+      line: 13
+      endLine: 42
+      text: "Conventions: `New.G E s` is the adelic unitary group, a pair of an archimedean and a finite part;\n\
+        `New.pairWeil S T a b` is the twisted Weil representation of `U(S) × U(T)` on the data\n`\U0001D4AE (S.hom\
+        \ T)`, with inner product `New.Space.dataInner`; `New.localLevel n A` consists of the\nfinite points that\
+        \ are integral at the places of `A`, and `New.stdLevel E n` of those integral at\nall places, the stabiliser\
+        \ of `Ô ^ n`.\n\n## Main definitions and results\n\n* `New.SiegelWeil.integral_conj_theta_mul_theta`: the\
+        \ doubling identity for `2 n < m`:\n  apply Siegel–Weil (`New.SiegelWeil.siegel_weil`) to `S ⊕ S⁻`; for\
+        \ a clean datum\n  (`New.SiegelWeil.IsClean`) only the Lagrangians that are graphs of isometries contribute\n\
+        \  (`New.SiegelWeil.exists_graph_eq_of_zeroTerm_ne_zero`, `New.SiegelWeil.zeroTerm_graphSplitting`).\n*\
+        \ `New.SiegelWeil.inner_product_formula`: Rallis' inner product formula, obtained by integrating\n  the\
+        \ doubling identity against two functions on `[U(S)]`.\n\nNotions from other files:\n* `New.Space`: a hermitian\
+        \ space with a point, given by signs s, a matrix J over E and x in GL_n(\U0001D538)\n  with xᴴJx equal to\
+        \ diag(s) at the infinite places and 1 at the finite places.\n* `New.SiegelWeil.Lagrangian.zeroTerm`: the\
+        \ term of a Lagrangian L in the Siegel–Weil formula, the\n  value at 0 in the Schrödinger model of a complete\
+        \ splitting along L.\n* `New.Space.projOn`: the mean of the finite Heisenberg operators of the integral\
+        \ vectors above a\n  set A of places and its conjugate; the data that it fixes are the vacua above A.\n\n\
+        ## Relation to the literature\n\nRallis inner product formula by doubling. Here only Weil's range is treated,\
+        \ with forms that are\nrapidly decreasing rather than cuspidal. The boundary orbits are removed by the test\
+        \ datum. Source:\nS. Rallis, L-functions and the oscillator representation, LNM 1245 (1987); J.-S. Li, Crelle\
+        \ 428\n(1992); the unitary unfolding is written out in Y. Liu (2011) Prop 2.3 and\nEischen–Harris–Li–Skinner\
+        \ 4.1.4.\n"
+  Lib.SiegelWeil.RallisInner.SharpData:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.RallisInner.SharpData
+      name: New.vacuumSum_eq_L_div_eulerProd
+      line: 946
+      signature: "theorem vacuumSum_eq_L_div_eulerProd {k : ℕ} (hν : ν.HasWeight l ψ) {S : Set (FinPlace E)}\n \
+        \   (hψ : ∀ w : FinPlace E, w ∉ S → ψ w = 1) (h_rank : card m = 2 * k) (hk : 1 < k) :\n    vacuumSum Unit\
+        \ (card m) (ν * upsilonU1 ^ k) S.conjClosureᶜ =\n      ν⁻¹.L S k / eulerProd (S.conjClosureᶜ.indicator placeSign)\
+        \ k"
+    routeToMain:
+    - module: Lib.SiegelWeil.RallisInner.SharpData
+      importer: New.Determinant.Norms.AdjointThetaLift
+      line: 2
+    - module: New.Determinant.Norms.AdjointThetaLift
+      importer: New.Spanning.Multiplicities.EqualMultiplicities
+      line: 3
+    - module: New.Spanning.Multiplicities.EqualMultiplicities
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 3
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/RallisInner/SharpData.lean
+      line: 8
+      endLine: 13
+      text: 'This file proves Rallis'' inner product formula for the theta lift `New.Space.lift` from `U(S)` to
+
+        `U(T)` when `rk T > 2 rk S`, for data `v ⊗ F` with `F` sharp (`New.SiegelWeil.IsSharp`). It starts
+
+        from `New.SiegelWeil.inner_product_formula`. For `v` an edge from type `e`, the lift is injective
+
+        on `J`-invariant forms of type `e`. The file then derives `IsSharp` from `New.SiegelWeil.IsSharpFn`,
+
+        a condition on a level `J` and a function `Ψ` on matrices modulo 𝔪, if all signs of `S` agree or
+
+        𝔪 ≠ (1), with `S₀` the set of places of 𝔪𝔪̄ and the mass `c` the mean of `|Ψ|²` over the index of
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/RallisInner/SharpData.lean
+      line: 14
+      endLine: 71
+      text: "`J`. Finally it computes the vacuum sum in rank one as a partial Hecke L-value over a partial\nEuler\
+        \ product.\n\n## Main definitions and results\n\n* `New.SiegelWeil.IsSharp.petersson_lift_eq_integral`:\
+        \ for a sharp datum the Petersson product\n  (`New.Space.petersson`) of two lifts is a real integral against\
+        \ the series\n  `New.SiegelWeil.rallisSeries` of the places off `S₀`. The finite points are cut into cosets\
+        \ in\n  `New.SiegelWeil.IsSharp.hasSum_integral_weilMatrixCoeff_mul`.\n* `New.SiegelWeil.exists_petersson_formLift_eq_rallisSeries`:\
+        \ for `v` an edge (`New.IsEdge`) from\n  type `e`, the lift is injective on `J`-invariant forms of type\
+        \ `e`, and the product of two lifts\n  is a multiple of the pairing with the series; `New.SiegelWeil.rallis_inner_product_cosetTerm`\n\
+        \  expands the series.\n* `New.SiegelWeil.IsSharpFn.isSharp`: if all signs of `S` agree or \U0001D52A ≠\
+        \ (1), a function on matrices\n  modulo \U0001D52A that is sharp for a level J (`New.SiegelWeil.IsSharpFn`)\
+        \ gives a finite datum whose\n  matrix coefficient is constant on J and zero at the other points integral\
+        \ off \U0001D52A\U0001D52Ā\n  (`New.SiegelWeil.IsSharp`). `New.SiegelWeil.isSharp_vacuumDatum_of_mul_eq_one`\
+        \ is the case of the\n  principal level.\n* `New.vacuumSum_eq_L_div_eulerProd`: in rank one and for target\
+        \ rank 2k with k > 1, the sum\n  `New.SiegelWeil.vacuumSum` of the vacuum coefficient over the cosets at\
+        \ the places off a set and\n  its conjugate, where the tame part is trivial, is a partial Hecke L-value\
+        \ at k over the partial\n  Euler product of the signs `New.placeSign` (a partial value of ζ_F at 2k if E\
+        \ is unramified\n  over its real subfield F).\n\nNotions from other files:\n* `New.Space.integrated`: the\
+        \ datum v ⊗ F = ∫ v(y) ϱ(y) F dy, for v in the Fock model and ϱ the\n  Heisenberg operators of the real\
+        \ vectors y.\n* `New.IsEdge`: what the formula uses of the real vector v and the types e, e'. The vector\
+        \ of the\n  joint harmonic of corresponding parameters is an edge between the types of these parameters\n\
+        \  (`New.ParamsCorrespond.isEdge_jointHarmonic`).\n* `New.Modulus.liftFn`: a function of vectors modulo\
+        \ \U0001D52A, read on finite adelic vectors: its value at\n  the reduction if the components at the places\
+        \ of \U0001D52A are integral, and 0 otherwise.\n* `New.SiegelWeil.IsSharp` (from `Lib.SiegelWeil.RallisInner.Doubling`):\
+        \ `F` is a vacuum off a\n  set `S₀` of places; at the finite points integral off `S₀` the coefficient `⟨F,\
+        \ ω(g) F⟩` is\n  `⟨F, F⟩` on `J ∩ stdLevel E n` and zero otherwise, and `⟨F, F⟩` over the index of\n  `J\
+        \ ∩ stdLevel E n` in `stdLevel E n` is the mass `c`.\n\n## Relation to the literature\n\nRallis inner product\
+        \ formula by doubling. Here the unramified integrals are left as a convergent\nsum over cosets. For its\
+        \ sources see `Lib.SiegelWeil.RallisInner.Doubling`.\n\nNon-vanishing of theta lifts in large rank. Here\
+        \ it is proved for unitary groups with target rank\nmore than twice the source rank, for finite data sharp\
+        \ at a level and without L-functions. If the\nlift vanishes, the real matrix coefficient of the datum convolves\
+        \ the form to zero. Source:\nS. Rallis, Injectivity properties of liftings associated to Weil representations,\
+        \ Compositio 52\n(1984); J.-S. Li, Non-vanishing theorems for the cohomology of certain arithmetic quotients,\n\
+        Crelle 428 (1992).\n\nCritical Hecke L-values of CM fields as squared norms of theta lifts from U(1). Here\
+        \ the values are\ntaken at integers k at least 2, and the trivial character of U(1) is lifted to a definite\
+        \ U(2k),\nwith the tame Hecke character entering through the splitting. The squared norm is an explicit\n\
+        constant times the L-value, and the lift is integral. Galois conjugates of the lift belong to\nconjugate\
+        \ characters. This file contains only the local sum and the Euler product; the norm formula\nis `New.LValueData.inner_trivialLift_self_eq_L`.\
+        \ Source: G. Shimura, On some arithmetic properties\nof modular forms of one and several variables, Ann.\
+        \ of Math. 102 (1975); method: T. Yang, Theta\nliftings and Hecke L-functions, J. reine angew. Math. 485\
+        \ (1997); Harris, Li, Skinner, The Rallis\ninner product formula and p-adic L-functions (2005); Finis, Ann.\
+        \ of Math. 163 (2006).\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.SiegelWeil.Reproduction:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Reproduction
+      name: New.Rows.reproducing_formula_modKernel
+      line: 401
+      signature: "lemma reproducing_formula_modKernel (ho : IsPosFirstOrder s O) {E : Type} [Field E] [CMType E]\n\
+        \    [WeilData E] {\U0001D52A : Modulus E} {N : \U0001D4DE E} [Fact (N ≠ 0)]\n    (hN : \U0001D52A.ideal\
+        \ = Ideal.span {N}) (h\U0001D52A : Nonempty \U0001D52A.places) (S : Space E n s) {c b : AutChar E}\n   \
+        \ {γ' γ : InfinitePlace E → ℤ} {u : InfinitePlace E → n → ℤ} (hc : c.HasWeight γ' 1)\n    (hb : b.HasWeight\
+        \ γ 1) (h_dom : ∀ w : InfinitePlace E, IsKDominant s O (u w))\n    (h_int : Integrable (holMinorsPi s u))\
+        \ (h_rank : 2 * Fintype.card n < Fintype.card n')\n    (e : n ↪ n') {Q₀ : MvPolynomial (InfinitePlace E\
+        \ × n' × n) ℂ} (hQ₀_ne : Q₀ ≠ 0)\n    (hQ₀_hol : polyVector (realSigns E (homSigns s 1)) Q₀ ∈ holomorphicData\
+        \ s 1 O u γ' γ)\n    {ι : Type*} [Fintype ι]\n    (Q : StdClasses (principalLevel n' N) → ι → MvPolynomial\
+        \ (InfinitePlace E × n' × n) ℂ)\n    (h_span : ∀ (p : StdClasses (principalLevel n' N)) (y : GInf E 1),\n\
+        \      realPairWeil (s"
+    routeToMain:
+    - module: Lib.SiegelWeil.Reproduction
+      importer: New.OneLift.ComparisonOperator.ThreeExchanges
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ThreeExchanges
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 3
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Reproduction.lean
+      line: 8
+      endLine: 15
+      text: "Polynomial vectors in the Fock model of a pair of unitary groups with signs `s` and `s'`: their\ncoefficients,\
+        \ their weights and the span of their translates. Then the reproducing formula, whose\nhypotheses these\
+        \ facts supply.\n\n* `New.Rows.linSubst_variableMinor`, `New.Rows.polyMatrixCoeff_eq_holMinorsPi_mul_conj`:\
+        \ a minor of\n  variables is scaled by a principal minor of the group element. For a polynomial in the variables\n\
+        \  of sign `1` that is scaled in this way, the coefficient at `(u, 1)` is its value at `(1, 1)` times\n\
+        \  a function `holMinorsPi` times the conjugate of another.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Reproduction.lean
+      line: 16
+      endLine: 46
+      text: "* `New.Rows.prod_variableMinor_mem_holomorphicData`,\n  `New.Rows.letterPoly_highestVector_mem_holomorphicData`:\
+        \ two families of nonzero holomorphic\n  vectors.\n* `New.Rows.realPairWeil_mem_span_pairedDetProd`: the\
+        \ definite second group moves a power of a minor\n  into the span of the products of minors of Y times the\
+        \ matrix of variables, for any invertible\n  matrix Y over E.\n* `New.Rows.reproducing_formula_modKernel`:\
+        \ at each point, convolution with `holMinorsPi s u` is a\n  finite combination of values of theta lifts\
+        \ to a definite group of rank above `2 * card n`.\n\nNotions from other files:\n* `New.PairFock E s s'`:\
+        \ the Fock space of `n' × n` matrices at every infinite place, with the signs\n  `New.homSigns s s'`, that\
+        \ is `s'(i) s(j)`, repeated at every place by `New.realSigns`.\n* `New.Fock.polyVector`: the linear map\
+        \ P ↦ v_P from complex polynomials to the Fock space,\n  v_P(x) = P(ζ(x))exp(−|x|²/2), where ζ(x)_i is x̄_i\
+        \ at positive and x_i at negative coordinates.\n* `New.realPairWeil γ e`: the real Weil representation of\
+        \ the pair of unitary groups, twisted by\n  `det ^ (-e)` on the first group and `det ^ γ` on the second.\n\
+        * `New.Rows.holomorphicData s s' O u γ e`: the Fock vectors all of whose coefficients are\n  holomorphic\
+        \ of weight `u` on the first group, for the order `O` of its coordinates.\n* `New.holMinorsPi s u`: the\
+        \ product over the infinite places of the quotients of minors of weight\n  `u`, a function on the product\
+        \ of the unitary groups of signs `s`.\n\n## Relation to the literature\n\nKnown result: Basis problem in\
+        \ the stable range, as a reproducing formula. This is a unitary version\nat a fixed level, in which pairing\
+        \ with a holomorphic discrete series coefficient is, at each point,\na finite combination, the same for\
+        \ all functions of that level, of values of theta lifts to a large\ndefinite group. It is deduced from injectivity\
+        \ by linear duality. Source: S. Böcherer, Über die\nFourier-Jacobi-Entwicklung Siegelscher Eisensteinreihen,\
+        \ Math. Z. 183 (1983); J.-S. Li, Crelle 428\n(1992).\n\nSee also `Lib.Weil.Fock.OscillatorPair` and `Lib.Weil.DualPair.HolomorphicData`.\n"
+  Lib.SiegelWeil.SingularForms.CentreCoefficients:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.SingularForms.CentreCoefficients
+      name: New.Space.Splitting.partialMean_radicalElement_mul
+      line: 825
+      signature: "lemma partialMean_radicalElement_mul (hD : D.kAdelic = A.iAdelic * B.kAdelic) {f : G E s → ℂ}\n\
+        \    (hf : IsAutFunction W f) {T : Matrix p p E} {U : Set (FinPlace E)} (hU : U.Nonempty) {e : \U0001D538\
+        \ E}\n    (h_shear : ∀ g ∈ D.frameStabilizer e, A.ShearInvariant B D T f (idemAdele U) g) {g : G E s}\n\
+        \    {c : Matrix ((p ⊕ p) ⊕ n₂) Unit (\U0001D538 E)} {z : Matrix Unit Unit (\U0001D538 E)}\n    (hg : g\
+        \ ∈ D.frameStabilizer e) (h_mem : A.radicalElement c z * g ∈ D.frameStabilizer e) :\n    A.partialMean B\
+        \ D T f (A.radicalElement c z * g) = A.partialMean B D T f g"
+    routeToMain:
+    - module: Lib.SiegelWeil.SingularForms.CentreCoefficients
+      importer: Lib.ClassField.HeckeCharacter.TameModulus
+      line: 2
+    - module: Lib.ClassField.HeckeCharacter.TameModulus
+      importer: Lib.Weil.DualPair.HolomorphicData
+      line: 1
+    - module: Lib.Weil.DualPair.HolomorphicData
+      importer: New.OneLift.ComparisonOperator.ExchangeData
+      line: 1
+    - module: New.OneLift.ComparisonOperator.ExchangeData
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/SingularForms/CentreCoefficients.lean
+      line: 8
+      endLine: 13
+      text: 'This file studies the Fourier coefficients `New.Space.Splitting.centreCoeff` of a continuous
+
+        function f on the adelic unitary group of W that is left invariant under the rational points. The
+
+        coefficients are taken along the centre of the unipotent radical of the stabiliser of an isotropic
+
+        frame. The splitting `A` splits off a hyperbolic plane with isotropic vectors u, u'', `B` splits off
+
+        a frame of p vectors from its complement, and `D` splits off the image k of that frame in W. The
+
+        shifts n₊(a), n₋(b) move u and u'' along k. The file studies the partial mean f⁺ of the coefficient
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/SingularForms/CentreCoefficients.lean
+      line: 14
+      endLine: 46
+      text: "along `D` at a p×p matrix T over the shifts n₋(b), and the function φ⁺_g(a) = f⁺(n₊(a) g).\nExchanging\
+        \ u and u' gives f⁻ and φ⁻_g; the functions φ⁺_g and φ⁻_g behave like a function and its\nFourier transform.\
+        \ The file also defines equivariant lifts of local data and representability at the\ninfinite places for\
+        \ comparing theta integrals.\n\n## Main definitions and results\n\n* `New.Exchange.IsEquivariantLift`: a\
+        \ linear map from local data at `\U0001D520.ramifiedPlaces` to functions\n  on the unitary group of `X`,\
+        \ sending a given submodule of Schwartz–Bruhat functions to automorphic\n  functions.\n* `New.Space.Splitting.lineShift`,\
+        \ `New.Space.Splitting.partialMean`,\n  `New.Space.Splitting.shiftedMean`: the shifts n₊(a), the partial\
+        \ mean f⁺ and the function φ⁺_g.\n* `New.Space.Splitting.centreCoeff_eq_mul_of_shiftedMean_eq_smul`,\n \
+        \ `New.Space.Splitting.shiftedMean_symm_eq_smul`: for det T ≠ 0, a relation φ⁺_{g'} = c φ⁺_g passes\n  to\
+        \ the coefficients along `D` at the points n₋(b) n₊(a) g and to φ⁻.\n* `New.Space.Splitting.partialMean_radicalElement_mul`:\
+        \ singularity. Let f⁺ be invariant under the\n  shears at a nonempty set of finite places (`New.Space.Splitting.ShearInvariant`)\
+        \ at all points\n  that fix e·k for an adele e (`New.Space.Splitting.frameStabilizer`). Then f⁺(h g) = f⁺(g)\
+        \ for h in\n  the adelic radical of the stabiliser of the line of u, whenever g and h g fix e·k. The proof\n\
+        \  compares f⁺ with `New.Space.Splitting.borderedCentreCoeff`.\n\nNotions from other files:\n* `New.Space`:\
+        \ A hermitian space with a point: a matrix J over E and x in GL_n(\U0001D538) with xᴴJx equal to\n  diag(s)\
+        \ at the infinite places and 1 at the finite places; `W.Γ` is the group of rational points\n  x⁻¹ U(J)(E)\
+        \ x in the adelic unitary group `New.G`.\n* `New.Space.Splitting`: a decomposition W = (lE^p ⊕ kE^p) ⊥ iW₀\
+        \ with dual isotropic frames l, k.\n* `New.Space.Splitting.radicalCentre`: z(M) = 1 + k(M − M*)k*ε (ε the\
+        \ standard form), an element of\n  the centre of the unipotent radical of the stabiliser of the frame k.\n\
+        * `New.Exchange.SplitTameChar`: a character of [U(1)] of a given weight, positive at every infinite\n  place,\
+        \ with tame part non-trivial exactly on a non-empty finite set S of places disjoint from its\n  conjugate.\n\
+        * `New.Space.Splitting.comp`: From splittings of V over V₀ (rank p) and V₀ over V₁ (rank q), the\n  splitting\
+        \ of V over V₁ with frames (k, ik'), (l, il') and embedding ii'.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.SiegelWeil.SingularForms.UnimodularCoefficients:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.SingularForms.UnimodularCoefficients
+      name: New.Exchange.centreCoeff_eq_zero_of_unimodular
+      line: 812
+      signature: "theorem centreCoeff_eq_zero_of_unimodular (hK : HasLevel f (stdLevel E n ⊓ supportedOn n S))\n\
+        \    (hf : IsAutFunction W f)\n    {T : Matrix p p E} {s₂ : n₂ → ℤˣ} {W₀ : Space E ((p ⊕ p) ⊕ n₂) (hyperbolicSigns\
+        \ p ⊕ᵥ s₂)}\n    {W₂ : Space E n₂ s₂} {U : Set (FinPlace E)}\n    (A : W.Splitting W₀ Unit) (B : W₀.Splitting\
+        \ W₂ p) [IsBaseAdapted A] [IsBaseAdapted B]\n    (hD : D.kAdelic = A.iAdelic * B.kAdelic) (hT : T.det ≠\
+        \ 0) (hU_ne : U.Nonempty)\n    (h_shear : ∀ g ∈ D.frameStabilizer (1 - idemAdele S.conjClosure),\n     \
+        \ A.ShearInvariant B D T f (idemAdele U) g)\n    (h_shear_symm : ∀ g ∈ D.frameStabilizer (1 - idemAdele\
+        \ S.conjClosure),\n      A.symm.ShearInvariant B D T f (idemAdele U) g)\n    (h_unimodular : ∀ (X : G E\
+        \ s) (γ : Matrix p p (\U0001D538 E)),\n      D.ActsOnFrame X (idemAdele S.conjClosure • γ + (1 - idemAdele\
+        \ S.conjClosure) • 1) →\n      IsPrimitiveMatrix (closureIntegers S) (siegelBracket T γ) → D.centreCoeff\
+        \ T f X = 0)\n    {g : G E s} (hg : g ∈ D.frameStabilizer (1 - idemAdele S.conjClosure)) :\n    D.centreCoeff\
+        \ T f g = 0"
+    routeToMain:
+    - module: Lib.SiegelWeil.SingularForms.UnimodularCoefficients
+      importer: Lib.Weil.Periods.DescentVanishing
+      line: 2
+    - module: Lib.Weil.Periods.DescentVanishing
+      importer: New.OneLift.FalseLifts.BottomOfTower
+      line: 1
+    - module: New.OneLift.FalseLifts.BottomOfTower
+      importer: New.Congruences.GaloisRepresentations.BaseLevelOfLabel
+      line: 3
+    - module: New.Congruences.GaloisRepresentations.BaseLevelOfLabel
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 5
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/SingularForms/UnimodularCoefficients.lean
+      line: 7
+      endLine: 13
+      text: 'The file first computes how conjugation scales Haar measure on the hermitian `1 × 1` matrices, which
+
+        parametrise the centre of the unipotent radical of the stabiliser of an isotropic line. Its main
+
+        result, after Freitag, concerns an automorphic function `f` that is right invariant under the
+
+        integral points supported on `S ∪ S̄` and whose partial means along extra isotropic lines are
+
+        invariant under shears; `S` is a set of finite places away from the level of `f`. Suppose the
+
+        Fourier coefficient of `f` at an invertible `T` vanishes at the points that act on the frame by a
+
+        matrix `γ` on `S ∪ S̄` and by `1` elsewhere, where the normalised index `δ⁻¹ γᴴ T γ` is unimodular
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/SingularForms/UnimodularCoefficients.lean
+      line: 14
+      endLine: 55
+      text: "on `S ∪ S̄` and `δ = ȷκκ̄`. Then this coefficient vanishes at all points that fix the frame off\n`S\
+        \ ∪ S̄`. Lattices on `S ∪ S̄` are given by matrices `γ` whose columns span them.\n\n## Main definitions\
+        \ and results\n\n* `New.Exchange.closurePart`: the endomorphism that keeps the components on `S ∪ S̄` and\
+        \ replaces\n  all others by 1.\n* `New.Exchange.StraightPoint`, `New.Exchange.exists_straightPoint`: points\
+        \ whose lattice splits\n  along the two isotropic lines, and the straightening of a point by singularity.\n\
+        * `New.Exchange.centreCoeff_eq_zero_of_unimodular`: the vanishing theorem.\n\nNotions from other files:\n\
+        * `New.Space.Splitting`: a decomposition of a hermitian space into two dual isotropic frames k, l\n  and\
+        \ an orthogonal complement with inclusion ι and form ε₀; `A.symm` exchanges k and l, and\n  `A.comp B` has\
+        \ the frame (k_A, ι_A k_B).\n* `New.Space.Splitting.radicalElement`: For adelic c (n₀×p, where n₀ indexes\
+        \ the complement) and b\n  (p×p), the element of G with k ↦ k, ι ↦ ι + kc*ε₀, l ↦ l − ιc − k(½ȷ⁻¹(b + b*)\
+        \ + ½c*ε₀c).\n* `New.Space.Splitting.lineShift`: n₊(a) = `A.lineShift B a` shifts the isotropic vector u\
+        \ of A to\n  u − ι k_B aᴴ; n₋(b) = `A.symm.lineShift B b` shifts that of `A.symm`.\n* `IsBaseAdapted`: the\
+        \ frames of a splitting are orthonormal at the infinite places and integral at\n  the finite ones. `stdLevel\
+        \ E n` consists of the points that are integral at the finite places.\n* `New.Space.Splitting.partialMean`,\
+        \ `New.Space.Splitting.shiftedMean`: f⁺(g) is the mean over b of\n  the coefficient of f along D at T at\
+        \ n₋(b) g, and φ⁺_g(a) = f⁺(n₊(a) g); f⁻ and φ⁻ are those for\n  `A.symm`.\n* `New.Space.Splitting.frameStabilizer`:\
+        \ the points that fix a given multiple of the frame of D.\n* `New.WeilData`: Weil data on a stably unramified\
+        \ E. They consist of ȷ in E with ȷ = −ȷ̄, Im τȷ > 0\n  for every τ in the CM type and (1 − ȷ⁻¹)/2 integral;\
+        \ a finite idele α for which the completed\n  integers Ô are self-dual under (z, u) ↦ ψ_f(ȷαᾱzu); and a\
+        \ splitting character υ equal to −1 at\n  uniformisers of the places w with w = w̄.\n\n## Relation to the\
+        \ literature\n\nKnown result: Singular forms are governed by their coefficients at unimodular indices. Here\
+        \ the\nsetting is adelic, unitary and not holomorphic, and singularity comes from invariance under shears\n\
+        at a nonempty set of places. The result here is the vanishing criterion\n`centreCoeff_eq_zero_of_unimodular`,\
+        \ proved by choosing a point at which the denominator of the\ninverse determinant of the index is least.\
+        \ Source: E. Freitag, Singular Modular Forms and Theta\nRelations, Lecture Notes in Math. 1487, Springer\
+        \ 1991; see also J.-S. Li, Automorphic forms with\ndegenerate Fourier coefficients, Amer. J. Math. 119 (1997).\n\
+        \nThe tower property for the constant term of a theta lift along an isotropic line is in\n`Lib.SiegelWeil.Tower.LargeSideConstantTerm`.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.SiegelWeil.Tower.ConstantTerm:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.ConstantTerm
+      name: New.Exchange.exists_unfold_constant_term
+      line: 672
+      signature: "lemma exists_unfold_constant_term :\n    ∃ c ≠ (0 : ℝ), ∀ (a b : AutChar E) (f : \U0001D4AE (W'.hom\
+        \ V')) (g : G E s'),\n      let F (h : G E t') : \U0001D4AE (W'.hom V')"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.ConstantTerm
+      importer: Lib.SiegelWeil.Tower.LargeSideConstantTerm
+      line: 1
+    - module: Lib.SiegelWeil.Tower.LargeSideConstantTerm
+      importer: New.Determinant.Exchange.LargeTriple
+      line: 2
+    - module: New.Determinant.Exchange.LargeTriple
+      importer: New.Determinant.Exchange.RemovingPlanes
+      line: 1
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/ConstantTerm.lean
+      line: 9
+      endLine: 16
+      text: "The constant term, along an isotropic line of the source space `W'`, of the theta kernel and of the\n\
+        theta integral over the unitary group of the target space.\n\n* `New.Exchange.constTermAt`: the term of\
+        \ a rational vector of the target; it is 0 unless the vector\n  is isotropic.\n* `New.Exchange.hasSum_constTermAt`,\
+        \ `New.Exchange.integral_thetaIntegral_lineRadical`: the constant\n  term of the theta kernel is the sum\
+        \ of these, and, if the kernel is bounded on the target group\n  (`IsTargetBounded`), that of the theta\
+        \ integral is the integral of this sum over the target group.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/ConstantTerm.lean
+      line: 17
+      endLine: 46
+      text: "* `New.Exchange.radicalSubgroup`, `New.Exchange.radicalHaar`: the radical of the stabiliser of a\n\
+        \  line of the target space and its Haar measure; `New.Exchange.lintegral_radicalHaar_conj_lineLevi`\n \
+        \ gives the module of conjugation by the Levi factor.\n* `New.Exchange.exists_unfold_constant_term`: if\
+        \ the term of the zero vector vanishes and the\n  integrand is integrable, the sum unfolds along the isotropic\
+        \ lines (one orbit, by Witt's theorem)\n  to an integral in Iwasawa coordinates.\n\nThroughout, `A : W'.Splitting\
+        \ W Unit` writes the source space `W'` as a hyperbolic plane plus `W`.\nWhere the target space is `V'`,\
+        \ it is split in the same way by `X : V'.Splitting V Unit`, and\n`splittingLine X` is the isotropic line\
+        \ spanned by the vector `X.k`. The bracket `[U(V)]` denotes\nthe quotient of the adelic unitary group `G\
+        \ E t` of `V` by its rational points.\n\nNotions from other files:\n* `New.Space.Splitting`: A decomposition\
+        \ V = (lE^p ⊕ kE^p) ⊥ iV₀ over E: isotropic frames l, k with\n  l*Jk = 1, an isometry i from V₀ orthogonal\
+        \ to both, and rk V = rk V₀ + 2p.\n* `New.Space.Splitting.radicalElement`, `New.Exchange.lineRadical`, `New.Exchange.lineLevi`:\n\
+        \  elements of the unipotent radical and of the Levi factor of the stabiliser of the isotropic line.\n*\
+        \ `New.Space.Splitting.homSlice`: The term f[x], a datum on Hom(W, V), of a datum f on Hom(W', V)\n  at\
+        \ the value x on k; θ(f) is the sum of the θ(f[x]) over rational x, and\n  `New.Space.Splitting.thetaTerm`\
+        \ is θ((ω(g, h) f)[x]), with ω the Weil representation\n  `New.pairWeil` of the pair.\n* `New.pairTheta`,\
+        \ `New.Exchange.thetaIntegral`: the theta kernel θ(ω(g, h) f) and its integral\n  over h in [U(V)].\n* `New.Exchange.lineTerm`:\
+        \ for an adele ξ, the map `lineTerm A X true ξ` from data on Hom(W', V') to\n  data on Hom(W, V) sends f\
+        \ to the zero term (the mean along the line of `X`) of the term\n  f[ξ • X.k]; the model `false` does the\
+        \ same with the roles of the two lines exchanged.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.Tower.LargeSideConstantTerm`\
+        \ for sources.\n"
+  Lib.SiegelWeil.Tower.FiniteTateIntegral:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.FiniteTateIntegral
+      name: New.Exchange.integral_finTateIntegrand
+      line: 215
+      signature: "lemma integral_finTateIntegrand (ρ : Measure (\U0001D538f E)ˣ) [IsHaarMeasure ρ] {x : ℝ} (hx :\
+        \ 1 < x) :\n    Integrable (finTateIntegrand \U0001D520 x) ρ ∧\n      ∫ a : (\U0001D538f E)ˣ, finTateIntegrand\
+        \ \U0001D520 x a ∂ρ = \U0001D520.character.L \U0001D520.ramifiedPlaces x * ρ.real\n        (idelesUnitOff\
+        \ (K"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.FiniteTateIntegral
+      importer: New.OneLift.HeckeValues.TwistedRatio
+      line: 1
+    - module: New.OneLift.HeckeValues.TwistedRatio
+      importer: New.OneLift.HeckeValues.AlgebraicPartSize
+      line: 2
+    - module: New.OneLift.HeckeValues.AlgebraicPartSize
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 5
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/FiniteTateIntegral.lean
+      line: 8
+      endLine: 13
+      text: 'This file defines the product `L_*` of partial Hecke `L`-values of a split tame character and the
+
+        factor `L♯`, a single value `|L^S(z, ν)|` times powers of the `q_w`. It proves the recursions for
+
+        `L_*`, in which `L♯ ^ 2` is the factor. It defines the finite factor `New.Exchange.lineFinFactor` of
+
+        the datum along the line. For `x > 1` it computes Tate''s integral over the finite ideles as a
+
+        partial `L`-value. It also proves a lemma that unfolds a sum over `Eˣ` against the integral over the
+
+        idele classes, in the variable `a` or `ā⁻¹` of either side of Poisson''s formula.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/FiniteTateIntegral.lean
+      line: 14
+      endLine: 33
+      text: "\n## Main definitions and results\n\n* `New.Exchange.lValueProd_succ`: The recursion `L_*(z + 1) =\
+        \ L♯(z + 1) ^ 2 * L_*(z)` for natural\n  `z`.\n* `New.Exchange.integral_finTateIntegrand`: For `x > 1` and\
+        \ a Haar measure `ρ`, Tate's integrand\n  `finTateIntegrand \U0001D520 x` over the finite ideles is integrable.\
+        \ It is the finite factor times the\n  base change of `ν = \U0001D520.character` times the `x`-th power\
+        \ of the module. Its integral is the partial\n  `L`-value `L^S(x, ν)`, for `S = \U0001D520.ramifiedPlaces`,\
+        \ times the `ρ`-volume of the unit ideles\n  `idelesUnitOff ∅`.\n\nNotions from other files:\n* `\U0001D520\
+        \ : SplitTameChar E μ` is a character `\U0001D520.character` of `[U(1)]` of positive weight `μ`, tamely\n\
+        \  ramified exactly on a finite set `\U0001D520.ramifiedPlaces` of places disjoint from its conjugate;\n\
+        \  `\U0001D520.semilocalChar` is `t ↦ ν(t / t̄)` on the product `LocProd \U0001D520.ramifiedPlaces` of the\
+        \ completions\n  at `\U0001D520.ramifiedPlaces`.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.Tower.LargeSideConstantTerm`\
+        \ for sources.\n"
+  Lib.SiegelWeil.Tower.FunctionalEquation:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.FunctionalEquation
+      name: New.Exchange.exists_analytic_extension_ne_zero
+      line: 424
+      signature: "theorem exists_analytic_extension_ne_zero {μ : InfinitePlace E → ℤ} {k : ℕ}\n    (hk : ∀ w : InfinitePlace\
+        \ E, k ≤ μ w) (\U0001D520 : SplitTameChar E μ) :\n    ∃ Λ : ℝ → ℂ, AnalyticOnNhd ℝ Λ (Ioi (-(k : ℝ))) ∧\n\
+        \      (∀ x ≥ (1 : ℝ), Λ x = \U0001D520.character.L \U0001D520.ramifiedPlaces x) ∧\n      ∀ j : ℤ, -(k :\
+        \ ℤ) < j → Λ j ≠ 0"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.FunctionalEquation
+      importer: New.Determinant.Exchange.VanishingDescends
+      line: 1
+    - module: New.Determinant.Exchange.VanishingDescends
+      importer: New.Determinant.Exchange.TheoremForPartners
+      line: 3
+    - module: New.Determinant.Exchange.TheoremForPartners
+      importer: New.Determinant.Exchange.OneSquare
+      line: 3
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/FunctionalEquation.lean
+      line: 7
+      endLine: 12
+      text: 'Tate''s argument for the base change of a character of `[U(1)]` of positive weight `μ` that is tamely
+
+        ramified at split places. The zeta integral `𝒵` of `exists_zetaIntegral`, whose values `𝒵(x)` and
+
+        `𝒵(1 - x)` are for `x ≥ 1` the same expression in `x` up to a constant factor, is evaluated at the
+
+        test function `∏ conj (a w) ^ (2 μ w) exp (-|a w|²)` (see `Lib.SiegelWeil.Tower.TestVector`). It
+
+        continues `L` to real `x > -min μ` and compares the absolute values at `z` and `1 - z` for
+
+        `1 ≤ z < min μ + 1`. As `L` has no zero at real `x ≥ 1`, the extension has no zero at the integers
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/FunctionalEquation.lean
+      line: 13
+      endLine: 30
+      text: "`j > -min μ` (`exists_analytic_extension_ne_zero`). The file also computes the theta kernels of\npairs\
+        \ in which one space is `0`.\n\nNotions from other files:\n* `Space E n s`: a hermitian space over the field\
+        \ `E` with basis indexed by `n` and signs `s`;\n  `stdSpace E Empty` is the space `0`, `W.θ` the theta functional\
+        \ and `W.vacElem` the vacuum.\n* `pairTheta W V α β f`: the theta kernel of `(W, V)` twisted by the characters\
+        \ `α` and `β`;\n  `localDatum W V v Φ \U0001D520.readsAt` is the datum with archimedean part `v`, the function\
+        \ `Φ` at the\n  ramified places of `\U0001D520` and the vacuum elsewhere; `thetaLarge W V \U0001D520 v Φ`\
+        \ integrates the kernel at\n  this datum over `[U(V)]`.\n* `SplitTameChar E μ`: a character `ν` of `[U(1)]`\
+        \ of positive weight `μ`, tamely ramified exactly\n  at a non-empty set `S` of split places; `ν.L S` is\
+        \ its `L`-function without `S ∪ S̄`.\n\n## Relation to the literature\n\nKnown result: analytic continuation\
+        \ and functional equation of Hecke `L`-functions. Only real\narguments `x > -min μ` and absolute values\
+        \ are treated. Source: J. Tate, Fourier analysis in number\nfields and Hecke's zeta-functions (thesis, 1950),\
+        \ §2.5 and Main Theorem 4.4.1.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.SiegelWeil.Tower.LargeSideConstantTerm:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.LargeSideConstantTerm
+      name: New.Exchange.exists_planeConstantTerm_eq_thetaLarge_dualCone
+      line: 882
+      signature: "theorem exists_planeConstantTerm_eq_thetaLarge_dualCone (σ' : b ⊕ r' ≃ n') (σ : b ⊕ r ≃ n)\n \
+        \   (hn : 2 ∣ card n)\n    (μ : InfinitePlace E → ℤ) {z : ℕ} (hz : (card r - card n / 2 : ℤ) = -(z + 1))\
+        \ :\n    ∃ C > (0 : ℝ), ∀ \U0001D520 : SplitTameChar E μ, ∃ γ : ℂ,\n      ‖γ‖ = C * lSharp \U0001D520 (z\
+        \ + 1) ∧\n      ∀ v' : PairFock E s' t', IsSchwartzVector v' → ∀ y : Matrix b n (LocProd \U0001D520.ramifiedPlaces),\n\
+        \        IsIntMatrix O y →\n        ∀ (u : (\U0001D538 E)ˣ) (g : G E s), u = 1 ∨ card r = card n →\n   \
+        \       planeConstantTerm \U0001D520 V' A σ' v' y u g =\n          γ * thetaLarge W V \U0001D520 (dualCone\
+        \ A X μ (z + 1) v') (stdRowDatum σ \U0001D520.semilocalChar y) g"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.LargeSideConstantTerm
+      importer: New.Determinant.Exchange.LargeTriple
+      line: 2
+    - module: New.Determinant.Exchange.LargeTriple
+      importer: New.Determinant.Exchange.RemovingPlanes
+      line: 1
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/LargeSideConstantTerm.lean
+      line: 8
+      endLine: 11
+      text: 'Let `W'' = W ⊕ H` and `V'' = V ⊕ H` be hermitian spaces over the CM field `E`, with `H` a hyperbolic
+
+        plane and `W` of even rank. On standard data, the constant term of the theta integral of `(W'', V'')`
+
+        along the new isotropic line of `W''` unfolds to Tate''s integral `𝒵(e + 1)`, `e = rk V - rk W / 2`,
+
+        for the base change of the character.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/LargeSideConstantTerm.lean
+      line: 12
+      endLine: 50
+      text: "\nNeither side of Poisson's formula on the line has a term at `0`, so `\U0001D4B5` is analytic on the\
+        \ real\nline. For `x ≥ 1` its value is, up to an explicit factor, `L(x)` times the theta integral of\n`(W,\
+        \ V)` at a cone integral (`New.Exchange.exists_zetaIntegral`). This gives the constant term for\n`e ≥ 0`\
+        \ (`New.Exchange.exists_planeConstantTerm_eq_thetaLarge_cone`) and, through the other side of\nPoisson's\
+        \ formula, for `e < 0` (`New.Exchange.exists_planeConstantTerm_eq_thetaLarge_dualCone`).\n\n## Main definitions\
+        \ and results\n\n* `New.Exchange.exists_planeConstantTerm_eq_thetaLarge_cone`: for `z = rk V - rk W / 2\
+        \ ≥ 0`, with\n  `rk W = card n` even, a Schwartz vector `v'` and integral `y`, the constant term along `A`\
+        \ of the\n  theta integral of `(W', V')` is `γ` times the theta integral of `(W, V)` on\n  `cone A X μ (z\
+        \ + 1) v'` and `stdRowDatum σ \U0001D520.semilocalChar y`.\n* `New.Exchange.exists_planeConstantTerm_eq_thetaLarge_dualCone`:\
+        \ the same for\n  `rk V - rk W / 2 = -z - 1 < 0`, at `u = 1`, with `dualCone A X μ (z + 1) v'` in place\
+        \ of the cone.\n\nNotions from other files:\n* `\U0001D520 : SplitTameChar E μ` is a character `\U0001D520\
+        .character` of `[U(1)]` of positive weight `μ`, tamely\n  ramified exactly on a finite set `\U0001D520.ramifiedPlaces`\
+        \ of places disjoint from its conjugate;\n  `\U0001D520.semilocalChar` is `t ↦ ν(t / t̄)`, for `ν = \U0001D520\
+        .character`, on the product\n  `LocProd \U0001D520.ramifiedPlaces` of the completions at `\U0001D520.ramifiedPlaces`.\n\
+        * `A : W'.Splitting W Unit` is a decomposition `W' = W ⊕ H`; it is `IsBaseAdapted` if its frames are\n \
+        \ orthonormal at the infinite places and integral at the finite places.\n* `localDatum W V v Φ \U0001D520\
+        .readsAt` is the datum on `Hom(W, V)` with real part `v`, the function `Φ` at\n  the places of `\U0001D520\
+        .ramifiedPlaces` and the vacuum elsewhere; `thetaLarge W V \U0001D520 v Φ` is its theta\n  integral over\
+        \ `[U(V)]`.\n* `stdRowDatum σ χ y` sends `x` to `χ⁻¹` of the determinant of the matrix with the rows of\
+        \ `y` and\n  `x` if that matrix is integral with integral inverse, and to `0` otherwise.\n* `New.Exchange.lSharp`\
+        \ (from `Lib.SiegelWeil.Tower.FiniteTateIntegral`) is\n  `L♯(z) = |L^S(z, ν)| ∏_{w ∈ S} q_w ^ (z - 1/2)`\
+        \ for `ν = \U0001D520.character`, `S = \U0001D520.ramifiedPlaces`.\n\n## Relation to the literature\n\n\
+        Known result: the tower property for the constant term of a theta lift along an isotropic line. In\nthe\
+        \ literature the lifted form is cuspidal, whereas here it is a character, the data are ramified,\nand the\
+        \ isotropic orbit survives as a Tate integral. The constant term is therefore the smaller lift\ntimes a\
+        \ factor whose size is given by a Hecke L-value. Source: S. Rallis, On the Howe duality\nconjecture, Compositio\
+        \ Math. 51 (1984), Thm I.1.1; for the unitary case, C. Wu, Irreducibility of\ntheta lifting for unitary\
+        \ groups, J. Number Theory 133 (2013), Prop. 3.1.\n"
+    needs_draft: true
+    reason: Excerpt may not be a standalone description
+  Lib.SiegelWeil.Tower.LineGaussSums:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.LineGaussSums
+      name: New.Exchange.IsEquivariantLift.exists_linear_centreCoeff
+      line: 602
+      signature: "lemma exists_linear_centreCoeff (h\U0001D49F : IsEquivariantLift \U0001D520 X M \U0001D49F) [Fintype\
+        \ p] [DecidableEq p]\n    [Fintype n₀] [DecidableEq n₀] {s₀ : n₀ → ℤˣ} {X₀ : Space E n₀ s₀} (H : X.Splitting\
+        \ X₀ p)\n    (T : Matrix p p E) (x : G E r) :\n    ∃ L : (Matrix m b (LocProd \U0001D520.ramifiedPlaces)\
+        \ → ℂ) →ₗ[ℂ] ℂ, ∀ Ψ ∈ M,\n      -- (a)\n      L Ψ = H.centreCoeff T (\U0001D49F Ψ) x ∧\n      -- (b)\n \
+        \     ∀ z : Matrix p p (LocProd \U0001D520.ramifiedPlaces),\n        let Ψ' (y : Matrix m b (LocProd \U0001D520\
+        .ramifiedPlaces)) : ℂ"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.LineGaussSums
+      importer: New.Determinant.Exchange.MatchingPartners
+      line: 1
+    - module: New.Determinant.Exchange.MatchingPartners
+      importer: New.OneLift.ComparisonOperator.OneExchange
+      line: 3
+    - module: New.OneLift.ComparisonOperator.OneExchange
+      importer: New.OneLift.ComparisonOperator.GluedLattices
+      line: 1
+    - module: New.OneLift.ComparisonOperator.GluedLattices
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 1
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/LineGaussSums.lean
+      line: 8
+      endLine: 13
+      text: 'Let `s` be an integral `b × n` matrix over a semilocal field (`New.SemilocalField`) with compact
+
+        open subring `O`, and let `χ` be a character; where `χ` is tame (`TameLocalChar`), `invOnUnits χ` is
+
+        locally constant and `χ` has absolute value one on units of `O`. The file constructs the standard
+
+        pair of partners attached to `s`. Finally it describes the Fourier coefficients `H.centreCoeff T`
+
+        along a splitting `H` of a hermitian space `X` of an equivariant lift `𝒟`
+
+        (`New.Exchange.IsEquivariantLift`) on a space `M` of local data.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/LineGaussSums.lean
+      line: 14
+      endLine: 56
+      text: "\n## Main definitions and results\n\n* `New.stdColDatum`: `y ↦ χ⁻¹ (det (s y))` for integral `y` with\
+        \ `det (s y)` a unit of `O`, else\n  zero.\n* `New.stdRowDatum`: `x ↦ χ⁻¹ (det (s; x))` if `s` stacked on\
+        \ `x` lies in `GL_n(O)`, else zero.\n* `New.areMatched_stdRowDatum_stdColDatum`: these two are partners\
+        \ (`New.AreMatched`): they are\n  carried by the blocks of rows of `k⁻¹` and of columns of `k`, for `k ∈\
+        \ GL_n(O)`, and their values\n  there differ by the factor `χ (det k)`.\n* `New.Exchange.map_shear_stdColDatum_eq`:\
+        \ if a linear form is invariant, on a space `M` of\n  Schwartz–Bruhat functions, under the shears `y ↦ y\
+        \ + u z s y`, then it takes the same value on the\n  standard datum `New.stdColDatum χ s` and on its composite\
+        \ with `y ↦ y + u r y`, when both lie in\n  `M`, `s` is integral, `s u = 0` and `r u = 0`.\n* `New.Exchange.exists_lineTerm_localDatum`:\
+        \ the operator `New.Exchange.lineTerm`, the term along a\n  line split off each of two hermitian spaces,\
+        \ sends a standard datum for the large pair of spaces\n  to a scalar times a standard datum for the small\
+        \ pair. The scalar at the adele `x` depends on\n  `a = x κ⁻¹`, where κ is a fixed idele. It is zero unless\
+        \ `a` is integral outside `S ∪ S̄` and both\n  `a` and `ϖ ā` are units of `O` at the set `S` of places where\
+        \ `χ` is read. Then it is\n  `l β * γ * χ⁻¹(a) * χ(ϖ ā)`, where `l β` is a nonzero constant for each of\
+        \ the two terms `β` and\n  `|γ|²` is the inverse of the order of the residue ring.\n* `New.Exchange.IsEquivariantLift.exists_linear_centreCoeff`:\
+        \ the coefficient at a point is a linear\n  functional of the datum. A shear of the datum by `z` along the\
+        \ centre of the radical multiplies it\n  by the additive character at `S` of `tr (T_S z)`, where `T_S` is\
+        \ the component at `S` of the\n  product of `T` with the inverse of the idele `invDifferentIdele E`.\n\n\
+        Notions from other files:\n* `New.SemilocalField`: Conditions met by a finite product of non-archimedean\
+        \ local fields: a\n  locally compact ring with Haar measure, compact open subring O of volume one, a topologically\n\
+        \  nilpotent invertible ϖ in O, and `New.IsValuationPair O`.\n* `New.schwartzBruhat`: The space of locally\
+        \ constant, compactly supported complex functions that\n  vanish outside a given set.\n* `New.invOnUnits`:\
+        \ `χ⁻¹` on the units of `O`, zero elsewhere.\n* `New.Space.Splitting.centreCoeff`: `H.centreCoeff T D g`\
+        \ is the mean of\n  `ψ (tr (T M)) * D (H.radicalCentre M * g)` over adelic matrices `M` modulo rational\
+        \ ones;\n  `H.radicalCentre M` has matrix `1 + H.kAdelic * (M - Mᴴ) * H.lCoord`.\n* `New.Exchange.SplitTameChar`:\
+        \ A character ν of the idele classes of norm one with positive weight\n  at every infinite place, whose\
+        \ tame part is non-trivial exactly on a non-empty finite set S of\n  places disjoint from its conjugate.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.Tower.LargeSideConstantTerm` and\n`Lib.SiegelWeil.SingularForms.UnimodularCoefficients`\
+        \ for sources.\n"
+  Lib.SiegelWeil.Tower.LineTerms:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.LineTerms
+      name: New.Exchange.frameAt_lineTermSplitting
+      line: 308
+      signature: "lemma frameAt_lineTermSplitting (β : Bool) :\n    (lineTermSplitting A X β).frameAt 1 (lineTermBasis\
+        \ W V) =\n      ((((X.lAdelic ⊗ₖ fromCols A.iCoordᵀ A.kCoordᵀ).fromCols (X.iAdelic ⊗ₖ A.kCoordᵀ)).fromCols\n\
+        \            (cond β (X.kAdelic ⊗ₖ A.kCoordᵀ) (X.lAdelic ⊗ₖ A.lCoordᵀ))).fromCols\n          (((X.kAdelic\
+        \ ⊗ₖ fromCols (A.iAdelicᴴ * stdForm E s')ᵀ A.lCoordᵀ).fromCols\n              ((X.iAdelic * stdForm E t)\
+        \ ⊗ₖ A.lCoordᵀ)).fromCols\n            (cond β (X.lAdelic ⊗ₖ A.lCoordᵀ) (X.kAdelic ⊗ₖ A.kCoordᵀ)))).fromCols\n\
+        \        (X.iAdelic ⊗ₖ A.iCoordᵀ)"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.LineTerms
+      importer: Lib.Weil.MixedModel.Slices
+      line: 1
+    - module: Lib.Weil.MixedModel.Slices
+      importer: Lib.SiegelWeil.Tower.LineGaussSums
+      line: 3
+    - module: Lib.SiegelWeil.Tower.LineGaussSums
+      importer: New.Determinant.Exchange.MatchingPartners
+      line: 1
+    - module: New.Determinant.Exchange.MatchingPartners
+      importer: New.OneLift.ComparisonOperator.OneExchange
+      line: 3
+    - module: New.OneLift.ComparisonOperator.OneExchange
+      importer: New.OneLift.ComparisonOperator.GluedLattices
+      line: 1
+    - module: New.OneLift.ComparisonOperator.GluedLattices
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 1
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/LineTerms.lean
+      line: 7
+      endLine: 14
+      text: "This file concerns the stabiliser of an isotropic line in a hermitian space `V'`, split by\n`D : V'.Splitting\
+        \ V Unit` into a hyperbolic plane and `V`. It gives coordinates on the unipotent\nradical and on the Levi\
+        \ factor of this stabiliser.\n\n## Main definitions and results\n\n* `New.Exchange.lineTerm`: two families,\
+        \ indexed by an adele, of operators from `Hom(W', V')` data\n  to those of `Hom(W, V)`: a rank-one translation,\
+        \ then both zero terms.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/LineTerms.lean
+      line: 15
+      endLine: 37
+      text: "* `New.Exchange.lineTerm_pairWeil_levi`: if the line of `W'` is fixed or `W` and `V` have equal\n \
+        \ rank, they intertwine the Weil representations `New.pairWeil` on Levi elements, up to a scalar and\n \
+        \ a rescaling of the adele.\n* `New.Exchange.tsum_lineTerm`: the theta sums over `E` of the two families\
+        \ agree, since they are\n  the two mixed models of one hyperbolic plane.\n* `New.Exchange.lineTermSplitting`,\
+        \ `New.Exchange.frameAt_lineTermSplitting`: the splittings behind\n  the two models, and their frames.\n\
+        \nNotions from other files:\n* `New.Space`: a hermitian space over `E` with Gram matrix `J` and an adelic\
+        \ frame `x` that\n  diagonalises `J` at every place; `\U0001D4AE V` is its data space and `θ V` the theta\
+        \ functional on it.\n* `New.Space.Splitting`: for `D : V.Splitting V₀ p`, dual isotropic frames `k`, `l`\
+        \ indexed by `p`\n  and an isometric embedding `i` of `V₀` orthogonal to both, which together fill `V`.\n\
+        * `New.Space.Splitting.zeroTerm`: the map `\U0001D4AE V → \U0001D4AE V₀` that averages over the adelic span\
+        \ of `k`\n  modulo its rational points; `D.slice x` is translation by `l x` followed by it.\n* `New.Space.Splitting.levi`:\
+        \ the homomorphism sending `(m, g₀)` to the element that acts by `m` on\n  the frame `k`, by `g₀` on `V₀`\
+        \ and by `m*⁻¹` on the frame `l`.\n* `New.pairWeil W V a b`: the Weil representation of the two unitary\
+        \ groups on `\U0001D4AE (W.hom V)`,\n  twisted by the automorphic characters `a` and `b` of the determinants.\n\
+        \n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.Tower.LargeSideConstantTerm` for sources.\n"
+  Lib.SiegelWeil.Tower.PrincipalIdeles:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.PrincipalIdeles
+      name: New.integrable_prod_inv_one_add_log_sq
+      line: 49
+      signature: "lemma integrable_prod_inv_one_add_log_sq [Fintype ι] :\n    Integrable (fun a : (ι → ℂ)ˣ ↦ ∏ x\
+        \ : ι, (1 + Real.log ‖a.val x‖ ^ 2)⁻¹) haar"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.PrincipalIdeles
+      importer: Lib.SiegelWeil.Tower.RealConeIntegral
+      line: 2
+    - module: Lib.SiegelWeil.Tower.RealConeIntegral
+      importer: Lib.SiegelWeil.Tower.FiniteTateIntegral
+      line: 3
+    - module: Lib.SiegelWeil.Tower.FiniteTateIntegral
+      importer: New.OneLift.HeckeValues.TwistedRatio
+      line: 1
+    - module: New.OneLift.HeckeValues.TwistedRatio
+      importer: New.OneLift.HeckeValues.AlgebraicPartSize
+      line: 2
+    - module: New.OneLift.HeckeValues.AlgebraicPartSize
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 5
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/PrincipalIdeles.lean
+      line: 6
+      endLine: 14
+      text: "* `New.principalAdeleUnits`: the principal ideles, a discrete subgroup of the units of the adele\n\
+        \  ring.\n* `New.integrable_prod_inv_one_add_log_sq`: `∏ x, (1 + (log |a x|) ^ 2)⁻¹` is integrable for Haar\n\
+        \  measure on `(ι → ℂ)ˣ`; it serves as a majorant at the infinite places.\n\nNotions from other files:\n\
+        \n* `New.CMType E`: E is a CM number field with, for each infinite place, a chosen complex embedding\n \
+        \ inducing it.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/PrincipalIdeles.lean
+      line: 15
+      endLine: 17
+      text: "* `New.toAdele`: the diagonal embedding of E in its adeles, given at the infinite places by the\n \
+        \ chosen embeddings.\n* `New.ratAdeles E`: the image of E under `New.toAdele`, a lattice in the adeles.\n"
+  Lib.SiegelWeil.Tower.RealConeIntegral:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.RealConeIntegral
+      name: New.Exchange.cone
+      line: 68
+      signature: 'def cone (z : ℝ) (v : PairFock E s'' t'') : PairFock E s t'
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.RealConeIntegral
+      importer: Lib.SiegelWeil.Tower.FiniteTateIntegral
+      line: 3
+    - module: Lib.SiegelWeil.Tower.FiniteTateIntegral
+      importer: New.OneLift.HeckeValues.TwistedRatio
+      line: 1
+    - module: New.OneLift.HeckeValues.TwistedRatio
+      importer: New.OneLift.HeckeValues.AlgebraicPartSize
+      line: 2
+    - module: New.OneLift.HeckeValues.AlgebraicPartSize
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 5
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/RealConeIntegral.lean
+      line: 8
+      endLine: 14
+      text: "The archimedean Tate integral of a Fock vector over the cone of real isotropic vectors of\n`V' = V\
+        \ ⊕ H`, and its convergence in every moment for positive real exponents.\n\nThroughout, `A` and `X` split\
+        \ a hyperbolic plane off `W'` and `V'`, with complements `W` and `V`.\n\n* `PairFock E s t` is the Fock\
+        \ space of `Hom(W, V)` at the infinite places, the type\n  `fockSpace (realSigns E (homSigns s t))` that\
+        \ `coneIntegrand` takes values in.\n"
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/RealConeIntegral.lean
+      line: 15
+      endLine: 23
+      text: "* `lineTermReal A X β a` maps the Fock space of `Hom(W', V')` to that of `Hom(W, V)`; it is the\n \
+        \ archimedean part of the term at `a` in Poisson's formula on the line, on the side that the Boolean\n \
+        \ `β` names.\n* `fockMoment N v = ∫ (1 + ‖y‖) ^ N ‖v y‖ dy` is the `N`-th moment of `v`, and `IsSchwartzVector\
+        \ v`\n  says that all moments of `v` are finite.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.Tower.LargeSideConstantTerm`\
+        \ for sources.\n"
+  Lib.SiegelWeil.Tower.TestVector:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.Tower.TestVector
+      name: New.Exchange.coneIntegrand_tateVector
+      line: 393
+      signature: "theorem coneIntegrand_tateVector (hs : Function.Bijective s') (m : InfinitePlace E → ℕ) (β : Bool)\n\
+        \    (z : ℝ) (p : maxCompact E s' × (InfinitePlace E → ℂ)ˣ) :\n    coneIntegrand A A (fun w : InfinitePlace\
+        \ E ↦ m w) β z (tateVector s' m) p =\n      (Real.exp (-∑ w : InfinitePlace E, ‖p.2.val w‖ ^ 2) * ideleAbs\
+        \ (realIdele p.2) ^ z *\n        ∏ w : InfinitePlace E, normSq (p.2.val w) ^ m w) • vacVector"
+    routeToMain:
+    - module: Lib.SiegelWeil.Tower.TestVector
+      importer: Lib.SiegelWeil.Tower.FunctionalEquation
+      line: 2
+    - module: Lib.SiegelWeil.Tower.FunctionalEquation
+      importer: New.Determinant.Exchange.VanishingDescends
+      line: 1
+    - module: New.Determinant.Exchange.VanishingDescends
+      importer: New.Determinant.Exchange.TheoremForPartners
+      line: 3
+    - module: New.Determinant.Exchange.TheoremForPartners
+      importer: New.Determinant.Exchange.OneSquare
+      line: 3
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/Tower/TestVector.lean
+      line: 6
+      endLine: 10
+      text: 'Let `H` be a hyperbolic plane over the CM field `E`. At each infinite place the Fock space
+
+        `New.PairFock` of `Hom(H, H)` has two positive coordinates, the diagonal ones. The test vector is
+
+        the Fock vector of the product of their `m w`-th powers. Its cone integrand for the pair `(H, H)`
+
+        over `(0, 0)` is the vacuum times the integrand of a zeta integral: the test function
+
+        `∏ conj (a w) ^ (2 m w) exp (-|a w|²)` times a character and a power of `|a|`.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/Tower/TestVector.lean
+      line: 11
+      endLine: 33
+      text: "\n* `New.Exchange.tateVector`: the test vector.\n* `New.Exchange.realPairWeil_tateVector`: the maximal\
+        \ compact subgroup of the target group fixes it.\n* `New.Exchange.coneIntegrand_tateVector`: its cone integrand,\
+        \ in either model, is an explicit\n  positive function times the vacuum.\n\nNotions from other files:\n\
+        * `New.Fock.polyVector`: the Fock vector x ↦ P(ζ(x))·exp(−|x|²/2) of a polynomial P, where ζ(x)_i is\n \
+        \ x̄_i at positive and x_i at negative coordinates.\n* `New.Fock.MixedModel`: a decomposition y = La + Iw\
+        \ + Kb of the large space, with a map `slice a`\n  from the large Fock space to the small one.\n* `Splitting.IsAdapted\
+        \ 1 b`: the adelic frame `D.frameAt 1 b = (l b*⁻¹, k b, ι)` of a splitting\n  `D` has orthonormal columns\
+        \ at the infinite places and integral entries at the finite ones.\n* `New.Exchange.coneIntegrand`: the integrand\
+        \ of the cone integral, `lineTermReal A X β a` applied\n  to the translate of a vector by the compact part,\
+        \ times a character and a power of `|a|`.\n\n## Relation to the literature\n\nKnown; see `Lib.Weil.MixedModel.ZeroTerm`\
+        \ for sources.\n\nPart of a known result: analytic continuation and functional equation of Hecke `L`-functions.\
+        \ See\n`Lib.SiegelWeil.Tower.FunctionalEquation`. Up to a scaling of the variable the test function is that\n\
+        of J. Tate, Fourier analysis in number fields and Hecke's zeta-functions (thesis, 1950), §2.5.\n"
+  Lib.SiegelWeil.UnramifiedSeries.RallisSeries:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.UnramifiedSeries.RallisSeries
+      name: New.SiegelWeil.eq_zero_of_rallisSeries_eq_zero
+      line: 477
+      signature: "theorem eq_zero_of_rallisSeries_eq_zero (h_rank : 2 * card n < card m) (hb : IsUnramifiedOn b\
+        \ n A)\n    (hy_bdd : ∃ C : ℝ, ∀ g : G E s, ‖y g‖ ≤ C) (hy : HasLevel y (stdLevel E n ⊓ supportedOn n A))\n\
+        \    (h_zero : rallisSeries (card m) b A y = 0) : y = 0"
+    routeToMain:
+    - module: Lib.SiegelWeil.UnramifiedSeries.RallisSeries
+      importer: Lib.SiegelWeil.RallisInner.SharpData
+      line: 3
+    - module: Lib.SiegelWeil.RallisInner.SharpData
+      importer: New.Determinant.Norms.AdjointThetaLift
+      line: 2
+    - module: New.Determinant.Norms.AdjointThetaLift
+      importer: New.Spanning.Multiplicities.EqualMultiplicities
+      line: 3
+    - module: New.Spanning.Multiplicities.EqualMultiplicities
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 3
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/UnramifiedSeries/RallisSeries.lean
+      line: 7
+      endLine: 12
+      text: 'This file extends the bound on the coefficients of the vacuum to all sets of places, by induction
+
+        over the weights `New.SiegelWeil.stepWeight`. For `2 n < m` it proves that the coefficients are
+
+        absolutely summable and that the series `New.SiegelWeil.rallisSeries` converges uniformly. It proves
+
+        that the series keeps levels and forms, is multiplicative over the places and is injective. The last
+
+        section defines the sum of the coefficients `New.SiegelWeil.vacuumSum` and writes it as a product
+
+        over the pairs of conjugate places.
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/UnramifiedSeries/RallisSeries.lean
+      line: 13
+      endLine: 63
+      text: "\nLet `G_f` be the finite adelic unitary group of rank `n` over the CM field `E`, and let `A` be a\
+        \ set\nof finite places. The series `∑ mc(γ) R(γ) y` runs over the cosets `γ` of the points integral at\n\
+        `A`; here `R` is right translation and `mc(γ)` is the coefficient of the vacuum for a second space\nof rank\
+        \ `m`, of modulus `[γ L : L ∩ γ L] ^ (-m / 2)` for the standard lattice `L`. In the inner\nproduct formula\
+        \ `A` is the set of the places off the level and its conjugate. For `2 n < m` the\ncoefficients are absolutely\
+        \ summable, and, if the character in `mc` is unramified on `A`\n(`IsUnramifiedOn`: `b ∘ det` is trivial\
+        \ on the integral points supported on `A` and its conjugate),\nthe series is an injective operator on the\
+        \ bounded functions fixed by the integral points supported\non `A` and its conjugate.\n\nBoth facts come\
+        \ from counting lattices through neighbours. A lattice other than `L` is brought\nnearer to `L` by a step\
+        \ at a place `w`. The weight `s_w` is the number of steps at `w` times\n`q_w ^ (-m / 2)`, where `q_w` is\
+        \ the order of the residue field at `w`. For `2 n < m` it is at most\n`1 / (q_w - 1)`, and at most `1 /\
+        \ ((q_w - 1) √q_w)` if `w` is split. If the `s_w` over `A` and its\nconjugate add up to `ϱ ≤ 1 / 3`, the\
+        \ nontrivial cosets contribute at most `ϱ + ϱ ^ 2 + ⋯ ≤ 1 / 2`,\nso the series is close to the identity.\
+        \ This holds for one place and its conjugate, because\n`q_w ≥ 4` (under `WeilData E`, `E` has a primitive\
+        \ root of unity of order `5040`, hence the third\nand fourth roots of unity), and for the places outside\
+        \ a finite set, because `∑ s_w` converges. The\nseries is multiplicative over the places, which gives all\
+        \ `A`. The last section writes the sum of\nthe coefficients as a product over the pairs of conjugate places.\n\
+        \n## Main definitions and results\n\n* `New.SiegelWeil.summable_norm_vacuumCoeff`: the coefficients are\
+        \ absolutely summable.\n* `New.SiegelWeil.exists_form_eq_rallisSeries`: the series keeps forms and their\
+        \ levels.\n* `New.SiegelWeil.rallisSeries_union`: the series is multiplicative over the places.\n* `New.SiegelWeil.eq_zero_of_rallisSeries_eq_zero`:\
+        \ a function with series `0` is `0`.\n\nNotions from other files:\n* `localLevel n A`: the points of `G_f`\
+        \ integral at the places of `A`; `stdLevel E n`: the points\n  integral at all finite places; `supportedOn\
+        \ n A`: the points with component `1` outside `A` and\n  its conjugate, whose union is `A.conjClosure`.\n\
+        * `HasLevel y K`: right translation by each point of `K` fixes the function `y` on the adelic points\n \
+        \ `G E s`, the products of a point of `GInf E s` (the real points, the only part that depends on the\n \
+        \ signs `s : n → ℤˣ`) and a point of `Gf E n`.\n* `New.SiegelWeil.rallisSeries M b A y`: the series `∑ mc(q)\
+        \ R(q) y`, with coefficient\n  `New.SiegelWeil.vacuumCoeff M b` and right translation taken at `New.SiegelWeil.cosetRep\
+        \ q`.\n* `New.SiegelWeil.stepWeight n M w`: the number of steps at `w` to a neighbouring lattice times\n\
+        \  `q_w ^ (-M / 2)`.\n* `New.SiegelWeil.IsUnramifiedOn`: `b ∘ det` is trivial on the integral finite points\
+        \ supported on\n  `A` and its conjugate.\n\n## Relation to the literature\n\nPart of a known result: non-vanishing\
+        \ of theta lifts in large rank. See\n`Lib.SiegelWeil.RallisInner.SharpData`. The series is the contribution\
+        \ of the unramified places to\nRallis' inner product formula, left as a sum over cosets instead of being\
+        \ evaluated as an L-value;\nfor the constant `1` in rank one it is evaluated in `New.vacuumSum_eq_L_div_eulerProd`.\
+        \ The count of\nlattices uses neighbours in Kneser's sense; see M. Greenberg and J. Voight, Lattice methods\
+        \ for\nalgebraic modular forms on classical groups (2014), §5.\n"
+  Lib.SiegelWeil.UnramifiedSeries.VacuumCoefficients:
+    group: Lib.SiegelWeil
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.SiegelWeil.UnramifiedSeries.VacuumCoefficients
+      name: New.SiegelWeil.tsum_ofReal_norm_vacuumCoeff_le
+      line: 624
+      signature: "lemma tsum_ofReal_norm_vacuumCoeff_le (M : ℕ) (b : AutChar E)\n    (hA : ∑' w : A.conjClosure,\
+        \ ENNReal.ofReal (stepWeight n M w.val) ≤ 3⁻¹) :\n    ∑' q : Gf E n ⧸ localLevel n A, ENNReal.ofReal ‖vacuumCoeff\
+        \ M b (cosetRep q).val‖ ≤\n      1 + 2⁻¹"
+    routeToMain:
+    - module: Lib.SiegelWeil.UnramifiedSeries.VacuumCoefficients
+      importer: Lib.SiegelWeil.RallisInner.Doubling
+      line: 2
+    - module: Lib.SiegelWeil.RallisInner.Doubling
+      importer: Lib.SiegelWeil.RallisInner.SharpData
+      line: 2
+    - module: Lib.SiegelWeil.RallisInner.SharpData
+      importer: New.Determinant.Norms.AdjointThetaLift
+      line: 2
+    - module: New.Determinant.Norms.AdjointThetaLift
+      importer: New.Spanning.Multiplicities.EqualMultiplicities
+      line: 3
+    - module: New.Spanning.Multiplicities.EqualMultiplicities
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 3
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/SiegelWeil/UnramifiedSeries/VacuumCoefficients.lean
+      line: 9
+      endLine: 15
+      text: 'This file defines the coefficients of the vacuum `New.SiegelWeil.vacuumCoeff`, the representatives
+
+        `New.SiegelWeil.cosetRep` of the cosets of `localLevel n A` and the series
+
+        `New.SiegelWeil.rallisSeries`. It shows that the coefficients and the cosets are multiplicative over
+
+        two sets of places with disjoint supports. It bounds sums along a walk (`New.tsum_le_of_walk`) and
+
+        shows that every residue field has at least four elements if `E` contains a primitive root of unity
+
+        of order `5040` (`New.FinPlace.four_le_q`). It defines the weight `New.SiegelWeil.stepWeight` of the
+
+        steps at a place to a neighbouring lattice and bounds it for `2 * card n < M`. If these weights over
+
+        '
+    remainder:
+      path: grh/src/Lib/SiegelWeil/UnramifiedSeries/VacuumCoefficients.lean
+      line: 16
+      endLine: 43
+      text: "`A` and its conjugate add up to at most `1 / 3`, it bounds the sum of the moduli of the coefficients\n\
+        (`New.SiegelWeil.tsum_ofReal_norm_vacuumCoeff_le`).\n\n## Main definitions and results\n\n* `New.SiegelWeil.vacuumCoeff`,\
+        \ `New.SiegelWeil.cosetRep`, `New.SiegelWeil.rallisSeries`: the\n  coefficients, the representatives of\
+        \ the cosets and the series.\n* `New.SiegelWeil.stepWeight`: the number `stepWeight n M w`, with the bounds\n\
+        \  `New.SiegelWeil.tsum_stepWeight_conjClosure_singleton_le` and\n  `New.SiegelWeil.summable_stepWeight`.\n\
+        \nNotions from other files:\n* `localLevel n A`: the points of `Gf E n` integral at the places of `A`; `stdLevel\
+        \ E n`: the points\n  integral at all finite places.\n* `supportedOn n A`: the points with component `1`\
+        \ outside `A` and its conjugate, whose union is\n  `A.conjClosure`; `trivialOn n A`: the points with component\
+        \ `1` at `A`.\n* `finMultiplier`: the multiplier of a finite point; its squared modulus is the index\n \
+        \ `[L : L ∩ γ⁻¹ L] = [γ L : L ∩ γ L]` at the point `γ`.\n* `AutChar E`: the characters `b` of the norm-one\
+        \ adeles of `E` trivial on the norm-one elements of\n  `E`; `detFin 1 g`: the determinant of the finite\
+        \ point `g`, as such an adele with component `1` at\n  the infinite places.\n* `HasLevel y K`: right translation\
+        \ by each point of `K` fixes the function `y` on the adelic points\n  `G E s`, the products of a point of\
+        \ `GInf E s` (the real points, the only part that depends on the\n  signs `s : n → ℤˣ`) and a point of `Gf\
+        \ E n`.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.UnramifiedSeries.RallisSeries` for\
+        \ sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+needs_draft: true

@@ -1,0 +1,2001 @@
+group: New.OneLift
+overview: null
+files:
+  New.OneLift.ComparisonOperator.DeterminantProducts:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.DeterminantProducts
+      name: New.Rows.twoSidedSubst_firstColsCoord
+      line: 136
+      signature: "lemma twoSidedSubst_firstColsCoord {p : ℕ} [Fintype Φ] (c : Φ → Matrix N N ℂ)\n    (g : Φ → Matrix\
+        \ L L ℂ) [DecidableEq Φ] {F F' : MvPolynomial (Φ × N × (Fin p ⊕ L)) ℂ}\n    {s : ℂ} (h_subst : twoSidedSubst\
+        \ c (fun τ : Φ ↦ fromBlocks 1 0 0 (g τ)) F' = s • F)\n    (κ : Φ → ℕ → ℕ) (l : WeylIndexFamily (fun _ :\
+        \ Φ ↦ N) κ) :\n    twoSidedSubst c g\n        (∑ l' : WeylIndexFamily (fun _ : Φ ↦ N) κ, schur κ c l l'\
+        \ • firstColsCoord κ F' l') =\n      s • firstColsCoord κ F l"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.DeterminantProducts
+      importer: New.OneLift.ComparisonOperator.LineCoordinates
+      line: 1
+    - module: New.OneLift.ComparisonOperator.LineCoordinates
+      importer: New.OneLift.ComparisonOperator.FirstFactors
+      line: 2
+    - module: New.OneLift.ComparisonOperator.FirstFactors
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 4
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/DeterminantProducts.lean
+      line: 6
+      endLine: 10
+      text: 'This file studies polynomials in the entries of variable matrices `x_τ`, one for each `τ : Φ`, with
+
+        rows indexed by `N` and columns by `L`. It studies how these polynomials transform under the
+
+        two-sided linear substitutions `New.Rows.twoSidedSubst`, `x_τ ↦ c_τᵀ x_τ g_τᵀ`. It treats products
+
+        of determinants of constant matrices stacked over `x_τ`. It also treats the coordinates of a
+
+        polynomial in its first `p` columns, where `p` is a number of columns.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/DeterminantProducts.lean
+      line: 11
+      endLine: 24
+      text: "\n## Main definitions and results\n\n* `New.Rows.stackedDetProd`, `New.Rows.twoSidedSubst_stackedDetProd`:\
+        \ a product of determinants of\n  constant matrices stacked over `x_τ` (`New.Rows.stackedDet`). The substitution\
+        \ sends the product\n  for the matrices `M τ k * (g τ)ᵀ` to a scalar multiple of the product for the matrices\
+        \ `M τ k`.\n* `New.Rows.firstColsCoord`, `New.Rows.twoSidedSubst_firstColsCoord`: the coordinates of a\n\
+        \  polynomial in its first `p` columns; if the substitution with column matrices\n  `fromBlocks 1 0 0 (g\
+        \ τ)` (fixing the first `p` columns) sends `F'` to a multiple of `F`, the\n  coordinates of `F'` and `F`\
+        \ are related by the Schur matrix (`New.schur`).\n\nNotions from other files:\n* `New.nablaBasis`, `New.schur`:\
+        \ products of minors indexed by families of standard fillings\n  (`New.WeylIndexFamily`), and the matrix\
+        \ of a substitution of rows in these polynomials.\n"
+  New.OneLift.ComparisonOperator.ExchangeData:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.ExchangeData
+      name: New.Rows.exists_int_weylRep_invariant_fockPoly_eq_smul_monomial
+      line: 766
+      signature: "theorem New.Rows.exists_int_weylRep_invariant_fockPoly_eq_smul_monomial {P : Parameters}\n   \
+        \ {D : Data P} {n : Type}\n    [Fintype n] [DecidableEq n] (X : LValueData D.E n) {r : ℕ} (e : Fin r ↪ n)\n\
+        \    {α : D.Φ × Fin r × Unit →₀ ℕ} (hα : ∀ τ : D.Φ, ∑ i : Fin r, α (τ, i, ()) = X.rowLength τ) :\n    ∃\
+        \ v : WeylIndex n (mixedWeight n X.descentPair.colsPlus X.descentPair.colsMinus) → ℤ,\n      -- (a) the\
+        \ polynomial of `v` is a multiple of the monomial, moved to the rows `e`\n      X.descentPair.fockPoly (star\
+        \ ((↑) ∘ v)) =\n        ((∏ τ : D.Φ, (X.rowLength τ)!) / α.prod fun _ (k : ℕ) ↦ (k ! : ℂ)) •\n         \
+        \ renameRowsCols e id (monomial α 1) ∧\n      -- (b) `v` is fixed by every `g` whose columns `e` are those\
+        \ of `1`\n      ∀ {R : Type} [Field R] [CharZero R] {g : D.Φ → GL n R},\n        (∀ (τ : D.Φ) (a : Fin r)\
+        \ (b : n), (g τ).val b (e a) = if b = e a then 1 else 0) →\n        weylRep (mixedWeight n X.descentPair.colsPlus\
+        \ X.descentPair.colsMinus)\n          X.descentPair.detExp g *ᵥ ((↑) ∘ v) = (↑) ∘ v"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.ExchangeData
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/ExchangeData.lean
+      line: 8
+      endLine: 12
+      text: 'For admissible data `D`, the element `ϖ = New.Data.piM` of 𝓞_E generates the product of the primes
+
+        at the places `New.Data.chosenPlace`. The file defines the objects of the three exchanges that turn
+
+        a twist into a number on `W_j = New.Data.spaceW`, `1 ≤ j ≤ m`: the carrier φ° with its coefficients
+
+        𝖺, the modulus `ϖ^c`, the index sets of the spaces, the characters, the choices `i`, the fixed
+
+        polynomial `P` and the functions `𝖥_i`.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/ExchangeData.lean
+      line: 13
+      endLine: 70
+      text: "\nThe standard definite space `E^n` is also written `I_n`, and `υ = New.WeilData.upsilonU1` is the\n\
+        character `ν_η` of weight 1 and trivial tame part. The letter `ϑ` denotes a tame character\n(`New.Data.TameChar`);\
+        \ it is a twist only where this is said.\n\n| object | Lean name | object | Lean name |\n|---|---|---|---|\n\
+        | `S = E^{2m,m}` | `CarrierIndex` | `χ′` | `twistedChiMPow` |\n| `W♭ = E^{6m+1}` | `FlatIndex` | `ν″` |\
+        \ `firstFactorChar` |\n| `V″`, `W′` | `FirstFactorIndex` | `ν♭ υ^m` | `carrierChar` |\n| `V°` | `SecondFactorIndex`\
+        \ | `φ°`, `\U0001D5BA χ′` | `carrierForm`, `carrierCoeff` |\n| columns of `μ⁺`, plus Δ′ indices | `DetIndex`\
+        \ | `P`, `\U0001D5A5_i` | `paddedMinorProd`, `choiceFn` |\n| choices `i` | `ChoiceIndex` | `u`, `u°` | `conjHolomorphicWeight`,\
+        \ `kernelWeight` |\n\n## Main definitions and results\n\n* `New.Rows.carrierForm`: the carrier φ°, the theta\
+        \ lift of the constant function from the unitary\n  group of a negative definite space to that of a space\
+        \ with signs `+1` on `2 m` and `−1` on `m`\n  coordinates.\n* `New.Rows.carrierCoeff`: the coefficients\
+        \ \U0001D5BA times a character, a class sum of theta kernels\n  between two definite spaces.\n* `New.Data.choiceFn`:\
+        \ the function `\U0001D5A5_i` on `U(W_j)`, the integral of the carrier against a theta\n  kernel.\n* `New.Data.isTameFor_of_hasWeight`,\
+        \ `New.Data.isTameFor_twistedChiMPow`: let `ϑ` be a twist,\n  `c ≠ 0`, and take a character whose tame part\
+        \ is `ψ * ϑ.tamePart`, with `ψ` non-trivial exactly at\n  the chosen places. It ramifies exactly at the\
+        \ places dividing `D.twistModulus ϑ c`, that is, the\n  chosen places and the places in `ϑ.Q` (`New.Exchange.IsTameFor`).\
+        \ This applies to\n  `New.Data.twistedChiMPow`.\n* `New.Rows.exists_int_weylRep_invariant_fockPoly_eq_smul_monomial`:\
+        \ for a monomial of the right\n  degrees there is an integral vector whose Fock polynomial is a nonzero\
+        \ multiple of the monomial.\n  The vector is fixed by the elements that act trivially on the rows of the\
+        \ monomial.\n\nNotions from other files:\n* `New.Modulus`: a nonzero ideal of \U0001D4DE_E that is never\
+        \ divisible by both a place w and its conjugate\n  w̄.\n* `New.Data.spaceW`: the diagonal hermitian space\
+        \ `W_j` of rank r over E with signs `D.signsW j`.\n* `New.Data.liftWeight`: the natural number `κ_j`, a\
+        \ function of the infinite place; the character\n  `New.Data.liftChar` of the `j`-th lift has weight `−κ_j`.\n\
+        * The numbers of `D`: the rank `r` of `W_j`, the number `m` of lifts, `k = r + 1 − m`, `t = 5 r`,\n  the\
+        \ gap `Δ = New.Data.gap = 2 r ^ 8` and `Δ′ = New.Data.reducedHalfGap = Δ / 2 − (t + 1) / 2`.\n* `New.Data.descentPair`:\
+        \ the data (`New.DescentPair`) of the lift from `W_j` to `I_{r+t}`. They\n  include a `numbering` of the\
+        \ basis vectors of `W_j` and, at each infinite place, two partitions\n  `μ⁺`, `μ⁻` given by their numbers\
+        \ `colsPlus`, `colsMinus` of columns of each height.\n* `New.Data.TameChar`, `New.Data.Twist`: a character\
+        \ of U(1)(\U0001D538) of weight 0 whose tame part is\n  trivial outside a finite set Q of places; it is\
+        \ a twist if the tame part is non-trivial on all of\n  Q.\n\n## Use in the argument\n\n* The carrier φ°\
+        \ and the coefficients \U0001D5BA: the class sum of a twisted square kernel against \U0001D5BA is a\n  multiple\
+        \ of φ°. See `New.OneLift.ComparisonOperator.ThreeExchanges`.\n* Moduli, index sets, polynomial and functions\
+        \ `\U0001D5A5_i`: the third exchange and its left side as a\n  theta series. See `New.OneLift.ComparisonOperator.ThreeExchanges`\
+        \ and\n  `New.OneLift.ComparisonOperator.FirstFactors`.\n* Order, weights and gaps on `W_j`: the functions\
+        \ `\U0001D5A5_i` separate good forms. See\n  `New.OneLift.ComparisonOperator.ProductsSpan`.\n* Integral\
+        \ vectors with a monomial Fock polynomial: the height bound for inverse ratios of twisted\n  to untwisted\
+        \ Hecke L-values. See `New.OneLift.HeckeValues.TwistedValueHeights`.\n"
+  New.OneLift.ComparisonOperator.FirstFactors:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.FirstFactors
+      name: New.Data.exists_isIntegralAndSmall_leftSideSeries
+      line: 657
+      signature: "lemma exists_isIntegralAndSmall_leftSideSeries (j : D.LiftIndex) :\n    ∃ c ≠ (0 : ℂ), ∀ (i :\
+        \ ChoiceIndex j) (ϑ : D.TameChar) (h : Gf D.E (FirstFactorIndex j)),\n      IsIntegralAndSmall ϑ j h (star\
+        \ (c • leftSideSeries ϑ j i h))"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.FirstFactors
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 4
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/FirstFactors.lean
+      line: 9
+      endLine: 14
+      text: 'Fix admissible data `D`, a tame character `ϑ` and an index `1 ≤ j ≤ m`. Write `E^n` for
+
+        the standard definite space of rank `n`, V″ for the one on `New.Data.FirstFactorIndex` and
+
+        W^add = E^{3m−j} ⊕ W♭ ⊕ E^{3m} for the one on `New.Data.AddedIndex`. Throughout, k = `D.k`,
+
+        m = `D.m`, M = `D.M`, and W_j is the space on `D.RowIndex` with r₊ = `D.posRank j` = k + j − 1
+
+        plus signs. This file writes P_V as a sum of products of a polynomial in X and a coordinate of
+
+        ζ(z), where X are the variables in the positive basis vectors of W_j and z those in W^add. Each
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/FirstFactors.lean
+      line: 15
+      endLine: 49
+      text: "value of Υ is a double class sum of products of three theta kernels of definite spaces, and this\n\
+        file bounds these kernels. By `New.Data.exists_isIntegralAndSmall_leftSideSeries`, for one constant\n`c″\
+        \ ≠ 0` the first factors φ″, the complex conjugates of c″Υ, are integral away from the norm of Q\nand, if\
+        \ Q is empty, all their images under automorphisms of ℂ are small\n(`New.Data.IsIntegralAndSmall`).\n\n\
+        ## Main definitions and results\n\n* `New.Data.renameRowsCols_stackedDetProd_eq_sum`: P_V as a sum of products\
+        \ of a polynomial in X and\n  a coordinate of ζ(z).\n* `New.Data.exists_isIntegralAndSmall_leftSideSeries`:\
+        \ for 1 ≤ j ≤ m there is one c ≠ 0, independent\n  of i, ϑ and h, such that every first factor y = conj\
+        \ (c · Υ) is integral and small in the sense of\n  `New.Data.IsIntegralAndSmall`.\n\nNotions from other\
+        \ files:\n* `New.toPoly`, `New.weylNormSq`: the polynomial of a coordinate vector of weight κ, and the squared\n\
+        \  norm of the vector for the Gram matrix of κ. Here `κ τ h` counts the columns of height `h` at `τ`.\n\
+        * `New.Data.FirstFactorIndex`: the indices of W_j, (E^j)⁻, E^{3m−j} and W♭ = E^{6m+1}.\n* `New.Data.TameChar`,\
+        \ `New.Data.twistModulus`: a character `ϑ` of U(1)(\U0001D538) of weight 0 with tame\n  part on a finite\
+        \ set Q = `ϑ.Q` of places, and the moduli ϖ^c Q.\n* `New.Data.stackedDetProdCoords`: the coordinates of\
+        \ the polynomial map ζ.\n* `New.Data.leftSideSeries`: the series Υ, built from theta kernels of definite\
+        \ spaces.\n\n## Relation to the literature\n\nThe first factors enter the comparison of twisted theta forms\
+        \ on U(W_j) with twist-free ones,\n`New.Data.exists_mul_thirdExchangeLeftSide_eq_choiceFn` in\n`New.OneLift.ComparisonOperator.ThreeExchanges`:\
+        \ for every twist, an explicit theta form times a\nnumber is a twist-free function, and the squared modulus\
+        \ of the number is a constant independent of\nthe twist divided by a product of squared Hecke L-values and\
+        \ powers of norms of places. This file\nproves that the first factors are integral off the conductor and\
+        \ small when untwisted. The rank one\ncase (the lift is a scalar of square modulus an L-value), twisting\
+        \ on a square block and integral\ntheta data are known in the literature. Related work: T. Yang, Theta liftings\
+        \ and Hecke L-functions,\n1997; Böcherer–Schmidt, p-adic measures attached to Siegel modular forms, 2000;\
+        \ Harris–Li–Skinner,\nThe Rallis inner product formula and p-adic L-functions, 2005.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.OneLift.ComparisonOperator.GluedForms:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.GluedForms
+      name: New.Rows.DividedSplitting.weylGauge_cartanProduct_le
+      line: 573
+      signature: "lemma weylGauge_cartanProduct_le [DecidableEq m] [DecidableEq N]\n    (hM : (M : NumberField.RingOfIntegers\
+        \ E) ∈ (O.levelModulus 1 false).ideal)\n    {s : Matrix a N O.chosenModulusSq.ResidueRing} {L : DividedLattice\
+        \ O} (hL : V.IsGlued s L)\n    (h : Gf E N) (h' : Gf E m) (y : WeylIndex N O.colsPlus → ℂ)\n    (η : WeylIndex\
+        \ m O.colsMinus → ℂ) :\n    weylGauge (ι"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.GluedForms
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 2
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/GluedForms.lean
+      line: 6
+      endLine: 8
+      text: 'This file treats forms on the definite space `V = V″ ⊕ V°` glued, in
+
+        `New.OneLift.ComparisonOperator.GluedLattices`, from a vector for `V″` and a vector for `V°`
+
+        across a change of lattice at the chosen places.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/GluedForms.lean
+      line: 9
+      endLine: 58
+      text: "\nThe data are a descent pair `O` (`New.DescentPair`), with the space `W = O.W` of rank `r`, and a\n\
+        splitting `V : New.Rows.DividedSplitting N m a O z`. Here `N` indexes `V″`, `m` indexes `V°`,\n`z : r ↪\
+        \ m` marks `r` basis vectors of `V°`, and `a` indexes the rows of a matrix `s` modulo `ϖ²`,\nthe linear\
+        \ forms on `V″` on which a finer congruence is imposed. The idele `ϖ = O.genIdele`\ngenerates the product\
+        \ of the chosen places `O.chosenPlace i`, and `Q` is the product of the places\n`O.twistPlace i`. We write\
+        \ `(1; 0)` for an inclusion matrix `New.inclMatrix` with `r` columns.\n\nThe datum of the theta lift from\
+        \ `W` to `V` asks for `x ≡ (1; 0)` modulo `ϖ`. A product datum asks\nfor conditions modulo `ϖ²` on the two\
+        \ blocks of `x`. The lattice that connects them is spanned by\nthe columns of the matrix that is `(1; 0)`\
+        \ on both summands, by `L″_s = {u | s u ≡ 0 modulo ϖ}` in\n`V″` and by `ϖ` times the standard lattice of\
+        \ `V°`. The matrix of a basis is called `γ`, and it is\nhandled through the integral matrix `ϖ γ⁻¹`.\n\n\
+        This file computes the descent to `W` of product forms on a glued lattice, from which the slices\nof a lift\
+        \ are read off. It also bounds the p-adic gauge of the Cartan product at the point\n`(h, h') γ`.\n\n## Main\
+        \ definitions and results\n\n* Slices of lifts. `New.Rows.DividedSplitting.normalizedDescent_productForm`:\
+        \ if `V.IsGlued s L` and\n  `b * b' = O.charV`, the descent to `W` of a product form is the complex conjugate\
+        \ of the product\n  of `L.weilScalar` with a sum over the congruence group, whose terms are products of\
+        \ a kernel on\n  `V″` and one on `V°`. `New.Rows.DividedSplitting.normalizedDescent_stdClassSum_productForm`:\
+        \ the\n  same for the sum of product forms over the classes, with `New.Rows.kernelClassSum` on `V″`.\n*\
+        \ The denominators. `New.Rows.DividedSplitting.weylGauge_cartanProduct_le`: for a glued lattice, a\n  natural\
+        \ number `M ≠ 0` divisible by `ϖ` and points `h`, `h'` on the two summands, the gauge of\n  the product\
+        \ of two vectors at the point `(h, h') γ` (with `(h, h')` made block diagonal along\n  `V.ε : N ⊕ m ≃ n`)\
+        \ is at most `‖M‖⁻¹ ^ V.denominatorExponent` times their gauges.\n\nNotions from other files:\n* `New.DescentPair`:\
+        \ A descent pair: chosen places and twist places, a space W of rank r with\n  numbered basis vectors, an\
+        \ embedding of indices into n > r, two diagrams given by their numbers of\n  columns of each height, and\
+        \ a character μ whose tame part, a character `O.tamePart w` of the\n  residue field at each place w, is\
+        \ trivial off these places.\n* `New.LevelPlaces.levelModulus`, `New.Rows.liftMod`: `levelModulus c` is the\
+        \ modulus ϖ^c·Q, and\n  `levelModulus c false` is ϖ^c. `liftMod` is a chosen lift of an invertible matrix\
+        \ modulo an\n  ideal to an integral point of G_f that is 1 outside the places dividing the ideal and their\n\
+        \  conjugates.\n* `New.inclMatrix`: For a map u: m → n of index sets, the n×m matrix whose j-th column is\
+        \ the\n  standard basis vector e_{u(j)}.\n* `New.modKernel`: The theta kernel at (g, h) of the datum given\
+        \ by a function on matrices modulo an\n  ideal and the Fock vector of a polynomial.\n* `New.WeylIndex`:\
+        \ `WeylIndex n κ` indexes the standard basis of the vectors of weight κ in n\n  letters. Here `κ τ h` is\
+        \ the number of columns of height h at the infinite place τ.\n\n## Relation to the literature\n\nSee `New.OneLift.ComparisonOperator.GluingMaps`\
+        \ and\n`New.OneLift.ComparisonOperator.FirstFactors` for related work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.OneLift.ComparisonOperator.GluedLattices:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.GluedLattices
+      name: New.Rows.DividedSplitting.exists_isGlued
+      line: 790
+      signature: "lemma exists_isGlued (V : DividedSplitting N m a O z)\n    (s : Matrix a N O.chosenModulusSq.ResidueRing)\
+        \ :\n    ∃ L : DividedLattice O, V.IsGlued s L"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.GluedLattices
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 1
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/GluedLattices.lean
+      line: 7
+      endLine: 12
+      text: 'This file sets up the change of lattice at the chosen places for a divided splitting
+
+        `V : New.Rows.DividedSplitting N m a O z` of `V = V″ ⊕ V°`. It introduces the residue rings
+
+        modulo `ϖ²` and `ϖ²Q`, the conjugate kernel vector and the kernel summed over classes. It then
+
+        defines divided lattices, the congruence group of matrices that are `1` modulo `ϖ`, and product
+
+        forms. It constructs, for every matrix `s` modulo `ϖ²`, a lattice glued for `s`, and writes the
+
+        datum of the lift at `γ⁻¹ x` as a sum over the congruence group.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/GluedLattices.lean
+      line: 13
+      endLine: 47
+      text: "\nHere `O` is a descent pair with the space `W = O.W` of rank `r`. `N` indexes `V″`, `m` indexes\n\
+        `V°`, `z : r ↪ m` marks `r` basis vectors of `V°`, and `a` indexes the rows of a matrix `s` modulo\n`ϖ²`,\
+        \ the linear forms on `V″` on which a finer congruence is imposed. The idele `ϖ = O.genIdele`\ngenerates\
+        \ the product of the chosen places `O.chosenPlace i`, and `Q` is the product of the places\n`O.twistPlace\
+        \ i`. We write `(1; 0)` for an inclusion matrix `New.inclMatrix` with `r` columns.\nThe datum of the theta\
+        \ lift from `W` to `V` asks for `x ≡ (1; 0)` modulo `ϖ`. A product datum asks\nfor conditions modulo `ϖ²`\
+        \ on the two blocks of `x`. The lattice that connects them is spanned by\nthe columns of the matrix that\
+        \ is `(1; 0)` on both summands, by `L″_s = {u | s u ≡ 0 modulo ϖ}` in\n`V″` and by `ϖ` times the standard\
+        \ lattice of `V°`. The matrix of a basis is called `γ`, and it is\nhandled through the integral matrix `ϖ\
+        \ γ⁻¹`.\n\n## Main definitions and results\n\n* `New.Rows.DividedLattice`, `New.Rows.DividedLattice.reducedInverse`:\
+        \ a point `γ` of G_f supported\n  at the chosen places such that `ϖ γ⁻¹` is integral, and the reduction\
+        \ of `ϖ γ⁻¹` modulo `ϖ²`.\n* `New.Rows.DividedSplitting.congruenceGroup`: the invertible `r × r` matrices\
+        \ modulo `ϖ²` that are\n  `1` modulo `ϖ`.\n* `New.Rows.DividedSplitting.productForm`: the form supported\
+        \ on the class of `(h, h°) γ` with the\n  product of two vectors as its value. The product of vectors is\
+        \ `New.Rows.cartanProduct`.\n* The datum. `New.Rows.DividedSplitting.exists_isGlued`: for every `s` there\
+        \ is a lattice glued for\n  `s`. `New.Rows.DividedSplitting.IsGlued.indicator_eq_sum`: the datum of the\
+        \ lift at `γ⁻¹ x` is the\n  sum of the translates of the product datum under the congruence group.\n\nNotions\
+        \ from other files:\n* `New.DescentPair`: A descent pair: chosen places and twist places, a space W of rank\
+        \ r with\n  numbered basis vectors, an embedding of indices into n > r, two diagrams given by their numbers\
+        \ of\n  columns of each height, and a character μ whose tame part, a character `O.tamePart w` of the\n \
+        \ residue field at each place w, is trivial off these places.\n* `New.LevelPlaces.levelModulus`: `levelModulus\
+        \ c` is the modulus ϖ^c·Q, and `levelModulus c false`\n  is ϖ^c.\n* `New.inclMatrix`: For a map u: m → n\
+        \ of index sets, the n×m matrix whose j-th column is the\n  standard basis vector e_{u(j)}.\n* `New.Rows.liftMod`:\
+        \ A chosen lift of an invertible matrix modulo an ideal to an integral point of\n  G_f that is 1 outside\
+        \ the places dividing the ideal and their conjugates.\n"
+  New.OneLift.ComparisonOperator.GluingMaps:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      name: New.Rows.periodLift
+      line: 1033
+      signature: 'def periodLift : D.goodForms (D.spaceW j) →ₗ[ℂ] FormTuples j'
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/GluingMaps.lean
+      line: 10
+      endLine: 11
+      text: 'The first factors `φ″_{ϑ,i}` on `V″` are integral away from `Q` and small for `ϑ = 1`, and their
+
+        theta series satisfy `c′_ϑ Ξ_{ϑ,i} = c″ 𝖥_i` with functions `𝖥_i` that do not depend on the twist.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/GluingMaps.lean
+      line: 12
+      endLine: 42
+      text: "Gluing them to forms on `V°` gives the map `glue_ϑ` to forms on `V_j`. Its adjoint, the period,\nsatisfies\
+        \ `c′_ϑ glue_ϑ* Θ_{j,ϑ} = Θ°`, where `Θ°` does not depend on the twist and is injective,\nbecause products\
+        \ span. The map `glue_ϑ` keeps integrality away from `Q`, is short for `ϑ = 1`, and\ntakes the image of\
+        \ `Θ°` to forms orthogonal to the false lifts. The comparison operator, an integer\nmultiple of `glue_ϑ\
+        \ glue_ϑ*`, is built from it in `New.OneLift.LiftVolumeHeight`.\n\nIn the code `φ″` is `firstFactor`, `Ξ`\
+        \ is `firstFactorPairing`, `\U0001D5A5` is `choiceFn`, `glue_ϑ` is\n`glue j ϑ` and `Θ°` is `periodLift`.\
+        \ The integer `M` is `D.M`, its factor `ϖ` is `D.piM`, and `Q` is\nthe set of places of the twist `ϑ`.\n\
+        \nNotions from other files:\n* `descentPair ϑ j`: the spaces `W_j` and `V_j` with the characters and levels\
+        \ for the twist `ϑ`;\n  `untwistedDescentPair j` is its untwisted form. The diagram of the values of the\
+        \ forms on `V″` is\n  `μ⁺` (`colsPlus`), that on `V°` is `μ⁻` (`colsMinus`).\n* `ChoiceIndex j`: the choices\
+        \ `i`, each a matrix `Λ` with a class `h♭` and constant rows.\n* `FirstFactorIndex j` indexes the basis\
+        \ of `V″`, `D.SecondFactorIndex` that of `V°`, and\n  `D.SecondFactorClasses` is the set of classes of `U(V°)`\
+        \ at the level `J (ϖ²)`.\n* `goodLift ϑ j`: the theta lift `Θ_{j,ϑ}` from good forms on `W_j` to forms on\
+        \ `V_j`.\n* `normalizedDescent`: the descent, which sends a form on `V_j` to a function on `U(W_j)` by pairing\n\
+        \  it with the theta kernel over the classes of `U(V_j)`.\n* `weylGauge`, `weylNormSq`: the gauge at a place\
+        \ over `l` and the squared norm of a vector in a\n  representation given by a diagram.\n\n## Relation to\
+        \ the literature\n\nIntegral forms pairing with a lift to an explicit L-value (pullback, seesaw) are known\
+        \ in the\nliterature in low rank.\n\nRelated work: Böcherer–Dummigan–Schulze-Pillot, Yoshida lifts and Selmer\
+        \ groups, 2012; Y.-S. Lee,\nHida family of theta lift from U(1) to definite U(2), 2024; Prasanna, Integrality\
+        \ of a ratio of\nPetersson norms and level-lowering congruences, 2006.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.OneLift.ComparisonOperator.LineCoordinates:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.LineCoordinates
+      name: New.Data.exists_isHomogeneousOverEntries_smul_stackedDetProdCoords
+      line: 700
+      signature: "lemma exists_isHomogeneousOverEntries_smul_stackedDetProdCoords (j : D.LiftIndex) :\n    ∃ d :\
+        \ ℕ, d ≤ (10 * D.m + 1) * ∑ τ : D.Φ, Fintype.card (DetIndex j τ) ∧\n      ∃ H : ℤ, 0 < H ∧ H ≤ (d ^ d) ^\
+        \ 3 ∧\n        ∀ (i : D.RowChoice) (Y : Matrix D.FlatIndex D.FlatIndex D.E)\n          (l : WeylIndex (FirstFactorIndex\
+        \ j) (untwistedDescentPair j).colsPlus),\n          IsHomogeneousOverEntries j Y d (H • stackedDetProdCoords\
+        \ j i Y l)"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.LineCoordinates
+      importer: New.OneLift.ComparisonOperator.FirstFactors
+      line: 2
+    - module: New.OneLift.ComparisonOperator.FirstFactors
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 4
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/LineCoordinates.lean
+      line: 7
+      endLine: 12
+      text: 'Fix admissible data `D`, a tame character `ϑ` and an index `1 ≤ j ≤ m`. Write `E^n` for the standard
+
+        definite space of rank `n`, V″ for the one on `New.Data.FirstFactorIndex` and
+
+        W^add = E^{3m−j} ⊕ W♭ ⊕ E^{3m} for the one on `New.Data.AddedIndex`. Throughout, k = `D.k`,
+
+        m = `D.m`, M = `D.M`, and W_j is the space on `D.RowIndex` with r₊ = `D.posRank j` = k + j − 1 plus
+
+        signs. This file defines the constant rows 𝖼, the datum Ψ^add and the series Υ, which is built from
+
+        theta kernels of definite spaces. It also defines the polynomial map ζ to the Weyl module of μ⁺ with
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/LineCoordinates.lean
+      line: 13
+      endLine: 43
+      text: "P_V = P_{ζ(z)}(X). Here P_V has one determinant det(\U0001D5BC; X z) for each column of μ⁺, with variables\
+        \ X\nin the positive basis vectors of W_j and variables z in W^add. This file bounds the norm, the degree\n\
+        and the denominator of ζ.\n\n## Main definitions and results\n\n* `New.HasWeightNormSqLe`, `New.HasWeightNormSqLeIf`:\
+        \ \"F has weight κ and squared norm at most b\",\n  outright or under a condition. Under finite products\
+        \ the weights add and the bounds multiply.\n* `New.Data.constantRows`, `New.Data.stackedDetProdCoords`:\
+        \ the matrices \U0001D5BC of 2m constant rows, one\n  for each column of μ⁺ at each infinite place (`New.Data.DetIndex`),\
+        \ and the coordinates of ζ.\n* `New.Data.addedDatum`, `New.Data.leftSideSeries`: the datum Ψ^add on W^add\
+        \ and the series Υ.\n* `New.Data.toPoly_stackedDetProdCoords`, `New.Data.weylNormSq_comp_eval_stackedDetProdCoords_le`:\n\
+        \  P_V is the polynomial of ζ, and when the entries of Y and the values of z are small, the squared\n  norm\
+        \ of ζ(z) is bounded.\n* `New.Data.exists_isHomogeneousOverEntries_smul_stackedDetProdCoords`: ζ is homogeneous\
+        \ of one\n  degree `d`, and one integer `H ≤ (d ^ d) ^ 3` clears its denominators.\n\nNotions from other\
+        \ files:\n* `New.toPoly`, `New.weylNormSq`: the polynomial of a coordinate vector of weight κ, and the squared\n\
+        \  norm of the vector for the Gram matrix of κ. Here `κ τ h` counts the columns of height `h` at `τ`.\n\
+        * `New.Data.DetIndex`: the columns of μ⁺ at the place τ. The number of those of height h < r₊ is\n  `(untwistedDescentPair\
+        \ j).colsPlus τ h`, and Δ′ = `D.reducedHalfGap` have height r₊.\n* `New.Data.FirstFactorIndex`: the indices\
+        \ of W_j, (E^j)⁻, E^{3m−j} and W♭ = E^{6m+1}.\n* `New.Data.ChoiceIndex`: the choices, each a matrix Λ modulo\
+        \ ϖ² with a class h♭ of U(W♭) and rows\n  for the columns of height r₊ (`New.Data.RowChoice`).\n* `New.Data.TameChar`,\
+        \ `New.Data.twistModulus`: a character `ϑ` of U(1)(\U0001D538) of weight 0 with tame\n  part on a finite\
+        \ set Q = `ϑ.Q` of places, and the moduli ϖ^c Q.\n\n## Relation to the literature\n\nSee `New.OneLift.ComparisonOperator.FirstFactors`\
+        \ for related work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.OneLift.ComparisonOperator.OneExchange:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.OneExchange
+      name: New.Rows.stdClassSum_rowStabilizer_eq
+      line: 499
+      signature: "lemma stdClassSum_rowStabilizer_eq {\U0001D52A : Modulus E} {r c S : Type} [Fintype r] [DecidableEq\
+        \ r]\n    [CommRing S] {ε : n ⊕ b → ℤˣ} {α β : AutChar E} {γ : InfinitePlace E → ℤ}\n    {χ : MulChar \U0001D52A\
+        .ResidueRing ℂ}\n    {P : MvPolynomial (InfinitePlace E × b × (n ⊕ b)) ℂ} {g : G E ε} {W : Space E (n ⊕\
+        \ b) ε}\n    (hα : IsTameFor \U0001D52A α γ χ)\n    (hP : ∀ u : GInf E (1 : b → ℤˣ), realPairWeil (s"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.OneExchange
+      importer: New.OneLift.ComparisonOperator.GluedLattices
+      line: 1
+    - module: New.OneLift.ComparisonOperator.GluedLattices
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 1
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/OneExchange.lean
+      line: 8
+      endLine: 13
+      text: 'The exchange identity compares class sums of theta kernels on a definite space `E^n` with integrals
+
+        over `[U(V'')]`. For `W = E^b ⊕ W''` and an invariant datum it confines the twist to the kernel of
+
+        `(V'', E^b)`, two spaces of equal rank. (`E^b` is the standard definite space with basis indexed by
+
+        `b`.) If `F` is invariant under a row stabilizer, the datum is a product for `z` in the stabilizer,
+
+        and the class sum at full level unfolds to the class sum of this product at the level of the
+
+        stabilizer.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/OneExchange.lean
+      line: 14
+      endLine: 54
+      text: "\n## Main definitions and results\n\n* `New.Rows.rowStabilizer`: the invertible A with the columns\
+        \ of 1 off e and w · φ(A) = w.\n* `New.Rows.columnDatum`: the factor that depends only on the columns e.\n\
+        * `New.Rows.columnDatum_mul_ite_eq_ite_mem_rowStabilizer`: for F left invariant under\n  `New.Rows.rowStabilizer`,\
+        \ the function χ(det z) F(z⁻¹ y), cut down to z in the stabilizer, is a\n  product.\n* `New.Rows.integrable_and_mul_stdClassSum_eq_integral_mul`:\
+        \ from the exchange identity for matched\n  data on `E^b ⊕ W'`, with the constant `c`: for an invariant\
+        \ datum `Ψ'`, `c` times the class sum\n  of the kernel of `χ (det x'') Ψ' (x''⁻¹ x')` is the integral of\
+        \ the kernel of `(V', E^b)` with\n  datum `χ ∘ det` times the kernel of `(V', W')` with datum `Ψ'`.\n  `New.Rows.mul_stdClassSum_eq_integral_mul_modKernel`\
+        \ sums this over the classes of `U(E^b)`.\n* `New.Rows.stdClassSum_rowStabilizer_eq`: a class sum at full\
+        \ level equals a class sum at the level\n  of a row stabilizer, with a datum supported on matrices of a\
+        \ special shape.\n\nNotions from other files:\n* `New.AutChar`: an automorphic circle-valued character of\
+        \ U(1)(\U0001D538). `HasWeight` e ψ gives its\n  exponents e at the infinite places and its tame parts ψ\
+        \ at the finite places.\n* `New.modKernelStdSpace` W α β \U0001D52A Ψ P g h: the theta kernel of the pair\
+        \ of W and the standard\n  definite space, with the twisting characters α and β, the datum Ψ modulo \U0001D52A\
+        \ and the polynomial P,\n  at the adelic point g and at the point with real part 1 and finite part h.\n\
+        * `New.stdLevel`: the level K₀, the stabilizer of the standard lattice.\n* `New.Fock.polyVector` ε P: the\
+        \ Fock vector P(ζ(x)) exp(-|x|²/2), where ζ conjugates the\n  coordinates of positive sign. For a pair with\
+        \ signs s and t, `homSigns` s t gives the products of\n  the signs as those of the coordinates, and `realSigns`\
+        \ repeats them at every infinite place.\n* `New.Modulus`: a modulus, a nonzero ideal \U0001D52A of O_E prime\
+        \ to its complex conjugate, that is, never\n  divisible by both w and w̄; `New.Modulus.ResidueRing` is the\
+        \ residue ring O_E/\U0001D52A.\n* `New.Exchange.IsTameFor`: `IsTameFor \U0001D52A ν e χ` says that \U0001D52A\
+        \ ≠ (1), that ν has weight e and that its\n  tame part is ramified exactly at the places dividing \U0001D52A\
+        \ and gives the character χ modulo \U0001D52A.\n* `New.Rows.liftMod`: a chosen lift of g ∈ GL_n(O_E/\U0001D52A\
+        ) to K₀, with component 1 outside the places\n  dividing \U0001D52A and their conjugates.\n* `New.Space`\
+        \ E n s: a hermitian space with a point, given by a matrix J over E and x in GL_n(\U0001D538)\n  with xᴴJx\
+        \ equal to diag(s) at the infinite places and 1 at the finite places.\n* `New.G` E s: the adelic unitary\
+        \ group G = G_∞ × G_f for signs s at the infinite places and the\n  identity matrix at the finite places;\
+        \ `New.Gf` E n is G_f.\n\n## Relation to the literature\n\nSee `New.OneLift.ComparisonOperator.FirstFactors`,\
+        \ `New.OneLift.ComparisonOperator.GluingMaps`\nand `New.Determinant.Exchange.ExplicitMatching` for related\
+        \ work.\n"
+  New.OneLift.ComparisonOperator.ProductsSpan:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      name: New.Data.eq_zero_of_integral_choiceFn_thetaKernelPairing
+      line: 855
+      signature: "theorem eq_zero_of_integral_choiceFn_thetaKernelPairing (F : D.goodForms (D.spaceW j))\n    (h_orth\
+        \ : ∀ (i : ChoiceIndex j) (ζ : D.SecondFactorClasses →\n        WeylIndexFamily (fun _ : D.Φ ↦ D.SecondFactorIndex)\
+        \ (untwistedDescentPair j).colsMinus → ℂ),\n      ∫ g : New.G D.E (D.signsW j), (F : New.G D.E (D.signsW\
+        \ j) → ℂ) g * choiceFn j i g *\n        thetaKernelPairing j ζ g ∂(D.spaceW j).quotMeasure = 0) :\n    F\
+        \ = 0"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/ProductsSpan.lean
+      line: 8
+      endLine: 12
+      text: 'For admissible data D (`New.Data`) and 1 ≤ j ≤ m, let 𝖥_i = `New.Data.choiceFn j i` be the functions
+
+        on the unitary group of W_j = `New.Data.spaceW j`, one for each choice i, and let θ° be the theta
+
+        kernel of (W_j, V°). A good form (`New.Data.goodForms`) is a form of principal level at the chosen
+
+        places in the image of the idempotent `New.Data.e₀`. We show that a good form y on W_j with
+
+        ∫ y(g) 𝖥_i(g) θ°(g, ·) dg = 0 for all i is zero.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/ProductsSpan.lean
+      line: 13
+      endLine: 65
+      text: "\nWe write λ₁(g) for the first minimum `New.Space.firstMinimum` of the lattice at g, cut off at 1,\
+        \ |h|\nfor the largest operator norm `New.Rows.maxOpNorm` of a real point h, and m_u for the basic\nholomorphic\
+        \ function `New.holMinorsPi` of a weight u, a quotient of products of minors. A peak\n(`New.Rows.IsPeak`)\
+        \ of a bounded function is a point where its modulus exceeds half of the supremum.\nSuppose y ≠ 0. The peaks\
+        \ of y are not deep in a cusp, and the proof has four steps.\n\n1. The integral \U0001D5A5^g of the carrier\
+        \ times a kernel on (S, W̃) times m_u₁ over the real group of S is\n   a combination of the \U0001D5A5_i\
+        \ (`New.Data.exists_sum_choiceFn_eq_integral`).\n2. For every combination \U0001D5A5 of the \U0001D5A5_i,\
+        \ the integral of y \U0001D5A5 m_u° over the real group at any point is\n   zero (`New.Data.integral_mul_sum_choiceFn_eq_zero`).\n\
+        3. At every peak g, \U0001D5A5^g(g h) is close to \U0001D5A5⁰(h), for one bounded function \U0001D5A5⁰ with\
+        \ \U0001D5A5⁰(1) ≠ 0\n   (`New.Data.exists_choiceFn_approx`).\n4. The mean over a circle of peaks makes\
+        \ \U0001D5A5⁰(1) too small\n   (`New.Data.norm_apply_one_le_of_forall_isPeak`).\n\nSteps 1 and 3 do not\
+        \ involve y and come first in this file.\n\n## Main definitions and results\n\n* `New.Data.exists_datum_norm_modKernel_sub_polyMatrixCoeff_le`\
+        \ (sparse sums): for V, V' of ranks at\n  most t and Q homogeneous of degree at most b^(3/2), if λ₁(g) λ₁(g')\
+        \ ≥ b^(−13), then for some datum\n  Ψ the theta kernel `New.modKernel` at (g h, g' h') is close to the coefficient\
+        \ c_Q(h, h').\n* `New.Data.exists_isPeak_carrierForm`: the carrier `New.Rows.carrierForm` has a peak g₁,\
+        \ and\n  λ₁(g₁) ≥ (5 b √b)^(−1/2).\n* `New.Data.exists_choiceFn_approx`: there is a bounded F₀ with F₀(1)\
+        \ ≠ 0 such that, when λ₁(g) ≥ (5\n  b²⁴)^(−1/2), some combination F of the \U0001D5A5_i satisfies |F(g h)\
+        \ − F₀(h)| ≤ 2 b^(−19 n_*) |F₀(1)|\n  |h|^(6 n_*).\n* `New.Data.thetaKernelPairing`: the pairing of a form\
+        \ on V°, given by its values at the classes,\n  with the kernel θ°.\n* `New.Data.eq_zero_of_integral_choiceFn_thetaKernelPairing`:\
+        \ products span.\n\nNotions from other files:\n* `New.Data.b`: The large scale b of the data, the weight\
+        \ at the b-places, as a real number.\n* `New.Data.nStar`: The number n_* = 2ft³, where f is the number of\
+        \ infinite places of E and t = 5r.\n* `New.Data.SecondFactorIndex`: The index set of V°: the r indices of\
+        \ W_j and t − 9m − 1 − r further\n  ones.\n* `New.Data.CarrierIndex`: The index set of the space S of signature\
+        \ (2m, m).\n* `New.Data.conjHolomorphicWeight`, `New.Data.kernelWeight`: The weights u of the conjugate\
+        \ of y and\n  u° of θ° on W_j. The \U0001D5A5_i have the weight u − u°.\n\n## Relation to the literature\n\
+        \nFor a finite family of choices with small integral data, a good form on U(W_j) orthogonal to all\nproducts\
+        \ of the twist-free theta forms with theta kernels of the complementary block is zero. This\nmakes the map\
+        \ Θ° on good forms injective. It is a basis problem, the spanning of a space of forms by\ntheta series (Eichler,\
+        \ The basis problem for modular forms and the traces of the Hecke operators,\n1973; Waldspurger, Engendrement\
+        \ par des séries thêta de certains espaces de formes modulaires,\n1978/79; Böcherer, Siegel modular forms\
+        \ and theta series, 1989). It is known that stable-range theta\nkernels reach all forms, that maxima of\
+        \ forms avoid the cusps, and that products span for GL(2).\nRelated work: J.-S. Li, Non-vanishing theorems\
+        \ for the cohomology of certain arithmetic quotients,\n1992; Poor–Yuen, Linear dependence among Siegel modular\
+        \ forms, 2000; Khuri-Makdisi, Moduli\ninterpretation of Eisenstein series, 2012.\n"
+  New.OneLift.ComparisonOperator.ThetaKernelEstimates:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      name: New.Data.norm_apply_one_le_of_forall_isPeak
+      line: 981
+      signature: "theorem norm_apply_one_le_of_forall_isPeak (h_rank : card n ≤ D.t) (ho : IsPosFirstOrder s o)\n\
+        \    (hu_dom : ∀ τ : D.Φ, IsKDominant s o (u τ)) (hu'_dom : ∀ τ : D.Φ, IsKDominant s o (u' τ))\n    (hu_gap\
+        \ : ∀ τ : D.Φ, HasHolGap s (u τ) (300 * nStar D))\n    (hu'_gap : ∀ τ : D.Φ, HasHolGap s (u' τ) (300 * nStar\
+        \ D))\n    (hu_le : ∀ (τ : D.Φ) (i : n), |(u τ i : ℝ)| ≤ 5 * D.b)\n    {F : New.G D.E s → ℂ} {z : New.G\
+        \ D.E s} {K₀ : GInf D.E s → ℂ} {C δ : ℝ}\n    (hF : Continuous F) (hF_hol : IsAdelicHol o u F) (hz : IsPeak\
+        \ F z)\n    (hK₀_le : ∀ h : GInf D.E s, ‖K₀ h‖ ≤ C)\n    (h_orth : ∀ x : New.G D.E s, IsPeak F x → ∃ K :\
+        \ GInf D.E s → ℂ,\n      IsHolOfWeight s o (u - u') K ∧\n      (∀ h : GInf D.E s, ‖K h - K₀ h‖ ≤ δ * maxOpNorm\
+        \ h ^ (6 * nStar D)) ∧\n      ∫ h : GInf D.E s, star (F (x * (h, 1))) * K h * holMinorsPi s u' h = 0) :\n\
+        \    ‖K₀ 1‖ ≤ (4 * D.b ^ nStar D + 1) * δ"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.ThetaKernelEstimates
+      importer: New.OneLift.ComparisonOperator.ProductsSpan
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ProductsSpan
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 3
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/ThetaKernelEstimates.lean
+      line: 8
+      endLine: 13
+      text: 'This file holds the estimates behind the theorem that products span. The Heisenberg matrix
+
+        coefficients of a homogeneous Fock vector decay faster than any power. So in a theta sum over a
+
+        sparse lattice the term of `0` dominates, and a mean over additive characters produces such a sum.
+
+        Bounds for integrals of matrix coefficients of holomorphic discrete series then give the isolation
+
+        estimate `New.Data.norm_apply_one_le_of_forall_isPeak`, the last step of the proof: the mean over a
+
+        circle of peaks.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/ThetaKernelEstimates.lean
+      line: 14
+      endLine: 49
+      text: "\n## Main definitions and results\n\n* `New.Fock.norm_fockInner_realHeisenbergOp_le`: the decay of\
+        \ the coefficient `⟨v, ϱ(y) ω(σ) v⟩` in\n  `y`.\n* `New.Rows.firstMinimum_mul_le_hom`: the first minimum\
+        \ of `Hom (S, T)` is bounded below by the\n  product of the first minima of `S` and `T`, up to an explicit\
+        \ constant.\n* `New.Rows.exists_norm_modKernel_sub_fockInner_le`: for a suitable finite datum `Ψ` modulo\
+        \ `\U0001D52A`, the\n  theta kernel at real translates of `(g, h)` differs from a Fock matrix coefficient\
+        \ by a small\n  error if the lattice of `Hom (S, T)` has no short vectors.\n* `New.Data.integral_norm_holMinorsPi_mul_pow_le`:\
+        \ the integral of the basic function of a weight\n  with a large gap against a power of the norm, compared\
+        \ with a squared `L²` norm.\n* `New.Data.norm_apply_one_le_of_forall_isPeak`: let a bounded function `K₀`\
+        \ be close, for every\n  peak of a holomorphic `F`, to a holomorphic `K` whose weighted integral against\
+        \ the translate of\n  `F` vanishes. Then `K₀ 1` is small.\n\nNotions from other files:\n* `New.Fock.fockSpace`:\
+        \ The Fock space: integrable functions c on ℂ^ι with c(x) = ∫ c(y)β(y,x)e(x−y)\n  dy, β the Heisenberg bicharacter,\
+        \ e the Gaussian exp(−|x|²/2), under the L¹ norm.\n* `New.Fock.fockInner`: The bounded sesquilinear form\
+        \ on the Fock space, conjugate-linear in the\n  first variable, (c, c′) ↦ ∫ c̄ c′.\n* `New.Space`: a hermitian\
+        \ space with a point, given by a matrix J over E and x in GL_n(\U0001D538) with xᴴJx\n  equal to the diagonal\
+        \ matrix of its signs at the infinite places and 1 at the finite places.\n* `New.GInf`: The archimedean\
+        \ unitary group G_∞ for signs s: one copy of the complex unitary group\n  U(diag s) for each infinite place\
+        \ of E.\n* `New.IsPosFirstOrder`: The order o has distinct values and puts every index of sign +1 before\n\
+        \  every index of sign −1.\n* `New.Space.vecAtPoint`: the adelic vector x⁻¹y of a rational vector y at the\
+        \ point x of a space;\n  the lattice `New.Space.baseLattice` consists of the y for which it has integral\
+        \ finite part.\n* `New.realCoord`: the Fock coordinates of an adelic vector: its components at the infinite\
+        \ places\n  τ, times √(2π Im τ(j)), with j the element fixed by the Weil data.\n\n## Relation to the literature\n\
+        \nSee `New.OneLift.ComparisonOperator.ProductsSpan` for related work. See\n`Lib.Weil.DualPair.ThetaLiftConvergence`\
+        \ and `Lib.Adelic.Reduction.FiniteVolume` for sources.\n"
+  New.OneLift.ComparisonOperator.ThreeExchanges:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.ComparisonOperator.ThreeExchanges
+      name: New.Data.thirdExchangeLeftSide_eq_kernelClassSum
+      line: 912
+      signature: "lemma thirdExchangeLeftSide_eq_kernelClassSum {a : Type} [Fintype a]\n    {w : Matrix a (FirstFactorIndex\
+        \ j) (D.untwistedModulus 2).ResidueRing} {i : ChoiceIndex j}\n    {u : Matrix D.CarrierIndex a (D.untwistedModulus\
+        \ 2).ResidueRing} (hw : u * w = i.matrix)\n    (g : New.G D.E (D.signsW j)) :\n    thirdExchangeLeftSide\
+        \ ϑ j i g = kernelClassSum (D.descentPair ϑ j) (firstFactorChar ϑ j) w\n      (.trans .inl .inl)\n     \
+        \ (leftSideSeries ϑ j i) g"
+    routeToMain:
+    - module: New.OneLift.ComparisonOperator.ThreeExchanges
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 3
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/ComparisonOperator/ThreeExchanges.lean
+      line: 8
+      endLine: 13
+      text: 'The exchange identity (`New.Rows.exists_mul_stdClassSum_eq_integral_modKernel`) is applied three
+
+        times, until only a number is left of the twist. The first two exchanges evaluate a class sum of
+
+        twisted square kernels on the space S of signature (2m, m) as a multiple of the carrier φ° =
+
+        `New.Rows.carrierForm`, the theta lift of the constant function 1 from the definite group U(0, m) to
+
+        U(S). The third exchange equates a multiple of a double class sum of kernels with 𝖥_i =
+
+        `New.Data.choiceFn j i`, the function on U(W_j) given by the integral of the carrier against a theta
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/ComparisonOperator/ThreeExchanges.lean
+      line: 14
+      endLine: 67
+      text: "kernel. The modulus of the product of the three constants is given by the product Γ_j of Hecke\nvalues\
+        \ at three pairs (ν, z) of a character and an integer.\n\nLetters: the twist is ϑ, υ = `upsilonU1` is the\
+        \ splitting character on U(1), and I_m = E^m is the\nstandard definite space of rank m.\n\n## Main definitions\
+        \ and results\n\n* `New.Data.exchangePair`: three pairs for each `1 ≤ j ≤ m`, indexed by `none` and the\
+        \ two signs.\n* `New.Data.heckeValueProd`: the product `Γ_j` of the values `Exchange.lValueProd` at the\
+        \ inverses\n  of the characters of these pairs, twisted by a tame character or its inverse. It is not divided\
+        \ by\n  its value at the trivial twist.\n* `New.Rows.exists_mul_stdClassSum_eq_carrierForm`, from the first\
+        \ two exchanges: for even `m` and a\n  character c of weight 0 that is tame for (\U0001D52A, χ), the carrier\
+        \ is a constant γ of known size times a\n  class sum of `New.Rows.carrierCoeff` times a theta kernel twisted\
+        \ by χ∘det.\n* `New.Rows.carrierForm_mem_rapidOfLevel_and_isAdelicHol`: for even `m`, if there is a tame\n\
+        \  character of weight 0, the carrier lies in `New.Rows.rapidOfLevel` for every level. So it has full\n\
+        \  level and is rapidly decreasing. It is also holomorphic.\n* `New.Data.exists_mul_thirdExchangeLeftSide_eq_choiceFn`,\n\
+        \  `New.Data.thirdExchangeLeftSide_eq_kernelClassSum`: a number times a double class sum of kernels\n  is\
+        \ \U0001D5A5_i, and this double sum is a theta series on U(W_j).\n\nNotions from other files:\n* `New.Data.chiM`,\
+        \ `New.Data.chiMLocal`: a fixed character χ of U(1)(\U0001D538) of weight 0 and its tame\n  part ω, which\
+        \ is trivial off the chosen places and has order greater than 8m at each of them.\n* `New.Data.goodForms`:\
+        \ The good forms on V: the image of the idempotent e₀ of ℂ[\U0001D5A6] acting on forms\n  of principal level\
+        \ at the chosen places above p₀ and p₁.\n* `New.Data.signsW`: Signs ±1 on the indices i in `New.Data.RowIndex`\
+        \ for W_j: −1 when\n  `New.Data.basisNumber`(i) ≥ `New.Data.posRank` j, and +1 otherwise.\n* `New.Rows.IsAdelicHol`:\
+        \ For every adelic g, the function h ↦ F(g·(h,1)) on the archimedean group\n  is holomorphic of the given\
+        \ weight for the given order (`New.IsHolOfWeight`).\n* `New.Data.kernelWeight`: The weight `New.staircaseWeight`\
+        \ on W_j for the pair (W_j, V°).\n\n## Relation to the literature\n\nThe twisted theta kernel of an indefinite\
+        \ and a definite unitary group of equal rank, summed against\nan explicit form, is a non-zero multiple of\
+        \ one fixed non-zero holomorphic, rapidly decreasing form\nof level one, for even m. The factor has modulus\
+        \ given by Hecke L-values, so the twist survives only\nas a number. Non-vanishing and holomorphy of the\
+        \ stable-range theta lift of a character are known in\nthe literature. Related work: J.-S. Li, Non-vanishing\
+        \ theorems for the cohomology of certain\narithmetic quotients, 1992; Gan–Qiu–Takeda, The regularized Siegel–Weil\
+        \ formula, 2014; T. Yang,\nTheta liftings and Hecke L-functions, 1997.\n\nThe theta kernel of two definite\
+        \ unitary groups of the same even rank 2e with determinant data,\nsummed over the classes of one group,\
+        \ is a non-zero constant whose modulus, up to a fixed factor and\nconductor norms, is a product of Hecke\
+        \ L-values at 1,…,e. This is the first step in turning the\ntwist into a number. It is Rallis's formula\
+        \ at equal rank 2e for a character, whose central value\nfolds by the functional equation into Hecke L-values\
+        \ at 1,…,e and a conductor power, with the\nramified local data computed explicitly. Related work: Yamana,\
+        \ L-functions and theta correspondence\nfor classical groups, 2014; C. Li, Geometric and arithmetic theta\
+        \ correspondences (§2.4–2.5), 2024;\nYang, Theta liftings and Hecke L-functions, 1997.\n\nSee `New.OneLift.ComparisonOperator.FirstFactors`\
+        \ and `New.OneLift.ComparisonOperator.ProductsSpan`\nfor related work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.OneLift.FalseLifts.BottomOfTower:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.FalseLifts.BottomOfTower
+      name: New.DescentPair.descentsVanish_of_hyperplaneSumsAnnihilate
+      line: 1466
+      signature: "theorem descentsVanish_of_hyperplaneSumsAnnihilate {y : O.FormV}\n    (hQ : ∀ i : O.TwistIndex,\
+        \ O.tamePart (O.twistPlace i) ≠ 1)\n    (h_sums : O.HyperplaneSumsAnnihilate y)\n    (h_datum : ∀ P : MvPolynomial\
+        \ (InfinitePlace E × n × r) ℂ, BlockDescentVanishes u P y) :\n    DescentsVanish O.W (stdSpace E n) O.charW\
+        \ O.places.conjClosureᶜ\n      (star (algFormCoeff 1 u y.val))"
+    routeToMain:
+    - module: New.OneLift.FalseLifts.BottomOfTower
+      importer: New.Congruences.GaloisRepresentations.BaseLevelOfLabel
+      line: 3
+    - module: New.Congruences.GaloisRepresentations.BaseLevelOfLabel
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 5
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/FalseLifts/BottomOfTower.lean
+      line: 7
+      endLine: 12
+      text: 'Let `O` be a descent pair with spaces `W` and `V`, and let `y` be a form on `V` whose descents to
+
+        `W` by the data `v_P ⊗ Ψ_bl ⊗ vac` vanish, where `v_P` is the Fock vector of a polynomial `P` and
+
+        `Ψ_bl` is the block datum. Suppose that the characters `χ_w` at the places of `Q` are not trivial
+
+        and that the hyperplane sums at the chosen places annihilate `y`. This file proves that the descents
+
+        vanish for all data that are the vacuum at the finite places other than the chosen places, the
+
+        places of `Q` and their conjugates (`DescentPair.descentsVanish_of_hyperplaneSumsAnnihilate`). By
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/FalseLifts/BottomOfTower.lean
+      line: 13
+      endLine: 48
+      text: "the descents of `y` we mean those of the matrix coefficient of `y` for a fixed linear form `u`.\n\n\
+        It suffices to treat the indicator of a small class around each point `x`. If `x` has an integral\nblock\
+        \ ratio (`HasIntegralBlockRatio`) at every place of `O`, the mean of the translates of this\nindicator under\
+        \ the level group is a multiple of a translate of `Ψ_bl` under `U(W)`. Otherwise an\nannihilating row at\
+        \ a place where `x` has no integral block ratio gives integral elements `h_v`\n(`rowShear`) that fix the\
+        \ components of `x` at the places of `O` and whose sum annihilates `y`.\nClasses are taken modulo `i!` (`factorialIdele`)\
+        \ for large `i`, and the mean is taken over the\nfinitely many translates under the whole level group.\n\
+        \nThe pair `O` carries two families of split finite places, the chosen places and the places of `Q`,\nindexed\
+        \ by `O.ChosenIndex` and `O.TwistIndex`. The family `O.placeAt` lists all these places, and\n`O.places`\
+        \ is their set. The pair also carries the space `W = O.W` of rank `r`, an embedding\n`O.incl : r ↪ n` and\
+        \ the residue characters `χ_w = O.tamePart w`. The space `V` is `stdSpace E n`,\nand `O.FormV` are the forms\
+        \ on `V` of the level of `O`. The level group `O.levelGroup` consists of\nthe elements of the maximal level\
+        \ whose reductions fix `(1, 0)ᵀ` at the chosen places and are block\nlower triangular at the places of `Q`.\
+        \ For an `n × r` matrix `x` we write `x'` for the square block\nof the rows `O.incl` and `x''` for the block\
+        \ of the other rows.\n\nThe field `E` is CM and carries Weil data (`WeilData E`): a purely imaginary element,\
+        \ a finite idele\nand a splitting character, from which the Weil representation is defined.\n\nNotions from\
+        \ other files:\n* `New.Space.lift` for the swapped kernel goes from `U(V)` to `U(W)`; the descent of `y`\
+        \ is the\n  conjugate of this lift of the conjugate of `y`.\n* `New.Space.schrodingerOp`: for a set `S`\
+        \ of split places, `schrodingerOp V S Ψ f` is the vector of\n  the Weil representation with the function\
+        \ `Ψ` of finite adelic vectors above `S` and `f`\n  elsewhere; `New.Space.integrated` sets the component\
+        \ at infinity, and `New.Space.vacElem` is the\n  vacuum.\n* `New.cosetIndicator`: `cosetIndicator S t z`\
+        \ is the indicator function of the `x` such that\n  `t⁻¹ (x - z)` is integral at every place of `S`.\n*\
+        \ `New.DescentPair.blockDatum` is the vector `Ψ_bl ⊗ vac`. The function `Ψ_bl` of a finite adelic\n  `n\
+        \ × r` matrix `x` is `∏_{w ∈ Q} χ_w(det x' mod w)` if `x` is integral at all places of `O` and\n  `≡ (1,\
+        \ 0)ᵀ` (`New.inclMatrix`) at the chosen places, and `0` otherwise.\n* `New.DescentPair.formAction` is the\
+        \ action `s̄ y` on forms of the product of the groups `GL r`\n  over the residue fields of the chosen places.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.OneLift.FalseLifts.HyperbolicPlaneStep:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.FalseLifts.HyperbolicPlaneStep
+      name: New.SiegelWeil.descentsVanish_add_planes
+      line: 437
+      signature: "lemma descentsVanish_add_planes {A : Set (FinPlace E)} (hA : A.IsConjDisjoint)\n    (h_vanish\
+        \ : DescentsVanish W V a A.conjClosureᶜ Y) (D : W'.Splitting W p) [IsBaseAdapted D]\n    (hY : V.IsAutomorphic\
+        \ Y) {w : FinPlace E} (hw : w.IsSplit) (hw_off : w ∉ A.conjClosure)\n    (ha : CharUnramifiedAt a.baseChange.finPart\
+        \ (star w))\n    (hY_sph : Y ∈ sphericalAt (finRightRep E 1) w) {X : ℂ}\n    (hX : ‖X‖ = (√w.q ^ card r\
+        \ * w.q ^ (card n - card r - 1))⁻¹)\n    (hY_hecke : heckePolyOp (finRightRep E 1) hw X Y = 0)\n    (h_rank\
+        \ : 2 * card r + 2 * card p + 3 < card n) :\n    DescentsVanish W' V (a * upsilonU1 ^ card p) A.conjClosureᶜ\
+        \ Y"
+    routeToMain:
+    - module: New.OneLift.FalseLifts.HyperbolicPlaneStep
+      importer: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+      line: 1
+    - module: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 4
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/FalseLifts/HyperbolicPlaneStep.lean
+      line: 9
+      endLine: 14
+      text: '`New.SiegelWeil.DescentsVanish W V a S Y` says that all theta descents of a function `Y` on
+
+        `U(V)(𝔸)` to `U(W)(𝔸)` vanish. The descents are twisted by the character `a` of `U(1)`, with data
+
+        that are the vacuum at the places of `S` and their conjugates. This file proves the inductive step
+
+        `New.SiegelWeil.descentsVanish_add_planes`: the vanishing passes from `W` to `W''`, the sum of `W`
+
+        and hyperbolic planes, each plane multiplying `a` by `New.WeilData.upsilonU1`. This holds when `V`
+
+        is definite of large rank and `Y` is killed by a Hecke polynomial at a suitable point.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/FalseLifts/HyperbolicPlaneStep.lean
+      line: 15
+      endLine: 48
+      text: "\n## Main definitions and results\n\n* `New.SiegelWeil.descentsVanish_add_planes`: The inductive step\
+        \ of the tower of descents.\n* `New.SiegelWeil.eq_zero_of_heckePolyOp_eq_zero`: Small roots: let `F` be\
+        \ a bounded function on\n  the adelic unitary group of signs `t`, of rank `card m`, that is spherical at\
+        \ the split place\n  `w` of norm `q`. If the Hecke polynomial at `w`, taken at a point `X` with\n  `q ^\
+        \ (card m + 1) * |X| ≤ 1`, kills `F`, then `F` is zero.\n\n## The steps of the argument\n\n* The inductive\
+        \ step `New.SiegelWeil.descentsVanish_add_planes`: the zero term contributes nothing\n  (`New.SiegelWeil.DescentsVanish.integral_homSlice_eq_zero`),\
+        \ the rest is bounded\n  (`New.SiegelWeil.exists_norm_theta_sub_zeroTerm_le`), the descent inherits a Hecke\
+        \ equation\n  (`New.SiegelWeil.lift_eq_zero_of_heckePolyOp_eq_zero`), and its root is too small\n  (`New.SiegelWeil.eq_zero_of_heckePolyOp_eq_zero`).\n\
+        \nNotions from other files:\n* `New.pairWeil`: the Weil representation of U(W) × U(V) on the data space\
+        \ \U0001D4AE(Hom(W, V)), twisted by\n  two characters of U(1); `New.Space.θ` is the theta functional on\
+        \ that space.\n* `New.Space.projOn`: the projection whose fixed vectors are the data that are the vacuum\
+        \ at the\n  places of a set `S` and their conjugates. For `S` the complement of the places of the level\
+        \ and\n  their conjugates, these are the test vectors.\n* `New.heckePolyOp`: the operator ∑ (−X)^i q^(i\
+        \ choose 2) T_{w,i}, q the order of the residue field\n  at w; `New.sphericalAt π w` is the space of vectors\
+        \ spherical at w.\n* `New.Space.Splitting`: `D : W'.Splitting W p` writes `W'` as `W` plus `card p` hyperbolic\
+        \ planes,\n  with isotropic frame `D.k`; it is adapted (`IsBaseAdapted D`) if its adelic frames are orthonormal\n\
+        \  at the infinite and integral at the finite places. `D.homSource V` is the splitting of\n  `Hom(W', V)`\
+        \ that it induces, `D.zeroTerm` is the constant term along the isotropic frame, and the\n  slice `D.homSlice\
+        \ V x` is the zero term of the translate by `x`, a datum on `Hom(W, V)`.\n\n## Relation to the literature\n\
+        \nSee `New.OneLift.FalseLifts.PeriodsOfFalseLifts` for related work.\n"
+  New.OneLift.FalseLifts.PeriodsOfFalseLifts:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+      name: New.Rows.DividedSplitting.stdClassSum_inner_productForm_eq_zero
+      line: 718
+      signature: "lemma DividedSplitting.stdClassSum_inner_productForm_eq_zero {z : r ↪ l}\n    (V : DividedSplitting\
+        \ N l ι O z) (hO_fits : O.FitsParams l₀)\n    (h_twist : ∀ i : O.TwistIndex, O.tamePart (O.twistPlace i)\
+        \ ≠ 1) {Ξ : O.FormV}\n    (h_reflect : O.HyperplaneSumsAnnihilate Ξ) (hθ : O.normalizedDescent Ξ = 0)\n\
+        \    {w : FinPlace E} {hw : star w ≠ w} {hw_off : w ∉ O.places.conjClosure}\n    (h_hecke : O.heckePolyOnForms\
+        \ hw hw_off (O.liftHeckeRoot w) Ξ = 0)\n    (h_rank : 2 * card r + 2 * card N + 3 < card n) {ϖ : RingOfIntegers\
+        \ E} [Fact (ϖ ≠ 0)]\n    (hϖ : O.chosenModulusSq.ideal = Ideal.span {ϖ}) (L : DividedLattice O)\n    (x\
+        \ : Gf E N) (y : WeylIndex N O.colsPlus → ℂ) (b : AutChar E)\n    (Ψ : Matrix l r O.chosenModulusSq.ResidueRing\
+        \ → ℂ) (g : G E O.signs) :\n    stdClassSum (principalLevel l ϖ) (fun h : Gf E l ↦ inner ℂ (V.productForm\
+        \ L (x, h) y\n      (star (kernelVector O b O.chosenModulusSq Ψ O.colsMinus g h))) Ξ) = 0"
+    routeToMain:
+    - module: New.OneLift.FalseLifts.PeriodsOfFalseLifts
+      importer: New.OneLift.ComparisonOperator.GluingMaps
+      line: 4
+    - module: New.OneLift.ComparisonOperator.GluingMaps
+      importer: New.OneLift.LiftVolumeHeight
+      line: 1
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/FalseLifts/PeriodsOfFalseLifts.lean
+      line: 6
+      endLine: 12
+      text: 'This file applies the inductive step of `New.OneLift.FalseLifts.HyperbolicPlaneStep` to false lifts
+
+        `Ξ` on a definite space `I_n`. Such a `Ξ` is killed by the descent `O.normalizedDescent` to `W`, by
+
+        the hyperplane sums at the chosen places, and by one Hecke polynomial. The file builds the tower of
+
+        vanishing descents to `W ⊕ ℍ^N` and deduces that the periods of `Ξ` over the block `I_l` of
+
+        `I_n = I_N ⊕ I_l` vanish, written as class sums. Here `O` is a descent pair `(W, I_n)`
+
+        (`New.DescentPair`) of ranks `r < n`. It carries two finite families of finite places, the chosen
+
+        places `O.chosenPlace` and the twist places `O.twistPlace`, which together form the level
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/FalseLifts/PeriodsOfFalseLifts.lean
+      line: 13
+      endLine: 62
+      text: "`O.places`, and a character `O.tamePart w` of each residue field; the results on the tower and on\n\
+        periods assume `2 r + 2 N + 3 < n`.\n\n## Main definitions and results\n\n* `New.Rows.stdClassSum_gramForm_eq_zero`:\
+        \ Periods of false lifts vanish, as class sums.\n\n## The steps of the argument\n\n* The bottom of the tower:\
+        \ `New.Rows.lift_polyVector_blockDatum_eq_zero` passes from the harmonic\n  polynomial to all polynomials,\
+        \ and `New.DescentPair.descentsVanish_of_hyperplaneSumsAnnihilate`\n  passes from the block datum to all\
+        \ data.\n* The tower `New.Rows.descentsVanish_hyperbolicSum`: all descents of the coefficients of `Ξ` to\n\
+        \  `W ⊕ ℍ^N` vanish, for data that are the vacuum off the places of the level.\n* From descents to periods,\
+        \ for `I_n = I_N ⊕ I_l`:\n  `New.Rows.integral_conj_pairTheta_mul_algFormCoeff_eq_zero` absorbs the kernel\
+        \ of `W` and applies\n  `New.SiegelWeil.integral_blockEmb_eq_zero_of_descentsVanish`, which takes a Fourier\
+        \ coefficient\n  and varies the datum.\n* The theorem `New.Rows.stdClassSum_gramForm_eq_zero` writes the\
+        \ periods over the block `I_l` as\n  class sums `New.stdClassSum`. `New.Rows.stdClassSum_gramForm_eq_zero_of_rank_one`\
+        \ is the case of\n  false lifts from a line; that of false lifts on `V_j` is in\n  `New.OneLift.ComparisonOperator.GluingMaps`.\n\
+        * Two uses: `New.Rows.stdClassSum_period_eq_zero` for point forms, and\n  `New.Rows.DividedSplitting.stdClassSum_inner_productForm_eq_zero`\
+        \ for the product forms\n  `New.Rows.DividedSplitting.productForm` of the kernel vectors.\n\nNotions from\
+        \ other files:\n* `New.pairWeil`: the Weil representation of U(W) × U(V) on the data space \U0001D4AE(Hom(W,\
+        \ V)), twisted by\n  two characters of U(1); `New.Space.θ` is the theta functional on that space.\n* `New.Space.projOn`:\
+        \ the projection whose fixed vectors are the data that are the vacuum at the\n  places of a set `S` and\
+        \ their conjugates. For `S` the complement of the places of the level and\n  their conjugates, these are\
+        \ the test vectors.\n* `New.heckePolyOp`: the operator ∑ (−X)^i q^(i choose 2) T_{w,i}, q the order of the\
+        \ residue field\n  at w; `New.sphericalAt π w` is the space of vectors spherical at w.\n* `New.algFormCoeff`:\
+        \ the matrix coefficient `g ↦ L (ρ(g_∞⁻¹) φ(g_f))` of a form `φ` at a functional\n  `L`, with `ρ` the representation\
+        \ `New.conjWeylRep` on the vectors `New.WeylIndex n κ → ℂ` and `L`\n  often `New.gramForm ζ`, the invariant\
+        \ inner product with `ζ`.\n* `New.SiegelWeil.descentsVanish_add_planes`: vanishing of descents passes from\
+        \ `W` to `W` plus\n  hyperbolic planes for `Y` killed by a Hecke polynomial at a small point.\n\n## Relation\
+        \ to the literature\n\nLet V=V₁⊕V₂ with V₁ of small rank, and take a form on a definite U(V) that is killed\
+        \ by theta\ndescent, by the hyperplane sums at the chosen places (as good forms are), and by a Hecke polynomial\n\
+        at one split place at the smallest root of lifts. Then it has zero theta periods over U(V₂), so the\nforms\
+        \ built from these kernels are orthogonal to it. It is known that vanishing of lifts in a theta\ntower kills\
+        \ theta periods on a subgroup. Related work: C. Wu, Poles of Eisenstein series and theta\nlifts for unitary\
+        \ groups, arXiv 2104.11954, 2021; Ginzburg–Jiang–Soudry, Poles of L-functions and\ntheta liftings for orthogonal\
+        \ groups, 2009; Jiang–Wu, On (χ,b)-factors of cuspidal automorphic\nrepresentations of unitary groups I,\
+        \ 2016; Rallis, On the Howe duality conjecture, 1984.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.OneLift.HeckeValues.AlgebraicPartIntegrality:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.AlgebraicPartIntegrality
+      name: New.Data.CriticalPair.isIntegralMeasure_integralAlgebraicPart
+      line: 365
+      signature: "lemma isIntegralMeasure_integralAlgebraicPart (H : p.HasLiftRank n) (ϑ : D.TameChar) :\n    ϑ.IsIntegralMeasure\
+        \ (integralAlgebraicPart H)"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.AlgebraicPartIntegrality
+      importer: New.OneLift.HeckeValues.AlgebraicPartSize
+      line: 1
+    - module: New.OneLift.HeckeValues.AlgebraicPartSize
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 5
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/AlgebraicPartIntegrality.lean
+      line: 7
+      endLine: 13
+      text: "Let `p = (ν, z)` be a critical pair with `z ≥ 2`, let `ϑ` be a tame character with set of places\n\
+        (modulus) `Q`, and let `New.Data.CriticalPair.trivialLift` be the lift of `ν ϑ`, a normalised theta\nlift\
+        \ from `U(1)` to `U(2 z)`. The number `New.Data.CriticalPair.integralAlgebraicPart` is an integer\nmultiple\
+        \ of its normalised squared norm `New.Data.CriticalPair.algPart`.\n\n* `New.Data.CriticalPair.trivialLift_apply`:\
+        \ the lift as a finite sum of values of the kernel\n  `New.Data.CriticalPair.pointKernel`.\n"
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/AlgebraicPartIntegrality.lean
+      line: 14
+      endLine: 42
+      text: "* `New.Data.CriticalPair.weylGauge_denomBound_smul_pointKernel_le_one`:\n  `New.Data.CriticalPair.denomBound`\
+        \ times each kernel value is integral at primes prime to the norm\n  of `Q`, in terms of the gauge `New.weylGauge`.\n\
+        * `New.Data.CriticalPair.denomBound_smul_trivialLift_mem_integralForms`,\n  `New.Data.CriticalPair.integralAlgebraicPart_mem_integralAway`:\
+        \ so\n  `New.Data.CriticalPair.denomBound` times the lift is an integral form away from `Q`, and\n  `New.Data.CriticalPair.integralAlgebraicPart`\
+        \ is an integral number away from `Q`.\n* `New.Data.CriticalPair.norm_sq_trivialLift_eq_sum`: the squared\
+        \ norm of the lift as a double sum\n  of values of the tame character times pairings `New.Data.CriticalPair.kernelPairing`\
+        \ that depend\n  on `Q` only.\n* `New.Data.TameChar.IsIntegralMeasure`: functions of `ϑ` given, on the tame\
+        \ characters with set\n  `Q`, by one element of the group ring of `U(1)(\U0001D538)` that is integral away\
+        \ from `Q`.\n* `New.Data.CriticalPair.isIntegralMeasure_integralAlgebraicPart`: the multiple\n  `New.Data.CriticalPair.integralAlgebraicPart`\
+        \ is such a function.\n\nNotions from other files:\n* `New.Data.TameChar`: a character of `U(1)(\U0001D538\
+        )` of weight 0 with tame part supported on a finite set\n  `Q` of places of norm prime to `D.M * D.N`, `Q`\
+        \ disjoint from its conjugate.\n* `New.Data.CriticalPair`: a critical pair, that is, an integer `1 ≤ z ≤\
+        \ t` and a character `ν` of\n  `U(1)(\U0001D538)` of weight `-c`, with `z ≤ c(v) ≤ 4b` and tame part supported\
+        \ on the chosen places.\n* `New.Data.CriticalPair.HasLiftRank`: the index set `n` has `2 z` elements and\
+        \ `z ≥ 2`, for the\n  pair `p = (ν, z)`.\n\n## Relation to the literature\n\nThis file proves, for this\
+        \ data, versions of known results: integral group-ring elements that\ninterpolate twisted values of Hecke\
+        \ L-functions (see `New.Congruences.Selmer.ClassSums`), which are\nsquared norms of theta lifts from U(1)\
+        \ (see `Lib.SiegelWeil.RallisInner.SharpData`). Here only the\nside of the squared norms is treated.\n"
+  New.OneLift.HeckeValues.AlgebraicPartSize:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.AlgebraicPartSize
+      name: New.Data.heightLe_norm_trivialLift_sq
+      line: 469
+      signature: "lemma heightLe_norm_trivialLift_sq {j : ℕ} {p : D.CriticalPair} (hp : p.IsMainPair j) :\n    HeightLe\
+        \ (D.denominatorBudget - ∑ τ : D.Φ, D.jetSize (D.weight τ)) fun _ : PrimePadicIso ↦\n      ‖trivialLift\
+        \ hp.hasLiftRank TameChar.one‖ ^ 2"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.AlgebraicPartSize
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 5
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/AlgebraicPartSize.lean
+      line: 7
+      endLine: 14
+      text: 'This file bounds the absolute values of the conjugates under `Aut(ℂ/K)` of the squared norm `‖φ‖²`
+
+        of the lift `φ = New.Data.CriticalPair.trivialLift` of a critical pair for the trivial twist. It
+
+        also bounds the conjugates of `New.Data.CriticalPair.integralAlgebraicPart` for flat pairs
+
+        (`New.Data.CriticalPair.HasEmptyRow`, `c = z`). A conjugate of the squared norm is a multiple of the
+
+        squared norm of the lift for the conjugate character, and this is an `L`-value times explicit
+
+        factors. The file shows that flat pairs exist over a given character of weight zero and bounds the
+
+        range of the jet degrees of a main pair (`New.Data.CriticalPair.IsMainPair`). It bounds the height
+
+        (`New.HeightLe`) of the squared norm of the untwisted lift of a main pair.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/AlgebraicPartSize.lean
+      line: 15
+      endLine: 35
+      text: "\n## Main definitions and results\n\n* `New.Data.heightLe_norm_trivialLift_sq`: for a main pair, a\
+        \ bound for the height of the squared\n  norm of the untwisted lift.\n* `New.Data.CriticalPair.norm_map_integralAlgebraicPart_le`:\
+        \ for a flat pair, every conjugate under\n  `Aut ℂ` of `integralAlgebraicPart` at the trivial twist has\
+        \ absolute value at most\n  `exp (x ^ 34)`.\n\nNotions from other files:\n* `New.Data.CriticalPair`: An\
+        \ integer 1 ≤ z ≤ t and a character ν of U(1)(\U0001D538) of weight −c, z ≤ c(v)\n  ≤ 4b, with tame part\
+        \ supported on the chosen places.\n* `New.Data.CriticalPair.integralAlgebraicPart`: The product of\n  `n_L\
+        \ = chosenGroupOrder * denomBound ^ 2` and the algebraic part `‖φ‖² / N(Q) ^ (2 z - 1)`\n  (`New.Data.CriticalPair.algPart`);\
+        \ the first factor of `n_L` clears the orders of automorphism\n  groups, the second the denominators of\
+        \ `φ`.\n\n## Relation to the literature\n\nCritical Hecke L-values of CM fields as squared norms of theta\
+        \ lifts from U(1). See\n`Lib.SiegelWeil.RallisInner.SharpData` for sources.\n"
+  New.OneLift.HeckeValues.CentralAction:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.CentralAction
+      name: New.Selmer.DenominatorLe.norm_inner_starProjection_le
+      line: 324
+      signature: "lemma Selmer.DenominatorLe.norm_inner_starProjection_le {ℓ : ℕ} [Fact ℓ.Prime]\n    {ι : ℂ ≃+*\
+        \ PadicAlgCl ℓ} {β : ℝ}\n    (h_denom : DenominatorLe ι Y.descentPair\n      (tupleIdem Unit fun _ : Y.descentPair.ChosenIndex\
+        \ ↦ Polynomial.X - 1) (ℂ ∙ Y.trivialLift) β)\n    (h_aut : ∀ g : Gf D.E Unit, classAut stdRatPoints Y.chosenLevel\
+        \ g = ⊥)\n    {Ξ Ξ' : Y.descentPair.FormV} (hΞ : Y.descentPair.IsTestForm ℓ Ξ)\n      (hΞ' : Y.descentPair.IsTestForm\
+        \ ℓ Ξ') :\n    ‖ι (inner ℂ ((ℂ ∙ Y.trivialLift).starProjection Ξ) ((ℂ ∙ Y.trivialLift).starProjection Ξ'))‖\
+        \ ≤\n      exp (β + padicValNat ℓ (Nat.card (StdClasses Y.chosenLevel)) * log ℓ)"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/CentralAction.lean
+      line: 8
+      endLine: 14
+      text: 'For a lift from the definite `U(1)` to the definite `U(n)` (data `New.LValueData`, kernel
+
+        `New.LValueData.kernelForm`, lift `New.LValueData.trivialLift` of the trivial character), the finite
+
+        adelic `U(1)` acts on forms on `U(n)` through the centre. This file defines this action,
+
+        `New.LValueData.centralRep`, and its twist `New.LValueData.normalizedCentralOp`, which fixes the
+
+        lift. The central translations commute with Hecke polynomials at split places off the level. The
+
+        file uses this action to bound the denominator of the product of the projections of two test forms
+
+        to the line of the lift, given a bound `New.Selmer.DenominatorLe` on that line.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/CentralAction.lean
+      line: 15
+      endLine: 26
+      text: "\n## Main definitions and results\n\n* `New.Selmer.DenominatorLe.norm_inner_starProjection_le`: a bound\
+        \ `New.Selmer.DenominatorLe` on the\n  line of the lift bounds the denominator of the product of the projections\
+        \ of two test forms to\n  that line, at the cost of the class number of `U(1)` at the chosen level.\n* `New.LValueData.normalizedCentralOp_trivialLift`:\
+        \ the twisted central translations fix the lift\n  of the constant function.\n\n## Relation to the literature\n\
+        \nSee `New.OneLift.HeckeValues.TwistedValueHeights` for related work.\n"
+  New.OneLift.HeckeValues.CharacterLift:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.CharacterLift
+      name: New.LValueData.map_trivialLift
+      line: 733
+      signature: "lemma LValueData.map_trivialLift {P : Parameters} {s : ℕ} (n : Type) [Fintype n] [DecidableEq\
+        \ n]\n    (S : LevelPlaces (P.E s)) (h_no_twist : IsEmpty S.TwistIndex) (σ : Gal(ℂ/K P)) :\n    ∃ (t l :\
+        \ ℂ) (u : unitary (\U0001D538 (P.E s))),\n      ‖t‖ = (√(P.bigOmega s))⁻¹ ∧\n      l ≠ 0 ∧\n      ∀ {X :\
+        \ LValueData (P.E s) n} {e : Equiv.Perm (NumberField.InfinitePlace (P.E s))}\n        {μ : AutChar (P.E\
+        \ s)} {ψ : (w : FinPlace (P.E s)) → MulChar (ResField w) ℂ} {m : ℕ}\n        (hμ_weight : μ.HasWeight\n\
+        \          (fun τ : NumberField.InfinitePlace (P.E s) ↦\n            -(X.rowLength (e.symm τ) + Fintype.card\
+        \ n / 2 : ℕ)) ψ)\n        (hψ_unramified : ∀ w : FinPlace (P.E s), w ∉ X.places → ψ w = 1)\n        (_hX_places\
+        \ : X.toLevelPlaces = S),\n        let Y : LValueData (P.E s) n"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.CharacterLift
+      importer: New.OneLift.ComparisonOperator.ExchangeData
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ExchangeData
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/CharacterLift.lean
+      line: 8
+      endLine: 13
+      text: 'Let `χ` be a character of `U(1)` over the adeles. Its lift is the algebraic form `φ` on the standard
+
+        definite space `V` of rank `card n` that is the sum, over the classes of `U(1)` at the level of
+
+        the chosen places, of the theta kernel formed with `χ` and the block datum. It is a multiple of the
+
+        theta lift of the constant function `1`. This file defines `φ`, computes its inner products through
+
+        the descent from `V` to the line, and shows that a Galois conjugate of `φ` is, up to simple factors,
+
+        the lift of the conjugate character.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/CharacterLift.lean
+      line: 14
+      endLine: 52
+      text: "\n## Main definitions and results\n\n* `New.LValueData`: the chosen places and the places of the twist,\
+        \ the row lengths `rowLength τ`\n  and the character `u1Char` of `U(1)`. `New.LValueData.descentPair` is\
+        \ the descent datum\n  (`New.DescentPair`) whose source `W` is the definite line and whose weight has one\
+        \ row of length\n  `rowLength τ` at `τ`.\n* `New.LValueData.kernelForm`: the theta kernel at a finite point\
+        \ `g` of `U(1)`, as a form on `V`;\n  the lift `New.LValueData.trivialLift` is its class sum over `U(1)`.\n\
+        * `New.LValueData.theta_pairThetaKernel_omega_fockDatum`: the pairings of the kernel with vectors of\n \
+        \ the weight are theta values of Fock vectors.\n* `New.LValueData.normalizedDescent_eq_inner_kernelForm`,\
+        \ `New.LValueData.inner_trivialLift`: the\n  descent `New.DescentPair.normalizedDescent` of a form is its\
+        \ inner product with the kernel, so the\n  inner product with the lift is the class sum of the descent.\n\
+        * `New.DescentPair.heckePolyOnForms_liftHeckeRoot_eq_zero`: the Hecke polynomial\n  `New.DescentPair.heckePolyOnForms`,\
+        \ evaluated at the number `New.DescentPair.liftHeckeRoot`,\n  annihilates every form with the Hecke polynomials\
+        \ of a lift\n  (`New.DescentPair.HasLiftHeckePolynomial`).\n* `New.LValueData.map_trivialLift`: the Galois\
+        \ conjugates of the lift.\n\nNotions from other files:\n\n* `New.DescentPair`: a descent datum, that is\
+        \ places, a hermitian space `W` of rank less than\n  `card n`, two weights and a character; `New.DescentPair.FormV`\
+        \ is the space of algebraic forms on\n  `V` of its weight and level, and `New.DescentPair.blockDatum` is\
+        \ the block datum on `Hom(W, V)`\n  times the vacuum.\n* `Gf E n`, `stdLevel E n`: the finite adelic points\
+        \ of the unitary group of `V` and their integral\n  subgroup; `levelOf w H` is the level of elements of\
+        \ `stdLevel` that reduce into `H` at the places\n  `w`.\n* `classSum Γ K f`: the weighted sum of `f` over\
+        \ `Γ \\ G / K`; `stdClassSum` takes `Γ` rational.\n* `schurJet κ`: the jets of a power series along the\
+        \ Schur matrix of the weight `κ`.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.RallisInner.SharpData`\
+        \ for sources.\n\nThe sections \"The lift and the descent\" and \"The parameter of the line and a Hecke\
+        \ operator\" set\nup, for the data `New.LValueData`, steps of the known expression of critical Hecke L-values\
+        \ of CM\nfields as squared norms of theta lifts from U(1).\n"
+  New.OneLift.HeckeValues.CharacterLiftNorm:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.CharacterLiftNorm
+      name: New.LValueData.inner_thetaLift_constForm_self
+      line: 469
+      signature: "theorem LValueData.inner_thetaLift_constForm_self [WeilData E] (h_rank : 2 < Fintype.card n) :\n\
+        \    inner ℂ (X.descentPair.thetaLift X.fitsParams_descentPair X.constForm)\n        (X.descentPair.thetaLift\
+        \ X.fitsParams_descentPair X.constForm) =\n      (stdSpace E Unit).quotMeasure.real .univ * (stdSpace E\
+        \ n).quotMeasure.real .univ /\n          stdLevelIndex X.chosenLevel *\n        card (WeylIndex n X.descentPair.columnCount)\
+        \ *\n        hookNumber X.descentPair.columnCount (rankAt fun _ : NumberField.InfinitePlace E ↦ n) *\n \
+        \       (levelOf X.descentPair.placeAt (descentResidueLevel X.descentPair.toLevelPlaces\n          X.descentPair.incl)).relIndex\n\
+        \          (stdLevel E n) *\n        X.blockMeanSquare * vacuumSum Unit (Fintype.card n) X.descentPair.charV\n\
+        \          X.places.conjClosureᶜ"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.CharacterLiftNorm
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 2
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/CharacterLiftNorm.lean
+      line: 6
+      endLine: 12
+      text: 'Let `p = (ν, z)` be a critical pair (`New.Data.CriticalPair`) with `z ≥ 2` and `ϑ` a tame character
+
+        with set of places `Q`. The first section defines the lift `φ` of `ν ϑ` from `U(1)` to the definite
+
+        `U(2 z)`, a denominator for its values, and its normalized squared norm. The second section works
+
+        with any lift data `X` (`New.LValueData`) and the lift `X.trivialLift`, which differs from `φ` by
+
+        the scales of the vacuum and of the derivatives. For even rank `2 k ≥ 4` its squared norm is an
+
+        explicit multiple of the value at `k` of the partial Hecke `L`-function of `X.u1Char⁻¹`, where
+
+        `X.u1Char` is the character of the data.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/CharacterLiftNorm.lean
+      line: 13
+      endLine: 48
+      text: "\n## Main definitions and results\n\n* `New.Data.CriticalPair.trivialLift`: the lift `φ` of `ν ϑ`,\
+        \ which is the lift for these data times\n  `vacuumScale ^ card n` and `(π̄ * jetScale) ^ rowLengthSum`,\
+        \ where `π = D.piMBar`.\n* `New.Data.CriticalPair.denomBound`: a denominator `n_ν` for the values of `φ`.\n\
+        * `New.Data.CriticalPair.algPart`: the squared norm of `φ` divided by `N(Q) ^ (2 z - 1)`;\n  `New.Data.CriticalPair.integralAlgebraicPart`\
+        \ is its multiple by\n  `n_L = chosenGroupOrder * denomBound ^ 2`.\n* `New.LValueData.trivialLift_eq_smul_thetaLift`:\
+        \ `X.trivialLift` is the theta lift of the constant\n  function `1` times the index of the level of `U(1)`.\n\
+        * `New.LValueData.hasLiftHeckePolynomial_trivialLift`: at split places off the level,\n  `X.trivialLift`\
+        \ is spherical, with the Hecke polynomials of a lift of the trivial system\n  (`New.DescentPair.HasLiftHeckePolynomial`).\n\
+        * `New.LValueData.inner_thetaLift_constForm_self`: Rallis' inner product formula\n  `New.SiegelWeil.IsSharp.petersson_lift_eq_integral`\
+        \ for the constant `1`. It gives the squared\n  norm of the theta lift of `1` as a multiple of the sum of\
+        \ the coefficients of the vacuum.\n\nNotions from other files:\n* `New.Data.TameChar`: a character of `U(1)(\U0001D538\
+        )` of weight `0` whose tame part is supported on a\n  finite set `Q` of places of norm prime to `D.M * D.N`,\
+        \ with `Q` disjoint from its conjugate.\n* `New.LValueData`: two families of split places (`chosenPlace`,\
+        \ and `twistPlace` for `Q`), row\n  lengths `rowLength`, and a character `u1Char` of `U(1)(\U0001D538)`\
+        \ whose tame part is trivial off these\n  places.\n* `New.LValueData.descentPair`: the descent datum (`New.DescentPair`)\
+        \ attached to the data. Its\n  source is the definite line, and its weight has one row of length `rowLength\
+        \ τ` at each infinite\n  place `τ`.\n* `New.Parameters.vacuumScale`, `New.Parameters.jetScale`: the scaling\
+        \ factor of the vacuum, and the\n  scale at which Taylor series of theta functions are taken.\n* `New.Data.chosenGroupOrder`:\
+        \ a common multiple of the orders of the stabilisers in the class sums.\n* `New.placeSign`: signs on the\
+        \ places of `E` whose Euler product at `k` is the value at `2 k` of\n  the zeta function `ζ_F` of the maximal\
+        \ real subfield `F`, over which `E` is unramified.\n\n## Relation to the literature\n\nSee `Lib.SiegelWeil.RallisInner.SharpData`\
+        \ for sources.\n"
+  New.OneLift.HeckeValues.PeriodAtOne:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.PeriodAtOne
+      name: New.Rows.detPeriod_insert
+      line: 264
+      signature: "lemma detPeriod_insert [h : α.HasWeight (fun τ : NumberField.InfinitePlace E ↦ -c τ) ψ]\n    (hψ\
+        \ : ∀ w : FinPlace E, w ∉ \U0001D52A.places → ψ w = 1) (v : FinPlace E) (hv : v ∉ \U0001D52A.places)\n \
+        \   (h_places : \U0001D52A'.places = insert v \U0001D52A.places) :\n    detPeriod n α c \U0001D52A' ψ =\n\
+        \      qPochhammer v.q (Fintype.card n) (α.frobValue n v)⁻¹ * detPeriod n α c \U0001D52A ψ"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.PeriodAtOne
+      importer: New.Congruences.Selmer.ClassSums
+      line: 5
+    - module: New.Congruences.Selmer.ClassSums
+      importer: New.Congruences.Selmer.LValueSystems
+      line: 1
+    - module: New.Congruences.Selmer.LValueSystems
+      importer: New.Congruences.Selmer.TwistingTheorem
+      line: 4
+    - module: New.Congruences.Selmer.TwistingTheorem
+      importer: New.Congruences.FitTwistsExist
+      line: 3
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/PeriodAtOne.lean
+      line: 6
+      endLine: 12
+      text: "The period of a theta kernel for the pair `(I_n, I_n)` of standard definite spaces (`New.stdSpace`),\n\
+        with polynomial `∏ τ, det ^ c τ` and finite datum a character of the determinant modulo `\U0001D52A`.\n\n\
+        * `New.Rows.detKernel`, `New.Rows.detPeriod`: the kernel on the finite adelic group and its class\n  sum.\n\
+        * `New.Rows.detPeriod_eq_stdClassSum_sum`: the period is the class sum of the sums, over\n  `GL_n(O/\U0001D52A\
+        )`, of the kernel values for the indicator of the unit matrix.\n"
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/PeriodAtOne.lean
+      line: 13
+      endLine: 32
+      text: "* `New.Rows.detPeriod_insert`: if `α` has weight `-c` and tame part `ψ` trivial outside `\U0001D52A\
+        `, adding\n  a prime `v` to `\U0001D52A` multiplies the period by `∏ l < card n, (1 - q ^ l X)`. Here `q`\
+        \ is the norm of\n  `v` and `X` is the inverse of the scalar `α.frobValue n v` (`New.AutChar.frobValue`).\n\
+        \n`New.stdClassSum K f` is the sum of `f g / #Aut g` over the classes of level `K`; `New.stdLevel` is\n\
+        the stabiliser of the standard lattice; `α.HasWeight e ψ` says that `α` has weight `e` and tame part\n`ψ`;\
+        \ `\U0001D52A.places` is the set of primes of the modulus `\U0001D52A` and `\U0001D52A.charOfTamePart ψ`\
+        \ the character\nmodulo `\U0001D52A` made of `ψ`.\n\nNotions from other files:\n* `New.Modulus`: a nonzero\
+        \ ideal of O_E prime to its complex conjugate, that is, never divisible by\n  both w and w̄.\n* `New.WeilData`:\
+        \ the fixed choices on the CM field E that define the Weil representations (a purely\n  imaginary element,\
+        \ a self-dual finite idele and a splitting character).\n* `α.frobValue n v`: the number χ(ϖ) q ^ (N/2),\
+        \ where N is the cardinality of `n`, χ is the Hecke\n  character `α.spaceChar N`, ϖ a uniformiser at `v`\
+        \ and q the norm of `v`.\n\n## Relation to the literature\n\nSee `New.Congruences.Selmer.ClassSums`.\n"
+  New.OneLift.HeckeValues.TwistedRatio:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.TwistedRatio
+      name: New.Data.CriticalPair.lValueProd_eq_mul_prod_ratio_sq
+      line: 421
+      signature: "lemma CriticalPair.lValueProd_eq_mul_prod_ratio_sq (p : D.CriticalPair) (s : ℤˣ) (ϑ : D.TameChar)\
+        \ :\n    lValueProd ({w : FinPlace D.E | D.IsChosen w} ∪ ϑ.Q) (p.character * ϑ.toAutChar ^ (s : ℤ))⁻¹ p.z\n\
+        \      =\n      ϑ.normQ ^ p.z ^ 2 *\n        (lValueProd {w : FinPlace D.E | D.IsChosen w} p.character⁻¹\
+        \ p.z *\n          ∏ z ∈ Icc 1 p.z, (p.lowerPoint z).ratio ϑ s ^ 2)"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.TwistedRatio
+      importer: New.OneLift.HeckeValues.AlgebraicPartSize
+      line: 2
+    - module: New.OneLift.HeckeValues.AlgebraicPartSize
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 5
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/TwistedRatio.lean
+      line: 7
+      endLine: 12
+      text: 'Let `p = (ν, z)` be a critical pair and `ϑ` a tame character of modulus `Q`. For the statements on
+
+        `algPart` and `integralAlgebraicPart` assume `z ≥ 2` and fix an index set with `2 z` elements
+
+        (`New.Data.CriticalPair.HasLiftRank`). The number `New.Data.CriticalPair.algPart` is the normalised
+
+        squared norm of the lift `New.Data.CriticalPair.trivialLift` of `ν ϑ`. It is positive and equals a
+
+        constant independent of `ϑ` times an `L`-value of `ν ϑ`, so the ratio of the absolute values of the
+
+        twisted and untwisted `L`-values, which is nonzero, is a ratio of values of `algPart`.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/TwistedRatio.lean
+      line: 13
+      endLine: 51
+      text: "\n## Main definitions and results\n\n* `New.Data.CriticalPair.algPart_pos`, `New.Data.CriticalPair.exists_ne_zero_algPart_eq_mul_L`:\
+        \ the\n  number `New.Data.CriticalPair.algPart` is positive, and it is a nonzero constant independent of\n\
+        \  `ϑ` times an `L`-value of `ν ϑ`. `New.Data.CriticalPair.exists_algPart_eq_mul_L` states the value\n \
+        \ with the positivity.\n* `New.Data.CriticalPair.ratio_eq_algPart_div`: the ratio `New.Data.CriticalPair.ratio`\
+        \ of the\n  absolute values of twisted and untwisted `L`-values is a ratio of values of `algPart`.\n* `New.Data.CriticalPair.exists_integralAlgebraicPart_eq_mul_L`,\n\
+        \  `New.Data.CriticalPair.ratio_eq_integralAlgebraicPart_div`: the same value and ratio for the\n  multiple\
+        \ `New.Data.CriticalPair.integralAlgebraicPart`, with the `L`-value of `(ν ϑ)⁻¹`.\n* `New.Data.CriticalPair.exists_ofAlgForm_trivialLift_eq_smul_lift`,\n\
+        \  `New.Data.CriticalPair.formAction_trivialLift`: the lift is a nonzero multiple of the theta lift\n  of\
+        \ the constant function `1`, and the finite group of rank one at the chosen places fixes it.\n* `New.Data.CriticalPair.lValueProd_eq_mul_prod_ratio_sq`:\
+        \ the product `New.Exchange.lValueProd` of\n  squared L-values for the twist is the untwisted one times\
+        \ a power of the norm of `Q` and the\n  squared ratios at `1, …, p.z`.\n\nNotions from other files:\n* `New.Data.CriticalPair`:\
+        \ a critical pair `p = (ν, z)`, of an integer `1 ≤ z ≤ D.t` and a character\n  `ν` of U(1)(\U0001D538) of\
+        \ weight `-c` with `z ≤ c ≤ 4 D.b`, whose tame part is supported on the chosen\n  places (`New.Data.IsChosen`).\n\
+        * `New.Data.TameChar`: a character `ϑ` of U(1)(\U0001D538) of weight 0 with tame part supported on a finite\n\
+        \  set `Q` of places; `ϑ.normQ` is the product `N(Q)` of the norms of the places of `Q`.\n* `New.AutChar.L`:\
+        \ `ν.L S` is the `L`-function of `x ↦ ν (x / x̄)` without the Euler factors at `S`\n  and at the conjugates\
+        \ of the places of `S`, as an Euler product at real points `s > 1` and as\n  its limit from the right at\
+        \ `s = 1`.\n* `New.Data.CriticalPair.lValueData`: the data (`New.LValueData`) of the theta lift from U(1)\
+        \ to the\n  definite `U(2 z)` for the character `ν ϑ`.\n* `New.Data.CriticalPair.trivialLift`: the lift\
+        \ of `ν ϑ`, a nonzero multiple of the unscaled lift\n  `New.LValueData.trivialLift`, which is the sum of\
+        \ the theta kernels over the classes of U(1).\n* `New.Data.CriticalPair.algPart`: the number `‖φ‖ ^ 2 /\
+        \ N(Q) ^ (2 z - 1)`, where `φ` is the lift of\n  `ν ϑ`; `integralAlgebraicPart` is a multiple of it by a\
+        \ natural number that does not depend on\n  `ϑ`.\n\n## Relation to the literature\n\nKnown; see `Lib.SiegelWeil.RallisInner.SharpData`\
+        \ for sources.\n"
+  New.OneLift.HeckeValues.TwistedValueHeights:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      name: New.Data.heightLe_inv_heckeValueProd_div
+      line: 1066
+      signature: "theorem heightLe_inv_heckeValueProd_div {θ : PrimePadicIso → D.MFoldTwist}\n    (hθ : D.IsRegularFamily\
+        \ θ) (j : D.LiftIndex) :\n    HeightLe (10 * D.m * D.x₁ + D.k * (6 * D.denominatorBudget - D.directionAmount))\n\
+        \      fun ι : PrimePadicIso ↦ (heckeValueProd j ((θ ι).powTwist j) / heckeValueProd j 1)⁻¹"
+    routeToMain:
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/HeckeValues/TwistedValueHeights.lean
+      line: 11
+      endLine: 17
+      text: 'This file builds a test form (`New.DescentPair.IsTestForm`: integral above `ℓ` and orthogonal to the
+
+        false lifts) from class sums on four blocks of indices. Its pairing with the lift of a main pair has
+
+        small valuation at `ℓ`. With the bound for the denominators of the projections to the line of the
+
+        lift, this bounds the valuation of the squared norm of the twisted lift from above. Here
+
+        `New.HeightLe c y` says that the family `y ι`, one number for each `ι : ℂ ≃ ℚ̄_ℓ`, has height at
+
+        most `c`; the file bounds the heights of inverse ratios of twisted to untwisted Hecke values, with
+
+        twists along a family `θ` with `New.Data.IsRegularFamily`.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/HeckeValues/TwistedValueHeights.lean
+      line: 18
+      endLine: 58
+      text: "\n## Main definitions and results\n\n* `New.Data.exists_isTestForm_le_norm_inner_trivialLift`: at every\
+        \ prime `l` coprime to `ϑ.normQ` of\n  a twist `ϑ`, some test form has a pairing of small valuation with\
+        \ the lift\n  `New.Data.CriticalPair.trivialLift` of a main pair.\n* `New.Data.heightLe_inv_ratio`: the\
+        \ inverse ratios of a main pair have height at most\n  `6 denominatorBudget - directionAmount`.\n* `New.Data.exists_heckeValueProd_eq_mul_prod_ratio`:\
+        \ the quotient of the Hecke values\n  `New.Data.heckeValueProd j` at a twist and at `1` as a product of\
+        \ ratios of L-values.\n* `New.Data.heightLe_inv_heckeValueProd_div`: a bound for the height of the inverse\
+        \ of this\n  quotient.\n\nNotions from other files:\n* `New.Data.CriticalPair`: An integer 1 ≤ z ≤ t and\
+        \ a character ν of U(1)(\U0001D538) of weight −c,\n  z ≤ c(v) ≤ 4b, with tame part supported on the chosen\
+        \ places.\n* `New.Data.CriticalPair.integralAlgebraicPart`: The product of\n  `n_L = chosenGroupOrder *\
+        \ denomBound ^ 2` and the algebraic part `‖φ‖² / N(Q) ^ (2 z - 1)`\n  (`New.Data.CriticalPair.algPart`);\
+        \ the first factor of `n_L` clears the orders of automorphism\n  groups, the second the denominators of\
+        \ `φ`.\n* `New.Data.CriticalPair.ratio`: The ratio |L(z, (νϑ^s)⁻¹)| / |L(z, ν⁻¹)| for a sign s (by default\n\
+        \  1), without the Euler factors at the level.\n\nThe data `D` over the parameters `P` supply the CM field\
+        \ `D.E`, with `f` infinite places and\n`D.towerExp` its index in the tower over `K = ℚ(i√d)`, the natural\
+        \ numbers `m`, `k`, `r`, `t`, `M`\nand `a`, and the reals `b`, `x`, `x₁` of the bounds. Here `M ^ f` is\
+        \ the norm of the product of the\nchosen places, `x` the length of the prime sum, `denominatorBudget = f\
+        \ a log³ b / (m k)` and\n`directionAmount` the sum over the infinite places `σ` of `jetSize (κ σ) - primeSum\
+        \ (κ σ) σ`, where\n`κ = D.weight`, `jetSize` is the size of a derivative and `primeSum` measures its guaranteed\n\
+        divisibility.\n\n`P.vacuumScale D.towerExp` scales the vacuum of rank one to integral values, `P.jetScale\
+        \ D.towerExp`\nscales Taylor series of theta functions, `modKernel` is the theta kernel given by a function\
+        \ on\nmatrices modulo an ideal and a polynomial, and `p.rowLengthSum` is `∑ τ, (p.negWeight τ - p.z)`.\n\
+        \n## Relation to the literature\n\nNorms of lifts of Hecke characters as L-values, their divisibility via\
+        \ congruences, and divisibility\nat inert primes are known from the literature. Related work: Prasanna,\
+        \ Integrality of a ratio of\nPetersson norms, 2006; Coates–Liang–Sujatha, Tate–Shafarevich group for elliptic\
+        \ curves with CM II,\n2010 (after Katz, 1977); Y.-S. Lee, Hida family of theta lift from U(1) to definite\
+        \ U(2), 2024.\n"
+  New.OneLift.LiftVolumeHeight:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.LiftVolumeHeight
+      name: New.Data.heightLe_liftDeterminant_ratio
+      line: 729
+      signature: "lemma heightLe_liftDeterminant_ratio {θ : PrimePadicIso → D.MFoldTwist} (hθ : D.IsRegularFamily\
+        \ θ)\n    (j : D.LiftIndex) :\n    HeightLe (D.targetDim * (D.k * (D.logB * D.denominatorBudget - D.directionAmount)))\n\
+        \      fun ι : PrimePadicIso ↦ D.liftDeterminant 1 j / D.liftDeterminant (θ ι) j"
+    routeToMain:
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/LiftVolumeHeight.lean
+      line: 7
+      endLine: 12
+      text: 'The comparison operators `U_ϑ = n_Aut hk² glue_ϑ glue_ϑ*` take lifts to forms orthogonal to the
+
+        false lifts. A tight frame of integral tuples writes them as sums of operators of rank one, so they
+
+        keep integrality away from `Q` and `U_1` is short (`IsComparisonOperator`). The product
+
+        `Z_j (ϑ) det (pr U_ϑ)` depends on the twist `ϑ` only through Hecke values. Eigenvalue bounds control
+
+        the denominator of `det (pr U_ϑ)` at `ι` and the conjugates of `det (pr U_1)`; this bounds the
+
+        height of `Z_j (1) / Z_j (ξ_ι ^ j)`, for m-fold twists `ξ_ι`.
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/LiftVolumeHeight.lean
+      line: 13
+      endLine: 39
+      text: "\nNotions from other files:\n* `D : Data P` fixes a CM field `E = D.E`, weights at its infinite places,\
+        \ a level, and the ranks:\n  `m = D.m` lifts, from hermitian spaces `W_j = D.spaceW j` (`1 ≤ j ≤ m`) of\
+        \ rank `r = D.r` to the\n  standard definite space `V_j` of rank `r + t`, where `t = D.t = 5 r`. The datum\
+        \ of the lift at a\n  twist `ϑ` is `D.descentPair ϑ j`, and its `FormV` is the space of forms on `V_j`.\n\
+        * `D.goodLift ϑ j` is the lift at the twist `ϑ` on the good forms on `W_j` (the range of the\n  idempotent\
+        \ `D.e₀`), with values in the forms on `V_j`. `D.liftDeterminant ξ j`, written\n  `Z_j (ξ ^ j)` for an m-fold\
+        \ twist `ξ`, is, at `ϑ = ξ ^ j`, the Gram determinant of this lift.\n* `IsOrthogonalToFalseLifts O D.e₀\
+        \ Z φ` says that the form `φ` is orthogonal to the false lifts: the\n  forms that satisfy the conditions\
+        \ on a lift from `D.e₀` and lie in `Z`, here the complement of the\n  lifts.\n* `glue j ϑ` is the gluing\
+        \ map `glue_ϑ` from tuples of forms on `V°` (`FormTuples j`) to forms on\n  `V_j`; `periodLift j` is `twistFactor\
+        \ j 1` times its adjoint after the lift, at the trivial twist.\n  Here `V°` is the standard definite space\
+        \ with basis `D.SecondFactorIndex`.\n* `heckeValueProd j ϑ` is a product of three real numbers `Exchange.lValueProd`\
+        \ (norms of places\n  times squared moduli of partial Hecke `L`-values at integers), for the three characters\
+        \ of\n  `exchangePair j` twisted by `ϑ` or its inverse.\n\n## Relation to the literature\n\nBounding the\
+        \ norm of a lift by an integral form and a congruence denominator is known in the\nliterature for one eigenform.\n\
+        \nRelated work: Böcherer–Dummigan–Schulze-Pillot, Yoshida lifts and Selmer groups, 2012; X. Zhang,\nSpecial\
+        \ L-values and Selmer groups of Siegel modular forms of genus 2, 2018; Hida, Congruences of\ncusp forms\
+        \ and special values of their zeta functions, 1981.\n"
+  New.OneLift.TestedForms:
+    group: New.OneLift
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.OneLift.TestedForms
+      name: New.DescentPair.normSqAt_starProjection_le
+      line: 591
+      signature: "lemma normSqAt_starProjection_le {w : FinPlace E} (hw : star w ≠ w)\n    (hw_off : w ∉ O.places.conjClosure)\
+        \ {e₀ : MonoidAlgebra ℂ (O.ChosenGL r)}\n    {Z : Submodule ℂ O.FormV} (he : IsCentralProj e₀)\n    (hZ\
+        \ : Z ≤ (O.groupAlgAction e₀).range ⊓\n      (O.heckePolyOnForms hw hw_off (O.liftHeckeRoot w)).ker)\n \
+        \   {y : O.FormV} (hy : O.IsOrthogonalToFalseLifts e₀ Zᗮ y) (σ : ℂ ≃+* ℂ) :\n    normSqAt (Z.starProjection\
+        \ y) σ ≤ normSqAt y σ"
+    routeToMain:
+    - module: New.OneLift.TestedForms
+      importer: New.OneLift.ComparisonOperator.GluedLattices
+      line: 2
+    - module: New.OneLift.ComparisonOperator.GluedLattices
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 1
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/OneLift/TestedForms.lean
+      line: 7
+      endLine: 13
+      text: 'This file studies algebraic forms on the definite space `V = I_n` of a descent pair `O`
+
+        (`New.DescentPair`). The pair gives a space `W` of rank `r`, an embedding `O.incl` of `r` into `n`,
+
+        and places indexed by `O.ChosenIndex` (the set M of chosen places) and `O.TwistIndex` (the set Q of
+
+        the twist). For each `σ ∈ Aut ℂ`, `New.LevelPlaces.LevelForm.innerAt σ` is `σ⁻¹` of the inner
+
+        product of the `σ`-conjugates of two forms. Point forms, supported on one class, have explicit inner
+
+        products and descents, and the Hecke polynomial `H_w(X)` at a split place has an explicit adjoint
+
+        for these pairings. Let `Z` (in use, the space of lifts) lie in the image of a central idempotent
+
+        '
+    remainder:
+      path: grh/src/New/OneLift/TestedForms.lean
+      line: 14
+      endLine: 52
+      text: "`e₀` and be killed by `H_w(X_*)`, where `X_* = O.liftHeckeRoot w`. On forms orthogonal to the false\n\
+        lifts, the orthogonal projection (for `σ = 1`) to `Z` does not increase the norm at any `σ`.\n\n## Main\
+        \ definitions and results\n\n* `New.Rows.IsPointLift`, `New.Rows.exists_isPointLift`, `New.Rows.pointLift`:\
+        \ an element `A` of the\n  integral level with prescribed columns at `O.ChosenIndex` and rows at `O.TwistIndex`.\n\
+        * `New.Rows.pointForm`: the point form at `h A`; `New.Rows.inner_pointForm` and\n  `New.Rows.normalizedDescent_pointForm`\
+        \ compute its inner products and its descent\n  `New.DescentPair.normalizedDescent`, whose finite datum\
+        \ is `New.Rows.pointFormDatum`.\n* `New.LevelPlaces.LevelForm.innerAt_heckePolyOnForms` computes the adjoint\
+        \ of `H_w(X)` for the\n  pairing `innerAt σ`.\n* `New.DescentPair.falseLiftsAt`, `New.DescentPair.IsOrthogonalToFalseLifts`,\n\
+        \  `New.DescentPair.IsTestForm`: false lifts, the forms orthogonal to them, and the integral ones\n  among\
+        \ these for a fixed `e₀` and `Z = ker O.normalizedDescent`.\n* `New.Selmer.DenominatorLe`: a bound on the\
+        \ ℓ-adic denominator of the projection to a subspace Z.\n* `New.DescentPair.normSqAt_starProjection_le`:\
+        \ on forms orthogonal to the false lifts the\n  projection to Z does not increase the norm at σ.\n\nNotions\
+        \ from other files:\n* `New.DescentPair`: A descent pair: places M and Q, a space W of rank r with numbered\
+        \ basis\n  vectors, an embedding of the index set r into the larger index set n, weights k⁺ and k⁻, and\
+        \ a\n  character μ whose tame part is trivial off these places.\n* `New.DescentPair.FormV`: the algebraic\
+        \ forms on V = I_n with the weight, level and character of\n  the pair; the level sits at two finite sets\
+        \ of split places, M and Q.\n* `New.DescentPair.heckePolyOnForms`: the operator H_w(X) = ∑_i (−X)^i q^{i(i−1)/2}\
+        \ T_{w,i} on\n  forms, for a split place w that, with its conjugate, is off M and Q;\n  `New.DescentPair.liftHeckeRoot`\
+        \ w is the value X_* at which it is taken.\n* `New.DescentPair.normalizedDescent`: the descent, a linear\
+        \ map from forms Ξ on V to functions on\n  U(W)(\U0001D538): its value at g is the class sum over h, for\
+        \ `New.DescentPair.levelGroup`, of\n  `New.DescentPair.conjKernel` at g and h applied to Ξ(h). It is adjoint\
+        \ to the lift from W\n  (`New.DescentPair.inner_thetaLift`).\n* `New.LevelPlaces.placeAt`: the chosen places\
+        \ and the places of Q as one family, indexed by\n  `O.ChosenIndex ⊕ O.TwistIndex`.\n\n## Relation to the\
+        \ literature\n\nSee `New.OneLift.ComparisonOperator.GluingMaps` and `New.OneLift.LiftVolumeHeight` for related\n\
+        work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+needs_draft: true

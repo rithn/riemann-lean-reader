@@ -1,0 +1,1273 @@
+group: Lib.CM
+overview: null
+files:
+  Lib.CM.ChowlaSelberg:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.ChowlaSelberg
+      name: New.CMLattice.chowla_selberg
+      line: 696
+      signature: "lemma CMLattice.chowla_selberg (C : CMLattice d) :\n    ∃ u : ℂ,\n      -- `u` has norm one at\
+        \ every `p`-adic place\n      (∀ (p : ℕ) [Fact p.Prime] [PadicPlace p], ‖ιₚ u‖ = 1) ∧\n      -- the area\
+        \ of every conjugate lattice\n      ∀ σ : Gal(ℂ/QuadField d),\n        (C.galConjugate σ).area * ‖σ u‖ ^\
+        \ 2 = π * rexp (chowlaSelbergConst d) * (2 * π / √d)"
+    routeToMain:
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/ChowlaSelberg.lean
+      line: 11
+      endLine: 16
+      text: 'Throughout, `K = ℚ(√-d)` (`New.QuadField d`) for a prime `d ≡ 7 mod 8` (`New.PrimeSevenModEight d`),
+
+        and `χ` is the Legendre symbol modulo `d`. For such `K` the class number is odd, and the Dedekind
+
+        zeta function factors as `ζ_K(s) = ζ(s) L(s, χ)`. The second part treats curves with complex
+
+        multiplication by `K`, given by CM lattices `C : New.CMLattice d`. For these curves the file proves
+
+        a complex multiplication law for the translates of the theta function when the lattice is `Ω₀ 𝓞_K`,
+
+        and the formula of Chowla and Selberg for the areas of the conjugate lattices.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/ChowlaSelberg.lean
+      line: 17
+      endLine: 63
+      text: "\n## Main definitions and results\n\n* `New.QuadField.classGroup_sq_bijective`: squaring permutes the\
+        \ class group, that is, the class\n  number is odd.\n* `New.QuadField.eulerProd_one_eq_zeta_mul`: `ζ_K(s)\
+        \ = ζ(s) L(s, χ)` for real `s > 1`, with `χ` the\n  Legendre symbol modulo `d`.\n* `New.CMLattice.IsComplexMultiplicationData`,\
+        \ `New.CMLattice.complex_multiplication_theta`: the\n  action of `σ` on the translates of `θ` by torsion\
+        \ points is given by one finite adele of `K`, if\n  the lattice is `Ω₀ \U0001D4DE_K`.\n* `New.CMLattice.sum_kronecker_terms`:\
+        \ Kronecker's limit formula summed over the class group.\n* `New.CMLattice.chowla_selberg`: after scaling\
+        \ by the conjugates of one unit, all conjugate\n  lattices have the area that this sum gives.\n\nNotions\
+        \ from other files:\n* `New.CMLattice`: A lattice `Λ` stable under the integers of `ℚ(√-d)`, with a point\
+        \ `t` of order\n  two modulo `Λ` such that `ω t`, `ω̄ t ∉ Λ` for `ω = (1 + √-d) / 2`, scaled so that `℘''(t)\
+        \ = 2`,\n  and a square root `a₁` of `12 ℘(t)`; the discriminant of `Λ` is `a₁⁴ - 64`.\n* `New.CMLattice.θ`:\
+        \ The twisted translate of the sigma function by `t`, normalised to `1` at `0`.\n* `PeriodPair.area`: The\
+        \ area |Im(ω̄₁ω₂)| of the fundamental parallelogram spanned by the periods\n  ω₁, ω₂ of a period pair.\n\
+        * `New.chowlaSelbergConst`: The real number `γ - Re L'/L(1, χ_K)`, with `γ` Euler's constant.\n\n## Relation\
+        \ to the literature\n\nKnown result: The class number of an imaginary quadratic field of prime discriminant\
+        \ is odd. Here it\nis stated as bijectivity of squaring on the class group, for primes congruent to 7 modulo\
+        \ 8. Source:\nC. F. Gauss, Disquisitiones; D. Cox, Primes of the form x²+ny² (1989), §3 and §6.\n\nKnown\
+        \ result: The Dedekind zeta function of a quadratic field is the product of the Riemann zeta\nfunction and\
+        \ the L-function of its character, and the sum of the zeta functions of its ideal\nclasses. Source: J. Neukirch,\
+        \ Algebraic Number Theory (1999), VII.5 and VII.10.\n\nKnown result: The formula of Lerch and of Chowla\
+        \ and Selberg for the geometric mean of\narea · |disc|^(1/6) over the ideal classes (`New.CMLattice.sum_kronecker_terms`).\
+        \ Here the\ndiscriminant is prime with 2 split, and the mean is left in terms of the logarithmic derivative\
+        \ of\nthe L-function at 1, with no Gamma values. The integrality of isogenies then gives one number, a\n\
+        unit at every p-adic place, whose conjugates scale all conjugate lattices to this area. Source: A.\nSelberg,\
+        \ S. Chowla, On Epstein's zeta-function, J. reine angew. Math. 227 (1967) 86-110; B. Gross,\nOn the periods\
+        \ of abelian varieties, arXiv 2005.04194.\n\nKnown result: The main theorem of complex multiplication for\
+        \ elliptic curves, without the\nreciprocity law. It is shown that the conjugate lattice is `Ω \U0001D520\
+        ² / N(\U0001D520)` and that one finite adele\ndescribes the Galois action on the translates of the theta\
+        \ function by torsion points. The adele is\nnot identified with the Artin map and is not shown here to be\
+        \ a unit. Source: G. Shimura,\nIntroduction to the Arithmetic Theory of Automorphic Functions (1971), Thm\
+        \ 5.4; J. Milne, Complex\nMultiplication (2020), 9.17.\n"
+  Lib.CM.ConjugateCurve:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.ConjugateCurve
+      name: New.CMLattice.exists_taylorVia_twistedTranslate_theta
+      line: 702
+      signature: "lemma exists_taylorVia_twistedTranslate_theta (hD : D.a₁ = σ C.a₁) (Ω : ℂ)\n    (hΛ : ∀ {z : ℂ},\
+        \ z ∈ C.latticeModule ↔ ∃ a ∈ quadInt d, Ω * a = z) (S : Finset (QuadField d)) :\n    ∃ v ∈ D.latticeModule,\
+        \ ∀ s ∈ S, taylorVia σ (C.twistedTranslate 1 (s * Ω) C.θ) =\n      taylorAtZero (D.twistedTranslate 1 (s\
+        \ * v) D.θ)"
+    routeToMain:
+    - module: Lib.CM.ConjugateCurve
+      importer: Lib.CM.ChowlaSelberg
+      line: 2
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/ConjugateCurve.lean
+      line: 6
+      endLine: 11
+      text: 'Let `σ` be a field automorphism of `ℂ`, and let `C`, `C''` be CM data (`New.CMLattice`) with
+
+        `C''.a₁ = σ C.a₁`, so that their cubics y² + a₁xy = x³ + x are conjugate under `σ`. Write `θ`, `θ''`
+
+        for their theta functions, and `New.taylorVia σ f` for the Taylor series of `f` at 0 with `σ`
+
+        applied to its coefficients. The bare letter `σ` is the automorphism, while `C.σ` is the sigma
+
+        function of the lattice of `C`. For `σ ∈ Aut(ℂ/K)` with `K = ℚ(√-d)` (`quadInt d` is the image of
+
+        `𝓞_K` in `ℂ`, fixed by `σ`), a conjugate CM datum exists, and conjugation extends to isogenies and
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/ConjugateCurve.lean
+      line: 12
+      endLine: 47
+      text: "to translates of `θ`; this is a step towards `New.CMLattice.complex_multiplication_theta`.\n\n## Main\
+        \ definitions and results\n\n* `New.thetaQuotient`: the quotient `θ' / σ θ` of power series, by which the\
+        \ theta functions differ.\n* `New.taylorAtZero_monomialSection`, `New.exists_conjugate_section`: monomial\
+        \ sections, and hence\n  all sections `f` of degree `m` of `C`, have conjugates with Taylor series `(θ'\
+        \ / σ θ) ^ m * σ f`;\n  the second lemma transports points as well.\n* `New.CMLattice.exists_galConjugate_of_g₂_g₃`,\
+        \ `New.CMLattice.galConjugate`: a lattice with the\n  invariants `σ g₂`, `σ g₃` carries a CM datum with\
+        \ the number `σ a₁`, and one such datum is chosen.\n* `New.CMLattice.thetaQuotient_eq_one`, `New.CMLattice.taylorAtZero_theta_eq_taylorVia`:\
+        \ for a CM\n  datum `D` with invariant `σ a₁`, the Taylor series of the theta function is the conjugate\
+        \ of that\n  of `θ`.\n* `New.CMLattice.exists_taylorVia_twistedTranslate_theta`: when the lattice of `C`\
+        \ is `Ω \U0001D4DE_K` and\n  `S` is a finite subset of `K`, there is a period `v` of `D` such that, for\
+        \ all `s ∈ S`, the Taylor\n  series of the translate by `s v` of the theta function of `D` is the conjugate\
+        \ of that of the\n  translate of `θ` by `s Ω`.\n\nNotions from other files:\n* `New.CMLattice.θ`: The twisted\
+        \ translate (`twistedTranslate 1 u f` is\n  `z ↦ exp(−π(zū + |u|²/2)/area Λ) f(z + u)`) of the sigma function\
+        \ `C.σ` by the point t of order\n  two, normalised to 1 at 0; it vanishes exactly on t + Λ.\n* `New.CMLattice.translatedX`,\
+        \ `New.CMLattice.translatedY`: The coordinates x(z) = ℘(z + t) − ℘(t)\n  and y(z) = ½(℘′(z + t) − a₁x(z))\
+        \ of the curve.\n* `New.CMLattice.sections`: The sections of degree m: theta functions for the lattice Λ\
+        \ with\n  hermitian form mH and multiplier χ^m, for the hermitian form H and multiplier χ of `θ`.\n* `PeriodPair.IsIsogeny`:\
+        \ L.IsIsogeny M a N says that a maps the periods of L to those of M and that\n  a·ā·area(L) = N·area(M).\n\
+        * `New.CMLattice.monomialSection`: For j = (a, b, c), the section θ^a·(C.σ²)^b·G^c of degree\n  a + 2b +\
+        \ 3c, with C.σ the sigma function and G = `New.CMLattice.translatedYThetaCube`.\n\n## Relation to the literature\n\
+        \nPart of a known result: Main theorem of complex multiplication for elliptic curves, soft form. See\n`Lib.CM.ChowlaSelberg`.\
+        \ No reciprocity law is used: the conjugate lattice comes from uniformisation,\nand points are matched by\
+        \ transporting sections.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.CM.FiniteLattices:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.FiniteLattices
+      name: New.CMLattice.exists_norm_twistedTranslate_theta_le
+      line: 166
+      signature: "lemma exists_norm_twistedTranslate_theta_le :\n    ∃ M : ℝ, ∀ (C : CMLattice d) (u : ℂ), ‖C.twistedTranslate\
+        \ 1 u C.θ 0‖ ≤ M"
+    routeToMain:
+    - module: Lib.CM.FiniteLattices
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 1
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/FiniteLattices.lean
+      line: 6
+      endLine: 11
+      text: "* `New.CMLattice.finite_range_latticeModule`: for a prime `d ≡ 7 mod 8`, only finitely many lattices\n\
+        \  in `ℂ` underlie a CM lattice for `K = ℚ(√-d)`.\n* `New.CMLattice.theta_eq_of_latticeModule_eq`: the theta\
+        \ function `θ` depends only on the lattice;\n  in particular it does not depend on the representative `t`\
+        \ of the point of order two.\n* `New.CMLattice.exists_norm_twistedTranslate_theta_le`: the values `(T_u\
+        \ θ)(0)` are bounded\n  uniformly in the CM lattice and in `u`.\n"
+    remainder:
+      path: grh/src/Lib/CM/FiniteLattices.lean
+      line: 12
+      endLine: 29
+      text: "\nEach CM lattice is a multiple of one of finitely many ideals, and the scaling `℘''(t) = 2` fixes\
+        \ the\nfactor up to a fourth root of unity.\n\nNotions from other files:\n* `C : CMLattice d`: a lattice\
+        \ `C.Λ` in `ℂ` stable under `\U0001D4DE_K`, with a point `C.t` of order two\n  modulo `C.Λ` such that neither\
+        \ `ω t` nor `ω̄ t` lies in `C.Λ` (`ω = quadGen d = (1 + √-d) / 2`),\n  scaled so that `℘''(C.t) = 2`.\n\
+        * `C.latticeModule`: the lattice `C.Λ` as an `\U0001D4DE_K`-submodule of `ℂ`.\n* `QuadField.scaledIdeal\
+        \ d (u, \U0001D51E)`: the submodule `u \U0001D51E` of `ℂ`, for a fractional ideal `\U0001D51E` of `K`.\n\
+        * `C.twistedTranslate 1 u f`: the function `(T_u f)(z) = exp(-π (z ū + |u|² / 2) / C.area)\n  f(z + u)`.\n\
+        * `C.θ`: the translate `T_t σ` of the sigma function, normalised to `1` at `0`.\n\n## Relation to the literature\n\
+        \nKnown result: lattices with complex multiplication by `\U0001D4DE_K` up to homothety correspond to the\
+        \ ideal\nclasses. Source: Silverman, Advanced topics in the arithmetic of elliptic curves, Chapter II.\n"
+  Lib.CM.FormalGroup.FormalParameter:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.FormalGroup.FormalParameter
+      name: New.CMLattice.norm_coeff_le_one_of_lt
+      line: 300
+      signature: "lemma norm_coeff_le_one_of_lt {g : ℂ_[p]⟦X⟧} (hg : g ∈ C.integralSeriesRing) {n : ℕ}\n    (hn\
+        \ : n < primeNorm d p) : ‖coeff n g‖ ≤ 1"
+    routeToMain:
+    - module: Lib.CM.FormalGroup.FormalParameter
+      importer: New.Derivatives.FormalGroup.FrobeniusCongruence
+      line: 1
+    - module: New.Derivatives.FormalGroup.FrobeniusCongruence
+      importer: New.Derivatives.FormalGroup.Exponent
+      line: 2
+    - module: New.Derivatives.FormalGroup.Exponent
+      importer: New.Derivatives.FormalGroup.ThetaProducts
+      line: 2
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      importer: New.Derivatives.Sharpness.NearPairs
+      line: 1
+    - module: New.Derivatives.Sharpness.NearPairs
+      importer: New.Derivatives.Sharpness.Cases
+      line: 2
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/FormalGroup/FormalParameter.lean
+      line: 7
+      endLine: 10
+      text: 'Let `d ≡ 7` mod `8` be a prime and `C` a lattice with complex multiplication by the integers of
+
+        `K = ℚ(√-d)`. Let `p` be a prime, `ιₚ : ℂ →+* ℂ_[p]` a fixed embedding and `𝒪` the valuation ring of
+
+        `ℂ_[p]`. Power series are in the variable `z`, which is `X` in the code; so the formal parameter is
+
+        written `T`.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/FormalGroup/FormalParameter.lean
+      line: 11
+      endLine: 34
+      text: "\n* `New.CMLattice.isSeriesGenerator_formalParam`: the part `T` of `y` in degrees `≡ 1` mod `q - 1`\n\
+        \  generates `\U0001D4AA[[y]]`.\n* `New.CMLattice.exists_scaled_formalParam`: for some `ϖ` of valuation\
+        \ `ρ_p` the series\n  `Y = T(ϖ z) / ϖ` is integral, and `Y - Y ^ q ≡ z`, `Y ≡ ∑ z ^ q ^ j` mod `π_p`. The\
+        \ proof writes\n  `T(π_p z) = π_p T + b₁ T ^ q + ⋯` with a unit `b₁` and takes `ϖ ^ (q - 1) = -π_p / b₁`.\n\
+        * `New.CMLattice.rescale_mem_range_seriesToCp`, `New.CMLattice.norm_coeff_le_one_of_lt`: for\n  `g ∈ \U0001D4AA\
+        [[y]]` the series `g(ϖ z)` is integral, and `g` is integral in the degrees below `q`.\n\n## Notation\n\n\
+        * `q = primeNorm d p` is the norm of a prime of `K` above `p`.\n* `π_p = piPrime d p` is `√-d` if `p = d`\
+        \ and `p` otherwise; `piPrimeInt d` is its image in `\U0001D4AA`.\n* `y = taylorVia ιₚ C.translatedY` is\
+        \ the Taylor series at `0` of the coordinate function\n  `C.translatedY`, moved to `ℂ_[p]` by the embedding\
+        \ `ιₚ`.\n* `\U0001D4AA[[y]] = C.integralSeriesRing` is the ring of the series `g(y)` with `g` a series over\
+        \ `\U0001D4AA`.\n* `ρ_p = varpiValuation d p` is the valuation of `π_p` divided by `q - 1`.\n\n## Relation\
+        \ to the literature\n\nKnown result: multiplication by `π_p` on the formal group of a curve with complex\
+        \ multiplication is\nan endomorphism in the sense of Lubin and Tate. That `b₁` is a unit follows from the\
+        \ bound for the\nheight of the formal group (`New.CMLattice.insepDegree_piPrime_le`), and the scaling is\
+        \ an\nelementary consequence. Lubin–Tate, Formal complex multiplication in local fields.\n"
+  Lib.CM.FormalGroup.InseparableDegree:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.FormalGroup.InseparableDegree
+      name: New.CMLattice.insepDegree_piPrime_le
+      line: 368
+      signature: 'lemma insepDegree_piPrime_le : C.insepDegree (p'
+    routeToMain:
+    - module: Lib.CM.FormalGroup.InseparableDegree
+      importer: Lib.CM.FormalGroup.FormalParameter
+      line: 1
+    - module: Lib.CM.FormalGroup.FormalParameter
+      importer: New.Derivatives.FormalGroup.FrobeniusCongruence
+      line: 1
+    - module: New.Derivatives.FormalGroup.FrobeniusCongruence
+      importer: New.Derivatives.FormalGroup.Exponent
+      line: 2
+    - module: New.Derivatives.FormalGroup.Exponent
+      importer: New.Derivatives.FormalGroup.ThetaProducts
+      line: 2
+    - module: New.Derivatives.FormalGroup.ThetaProducts
+      importer: New.Derivatives.Sharpness.NearPairs
+      line: 1
+    - module: New.Derivatives.Sharpness.NearPairs
+      importer: New.Derivatives.Sharpness.Cases
+      line: 2
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/FormalGroup/InseparableDegree.lean
+      line: 7
+      endLine: 11
+      text: "For `α ∈ \U0001D4AA_K` let `o(α)` be the order in `y` of `y(α z) ∈ \U0001D4AA[[y]]` modulo the maximal\
+        \ ideal of `\U0001D4AA`.\n\n* `New.CMLattice.insepDegree_le`: `o(α) ≤ α ᾱ` for `α ≠ 0`, since `x(α z)` is,\
+        \ up to a unit, an\n  integral polynomial in `x` with a unit coefficient in a degree at most `α ᾱ`.\n* `New.CMLattice.insepDegree_piPrime_le`:\
+        \ `o(π_p) ≤ q_p` for every prime `p`.\n"
+    remainder:
+      path: grh/src/Lib/CM/FormalGroup/InseparableDegree.lean
+      line: 12
+      endLine: 31
+      text: "\n## Notation\n\n* `C : CMLattice d` is a lattice `Λ` stable under `\U0001D4AA_K = quadInt d`, the\
+        \ ring of integers of\n  `K = ℚ(√-d)` in `ℂ`, with a point `t = C.t` of order two modulo `Λ`.\n* `ιₚ : ℂ\
+        \ →+* ℂ_[p]` is the chosen place, `\U0001D4AA = valRingCp p` is the valuation ring of `ℂ_[p]`, and\n  `seriesToCp`\
+        \ is the inclusion `\U0001D4AA[[X]] → ℂ_[p][[X]]`.\n* `taylorVia ιₚ f` is the Taylor series of `f` at `0`\
+        \ with `ιₚ` applied to its coefficients.\n* `x` and `y` are the series of `C.translatedX` and `C.translatedY`,\
+        \ the coordinates of the curve\n  `y ^ 2 + a₁ x y = x ^ 3 + x` at `z + t`, and `C.integralSeriesRing` is\
+        \ the ring `\U0001D4AA[[y]]`; `σ` is\n  the sigma function of `Λ` and `θ = C.θ` its normalised twisted translate\
+        \ by `t`, with `θ(0) = 1`\n  and `σ ^ 2 = x θ ^ 2`.\n\n## Relation to the literature\n\nKnown result: the\
+        \ inseparable degree of the reduction of an isogeny is at most its degree. This\ngives the bound on the\
+        \ height of the formal group in Deuring's criterion. Sources: Deuring, Die\nTypen der Multiplikatorenringe\
+        \ elliptischer Funktionenkörper; Blake, A Deuring criterion for abelian\nvarieties, arXiv 1311.5454, Theorem\
+        \ 1.1; Bluher, Formal groups, elliptic curves, and some theorems\nof Couveignes, ANTS-III, LNCS 1423 (1998),\
+        \ 3.2 and 6.1 (numbering of arXiv math/9708215).\n"
+  Lib.CM.FormalGroup.IntegralParameter:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.FormalGroup.IntegralParameter
+      name: New.dvd_coeff_sub_of_C_dvd_sub_pow_sub_X
+      line: 640
+      signature: "lemma dvd_coeff_sub_of_C_dvd_sub_pow_sub_X {R : Type*} [CommRing R] {π : R} (hπ : ¬IsUnit π)\n\
+        \    (hπp : π ∣ p) {S : R⟦X⟧} {e : ℕ} (he : e ≠ 0) (hS₀ : constantCoeff S = 0)\n    (hS : C π ∣ S - S ^\
+        \ p ^ e - X) (n : ℕ) :\n    π ∣ coeff n S - if ∃ j : ℕ, n = (p ^ e) ^ j then 1 else 0"
+    routeToMain:
+    - module: Lib.CM.FormalGroup.IntegralParameter
+      importer: Lib.General.Algebra.SeriesBounds
+      line: 1
+    - module: Lib.General.Algebra.SeriesBounds
+      importer: New.Congruences.FirstOrder.HeckeStrings
+      line: 1
+    - module: New.Congruences.FirstOrder.HeckeStrings
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 2
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/FormalGroup/IntegralParameter.lean
+      line: 6
+      endLine: 10
+      text: 'Let `𝔬` (`New.valRingCp p`) be the valuation ring of `ℂ_[p]`, and let `𝔬[[X]]` be the range of the
+
+        inclusion `New.seriesToCp` into `ℂ_[p]⟦X⟧`. For a series `T = X + ⋯`, the file studies the ring
+
+        `𝔬[[T]]` of integral series in `T`. For the coordinate `y` of a CM curve, it shows that `𝔬[[y]]`
+
+        contains `x` and is stable under `d/dz`. It then treats the part of a series in the degrees of one
+
+        class mod `m`, and the integrality of the solutions of a functional equation `Y(π z) = π G(Y)`.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/FormalGroup/IntegralParameter.lean
+      line: 11
+      endLine: 47
+      text: "\n## Main definitions and results\n\n* `New.IsSeriesGenerator A T`: the series `T = X + ⋯` generates\
+        \ `A`, that is, `A = \U0001D52C[[T]]`. Such a\n  ring is closed under integral scalars. It is closed under\
+        \ `f ↦ f(a X)` when it contains `T(a X)`.\n  Its elements whose constant term has norm `1` are invertible.\
+        \ Any series `f = X + ⋯` in `A`\n  generates it too (`New.IsSeriesGenerator.of_mem`).\n* `New.CMLattice.integralSeriesRing\
+        \ C`: the ring `\U0001D52C[[y]]`. Here `y` (`New.CMLattice.translatedY`)\n  and `x` (`New.CMLattice.translatedX`)\
+        \ are the coordinates of the CM curve `y² + a₁ x y = x³ + x`.\n  `New.taylorVia ιₚ f` is the Taylor series\
+        \ of `f` at `0` with the p-adic place `ιₚ : ℂ →+* ℂ_[p]`\n  applied to the coefficients.\n* `New.CMLattice.taylorVia_translatedX_mem_integralSeriesRing`,\n\
+        \  `New.CMLattice.derivative_mem_integralSeriesRing`: `\U0001D52C[[y]]` contains `x` and is stable under\n\
+        \  `d/dz`.\n* `New.congruencePart_eq_sum`: for `m ≠ 0`, the part of a series in the degrees of one class\
+        \ mod `m`\n  is a mean over the `m`-th roots of unity; `New.congruencePart_subst`: taking it commutes with\
+        \ the\n  substitution of a series `T` with `T(0) = 0` that has only degrees `≡ 1` mod `m`.\n* `New.exists_seriesToCp_eq_of_rescale_eq`:\
+        \ for `0 < |π| < 1`, `q > 1` and `E` integral of order at\n  least two, a solution `Y = z + ⋯` of `Y(π z)\
+        \ / π = Y - Y ^ q + π E(Y)` is integral, by induction\n  on the degree (`New.mem_range_seriesToCp_of_rescale_eq_X_sub_X_pow`),\
+        \ and `Y - Y ^ q ≡ z` modulo\n  `π` (`New.C_dvd_sub_pow_sub_X_of_rescale_eq`).\n* `New.dvd_coeff_sub_of_C_dvd_sub_pow_sub_X`:\
+        \ let `π` be a non-unit dividing `p` and `q > 1` a power\n  of `p`. If `Y(0) = 0` and `Y - Y ^ q ≡ z` modulo\
+        \ `π`, then `Y ≡ ∑ z ^ q ^ j` modulo `π`.\n\nNotions from other files:\n* `New.CMLattice d`: a lattice `Λ`\
+        \ stable under the integers of `ℚ(√-d)`, with a point `t` of order\n  two modulo `Λ` such that `ω t`, `ω̄\
+        \ t ∉ Λ` for `ω = (1 + √-d) / 2`, scaled so that `℘''(t) = 2`,\n  and a square root `a₁` of `12 ℘(t)`.\n\
+        * `New.PrimeSevenModEight d`: the number `d` is a prime congruent to `7` modulo `8`.\n\n## Relation to the\
+        \ literature\n\nKnown result: elementary facts on power series; the induction is that of the functional\
+        \ equation of\na Lubin–Tate group. Source: Lubin–Tate, Formal complex multiplication in local fields.\n\n\
+        The statements on the CM curve use only that `a₁` is integral; `x ∈ \U0001D52C[[y]]` is Hensel's lemma for\n\
+        the cubic.\n"
+  Lib.CM.FormalGroup.PrimeNotation:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.FormalGroup.PrimeNotation
+      name: New.exists_mul_conj_eq_pow
+      line: 380
+      signature: "lemma exists_mul_conj_eq_pow {d p : ℕ} [PrimeSevenModEight d] [Fact p.Prime] [PadicPlace p]\n\
+        \    (hp : chiK d p = 1) : ∃ (h : ℕ) (α : ℂ),\n    h ≠ 0 ∧\n    α ∈ quadInt d ∧\n    α * conj α = p ^ h\
+        \ ∧\n    ‖ιₚ (conj α)‖ = 1"
+    routeToMain:
+    - module: Lib.CM.FormalGroup.PrimeNotation
+      importer: New.UpperBound.Size.ShortColumns
+      line: 1
+    - module: New.UpperBound.Size.ShortColumns
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 3
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/FormalGroup/PrimeNotation.lean
+      line: 6
+      endLine: 9
+      text: 'For primes `p` and `d ≡ 7 mod 8`, the file defines the numbers and sets of exponents attached to `p`
+
+        and the imaginary quadratic field `K = ℚ(√-d)`, and computes them when `p` is split, inert or
+
+        ramified. For a prime `p` that splits in `K`, it then finds an element whose norm is a power of `p`
+
+        and whose conjugate is a unit at the `p`-adic place.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/FormalGroup/PrimeNotation.lean
+      line: 10
+      endLine: 40
+      text: "\nThe statements use the following notions, for primes `p` and `d`; from `piPrime_mem_quadInt` on,\n\
+        `d ≡ 7 mod 8` is assumed, and `quadInt d` is the ring of integers of `K` inside `ℂ`.\n\n* `chiK d p`: the\
+        \ Legendre symbol `(p / d)`; for `d ≡ 7 mod 8` it is `1`, `-1`, `0` when `p` is\n  split, inert, ramified\
+        \ in `K`.\n* `primeNorm d p`, also written `q_p`: `p ^ 2` if `(p / d) = -1`, and `p` otherwise.\n* `ιₚ :\
+        \ ℂ →+* ℂ_[p]`: the embedding given by an instance `PadicPlace p`; the valuation `v` of\n  `ℂ_[p]` with\
+        \ `v(p) = 1` is expressed by `‖x‖ = p ^ (-v(x))`.\n\n## Main definitions and results\n\n* `New.piPrime`,\
+        \ `New.piPrimeValuation`: the number `π_p`, which is `√-d` for `p = d` and `p`\n  otherwise, and its valuation\
+        \ `v(π_p)`, which is `1 / 2` for `p = d` and `1` otherwise.\n* `New.varpiValuation`, `New.gammaPrime`: the\
+        \ numbers `ρ_p = v(π_p) / (q_p - 1)` and\n  `γ_p = 1 / (p - 1) - ρ_p`.\n* `New.partnerExponents`, `New.positivePartnerExponents`:\
+        \ the sets `I_p°` and `I_p`. The set `I_p°`\n  consists of the odd numbers if `p` is inert, of all numbers\
+        \ if `p = d`, and is empty if `p`\n  splits; `I_p` consists of its positive elements.\n* `New.hasSum_gammaPrime`:\
+        \ `γ_p = v(π_p) ∑_{e ∈ I_p} p⁻ᵉ`.\n* `New.piPrime_mul_conj`, `New.norm_piPrime`, `New.norm_piPrime_eq_rpow_pow`:\
+        \ the norm of `π_p` at a\n  non-split prime, its valuation, and the relation `v(π_p) = (q_p - 1) ρ_p`.\n\
+        * `New.exists_mul_conj_eq_pow`: for a prime `p` that splits in `K` there is an `α` in the ring of\n  integers\
+        \ with `α ᾱ` a positive power of `p` and `ᾱ` a `p`-adic unit; the proof takes a generator\n  of a power\
+        \ of the prime of `K` induced by the `p`-adic place.\n\n## Relation to the literature\n\nKnown result: decomposition\
+        \ of primes in `ℚ(√-d)` and elements of prime-power norm at split primes.\nThe existence of `α` follows\
+        \ from the finiteness of the class group. The numbers `ρ_p`, `γ_p` and\nthe sets of exponents are notation,\
+        \ and the sum for `γ_p` is a geometric series.\n"
+  Lib.CM.GoodReduction:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.GoodReduction
+      name: New.CMLattice.norm_disc_eq_one
+      line: 792
+      signature: "lemma norm_disc_eq_one {p : ℕ} [Fact p.Prime] {d : ℕ} (C : CMLattice d) [PrimeSevenModEight d]\n\
+        \    (ι : ℂ →+* ℂ_[p]) : ‖ι C.a₁ ^ 4 - 64‖ = 1"
+    routeToMain:
+    - module: Lib.CM.GoodReduction
+      importer: Lib.CM.FiniteLattices
+      line: 1
+    - module: Lib.CM.FiniteLattices
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 1
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/GoodReduction.lean
+      line: 6
+      endLine: 10
+      text: 'Let `K = ℚ(√-d) ⊂ ℂ` (`New.QuadField`), where `d` is a prime `≡ 7 mod 8` (`New.PrimeSevenModEight`).
+
+        We show that the lattice of every datum `New.CMLattice d` is a multiple `u 𝔞` of a fractional ideal
+
+        of `K` and that every ideal gives one, and we compute the covolumes. We then follow isogenies of
+
+        degree two through the class group. This shows that the discriminant of a CM lattice, normalised by
+
+        `℘''''(t) = 2`, is a unit at every prime, as it is for a curve with good reduction.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/GoodReduction.lean
+      line: 11
+      endLine: 45
+      text: "\n## Main definitions and results\n\n* `New.CMLattice.latticeModule`: the lattice of a datum as an\
+        \ `\U0001D4DE K`-module;\n  `New.QuadField.scaledIdeal`: `(u, \U0001D51E) ↦ u \U0001D51E`.\n* `New.CMLattice.exists_latticeModule_eq_scaledIdeal`:\
+        \ the lattice of every datum has the form\n  `u \U0001D51E`.\n* `New.QuadField.exists_cmLattice_latticeModule_eq_scaledIdeal`:\
+        \ every `\U0001D51E` has a multiple `u \U0001D51E` that\n  is the lattice of a datum.\n* `New.QuadField.area_eq_of_eq_scaledIdeal`:\
+        \ the covolume of `u \U0001D51E` is `|u|² N(\U0001D51E) √d / 2`.\n* `PeriodPair.IsOrderTwo.scaledDisc_sum_prod`,\
+        \ `PeriodPair.IsOrderTwo.scaledDisc_mul_of_isogeny`:\n  identities for the discriminants `s(u)` of a lattice\
+        \ scaled to `℘''(u) = 2` at the points `u` of\n  order two.\n* `New.CMLattice.norm_scaledDisc_le_one`, `New.CMLattice.prod_scaledDisc_t`:\
+        \ for a family of data,\n  one in each ideal class, the numbers `s(u)` are integral, and those at the points\
+        \ `t` have the\n  product `±1`.\n* `New.CMLattice.norm_disc_eq_one`: the discriminant `a₁⁴ - 64` of a CM\
+        \ lattice is a unit at every\n  prime.\n\nNotions from other files:\n* `New.CMLattice d`: a period lattice\
+        \ `Λ` stable under `\U0001D4DE K`, with a point `t` of order two and a\n  number `a₁`.\n* `PeriodPair.area`:\
+        \ the area `|Im(ω̄₁ω₂)|` of the fundamental parallelogram spanned by the periods\n  `ω₁`, `ω₂` of a period\
+        \ pair.\n\n## Relation to the literature\n\nKnown result: lattices stable under `\U0001D4DE K` are the multiples\
+        \ of fractional ideals. Source: Silverman,\nAdvanced topics in the arithmetic of elliptic curves.\n\nKnown\
+        \ result: Siegel units. For a torsion point `u`, the twelfth power of Klein's form at `u` times\nthe discriminant\
+        \ is an algebraic integer, and a unit if two different primes of `K` divide the\nannihilator of `u`. The\
+        \ file proves the case of the point `t`, whose annihilator is `(2)`; there the\nnumber is the discriminant\
+        \ `a₁⁴ - 64`. Source: Kubert, Lang, Modular Units. Up to sign the numbers\n`s(u)` are the 24-th powers of\
+        \ Weber's functions. Source: Birch, Weber's class invariants, 1969.\n"
+  Lib.CM.Integrality.Doubling:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.Integrality.Doubling
+      name: New.norm_det_eq_one_of_iterate_doublingForms
+      line: 330
+      signature: "lemma norm_det_eq_one_of_iterate_doublingForms {c : ℂ_[p]} (hc : ‖c‖ ≤ 1) {w w' : ℂ_[p] × ℂ_[p]}\n\
+        \    (hw : ‖w‖ = 1) (hw' : ‖w'‖ = 1) {j : ℕ} (h_norm : ‖(doublingForms c)^[j] w‖ = 1)\n    (h_fst : ((doublingForms\
+        \ c)^[j] w).1 = 0) (h_snd : ((doublingForms c)^[j] w').2 = 0) :\n    ‖w.1 * w'.2 - w.2 * w'.1‖ = 1"
+    routeToMain:
+    - module: Lib.CM.Integrality.Doubling
+      importer: Lib.CM.Integrality.TorsionValues
+      line: 2
+    - module: Lib.CM.Integrality.TorsionValues
+      importer: Lib.CM.FormalGroup.IntegralParameter
+      line: 1
+    - module: Lib.CM.FormalGroup.IntegralParameter
+      importer: Lib.General.Algebra.SeriesBounds
+      line: 1
+    - module: Lib.General.Algebra.SeriesBounds
+      importer: New.Congruences.FirstOrder.HeckeStrings
+      line: 1
+    - module: New.Congruences.FirstOrder.HeckeStrings
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 2
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/Integrality/Doubling.lean
+      line: 7
+      endLine: 11
+      text: 'The file expresses `θ(2 z)` and `σ(2 z) ^ 2` in `θ(z)` and `σ(z)`. The quartic forms of doubling,
+
+        `doublingForms c`, are defined over any commutative ring; over `ℂ` with `c = a₁`, their values at
+
+        `(θ², σ²)` are the square of the formula for `θ(2 z)` and the formula for `σ(2 z) ^ 2`. These facts
+
+        serve to prove the cases of the theorem on Siegel units (integrality and units at torsion points)
+
+        that are used; see `Lib.CM.Integrality.TorsionValues` and `Lib.CM.Integrality.IntegralSections`.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/Integrality/Doubling.lean
+      line: 12
+      endLine: 40
+      text: "\nNotions from other files:\n* `C : CMLattice d`: a lattice `Λ = C.Λ` in `ℂ` with a point `t = C.t`\
+        \ of order two modulo `Λ`,\n  scaled so that `℘''(t) = 2`, and a square root `a₁ = C.a₁` of `12 ℘(t)`.\n\
+        * `C.σ`, `C.θ`: the sigma function of `Λ`, and its twisted translate by `t` normalised to `1` at\n  `0`;\
+        \ the zeros of `θ` are the `z` with `z + t ∈ Λ`.\n* `C.translatedX`: the function `x(z) = ℘(z + t) - ℘(t)`,\
+        \ equal to `σ² / θ²` off `t + Λ`.\n* `C.twistedTranslate m y`: the translation `T_y` by `y`, twisted by\
+        \ the exponential factor of\n  degree `m`.\n\n## Main definitions and results\n\n* `New.doublingForms c`:\
+        \ the pair of quartic forms of doubling.\n* `New.CMLattice.sigma_two_mul_eq`: `σ(2 z) = x' θ ^ 4` off `t\
+        \ + Λ`.\n* `New.CMLattice.theta_two_mul`, `New.CMLattice.sigma_two_mul_sq`: `θ(2 z)` and `σ(2 z) ^ 2` as\n\
+        \  polynomials in `θ` and `σ`.\n* `New.norm_doublingForms`: if `c` is integral and `c ^ 4 - 64` is a unit,\
+        \ the forms raise the\n  maximum norm of a pair to the fourth power.\n* `New.norm_det_eq_one_of_iterate_doublingForms`:\
+        \ a criterion for two pairs to reduce to distinct\n  points of the projective line over the residue field.\n\
+        \n## Relation to the literature\n\nKnown result: the duplication formulas for theta and sigma functions.\
+        \ Source: DLMF, Chapters 20 and\n23.\n\nKnown result: good reduction of the duplication map on the `x`-coordinate\
+        \ of an elliptic curve.\nSource: Silverman, *The Arithmetic of Dynamical Systems* (GTM 241, Springer, 2007),\
+        \ Chapters 2 and\n6.\n"
+  Lib.CM.Integrality.IntegralSections:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.Integrality.IntegralSections
+      name: New.CMLattice.exists_taylorVia_eq_theta_pow_mul
+      line: 529
+      signature: "lemma exists_taylorVia_eq_theta_pow_mul (hf : f ∈ C.sections m) (h_int : C.HasIntegralValues m\
+        \ f) :\n    ∃ u ∈ C.integralSeriesRing, taylorVia ιₚ f = taylorVia ιₚ C.θ ^ m * u"
+    routeToMain:
+    - module: Lib.CM.Integrality.IntegralSections
+      importer: Lib.CM.Integrality.IsogenyIntegrality
+      line: 1
+    - module: Lib.CM.Integrality.IsogenyIntegrality
+      importer: Lib.CM.ChowlaSelberg
+      line: 3
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/Integrality/IntegralSections.lean
+      line: 6
+      endLine: 12
+      text: "* `New.CMLattice.mem_span_monomialSection`: a section with integral torsion values is an integral\n\
+        \  combination of monomials; `New.CMLattice.exists_polynomial_of_even` treats even sections.\n* `New.CMLattice.exists_taylorVia_eq_theta_pow_mul`:\
+        \ its Taylor series lies in `θ ^ m \U0001D4AA[[y]]`.\n\nWrite the section as `θ ^ m (P₀(x) + y P₁(x))`,\
+        \ where `P₁ = 0` if the section is even, and\ninterpolate at the nodes `x(tᵢ)`, where `tᵢ = t / 2 ^ i` and\
+        \ `i ≥ 1`. The numbers `θ[tᵢ]`, `x'(tᵢ)`\nand `x(tᵢ) - x(tⱼ)` for `i ≠ j` are units.\n"
+    remainder:
+      path: grh/src/Lib/CM/Integrality/IntegralSections.lean
+      line: 13
+      endLine: 40
+      text: "\nNotions from other files:\n\nFor a lattice `Λ = C.Λ` with a point `t = C.t` of order two modulo `Λ`:\n\
+        * `θ` is the normalised twisted translate of the sigma function `σ` by `t`; it vanishes on `t + Λ`.\n* `x\
+        \ = translatedX` is `℘(z + t) - ℘(t)` and `y = translatedY` is `(℘'(z + t) - a₁ x(z)) / 2`, where\n  `a₁\
+        \ = C.a₁` is a constant of `C` with `‖ιₚ a₁‖ ≤ 1`; off `t + Λ`,\n  `x' ^ 2 = x (4 x ^ 2 + a₁ ^ 2 x + 4)`.\n\
+        * `sections m` is the space of theta functions of degree `m`; the monomial of `(a, b, c)` is\n  `θ ^ (a\
+        \ + 2 b + 3 c) x ^ b y ^ c` off `t + Λ`, with degree\n  `monomialDeg (a, b, c) = a + 2 b + 3 c`, and `spanningExponents\
+        \ m` is the set of triples with\n  `c ≤ 1` and `a + 2 b + 3 c = m`.\n* The value `G[u]` is the value at\
+        \ `0` of the translate of `G` by `u`, twisted by the degree `m`\n  (written `torsionValue m G u`); it is\
+        \ called a torsion value if `u` is a torsion point, and\n  `HasIntegralValues` says that all torsion values\
+        \ have norm at most `1` in `ℂ_p`, under the ring\n  homomorphism `ιₚ : ℂ →+* ℂ_[p]` fixed by the instance\
+        \ `PadicPlace p`.\n\n## Relation to the literature\n\nKnown result: integral expansions of theta functions\
+        \ of CM elliptic curves, at ordinary primes\n`p ≥ 5`. Here `p` is arbitrary, but `d` is a prime congruent\
+        \ to `7` modulo `8`. Source: Bannai and\nKobayashi, Algebraic theta functions and the p-adic interpolation\
+        \ of Eisenstein-Kronecker numbers,\nDuke Math. J. 153 (2010), 229-295, after Norman and Mazur–Tate.\n\n\
+        Known result: for a lattice with complex multiplication, the value of the Siegel function at a\ntorsion\
+        \ point is a unit if two different prime ideals divide the annihilator of the point. Only the\npoints `t\
+        \ / 2 ^ i` are treated, by doubling. Source: Ramachandra and Robert; Kubert and Lang,\n*Modular Units*.\n"
+  Lib.CM.Integrality.IsogenyIntegrality:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.Integrality.IsogenyIntegrality
+      name: New.CMLattice.exists_rescale_twistedTranslate_eq_theta_pow_mul
+      line: 143
+      signature: "lemma exists_rescale_twistedTranslate_eq_theta_pow_mul {δ v : ℂ} {N : ℕ}\n    (h_isog : C.IsIsogeny\
+        \ C.periodPair (conj δ) N) (hδ₀ : δ ≠ 0) (hv : δ * v ∈ C.Λ) :\n    ∃ R ∈ C.integralSeriesRing, (taylorVia\
+        \ ιₚ (C.twistedTranslate 1 v C.θ)).rescale (ιₚ (conj δ)) =\n      taylorVia ιₚ C.θ ^ N * R"
+    routeToMain:
+    - module: Lib.CM.Integrality.IsogenyIntegrality
+      importer: Lib.CM.ChowlaSelberg
+      line: 3
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/Integrality/IsogenyIntegrality.lean
+      line: 6
+      endLine: 10
+      text: 'Let `p` be a prime and `ιₚ : ℂ →+* ℂ_[p]` a fixed embedding. For a lattice `Λ` of a `CMLattice`, the
+
+        function `y_Λ = translatedY` is the second Weierstrass coordinate at `z + t` in the model of the
+
+        lattice, `(℘′(z + t) - a₁ x(z)) / 2` with `x(z) = ℘(z + t) - ℘(t)`, `a₁` the `xy`-coefficient of
+
+        that Weierstrass model and `t` the chosen point of order two, and `translatedYThetaCube` is the
+
+        entire extension of `y θ³`, where `θ` is the theta function of degree one, normalised by `θ(0) = 1`.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/Integrality/IsogenyIntegrality.lean
+      line: 11
+      endLine: 30
+      text: "The ring `integralSeriesRing` is `\U0001D4AA[[y_Λ]]`, the integral power series in the Taylor series\
+        \ of\n`y_Λ`, and `taylorVia ιₚ f` is the Taylor series of `f` at `0` with `ιₚ` applied to its\ncoefficients.\n\
+        \n* `New.CMLattice.exists_rescale_theta_eq_theta_pow_mul`: an isogeny of degree `N` pulls `θ` back to\n\
+        \  `θ ^ N` times an integral series in `y`.\n* `New.CMLattice.rescale_translatedY_mem_integralSeriesRing`:\
+        \ an isogeny pulls `y` back to an\n  integral series in `y`.\n* `New.CMLattice.norm_le_one_of_mapsTo_lattice`:\
+        \ the multiplier of an isogeny is integral at `p`.\n* `New.CMLattice.exists_rescale_twistedTranslate_eq_theta_pow_mul`:\
+        \ the pull-back of a torsion\n  translate of `θ`.\n\nThe pull-back statements rest on the integrality principle\
+        \ for sections with integral torsion\nvalues, and the integrality of the multiplier follows from the pull-back\
+        \ of `y`.\n\n## Relation to the literature\n\nKnown result: an isogeny of elliptic curves with good reduction\
+        \ acts on the formal groups by an\nintegral power series. Background: Silverman, *The Arithmetic of Elliptic\
+        \ Curves*, Chapters IV and\nVII.\n"
+  Lib.CM.Integrality.LogTheta:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.Integrality.LogTheta
+      name: New.CMLattice.translatedY_add_mem_multiSeriesRing
+      line: 645
+      signature: "lemma translatedY_add_mem_multiSeriesRing [PrimeSevenModEight d] :\n    (taylorVia ιₚ C.translatedY).subst\
+        \ (linearSeries 1) ∈ C.multiSeriesRing !![1, 0; 0, 1]"
+    routeToMain:
+    - module: Lib.CM.Integrality.LogTheta
+      importer: New.Derivatives.FormalGroup.Resolution
+      line: 1
+    - module: New.Derivatives.FormalGroup.Resolution
+      importer: New.Derivatives.Vacuum.Scale
+      line: 1
+    - module: New.Derivatives.Vacuum.Scale
+      importer: New.Derivatives.Sharpness.Cases
+      line: 3
+    - module: New.Derivatives.Sharpness.Cases
+      importer: New.Derivatives.Sharpness.BoundAttained
+      line: 1
+    - module: New.Derivatives.Sharpness.BoundAttained
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 2
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/Integrality/LogTheta.lean
+      line: 8
+      endLine: 13
+      text: 'For a CM lattice, `g = -log θ` is the power series of the negative logarithm of its theta function,
+
+        read in `ℂ_p`. The file proves integrality statements for `g` and its rescalings; `expSubst f` is
+
+        the exponential series evaluated at a series `f` without constant term.
+
+
+        The integrality statements about the ring `𝒪[[y]]` assume that `d` is a prime congruent to `7`
+
+        modulo `8` (`PrimeSevenModEight d`). The main imported notions are the following.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/Integrality/LogTheta.lean
+      line: 14
+      endLine: 42
+      text: "\n* `C.θ`: the translate of the sigma function `C.σ` of the lattice `Λ` by the two-torsion point `t`,\n\
+        \  twisted and normalised to `θ(0) = 1`.\n* `C.translatedX` and `C.translatedY`: the coordinates `x(z) =\
+        \ ℘(z + t) - ℘(t)` and\n  `y(z) = (℘'(z + t) - a₁ x(z)) / 2` on the cubic `y² + a₁ x y = x³ + x` of the\
+        \ lattice; `y` is a\n  parameter at the origin.\n* `taylorVia ιₚ f`: the Taylor series of `f` at `0`, read\
+        \ in `ℂ_p` through the place `ιₚ`.\n* `C.integralSeriesRing`: the ring `\U0001D4AA[[y]]` of integral power\
+        \ series in the series of `y`.\n* `normPairClosure d`: the closure in `ℂ_p²` of the set of pairs `(α, α\
+        \ ᾱ)`, for integers `α` of\n  `K = ℚ(√-d)`.\n\n## Main definitions and results\n\n* `New.CMLattice.derivative_derivative_negLogTheta`:\
+        \ `g'' = g''(0) + x`.\n* `New.CMLattice.rescale_translatedY_mem_of_mem_normPairClosure`,\n  `New.CMLattice.expSubst_sub_rescale_mem`:\
+        \ for a limit `(δ, s)` of pairs `(α, α ᾱ)` with `α` an\n  integer of `K`, the series `y(δ z)` and `exp (s\
+        \ g(z) - g(δ z))` lie in `\U0001D4AA[[y]]`.\n* `New.CMLattice.norm_sqrt_mul_coeff_two_negLogTheta_le_one`:\
+        \ `√-d g''(0)` is integral.\n* `New.CMLattice.multiSeriesRing`: for linear forms `μ_i`, the ring `\U0001D4AA\
+        [[y(μ_i z)]]` of integral\n  power series in the series `y(μ_i z)`.\n* `New.CMLattice.translatedY_add_mem_multiSeriesRing`:\
+        \ the group law is integral.\n\n## Relation to the literature\n\nKnown result: the second logarithmic derivative\
+        \ of a theta function is a Weierstrass function up to\na constant. Moreover `θ(α z) / θ(z) ^ (α ᾱ)` is a\
+        \ unit on the formal group.\n\nKnown result: the formal group law of a Weierstrass curve has integral coefficients.\
+        \ Source:\nSilverman, The Arithmetic of Elliptic Curves, IV.1 and IV.2.\n"
+  Lib.CM.Integrality.TorsionValues:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.Integrality.TorsionValues
+      name: New.CMLattice.hasIntegralValues_monomialSection
+      line: 430
+      signature: "lemma hasIntegralValues_monomialSection [PrimeSevenModEight d] (x : ℕ × ℕ × ℕ) :\n    C.HasIntegralValues\
+        \ (p"
+    routeToMain:
+    - module: Lib.CM.Integrality.TorsionValues
+      importer: Lib.CM.FormalGroup.IntegralParameter
+      line: 1
+    - module: Lib.CM.FormalGroup.IntegralParameter
+      importer: Lib.General.Algebra.SeriesBounds
+      line: 1
+    - module: Lib.General.Algebra.SeriesBounds
+      importer: New.Congruences.FirstOrder.HeckeStrings
+      line: 1
+    - module: New.Congruences.FirstOrder.HeckeStrings
+      importer: New.Congruences.FirstOrder.DenominatorBound
+      line: 2
+    - module: New.Congruences.FirstOrder.DenominatorBound
+      importer: New.Congruences.FitTwistsExist
+      line: 1
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/Integrality/TorsionValues.lean
+      line: 7
+      endLine: 12
+      text: 'The file defines the value `torsionValue` at a point of a function with a degree `n` (the function
+
+        value times an exponential factor that depends on `n`), which is used for sections at torsion
+
+        points, and the property `HasIntegralValues`. For a prime `d ≡ 7 (mod 8)` the file shows that `a₁`
+
+        is integral, that `max (|σ[u]|_p, |θ[u]|_p) = 1` at torsion points, and that monomials in `θ`, `σ²`
+
+        and the section `translatedYThetaCube` have integral torsion values. Here `translatedYThetaCube` is
+
+        `y θ³`, where `y` is the coordinate `translatedY` in the cubic `y² + a₁ x y = x³ + x`.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/Integrality/TorsionValues.lean
+      line: 13
+      endLine: 40
+      text: "\nNotions from other files:\n* `CMLattice d`: a lattice `Λ` with a point `t` of order two in `ℂ / Λ`\
+        \ and a coefficient `a₁` of\n  its cubic. For `d ≠ 0` the lattice has complex multiplication by the integers\
+        \ of `ℚ(√-d)`.\n* `σ` and `θ`: the sigma function of `Λ`, normalised so that twisted translation by a period\n\
+        \  multiplies it by a sign, and the theta function that vanishes exactly on `-t + Λ`.\n* `twistedTranslate\
+        \ n v G`: the translate of a function `G` by `v`, multiplied by the exponential\n  factor of `n` times the\
+        \ Hermitian form `H(l, z) = (π / area Λ) l̄ z`.\n* `ιₚ`: the fixed embedding of `ℂ` into `ℂ_p` (`PadicPlace\
+        \ p`); integral means of norm at most `1`,\n  that is, lying in `valRingCp p`, the set of elements of `ℂ_p`\
+        \ of norm at most `1`.\n\n## Main definitions and results\n\n* `New.CMLattice.torsionValue`, `New.CMLattice.HasIntegralValues`:\
+        \ the torsion value `G[u]` and the\n  property that all of these are integral at torsion points.\n* `New.CMLattice.norm_a₁_le_one`:\
+        \ `a₁` is integral, because `a₁ ^ 4 - 64` is a unit.\n* `New.CMLattice.torsionValue_mul`, `New.CMLattice.torsionValue_comp_isogeny`,\n\
+        \  `New.CMLattice.torsionValue_twistedTranslate`: the rules for products, pull-backs and translates.\n*\
+        \ `New.CMLattice.max_norm_torsionValue`: `max (|σ[u]|_p, |θ[u]|_p) = 1` at torsion points.\n* `New.CMLattice.hasIntegralValues_monomialSection`:\
+        \ monomials have integral torsion values.\n\n## Relation to the literature\n\nKnown result: the Weber invariants\
+        \ of discriminant `-d` with `d ≡ 7 mod 8` are integral. Source:\nBirch, *Weber's class invariants*.\n\n\
+        Known result: the integrality of Siegel functions at torsion points. Source: Kubert and Lang,\n*Modular\
+        \ Units*.\n"
+  Lib.CM.KroneckerLimit:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.KroneckerLimit
+      name: New.kronecker_limit
+      line: 335
+      signature: "lemma New.kronecker_limit (L : PeriodPair) (k : ℝ) (hk : 0 < k) :\n    ∃ F : ℝ → ℝ,\n      --\
+        \ (a) the value at 1\n      F 1 = π * k ∧\n      -- (b) the right derivative at 1\n      HasDerivWithinAt\
+        \ F\n        (F 1 *\n          (2 * eulerMascheroniConstant - Real.log (PeriodPair.area L / k / π ^ 2) -\n\
+        \            Real.log ‖L.g₂ ^ 3 - 27 * L.g₃ ^ 2‖ / 6))\n        (Ioi 1) 1 ∧\n      -- (c) the series for\
+        \ 1 < s < 2\n      ∀ s ∈ Ioo 1 2,\n        HasSum (fun l : L.lattice ↦ (s - 1) * (‖l.val‖ ^ 2 / k / L.area)\
+        \ ^ (-s)) (F s)"
+    routeToMain:
+    - module: Lib.CM.KroneckerLimit
+      importer: Lib.CM.ChowlaSelberg
+      line: 4
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/KroneckerLimit.lean
+      line: 6
+      endLine: 8
+      text: '`New.kronecker_limit` computes the first two terms at `s = 1` of the Epstein zeta function of a
+
+        lattice in `ℂ`, in terms of its area and of the discriminant `g₂³ - 27 g₃²`. The Epstein function is
+
+        not continued analytically: only real `s` with `1 < s < 2` occur, and a right derivative at `1`.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/KroneckerLimit.lean
+      line: 9
+      endLine: 26
+      text: "\nFor the lattice `ℤ τ + ℤ`, each row `∑ n, |m τ + n|^(-2s)` with `m ≥ 1` is compared with the\nintegral\
+        \ `∫ |m τ + t|^(-2s) dt` (`New.hasSum_shiftedTerm`). The errors `New.meanError` sum to a\nfunction continuous\
+        \ on `[1, 2]`, the integrals to a multiple of `ζ(2s - 1)`, which has a simple pole\nat 1. At `s = 1` the\
+        \ cotangent series expresses the errors through `log |∏ (1 - q ^ n)|`\n(`New.tsum_meanError_one`).\n\nNotions\
+        \ from other files:\n* `PeriodPair.area`: The area |Im(ω̄₁ω₂)| of the fundamental parallelogram spanned\
+        \ by the periods\n  ω₁, ω₂ of a period pair.\n\n## Relation to the literature\n\nKnown result: Kronecker's\
+        \ first limit formula. Here the real limit from the right is proved for any\nlattice and stated with the\
+        \ discriminant. Rows are compared with integrals by the mean value\ntheorem. Source: C. L. Siegel, Lectures\
+        \ on Advanced Analytic Number Theory (1961), Chapter I,\nTheorem 1; for a proof of this shape, F. Chamizo,\
+        \ A simple evaluation of a theta value, the\nKronecker limit formula and a formula of Ramanujan, Ramanujan\
+        \ J. (2022), Prop. 3.1.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  Lib.CM.Sigma.Basic:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.Sigma.Basic
+      name: New.exists_lattice_of_g₂_g₃
+      line: 951
+      signature: "lemma exists_lattice_of_g₂_g₃ {a b : ℂ} (h_ne : a ^ 3 - 27 * b ^ 2 ≠ 0) :\n    ∃ L : PeriodPair,\
+        \ g₂ L = a ∧ g₃ L = b"
+    routeToMain:
+    - module: Lib.CM.Sigma.Basic
+      importer: Lib.CM.KroneckerLimit
+      line: 1
+    - module: Lib.CM.KroneckerLimit
+      importer: Lib.CM.ChowlaSelberg
+      line: 4
+    - module: Lib.CM.ChowlaSelberg
+      importer: New.Derivatives.Vacuum.TightFrames
+      line: 2
+    - module: New.Derivatives.Vacuum.TightFrames
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 3
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/Sigma/Basic.lean
+      line: 7
+      endLine: 11
+      text: 'Let `L` be a period pair with lattice Λ, Weierstrass function ℘ and invariants g₂, g₃. The sigma
+
+        function `PeriodPair.σ` is built as an odd theta function for the form H(l, z) = (π/A)·l̄·z, where A
+
+        is the area of Λ; it differs from the classical sigma function by a factor exp(cz²). Its addition
+
+        formula and the description of the theta functions for twice the form give the duplication formula
+
+        of σ and the classical facts on ℘.
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/Sigma/Basic.lean
+      line: 12
+      endLine: 48
+      text: "\n## Main definitions and results\n\n* `New.IsAppellHumbert.theta_eq_zero_iff_mem_lattice`, `New.IsAppellHumbert.deriv_theta_ne_zero`,\n\
+        \  `New.IsAppellHumbert.thetaSpace_two_eq_span_pair`: a theta function f ≠ 0 for (H, χ) with\n  f(0) = 0\
+        \ has simple zeros exactly on Λ, and ℘f² and f² span the theta functions for (2H, χ²);\n  `New.IsAppellHumbert.thetaSpace_two_eq_span`\
+        \ collects the three.\n* `PeriodPair.σ`, `New.sigma_add_mul_sigma_sub`: for u and v outside Λ,\n  σ(u +\
+        \ v)σ(u − v) = (℘(v) − ℘(u))σ(u)²σ(v)².\n* `PeriodPair.exists_weierstrassP_eq_of_cubic`: every point of\
+        \ `y² = 4x³ - g₂x - g₃` is\n  `(℘ z, ℘' z)`.\n* `New.sigma_two_mul`: the duplication formula `σ(2z) = -℘'(z)\
+        \ σ(z)⁴`.\n* `New.CMLattice d`: a lattice `Λ` with a point `t` of order two such that `℘''(t) = 2` and a\n\
+        \  square root `a₁` of `12 ℘(t)`. For `d ≠ 0` the lattice is also stable under multiplication by\n  `New.quadInt\
+        \ d`, and neither `ω t` nor `ω̄ t` lies in it, where `ω = New.quadGen d`.\n* `New.exists_lattice_eq_mul_tau`:\
+        \ every lattice is a(ℤτ + ℤ) with τ in the upper half plane.\n* `New.g₂_eq_eisenstein`, `New.g₃_eq_eisenstein`,\
+        \ `New.g₂_pow_three_sub_g₃_sq_eq_discriminant`: g₂,\n  g₃ and g₂³ − 27 g₃² of that lattice in terms of E₄(τ),\
+        \ E₆(τ) and Δ(τ).\n* `New.exists_lattice_of_g₂_g₃`: conversely, every pair (a, b) with a³ − 27 b² ≠ 0 is\
+        \ (g₂, g₃) of a\n  lattice (uniformization). The proof finds τ as a zero of a form of weight 12 that tends\
+        \ to 1 at\n  the cusp: without a zero, its inverse would be a nonzero modular form of negative weight.\n\
+        \nNotions from other files:\n* `New.RealComplexForm.thetaSpace` Λ B χ: the entire f with f(z + l) = χ(l)·exp(B(l,\
+        \ z) + B(l,\n  l)/2)·f(z) for l ∈ Λ. A `New.ThetaTori.LatticeForm Λ` is a form B that carries Λ in its type.\n\
+        * `New.RealComplexForm.riemannForm`: the Riemann form of B, E(u, v) = Im(B(u, v) − B(v, u))/(2π).\n* `New.IsAppellHumbert`:\
+        \ Appell–Humbert data: Re B is symmetric, and on Λ one has |χ| = 1 and\n  χ(l + m) = χ(l)χ(m)·exp(πi E(m,\
+        \ l)).\n\n## Relation to the literature\n\nKnown result: Sigma and theta functions of a lattice, their addition\
+        \ and doubling formulas, and\nuniformisation. Here sigma is the odd section of a canonical factor of automorphy\
+        \ rather than a\nproduct, and the origin is moved to a point of order two. Uniformisation comes from the\
+        \ vanishing of\nmodular forms of negative weight. Source: J. Silverman, The Arithmetic of Elliptic Curves,\
+        \ VI, and\nAdvanced Topics (1994), I.5; A. Weil, Elliptic Functions according to Eisenstein and Kronecker\n\
+        (1976); for uniformisation, A. Sutherland, 18.783 Lecture 15 (2023), Cor. 15.12.\n"
+  Lib.CM.Sigma.ThetaSections:
+    group: Lib.CM
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.CM.Sigma.ThetaSections
+      name: New.CMLattice.twistedTranslate_comp_mem
+      line: 825
+      signature: "lemma twistedTranslate_comp_mem [PrimeSevenModEight d] {δ u : ℂ} {N : ℕ}\n    (h_isog : C.IsIsogeny\
+        \ C.periodPair (conj δ) N) (hu : δ * u ∈ C.Λ) :\n    (fun z : ℂ ↦ C.twistedTranslate 1 u C.θ (conj δ * z))\
+        \ ∈ C.sections N"
+    routeToMain:
+    - module: Lib.CM.Sigma.ThetaSections
+      importer: Lib.CM.GoodReduction
+      line: 1
+    - module: Lib.CM.GoodReduction
+      importer: Lib.CM.FiniteLattices
+      line: 1
+    - module: Lib.CM.FiniteLattices
+      importer: New.Derivatives.Vacuum.IntegralVacuum
+      line: 1
+    - module: New.Derivatives.Vacuum.IntegralVacuum
+      importer: New.Reduction.Data.AdmissibleData
+      line: 1
+    - module: New.Reduction.Data.AdmissibleData
+      importer: New.Reduction.Data.Existence
+      line: 2
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/CM/Sigma/ThetaSections.lean
+      line: 7
+      endLine: 12
+      text: 'Let `C : New.CMLattice d` be a CM datum with lattice Λ, point t of order two and constant a₁. Let
+
+        H(l, z) = π l̄ z / area(Λ), and let σ be the sigma function of Λ. Let θ be the twisted translate of
+
+        σ by t with θ(0) = 1 and multiplier χ = `New.CMLattice.multiplier`. Write x(z) = ℘(z + t) − ℘(t),
+
+        y(z) = ½(℘′(z + t) − a₁x(z)) and G = `New.CMLattice.translatedYThetaCube`; `New.CMLattice.sections`
+
+        m is the space of theta functions for Λ, the form mH and χ^m. The file proves an addition formula
+
+        for θ and the Weierstrass equation for x, y and for σ², θ, G, shows that the monomials θ^a σ^{2b}
+
+        '
+    remainder:
+      path: grh/src/Lib/CM/Sigma/ThetaSections.lean
+      line: 13
+      endLine: 51
+      text: "G^c with c ≤ 1 span the sections of each degree, and transfers the identities to the Taylor series\n\
+        of x and y at 0.\n\n## Main definitions and results\n\n* `New.CMLattice.theta_add_mul_theta_sub`, `New.CMLattice.theta_sq`:\
+        \ the addition formula for\n  θ(z + w)θ(z − w) with z off t + Λ, and θ² = (℘ − ℘(t))σ² off Λ.\n* `New.CMLattice.deriv_translatedX_sq`,\
+        \ `New.CMLattice.weierstrass_equation`,\n  `New.CMLattice.deriv_translatedY_eq`: off t + Λ, x′² = x(4x²\
+        \ + a₁²x + 4), y² + a₁xy = x³ + x and\n  y′ = 1 + 3x² − a₁y.\n* `New.CMLattice.translatedYThetaCube_sq_add`:\
+        \ G² + a₁σ²θG = σ⁶ + σ²θ⁴ everywhere.\n* `New.CMLattice.comp_mul_mem_sections`, `New.CMLattice.twistedTranslate_comp_mem`:\
+        \ for d a\n  prime ≡ 7 mod 8, sections pull back along isogenies z ↦ az, and z ↦ (T_uθ)(δ̄z) is a section\
+        \ of\n  degree N when z ↦ δ̄z is a degree-N isogeny of C to itself and δu lies in Λ.\n* `New.CMLattice.exists_mul_eq_of_mem_sections`:\
+        \ division by a section z ↦ (T_uθ)(az) with a ≠ 0,\n  where T_u = `D.twistedTranslate 1 u` and θ belong\
+        \ to a CM datum D. The zeros of such a section are\n  simple (`New.CMLattice.deriv_twistedTranslate_theta_comp_mul_ne_zero`).\n\
+        * `New.CMLattice.monomialDeg`, `New.CMLattice.monomialSection`: the degree a + 2b + 3c of a triple\n  (a,\
+        \ b, c) and the monomial θ^a σ^{2b} G^c.\n* `New.CMLattice.sections_le_span_monomialSection`: the monomials\
+        \ with c ≤ 1, a + 2b + 3c = m (the\n  triples in `New.CMLattice.spanningExponents` m) span the sections\
+        \ of degree m.\n\nNotions from other files:\n* `New.CMLattice`: A lattice `Λ` stable under the integers\
+        \ of `ℚ(√-d)`, with a point `t` of order\n  two modulo `Λ` such that `ω t`, `ω̄ t ∉ Λ` for `ω = (1 + √-d)\
+        \ / 2`, scaled so that `℘''(t) = 2`,\n  and a square root `a₁` of `12 ℘(t)`. The conditions on `ℚ(√-d)`\
+        \ and `ω` are void for `d = 0`.\n* `PeriodPair.σ`: the sigma function of the lattice, a chosen odd theta\
+        \ function for the form H and\n  the multiplier `New.sigmaSign`, with derivative 1 at 0.\n* `New.sigmaSign`:\
+        \ The multiplier of σ: 1 at w if w/2 lies in Λ, and −1 otherwise.\n* `New.IsAppellHumbert` B χ, for a form\
+        \ B on a lattice L: Re B is symmetric, and on L one has\n  |χ| = 1 and χ(l + m) = χ(l)χ(m)·exp(πi E(m, l)),\
+        \ E the Riemann form of B.\n* `New.CMLattice.translatedYThetaCube`: The entire function G = σ·(σ′θ − σ·(θ′\
+        \ + ½a₁θ)), written as\n  a pointwise product of functions.\n\n## Relation to the literature\n\nKnown results:\
+        \ sigma and theta functions of a lattice, their addition formulas, the Weierstrass\nequation and the elliptic\
+        \ functions with poles at one point are classical. See `Lib.CM.Sigma.Basic`\nfor the sigma function used\
+        \ here and for sources.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+needs_draft: true

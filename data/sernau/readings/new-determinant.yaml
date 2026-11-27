@@ -1,0 +1,2659 @@
+group: New.Determinant
+overview: null
+files:
+  New.Determinant.AuxiliaryForms.DeepLevelPoincarePeriod:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.DeepLevelPoincarePeriod
+      name: New.Exchange.norm_poincare_period_sub_le
+      line: 634
+      signature: "lemma New.Exchange.norm_poincare_period_sub_le {E n : Type} {s : n → ℤˣ} [Field E] [CMType E]\n\
+        \    [Fintype n] [DecidableEq n] {V : Space E n s} [HasPrimitiveRoot5040 E]\n    {F : G E s → ℂ} {S : ℝ}\
+        \ {a : NumberField.RingOfIntegers E} {R : ℝ} {A : ℕ} {d : ℝ}\n    (hF : V.IsAutomorphic F) (hS : ∀ g : G\
+        \ E s, ‖F g‖ ≤ S) (ha : a ≠ 0)\n    {l : NumberField.InfinitePlace E → HCParam (s ⊕ᵥ (1 : Unit → ℤˣ))}\n\
+        \    (hF_level : HasLevel F (principalLevel n a))\n    (hR_le : ∀ w : NumberField.InfinitePlace E, R ≤ ‖Φ\
+        \ w (a : E)‖)\n    (hA : 2 * Core.numInfPlaces E * (card n + 1) + 2 ≤ A) (hA_sq : 8 * (card n + 1) ^ 2 <\
+        \ A)\n    (h_gap : ∀ w : NumberField.InfinitePlace E, (l w).HasLargeGap (2 * A)) (hR_nonneg : 0 ≤ R)\n \
+        \   (x : G E s) (h_sep : d ^ 2 ≤ R * (V.move x).firstMinimum) (hd : Core.numInfPlaces E ≤ d)\n    (hd_ten_le\
+        \ : 10 ≤ d) (ω α : GInf E (s ⊕ᵥ (1 : Unit → ℤˣ))) :\n    Integrable (fun r : GInf E s ↦ translatedCoeff\
+        \ l α ω (inl s 1 ∘ r)) ∧\n    ‖∫ h : G E s, ∑' γ : (V.sum (signedSpace (n"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.DeepLevelPoincarePeriod
+      importer: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      line: 3
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean
+      line: 8
+      endLine: 10
+      text: 'At every infinite place, the parameter of `Y₀` and minus the parameter of `Ỹ^0_0 = Y₀ ⊕ E ẽ` are
+
+        steep in the sense of `New.DiscreteSeries.IsSteep`. Separately, at deep level the period over `V`
+
+        of a Poincaré series on `V ⊕ ⟨1⟩` is approximated by the term of the identity coset.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean
+      line: 11
+      endLine: 46
+      text: "\n## Main definitions and results\n\n* `New.Data.exists_isSteep`: for one numbering of the indices,\
+        \ the parameter of `Y₀` (`z = false`)\n  and minus that of `Ỹ^0_0` (`z = true`) satisfy `New.DiscreteSeries.IsSteep`\
+        \ at every infinite\n  place `τ`. That is, the highest weight `New.HCParam.lowestKType` of the lowest `K`-type\
+        \ vanishes\n  on a block of indices of sign `+`. On the other indices the signs alternate and it decreases\n\
+        \  strictly within `[-3B, -B]`, `B = D.liftWeight 0 τ`. `New.Data.gridSigns` gives the signs and\n  `New.Data.gridParam`\
+        \ twice these parameters.\n* `New.Exchange.poincareKernel`: the function whose translates a Poincaré series\
+        \ sums. Its real\n  factor here is `New.Exchange.translatedCoeff`, a translated product of matrix coefficients.\n\
+        * `New.Space.IsLastColumn`: a rational vector of `V ⊕ ⟨1⟩` is the last column of a group element\n  `γ`,\
+        \ that is, the vector `γ ẽ` for the last basis vector `ẽ`. Last columns index the cosets, and\n  `New.Space.IsLastColumn.le_norm_archCoords_sub`\
+        \ separates them.\n* `New.Exchange.norm_poincare_period_sub_le`: at deep level the period equals the term\
+        \ of the\n  identity coset up to a small error.\n\nNotions from other files:\n* `New.Data.Φ`: the set of\
+        \ infinite places of the field `E` of the data `D`. Also, `D.ϱ` is the\n  number of hyperbolic planes of\
+        \ `Y₀`, `D.InitIndex 0` the set of basis indices of `X₀` other than\n  the last and `D.GridIndex z 0 0`\
+        \ the index set of `Y₀` or `Ỹ^0_0`.\n* `Φ w` in the bounds `R ≤ ‖Φ w a‖`: the complex embedding of `E` at\
+        \ the infinite place `w`.\n* `V.move x`, `vecAtPoint`, `archCoords`: the space `V` at the point `x` of the\
+        \ adelic group, the\n  adelic coordinates of a rational vector there, and their infinite part as a Euclidean\
+        \ vector.\n* `New.Data.liftWeight`: the number `κ_j(σ) = κ(σ) + (j + 1/2) Δ` at the infinite place `σ`,\
+        \ where\n  `κ` is `D.weight`, `Δ = D.gap` the gap and `D.halfGap` half the gap.\n* `New.GInf E s`: the product\
+        \ of one copy `New.USign s` of the complex unitary group `U(diag s)`\n  for each infinite place of `E`.\
+        \ For an integer vector `l : New.HCParam s`, read as twice a\n  Harish-Chandra parameter, `l.dsCoeff` is\
+        \ the Flensted-Jensen matrix coefficient on `U(diag s)`,\n  and `l.HasLargeGap A` says that `l` has gap\
+        \ at least `500 n ^ 3 + A`, for `n` the rank.\n* `New.signedSpace E s`: the standard space with matrix `diag(s)`;\
+        \ it needs a primitive root of\n  unity of order `5040` in `E` (`New.HasPrimitiveRoot5040`).\n* `New.Space.Γ`,\
+        \ `New.Space.quotMeasure`: the rational points of a hermitian space `V` inside the\n  adelic unitary group\
+        \ `G E s`, and the measure on a fundamental domain for them.\n* `New.principalLevel`: the finite adelic\
+        \ integral points congruent to `1` modulo an element `a`\n  of the ring of integers of `E`.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.AuxiliaryForms.DeepLevelVanishing:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      name: New.Data.exists_eq_zero_of_orthogonal_gridLevelForms
+      line: 694
+      signature: "lemma New.Data.exists_eq_zero_of_orthogonal_gridLevelForms {P : Parameters} (D : Data P) :\n \
+        \   ∃ g : GInf (n"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.DeepLevelVanishing
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/DeepLevelVanishing.lean
+      line: 10
+      endLine: 13
+      text: 'A form `y` of level `J_M = D.chosenLevel` on a hermitian space `V` is zero if it is orthogonal to
+
+        the restrictions of all forms of the deep level `J(𝔟)` on `V ⊕ ⟨1⟩`, translated by a suitable real
+
+        point `ω`. This requires size conditions on the level and a lower bound for the pairing of the
+
+        matrix coefficients for the parameter `l` of `V` and the parameter `l''` of `V ⊕ ⟨1⟩`.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/DeepLevelVanishing.lean
+      line: 14
+      endLine: 59
+      text: "\nEvery bound `S` of `‖y‖` is halved. The smoothing of `y` is its convolution with the translated\n\
+        coefficient for `l'`; the point `ω` with the lower bound for the pairing comes from steepness, in\nthe proof\
+        \ of `New.Data.exists_eq_zero_of_orthogonal_gridLevelForms`.\n\n1. Decay: `New.Exchange.integral_typeKernelMajorant_le`.\n\
+        2. The cusp: `New.Exchange.norm_le_half_of_firstMinimum_lt`.\n3. A Poincaré series is a form, so its period\
+        \ is zero:\n   `New.Exchange.poincare_period_translatedCoeff_eq_zero`.\n4. Unfolding shows that the smoothing\
+        \ of `y` is small: `New.Exchange.norm_poincare_period_sub_le`\n   and `New.Exchange.norm_realConv_translatedCoeff_le`.\n\
+        5. Undoing the smoothing: `New.Exchange.norm_le_half_of_le_firstMinimum`.\n\n## Main definitions and results\n\
+        \n* `New.Exchange.HasDeepLevelSizes`: the size conditions. The real number `m` in them is at least a\n \
+        \ power of `β` that absorbs all constants in the estimates.\n* `New.Exchange.eq_zero_of_petersson_translate_eq_zero`:\
+        \ the criterion at a given real point;\n  `New.Exchange.exists_forall_eq_zero_of_petersson_restrict_eq_zero`\
+        \ chooses the point place by\n  place.\n* `New.Data.exists_eq_zero_of_orthogonal_gridLevelForms`: the forms\
+        \ of level `J(\U0001D51F)` on `Ỹ^0_0`,\n  restricted to `U(Y₀)` after translation by one real point, detect\
+        \ every nonzero form of level\n  `J_M` on `Y₀`.\n\nNotions from other files:\n* `New.typeKernel`: `typeKernel\
+        \ l s` is the product over the infinite places `w` of the formal\n  degree times the conjugate matrix coefficient\
+        \ `(l w).dsCoeff` of the parameter `l w`.\n* `New.Space.IsForm`: `V.IsForm e F` says that `F` is automorphic,\
+        \ bounded, and fixed by the right\n  convolution `New.realConv` with `e` over the real points (if `e` is\
+        \ integrable).\n* `New.Space.firstMinimum`: the least norm of a nonzero vector of the lattice of a space,\
+        \ cut off at\n  `1`; `V.move x` is the space `V` with its adelic frame multiplied by `x`.\n* `New.Data.principalForms`,\
+        \ `New.Data.gridLevelForms`: the forms fixed by `D.chosenLevel`, and the\n  forms on `Ỹ^i_0` fixed by the\
+        \ deep level, that is, the principal level of\n  `D.gridLevelGen = D.piM ^ D.natB`, where `D.piM * star\
+        \ D.piM = D.M` is `M`.\n* `New.Data.spaceY`: the hermitian space `Y_j` with its adelic frame, chosen as\
+        \ in\n  `New.Data.exists_space_isStd_of_le_and_gram_eq_of_lt`.\n* `(l w).HasLargeGap B`: the entries of\
+        \ `l w = 2λ` are distinct, of the parity of `card n - 1`, and\n  entries of `λ` with different signs are\
+        \ at least `500 n³ + B` apart; `dsCoeff` is the matrix\n  coefficient of the parameter and `dsKernel` its\
+        \ conjugate times the formal degree.\n\n## Relation to the literature\n\nNonvanishing periods via Poincaré\
+        \ series of deep level and restriction results of Burger–Sarnak type\nare known in the literature. Related\
+        \ work: Prasad–Schulze-Pillot, Generalised form of a conjecture\nof Jacquet, 2008; Harris, Testing rationality\
+        \ of coherent cohomology of Shimura varieties, 2014;\nMuić, Fourier coefficients of automorphic forms and\
+        \ integrable discrete series, 2015.\n"
+  New.Determinant.AuxiliaryForms.DiagonalTurns:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.DiagonalTurns
+      name: New.Data.exists_transfersPeriods_first_last
+      line: 650
+      signature: "theorem exists_transfersPeriods_first_last (D : Data P) : ∃ c : D.MFoldTwist → ℂˣ,\n    D.HasAbsUpToNormPower\
+        \ (fun ϑ : D.MFoldTwist ↦ c ϑ)\n      (∏ s ∈ range D.m ×ˢ range D.m, D.turnRatio s.1 s.2) ∧\n    TransfersPeriods\
+        \ (.first D.m) (.last D.m) (vectorCountBound ^ D.m ^ 2) c"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.DiagonalTurns
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/DiagonalTurns.lean
+      line: 6
+      endLine: 10
+      text: 'A turn on the diagonal replaces the node `(j, j)` of a path through the two grids by
+
+        `(j + 1, j + 1)`. A seesaw moves the period to the space `S = Ỹ^(j+1)_j = Y^(j+1)_j` common to both
+
+        paths, where the line contributes a theta kernel. There the line is reversed and the two maps are
+
+        exchanged, and a second seesaw moves the period on. Together with the turns off the diagonal this
+
+        transfers the periods from the first path to the last.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/DiagonalTurns.lean
+      line: 11
+      endLine: 35
+      text: "\n## Main definitions and results\n\n* `New.Data.columnPeriod`, `New.Data.rowPeriod`: the integrals\
+        \ over the group of `S`.\n* `New.Data.isProportional_of_columnPeriod`, `New.Data.IsProportional.exists_rowPeriod_eq_mul`:\
+        \ the\n  seesaws.\n* `New.Data.exists_columnLineKernel_eq`: reversing the line.\n* `New.Data.exists_transfersPeriods_of_turn`:\
+        \ one turn, with the absolute value of its constant.\n* `New.Data.exists_transfersPeriods_first_last`: the\
+        \ `m ^ 2` turns composed.\n\nNotions from other files:\n* `D.gridSpace 0 false a b` is the space `Y^a_b`\
+        \ and `D.gridSpace 0 true a b` is `Ỹ^b_a`; their\n  bases are indexed by `D.GridIndex`.\n* `modKernel S\
+        \ T a b \U0001D52A Ψ p` is the theta kernel of the pair `(S, T)` with characters `a`, `b` of\n  `[U(1)]`,\
+        \ for a function `Ψ` on matrices modulo `\U0001D52A` and a polynomial `p`. On a space of rank `k`\n  the\
+        \ character `a` gives the splitting character `New.AutChar.spaceChar`, the base change of `a`\n  times `υ\
+        \ ^ (-k)`.\n* `D.GridForm false a b` holds the conjugate forms on `Y^a_b`, and `D.GridForm true a b` the\
+        \ forms\n  on `Ỹ^b_a`. In sums over tuples of matrices, one for each edge, the letter `S` names the tuple.\n\
+        * `IsProportional Γ Ψ Ξ`, written `Ψ ∝ Ξ`: the periods of `Ψ` on the path `Γ` are multiples of `Ξ`\n  by\
+        \ numbers that depend neither on the twist nor on the forms.\n* `TransfersPeriods Γ' Γ k c`: path data `Ψ'`\
+        \ on `Γ'` give path data `Ψ` on `Γ`, with the bound for\n  the number of roots of unity in a value multiplied\
+        \ by `k`, and `Ψ ∝ Ξ` implies `Ψ' ∝ Ξ / c`.\n* `D.HasAbsUpToNormPower c f`: `‖c ϑ‖² = C (Nm Q)ᵏ (f ϑ)²`,\
+        \ with `Q` the modulus of the twist `ϑ`\n  and with `C`, `k` independent of `ϑ`.\n"
+  New.Determinant.AuxiliaryForms.FirstPath:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      name: New.Data.exists_isPathDatum_integral_eq
+      line: 422
+      signature: "lemma exists_isPathDatum_integral_eq :\n    ∃ Ψ : ∀ ϑ : D.MFoldTwist, EdgeTuple ϑ → ℂ,\n     \
+        \ (∀ ϑ : D.MFoldTwist,\n        IsPathDatum (edgeMatrixCountBound ϑ ^ (2 * D.m)) (TwoGridPath.first D.m).edges\
+        \ (Ψ ϑ)) ∧\n      ∃ α : ℂ, ∀ (g : GInf D.E (D.gridSigns true 0 0 0))\n        (r : D.gridLevelForms D.m\
+        \ →ₗ[ℂ] D.principalForms (D.spaceY 0)), IsFlatRestriction g r →\n        ∀ (ϑ : D.MFoldTwist) (y' : D.GridForm\
+        \ false 0 D.m) (φ : D.gridLevelForms D.m),\n          ∫ x, y' x * D.lowerChainUpTo ϑ D.m (r φ) x ∂(D.spaceY\
+        \ D.m).quotMeasure =\n            α * gridPeriod (.first D.m) Ψ g (ϑ, y', φ)"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/FirstPath.lean
+      line: 8
+      endLine: 13
+      text: 'The first path consists of the spaces `Ỹ^m_0, …, Ỹ^0_0` and `Y₀, …, Y_m`, which are hermitian spaces
+
+        over the CM field `D.E`. These are the nodes `(z, 0, i)`, the first columns of the two grids:
+
+        `(false, 0, i)` is `Y_i` and `(true, 0, i)` is `Ỹ^i_0`. The iterated transposed lifts
+
+        `New.Data.transposedChain` along such a column are the transposes of the chain of theta lifts
+
+        `New.Exchange.weightedChain`. In the grid of the `Ỹ` the composite of all `m` of them is
+
+        `Θ^♭ = D.transposedChain 1 true 0`. The letter `ϑ` stands for an `m`-fold twist (`D.MFoldTwist`): a
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/FirstPath.lean
+      line: 14
+      endLine: 40
+      text: "tame character whose powers up to the `m`-th are non-trivial at each place of its modulus `Q`.\n\n\
+        Notions from other files:\n* `New.Data.GridForm` and `New.Data.TriangleForm`: in the grid of the `Y` (the\
+        \ Boolean `false`) the\n  conjugate forms and the forms at a node; in the grid of the `Ỹ` (the Boolean `true`)\
+        \ the forms and\n  the conjugate forms.\n* `New.Data.triangleModulus`: the modulus of the point data along\
+        \ the first column of a grid. It is\n  `\U0001D52A₀ = π_M Q` for the `Y` and `\U0001D51F = π_M ^ b` for\
+        \ the `Ỹ`, with `π_M = D.piM`.\n* `New.Data.triangleGLCard`: the index `n_\U0001D52A₀(Y_i)` or `n_\U0001D51F\
+        (Ỹ^i_0)` of the level of that modulus.\n  Each lift and each transposed lift along the column is multiplied\
+        \ by the index of its smaller\n  space; for the `Ỹ` these factors are constants.\n* `New.Data.principalForms`:\
+        \ the forms of the level `J_M = D.chosenLevel`, here on `Y₀`.\n* `New.Data.lowerChainUpTo`: the chain of\
+        \ twisted lifts from `Y₀` to `Y_j`; for `j = m` it is `Θ_ϑ`.\n\n## Main definitions and results\n\n* `New.Data.eq_zero_of_weightedChain_triangleLift_eq_zero`,\n\
+        \  `New.Data.gridLevelForms_eq_map_transposedChain`: the chain of the `Ỹ` is injective on level `\U0001D51F\
+        `,\n  and its transpose `Θ^♭` is onto that level.\n* `New.Data.IsFlatRestriction`: the map `res^♭`, given\
+        \ by its pairings;\n  `New.Data.exists_isFlatRestriction_range_eq_top`: at a suitable real point it is onto.\n\
+        * `New.Data.exists_isPathDatum_integral_eq`: the pairing with the lifts of a restriction is a\n  constant\
+        \ multiple of a period of path data on the first path.\n\n## Relation to the literature\n\nSee `New.Determinant.AuxiliaryForms.DeepLevelVanishing`\
+        \ for related work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.AuxiliaryForms.GridFirstColumns:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.GridFirstColumns
+      name: New.Data.exists_isPathDatum_diagonalPeriodForm_eq
+      line: 795
+      signature: "lemma exists_isPathDatum_diagonalPeriodForm_eq :\n    ∃ (C : ℂ) (Ψ : ∀ ϑ : D.MFoldTwist, EdgeTuple\
+        \ ϑ → ℂ), ∀ ϑ : D.MFoldTwist,\n      IsPathDatum (edgeMatrixCountBound ϑ ^ (2 * D.m)) (TwoGridPath.first\
+        \ D.m).edges (Ψ ϑ) ∧\n      ∀ (g : GInf D.E (D.gridSigns true 0 0 0)) (y' : D.GridForm false 0 D.m)\n  \
+        \      (φ : D.GridForm true 0 D.m),\n        diagonalPeriodForm ϑ zero_le g (transposedChain ϑ false 0 y')\n\
+        \            (D.transposedChain 1 true 0 φ) =\n          C * gridPeriod (.first D.m) Ψ g (ϑ, y', φ)"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.GridFirstColumns
+      importer: New.Determinant.AuxiliaryForms.FirstPath
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.FirstPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 2
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/GridFirstColumns.lean
+      line: 9
+      endLine: 13
+      text: 'The first path goes from `Ỹ^m_0` to `Ỹ^0_0 = Y₀ ⊕ E ẽ₀` and from `Y₀` to `Y_m`. Its spaces are the
+
+        nodes `(z, 0, i)`, the first columns of the two grids: `(false, 0, i)` is `Y_i` and `(true, 0, i)`
+
+        is `Ỹ^i_0`. A form on `Ỹ^m_0` and a conjugate form on `Y_m` move down these columns by transposed
+
+        lifts and meet at `i = 0`. The product `Ψ¹` of the point data of the edges computes the period of
+
+        the two iterated transposed lifts `New.Data.transposedChain`. The sum `Ψ⁰` of the translates of
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/GridFirstColumns.lean
+      line: 14
+      endLine: 40
+      text: "`Ψ¹`, weighted by the characters of the edges, is a path datum, and its period is the number of\ntranslates\
+        \ times that of `Ψ¹`.\n\n## Main definitions and results\n\n* `New.Data.exists_petersson_eq_diagonalPeriodForm`:\
+        \ the period with a form on `Ỹ^0_0`, as a\n  functional of the form on `Y₀`, is a Petersson product.\n*\
+        \ `New.Data.diagonalPeriodForm_tupleAction`: translating the matrices by a family that is `1` at\n  the\
+        \ ends and `diag(g, 1)` at `(0, 0)` of the `Ỹ`, `g` being its member at `(0, 0)` of the `Y`,\n  multiplies\
+        \ the period by the characters of the edges.\n* `New.Data.firstPointDatum`, `New.Data.firstPathDatum`: the\
+        \ functions `Ψ¹` and `Ψ⁰`.\n* `New.Data.exists_isPathDatum_diagonalPeriodForm_eq`: the period of the iterated\
+        \ transposed lifts\n  is a constant times the period of path data on the first path.\n\nNotions from other\
+        \ files:\n* `New.Data.triangleModulus`: the modulus `\U0001D52A₀ = π_M Q` for the chain of the `Y` and `\U0001D51F\
+        \ = π_M ^ b`\n  for that of the `Ỹ`, with `π_M = D.piM`. `New.Data.gridModulus` is `\U0001D52A = \U0001D51F\
+        Q`, where `Q` comes\n  from the twist `ϑ`. `New.Data.triangleGLCard` is the index `n_\U0001D52A₀(Y_i)` or\
+        \ `n_\U0001D51F(Ỹ^i_0)`.\n* `New.Data.levelIndex`: the index of the level `New.Data.nodeLevel` at a node,\
+        \ which is the level\n  `\U0001D52A` at the `Y_i` and the level `\U0001D51F` elsewhere.\n* `New.Data.diagonalPeriodForm`:\
+        \ the period of a conjugate form on `Y^j_j` and a form on `Ỹ^j_j`\n  along the embedding of unitary groups,\
+        \ shifted on the line by a scalar from the twist, at a real\n  point.\n* `New.Data.EdgeTuple`: a matrix\
+        \ modulo `\U0001D52A` for each pair of nodes. A `NodeFamily` of invertible\n  matrices acts on it by `New.Data.tupleAction`;\
+        \ `New.Data.edgeCharProd` is the product of the\n  characters of the edges at the determinants of such a\
+        \ family.\n* `New.GridPath.formMap`: the composite of the maps by the matrices of a tuple along a path.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.AuxiliaryForms.GridPaths:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.GridPaths
+      name: New.TwoGridPath.turn_induction
+      line: 341
+      signature: "lemma turn_induction {motive : TwoGridPath m → Finset (ℕ × ℕ) → Prop} (h_last : motive (last m)\
+        \ ∅)\n    (h_turn : ∀ (Γ : TwoGridPath m) (s : ℕ × ℕ) (Γ' : TwoGridPath m) (T : Finset (ℕ × ℕ)),\n     \
+        \ Γ.Turn s Γ' → s ∉ T → motive Γ' T → motive Γ (insert s T)) :\n    motive (first m) (range m ×ˢ range m)"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.GridPaths
+      importer: New.Determinant.Chain.Moduli
+      line: 1
+    - module: New.Determinant.Chain.Moduli
+      importer: New.Determinant.Chain.ChainNorms
+      line: 1
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/GridPaths.lean
+      line: 6
+      endLine: 7
+      text: 'The combinatorics of the paths along which forms are moved through the two grids of unitary groups,
+
+        the grid of the `Y^i_j` and the grid of the `Ỹ^i_j`. Here only the indices occur.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/GridPaths.lean
+      line: 8
+      endLine: 23
+      text: "\nA path goes from `(m, 0)` to `(0, m)` by steps up (`j` grows) or left (`i` falls) and meets the\n\
+        diagonal once, at some `(l, l)`. Its first half lies in the grid of the `Ỹ` and its second half in\nthat\
+        \ of the `Y`. Both halves are recorded in one shape, as paths from `(0, m)` to `(l, l)` by steps\ndown or\
+        \ right. The half in the grid of the `Y` is read backwards, the way conjugate forms move. The\nhalf in the\
+        \ grid of the `Ỹ` is read forwards, the way forms move, with the two indices exchanged: a\nstep left is\
+        \ recorded as a step down, and a step up as a step right.\n\n## Main definitions and results\n\n* `New.GridPath`:\
+        \ a monotone path in one grid. `New.TwoGridPath`: a path through both grids, given\n  by two halves that\
+        \ meet on the diagonal.\n* `New.TwoGridPath.Turn`: a turn replaces a node `(i, j)` by `(i + 1, j + 1)`.\n\
+        * `New.TwoGridPath.exists_turn`: every path but the last can be turned.\n* `New.TwoGridPath.turn_induction`:\
+        \ induction backwards along turns, one at each `(i, j)` with\n  `i, j < m`, from the last path to the first.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.AuxiliaryForms.LastPath:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.LastPath
+      name: New.Data.isProportional_lastPathPeriod
+      line: 1096
+      signature: "theorem isProportional_lastPathPeriod (Ψ : ∀ ϑ : D.MFoldTwist, EdgeTuple ϑ → ℂ) :\n    IsProportional\
+        \ (.last D.m) Ψ fun ((ϑ, y, φ) : D.PeriodTriple) ↦\n      lastPathPeriod (Ψ ϑ) (fun z : Bool ↦ z.rec y φ)\
+        \ / triangleGLCard false ϑ D.m"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.LastPath
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 3
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/LastPath.lean
+      line: 7
+      endLine: 11
+      text: 'On the last path all spaces are positive definite. Forms are read as algebraic forms on the groups
+
+        `New.stdSpace`, and theta lifts become algebraic. Branching from `GL (n + 1)` to `GL n` for
+
+        interlacing parameters is an integral pairing with explicit bounds, so a period over the smaller
+
+        definite group is a constant times an integral of this pairing over the finite points. This gives
+
+        the finite sum `Ξ = New.Data.lastPathPeriod` to which all periods on the last path are proportional.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/LastPath.lean
+      line: 12
+      endLine: 46
+      text: "This is part of the construction of spanning forms on `U(Y_0)` with integral twisted lifts and\nbounded\
+        \ conjugates; the denominators and the conjugates of `Ξ` are bounded in\n`New.Determinant.AuxiliaryForms.SpanningForms`.\
+        \ The prefix `lastPath` of a name refers to the\nlast path, which consists of the edges between the nodes\
+        \ `(z, j, m)`, `j ≤ m`.\n\n## Main definitions and results\n\n* `New.Exchange.IsBranchingPairing`: an integer\
+        \ matrix whose pairing is equivariant for block\n  matrices, is bounded, and computes the period of two\
+        \ algebraic forms over the smaller definite\n  group as a constant times the integral of the pairing of\
+        \ their values at finite points.\n* `New.Exchange.exists_isBranchingPairing`: such a matrix exists. It is\
+        \ the branching matrix of\n  `New.exists_branching_matrix` followed by the duality of `New.exists_isDualPairing_of_isHCParam`.\n\
+        * `New.Data.exists_lastPathPeriod_mem_smul_norm_le`: for a path datum, `Ξ` is a sum of a controlled\n  number\
+        \ of terms, each with the bound that holds for the pairings of the vectors reached by the\n  lifts.\n* `New.Data.isProportional_lastPathPeriod`:\
+        \ every period on the last path is a constant times `Ξ`\n  divided by the index of the level `J(\U0001D52A\
+        ₀)` on `Y_m`, which differs from the index of `J(\U0001D52A)` by a\n  constant factor.\n\nNotions from other\
+        \ files:\n* `New.IsHCParam`: `l` lists twice the Harish-Chandra parameter of the weight `(κ, e)`, in some\n\
+        \  order; `κ` counts the columns of each height and `e` is the exponent of the determinant.\n* `New.ofAlgForm`:\
+        \ the function g ↦ ⟨v⁺, ρ(g_∞⁻¹) φ(g_f)⟩ on the adelic group attached to an\n  algebraic form φ, with v⁺\
+        \ = `New.highestVector` for the parameter.\n* `New.classIntegral`: the integral over Γ \\ G of a smooth\
+        \ left Γ-invariant function, for the Haar\n  measure that gives the level K volume 1, written as a sum over\
+        \ classes.\n* `New.StdClasses`: the double cosets of G_f by its rational points on the left and a level\
+        \ K on\n  the right.\n* `New.Data`: the admissible data `D` for the fixed parameters `P`. They give the\
+        \ CM field `D.E`,\n  its infinite places `D.Φ` and the number `m = D.m` of lifts in the chain.\n* `New.Data.gridSpace`:\
+        \ the Hermitian space at the node `(z, i, j)`, for the offset `0`. It is\n  `Y^i_j` if `z = false` and `Ỹ^j_i`\
+        \ if `z = true`, and `Y_j = Y^0_j`.\n* Moduli of a twist `ϑ` with places `Q`, where `ϖ = D.piM` and `b =\
+        \ D.natB`: `\U0001D52A = ϖ ^ b Q`\n  (`New.Data.gridModulus`), `\U0001D52A₀ = ϖ Q` and `\U0001D51F = ϖ ^\
+        \ b` (`New.Data.triangleModulus`). The level\n  `J(\U0001D51E)` consists of the integral finite points that\
+        \ reduce to `1` modulo `\U0001D51E`.\n"
+  New.Determinant.AuxiliaryForms.PathData:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.PathData
+      name: New.IsSumOfRootsOfUnity.sum
+      line: 442
+      signature: "lemma sum {X : Type*} [Fintype X] {f : X → ℂ} (hf : ∀ x : X, IsSumOfRootsOfUnity N (f x)) :\n\
+        \    IsSumOfRootsOfUnity (card X * N) (∑ x : X, f x)"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.PathData
+      importer: New.Determinant.AuxiliaryForms.Turns
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.Turns
+      importer: New.Determinant.AuxiliaryForms.DiagonalTurns
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.DiagonalTurns
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/PathData.lean
+      line: 10
+      endLine: 15
+      text: 'This file sets up the two grids of hermitian spaces attached to admissible data `D` and an `m`-fold
+
+        twist `ϑ`. A node is a triple `(z, a, b)`: the space `Y^a_b` for `z = false` and `Ỹ^b_a` for
+
+        `z = true`. The element `ϖ = π_M = New.Data.piM`, of norm `M`, generates the product of the chosen
+
+        places, and Q is the product of the places of `ϑ`. This file defines the moduli of the grids, the
+
+        spaces, characters, levels and moves at the nodes and edges, then functions on tuples of matrices
+
+        and the periods formed with them.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/PathData.lean
+      line: 16
+      endLine: 37
+      text: "\n## Main definitions and results\n\n* `New.Data.gridModulus`: the modulus `\U0001D52A = \U0001D51F\
+        \ Q` with `\U0001D51F = ϖ ^ D.natB`. For the twist `1` it is `\U0001D51F`\n  (`New.Data.gridModulus_one_ideal`).\n\
+        * `New.Data.liftMove`, `New.Data.transposedMove`: the theta lift `(a, b) → (a + 1, b)` and the\n  transposed\
+        \ lift `(a, b + 1) → (a, b)` with a single matrix as finite datum.\n* `New.Data.IsPathDatum`: functions\
+        \ of a matrix per edge of a path that are equivariant at the inner\n  nodes and under the level `\U0001D51F\
+        ` at `Ỹ^m_0`, vanish unless the vertical edges (those whose character\n  carries the twist) carry split\
+        \ injective matrices, and take sums of few roots of unity as values.\n* `New.Data.gridPeriod`, `New.Data.IsProportional`:\
+        \ the period of path data, and the relation\n  `Ψ ∝ Ξ`.\n\nNotions from other files:\n* `New.Modulus`: a\
+        \ nonzero ideal of O_E prime to its complex conjugate.\n* `New.Data.MFoldTwist`: a twist ϑ whose tame part\
+        \ has ψ_wⁿ non-trivial for all w in Q and\n  1 ≤ n ≤ m.\n* `New.Data.GridIndex`, `New.Data.gridSigns`, `New.Data.gridParam`:\
+        \ the index set of a basis, the\n  signs of the hermitian form and twice the parameter of the type at a\
+        \ node with an offset o; the\n  grids have o = 0.\n* `New.Exchange.IsEdgeFamily`: a family of characters\
+        \ over two pairs of conjugate cuspidal types\n  which, with a polynomial, form an edge for the real Weil\
+        \ representation.\n"
+  New.Determinant.AuxiliaryForms.RegularParameters:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.RegularParameters
+      name: New.Exchange.exists_isHCParam_of_hasGap
+      line: 153
+      signature: "lemma exists_isHCParam_of_hasGap {s : n → ℤˣ} {c : ℕ} {l : Φ → n → ℤ}\n    (hc : ∀ w : Φ, (toHCParam\
+        \ s (l w)).HasGap c) :\n    ∃ (κ : Φ → ℕ → ℕ) (e : Φ → ℤ), IsHCParam κ e l"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.RegularParameters
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 1
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/RegularParameters.lean
+      line: 6
+      endLine: 10
+      text: 'A weight is a pair `(κ, e)`: `κ w h` is the number of columns of height `h` at the place `w`, and
+
+        `e w` is the power of the determinant. `New.IsHCParam κ e l` says that `l w` lists twice the
+
+        Harish-Chandra parameter of `(κ, e)` in some order. This file finds a weight for each regular
+
+        parameter `l = 2λ` (`New.HCParam.HasGap`). It also bounds a weight by its parameter: the number of
+
+        boxes and the power of the determinant.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/RegularParameters.lean
+      line: 11
+      endLine: 20
+      text: "\n## Main definitions and results\n\n* `New.Exchange.boxes_le_card_mul_of_isHCParam`, `New.Exchange.natAbs_le_of_isHCParam`:\
+        \ a bound `β`\n  on the entries of `l` bounds the number of boxes and, for nonempty `n`, the determinant\
+        \ power.\n* `New.Exchange.exists_isHCParam_of_hasGap`: every regular parameter comes from a weight;\n  `New.Exchange.exists_isHCParam_of_le`\
+        \ adds control of the determinant power from below.\n\nNotions from other files:\n* `New.boxes κ N`: the\
+        \ number of boxes in the columns of height below `N`, over all places.\n"
+  New.Determinant.AuxiliaryForms.SpanningForms:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      name: New.Data.exists_span_short_lifts_eq_top
+      line: 773
+      signature: "lemma exists_span_short_lifts_eq_top : ∃ c : D.MFoldTwist → ℂˣ,\n    D.HasAbsUpToNormPower (fun\
+        \ ϑ : D.MFoldTwist ↦ c ϑ)\n      (∏ i ∈ range D.m, ∏ j ∈ range D.m, D.turnRatio i j) ∧\n    span ℂ {y :\
+        \ D.principalForms (D.spaceY 0) |\n      (∀ (ϑ : D.MFoldTwist) (l : ℕ) [Fact l.Prime] (place : PadicPlace\
+        \ l), l.Coprime ϑ.normQ →\n        (c ϑ / c 1 : ℂ) • D.lowerChainAtLevel ϑ y ∈ integralForms (l"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/SpanningForms.lean
+      line: 9
+      endLine: 10
+      text: 'Let `Ξ = New.Data.lastPathPeriod Ψ y` be the sum attached to the last path. Its denominators are
+
+        small at the primes that do not divide `Nm Q` and, for the trivial twist, its conjugates are small.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/SpanningForms.lean
+      line: 11
+      endLine: 47
+      text: "Going back through the turns to the first path, and reading the values of a form from its pairings\n\
+        with delta forms, we get integrality and size for the chain of lifts from `Y₀` to `Y_m` on the\nrestrictions\
+        \ of short forms. Throughout, `ϑ` is an `m`-fold twist, `Q` is its finite set of places,\n`ϑ.normQ` is `Nm\
+        \ Q`, and sizes are measured by the parameters `x = D.x` and `b = D.b`. The\nmodulus `\U0001D52A = gridModulus\
+        \ ϑ` of the twist is the product of the chosen places to the power\n`D.natB` (the number `b` as a natural\
+        \ number), times `Q`. The other numbers of the data that occur\nare the level `D.M`, the order `D.q₁` of\
+        \ the root of unity that generates `E` over\n`K = ℚ(√-P.d)`, the prime `P.d`, the ranks `D.n j` and the\
+        \ parameter `D.r`; at most\n`D.natB * D.r ^ 4` boxes occur in each diagram of a weight on the last path.\n\
+        \n## Main definitions and results\n\n* `New.Data.exists_mul_lastPathPeriod_mem_embValRing`, `New.Data.norm_lastPathPeriod_le`:\n\
+        \  denominators and conjugates of `Ξ`.\n* `New.Data.exists_integral_lowerChainUpTo_eq_lastPathPeriod`: the\
+        \ index of the level times the\n  pairing with the chain of lifts of a restriction is a constant multiple\
+        \ of `Ξ` divided by the\n  constants of the turns.\n* `New.Data.exists_dualPairing_eq_mul_lastPathPeriod`:\
+        \ the values of the chain of lifts, read by\n  delta forms, with one constant for all twists, points and\
+        \ forms.\n* `New.Data.exists_span_short_lifts_eq_top`: the space of forms on `Y₀` is spanned by forms with\
+        \ two\n  properties: for every twist their scaled lifts are integral at the primes not dividing `Nm Q`,\
+        \ and\n  for the trivial twist the conjugates of their lifts are small. The passage to target forms is\n\
+        \  `New.Data.exists_span_isAuxiliaryForm_eq_top`, in `New.Determinant.Twist.LongForms`.\n\nNotions from\
+        \ other files:\n* `New.Data.lastPathPeriod Ψ y`: the sum over the tuples of matrices `S` of `Ψ S` times\
+        \ the pairing\n  of the lifts of the two forms `y` along the halves of the last path, integrated over the\
+        \ finite\n  points of `Y^m_m`.\n* `New.Data.gridLevelForms m`: the forms of level `J(\U0001D51F)` on `Ỹ^m_0`,\
+        \ where the half `true` of the\n  last path starts; `\U0001D51F` is generated by `New.Data.gridLevelGen`.\n\
+        * `New.Data.levelY ϑ m`: the level `J(\U0001D52A₀)` on `Y_m`, where `\U0001D52A₀` is the product of the\
+        \ chosen places\n  and `Q`.\n* `New.weylGauge κ e g v`: the largest `p`-adic absolute value of a coordinate\
+        \ of `g⁻¹ v`.\n* `New.weylNormSq v`: the squared norm of `v` for the integral Gram matrix of the Weyl module.\n\
+        * `New.Data.lowerChain ϑ`: the chain of lifts, that is the composite of the `m` theta lifts from\n  `Y₀`\
+        \ to `Y_m`, with values in algebraic forms. `New.Data.lowerChainAtLevel ϑ` is the same map with\n  values\
+        \ in the forms of the last level and its character; `levelY ϑ m` fixes these forms.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.AuxiliaryForms.Turns:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.AuxiliaryForms.Turns
+      name: New.Data.exists_transfersPeriods_off_diagonal
+      line: 944
+      signature: "lemma exists_transfersPeriods_off_diagonal (z : Bool) (hab : a < b) (hb : b < D.m) :\n    ∃ c\
+        \ : D.MFoldTwist → ℂˣ,\n      D.HasAbsUpToNormPower (fun ϑ : D.MFoldTwist ↦ c ϑ)\n        (if z then D.turnRatio\
+        \ b a else D.turnRatio a b) ∧\n      ∀ (Γ' : TwoGridPath D.m) (q : GridPath 0 D.m a (b + 1))\n        (r\
+        \ : GridPath (a + 1) b Γ'.diagonalIndex Γ'.diagonalIndex),\n        Γ'.half z = q.down.right.append r →\n\
+        \        TransfersPeriods Γ' ⟨Γ'.diagonalIndex, update Γ'.half z (q.right.down.append r)⟩ 1 c"
+    routeToMain:
+    - module: New.Determinant.AuxiliaryForms.Turns
+      importer: New.Determinant.AuxiliaryForms.DiagonalTurns
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.DiagonalTurns
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 1
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/AuxiliaryForms/Turns.lean
+      line: 8
+      endLine: 11
+      text: 'A turn of a path replaces two sides of a square by the two other sides. The `m`-fold twist is `ϑ`,
+
+        the characters of the edges are built from `D.untwistedLiftChar j`, of weight `-D.liftWeight j`, and
+
+        the vertical edges, whose character carries a power of `ϑ`, go from `Y^i_j` to `Y^i_(j+1)` and from
+
+        `Ỹ^i_j` to `Ỹ^i_(j+1)`. The forms that move in the grid of the `Y` are conjugate forms.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/AuxiliaryForms/Turns.lean
+      line: 12
+      endLine: 42
+      text: "\n## Main definitions and results\n\n* `New.Data.Corner.IsTurn.exists_isPathDatum`: the match of a\
+        \ path datum, after a Fourier transform\n  in the column of the line if the turn is on the diagonal, is\
+        \ a path datum.\n* `New.Data.exists_squareLaw_grid_hasAbsUpToNormPower`: the exchange\n  `New.Exchange.one_square_identity_of_isEdgeFamily`\
+        \ on a square of a grid, with a constant\n  `κ / c ϑ` whose denominator has, up to a power of the norm,\
+        \ the absolute value\n  `New.Data.turnRatio`.\n* `New.Data.TransfersPeriods`: path data pass forwards, and\
+        \ proportionality of periods passes\n  backwards.\n* `New.Data.exists_transfersPeriods_off_diagonal`: a\
+        \ turn off the diagonal transfers periods.\n\nNotions from other files:\n* `New.Data.GridNode`: a triple\
+        \ `(z, a, b)`, the node `Y^a_b` if `z = false` and `Ỹ^b_a` if\n  `z = true`. Its index set is `D.NodeIndex`,\
+        \ which is `D.GridIndex z a b`.\n* `New.Data.EdgeTuple`: a matrix over the residue ring modulo `gridModulus\
+        \ ϑ` for each pair of\n  nodes. The modulus is that of the twist `ϑ` times a power of the product of the\
+        \ chosen places. A\n  `New.Data.NodeFamily` is an invertible matrix `g q` for each node `q`; it takes the\
+        \ matrix `S e`\n  on an edge `e = (p, q)` to `(g q)⁻¹ * S e * g p`. It is admissible (`New.Data.IsAdmissibleFamily`)\n\
+        \  if at each of the two starting nodes it lies in the level of the node and at each node\n  `(true, a,\
+        \ a)` it is `g ⊕ 1` for its element `g` at `(false, a, a)`.\n* `New.Data.IsPathDatum N w`: a function of\
+        \ the matrices on the edges `w` that admissible families\n  fix up to `edgeCharProd`, that vanishes unless\
+        \ the vertical edges carry split injective matrices,\n  and whose values are sums of at most `N` roots of\
+        \ unity.\n* `New.AreMatched`: matched functions, `Φ(x_γ) = χ(det γ) Ψ(y_γ)` with both supported on such\n\
+        \  matrices, `y_γ` being the first columns of `γ` and `x_γ` the last rows of `γ⁻¹`. The subring\n  argument,\
+        \ here `⊤`, is where the entries of `γ` and `γ⁻¹` lie. `New.Exchange.matchOf` is the match\n  of a function.\n\
+        * `New.Exchange.SquareLaw` with constant `C`, for functions `L` and `L'` on matrices over a finite\n  ring:\
+        \ `∑ Ψ L' = C ∑ Φ L` for all matched `Φ`, `Ψ`.\n"
+  New.Determinant.Chain.ChainNorms:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Chain.ChainNorms
+      name: New.Data.lowerChainAtLevel_injective
+      line: 794
+      signature: "lemma lowerChainAtLevel_injective {P : Parameters} (D : Data P) (ϑ : D.MFoldTwist) :\n    Function.Injective\
+        \ (D.lowerChainAtLevel ϑ)"
+    routeToMain:
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Chain/ChainNorms.lean
+      line: 9
+      endLine: 15
+      text: 'This file proves the two commutation relations in the squares of the triangle of lifts and
+
+        computes the adjoints of descents. With these, the lifts satisfy the conditions
+
+        `New.Exchange.IsTriangle`. This file then compares the chain ι_ϑ (`New.Data.lowerChainAtLevel`)
+
+        with the weighted chain of the triangle `z = false`. Here J_M is the principal level at the chosen
+
+        places `New.Data.chosenPlace`, and Q is the product of the places of the twist ϑ. The weighted
+
+        chain `New.Exchange.weightedChain` is the composite of the lifts `New.Data.triangleLift`, the n-th
+
+        multiplied by N_n = `New.Data.triangleGLCard` false ϑ n, an order of GL over a residue ring.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Chain/ChainNorms.lean
+      line: 16
+      endLine: 61
+      text: "\nThe node `(i, n)` of a triangle is the space of the interval `[i + 1, i + n]`: it has the stem and\n\
+        the blocks `i + 1, …, i + n`. The nodes `(i, 0)` are the empty intervals; they carry the space at\n`(0,\
+        \ 0)` negated `i` times. The lift `triangleLift` goes along a right pair and adds the last block.\nThe descent\
+        \ `triangleTransposedLift` is a transposed lift along a left pair and removes the first\nblock; it stands\
+        \ for the adjoint of the map that adds this block. The ascent `triangleReversedLift`\nis a transposed lift\
+        \ along the reversed pair and adds the first block. The flag `z = false` selects\nthe chain Y₀, …, Y_m,\
+        \ and `z = true` the second chain, which is untwisted, has blocks of length\n`t - 1` and starts from Y₀\
+        \ plus a line.\n\n## Main definitions and results\n\n* `New.Data.exists_triangleLift_triangleTransposedLift_comm`,\n\
+        \  `New.Data.exists_triangleTransposedLift_adjoint_comm`: the two commutation relations, with the\n  moduli\
+        \ of their constants.\n* `New.Data.exists_isTriangle`: with suitable descents these data satisfy the conditions\n\
+        \  `New.Exchange.IsTriangle`; for `z = false` also `New.Exchange.HasSquareModuli`, with the ratios of\n\
+        \  Hecke values `New.Data.quotientRatio` as moduli.\n* `New.Data.inner_lowerChainAtLevel`: inner products\
+        \ of lifts are a multiple of those along the\n  chain.\n* `New.Data.lowerChainAtLevel_injective`: ι_ϑ is\
+        \ injective, because the chain is.\n\nNotions from other files:\n* `New.Data.RowIndex`, `New.Data.Y`: The\
+        \ basis index set of Y₀: e₁, …, e_ϱ, the indices of X₀, a\n  middle vector, and e*₁, …, e*_ϱ. The basis\
+        \ index set of Y_j: the block `RowIndex`, then j blocks\n  of t indices each.\n* `New.Data.MFoldTwist`:\
+        \ a twist ϑ whose tame part ψ has ψ_wⁿ non-trivial for all places w in its\n  set Q and 1 ≤ n ≤ m.\n* `New.Data.chosenLevel`,\
+        \ `New.Data.lastLevel`: The level J_M consists of the elements of\n  K₀ = `New.stdLevel` that are 1 modulo\
+        \ the chosen places `New.Data.chosenPlace`. The level J_ϑ(Y_m)\n  on Y_m consists of those elements of J_M\
+        \ that are block upper triangular modulo Q.\n* `New.Data.triangleModulus`, `New.Data.triangleGLCard`: the\
+        \ modulus \U0001D52A of the triangle, and the\n  order of the general linear group of a node modulo \U0001D52A\
+        . A lift times this order is the lift for the\n  measure that gives the principal level of \U0001D52A the\
+        \ volume 1.\n* `New.Data.HasAbsUpToNormPower c f`: `‖c ϑ‖²` is `(f ϑ)²` times a constant, possibly zero,\
+        \ and a\n  fixed integral power of the norm of Q.\n\n## Relation to the literature\n\nThe chain of m theta\
+        \ lifts from U(Y_0) to the definite U(Y_m), mostly outside the range of Rallis's\nformula, is injective\
+        \ at level J_M. On target forms its Gram form is that of a product of m Hecke\noperators times a scalar\
+        \ whose modulus is a product of ratios of Hecke values. The norm and\ninjectivity of a single cuspidal theta\
+        \ lift, also below Weil's range, are known in the literature.\nRelated work: Gan–Qiu–Takeda, Regularized\
+        \ Siegel–Weil formula and Rallis inner product formula (Thm\n1.3), 2014; Bruinier–Funke, Injectivity of\
+        \ the Kudla–Millson lift, 2010; He, Compositions of theta\ncorrespondences, 2005.\n"
+  New.Determinant.Chain.Moduli:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Chain.Moduli
+      name: New.Data.CriticalPair.isTameFor_mul_and_lValueProd_eq
+      line: 402
+      signature: "theorem CriticalPair.isTameFor_mul_and_lValueProd_eq (p : D.CriticalPair) (hp : p.IsRamified)\n\
+        \    (ξ : D.Twist) (e : ℕ) [NeZero e] :\n    IsTameFor (D.twistModulus ξ.toTameChar e) (p.character * ξ.toAutChar)\n\
+        \      (fun τ : NumberField.InfinitePlace D.E ↦ -p.negWeight τ)\n      (charOfTamePart (D.twistModulus ξ.toTameChar\
+        \ e) (p.tamePart * ξ.tamePart)) ∧\n    IsTameFor (D.twistModulus ξ.toTameChar e) (p.character * ξ.toAutChar)⁻¹\n\
+        \      (fun τ : NumberField.InfinitePlace D.E ↦ p.negWeight τ)\n      (charOfTamePart (D.twistModulus ξ.toTameChar\
+        \ e) (p.tamePart * ξ.tamePart))⁻¹ ∧\n    ∀ sign : ℤˣ,\n      lValueProd (D.twistModulus ξ.toTameChar e).places\
+        \ ((p.character * ξ.toAutChar) ^ sign.val) p.z\n        =\n        lValueProd {w : FinPlace D.E | D.IsChosen\
+        \ w} p.character p.z *\n          (ξ.normQ : ℝ) ^ p.z ^ 2 * D.lRatioProd p.character p.z ξ.toTameChar ^\
+        \ 2"
+    routeToMain:
+    - module: New.Determinant.Chain.Moduli
+      importer: New.Determinant.Chain.ChainNorms
+      line: 1
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Chain/Moduli.lean
+      line: 8
+      endLine: 12
+      text: 'This file treats functions of an `m`-fold twist `ϑ` with modulus Q. Here `ϖ` generates the product
+
+        of the chosen places, and `D.twistModulus ϑ e` is the modulus `ϖ ^ e Q`, with exponent e at the
+
+        chosen places and 1 at the places of Q. It defines the ratios of Hecke values and the absolute
+
+        value of a function of the twist up to a constant and a power of the norm of Q. Heights are
+
+        stated with `New.HeightLe c y`: the family y, indexed by the ι : ℂ ≅ ℚ̄_l, has height at most c.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Chain/Moduli.lean
+      line: 13
+      endLine: 26
+      text: "\n## Main definitions and results\n\n* `New.Data.lRatioProd`, `New.Data.HasAbsUpToNormPower`: ratios\
+        \ of Hecke values, and the absolute\n  value of a function of the twist up to a constant and a power of\
+        \ the norm of Q.\n* `New.Data.CriticalPair.isTameFor_mul_and_lValueProd_eq`: for a ramified pair with character\
+        \ ν and\n  a twist ξ, the character νξ and its inverse are tame, and their products of `L`-values are\n\
+        \  expressed by the ratios of Hecke values.\n\nNotions from other files:\n* `New.Data.MFoldTwist`: a twist\
+        \ ϑ whose tame part has ψ_wⁿ non-trivial for all w in Q and\n  1 ≤ n ≤ m.\n* `New.Data.CriticalPair`: an\
+        \ integer 1 ≤ z ≤ t and a character ν of weight −c, z ≤ c ≤ 4b, with\n  tame part supported on the chosen\
+        \ places.\n"
+  New.Determinant.Chain.NormOfChain:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Chain.NormOfChain
+      name: New.Data.range_goodLift_le
+      line: 499
+      signature: "lemma range_goodLift_le {ϑ : D.TameChar} {j : D.LiftIndex}\n    {N : Submodule ℂ (D.descentPair\
+        \ ϑ j).FormV}\n    (h_eigen : ∀ p : FinPlace D.E × ℕ → ℂ,\n      ∀ y ∈ D.goodForms (D.spaceW j) ⊓ D.eigenPart\
+        \ (D.spaceW j) p, ∀ c ∈ D.goodTupleFamilies,\n      D.singleLift ϑ j y ∈ (DescentPair.groupAlgAction (D.descentPair\
+        \ ϑ j)\n        (tupleIdem D.RowIndex c)).range →\n      D.singleLift ϑ j y ∈ N) :\n    (D.goodLift ϑ j).range\
+        \ ≤ N"
+    routeToMain:
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Chain/NormOfChain.lean
+      line: 7
+      endLine: 11
+      text: 'The volume of a linear map `u` between finite-dimensional Hilbert spaces is
+
+        `det (u* u) = u.normDet ^ 2`. For data `D`, the good forms (`New.Data.goodForms`) are the image of
+
+        the idempotent `New.Data.e₀`, and the target forms are the good forms on `Y₀`. `D.goodLift ϑ j` is
+
+        the restriction of the lift `D.singleLift ϑ j` to the good forms on `W_j`; its range is the space of
+
+        lifts.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Chain/NormOfChain.lean
+      line: 12
+      endLine: 42
+      text: "\n* `New.Data.liftDeterminant`, `New.Data.chainDeterminant`: the volumes of the lift on the good forms\n\
+        \  and of `ι` on the target forms.\n* `New.Data.exists_normDet_goodLift_sq_eq`: the volume of one lift in\
+        \ terms of the determinant on\n  the target forms of the series of Rallis' formula.\n* `New.Data.exists_adjoint_chain_comp_eq_smul_rallisProduct`:\
+        \ on the target forms `ι* ι` is the\n  product `New.Data.rallisProduct` of these series times `c_Q ^ m`,\
+        \ up to a factor `c ϑ`, where the\n  absolute value of `c ϑ` is a product of ratios of Hecke values, a power\
+        \ of the norm of the modulus\n  of `ϑ` and a positive constant.\n* `New.Data.exists_div_chainDeterminant_one_eq`:\
+        \ the resulting formula for\n  `chainDeterminant ϑ / chainDeterminant 1`;\n  `New.Data.exists_chainDeterminant_pos_and_div_chainDeterminant_one_eq`\
+        \ joins it with the\n  positivity of the volumes.\n* `New.Data.range_goodLift_le`: the space of lifts is\
+        \ spanned by lifts of good eigenforms.\n\nNotions from other files:\n* `New.Data.MFoldTwist`: a twist `ϑ`\
+        \ whose first `m` powers are twists.\n* `New.Data.principalForms`: the forms of the fixed parameter on a\
+        \ space that are fixed by the\n  principal level at the chosen places.\n* `New.Data.singleLift`: the lift\
+        \ from principal forms on `W_j` to algebraic forms on `V_j`.\n* `New.DescentPair.twistFactor`: the constant\
+        \ `c_Q` in the norm of one lift.\n* `New.Data.lowerChainAtLevel`: the map `ι` from forms of principal level\
+        \ on `Y₀` to algebraic forms\n  on `Y_m` of the last level of the twist.\n* `New.Data.HasAbsUpToNormPower`:\
+        \ `D.HasAbsUpToNormPower c f` says that `‖c ϑ‖²` is `(f ϑ)²` times a\n  constant, possibly zero, and a fixed\
+        \ integral power of the norm of the modulus of `ϑ`.\n* `New.Data.quotientRatio`: `D.quotientRatio i j ϑ`\
+        \ is the product of the ratios of Hecke values of\n  `D.untwistedLiftChar j / D.untwistedLiftChar i` at\
+        \ the twist `ϑ ^ (j - i)`.\n\n## Relation to the literature\n\nSee `New.Determinant.Chain.ChainNorms` for\
+        \ related work.\n"
+  New.Determinant.Chain.SquareLaw:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Chain.SquareLaw
+      name: New.Exchange.SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum
+      line: 477
+      signature: "lemma SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum {R : Type} [CommRing R] [Fintype R]\n\
+        \    [DecidableEq R]\n    (N T : Type) [Fintype N] [DecidableEq N] [Fintype T] [DecidableEq T] {χ : MulChar\
+        \ R ℂ}\n    {ψ : AddChar R ℂ} (hψ : ψ.IsPrimitive) (hχ : IsPrimitiveMulChar χ) :\n    ∃ γ : ℂ,\n      --\
+        \ (a) the modulus of the constant\n      ‖γ‖ ^ 2 * card R ^ (card T * (card T + card N * 2)) = 1 ∧\n   \
+        \   -- (b) the identity between the two sums\n      ∀ {c : ℂ} {L : Matrix (N ⊕ T) (N ⊕ (N ⊕ T) ⊕ T) R →\
+        \ ℂ}\n        {L' : Matrix (N ⊕ (N ⊕ T) ⊕ T) (N ⊕ T) R → ℂ} (p : Matrix (N ⊕ T) N R → ℂ),\n        SquareLaw\
+        \ χ (swapFirstTwo (a"
+    routeToMain:
+    - module: New.Determinant.Chain.SquareLaw
+      importer: New.Determinant.Exchange.OneSquare
+      line: 2
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Chain/SquareLaw.lean
+      line: 6
+      endLine: 9
+      text: 'This is linear algebra over a finite ring `R` with a multiplicative character `χ`, behind the
+
+        commuting squares of theta lifts. A square law relates a function `L` on `a × n` matrices to a
+
+        function `L''` on `n × b` matrices. The rule for a square is the law written out for the weights `p`
+
+        and `nextDatum p`, and a second identity follows by applying the rule to a Fourier transform.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Chain/SquareLaw.lean
+      line: 10
+      endLine: 36
+      text: "\n## Main definitions and results\n\n* `New.Exchange.SquareLaw`: `L` and `L'` transform by `χ ∘ det`,\
+        \ and `∑ Ψ L' = c ∑ Φ L` for all\n  matched functions `Φ`, `Ψ`.\n* `New.Exchange.pointDatum`, `New.Exchange.nextDatum`:\
+        \ the point datum, which is the indicator\n  function of the matrix `(1; 0)`, and the datum built from a\
+        \ function `p` on `n × a` matrices,\n  which has the value `p (-η)`, divided by the number of blocks `s`,\
+        \ at `(η s; 0 1)`.\n* `New.Exchange.SquareLaw.sum_eq_nextDatum`: the square law for `p` and `nextDatum p`.\n\
+        * `New.Exchange.SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum`: for primitive characters and\n  the\
+        \ shapes `n = N`, `a = N ⊕ T`, `b = T`, an identity of the same kind between the Fourier\n  transforms of\
+        \ the weights, with a constant of known modulus in place of the group orders.\n\nNotions from other files:\n\
+        * `New.firstCols e k`, `New.invLastRows e k`: for `k` invertible and indices split by\n  `e : b ⊕ a ≃ n`,\
+        \ the columns `b` of `k` and the rows `a` of `k⁻¹`.\n* `New.AreMatched ⊤ e χ Φ Ψ`: `Φ` vanishes off the\
+        \ matrices `invLastRows e k`, `Ψ` vanishes off the\n  matrices `firstCols e k`, and `Φ (invLastRows e k)\
+        \ = χ (det k) Ψ (firstCols e k)` for all `k`.\n* `New.inclMatrix R u`: for a map `u : m → n` of index sets,\
+        \ the `n × m` matrix whose `j`-th column\n  is the standard basis vector of index `u j`.\n* `New.Exchange.matrixFourier\
+        \ ψ f`: the function `ρ ↦ ∑ v, f v * ψ (tr (ρ v))`.\n* `New.Exchange.IsPrimitiveMulChar χ`: for every `a\
+        \ ≠ 0` some `χ (1 + c * a)` is neither `0` nor\n  `1`.\n\n## Relation to the literature\n\nSee `New.Determinant.Exchange.OneSquare`\
+        \ and `New.Determinant.Chain.ChainNorms` for related work.\n"
+  New.Determinant.Chain.TriangleLifts:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Chain.TriangleLifts
+      name: New.Data.exists_hasSum_inner_triangleFirstLift
+      line: 497
+      signature: "theorem exists_hasSum_inner_triangleFirstLift {P : Parameters} (D : Data P) (z : Bool) (i : ℕ)\n\
+        \    (hi : i < D.m) :\n    ∃ C : ℂ, ∀ (ϑ : D.MFoldTwist) (y : D.triangleBase z),\n      (∀ v : D.TriangleForm\
+        \ z 0 0,\n        (∀ x : D.TriangleForm z 0 0, ⟪v, x⟫ = ⟪D.triangleFirstLift z ϑ i y,\n          D.triangleFirstLift\
+        \ z ϑ i x⟫) →\n          v ∈ D.triangleBase z ∧ (v = 0 → y = 0)) ∧\n      ∀ x : D.TriangleForm z 0 0,\n\
+        \        HasSum (fun γ : D.TriangleCoset z ϑ ↦ C * D.triangleRallisTerm z ϑ i x y γ)\n          (triangleGLCard\
+        \ z ϑ 0 * ⟪D.triangleFirstLift z ϑ i x, D.triangleFirstLift z ϑ i y⟫)"
+    routeToMain:
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Chain/TriangleLifts.lean
+      line: 7
+      endLine: 13
+      text: 'This file arranges the theta lifts between the hermitian spaces `D.gridSpace i z 0 n` in a triangle
+
+        of positions `(i, n)`. The flag `z` selects one of two chains of spaces; see
+
+        `New.Determinant.Chain.ChainNorms`. The lift and the transposed lift of forms along an edge
+
+        (`New.Exchange.IsEdgeFamily`) with a finite datum modulo a modulus are `New.Exchange.modLift` and
+
+        `New.Exchange.modTransposedLift`, and this file writes them as integrals and treats the opposite
+
+        space. It defines the spaces and lifts of the triangle, and it proves, for `i < m`, the injectivity
+
+        and the norm of the first lift of row `i` on the subspace of fixed level. It also defines the left
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Chain/TriangleLifts.lean
+      line: 14
+      endLine: 39
+      text: "and reversed pairs, the descents `New.Data.triangleTransposedLift` from `(i, n + 1)` to `(i + 1, n)`\n\
+        along a left pair, and the ascents `New.Data.triangleReversedLift` from `(i + 1, n)` to `(i, n + 1)`\nalong\
+        \ the reversed pair.\n\n## Main definitions and results\n\n* `New.Data.TriangleForm`, `New.Data.triangleLift`,\
+        \ `New.Data.triangleNegEquiv`,\n  `New.Data.triangleBase`, `New.Data.triangleEmbedding`: the forms at `(i,\
+        \ n)`, the lift to\n  `(i, n + 1)`, the copies at `(i, 0)` of the forms at `(0, 0)`, the subspace of fixed\
+        \ level, and\n  its embedding at `(i, 0)`.\n* `New.Data.triangleFirstLift`, `New.Data.exists_hasSum_inner_triangleFirstLift`:\
+        \ the first lift of\n  a row, read on forms at `(0, 0)`; for `i < m`, its injectivity and norm on the subspace\
+        \ of fixed\n  level, by Rallis' formula `New.SiegelWeil.rallis_inner_product_cosetTerm`.\n\nNotions from\
+        \ other files:\n* `New.Data.gridSpace`: The hermitian space at the node (i, j) of grid z with offset o,\
+        \ for the\n  signs `New.Data.gridSigns`.\n* `New.Data.chosenLevel`: The level J_M consists of the elements\
+        \ of K₀ = `New.stdLevel` that are 1\n  modulo the chosen places `New.Data.chosenPlace`.\n* `New.Data.triangleModulus`,\
+        \ `New.Data.triangleGLCard`: the modulus \U0001D52A of the triangle, and the\n  order of the general linear\
+        \ group of a node modulo \U0001D52A. A lift times this order is the lift for the\n  measure that gives the\
+        \ principal level of \U0001D52A the volume 1.\n\n## Relation to the literature\n\nSee `New.Determinant.Chain.ChainNorms`\
+        \ for related work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.Chain.TriangleNorms:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Chain.TriangleNorms
+      name: New.Exchange.IsTriangle.exists_inner_weightedChain_eq
+      line: 442
+      signature: "lemma IsTriangle.exists_inner_weightedChain_eq [∀ (t : I) (n : ℕ), NeZero (w t n)]\n    (h_tri\
+        \ : IsTriangle m w a d j) (h_moduli : HasSquareModuli m w M L a d)\n    {U : Type*} [AddCommGroup U] [Module\
+        \ ℂ U]\n    {s : U → V} (S : I → ℕ → End ℂ U) {C : ℕ → I → ℂ} (hC : ∀ i : ℕ, M (C i) 1)\n    (hS : ∀ i <\
+        \ m, ∀ (t : I) (x : V) (y : U),\n      w t 0 * ⟪a t i 0 (j i x), a t i 0 (j i (s y))⟫ = C i t * ⟪x, s (S\
+        \ t i y)⟫)\n    (n i : ℕ) (hi : i + n = m) :\n    ∃ κ : I → ℂ,\n      M κ (∏ r ∈ Ioc i m, ∏ k ∈ Ioc r m,\
+        \ L r k) ∧\n      ∀ (t : I) (x : V) (y : U),\n        ⟪weightedChain w a t i n (j i x), weightedChain w\
+        \ a t i n (j i (s y))⟫ =\n          κ t * (w t 0 * w t 1 ^ n / w t n) * ⟪x, s (((List.range' i n).map (S\
+        \ t)).prod y)⟫"
+    routeToMain:
+    - module: New.Determinant.Chain.TriangleNorms
+      importer: New.Determinant.Chain.ChainNorms
+      line: 3
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Chain/TriangleNorms.lean
+      line: 6
+      endLine: 9
+      text: 'The group `New.parabolic (New.blockNumber j)` consists of the invertible block upper triangular
+
+        matrices whose diagonal blocks are one copy of `N` and `j` copies of `T`. Its order is
+
+        `#GL N R * (#GL T R) ^ j` times a power of `#R` whose exponent does not depend on the commutative
+
+        ring `R`.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Chain/TriangleNorms.lean
+      line: 10
+      endLine: 38
+      text: "\nAn abstract triangle of spaces `F i n` has arrows `a t i n : F i n → F i (n + 1)` along row `i` and\n\
+        `d t i n : F i (n + 1) → F (i + 1) n` down to the next row. The map `j i` embeds `V` in `F i 0`. The\narrows\
+        \ depend on a parameter `t : I`. An abstract relation `M c f` between functions `c : I → ℂ` and\n`f : I\
+        \ → ℝ`, unital and multiplicative, is read \"`c` has modulus `f`\". For nonzero weights, weighted\nchains\
+        \ along a row are injective on `V`. If the constants of the squares have prescribed moduli\n`L r k`, the\
+        \ squares obey an adjoint law and the Gram forms of the first arrows are given, then the\nGram form of a\
+        \ full chain and the modulus of its constant are computed by induction. In the\napplication `F i n` is attached\
+        \ to the interval `[i + 1, i + n]`, the arrow `a` adds the greatest\nelement, and `d` stands for the adjoint\
+        \ of the map that adds the least element.\n\n## Main definitions and results\n\n* `New.exists_card_parabolic_blockNumber_eq`:\
+        \ the order of the group of block triangular matrices\n  `New.parabolic (New.blockNumber j)`.\n* `New.Exchange.IsTriangle`,\
+        \ `New.Exchange.weightedChain`: the conditions of a triangle; the\n  weighted chain of a row.\n* `New.Exchange.HasSquareModuli`:\
+        \ the moduli of the constants of the squares and the adjoint law.\n* `New.Exchange.IsTriangle.eq_zero_of_weightedChain_eq_zero`:\
+        \ for nonzero weights, chains are\n  injective on `V`.\n* `New.Exchange.IsTriangle.exists_inner_weightedChain_eq`:\
+        \ for nonzero weights and under\n  `HasSquareModuli`, the Gram form of a full chain is that of the product\
+        \ of the Gram operators\n  `S t k` of the arrows `a t k 0`, times a ratio of weights and a constant of modulus\
+        \ `∏ L r k`.\n\nNotions from other files:\n* `New.BlockIndex N T j`, `New.blockNumber j`: the disjoint union\
+        \ of `N` and `j` copies of `T`, and\n  the number of the block of an index (`0` on `N`, and `l` on the `l`-th\
+        \ copy of `T`).\n* `New.compUpTo L j`: for linear maps `L i : M i → M (i + 1)`, the composite\n  `L (j -\
+        \ 1) ∘ ⋯ ∘ L 0 : M 0 → M j`.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.Exchange.ConeImage:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.ConeImage
+      name: New.Exchange.exists_thetaLarge_cone_eq
+      line: 453
+      signature: "theorem exists_thetaLarge_cone_eq [IsBaseAdapted A] [IsBaseAdapted X] (μ : InfinitePlace E → ℤ)\n\
+        \    {b : Type} [Fintype b] [DecidableEq b] (σ : b ⊕ r ≃ n) (hn : 2 ∣ card n) {z : ℝ} (hz : 0 < z)\n   \
+        \ {v : PairFock E s t} (hv : IsSchwartzVector v) :\n    ∃ v' : PairFock E s' t', IsSchwartzVector v' ∧\n\
+        \      ∀ (\U0001D520 : SplitTameChar E μ) (y : Matrix b n (LocProd \U0001D520.ramifiedPlaces)) (g : G E\
+        \ s),\n        thetaLarge W V \U0001D520 (cone A X μ z v') (stdRowDatum σ \U0001D520.semilocalChar y) g\
+        \ =\n          thetaLarge W V \U0001D520 v (stdRowDatum σ \U0001D520.semilocalChar y) g"
+    routeToMain:
+    - module: New.Determinant.Exchange.ConeImage
+      importer: New.Determinant.Exchange.VanishingDescends
+      line: 2
+    - module: New.Determinant.Exchange.VanishingDescends
+      importer: New.Determinant.Exchange.TheoremForPartners
+      line: 3
+    - module: New.Determinant.Exchange.TheoremForPartners
+      importer: New.Determinant.Exchange.OneSquare
+      line: 3
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/ConeImage.lean
+      line: 8
+      endLine: 13
+      text: 'Let `W'' = W ⊕ H` and `V'' = V ⊕ H`, with adapted splittings and isotropic lines `A` and `B` in the
+
+        hyperbolic planes, and let the rank of `W` be even. For `0 < z`, every Schwartz vector `v` for
+
+        `(W, V)` has a Schwartz vector `v''` for `(W'', V'')` such that the cone integral of `v''` and `v` have
+
+        the same theta integrals on standard data (`exists_thetaLarge_cone_eq`). Up to a positive factor
+
+        that is analytic in `z`, one `v''` serves for all `z > 0` (`exists_thetaLarge_cone_eq_mul`). The
+
+        slices of this `v''` along `A` (its values in the mixed model attached to `A`, as a function of a
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/ConeImage.lean
+      line: 14
+      endLine: 39
+      text: "vector of `V'` at the infinite places) are `β x • k x v^B`, where `v` is the zero term of `v^B`\nalong\
+        \ `Hom(W, B)`, `β` is a bump function near the vector `x_B` that spans `B`, and the smooth\nfamily `k x`\
+        \ carries `x_B` to `x` for isotropic `x` in the support of `β`.\n\nIn the code `A` and `X` are the splittings\
+        \ of `W'` and `V'` that define the two lines, the adelic\nvector `x_B` that spans `B` is `X.kAdelic`, and\
+        \ `lineVector X w` is its component at the infinite\nplace `w`. The word real refers to the components at\
+        \ the infinite places of `E`.\n\n* `PairFock E s t` is the Fock space of the pair with signs `s` and `t`;\
+        \ a vector is Schwartz\n  (`IsSchwartzVector`) if all its weighted norms are finite.\n* `realPairWeil γ\
+        \ γ'` is the Weil representation of the real points `GInf` of the two unitary groups\n  on this space, with\
+        \ `(x, y)` twisted by `det y ^ γ * det x ^ (-γ')`.\n* A splitting is adapted (`IsBaseAdapted`) if its adelic\
+        \ frames are orthonormal at the infinite\n  places and integral at the finite places.\n* `cone A X μ z v'`\
+        \ is the integral of `coneIntegrand A X μ true z v'` over the pairs `(κ, a)` of a\n  point of the maximal\
+        \ compact subgroup `maxCompact E t'` of `U(V')` and a family of non-zero\n  complex numbers indexed by the\
+        \ infinite places.\n* `thetaLarge W V \U0001D520 v Φ` is the theta integral over `[U(V)]` of the datum with\
+        \ real part `v` and\n  component `Φ` at the ramified places of `\U0001D520`, as a function on `U(W)`.\n\
+        * A `SplitTameChar E μ` is a tamely ramified character of weight `μ`, all `μ w > 0`, of the norm-one\n \
+        \ adeles, with a non-empty set of ramified places that contains no conjugate of one of its places;\n  so\
+        \ the ramified places are split over the totally real subfield.\n\n## Relation to the literature\n\nSee\
+        \ `New.Determinant.Exchange.TheoremForPartners` for related work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.Exchange.EquivariantDifference:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.EquivariantDifference
+      name: New.Exchange.exists_isEquivariantLift_eq_thetaLarge_sub_smul
+      line: 281
+      signature: "lemma exists_isEquivariantLift_eq_thetaLarge_sub_smul (σ : b ⊕ a ≃ n) (hn : 2 ∣ card n)\n    {v\
+        \ : PairFock E s t}\n    {v' : PairFock E s t'} (hv : IsSchwartzVector v) (hv' : IsSchwartzVector v') (c\
+        \ : ℂ) :\n    ∃ (M : Submodule ℂ (Matrix n b (LocProd \U0001D520.ramifiedPlaces) → ℂ))\n      (\U0001D49F\
+        \ : (Matrix n b (LocProd \U0001D520.ramifiedPlaces) → ℂ) →ₗ[ℂ] G E s → ℂ),\n      -- (a) `\U0001D49F` is\
+        \ an equivariant map from `M` to automorphic functions\n      IsEquivariantLift \U0001D520 W M \U0001D49F\
+        \ ∧\n      -- (b) on the second member of a pair of matched functions it is the difference of the two\n\
+        \      -- sides\n      ∀ {Φ : Matrix a n (LocProd \U0001D520.ramifiedPlaces) → ℂ}\n        {Ψ : Matrix n\
+        \ b (LocProd \U0001D520.ramifiedPlaces) → ℂ},\n        IsLocallyConstant Ψ → AreMatched O σ \U0001D520.semilocalChar\
+        \ Φ Ψ →\n          Ψ ∈ M ∧ \U0001D49F Ψ = thetaLarge W V \U0001D520 v Φ - c • thetaSmall W V' \U0001D520\
+        \ v' Ψ"
+    routeToMain:
+    - module: New.Determinant.Exchange.EquivariantDifference
+      importer: New.Determinant.Exchange.LargeTriple
+      line: 3
+    - module: New.Determinant.Exchange.LargeTriple
+      importer: New.Determinant.Exchange.RemovingPlanes
+      line: 1
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/EquivariantDifference.lean
+      line: 6
+      endLine: 11
+      text: 'This file is a step towards the identity between theta integrals over `U(V)` and `U(V'')`, where
+
+        `rk W = rk V + rk V''`. The identity is taken for matched functions `Φ`, `Ψ` at the ramified places
+
+        of the tame character `𝔠`. This file defines the small side `New.Exchange.thetaSmall`. It proves
+
+        how `thetaLarge` and `thetaSmall` change under translation at the ramified places, and that both
+
+        are invariant under the integral points of `U(W)` that are trivial there. From this it shows that
+
+        the difference of the two sides is an equivariant lift.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/EquivariantDifference.lean
+      line: 12
+      endLine: 30
+      text: "\n## Main definitions and results\n\n* `New.Exchange.thetaSmall`: the theta integral for `V'` of the\
+        \ datum `Ψ`.\n* `New.Exchange.exists_isEquivariantLift_eq_thetaLarge_sub_smul`: the difference\n  `thetaLarge\
+        \ Φ - c • thetaSmall Ψ` is a linear map of `Ψ` alone, on a `GL_n`-stable space, and is\n  equivariant (`New.Exchange.IsEquivariantLift`).\n\
+        \nNotions from other files:\n* `thetaIntegral S T α β f`: the integral over `[U(T)]` of the theta kernel\
+        \ of the datum `f`.\n* `thetaLarge W V \U0001D520 v Φ`: the theta integral over `[U(V)]` of the datum `v\
+        \ ⊗ Φ`.\n* `localChar P ξ k`: the character `t ↦ ξ t * |t| ^ (k / 2)` of the completions at `P`.\n* `sameSectionPairs\
+        \ χ σ`: pairs `(Φ, Ψ)` of Schwartz–Bruhat functions on `a × n` and `n × b`\n  matrices, `σ : b ⊕ a ≃ n`,\
+        \ whose values of `localSection χ` at the blocks of `k` differ by\n  `χ (det k)`.\n\n## Relation to the\
+        \ literature\n\nSee `New.Determinant.Exchange.TheoremForPartners` for related work.\n"
+  New.Determinant.Exchange.ExplicitMatching:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.ExplicitMatching
+      name: New.Rows.exists_mul_stdClassSum_eq_integral_modKernel
+      line: 788
+      signature: "lemma exists_mul_stdClassSum_eq_integral_modKernel {s : n → ℤˣ} (W : Space E n s) (f : p ⊕ l ≃\
+        \ b)\n    (V' : Space E b (blockSigns f)) (σ : b ⊕ a ≃ n) (e : p ⊕ a ≃ m) (j : m ⊕ l ≃ n)\n    (hj : s =\
+        \ blockSigns j) {d : ℕ} (hd : card a = card b + 2 * d) (hn : 2 * card l + 2 ≤ card n)\n    (ι : InfinitePlace\
+        \ E → Type) [∀ τ : InfinitePlace E, Fintype (ι τ)] :\n    ∃ C : ℝ,\n      ∀ {\U0001D52A : Modulus E} {α\
+        \ : AutChar E} {χ : MulChar \U0001D52A.ResidueRing ℂ},\n      IsTameFor \U0001D52A α (fun τ : InfinitePlace\
+        \ E ↦ card l - card (ι τ)) χ →\n      ∃ c : ℂ,\n        -- (a) the size of the constant\n        ‖c‖ ^ 2\
+        \ = C / lValueProd \U0001D52A.places (α⁻¹ * upsilonU1 ^ (card b + d)) d ∧\n        -- (b) `c` times the\
+        \ class sum for `I_a` is the integral over the group of `V'`\n        ∀ (η : (τ : InfinitePlace E) → ι τ\
+        \ → Matrix p m ℂ)\n          {Φ : Matrix a n \U0001D52A.ResidueRing → ℂ} {Ψ : Matrix n b \U0001D52A.ResidueRing\
+        \ → ℂ},\n            AreMatched ⊤ σ χ⁻¹ Φ Ψ →\n          ∀ (β : AutChar E) (g : G E s),\n          c * stdClassSum\
+        \ (stdLevel E a) (fun h : Gf E a ↦\n              modKernelStdSpace W α β \U0001D52A Φ (renameRowsCols id\
+        \ (j ∘ Sum.inl) (stackedDetProd e η)) g\n                h) =\n            ∫ x : G E (blockSigns f),\n \
+        \             modKernel V' W (α / β) α \U0001D52A Ψ (matchedPoly f j η) x g ∂V'.quotMeasure"
+    routeToMain:
+    - module: New.Determinant.Exchange.ExplicitMatching
+      importer: New.OneLift.ComparisonOperator.ThreeExchanges
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ThreeExchanges
+      importer: New.OneLift.HeckeValues.TwistedValueHeights
+      line: 3
+    - module: New.OneLift.HeckeValues.TwistedValueHeights
+      importer: New.OneLift.LiftVolumeHeight
+      line: 2
+    - module: New.OneLift.LiftVolumeHeight
+      importer: New.Determinant.Twist.LongForms
+      line: 3
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/ExplicitMatching.lean
+      line: 9
+      endLine: 15
+      text: '`New.Rows.exists_stdClassSum_eq_mul_integral_modKernel` follows from the identity
+
+        `New.Exchange.exchange_identity` for the positive definite standard space `I_a` of rank `card a`,
+
+        with the real data made explicit as products of determinants.
+
+
+        Its archimedean step, `New.Rows.exists_mul_apply_eq_apply_matchedPoly`, takes an identity between
+
+        functionals on two Fock spaces that holds for one polynomial and its translates, and moves it to
+
+        explicit products of determinants.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/ExplicitMatching.lean
+      line: 16
+      endLine: 51
+      text: "\n## Main definitions and results\n\n* `New.Rows.matchedPoly`: the explicit polynomial for the pair\
+        \ of signs on `b` and on `n`.\n* `New.Rows.realPairWeil_stackedDetProd`, `New.Rows.realPairWeil_matchedPoly`:\
+        \ the laws of\n  `New.Rows.stackedDetProd` and `New.Rows.matchedPoly` under the real Weil representation\n\
+        \  `New.realPairWeil`.\n* `New.Rows.exists_mul_apply_eq_apply_matchedPoly`: the matching of `New.Rows.stackedDetProd`\
+        \ with\n  `New.Rows.matchedPoly`.\n* `New.Rows.exists_stdClassSum_eq_mul_integral_modKernel`: a multiple,\
+        \ possibly zero, of the class\n  sum equals a non-zero multiple of the integral over the group of the complementary\
+        \ space.\n* `New.Rows.exists_mul_stdClassSum_eq_integral_modKernel`: the same identity divided by its non-zero\n\
+        \  constant, with the characters absorbed into the kernels and a free character for `I_a`.\n\nNotions from\
+        \ other files:\n* `New.GInf`: The archimedean unitary group G_∞ for signs s: one copy of the complex unitary\
+        \ group\n  U(diag s) for each infinite place of E.\n* `New.PairFock`, `New.Fock.polyVector`, `New.realPairWeil`:\
+        \ the Fock space of a pair of signs, the\n  vector in it attached to a polynomial, and the real Weil representation\
+        \ of the pair on it.\n* `New.Rows.stackedDetProd`: The product over τ and k of the determinants of M_{τk}\
+        \ stacked over the\n  variable matrix x_τ (`New.Rows.stackedDet`), columns ordered by e.\n* `New.AreMatched`:\
+        \ Φ lives on the rows `a` of k⁻¹ and Ψ on the columns `b` of k, for k in GL_n(O),\n  and there the values\
+        \ differ by the factor χ(det k). Here the subring O is always `⊤`.\n* `New.Exchange.lValueProd`: The number\
+        \ (∏_{w ∈ S} Nw)^(e²) · ∏_{z=1}^{e} |L^S(z, ν)|², for a\n  natural number e.\n\n## Relation to the literature\n\
+        \nA multiple of a theta kernel summed over a definite unitary group equals a kernel integrated over a\n\
+        unitary group of no larger rank, with explicit determinant polynomials on both sides. The size of\nthe multiple\
+        \ is given by Hecke L-values and the conductor up to one fixed factor, which may be zero.\nThe first term\
+        \ identity between theta integrals of complementary spaces and the harmonic polynomials\ngiven by determinants\
+        \ are known in the literature. Related work: Gan–Qiu–Takeda, The regularized\nSiegel–Weil formula, 2014\
+        \ (after Kudla–Rallis, 1994; Ichino, 2004); Kashiwara–Vergne, On the\nSegal–Shale–Weil representations and\
+        \ harmonic polynomials, 1978; Böcherer–Schulze-Pillot, Siegel\nmodular forms and theta series attached to\
+        \ quaternion algebras, 1991.\n"
+    needs_draft: true
+    reason: Excerpt may not be a standalone description
+  New.Determinant.Exchange.LargeTriple:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.LargeTriple
+      name: New.Exchange.rowColExchangeIdentity_of_periods
+      line: 1164
+      signature: "lemma rowColExchangeIdentity_of_periods [IsBaseAdapted D₁] {σ' : b ⊕ b ⊕ n ≃ m}\n    {v : PairFock\
+        \ E r (t' ⊕ᵥ s)} {v' : PairFock E r t'} (period : SplitTameChar E μ → ℂ)\n    (hn : 2 ∣ card n) {ρ : GInf\
+        \ E (t' ⊕ᵥ s) → ℝ} (hρ₀ : 0 ≤ ρ)\n    (hρ_ne_near_one : ∀ᶠ h : GInf E (t' ⊕ᵥ s) in nhds 1, ρ h ≠ 0) (hv\
+        \ : IsSchwartzVector v)\n      (hv' : IsSchwartzVector v')\n    (h_period : ∀ \U0001D520 : SplitTameChar\
+        \ E μ, IsPeriodIdentity X D V' \U0001D520 v v' ρ (period \U0001D520))\n    (h_vanish_or_signs : SlicesVanishOutside\
+        \ D (V'.sum W₁) t' v ∨\n      t' = -1 ∧ (∃ i : n, s i = 1) ∧ 2 * negCount s ≤ card n) :\n    RowColExchangeIdentity\
+        \ X (V'.sum W₁) V' μ σ' v v' fun \U0001D520 : SplitTameChar E μ ↦\n      ‖period \U0001D520‖ ^ 2 / lValueProdInt\
+        \ \U0001D520 (card n / 2)"
+    routeToMain:
+    - module: New.Determinant.Exchange.LargeTriple
+      importer: New.Determinant.Exchange.RemovingPlanes
+      line: 1
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/LargeTriple.lean
+      line: 10
+      endLine: 16
+      text: 'The theta kernel of the dual pair (U(X), U(V)) is unfolded along a splitting of X over W₁ with an
+
+        isotropic frame. It becomes a sum of terms `New.Space.Splitting.thetaTerm` indexed by rational
+
+        matrices. Take a standard datum v ⊗ Φ, with v real and Φ an explicit function at the finite places
+
+        A. Its terms are computed at points n(c, z) m(q, g) of the parabolic subgroup. They are expressed
+
+        through the theta functional `New.Exchange.thetaOnRealData` of the smaller pair (W₁, V). For
+
+        V = V'' ⊕ W₁ this functional factors as a product. Let `𝔠` be a tamely ramified character,
+
+        `V = V'' ⊕ W₁`, and `X` equal to `W₁` plus a hyperbolic space. Then the identity between the theta
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/LargeTriple.lean
+      line: 17
+      endLine: 50
+      text: "integrals `New.Exchange.thetaLarge` and `New.Exchange.thetaSmall` for standard data follows from an\n\
+        identity of periods over `[U W₁]`, under conditions on the rank of `W₁`, the signs and the data,\nwhen `W₁`\
+        \ splits off a hyperbolic plane.\n\n## Main definitions and results\n\n* `New.Exchange.thetaTerm_eq_and_centreCoeff_eq_zero`:\
+        \ the terms are integrable\n  (`hasIntegrableTerms_localDatum_of_eq_stdDatum`), each is an explicit factor\
+        \ times a value of\n  `New.Exchange.thetaOnRealData` (`thetaTerm_localDatum_of_eq_stdDatum`), and the Fourier\n\
+        \  coefficient of the theta integral at `j • T` (`j` the purely imaginary element of the Weil data)\n  vanishes\
+        \ if some signs represent the Gram matrices of all points with non-zero real slice but do\n  not represent\
+        \ the matrix T (`centreCoeff_thetaIntegral_localDatum_eq_zero`).\n* `New.Exchange.thetaOnRealData_boxProd_eq_mul`:\
+        \ on a product of real data, the functional of the\n  datum built from a vector for (W₁, V') and a vector\
+        \ for (W₁, W₁) is the one for (W₁, V') times the\n  theta kernel `New.pairTheta` of the pair (W₁, W₁).\n\
+        * `New.Exchange.thetaLarge_eq_apply_one_of_even_rank`: if `W₁` has even rank and splits off a\n  hyperbolic\
+        \ plane, the theta integral of `(W₁, W₁)` on the datum `χ⁻¹ ∘ det` is constant.\n* `New.Exchange.RowColExchangeIdentity`:\
+        \ the two theta integrals are proportional on the standard\n  data `New.stdRowDatum` and `New.stdColDatum`,\
+        \ with a condition on the size of the factor.\n* `New.Exchange.IsPeriodIdentity`: the identity of periods\
+        \ over `[U W₁]` between real slices.\n* `New.Exchange.exists_thetaLarge_eq_smul_of_isPeriodIdentity`,\n\
+        \  `New.Exchange.rowColExchangeIdentity_of_periods`: the identity for `V = V' ⊕ W₁`, where `X` is\n  `W₁`\
+        \ plus a hyperbolic space, follows from an identity of periods over `[U W₁]`, for one character\n  and for\
+        \ all characters, when `W₁` splits off a hyperbolic plane.\n\nNotions from other files:\n* `New.Space.integrated`:\
+        \ the bounded bilinear map (v, f) ↦ v ⊗ f = ∫ v(y) ϱ(y)f dy, for v in the\n  Fock space, f in \U0001D4AE\
+        (V), y over real vectors in Fock coordinates.\n* `New.Exchange.IntegralFrame.stdDatum`: for a frame with\
+        \ blocks K, I, L and a function G, the\n  function y ↦ G(y (K|I)) on integral y, and 0 elsewhere.\n\n##\
+        \ Relation to the literature\n\nSee `New.Determinant.Exchange.TheoremForPartners` for related work.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.Exchange.MatchingPartners:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.MatchingPartners
+      name: New.AreMatched.mem_sameSectionPairs
+      line: 602
+      signature: "lemma mem_sameSectionPairs (hχ : TameLocalChar χ) (hΦΨ : AreMatched (O : Subring F) e χ Φ Ψ)\n\
+        \    (hΨ : IsLocallyConstant Ψ) : (Φ, Ψ) ∈ sameSectionPairs χ e"
+    routeToMain:
+    - module: New.Determinant.Exchange.MatchingPartners
+      importer: New.OneLift.ComparisonOperator.OneExchange
+      line: 3
+    - module: New.OneLift.ComparisonOperator.OneExchange
+      importer: New.OneLift.ComparisonOperator.GluedLattices
+      line: 1
+    - module: New.OneLift.ComparisonOperator.GluedLattices
+      importer: New.OneLift.HeckeValues.CentralAction
+      line: 1
+    - module: New.OneLift.HeckeValues.CentralAction
+      importer: New.Congruences.FitTwistsExist
+      line: 5
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/MatchingPartners.lean
+      line: 6
+      endLine: 9
+      text: 'This file studies functions on matrices over a finite product F of non-archimedean local fields with
+
+        integers O (`New.SemilocalField`). For k in GL_n(F) and n = b ⊔ a, write y_k = `New.firstCols e k`
+
+        for the block of columns b of k and x_k = `New.invLastRows e k` for the block of rows a of k⁻¹. A
+
+        matrix is primitive (`New.IsPrimitiveMatrix O`) if it is integral with an integral left inverse.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/MatchingPartners.lean
+      line: 10
+      endLine: 39
+      text: "\n## Main definitions and results\n\n* `New.Rows.areMatched_block`: the block determinant functions\
+        \ `New.Rows.blockRowDatum` and\n  `New.Rows.blockColDatum` are matched functions.\n* `New.localSection χ\
+        \ y`: a linear functional that is the sum of χ(det g) Ψ(y g) over\n  representatives g of GL_b(F)/GL_b(O)\
+        \ (`New.IsCommonCosetRep`,\n  `New.exists_linearMap_eq_sum_and_isCommonCosetRep`) when that sum is finite;\n\
+        \  `New.exists_isPrimitiveMatrix_localSection_eq` computes it for Ψ with primitive support.\n* `New.sameSectionPairs`:\
+        \ the pairs (Φ, Ψ) of Schwartz–Bruhat functions, Φ(x) zero unless xᵀ has a\n  left inverse and Ψ(y) zero\
+        \ unless y has one, such that the section of y ↦ Φ(yᵀ) at x_kᵀ is χ(det\n  k) times that of Ψ at y_k; GL_n(F)\
+        \ acts on them (`New.sameSectionPairs.translate_mem`).\n* `New.sameSectionPairs.exists_linear_factor`: a\
+        \ linear map of Φ that is invariant under Φ ↦ χ(det\n  g) Φ(g ·) depends, on same-section pairs, only on\
+        \ Ψ.\n* `New.AreMatched.mem_sameSectionPairs`: for tame `χ` (`New.TameLocalChar`) and locally constant\n\
+        \  `Ψ`, matched functions over O form a same-section pair (`New.sameSectionPairs`).\n\nNotions from other\
+        \ files:\n* `New.AreMatched`: Φ vanishes off the matrices x_k = `New.invLastRows` (last rows of k⁻¹), Ψ\
+        \ off\n  the y_k = `New.firstCols` (first columns of k), k in GL_n(O), and Φ(x_k) = χ(det k) Ψ(y_k).\n*\
+        \ `New.TameLocalChar`: A finite ring R, a surjection π: O → R with kernel ϖO, and a primitive\n  character\
+        \ η (`New.Exchange.IsPrimitiveMulChar`) with η∘π equal to χ⁻¹ on units, 0 on non-units.\n* `New.SemilocalField`:\
+        \ Conditions met by a finite product of non-archimedean local fields: a\n  locally compact ring with Haar\
+        \ measure, compact open subring O of volume one, a topologically\n  nilpotent ϖ in O that is invertible\
+        \ in F, and `New.IsValuationPair O`.\n\n## Relation to the literature\n\nSee `New.Determinant.Exchange.ExplicitMatching`\
+        \ and `New.Determinant.Exchange.TheoremForPartners`\nfor related work. See `Lib.Adelic.Hecke.ClassSums`\
+        \ for sources.\n"
+  New.Determinant.Exchange.NegativeIndices:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.NegativeIndices
+      name: New.Exchange.centreCoeff_eq_zero_of_not_representedBy
+      line: 451
+      signature: "lemma New.Exchange.centreCoeff_eq_zero_of_not_representedBy {r : m → ℤˣ} {ν : AutChar E}\n   \
+        \ {X : Space E m r} {s : n → ℤˣ} {Y : Space E n s} {t : a → ℤˣ} {Z : Space E a t}\n    {D : X.Splitting\
+        \ Z b} {μ : InfinitePlace E → ℤ} {ψ : (w : FinPlace E) → MulChar (ResField w) ℂ}\n    {δ : AutChar E} {f\
+        \ : \U0001D4AE (X.hom Y)} {g : G E r} {T : Matrix b b E} [AutChar.HasWeight ν μ ψ]\n    (i : n) (hμ : ∀\
+        \ τ : InfinitePlace E, μ τ < negCount (-t)) (hs_pos : s i = 1)\n    (h_negCount : Fintype.card b + negCount\
+        \ t = negCount s)\n    (hδ : δ = ν * H.upsilonU1 ^ Fintype.card b) (hT_unit : IsUnit T)\n    (hT_not_neg\
+        \ : ¬RepresentedBy (-1) (T.map toAdele)) (h_int : D.HasIntegrableTerms Y δ δ f g) :\n    D.centreCoeff (H.j\
+        \ • T) (thetaIntegral X Y δ δ f) g = 0"
+    routeToMain:
+    - module: New.Determinant.Exchange.NegativeIndices
+      importer: New.Determinant.Exchange.LargeTriple
+      line: 4
+    - module: New.Determinant.Exchange.LargeTriple
+      importer: New.Determinant.Exchange.RemovingPlanes
+      line: 1
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/NegativeIndices.lean
+      line: 6
+      endLine: 10
+      text: 'This file finds a unit vector, supported on the negative signs, that kills the columns of a
+
+        frame. The rotations of its line lie in the maximal compact subgroup of `U (signMatrix s)`. It
+
+        shows that a polynomial whose Fock vector is fixed by the compact stabiliser of the frame is zero.
+
+        It proves that right translation by an element of a compact subgroup preserves the left Haar
+
+        measure. Here `New.Exchange.negCount s` is the number of signs `-1`.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/NegativeIndices.lean
+      line: 11
+      endLine: 30
+      text: "\n## Main definitions and results\n\n* `New.Exchange.centreCoeff_eq_zero_of_not_representedBy`: a Fourier\
+        \ coefficient of the theta\n  integral `New.Exchange.thetaIntegral` vanishes, under conditions on weights,\
+        \ signs and\n  integrability, at an invertible form that fails to be negative definite at some real place.\
+        \ After\n  unfolding, the coefficient is an integral modulo the stabiliser of a frame, and the mean of the\n\
+        \  integrand over a compact subgroup is an invariant functional on Fock space, which is zero.\n* `New.Exchange.apply_eq_zero_of_forall_fixed_eq_zero`:\
+        \ let a compact group act by bounded operators\n  `ρ g` on a Banach space, and let `W` be a stable subspace\
+        \ of finite dimension in which only `0` is\n  fixed. Then an invariant bounded functional `l` vanishes at\
+        \ every vector of `W` with continuous\n  orbit: the mean of the orbit is a fixed vector of `W`.\n\nNotions\
+        \ from other files:\n* `thetaIntegral S T α β f`: the integral over `[U(T)]` of the theta kernel of the\
+        \ datum `f`.\n* `PairFock E s t`, `realPairWeil`: the Fock space of the pair and its real Weil representation.\n\
+        \n## Relation to the literature\n\nSee `New.Determinant.Exchange.TheoremForPartners` for related work.\n"
+  New.Determinant.Exchange.OneSquare:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.OneSquare
+      name: New.Exchange.one_square_identity_of_isEdgeFamily
+      line: 965
+      signature: "lemma one_square_identity_of_isEdgeFamily (A' : Space E n s) (A : Space E n' s')\n    (U₁ : Space\
+        \ E n₁ s₁) (U₂ : Space E n₂ s₂) {I : Type*}\n    {k₁ : Bool → GInf E s₁ → ℂ} {k₂ : Bool → GInf E s₂ → ℂ}\
+        \ {d : Bool}\n    {k : Bool → GInf E s' → ℂ} {Φ₁ : MvPolynomial (InfinitePlace E × n' × n₁) ℂ}\n    {Φ₂\
+        \ : MvPolynomial (InfinitePlace E × n' × n₂) ℂ} {k' : Bool → GInf E s → ℂ}\n    {Φ₁' : MvPolynomial (InfinitePlace\
+        \ E × n₁ × n) ℂ}\n    {Φ₂' : MvPolynomial (InfinitePlace E × n₂ × n) ℂ}\n    {a b : I → ∀ (m : Type) [Fintype\
+        \ m], AutChar E} {ν : I → AutChar E} {\U0001D52A : I → Modulus E}\n    {χ : ∀ i : I, MulChar (\U0001D52A\
+        \ i).ResidueRing ℂ}\n    (h₂ : IsEdgeFamily b k₂ k d Φ₂) (h₁ : IsEdgeFamily a k₁ k (!d) Φ₁)\n    (h₂' :\
+        \ IsEdgeFamily a k' k₂ (!d) Φ₂') (h₁' : IsEdgeFamily b k' k₁ d Φ₁') (σ : n ⊕ n' ≃ n₁ ⊕ n₂)\n    (h_signs\
+        \ : negCount (s₁ ⊕ᵥ s₂) = negCount s' + negCount s) (t : ℕ)\n    (h_rank : card n' = card n + 2 * t) (h_few_neg\
+        \ : 2 * negCount (s₁ ⊕ᵥ s₂) + 2 ≤ card (n₁ ⊕ n₂))\n    {μ : InfinitePlace E → ℤ}\n    (hμ : ∀ τ : InfinitePlace\
+        \ E, card (n₁ ⊕ n₂) ≤ 2 * μ τ + 2 * negCount (s₁ ⊕ᵥ s₂))\n    (h_tame : ∀ i : I, IsTameFor (\U0001D52A i)\
+        \ (ν i) μ (χ i))\n    (h_chars : ∀ (i : I) {p q : Type} [Fintype p] [Fintype q],\n      card p + card q\
+        \ = card n₁ + card n₂ → a i p * b i q = rankTwist (ν i)⁻¹ (n₁ ⊕ n₂)) :\n    let Θ (i : I) (x : Matrix n'\
+        \ (n₁ ⊕ n₂) (\U0001D52A i).ResidueRing) :\n        U₁.Form (k₁ !d) →ₗ[ℂ] U₂.Form (k₂ !d)"
+    routeToMain:
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/OneSquare.lean
+      line: 8
+      endLine: 13
+      text: "The exchange identity `New.Exchange.exchange_identity` for the space `U₁ ⊕ U₂`, read as a statement\n\
+        on theta lifts of forms from `U₁` to `U₂`: its kernels are products of kernels for `U₁` and `U₂`.\n\n* `New.Exchange.pairTransposedLift_comp_pairLift_mul`,\n\
+        \  `New.Exchange.pairLift_comp_pairTransposedLift_mul`: the path up to `A` and down, and the path\n  down\
+        \ to `A'` and up, transform by the tame character.\n"
+    remainder:
+      path: grh/src/New/Determinant/Exchange/OneSquare.lean
+      line: 14
+      endLine: 45
+      text: "* `New.Exchange.IsSquare`: the conditions on the four pairs of a square.\n* `New.Exchange.exists_sum_pairLift_comp_pairTransposedLift_eq_smul`:\
+        \ for four pairs with their own\n  splitting characters, the two paths agree on matched functions up to\
+        \ the factor `κ / c`, where `κ`\n  may be zero.\n* `New.Exchange.one_square_identity_of_isEdgeFamily`: the\
+        \ case of two families of characters indexed\n  by finite types, in the form of the relation `New.Exchange.SquareLaw`.\n\
+        \nNotions from other files:\n* `New.modDatum S T \U0001D52A Ψ v`: the theta datum on `Hom(S, T)` with real\
+        \ part the Fock vector `v`, given\n  by the function `Ψ` on matrices modulo `\U0001D52A` at the places dividing\
+        \ `\U0001D52A` and by the vacuum elsewhere.\n  The point datum at `x` is the case `Ψ = Pi.single x 1`, the\
+        \ indicator function of `x`;\n* `New.Fock.fockMoment N v` is `∫ (1 + ‖z‖) ^ N * |v z| dz`, the moment of\
+        \ order `N` of the Fock\n  vector `v`;\n* a type of forms on a space is a function on its real unitary group,\
+        \ which prescribes the\n  behavior of a form at the infinite places;\n* `New.AutChar E`: the continuous\
+        \ characters of `[U(1)]`, the norm-one ideles of `E` modulo those\n  from `E`;\n* `New.Exchange.pairLift`,\
+        \ `New.Exchange.pairTransposedLift`: the lift and the transposed lift;\n* `New.Exchange.IsPairEdge a b e\
+        \ e' P`, an edge `e → e'`: each of the families of characters `a`,\n  `b` has a fixed weight, and for these\
+        \ weights the types `e`, `e'` and the Fock vector of `P` are\n  such that the theta integral lifts forms\
+        \ of type `e` to forms of type `e'`;\n  `New.Exchange.IsEdgeFamily` asks this of one family of characters\
+        \ indexed by finite types;\n\n## Relation to the literature\n\nA transposed lift followed by a lift is a\
+        \ multiple, possibly zero, of a lift followed by a\ntransposed lift. For forms on two unitary groups, the\
+        \ theta liftings through a group `A` and through\na group `A'` of no larger rank agree on matched ramified\
+        \ data, up to the L-value constant of the\nexchange theorem and a factor free of the twist that may be zero.\
+        \ This moves lifts past each other\nin chains. The seesaw principle and a rank-one exchange of periods are\
+        \ known in the literature.\nRelated work: Kudla, Seesaw dual reductive pairs, 1984; Chan, Period identities\
+        \ of CM forms on\nquaternion algebras, 2020; He, Compositions of theta correspondences, 2005.\n"
+  New.Determinant.Exchange.RealVectors:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.RealVectors
+      name: New.Exchange.exists_rowColExchangeIdentity_sum
+      line: 748
+      signature: "theorem exists_rowColExchangeIdentity_sum (D : X.Splitting W₁ b) [IsBaseAdapted D] {t : a → ℤˣ}\n\
+        \    {t' : b → ℤˣ} {W : Space E a t} (D₁ : W₁.Splitting W Unit) [IsBaseAdapted D₁]\n    (V' : Space E b\
+        \ t') (e : b ⊕ b ⊕ n ≃ m) (hn : 2 ∣ Fintype.card n) (μ : InfinitePlace E → ℤ)\n    {v : PairFock E s t'}\
+        \ {v₁ : PairFock E s s} (hv : IsSchwartzVector v)\n    (hv₁ : IsSchwartzVector v₁) :\n    ∃ (Φ : fockSpace\
+        \ (realSigns E (homSigns r (t' ⊕ᵥ s)))) (Λ : PairFock E r t'),\n      realSlice D.symm V' 0 Λ = v ∧\n  \
+        \    RowColExchangeIdentity X (V'.sum W₁) V' μ e Φ Λ fun \U0001D520 : SplitTameChar E μ ↦\n        equalRankThetaRatio\
+        \ W₁ \U0001D520 v₁"
+    routeToMain:
+    - module: New.Determinant.Exchange.RealVectors
+      importer: New.Determinant.Exchange.TheoremForPartners
+      line: 2
+    - module: New.Determinant.Exchange.TheoremForPartners
+      importer: New.Determinant.Exchange.OneSquare
+      line: 3
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/RealVectors.lean
+      line: 6
+      endLine: 11
+      text: "Construction of the data at the real places for the identity `New.Exchange.RowColExchangeIdentity`\n\
+        between the theta integrals of the pairs `(X, V' ⊕ W₁)` and `(X, V')`, where `X` splits over `W₁`.\n\n*\
+        \ `New.Exchange.exists_isSchwartzVector_realSlice_eq`: a Schwartz Fock vector whose slices are a\n  bump\
+        \ function times `realWeil 1 v`, scaled so that its slice at 0 for the opposite splitting is\n  `v`.\n"
+    remainder:
+      path: grh/src/New/Determinant/Exchange/RealVectors.lean
+      line: 12
+      endLine: 38
+      text: "* `New.Exchange.exists_contDiff_witt`: a local form of Witt's theorem for spans: frames near a\n  nondegenerate\
+        \ frame `x` lie in the span of a unitary image of `x` that depends smoothly on them.\n* `New.Exchange.exists_rowColExchangeIdentity_sum`:\
+        \ two vectors for which\n  `New.Exchange.RowColExchangeIdentity` holds for these two pairs, one of them\
+        \ with a prescribed\n  slice at 0.\n\nNotions from other files:\n* `New.Space.Splitting`: a decomposition\
+        \ V = (lE^p ⊕ kE^p) ⊥ iV₀ with dual isotropic frames l, k and\n  an isometric embedding i of V₀; `New.Space.Splitting.symm`\
+        \ exchanges k and l. It is adapted\n  (`New.Exchange.IsBaseAdapted`) if the frames are orthonormal at the\
+        \ infinite places and integral\n  at the finite ones.\n* `New.PairFock E s t`: the Fock space of matrices\
+        \ whose `(i, j)` coordinate has the sign\n  `t i * s j`, repeated at every infinite place. These signs are\
+        \ `New.homSigns s t`, and repeating\n  them at every place is `New.realSigns`.\n* `New.realPairWeil γ γ'`:\
+        \ the Weil representation on this Fock space, restricted to a pair of\n  unitary groups at the infinite\
+        \ places, twisted by the powers of the determinants with exponents\n  `γ` on the second and `-γ'` on the\
+        \ first.\n* `New.Exchange.IsSchwartzVector`: all moments of the Fock vector are finite.\n* `New.Exchange.realSlice`:\
+        \ the slice of a vector in the mixed Schrödinger–Fock model of an adapted\n  splitting.\n* `New.Exchange.RowColExchangeIdentity`:\
+        \ two theta integrals are proportional on admissible data,\n  with a formula for the absolute value of the\
+        \ factor.\n\n## Relation to the literature\n\nSee `New.Determinant.Exchange.TheoremForPartners` for related\
+        \ work. See\n`Lib.Adelic.Witt.IwasawaDecomposition` for sources.\n"
+  New.Determinant.Exchange.RemovingPlanes:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.RemovingPlanes
+      name: New.Exchange.exists_rowColExchangeIdentity_removing_planes
+      line: 646
+      signature: "lemma exists_rowColExchangeIdentity_removing_planes (U : Space E b u) (V' : Space E r' t')\n \
+        \   (A : W'.Splitting W p) [IsBaseAdapted A] [Nonempty p] {μ : NumberField.InfinitePlace E → ℤ}\n    {ℓ\
+        \ : SplitTameChar E μ → ℝ} (V : Space E r t) (σ : b ⊕ r ≃ n) {σ' : b ⊕ r' ≃ n'}\n    (h_negCount : negCount\
+        \ t' = card p + negCount t) (hn_even : 2 ∣ card n) {x : PairFock E s' t'}\n    {y : PairFock E s' u} (h_rel\
+        \ : RowColExchangeIdentity W' V' U μ σ' x y ℓ) :\n    ∃ x₀ : PairFock E s t, RowColExchangeIdentity W V\
+        \ U μ σ x₀ (realSlice A U 0 y) ℓ"
+    routeToMain:
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/RemovingPlanes.lean
+      line: 6
+      endLine: 9
+      text: 'This file records how forms and theta integrals behave under passage to opposite signs and under
+
+        change of point. It also descends the exchange identity `New.Exchange.RowColExchangeIdentity`
+
+        between theta integrals from a pair of large spaces to the pair with hyperbolic planes removed. For
+
+        any number of planes there is a space with an adapted splitting over a given space `W`.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/RemovingPlanes.lean
+      line: 10
+      endLine: 43
+      text: "\n## Main definitions and results\n\n* `New.Exchange.isForm_neg_iff_and_integral_neg`: passing to the\
+        \ opposite signs (`G.neg`, the\n  identity on matrices) preserves forms of a given type and integrals over\
+        \ the quotient, if it\n  matches the rational points of the two spaces.\n* `New.Exchange.exists_thetaLarge_thetaSmall_eq_circle_mul`:\
+        \ triples of spaces with the same signs\n  have the same integrals `thetaLarge` and `thetaSmall`, up to\
+        \ one translation and numbers of\n  modulus one.\n* `New.Exchange.RowColExchangeIdentity.cone`: the identity\
+        \ descends along one plane of adapted\n  splittings, to the cone integral of the real vector, if `rk W`\
+        \ is even and `rk V ≥ rk W / 2`;\n  `New.Exchange.RowColExchangeIdentity.dualCone` is the case `rk V < rk\
+        \ W / 2`, on the other side of\n  Poisson's formula.\n* `New.Exchange.exists_rowColExchangeIdentity_removing_planes`:\
+        \ the identity descends along the\n  planes of an adapted splitting, if `rk W` is even and `V'` has as many\
+        \ more negative signs than\n  `V` as planes.\n\nNotions from other files:\n* `New.Exchange.RowColExchangeIdentity\
+        \ W V U μ σ x y ℓ`: the real vectors `x`, `y` are Schwartz\n  vectors (all their weighted norms are finite),\
+        \ and for every tame character `\U0001D520` of weight `μ` the\n  theta integrals `thetaLarge` over `[U(V)]`\
+        \ and `thetaSmall` over `[U(U)]` are proportional on\n  standard data, with a factor `c` such that `D |c|\
+        \ ^ 2` is\n  `lValueProdInt \U0001D520 (rk V - rk W / 2) * ℓ \U0001D520` for a constant `D` that does not\
+        \ depend on `\U0001D520`. The\n  bijection `σ : b ⊕ r ≃ n` of the index sets of `U`, `V`, `W` orders the\
+        \ rows of the standard data.\n* `New.Space.Splitting`: a decomposition V = (lE^p ⊕ kE^p) ⊥ iV₀ over E: isotropic\
+        \ frames l, k with\n  l*Jk = 1, an isometry i from V₀ orthogonal to both, and rk V = rk V₀ + 2p.\n* `New.Exchange.realSlice\
+        \ A U x`: the slice at `x` of a real vector for `(W', U)` in the mixed model\n  of the splitting `A` of\
+        \ `W'` over `W`, a real vector for `(W, U)`; at `x = 0` it is the zero term.\n* `New.stdColDatum χ z`: the\
+        \ standard datum `y ↦ χ⁻¹(det (z y))`, supported on the integral `y` for\n  which this determinant is a\
+        \ unit.\n\n## Relation to the literature\n\nSee `Lib.Weil.DualPair.ThetaLiftConvergence` for sources.\n"
+  New.Determinant.Exchange.StableSpacesStandardData:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.StableSpacesStandardData
+      name: New.Exchange.IsEquivariantLift.apply_eq_zero_of_areMatched
+      line: 763
+      signature: "theorem New.Exchange.IsEquivariantLift.apply_eq_zero_of_areMatched\n    {E : Type} [Field E] [CMType\
+        \ E] [H : WeilData E] {n a b m : Type}\n    [Fintype n] [DecidableEq n] [Fintype a] [DecidableEq a] [Fintype\
+        \ b] [DecidableEq b]\n    [Fintype m] [DecidableEq m] {s : n → ℤˣ} {t : a → ℤˣ} {r : m → ℤˣ}\n    {μ : NumberField.InfinitePlace\
+        \ E → ℤ} {\U0001D520 : SplitTameChar E μ}\n    {X : Space E m r} {W₁ : Space E n s} {W : Space E a t}\n\
+        \    {M : Submodule ℂ (Matrix m b (LocProd \U0001D520.ramifiedPlaces) → ℂ)}\n    {\U0001D49F : (Matrix m\
+        \ b (LocProd \U0001D520.ramifiedPlaces) → ℂ) →ₗ[ℂ] G E r → ℂ}\n    (h_lift : IsEquivariantLift \U0001D520\
+        \ X M \U0001D49F) (D : X.Splitting W₁ b) (D₁ : W₁.Splitting W Unit)\n    [IsBaseAdapted D] [IsBaseAdapted\
+        \ D₁] {t' : b → ℤˣ} (V' : Space E b t')\n    (h_van : D.VanishesAtSelfDual V'\n      (\U0001D49F (stdColDatum\
+        \ \U0001D520.semilocalChar (adaptedFrame \U0001D520.readsAt D).dualL)))\n    (h_frame : stdColDatum \U0001D520\
+        .semilocalChar (adaptedFrame \U0001D520.readsAt D).dualL ∈ M)\n    {p : Type} [Fintype p] {σ : b ⊕ p ≃ m}\
+        \ {Φ : Matrix p m (LocProd \U0001D520.ramifiedPlaces) → ℂ}\n    {Ψ : Matrix m b (LocProd \U0001D520.ramifiedPlaces)\
+        \ → ℂ}\n    (hΨ : IsLocallyConstant Ψ) (hΦΨ : AreMatched O σ \U0001D520.semilocalChar Φ Ψ) :\n    \U0001D49F\
+        \ Ψ = 0"
+    routeToMain:
+    - module: New.Determinant.Exchange.StableSpacesStandardData
+      importer: New.Determinant.Exchange.LargeTriple
+      line: 5
+    - module: New.Determinant.Exchange.LargeTriple
+      importer: New.Determinant.Exchange.RemovingPlanes
+      line: 1
+    - module: New.Determinant.Exchange.RemovingPlanes
+      importer: New.Determinant.Chain.TriangleLifts
+      line: 2
+    - module: New.Determinant.Chain.TriangleLifts
+      importer: New.Determinant.Chain.ChainNorms
+      line: 2
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/StableSpacesStandardData.lean
+      line: 6
+      endLine: 10
+      text: 'Let χ be tame (`New.TameLocalChar`), and let P be a GL_n(F)-stable space of Schwartz–Bruhat
+
+        functions on n × b matrices. Let Ψ be a locally constant function that has a matched function
+
+        (`New.AreMatched`). The file gives two criteria for Ψ ∈ P in terms of the standard data
+
+        `New.stdColDatum χ s`, the function y ↦ χ⁻¹(det s y) for integral y with det s y a unit of O, and 0
+
+        otherwise.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/StableSpacesStandardData.lean
+      line: 11
+      endLine: 39
+      text: "\n## Main definitions and results\n\n* `New.Exchange.match_mem_of_stdColDatum`: if P contains a standard\
+        \ datum multiplied by an ℕ-valued\n  function that is non-zero at a suitable point, then Ψ ∈ P; the proof\
+        \ averages over GL_n(O).\n* `New.Exchange.IntegralFrame.match_mem_of_isPrimitiveMatrix_vanishing`: if a\
+        \ space M contains the\n  shears of a standard datum and P contains what certain functionals kill in M,\
+        \ then Ψ ∈ P; a Gauss\n  sum of the shears lies in P, and `New.Exchange.match_mem_of_stdColDatum` applies\
+        \ to it.\n* `New.Exchange.IsEquivariantLift.shearInvariant_stdColDatum`: the partial means\n  (`New.Space.Splitting.partialMean`)\
+        \ of the coefficients of the image of the standard datum of the\n  frame are invariant under the local shears\
+        \ along one more isotropic line.\n* `New.Exchange.IsSelfDualTestPair`, `New.Space.Splitting.VanishesAtSelfDual`:\
+        \ the pairs of an index\n  and a Levi component at which vanishing at self-dual lattices is tested, and\
+        \ that vanishing.\n* `New.Exchange.IsEquivariantLift.apply_eq_zero_of_areMatched`: `\U0001D49F` vanishes\
+        \ on every locally\n  constant datum with a matched function, once the image of the standard datum of the\
+        \ frame vanishes\n  at self-dual lattices.\n\nNotions from other files:\n* `New.SemilocalField`: Conditions\
+        \ met by a finite product of non-archimedean local fields: a\n  locally compact ring with Haar measure,\
+        \ compact open subring O of volume one, a topologically\n  nilpotent invertible ϖ in O, and `New.IsValuationPair\
+        \ O`.\n* `New.schwartzBruhat`: The space of locally constant, compactly supported complex functions that\n\
+        \  vanish outside a given set.\n* `New.HasIntegralConductor`: The additive character ψ is continuous and\
+        \ has conductor O: ψ is\n  trivial on tO exactly when t lies in O.\n* `New.Exchange.IntegralFrame.stdDatum`:\
+        \ For a function G, the function equal to G(x·(K I)) at\n  integral x and 0 elsewhere, with K and I two\
+        \ of the column blocks K, I, L of the frame.\n* `New.Space.Splitting.partialMean`: the mean of a Fourier\
+        \ coefficient over the shifts of one more\n  isotropic vector; `New.Space.Splitting.ShearInvariant` is its\
+        \ invariance under local shears.\n"
+  New.Determinant.Exchange.TheoremForPartners:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.TheoremForPartners
+      name: New.Exchange.exchange_identity
+      line: 1051
+      signature: "theorem exchange_identity (σ : b ⊕ a ≃ n) (h_signs : negCount s = negCount t + negCount t')\n\
+        \    {e : ℕ} (h_rank : card a = card b + 2 * e) (h_few_neg : 2 * negCount s + 2 ≤ card n)\n    {μ : NumberField.InfinitePlace\
+        \ E → ℤ}\n    (hμ : ∀ τ : NumberField.InfinitePlace E, card n ≤ 2 * μ τ + 2 * negCount s)\n    {v : PairFock\
+        \ E t' s} (hv : IsSchwartzVector v) :\n    ∃ C : ℝ, 0 < C ∧ ∃ x : PairFock E s t, IsSchwartzVector x ∧\n\
+        \      ∀ (\U0001D52A : Modulus E) (ν : AutChar E) (χ : MulChar \U0001D52A.ResidueRing ℂ), IsTameFor \U0001D52A\
+        \ ν μ χ →\n      ∃ c : ℂ,\n        ‖c‖ ^ 2 = C * lValueProd \U0001D52A.places ν e ∧\n        C * lValueProd\
+        \ \U0001D52A.places ν e ≠ 0 ∧\n        ∀ α α' : AutChar E,\n          α.spaceChar (card a) * α'.spaceChar\
+        \ (card b) = ν.baseChange⁻¹ →\n          ∀ (Φ : Matrix a n \U0001D52A.ResidueRing → ℂ) (Ψ : Matrix n b \U0001D52A\
+        .ResidueRing → ℂ),\n            AreMatched ⊤ σ χ Φ Ψ →\n            ∀ g : G E s,\n              thetaIntegral\
+        \ W V (rankTwist ν⁻¹ n) α (modDatum W V \U0001D52A Φ x) g =\n                c * ∫ h : G E t',\n       \
+        \           pairTheta V' W α' (rankTwist ν⁻¹ n) (modDatum V' W \U0001D52A Ψ v) (h, g)\n                \
+        \  ∂V'.quotMeasure"
+    routeToMain:
+    - module: New.Determinant.Exchange.TheoremForPartners
+      importer: New.Determinant.Exchange.OneSquare
+      line: 3
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/TheoremForPartners.lean
+      line: 8
+      endLine: 14
+      text: 'The exchange identity compares the theta integrals to U(W) from two spaces of complementary ranks.
+
+        For matched functions at the ramified places of a tame character, it holds with a constant whose
+
+        absolute value is expressed, up to a factor free of the character, through L-values and the ratio
+
+        `New.Exchange.equalRankThetaRatio`. This ratio is the squared absolute value of the theta integral
+
+        in equal rank, divided by the product of L-values `L_*` at half the rank of the space. For a
+
+        suitable Schwartz vector it is a nonzero constant that does not depend on the character. Together
+
+        these give the exchange theorem for finite data given by functions on matrices over `O_E / 𝔪`.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/TheoremForPartners.lean
+      line: 15
+      endLine: 59
+      text: "\n## Main definitions and results\n\n* `New.Exchange.exchange_of_matches`: the exchange identity, with\
+        \ the constant measured by\n  `New.Exchange.lValueProdInt` and `New.Exchange.equalRankThetaRatio`.\n* `New.Exchange.exists_equalRankThetaRatio_eq_const`:\
+        \ the value of that ratio on `H ⊕ W`, for `W` of\n  rank `2 k + 2 q` with `q` negative signs and `k ≤ μ`.\n\
+        * `New.Exchange.exchange_theorem`, `New.Exchange.exchange_identity`: the exchange theorem, for one\n  choice\
+        \ and for all choices of splitting characters.\n\nNotions from other files:\n* `New.PairFock E s t` is the\
+        \ Fock space of real data for a pair of spaces with signs `s`, `t`. A\n  vector is a Schwartz vector (`New.Exchange.IsSchwartzVector`)\
+        \ if all its moments `fockMoment N v`\n  are finite.\n* `New.Exchange.thetaIntegral S T a b f` is the function\
+        \ g ↦ ∫ θ^{S,T}_{a,b}(f)(g,h) dh on U(S), the\n  integral of the theta kernel `New.pairTheta` over [U(T)].\
+        \ `New.Exchange.thetaLarge` and\n  `New.Exchange.thetaSmall` are its cases for a datum v ⊗ Φ: Φ is read\
+        \ at the ramified places of a\n  tame character, or Φ of the transpose is read at their conjugates.\n* `New.Exchange.SplitTameChar.semilocalChar`\
+        \ is the character t ↦ ν(t/t̄) of ∏_{w∈S} E_w, t read as\n  an idele supported on S, extended by 0 to non-invertible\
+        \ elements.\n* `New.Exchange.lValueProd` is the number `L_*(e)` = (∏_{w ∈ S} Nw)^(e²) · ∏_{z=1}^{e}\n  |L^S(z,\
+        \ ν)|²; `New.Exchange.lValueProdInt` extends it to integers by `L_*(-e) = L_*(e)⁻¹`.\n* `υ` is the splitting\
+        \ character of the Weil data, `upsilonU1` its restriction to the norm-one\n  ideles, and `rankTwist a n`\
+        \ is the character `a υ ^ ⌊|n| / 2⌋` of [U(1)].\n* `AreMatched O σ χ Φ Ψ` says that `Φ` and `Ψ` are supported\
+        \ on the last rows of `k⁻¹` and the first\n  columns of `k`, for `k` invertible over `O` and split by `σ`,\
+        \ and differ there by `χ (det k)`.\n* `stdRowDatum σ χ z` and `stdColDatum χ z` are the standard functions\
+        \ of an integral matrix `z`:\n  they send `x` to `χ⁻¹` of the determinant of `z` stacked on `x`, respectively\
+        \ of `z * x`, and to\n  zero where this is not defined over the integers.\n* `localDatum S T v Φ r` is the\
+        \ vector with real part `v`, the function `Φ` at the places that `r`\n  reads, and the vacuum elsewhere;\
+        \ `modDatum S T \U0001D52A Φ v` is the same for a function `Φ` modulo `\U0001D52A`.\n\n## Relation to the\
+        \ literature\n\nLet V and V' be hermitian spaces of type `New.Space` over a CM field with `New.WeilData`\
+        \ whose ranks\nand negative signs add up to those of W, which has q negative signs, with 2q + 2 ≤ rk W and\
+        \ rk\nV − rk V' = 2e ≥ 0, and let the weights μ satisfy rk W ≤ 2μ + 2q. Then theta integrals over U(V) and\n\
+        U(V') agree on matched ramified data up to a nonzero constant c, so theta lifts can be exchanged.\nOnly\
+        \ |c|² is given, up to an uncomputed factor: it is sized by the conductor and the Hecke L-values\nat 1,…,e.\
+        \ Equal theta lifts of characters of complementary groups are known for trivial characters\n(Siegel–Weil)\
+        \ and for O(3), O(1) to Mp(2). Related work: Snitz, Theta correspondence of automorphic\ncharacters, J.\
+        \ Number Theory 122 (2007), arXiv math/0509486; Erez, Morphisms of global theta lifts\nof non-trivial automorphic\
+        \ characters of orthogonal groups, arXiv 2401.13469, 2024; Gan–Qiu–Takeda,\nThe regularized Siegel–Weil\
+        \ formula (second term identity) and the Rallis inner product formula,\n2014.\n"
+  New.Determinant.Exchange.VanishingDescends:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Exchange.VanishingDescends
+      name: New.Exchange.ThetaLargeVanishes.of_add_planes
+      line: 153
+      signature: "theorem ThetaLargeVanishes.of_add_planes {k : ℕ} {W' : Space E n' s'} {V' : Space E r' t'}\n \
+        \   {σ' : b ⊕ r' ≃ n'} (h_zero : ThetaLargeVanishes \U0001D520 W' V' σ')\n    (hk_le : ∀ w : InfinitePlace\
+        \ E, k ≤ μ w) {j : ℕ} (hj : 1 ≤ j) (W : Space E n s)\n    (V : Space E r t) (σ : b ⊕ r ≃ n) (hn_even : 2\
+        \ ∣ card n)\n    (h_range : -(k : ℤ) ≤ card r - card n / 2) (h_rank : card n' = card n + 2 * j)\n    (h_negCount_W\
+        \ : negCount s' = j + negCount s) (h_negCount_V : negCount t' = j + negCount t) :\n    ThetaLargeVanishes\
+        \ \U0001D520 W V σ"
+    routeToMain:
+    - module: New.Determinant.Exchange.VanishingDescends
+      importer: New.Determinant.Exchange.TheoremForPartners
+      line: 3
+    - module: New.Determinant.Exchange.TheoremForPartners
+      importer: New.Determinant.Exchange.OneSquare
+      line: 3
+    - module: New.Determinant.Exchange.OneSquare
+      importer: New.Determinant.Chain.ChainNorms
+      line: 4
+    - module: New.Determinant.Chain.ChainNorms
+      importer: New.Determinant.Chain.NormOfChain
+      line: 1
+    - module: New.Determinant.Chain.NormOfChain
+      importer: New.Congruences.FitTwistsExist
+      line: 4
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Exchange/VanishingDescends.lean
+      line: 8
+      endLine: 12
+      text: 'If the theta integral of `(W ⊕ H, V ⊕ H)` vanishes on all Schwartz vectors and standard data, so
+
+        does that of `(W, V)`, provided `W` has even rank and `rk V - rk W / 2 ≥ -k` for a natural number
+
+        `k ≤ min μ`. The constant term along the new isotropic line is a value of Tate''s integral, and for
+
+        the vectors of `exists_thetaLarge_cone_eq_mul` this integral is, by analytic continuation, the theta
+
+        integral of `(W, V)` times factors that do not vanish at the value in question.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Exchange/VanishingDescends.lean
+      line: 13
+      endLine: 23
+      text: "\nNotions from other files:\n* `thetaLarge W V \U0001D520 v Φ`: the theta integral over `[U(V)]` of\
+        \ `v ⊗ Φ`, a function on `G E s`;\n* `stdRowDatum σ χ y`: the finite datum `x ↦ χ⁻¹ (det (y; x))`, supported\
+        \ where the square matrix\n  `(y; x)`, with rows ordered by `σ`, is invertible and integral;\n* `SplitTameChar\
+        \ E μ`: a tame character of weight `μ`, ramified at a finite set of split places;\n* `negCount s`: the number\
+        \ of signs `-1` among `s`.\n\n## Relation to the literature\n\nSee `New.Determinant.Exchange.TheoremForPartners`\
+        \ for related work.\n"
+  New.Determinant.Norms.AdjointThetaLift:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Norms.AdjointThetaLift
+      name: New.Data.exists_hasSum_inner_singleLift
+      line: 992
+      signature: "theorem exists_hasSum_inner_singleLift (j : D.LiftIndex) :\n    ∃ c : ℂ, c ≠ 0 ∧ ∀ (ϑ : D.TameChar)\
+        \ (x y : D.principalForms (D.spaceW j)),\n      HasSum (fun γ : Gf D.E D.RowIndex ⧸ localLevel D.RowIndex\n\
+        \        (D.twistModulus ϑ 1).places.conjClosureᶜ ↦\n          c * (D.descentPair ϑ j).twistFactor *\n \
+        \           cosetTerm (card (D.Y 1)) (D.descentPair ϑ j).charV\n              (D.twistModulus ϑ 1).places.conjClosureᶜ\
+        \ x.val y.val γ)\n        (inner ℂ (D.singleLift ϑ j x) (D.singleLift ϑ j y))"
+    routeToMain:
+    - module: New.Determinant.Norms.AdjointThetaLift
+      importer: New.Spanning.Multiplicities.EqualMultiplicities
+      line: 3
+    - module: New.Spanning.Multiplicities.EqualMultiplicities
+      importer: New.Spanning.SecondMoment.SpanningTheorem
+      line: 3
+    - module: New.Spanning.SecondMoment.SpanningTheorem
+      importer: New.Reduction.ShortAndEnough
+      line: 2
+    - module: New.Reduction.ShortAndEnough
+      importer: New.Reduction.MainInequality
+      line: 2
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Norms/AdjointThetaLift.lean
+      line: 9
+      endLine: 14
+      text: 'For a descent pair (`New.DescentPair`, a descent datum) with spaces W and V, the lift Θ_W is the
+
+        theta lift from forms on W to algebraic forms on V. The descent `New.DescentPair.normalizedDescent`
+
+        maps forms on V to functions on the adelic group of W; it is defined as a class sum and shown here
+
+        to be the adjoint of Θ_W. Both commute with the finite group of the chosen places. The finite datum
+
+        of the lift is the block datum modulo `π_M Q` times the vacuum, and the block datum is sharp for the
+
+        level `J_M`. For the pair `New.Data.descentPair D ϑ j`, which is `(W_j, V_j)` with a tame character
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Norms/AdjointThetaLift.lean
+      line: 15
+      endLine: 51
+      text: "ξ = `ϑ`, the lift Θ_{j,ξ} = `New.Data.singleLift` goes from the forms of level `J_M` on W_j to the\n\
+        definite space V_j.\n\n## Main definitions and results\n\n* `New.DescentPair.thetaLift`: the lift Θ_W from\
+        \ forms on W to forms on V. It is the lift\n  `New.formLift` by the datum `New.DescentPair.fockDatum` of\
+        \ the highest vector, read as an\n  algebraic form.\n* `New.Data.singleLift`: the lift Θ_{j,ξ} on `New.Data.principalForms`\
+        \ on W_j. It is Θ_W for the\n  pair `New.Data.descentPair` when 1 ≤ j ≤ m and 0 otherwise.\n* `New.DescentPair.inner_thetaLift`:\
+        \ `New.DescentPair.normalizedDescent` is adjoint to\n  `New.DescentPair.thetaLift`, for the Petersson product\
+        \ on `W` and the class sum product on `V`.\n* `New.Data.coe_adjoint_singleLift`, `New.Data.normalizedDescent_eq_zero_iff`:\
+        \ the adjoint of\n  Θ_{j,ξ} is the descent θ, so θ kills exactly the forms orthogonal to the lifts.\n* `New.Data.singleLift_injective`,\
+        \ `New.Data.exists_hasSum_rallisTerm_inner_singleLift`: Θ_{j,ξ} is\n  injective, and its Gram form is a\
+        \ constant `A` times the factor `New.DescentPair.gramFactor` of\n  the pair times the sum of the terms `New.Data.rallisTerm`.\n\
+        * `New.Data.exists_hasSum_inner_singleLift`: the same Gram form as a constant `c` times\n  `New.DescentPair.twistFactor`\
+        \ times the sum of the terms `cosetTerm`.\n\nNotions from other files:\n* `New.Data.descentPair`: the pair\
+        \ of W_j, of rank r, and the definite space V_j, of rank r + t,\n  with the character χ_j ξ = `New.Data.liftChar`\
+        \ of weight −κ_j and the places\n  `New.Data.levelPlaces`.\n* `New.Data.principalForms`: the forms of parameter\
+        \ λ^Y (twice it is `New.Data.paramW`) and level\n  `J_M`, which is principal at the chosen places and maximal\
+        \ elsewhere.\n\n## Relation to the literature\n\nFor every tame twist, the theta lift from U(W_j) to a definite\
+        \ unitary group of much larger rank is\ninjective, and its Gram form is a non-zero twist-free constant times\
+        \ an explicit count at the level\nand the twist's conductor times a sum of Hecke operators. The Rallis inner\
+        \ product in the convergent\nrange, with small-support data giving injectivity at a level, is known in the\
+        \ literature. Related\nwork: J.-S. Li, Non-vanishing theorems for the cohomology of certain arithmetic quotients,\
+        \ 1992;\nCossutta–Marshall, Theta lifting and cohomology growth in p-adic towers, arXiv 1106.2765, 2011;\n\
+        Rallis, Injectivity properties of liftings associated to Weil representations, 1984; Rallis,\nL-functions\
+        \ and the oscillator representation, 1987.\n"
+    needs_draft: true
+    reason: No 60–120 word excerpt ends at a source-line sentence boundary
+  New.Determinant.Norms.VectorKernel:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Norms.VectorKernel
+      name: New.DescentPair.vectorKernel
+      line: 63
+      signature: 'def vectorKernel (g : G E O.signs) (h : Gf E n) : WeylIndex n O.columnCount → ℂ'
+    routeToMain:
+    - module: New.Determinant.Norms.VectorKernel
+      importer: New.OneLift.HeckeValues.CharacterLift
+      line: 2
+    - module: New.OneLift.HeckeValues.CharacterLift
+      importer: New.OneLift.ComparisonOperator.ExchangeData
+      line: 2
+    - module: New.OneLift.ComparisonOperator.ExchangeData
+      importer: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      line: 2
+    - module: New.Congruences.GaloisRepresentations.RowsFromEigensystems
+      importer: New.Congruences.FitTwistsExist
+      line: 2
+    - module: New.Congruences.FitTwistsExist
+      importer: New.Determinant.Twist.LongForms
+      line: 1
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Norms/VectorKernel.lean
+      line: 6
+      endLine: 12
+      text: 'For a descent pair `O : New.DescentPair` with spaces `W` and `V`, the theta kernels of the data
+
+        `v_{P_ξ} ⊗ Ψ_bl ⊗ vac = O.fockDatum ξ` depend linearly on the vector `ξ` of the representation of
+
+        weight `(O.columnCount, O.detExp)`. Here `v_{P_ξ}` is the Fock vector of the polynomial
+
+        `P_ξ = O.fockPoly ξ`, and `Ψ_bl ⊗ vac = O.blockDatum` is the finite datum: a block datum at the
+
+        places of the level and the vacuum at the other finite places. So there is one kernel `θ_W(g, h)`
+
+        with values in this representation such that the kernel of `O.fockDatum ξ` is `⟨ξ̄, θ_W(g, h)⟩`. The
+
+        pairing `⟨ζ, η⟩` is `New.gramForm ζ η`, conjugate linear in `ζ`.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Norms/VectorKernel.lean
+      line: 13
+      endLine: 31
+      text: "\n## Main definitions and results\n\n* `New.DescentPair.vectorKernel`, `New.DescentPair.gramForm_vectorKernel`:\
+        \ the kernel `θ_W(g, h)`\n  and its defining property.\n* `New.DescentPair.vectorKernelForm`: the function\
+        \ `θ_W(g, ·)` as an algebraic form on `V`.\n* `New.DescentPair.normalizedDescent_eq_inner_vectorKernelForm`:\
+        \ the normalized descent\n  `New.DescentPair.normalizedDescent` of a form `Ξ` on `V` has the value `⟨θ_W(g,\
+        \ ·), Ξ⟩` at `g`.\n\nNotions from other files:\n* `New.DescentPair`: the data of a space `W` of signs `O.signs`,\
+        \ an embedding of its index set in\n  that of `V = I_n`, weights and a character, from which `(O.columnCount,\
+        \ O.detExp)` and the level\n  are built.\n* `New.WeylIndex n κ`: the index set of the coordinates of the\
+        \ representation of weight `κ`, on\n  which `New.weylGramOver` is the Gram matrix of `New.gramForm`.\n*\
+        \ `New.G E s`, `New.Gf E n`: the adelic unitary group of signs `s` and the finite part of that of\n  the\
+        \ standard definite space `New.stdSpace E n = I_n`.\n* `New.stdClassSum K f`: the sum of `f` over the double\
+        \ cosets of the rational points and `K`, each\n  weighted by the inverse of the order of its automorphism\
+        \ group.\n"
+  New.Determinant.Twist.FitTwists:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Twist.FitTwists
+      name: New.Data.denominatorBudget
+      line: 153
+      signature: 'noncomputable abbrev denominatorBudget : ℝ'
+    routeToMain:
+    - module: New.Determinant.Twist.FitTwists
+      importer: New.OneLift.ComparisonOperator.FirstFactors
+      line: 1
+    - module: New.OneLift.ComparisonOperator.FirstFactors
+      importer: New.Determinant.AuxiliaryForms.SpanningForms
+      line: 4
+    - module: New.Determinant.AuxiliaryForms.SpanningForms
+      importer: New.Determinant.Twist.LongForms
+      line: 2
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Twist/FitTwists.lean
+      line: 8
+      endLine: 12
+      text: 'Consider a pair `(ν, z)`, a tame character `ϑ` with set of places `Q` and a sign `s = ±1` (by
+
+        default `1`). For these, `New.Data.CriticalPair.ratio` is the quotient
+
+        `|L(z, (ν ϑ^s)⁻¹)| / |L(z, ν⁻¹)|`, as a complex number. The remaining definitions record what the
+
+        congruence arguments need to know about a family of twists `θ ι`. The family has one twist for each
+
+        prime `ℓ` and isomorphism `ι : ℂ ≃ ℚ̄_ℓ` (`New.PrimePadicIso`).
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Twist/FitTwists.lean
+      line: 13
+      endLine: 39
+      text: "\n## Main definitions\n\n* `New.Data.goodLift`: the lift `New.Data.singleLift` restricted to good forms,\
+        \ whose range is the\n  space of lifts.\n* `New.Data.CriticalPair.IsRamified`, `New.Data.CriticalPair.IsMainPair`:\
+        \ ramified pairs and main\n  pairs.\n* `New.Data.denominatorBudget`: the bound for the sums over primes\
+        \ of the logarithmic denominator\n  bounds.\n* `New.Data.IsNegligible`: numbers `e ℓ ≥ 0` with `∑ e ℓ log\
+        \ ℓ ≤ x ^ C` over every finite set of\n  primes.\n* `New.Data.HasSmallRatios`: families of twists `θ ι`\
+        \ with modulus prime to `ℓ` whose powers have\n  ratios of L-values of small height.\n* `New.Data.IsRegularFamily`:\
+        \ regular families, that is, families with small ratios for whose powers\n  the projections to the lifts\
+        \ have small denominators.\n\nNotions from other files:\n* `New.AutChar.L`: The partial Hecke L-function\
+        \ of the character x ↦ ν(x/x̄) of E.\n* `New.Data.CriticalPair`: An integer 1 ≤ z ≤ `D.t` and a character\
+        \ ν of U(1)(\U0001D538) of weight −c, with\n  z ≤ c(v) ≤ 4 `D.b` at every infinite place v and tame part\
+        \ ψ supported on the chosen places.\n* `New.Data.Twist`, `New.Data.MFoldTwist`: A tame character whose tame\
+        \ part ψ_w (for an m-fold\n  twist: each ψ_wⁿ, 1 ≤ n ≤ m) is non-trivial at every place w of its finite\
+        \ set Q.\n* `New.HeightLe`: A bound for the height of a family of complex numbers indexed by the ι.\n\n\
+        ## Relation to the literature\n\nSee `New.Congruences.FitTwistsExist` for related work.\n"
+  New.Determinant.Twist.LongForms:
+    group: New.Determinant
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: New.Determinant.Twist.LongForms
+      name: New.Data.integral_forms_long
+      line: 214
+      signature: "theorem integral_forms_long {n : ℕ} {y : Fin n → D.targetForms} {δ c : ℝ}\n    (hy : LinearIndependent\
+        \ ℂ y) (hn : (1 - 4 / D.b ^ 2) * D.targetDim ≤ n)\n    (hδ : D.targetLattice.IndexLe y δ) (hc : D.targetLattice.CovolumeLe\
+        \ y c) :\n    D.targetDim * (D.mainAmount - 3 * (D.f * D.a * D.logB ^ 4)) ≤ c + 2 * δ"
+    routeToMain:
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/New/Determinant/Twist/LongForms.lean
+      line: 10
+      endLine: 14
+      text: 'The main result `New.Data.integral_forms_long` bounds from below the covolume plus twice the index
+
+        of a family of target forms that spans almost all of the target. The target forms are a twisted
+
+        lattice, and the bound follows from `New.TwistedLattice.covolume_add_index_nonneg` with four inputs:
+
+        auxiliary forms that complete a family to a basis, a family of twists `ξ_ι`, the injectivity of the
+
+        lifts `Θ_ξ`, and the height of `Z(1) / Z(ξ_ι)`.
+
+        '
+    remainder:
+      path: grh/src/New/Determinant/Twist/LongForms.lean
+      line: 15
+      endLine: 28
+      text: "\nIn comments, `d` is the dimension `D.targetDim` of the target `D.targetForms`, the space of good\n\
+        forms on `Y₀ = D.spaceY 0`. The letters `x, x₁, b, a, m, k, t, f` are the numbers `D.x`, `D.x₁`, …\nof the\
+        \ data `D`; inequalities between them come from `New.Data.le_of_hasLogBound`.\n\nNotions from other files:\n\
+        * `D.targetLattice`: the target forms as a twisted lattice, with the lifts `Θ_ξ = D.Θ ξ` indexed by\n  the\
+        \ `m`-fold twists `ξ`; the modulus `Q(ξ)` has norm `ξ.normQ`.\n* `D.chainDeterminant ξ` is `Z(ξ) = det (Θ_ξ*\
+        \ Θ_ξ)`, and `D.liftDeterminant ξ j` is `Z_j(ξ ^ j)`,\n  the same determinant for the `j`-th single lift.\n\
+        * `HeightLe c y`: the family `y` of complex numbers, one for each pair `ι` of a prime `l` and an\n  isomorphism\
+        \ `ℂ ≃ ℚ̄_l` (`PrimePadicIso`), has height at most `c`.\n* `D.HasSmallRatios θ`: the `m`-fold twists `ξ_ι\
+        \ = θ ι` have `Nm Q(ξ_ι)` prime to the prime of `ι`\n  and inverse ratios of Hecke values of height at most\
+        \ `x₁`.\n"
+needs_draft: true

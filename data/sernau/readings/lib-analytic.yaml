@@ -1,0 +1,639 @@
+group: Lib.Analytic
+overview: null
+files:
+  Lib.Analytic.DirichletTheta:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.DirichletTheta
+      name: New.hasMellin_thetaSeries_char
+      line: 466
+      signature: "theorem hasMellin_thetaSeries_char (hχ_ne : χ ≠ 1) (hχ_parity : χ (-1) = (-1) ^ j.val)\n    (hs\
+        \ : 0 < s.re) :\n    HasMellin (thetaSeries j fun n : ℕ ↦ χ n) (s - 2⁻¹)\n      (gaussianMellin j s * χ.LFunction\
+        \ s)"
+    routeToMain:
+    - module: Lib.Analytic.DirichletTheta
+      importer: Lib.Analytic.QuadraticTwist
+      line: 1
+    - module: Lib.Analytic.QuadraticTwist
+      importer: New.Reduction.Zeros.Criterion
+      line: 2
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/DirichletTheta.lean
+      line: 6
+      endLine: 11
+      text: 'For a parity `j ∈ {0, 1}`, the weight `w(z) = z ^ j e^(-π z²)` and coefficients `c(n)`, this file
+
+        studies the theta series `θ(u) = u ^ (1/2) ∑_{n ≥ 1} c(n) w(n u)`. It bounds `θ` and expresses its
+
+        Mellin transform through the Dirichlet series of `c`. For a Dirichlet character `χ ≠ 1` of parity
+
+        `j`, Poisson summation bounds the series near `0` and so gives the formula for `L(s, χ)` in
+
+        `re s > 0` (`hasMellin_thetaSeries_char`); if `χ` is also primitive, it gives the transformation
+
+        formula of `|θ|` (`norm_thetaSeries_inv`).
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/DirichletTheta.lean
+      line: 12
+      endLine: 18
+      text: '
+
+        ## Relation to the literature
+
+
+        Known result: the transformation formula and the Mellin transform of the theta series of a Dirichlet
+
+        character. Sources: Davenport, Multiplicative Number Theory; Montgomery–Vaughan, Multiplicative
+
+        Number Theory I, ch. 10. Form here: the transformation is proved in absolute value only, so no root
+
+        number appears.
+
+        '
+  Lib.Analytic.EntireLFunction:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.EntireLFunction
+      name: New.tendsto_sub_mul_logDeriv_entireL_analyticOrderNatAt
+      line: 180
+      signature: "lemma tendsto_sub_mul_logDeriv_entireL_analyticOrderNatAt (s : ℂ) :\n    Tendsto (fun z : ℂ ↦\
+        \ (z - s) * logDeriv (entireL χ) z) (\U0001D4DD[≠] s)\n      (\U0001D4DD (analyticOrderNatAt (entireL χ)\
+        \ s : ℂ))"
+    routeToMain:
+    - module: Lib.Analytic.EntireLFunction
+      importer: Lib.Analytic.Landau
+      line: 1
+    - module: Lib.Analytic.Landau
+      importer: New.Reduction.Zeros.Criterion
+      line: 1
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/EntireLFunction.lean
+      line: 6
+      endLine: 11
+      text: 'This part shows that the twist of a Dirichlet character by the Legendre symbol of an odd prime not
+
+        dividing the modulus is not principal. It defines `New.IsPolar`, the condition that a Laplace-type
+
+        transform of an error term continues meromorphically with at most simple poles in the right
+
+        half-plane. It also expresses `∑ χ(n) Λ(n) n^{-s}` through the logarithmic derivative of
+
+        `New.entireL χ` and identifies the residues of that logarithmic derivative with the orders of the
+
+        zeros of `New.entireL χ`.
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/EntireLFunction.lean
+      line: 12
+      endLine: 31
+      text: "\n## Main definitions and results\n\n* `New.quadTwist_ne_one`: the twist of a character modulo `N`\
+        \ by the Legendre symbol `(·/d)`, for an\n  odd prime `d` prime to `N`, is not principal.\n* `New.IsPolar`:\
+        \ `E` is measurable, `|E v| ≤ C e^v` for `v ≥ 0`, and `∫₀^∞ E(v) e^{(1-s)v} dv`\n  continues to a meromorphic\
+        \ function of `s` with at most simple poles of residue `r ρ` in\n  `re ρ > 0`.\n* `New.LSeriesHasSum_mul_vonMangoldt`:\
+        \ `∑ χ(n) Λ(n) n^{-s}` in terms of the logarithmic derivative\n  of `New.entireL χ`.\n* `New.tendsto_sub_mul_logDeriv_entireL_analyticOrderNatAt`:\
+        \ the residues of that logarithmic\n  derivative are the orders of the zeros of `New.entireL χ`.\n\nNotions\
+        \ from other files:\n* `New.entireL`: The entire function equal to L(s, χ) if χ is not principal, and to\
+        \ the continuation\n  of (s − 1)L(s, χ) if χ is principal.\n\n## Relation to the literature\n\nKnown; see\
+        \ `Lib.Analytic.Landau` for sources.\n"
+  Lib.Analytic.Landau:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.Landau
+      name: New.IsPolar.landau
+      line: 217
+      signature: "lemma IsPolar.landau {r : ℂ → ℂ} (h : IsPolar E r) {β : ℝ} (hβ : 0 < β)\n    (hr : ∀ x : ℝ, β\
+        \ < x → 0 ≤ (r x).re) (hE_le : ∀ᶠ v : ℝ in atTop, E v ≤ Real.exp ((β - 1) * v))\n    {ρ : ℂ} (hρ : β < ρ.re)\
+        \ :\n    r ρ = 0"
+    routeToMain:
+    - module: Lib.Analytic.Landau
+      importer: New.Reduction.Zeros.Criterion
+      line: 1
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/Landau.lean
+      line: 6
+      endLine: 9
+      text: 'This part proves Landau''s lemma: the moment generating function of a measure is not analytic at
+
+        its abscissa of convergence. It applies the lemma to transforms satisfying `New.IsPolar`. Assume
+
+        a one-sided bound on the error term `E`, and assume that the residues `r x` at real `x > β` have
+
+        non-negative real part. Then the part concludes that there is no pole to the right of `β`.
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/Landau.lean
+      line: 10
+      endLine: 30
+      text: "Together with `Lib.Analytic.EntireLFunction`, these are the analytic tools for passing from a\none-sided\
+        \ bound on an error term to the absence of zeros of L-functions.\n\n## Main definitions and results\n\n\
+        * `New.exists_Ioi_subset_integrableExpSet_of_analyticAt`: Landau's lemma; the Laplace transform of\n  a\
+        \ measure is not analytic at its abscissa of convergence.\n* `New.IsPolar.landau`: let `β > 0`. If `E v\
+        \ ≤ e^{(β-1)v}` for all large `v` and `re (r x) ≥ 0`\n  for real `x > β`, then `r ρ = 0` for `re ρ > β`.\n\
+        \nNotions from other files:\n* `New.IsPolar` (from `Lib.Analytic.EntireLFunction`): `E` is measurable, `|E\
+        \ v| ≤ C e^v` for\n  `v ≥ 0`, and `∫₀^∞ E(v) e^{(1-s)v} dv` continues meromorphically with at most simple\
+        \ poles of\n  residue `r ρ` in `re ρ > 0`.\n\n## Relation to the literature\n\nKnown result: Landau's lemma\
+        \ on Dirichlet integrals of one sign. It is applied to transforms with\nsimple poles whose residues at real\
+        \ points have non-negative real part: no pole lies to the right\nof the abscissa given by the one-sided\
+        \ bound. Source: Montgomery and Vaughan, Multiplicative\nNumber Theory I, 2007, Lemma 15.1 (Widder, The\
+        \ Laplace Transform, 1941, II Thm 5b).\n"
+  Lib.Analytic.PolyaVinogradov:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.PolyaVinogradov
+      name: New.polya_vinogradov
+      line: 182
+      signature: "theorem polya_vinogradov (hχ : χ ≠ 1) (X : ℕ) :\n    ‖∑ v ∈ Ioc 0 X, χ v‖ ≤ 2 * √q * (1 + Real.log\
+        \ q)"
+    routeToMain:
+    - module: Lib.Analytic.PolyaVinogradov
+      importer: Lib.Analytic.DirichletTheta
+      line: 1
+    - module: Lib.Analytic.DirichletTheta
+      importer: Lib.Analytic.QuadraticTwist
+      line: 1
+    - module: Lib.Analytic.QuadraticTwist
+      importer: New.Reduction.Zeros.Criterion
+      line: 2
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/PolyaVinogradov.lean
+      line: 6
+      endLine: 18
+      text: 'The Gauss sum of a primitive Dirichlet character mod `q` has absolute value `√q`. For a
+
+        non-principal character mod `q`, every partial sum of its values is at most `2 √q (1 + log q)` in
+
+        absolute value.
+
+
+        * `New.norm_gaussSum_of_isPrimitive`: the modulus of the Gauss sum.
+
+        * `New.polya_vinogradov`: the Pólya–Vinogradov inequality.
+
+
+        ## Relation to the literature
+
+
+        Known result: the Pólya–Vinogradov inequality for sums of a non-principal Dirichlet character. It is
+
+        proved here for initial intervals only, with the explicit bound `2 √q (1 + log q)`. The case of a
+
+        general character is reduced to the primitive character that induces it by a Möbius sieve. Source:
+
+        Pólya 1918, Vinogradov 1918; Davenport, Multiplicative Number Theory; Montgomery–Vaughan Thm 9.18.
+
+        '
+  Lib.Analytic.PrimeNumberTheorem.LFunctionGrowth:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.PrimeNumberTheorem.LFunctionGrowth
+      name: New.regularL
+      line: 177
+      signature: 'def regularL (s : ℂ) : ℂ'
+    routeToMain:
+    - module: Lib.Analytic.PrimeNumberTheorem.LFunctionGrowth
+      importer: Lib.Analytic.PrimeNumberTheorem.ZeroFreeRegion
+      line: 1
+    - module: Lib.Analytic.PrimeNumberTheorem.ZeroFreeRegion
+      importer: New.Reduction.Zeros.PrimeNumberTheorem
+      line: 2
+    - module: New.Reduction.Zeros.PrimeNumberTheorem
+      importer: New.Reduction.OneSidedBound
+      line: 4
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/PrimeNumberTheorem/LFunctionGrowth.lean
+      line: 6
+      endLine: 9
+      text: 'Let `χ` be a character modulo `N`, and let `𝖿_χ(s)` (`regularL χ s`) be `L(s, χ)`, times
+
+        `(s - 1) / s` if `χ` is principal. Partial summation gives `|𝖿_χ(s)| ≤ 1 + 4 N |s|` in
+
+        `re s ≥ 1 / 2`, and the three-lines theorem improves this to `|𝖿_χ(s)| ≤ l²` for `re s ≥ 1 - 1 / l`
+
+        and `|s| ≤ 3 e^l`, whenever `l ≥ 10¹⁰` and `N ≤ e^l`.
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/PrimeNumberTheorem/LFunctionGrowth.lean
+      line: 10
+      endLine: 19
+      text: "\nNotions from other files:\n* `entireL χ`: the entire function equal to `L(s, χ)` if `χ` is not principal,\
+        \ and to the\n  continuation of `(s - 1) L(s, χ)` if it is.\n\n## Relation to the literature\n\nKnown result:\
+        \ the bound `L(s, χ) ≪ log (N |s|)` near `re s = 1` and away from the pole. It is proved\nhere for `\U0001D5BF\
+        _χ` and with a square in place of the first power. Source: Montgomery and Vaughan,\nMultiplicative Number\
+        \ Theory I, 2007, Lemma 10.15.\n"
+  Lib.Analytic.PrimeNumberTheorem.Tauberian:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.PrimeNumberTheorem.Tauberian
+      name: New.eventually_abs_le_inv_pow_of_transform
+      line: 319
+      signature: "theorem eventually_abs_le_inv_pow_of_transform (hR : Measurable R)\n    (h_lip : ∀ u v : ℝ, 0\
+        \ ≤ u → u ≤ v → v ≤ u + 1 → |R v - R u| ≤ L * (v - u))\n    (h_transform : ∀ s : ℂ, 2 < s.re →\n      (F\
+        \ s - F 1) / (s - 1) = ∫ v in Ioi (0 : ℝ), R v * cexp ((1 - s) * v)) {A : ℕ}\n    (hF : ∀ᶠ l : ℝ in atTop,\
+        \ ∀ s : ℂ, 1 - 1 / l ^ A ≤ s.re → ‖s‖ ≤ rexp l →\n      DifferentiableAt ℂ F s ∧ ‖F s‖ ≤ l ^ A) (B : ℕ)\
+        \ :\n    ∀ᶠ u : ℝ in atTop, |R u| ≤ 1 / u ^ B"
+    routeToMain:
+    - module: Lib.Analytic.PrimeNumberTheorem.Tauberian
+      importer: New.Reduction.Zeros.PrimeNumberTheorem
+      line: 1
+    - module: New.Reduction.Zeros.PrimeNumberTheorem
+      importer: New.Reduction.OneSidedBound
+      line: 4
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/PrimeNumberTheorem/Tauberian.lean
+      line: 6
+      endLine: 10
+      text: 'Let `R` be measurable and Lipschitz on `v ≥ 0`, and let its transform `∫₀^∞ R(v) e^{(1 - s) v} dv`
+
+        be `(F s - F 1) / (s - 1)` in `re s > 2`. Suppose that for all large `l` the function `F` is
+
+        holomorphic and at most `l ^ A` on `re s ≥ 1 - l ^ (-A)`, `|s| ≤ e ^ l`. Then `R(v) = O(v ^ (-B))`
+
+        for every `B`. The theorem is meant for the remainder in the prime number theorem for a sum over
+
+        prime powers with weights that vanish at the cutoff `x`: at `x = e ^ v` it is Lipschitz in `v`.
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/PrimeNumberTheorem/Tauberian.lean
+      line: 11
+      endLine: 20
+      text: '
+
+        The proof reads one Taylor coefficient of the transform at a far point `1 + H` in two ways. It is a
+
+        mean of `R` against a Gamma density that is concentrated at the given point `u`, hence close to
+
+        `R(u)`; and it is small by Cauchy''s estimate on a disc that reaches left of the line `re s = 1`.
+
+
+        ## Relation to the literature
+
+
+        Known result: the passage from a zero-free region to the error term of the prime number theorem.
+
+        Source: Montgomery and Vaughan, Multiplicative Number Theory I, 2007, Section 6.2, where a contour
+
+        integral is used in place of the Taylor coefficient.
+
+        '
+  Lib.Analytic.PrimeNumberTheorem.ZeroFreeRegion:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.PrimeNumberTheorem.ZeroFreeRegion
+      name: New.eventually_norm_logDeriv_entireL_le
+      line: 196
+      signature: "theorem eventually_norm_logDeriv_entireL_le (χ : DirichletCharacter ℂ N) :\n    ∀ᶠ l : ℝ in atTop,\
+        \ ∀ s : ℂ, 1 - 1 / l ^ 25 ≤ s.re → ‖s‖ ≤ rexp l →\n      entireL χ s ≠ 0 ∧ ‖logDeriv (entireL χ) s‖ ≤ 2\
+        \ * l ^ 25"
+    routeToMain:
+    - module: Lib.Analytic.PrimeNumberTheorem.ZeroFreeRegion
+      importer: New.Reduction.Zeros.PrimeNumberTheorem
+      line: 2
+    - module: New.Reduction.Zeros.PrimeNumberTheorem
+      importer: New.Reduction.OneSidedBound
+      line: 4
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/PrimeNumberTheorem/ZeroFreeRegion.lean
+      line: 6
+      endLine: 11
+      text: 'For a Dirichlet character `χ` and large `l`, the function `L(s, χ)` has no zero with
+
+        `re s ≥ 1 - l⁻²⁵` and `|s| ≤ e^l`, and its logarithmic derivative, with the pole removed, is at most
+
+        `2 l²⁵` there. The inequality `|L(σ, 1)³ L(σ + i t, χ)⁴ L(σ + 2 i t, χ²)| ≥ 1` bounds `L` from below
+
+        to the right of `re s = 1`, and the bound for the derivative carries this across the line. If `χ²`
+
+        is principal, the points near `1` are treated by `𝖿_χ(1) ≠ 0` and continuity; so how large `l` must
+
+        be depends on `χ`.
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/PrimeNumberTheorem/ZeroFreeRegion.lean
+      line: 12
+      endLine: 21
+      text: '
+
+        Notions from other files:
+
+        * `entireL χ`: the entire function `L(s, χ)`, or `(s - 1) L(s, χ)` if `χ` is principal;
+
+        * `regularL χ`, written `𝖿_χ` in comments: `entireL χ`, divided by `s` if `χ` is principal.
+
+
+        ## Relation to the literature
+
+
+        Known result: the classical zero-free region, in the crude form with a power of the logarithm that
+
+        the 3-4-1 inequality gives directly. Source: Montgomery and Vaughan, Multiplicative Number Theory I,
+
+        2007, ch. 11.
+
+        '
+  Lib.Analytic.Primes:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.Primes
+      name: New.exists_prime_modEq_one_log_mem
+      line: 389
+      signature: "theorem New.exists_prime_modEq_one_log_mem (M A : ℕ) [NeZero M] (hM : 4 ∣ M) :\n    ∀ᶠ W : ℝ in\
+        \ atTop, ∀ k : ℕ, 1 < k → (M : ℝ) ^ k ≤ W ^ A → ∀ U : ℝ, U ∈ Set.Icc W (W ^ A) →\n      ∃ p : ℕ, p.Prime\
+        \ ∧ p ≡ 1 [MOD M ^ k] ∧ Real.log p ∈ Set.Icc U (U + W)"
+    routeToMain:
+    - module: Lib.Analytic.Primes
+      importer: New.Reduction.Data.Existence
+      line: 1
+    - module: New.Reduction.Data.Existence
+      importer: New.Reduction.OneSidedBound
+      line: 1
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/Primes.lean
+      line: 6
+      endLine: 12
+      text: 'Let `4 ∣ M` and let `A` be fixed. For large `W` there is a prime `p ≡ 1` modulo `M ^ k` with `log p`
+
+        in `[U, U + W]`, uniformly for `1 < k`, `M ^ k ≤ W ^ A` and `W ≤ U ≤ W ^ A`
+
+        (`New.exists_prime_modEq_one_log_mem`).
+
+
+        The characters modulo `M ^ k` with trivial square come from the fixed modulus `M ^ 2`, so the
+
+        zero-free region gives a disc about `1` without zeros, uniformly in `k`. Newman''s contour argument
+
+        on its boundary yields the prime.
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/Primes.lean
+      line: 13
+      endLine: 25
+      text: '
+
+        Independently, the first section proves `n ≤ φ n * (2 * log n + 1)` (`New.le_totient_mul_log`).
+
+
+        Notions from other files:
+
+        * `entireL χ` is `L(s, χ)`, times `s - 1` if `χ` is principal;
+
+        * `regularL χ` is `L(s, χ)`, times `(s - 1) / s` if `χ` is principal.
+
+
+        ## Relation to the literature
+
+
+        Known result: primes congruent to `1` modulo `M ^ k` with logarithm in a prescribed window. It is a
+
+        consequence of the Siegel–Walfisz theorem. Only one prime is found, in a long window, and only for
+
+        moduli that are powers of a fixed multiple of `4`. Source: Montgomery and Vaughan, Multiplicative
+
+        Number Theory I, 2007, Cor. 11.19.
+
+        '
+  Lib.Analytic.QuadraticTwist:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.QuadraticTwist
+      name: New.exists_entireL_quadTwist_ne_zero
+      line: 796
+      signature: "lemma exists_entireL_quadTwist_ne_zero {N : ℕ} [NeZero N] {β : ℝ} (H : ℝ) {a : ZMod N}\n    (hβ\
+        \ : 1 / 2 < β) (ha : IsUnit a)\n    (h_class : ∀ d : Primes, ((d : ℕ) : ZMod N) = a → (d : ℕ) % 8 = 7 ∧\
+        \ N.Coprime d) :\n    ∃ d : Primes, ((d : ℕ) : ZMod N) = a ∧ ∀ (ξ : DirichletCharacter ℂ N) (s : ℂ),\n \
+        \     β ≤ s.re → |s.im| ≤ H → entireL (quadTwist ξ d) s ≠ 0"
+    routeToMain:
+    - module: Lib.Analytic.QuadraticTwist
+      importer: New.Reduction.Zeros.Criterion
+      line: 2
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/QuadraticTwist.lean
+      line: 7
+      endLine: 12
+      text: 'Fix a class modulo `N` whose primes are `≡ 7` modulo `8` and prime to `N`, and a box
+
+        `re s ≥ β = 1/2 + 9 δ`, `|im s| ≤ H`. A prime `d` of the class is bad (`IsBadPrime`) if some
+
+        `L(s, ξ (·/d))`, with `ξ` modulo `N`, has a zero in the box. The main estimate is the count
+
+        `zero_density_quadTwist`: there are `O(X ^ (1 - δ / 2))` bad primes up to `X`. Such a count also
+
+        follows from the large sieve inequality for real characters; the proof here needs only the
+
+        Pólya–Vinogradov inequality, because theta series keep all sums short.
+
+        '
+    remainder:
+      path: grh/src/Lib/Analytic/QuadraticTwist.lean
+      line: 13
+      endLine: 45
+      text: "\n1. For a primitive character `χ ≠ 1` of conductor `q ≤ T²` let `J(χ, T)` be the integral over\n \
+        \  `u ≥ 1 / T` of `|θ_χ(u)| + |θ_{μχ}(u)|` against `du / u` (`thetaTailIntegral`). If `χ` has parity\n \
+        \  `j`, the Mellin transform of `θ_χ` at `s - 1/2` is `Γ_j L`, and by the functional equation the\n   integral\
+        \ of `|θ_χ(u)| du / u` over `u < q ^ (-1/2)` equals that over `u > q ^ (-1/2)`. The\n   truncated transform\
+        \ `\U0001D4DC` of `θ_{μχ}` (`mollifier`) approximates `Γ_j / L` on `re s = 2`.\n2. For large `T` a zero\
+        \ in the box forces `J(χ, T) > T ^ (2 δ)`\n   (`eventually_rpow_lt_thetaTailIntegral`). Otherwise `Γ_j L\
+        \ \U0001D4DC - Γ_j²` is `≪ T ^ (4 δ)` on\n   `re s = 1/2` and `≪ 1 / T` on `re s = 2`, so it is small at\
+        \ the zero by the three-lines theorem,\n   while it equals `-Γ_j²` there.\n3. In the mean over `v ≤ T²`\
+        \ the theta series with coefficients `αₙ (-v/n°)`, where `n°` is the odd\n   part of `n`, are small (`sum_sq_thetaSeries_jacobiSym_le`):\
+        \ expand the square, bound the pairs\n   with `(n n')°` a square trivially and the others by Pólya–Vinogradov.\
+        \ So the sum of the `J` is\n   `≪ T ^ (2 + δ)`.\n4. By reciprocity `(n/d) = (-d/n°)`, so 2 and 3 give the\
+        \ count, with `T² = N X`, after passing from\n   `ξ` to the primitive character that induces it.\n5. If\
+        \ all primes of an invertible class were bad, the sum of `log p / p` over the class would\n   converge;\
+        \ it diverges, so some prime of the class is not bad\n   (`exists_entireL_quadTwist_ne_zero`).\n\nNotions\
+        \ from other files:\n* `gaussianMonomial j` is the weight `w(z) = z ^ j e^(-π z²)` of parity `j`, and `gaussianMellin\
+        \ j`\n  is its Mellin transform `Γ_j(s) = ∫_0^∞ w(z) z ^ s dz / z`.\n* `thetaSeries j c u` is `θ_c(u) =\
+        \ u ^ (1/2) ∑_{n ≥ 1} c(n) w(n u)`.\n* `quadTwist χ d` is the character `χ (·/d)` modulo `N d`, for `χ`\
+        \ modulo `N` and a prime `d`.\n\n## Relation to the literature\n\nKnown result: zero density for quadratic\
+        \ twists by mean values over real characters. Sources:\nJutila, On mean values of Dirichlet polynomials\
+        \ with real characters, Acta Arith. 27 (1975);\nHeath-Brown, A mean value estimate for real character sums,\
+        \ Acta Arith. 72 (1995). Form here: a weak\ndensity bound for the twists of the characters of a fixed modulus,\
+        \ by a smoothed mean square of\nJacobi symbol sums.\n"
+  Lib.Analytic.ZeroSymmetry:
+    group: Lib.Analytic
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Analytic.ZeroSymmetry
+      name: New.gammaFactor_eq_zero_or_LFunction_one_sub_eq_zero
+      line: 61
+      signature: "lemma New.gammaFactor_eq_zero_or_LFunction_one_sub_eq_zero (s : ℂ) (h_re : s.re ≠ 0)\n    (h_ne_one\
+        \ : s ≠ 1) (hs : χ.LFunction s = 0) :\n    χ.gammaFactor s = 0 ∨ LFunction χ⁻¹ (1 - s) = 0"
+    routeToMain:
+    - module: Lib.Analytic.ZeroSymmetry
+      importer: Lib.Analytic.PolyaVinogradov
+      line: 1
+    - module: Lib.Analytic.PolyaVinogradov
+      importer: Lib.Analytic.DirichletTheta
+      line: 1
+    - module: Lib.Analytic.DirichletTheta
+      importer: Lib.Analytic.QuadraticTwist
+      line: 1
+    - module: Lib.Analytic.QuadraticTwist
+      importer: New.Reduction.Zeros.Criterion
+      line: 2
+    - module: New.Reduction.Zeros.Criterion
+      importer: New.Reduction.OneSidedBound
+      line: 3
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Analytic/ZeroSymmetry.lean
+      line: 6
+      endLine: 14
+      text: '`New.gammaFactor_eq_zero_or_LFunction_one_sub_eq_zero` shows that a zero `s` of L(·, χ) with
+
+        `s.re ≠ 0` and `s ≠ 1` is either a pole of `χ.gammaFactor` or gives the zero `1 - s` of L(·, χ⁻¹),
+
+        extending the symmetry given by the functional equation from primitive to all Dirichlet characters.
+
+
+        ## Relation to the literature
+
+
+        Known result: the symmetry of the zeros, a consequence of the functional equation for Dirichlet
+
+        L-functions. Source: Montgomery and Vaughan, Multiplicative Number Theory I, 2007, Corollaries 10.3
+
+        and 10.8.
+
+        '
+needs_draft: true

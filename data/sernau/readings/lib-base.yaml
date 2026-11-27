@@ -1,0 +1,150 @@
+group: Lib.Base
+overview:
+  group: Lib.Base
+  revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+  origin: explorer-draft
+  review: passed
+  reviewed: '2026-11-27'
+  reviewer: independent Codex review against pinned source
+  excerpt:
+    path: grh/src/Lib/Base.lean
+    line: 4
+    endLine: 7
+    text: '# The adjoint of a matrix for the Hermitian dot product
+
+
+      The other files of `Lib` and `New`, except `Lib.Speed`, import this file, directly or not, and
+
+      with it the speed settings of `Lib.Speed`.
+
+      '
+  draft:
+  - sentence: The entry point in this one-file group is `star_mulVec_dotProduct`, the adjoint identity for the standard
+      Hermitian form.
+    citations:
+    - module: Lib.Base
+      line: 13
+      endLine: 16
+  - sentence: The identity moves the matrix acting on the first vector to the second vector as its conjugate transpose.
+    citations:
+    - module: Lib.Base
+      line: 14
+      endLine: 16
+  - sentence: For a use of the identity, follow `integral_gauss` in `Lib.General.Analysis.GaussianIntegral`, where
+      the proof rewrites the exponent after a matrix factorization and expresses the integrand as a product of one-variable
+      Gaussians.
+    citations:
+    - module: Lib.General.Analysis.GaussianIntegral
+      line: 208
+      endLine: 223
+  - sentence: Across `Lib` and `New`, the direct and transitive imports of `Lib.Base` carry the speed settings defined
+      in `Lib.Speed`.
+    citations:
+    - module: Lib.Base
+      line: 1
+      endLine: 8
+  declarations:
+  - module: Lib.Base
+    name: star_mulVec_dotProduct
+    line: 14
+    signature: "lemma star_mulVec_dotProduct {m n : Type*} [Fintype m] [Fintype n] [StarRing A] (B : Matrix m n\
+      \ A)\n    (x : n → A) (y : m → A) :\n    star (B *ᵥ x) ⬝ᵥ y = star x ⬝ᵥ Bᴴ *ᵥ y"
+  routeToMain:
+  - module: Lib.Base
+    importer: Lib.General.Groups.IndexOfProduct
+    line: 1
+  - module: Lib.General.Groups.IndexOfProduct
+    importer: New.Spanning.Unfolding.FillingAdmissible
+    line: 1
+  - module: New.Spanning.Unfolding.FillingAdmissible
+    importer: New.UpperBound.Size.ArchimedeanSize
+    line: 2
+  - module: New.UpperBound.Size.ArchimedeanSize
+    importer: New.Determinant.Twist.LongForms
+    line: 5
+  - module: New.Determinant.Twist.LongForms
+    importer: New.Reduction.MainInequality
+    line: 1
+  - module: New.Reduction.MainInequality
+    importer: New.Reduction.OneSidedBound
+    line: 2
+  - module: New.Reduction.OneSidedBound
+    importer: New.Main
+    line: 1
+  - module: New.Main
+    importer: Main
+    line: 2
+  - module: Main
+  outsideReadings: []
+files:
+  Lib.Base:
+    group: Lib.Base
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: explorer-draft
+    review: passed
+    reviewed: '2026-11-27'
+    reviewer: independent Codex review against pinned source
+    excerpt:
+      path: grh/src/Lib/Base.lean
+      line: 4
+      endLine: 7
+      text: '# The adjoint of a matrix for the Hermitian dot product
+
+
+        The other files of `Lib` and `New`, except `Lib.Speed`, import this file, directly or not, and
+
+        with it the speed settings of `Lib.Speed`.
+
+        '
+    draft:
+    - sentence: The lemma `star_mulVec_dotProduct` pairs two vectors with the standard Hermitian dot product, so
+        the first vector is starred before taking the dot product.
+      citations:
+      - module: Lib.Base
+        line: 13
+        endLine: 16
+    - sentence: For a rectangular matrix `B`, applying `B` to the first vector gives the same pairing as applying
+        its conjugate transpose `Bᴴ` to the second vector.
+      citations:
+      - module: Lib.Base
+        line: 14
+        endLine: 16
+    - sentence: The proof expands the star of the matrix–vector product, then rewrites the dot product so that `Bᴴ`
+        acts on the second vector.
+      citations:
+      - module: Lib.Base
+        line: 16
+        endLine: 17
+    declarations:
+    - module: Lib.Base
+      name: star_mulVec_dotProduct
+      line: 14
+      signature: "lemma star_mulVec_dotProduct {m n : Type*} [Fintype m] [Fintype n] [StarRing A] (B : Matrix m\
+        \ n A)\n    (x : n → A) (y : m → A) :\n    star (B *ᵥ x) ⬝ᵥ y = star x ⬝ᵥ Bᴴ *ᵥ y"
+    routeToMain:
+    - module: Lib.Base
+      importer: Lib.General.Groups.IndexOfProduct
+      line: 1
+    - module: Lib.General.Groups.IndexOfProduct
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 1
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []

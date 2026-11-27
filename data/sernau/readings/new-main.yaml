@@ -1,0 +1,48 @@
+group: New.Main
+overview: null
+files:
+  New.Main:
+    group: New.Main
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    excerpt:
+      path: grh/src/New/Main.lean
+      line: 6
+      endLine: 16
+      text: 'The last step: the usual forms of the hypothesis follow from `DirichletLNonvanishingRightOfHalf`,
+
+        the non-vanishing of all Dirichlet L-functions in `re s > 1 / 2`, by the symmetry `s ↦ 1 - s` of the
+
+        zeros.
+
+
+        * `New.zeros_on_line`: the zeros of `L(s, χ)` in `0 < re s < 1` have `re s = 1 / 2`.
+
+        * `New.zeta_zeros_on_line`: the nontrivial zeros of `ζ` have `re s = 1 / 2`.
+
+
+        ## Relation to the literature
+
+
+        Known result: the passage from the half-plane to the critical line by the functional equation. The
+
+        non-vanishing itself is `New.grh`.
+
+        '
+    declarations:
+    - module: New.Main
+      name: New.zeros_on_line
+      line: 28
+      signature: 'lemma New.zeros_on_line : DirichletLZerosOnLine'
+    - module: New.Main
+      name: New.zeta_zeros_on_line
+      line: 47
+      signature: 'lemma New.zeta_zeros_on_line : RiemannZetaZerosOnLine'
+    routeToMain:
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+needs_draft: true

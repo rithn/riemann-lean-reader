@@ -1,0 +1,58 @@
+group: Lib.Speed
+overview: null
+files:
+  Lib.Speed:
+    group: Lib.Speed
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Lib.Speed
+      name: New.isEmpty_iff_isVoid
+      line: 77
+      signature: 'lemma New.isEmpty_iff_isVoid (α : Sort*) : IsEmpty α ↔ IsVoid α'
+    routeToMain:
+    - module: Lib.Speed
+      importer: Lib.Base
+      line: 1
+    - module: Lib.Base
+      importer: Lib.General.Groups.IndexOfProduct
+      line: 1
+    - module: Lib.General.Groups.IndexOfProduct
+      importer: New.Spanning.Unfolding.FillingAdmissible
+      line: 1
+    - module: New.Spanning.Unfolding.FillingAdmissible
+      importer: New.UpperBound.Size.ArchimedeanSize
+      line: 2
+    - module: New.UpperBound.Size.ArchimedeanSize
+      importer: New.Determinant.Twist.LongForms
+      line: 5
+    - module: New.Determinant.Twist.LongForms
+      importer: New.Reduction.MainInequality
+      line: 1
+    - module: New.Reduction.MainInequality
+      importer: New.Reduction.OneSidedBound
+      line: 2
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    excerpt:
+      path: grh/src/Lib/Speed.lean
+      line: 6
+      endLine: 8
+      text: 'The three settings of this file make instance search and `simp` faster in all files of the
+
+        development. They add no axiom, and no proof relies on them: with this file emptied, the other files
+
+        still compile, more slowly.
+
+        '
+    needs_draft: true
+    reason: Opening module comment has fewer than 60 words
+needs_draft: true

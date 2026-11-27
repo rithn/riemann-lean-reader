@@ -1,0 +1,29 @@
+group: Statements
+overview: null
+files:
+  Statements:
+    group: Statements
+    revision: 72fead102f663d5c7a407964a13dc0cf9d977207
+    origin: upstream
+    review: pending
+    mechanical: true
+    declarations:
+    - module: Statements
+      name: PrimitiveDirichletLZerosOnLine
+      line: 14
+      signature: 'def PrimitiveDirichletLZerosOnLine : Prop'
+    routeToMain:
+    - module: Statements
+      importer: New.Reduction.OneSidedBound
+      line: 5
+    - module: New.Reduction.OneSidedBound
+      importer: New.Main
+      line: 1
+    - module: New.Main
+      importer: Main
+      line: 2
+    - module: Main
+    outsideReadings: []
+    needs_draft: true
+    reason: Missing opening module comment
+needs_draft: true
