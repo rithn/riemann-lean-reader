@@ -1,0 +1,1848 @@
+{
+  "concepts": [
+    {
+      "id": "complex-numbers",
+      "name": "Complex numbers",
+      "definition": "A complex number has a real and an imaginary part. The real part locates a point horizontally in the complex plane.",
+      "level": "curious",
+      "prerequisites": [],
+      "used_by": [
+        "target",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Statements.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Statements.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "calculus",
+      "name": "Calculus",
+      "definition": "Calculus studies rates of change and accumulated quantities. Integrals and derivatives let the proof relate sums to analytic functions.",
+      "level": "curious",
+      "prerequisites": [],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/OneSidedCriterion.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/OneSidedCriterion.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "infinite-series",
+      "name": "Infinite series",
+      "definition": "An infinite series is a limit of partial sums. Convergence says these sums approach a finite value.",
+      "level": "curious",
+      "prerequisites": [],
+      "used_by": [
+        "target",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Analytic/Landau/PolarLandau.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Analytic/Landau/PolarLandau.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "linear-algebra",
+      "name": "Linear algebra",
+      "definition": "Vectors form spaces in which linear combinations are allowed. Dimension, bases and linear maps measure which forms span a space.",
+      "level": "undergrad",
+      "prerequisites": [],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Filling/FillingTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Filling/FillingTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mathematics in Lean, chapter 10",
+          "url": "https://leanprover-community.github.io/mathematics_in_lean/C10_Linear_Algebra.html",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "real-analysis",
+      "name": "Real analysis",
+      "definition": "Real analysis makes limits, continuity and inequalities precise. It provides the language for estimates valid at large scales.",
+      "level": "undergrad",
+      "prerequisites": [
+        "calculus",
+        "infinite-series"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/OneSidedCriterion.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/OneSidedCriterion.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "complex-analysis",
+      "name": "Complex analysis",
+      "definition": "Complex analysis studies complex-differentiable functions. Zeros, poles and analytic continuation are central to the final argument.",
+      "level": "undergrad",
+      "prerequisites": [
+        "complex-numbers",
+        "real-analysis"
+      ],
+      "used_by": [
+        "target",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/OneSidedCriterion.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/OneSidedCriterion.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "prime-numbers",
+      "name": "Prime numbers and congruences",
+      "definition": "A prime is an integer greater than one whose positive divisors are one and itself. Congruences sort integers by their remainder modulo a chosen number.",
+      "level": "curious",
+      "prerequisites": [],
+      "used_by": [
+        "setup",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/PrimeError.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/PrimeError.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "characters",
+      "name": "Dirichlet characters",
+      "definition": "A Dirichlet character comes from a character of the units modulo M, extended by zero on nonunits. It is periodic and multiplicative and sorts arithmetic data by residue class.",
+      "level": "undergrad",
+      "prerequisites": [
+        "prime-numbers",
+        "complex-numbers"
+      ],
+      "used_by": [
+        "target",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Statements.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Statements.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "zeta-series",
+      "name": "ζ(s) as a series",
+      "definition": "For real part greater than one, zeta is the sum of the reciprocal complex powers of positive integers. It is continued beyond that starting region.",
+      "level": "undergrad",
+      "prerequisites": [
+        "complex-analysis",
+        "infinite-series",
+        "prime-numbers"
+      ],
+      "used_by": [
+        "target"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Main.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Main.lean",
+          "status": "checked local source"
+        },
+        {
+          "path": "Mathlib/NumberTheory/LSeries/RiemannZeta.lean",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/56a005855ea17e0b0958f73ec801ae140b0a1679/Mathlib/NumberTheory/LSeries/RiemannZeta.lean",
+          "status": "checked pinned Mathlib online"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "l-functions",
+      "name": "Dirichlet L-functions",
+      "definition": "For Re s > 1, L(s,χ) is the series Σ χ(n)/nˢ. It continues beyond that region; the principal character has a pole at s = 1.",
+      "level": "undergrad",
+      "prerequisites": [
+        "characters",
+        "complex-analysis",
+        "infinite-series"
+      ],
+      "used_by": [
+        "target",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Statements.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Statements.lean",
+          "status": "checked local source"
+        },
+        {
+          "path": "Mathlib/NumberTheory/LSeries/DirichletContinuation.lean",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/56a005855ea17e0b0958f73ec801ae140b0a1679/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean",
+          "status": "checked pinned Mathlib online"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "functional-equation-zeta",
+      "name": "Functional equations of ζ and Dirichlet L-functions",
+      "definition": "Completed zeta relates s to 1−s. For a primitive Dirichlet character the functional equation relates it to its conjugate character; imprimitive characters need a change of level and Euler factors.",
+      "level": "grad",
+      "prerequisites": [
+        "zeta-series",
+        "l-functions"
+      ],
+      "used_by": [
+        "target"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Main.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Main.lean",
+          "status": "checked local source"
+        },
+        {
+          "path": "Mathlib/NumberTheory/LSeries/DirichletContinuation.lean",
+          "url": "https://github.com/leanprover-community/mathlib4/blob/56a005855ea17e0b0958f73ec801ae140b0a1679/Mathlib/NumberTheory/LSeries/DirichletContinuation.lean",
+          "status": "checked pinned Mathlib online"
+        },
+        {
+          "path": "src/Lib/General/NumberTheory/ZeroSymmetry.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/General/NumberTheory/ZeroSymmetry.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "chebyshev-functions",
+      "name": "von Mangoldt weights and smoothed prime sums",
+      "definition": "The von Mangoldt function weights prime powers by the logarithm of their prime. Smoothed sums use an additional weight to make estimates and transforms manageable.",
+      "level": "undergrad",
+      "prerequisites": [
+        "prime-numbers",
+        "real-analysis"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/PrimeError.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/PrimeError.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "number-fields",
+      "name": "Number fields and algebraic integers",
+      "definition": "A number field is a finite field extension of the rational numbers. Its algebraic integers provide a setting in which divisibility can be studied.",
+      "level": "undergrad",
+      "prerequisites": [
+        "groups-fields",
+        "complex-numbers",
+        "prime-numbers"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Data/AdmissibleData.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Data/AdmissibleData.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "galois",
+      "name": "A group acting on a field, and its fixed subfield",
+      "definition": "A Galois group consists of field symmetries fixing a smaller field. Its action organizes conjugates and arithmetic data.",
+      "level": "undergrad",
+      "prerequisites": [
+        "number-fields"
+      ],
+      "used_by": [
+        "setup",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Data/AdmissibleData.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Data/AdmissibleData.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "local-fields",
+      "name": "A stranger way to measure size: ultrametric absolute values",
+      "definition": "A non-Archimedean absolute value measures divisibility rather than ordinary distance. Completing at a prime gives a local field such as the p-adic numbers.",
+      "level": "grad",
+      "prerequisites": [
+        "number-fields"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/ShortAndEnough.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/ShortAndEnough.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "ideals",
+      "name": "Ideals, ideal norm and discriminant of a number field",
+      "definition": "Ideals generalize divisibility in a ring of integers. Norms and discriminants measure arithmetic size and ramification.",
+      "level": "grad",
+      "prerequisites": [
+        "number-fields"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Data/AdmissibleData.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Data/AdmissibleData.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "splitting",
+      "name": "Splitting of primes in quadratic fields",
+      "definition": "A prime can split, remain inert or ramify in a quadratic field. The proof's weighted prime count isolates non-split behavior using a quadratic character.",
+      "level": "grad",
+      "prerequisites": [
+        "ideals",
+        "characters"
+      ],
+      "used_by": [
+        "setup",
+        "analytic",
+        "short"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/PrimeError.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/PrimeError.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "cm-fields",
+      "name": "CM fields and cyclotomic extensions",
+      "definition": "A CM field is a totally imaginary quadratic extension of a totally real field. The construction uses a field built from an imaginary quadratic field and roots of unity.",
+      "level": "grad",
+      "prerequisites": [
+        "galois",
+        "number-fields"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Data/AdmissibleData.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Data/AdmissibleData.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "lattices",
+      "name": "Gram determinants and squared covolume",
+      "definition": "A Gram matrix records pairings among vectors; its determinant measures their squared volume in the classical setting. The proof defines covolumeSq by the norm of a conjugate pairing determinant.",
+      "level": "undergrad",
+      "prerequisites": [
+        "linear-algebra",
+        "real-analysis"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Adelic/CuspForms/LevelForms.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Adelic/CuspForms/LevelForms.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MIT 18.785, lecture 14 on classical lattices",
+          "url": "https://ocw.mit.edu/courses/18-785-number-theory-i-fall-2021/mit18_785f21_lec14.pdf#page=3",
+          "status": "checked; classical background; compact determinant definition in Lean file"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "representations",
+      "name": "Groups as matrices: representations and characters",
+      "definition": "A representation makes group symmetries act linearly on a vector space. It lets one study forms by how they transform.",
+      "level": "undergrad",
+      "prerequisites": [
+        "groups-fields",
+        "linear-algebra"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Filling/FillingTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Filling/FillingTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "hermitian",
+      "name": "Hermitian linear algebra",
+      "definition": "A complex Hermitian form is conjugate-symmetric and linear in one argument. Unitary matrices preserve such a form; signatures describe its positive and negative directions.",
+      "level": "undergrad",
+      "prerequisites": [
+        "linear-algebra",
+        "complex-numbers"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Seesaw/IndexTypes.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Seesaw/IndexTypes.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "adeles",
+      "name": "Adeles and ideles",
+      "definition": "An adele collects local components, integral at all but finitely many finite places. An idele has nonzero components and is a local unit at almost all finite places.",
+      "level": "grad",
+      "prerequisites": [
+        "local-fields",
+        "number-fields"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Adelic/Adeles/AdeleTopology.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Adelic/Adeles/AdeleTopology.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Class Field Theory, chapter V §4",
+          "url": "https://www.jmilne.org/math/CourseNotes/CFT.pdf#page=177",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "haar",
+      "name": "Integration on a group, Haar measure and fundamental domains",
+      "definition": "Haar measure is a translation-invariant measure on a locally compact group. It makes integration over groups and suitable quotients possible.",
+      "level": "grad",
+      "prerequisites": [
+        "representations",
+        "real-analysis"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Seesaw/SeesawTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Seesaw/SeesawTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "modular-forms",
+      "name": "Modular forms, level groups and cusps",
+      "definition": "Modular forms are functions obeying strong symmetry and analytic conditions. Cusp forms satisfy an additional vanishing condition at cusps.",
+      "level": "grad",
+      "prerequisites": [
+        "complex-analysis",
+        "representations"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Adelic/CuspForms/Petersson.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Adelic/CuspForms/Petersson.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Modular Functions and Modular Forms, §4",
+          "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf#page=64",
+          "status": "checked; classical setting"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "automorphic",
+      "name": "Automorphic forms and representations",
+      "definition": "Automorphic forms extend modular-form ideas to groups over adeles. Their group actions organize them into automorphic representations.",
+      "level": "grad",
+      "prerequisites": [
+        "modular-forms",
+        "adeles",
+        "haar"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Filling/FillingTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Filling/FillingTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "hecke",
+      "name": "Local Hecke actions and divisibility",
+      "definition": "Local Hecke operators act on forms at a chosen prime. The compact proof controls their interaction with theta lifts and the resulting divisibility and determinant cost.",
+      "level": "grad",
+      "prerequisites": [
+        "automorphic"
+      ],
+      "used_by": [
+        "short",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Columns/LocalStatement.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Columns/LocalStatement.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Modular Functions and Modular Forms, §5",
+          "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf",
+          "status": "checked; classical example; compact local transfer is in Lean file"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "theta",
+      "name": "Theta functions and theta lifts",
+      "definition": "A theta kernel gives an integral transform between suitable groups. A theta lift applies that transform to carry a form to another space.",
+      "level": "grad",
+      "prerequisites": [
+        "automorphic",
+        "weil-dual",
+        "haar"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Seesaw/SeesawTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Seesaw/SeesawTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "seesaw",
+      "name": "Seesaw identities",
+      "definition": "A seesaw relates two theta-lift pairings using nested dual pairs. Here it connects the definite-side chain to lifts of Poincaré series on the indefinite side.",
+      "level": "grad",
+      "prerequisites": [
+        "theta"
+      ],
+      "used_by": [
+        "short",
+        "filling"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Seesaw/SeesawTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Seesaw/SeesawTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "poincare",
+      "name": "Poincaré series",
+      "definition": "A Poincaré series forms an automorphic function by summing suitable seed data over a discrete group. The construction supplies forms whose translates fill much of the row space.",
+      "level": "grad",
+      "prerequisites": [
+        "automorphic",
+        "haar"
+      ],
+      "used_by": [
+        "filling",
+        "short"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Filling/FillingTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Filling/FillingTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Modular Functions and Modular Forms, §4",
+          "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf#page=64",
+          "status": "checked; classical setting"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "petersson",
+      "name": "The Petersson inner product",
+      "definition": "The Petersson pairing integrates the product of one form with the complex conjugate of the other over a quotient. It measures lengths and orthogonality of suitable forms.",
+      "level": "grad",
+      "prerequisites": [
+        "automorphic",
+        "haar"
+      ],
+      "used_by": [
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Adelic/Reduction/Defs.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Adelic/Reduction/Defs.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Modular Functions and Modular Forms, §4",
+          "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf#page=64",
+          "status": "checked; classical setting"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "jet",
+      "name": "Jets and orders of vanishing",
+      "definition": "A jet records local coefficients or derivatives. Here Q(∂) applied to a theta series at zero has valuation bounds at nonsplit primes, giving weights of the prime sum.",
+      "level": "grad",
+      "prerequisites": [
+        "formal-series",
+        "cm-periods",
+        "local-fields"
+      ],
+      "used_by": [
+        "short"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Curve/JetDivisibility.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Curve/JetDivisibility.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact jet-divisibility statement",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Curve/JetDivisibility.lean",
+          "status": "checked; proof source; outside lesson on exact jets UNVERIFIED"
+        },
+        {
+          "title": "Milne, Modular Functions and Modular Forms, §4",
+          "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf#page=64",
+          "status": "checked classical background; exact compact jet construction UNVERIFIED"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "height",
+      "name": "Arithmetic heights and the product formula",
+      "definition": "A height combines size information over the places of a number field. The product formula balances all local absolute values of a nonzero element.",
+      "level": "grad",
+      "prerequisites": [
+        "number-fields",
+        "local-fields"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Heights/Heights.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Heights/Heights.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory, §§7–8",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf#page=113",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "galois-rep",
+      "name": "Galois representations",
+      "definition": "A Galois representation makes field symmetries act on a vector space. Such representations translate arithmetic questions into linear algebra.",
+      "level": "grad",
+      "prerequisites": [
+        "galois",
+        "representations",
+        "local-fields"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/GaloisRep/LabelUniqueness.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/GaloisRep/LabelUniqueness.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Class Field Theory",
+          "url": "https://www.jmilne.org/math/CourseNotes/CFT.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "selmer",
+      "name": "Selmer groups and congruences",
+      "definition": "A Selmer group collects cohomology classes satisfying prescribed local conditions. In the long-form argument such information helps control congruences and denominators.",
+      "level": "grad",
+      "prerequisites": [
+        "cohomology",
+        "galois-rep",
+        "local-fields"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/ClassField/Places/SelmerDefs.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/ClassField/Places/SelmerDefs.lean",
+          "status": "checked local source"
+        },
+        {
+          "path": "src/New/Selmer/FitTwistsExist.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Selmer/FitTwistsExist.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Loeffler–Zerbes, Euler systems, §1.3",
+          "url": "https://swc-math.github.io/aws/2018/2018LoefflerZerbesNotes.pdf",
+          "status": "checked; Selmer/cohomology background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "twists",
+      "name": "Automorphic character twists",
+      "definition": "An automorphic character twist modifies the lift-chain data by a tame U(1) character. This is distinct from the quadratic Dirichlet twist used to prevent cancellation in the analytic argument.",
+      "level": "grad",
+      "prerequisites": [
+        "automorphic",
+        "characters"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Selmer/FitTwistsExist.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Selmer/FitTwistsExist.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "landau",
+      "name": "Landau's one-sided analytic criterion",
+      "definition": "The compact Landau lemma turns a one-sided error bound into vanishing of transform residues to the right of a line, assuming nonnegative real-axis residues. A zero-free quadratic twist prevents cancellation, giving nonvanishing of the original L-function.",
+      "level": "grad",
+      "prerequisites": [
+        "mellin",
+        "residues",
+        "prime-error",
+        "quadratic-twist",
+        "windows"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/OneSidedCriterion.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/OneSidedCriterion.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background; exact lesson or proof-specific correspondence UNVERIFIED"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "mellin",
+      "name": "Mellin transforms and logarithmic derivatives",
+      "definition": "A Mellin transform integrates against a complex power; a logarithmic change of variables gives a Laplace-type transform. Log derivatives and their residues expose zero multiplicities in the prime-error transform.",
+      "level": "grad",
+      "prerequisites": [
+        "complex-analysis",
+        "calculus",
+        "l-functions"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/PrimeError.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/PrimeError.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "lean",
+      "name": "Lean propositions, theorems and imports",
+      "definition": "Lean expresses a theorem as a type and its proof as a term of that type. Imports supply definitions and results used in a file.",
+      "level": "Lean",
+      "prerequisites": [],
+      "used_by": [
+        "target",
+        "setup",
+        "short",
+        "filling",
+        "long",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Statements.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Statements.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mathematics in Lean",
+          "url": "https://leanprover-community.github.io/mathematics_in_lean/",
+          "status": "checked; general background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "filters",
+      "name": "Filters and eventual bounds in Lean",
+      "definition": "A filter describes a notion of approaching a limit. The notation eventually at infinity expresses bounds that hold for all sufficiently large inputs.",
+      "level": "Lean",
+      "prerequisites": [
+        "lean",
+        "real-analysis"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Main.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Main.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mathematics in Lean, §11.1",
+          "url": "https://leanprover-community.github.io/mathematics_in_lean/C11_Topology.html#filters",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "parameters",
+      "name": "Admissible data and scale choices",
+      "definition": "The proof bundles its field, ranks, primes and separated scales into named parameters and data. Their conditions allow the later estimates to be compared.",
+      "level": "grad",
+      "prerequisites": [
+        "cm-fields",
+        "splitting"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Data/AdmissibleData.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Data/AdmissibleData.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        },
+        {
+          "title": "Explorer guide to Chojecki, Theorem 20.16 and endgame",
+          "url": "https://riemannhypothesissolved.com/guides/chojecki-sernau/",
+          "status": "checked site guide; original PDF UNVERIFIED (fetch failed)"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "rows-columns",
+      "name": "Rows and columns in the compact proof",
+      "definition": "Columns are algebraic forms on the definite source group, with a ramified subspace. Rows are the image of the good idempotent on principal forms on the indefinite target group.",
+      "level": "grad",
+      "prerequisites": [
+        "automorphic",
+        "unitary",
+        "parameters"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Columns/ColumnDefs.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Columns/ColumnDefs.lean",
+          "status": "checked local source"
+        },
+        {
+          "path": "src/New/Trace/GoodIdempotent.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Trace/GoodIdempotent.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, Automorphic Forms and the Theta Correspondence",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; general background; exact lesson or proof-specific correspondence UNVERIFIED"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "prime-error",
+      "name": "The compact proof's weighted prime error",
+      "definition": "primeError sums Λ(n)(1−χK(n))(1/n−1/x) over prime powers n ≤ x in class 1 mod M. It subtracts log(x)/φ(M) and the real value at 1 of a mean of L-function log derivatives.",
+      "level": "grad",
+      "prerequisites": [
+        "chebyshev-functions",
+        "splitting",
+        "characters"
+      ],
+      "used_by": [
+        "short",
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/PrimeError.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/PrimeError.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; general background; exact lesson or proof-specific correspondence UNVERIFIED"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "short-enough",
+      "name": "Theorem A: short forms",
+      "definition": "A common rational scaling of the translated projected Poincaré maps sends a spanning family of integral ramified columns to rows with controlled lift norms. It also bounds the local index of finite families of those images.",
+      "level": "grad",
+      "prerequisites": [
+        "rows-columns",
+        "projected",
+        "seesaw",
+        "jet",
+        "hecke",
+        "local-index"
+      ],
+      "used_by": [
+        "short",
+        "filling"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/ShortAndEnough.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/ShortAndEnough.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        },
+        {
+          "title": "Explorer guide to Chojecki, Theorem 20.16 and endgame",
+          "url": "https://riemannhypothesissolved.com/guides/chojecki-sernau/",
+          "status": "checked site guide; original PDF UNVERIFIED (fetch failed)"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "long-forms",
+      "name": "Long integral forms and the covolume comparison",
+      "definition": "For n ≥ (1−4/b²)D independent rows with IndexLe δ and squared covolume ≤ exp V at every complex conjugate, Theorem C proves D(h_main−3 log(b)·budget) ≤ V+2δ. Comparing this to the upper bound also accounts for the missing dimensions.",
+      "level": "grad",
+      "prerequisites": [
+        "short-enough",
+        "enough-forms",
+        "fit-twists",
+        "auxiliary-rows",
+        "lattices",
+        "local-index",
+        "height"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/LongForms.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/LongForms.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        },
+        {
+          "title": "Explorer guide to Chojecki, Theorem 20.16 and endgame",
+          "url": "https://riemannhypothesissolved.com/guides/chojecki-sernau/",
+          "status": "checked site guide; original PDF UNVERIFIED (fetch failed)"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "groups-fields",
+      "name": "Groups, rings and fields",
+      "definition": "Groups capture symmetries; rings support addition and multiplication. Fields are rings in which nonzero elements can be divided.",
+      "level": "undergrad",
+      "prerequisites": [],
+      "used_by": [
+        "setup",
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Seesaw/IndexTypes.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Seesaw/IndexTypes.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mathematics in Lean, §§9–10",
+          "url": "https://leanprover-community.github.io/mathematics_in_lean/",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "formal-series",
+      "name": "Formal power series and valuations",
+      "definition": "A formal power series records coefficients without requiring analytic convergence. A valuation measures divisibility by a prime and tracks the cost or gain of derivatives.",
+      "level": "grad",
+      "prerequisites": [
+        "number-fields",
+        "local-fields"
+      ],
+      "used_by": [
+        "short"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Curve/JetDivisibility.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Curve/JetDivisibility.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Algebraic Number Theory, valuations",
+          "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "cm-periods",
+      "name": "CM elliptic curves, theta products and periods",
+      "definition": "An elliptic curve with complex multiplication has extra endomorphisms; its period normalizes related theta functions. The compact construction uses CM theta products and period-scaled derivatives in its short-form estimates.",
+      "level": "grad",
+      "prerequisites": [
+        "cm-fields",
+        "modular-forms",
+        "formal-series"
+      ],
+      "used_by": [
+        "short"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Curve/PeriodDefs.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Curve/PeriodDefs.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Milne, Modular Functions and Modular Forms, §4",
+          "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf#page=64",
+          "status": "checked classical background; exact CM period construction UNVERIFIED"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": true
+    },
+    {
+      "id": "unitary",
+      "name": "CM Hermitian spaces and unitary groups",
+      "definition": "A CM field has a conjugation fixing its totally real subfield. Hermitian spaces over it have local signatures, and their unitary groups preserve their pairings.",
+      "level": "grad",
+      "prerequisites": [
+        "cm-fields",
+        "hermitian"
+      ],
+      "used_by": [
+        "setup",
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Seesaw/IndexTypes.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Seesaw/IndexTypes.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, lectures 2–3 on dual pairs and theta lifts",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "weil-dual",
+      "name": "Weil representation and unitary dual pairs",
+      "definition": "A dual pair consists of two groups acting as mutual centralizers in a symplectic setting. The Weil representation supplies the joint action behind theta kernels.",
+      "level": "grad",
+      "prerequisites": [
+        "unitary",
+        "representations",
+        "adeles"
+      ],
+      "used_by": [
+        "short",
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Weil/Construction/FockThetaFunctions.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Weil/Construction/FockThetaFunctions.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gan, lectures 2–3 on dual pairs and theta lifts",
+          "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": true
+    },
+    {
+      "id": "projected",
+      "name": "Ramified columns and projected translates",
+      "definition": "A ramified column first enters a Poincaré series; a finite-level group translate and the good idempotent then produce a row. The row enters the chain of theta lifts.",
+      "level": "grad",
+      "prerequisites": [
+        "rows-columns",
+        "poincare",
+        "theta"
+      ],
+      "used_by": [
+        "short",
+        "filling"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Filling/FillingTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Filling/FillingTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "moments",
+      "name": "Second moments and filling by translates",
+      "definition": "The proof estimates a mean square for translated Poincaré maps and controls bad types. A variance inequality finds a translate that increases the span modulo a chosen subspace.",
+      "level": "grad",
+      "prerequisites": [
+        "projected",
+        "petersson",
+        "linear-algebra"
+      ],
+      "used_by": [
+        "filling"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Filling/Moments.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Filling/Moments.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": true
+    },
+    {
+      "id": "enough-forms",
+      "name": "Theorem B: enough forms",
+      "definition": "A bounded set of finite-level translates has projected images spanning dimension at least (1−4/b²) times row dimension. A and B together then supply an independent almost-spanning row family.",
+      "level": "grad",
+      "prerequisites": [
+        "moments",
+        "projected"
+      ],
+      "used_by": [
+        "filling",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/ShortAndEnough.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/ShortAndEnough.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        },
+        {
+          "title": "Explorer guide to Chojecki, Theorem 20.16 and endgame",
+          "url": "https://riemannhypothesissolved.com/guides/chojecki-sernau/",
+          "status": "checked site guide; original PDF UNVERIFIED (fetch failed)"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "local-index",
+      "name": "Integral lifts and local index",
+      "definition": "IndexLe δ permits, at each relevant prime and twist, a local matrix changing the rows so their lifts become integral. Its determinant cost is controlled by local exponents whose finite sums are at most δ.",
+      "level": "grad",
+      "prerequisites": [
+        "rows-columns",
+        "theta",
+        "local-fields"
+      ],
+      "used_by": [
+        "short",
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/ShortAndEnough.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/ShortAndEnough.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "auxiliary-rows",
+      "name": "Complementary-rank exchange and auxiliary rows",
+      "definition": "A complementary-rank theta exchange compares suitable theta integrals. Crude auxiliary rows complete an almost spanning family to a basis with controlled lift sizes and integrality.",
+      "level": "grad",
+      "prerequisites": [
+        "theta",
+        "rows-columns",
+        "local-index"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Exchange/CrudeRows.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Exchange/CrudeRows.lean",
+          "status": "checked local source"
+        },
+        {
+          "path": "src/New/Exchange/ExchangeTheorem.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Exchange/ExchangeTheorem.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": true
+    },
+    {
+      "id": "cohomology",
+      "name": "Galois cohomology and local conditions",
+      "definition": "Continuous cocycles describe compatible Galois actions, modulo coboundaries. Restriction to local Galois groups supplies conditions used to define Selmer groups.",
+      "level": "grad",
+      "prerequisites": [
+        "galois-rep",
+        "local-fields"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/ClassField/Places/SelmerDefs.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/ClassField/Places/SelmerDefs.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Loeffler–Zerbes, Euler systems, §1.3",
+          "url": "https://swc-math.github.io/aws/2018/2018LoefflerZerbesNotes.pdf",
+          "status": "checked; Selmer/cohomology background"
+        }
+      ],
+      "origin": "standard background",
+      "niche": false
+    },
+    {
+      "id": "fit-twists",
+      "name": "Fit twists for congruence bounds",
+      "definition": "For each prime and p-adic identification, the proof chooses a twist whose first m powers have controlled congruences. These controls bound denominator and Hecke-value costs used in the height comparison.",
+      "level": "grad",
+      "prerequisites": [
+        "selmer",
+        "twists"
+      ],
+      "used_by": [
+        "long"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Selmer/FitTwistsExist.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Selmer/FitTwistsExist.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "windows",
+      "name": "Two-scale remainder and a good window",
+      "definition": "The remainder combines prime errors at x and x₁, including an all-class error at x₁. A window lemma chooses log x₁ in [t,t²] so the second-scale combination is small, yielding a single-scale upper bound.",
+      "level": "grad",
+      "prerequisites": [
+        "prime-error",
+        "mellin"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/New/Endgame/OneSidedCriterion.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/OneSidedCriterion.lean",
+          "status": "checked local source"
+        },
+        {
+          "path": "src/New/Endgame/ShortAndEnough.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/ShortAndEnough.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Compact edition guide, §§2–3",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/GUIDE.md",
+          "status": "checked; proof-specific source"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    },
+    {
+      "id": "quadratic-twist",
+      "name": "Quadratic twists and no cancellation",
+      "definition": "A quadratic Dirichlet twist multiplies a character by a quadratic character. An auxiliary prime is chosen so the relevant twists are zero-free at a candidate zero, preventing twisted terms from cancelling its residue.",
+      "level": "grad",
+      "prerequisites": [
+        "characters",
+        "l-functions",
+        "splitting"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Analytic/QuadraticTwist/ZeroFreeTwist.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Analytic/QuadraticTwist/ZeroFreeTwist.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked background; exact twist argument UNVERIFIED in notes"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": true
+    },
+    {
+      "id": "residues",
+      "name": "Zeros, poles and residues of log derivatives",
+      "definition": "Near a zero, the logarithmic derivative has a pole whose residue records multiplicity. The criterion also requires nonnegative real-axis residues on the relevant half-line.",
+      "level": "grad",
+      "prerequisites": [
+        "mellin",
+        "complex-analysis"
+      ],
+      "used_by": [
+        "analytic"
+      ],
+      "lean_location": [
+        {
+          "path": "src/Lib/Analytic/Landau/PolarLandau.lean",
+          "url": "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/Lib/Analytic/Landau/PolarLandau.lean",
+          "status": "checked local source"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Elkies, analytic number theory lecture index",
+          "url": "https://people.math.harvard.edu/~elkies/M229.26/index.html",
+          "status": "checked; background"
+        }
+      ],
+      "origin": "proof-specific",
+      "niche": false
+    }
+  ]
+}

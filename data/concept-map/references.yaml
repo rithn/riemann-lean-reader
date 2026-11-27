@@ -1,0 +1,626 @@
+{
+  "complex-numbers": [
+    {
+      "title": "Calculus, 3rd edition (MIT OCW 2023 version)",
+      "authors": "Gilbert Strang",
+      "year": 2023,
+      "url": "https://ocw.mit.edu/courses/res-18-001-calculus-fall-2023/pages/open-textbook/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "calculus": [
+    {
+      "title": "Calculus, 3rd edition (MIT OCW 2023 version)",
+      "authors": "Gilbert Strang",
+      "year": 2023,
+      "url": "https://ocw.mit.edu/courses/res-18-001-calculus-fall-2023/pages/open-textbook/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "infinite-series": [
+    {
+      "title": "Basic Analysis I: Introduction to Real Analysis, version 6.3",
+      "authors": "Jiří Lebl",
+      "year": 2026,
+      "url": "https://www.jirka.org/ra/realanal.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Calculus, 3rd edition (MIT OCW 2023 version)",
+      "authors": "Gilbert Strang",
+      "year": 2023,
+      "url": "https://ocw.mit.edu/courses/res-18-001-calculus-fall-2023/pages/open-textbook/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "linear-algebra": [
+    {
+      "title": "Linear Algebra Done Right, 4th edition",
+      "authors": "Sheldon Axler",
+      "year": 2024,
+      "url": "https://linear.axler.net/LADR4e.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "real-analysis": [
+    {
+      "title": "Basic Analysis I: Introduction to Real Analysis, version 6.3",
+      "authors": "Jiří Lebl",
+      "year": 2026,
+      "url": "https://www.jirka.org/ra/realanal.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "complex-analysis": [
+    {
+      "title": "Complex Analysis",
+      "authors": "Russell W. Howell",
+      "year": 2024,
+      "url": "https://complexanalysis.org/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "prime-numbers": [
+    {
+      "title": "Introduction to Analytic Number Theory",
+      "authors": "Tom M. Apostol",
+      "year": 1976,
+      "url": "https://link.springer.com/book/10.1007/978-1-4757-5579-4",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "characters": [
+    {
+      "title": "Dirichlet characters and L-series",
+      "authors": "Kiran S. Kedlaya",
+      "year": 2007,
+      "url": "https://kskedlaya.org/18.785/lfunc.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Introduction to Analytic Number Theory",
+      "authors": "Tom M. Apostol",
+      "year": 1976,
+      "url": "https://link.springer.com/book/10.1007/978-1-4757-5579-4",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "zeta-series": [
+    {
+      "title": "Dirichlet characters and L-series",
+      "authors": "Kiran S. Kedlaya",
+      "year": 2007,
+      "url": "https://kskedlaya.org/18.785/lfunc.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse",
+      "authors": "Bernhard Riemann",
+      "year": 1859,
+      "url": "https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "l-functions": [
+    {
+      "title": "Dirichlet characters and L-series",
+      "authors": "Kiran S. Kedlaya",
+      "year": 2007,
+      "url": "https://kskedlaya.org/18.785/lfunc.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Introduction to Analytic Number Theory",
+      "authors": "Tom M. Apostol",
+      "year": 1976,
+      "url": "https://link.springer.com/book/10.1007/978-1-4757-5579-4",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "functional-equation-zeta": [
+    {
+      "title": "The functional equations for Dirichlet L-functions",
+      "authors": "Kiran S. Kedlaya",
+      "year": 2007,
+      "url": "https://kskedlaya.org/18.785/funceq2.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse",
+      "authors": "Bernhard Riemann",
+      "year": 1859,
+      "url": "https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "chebyshev-functions": [
+    {
+      "title": "Introduction to Analytic Number Theory",
+      "authors": "Tom M. Apostol",
+      "year": 1976,
+      "url": "https://link.springer.com/book/10.1007/978-1-4757-5579-4",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "number-fields": [
+    {
+      "title": "Algebraic Number Theory (v3.08)",
+      "authors": "James S. Milne",
+      "year": 2020,
+      "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "galois": [
+    {
+      "title": "Fields and Galois Theory, v5.10",
+      "authors": "James S. Milne",
+      "year": 2022,
+      "url": "https://www.jmilne.org/math/CourseNotes/FT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "local-fields": [
+    {
+      "title": "Algebraic Number Theory (v3.08)",
+      "authors": "James S. Milne",
+      "year": 2020,
+      "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "ideals": [
+    {
+      "title": "Algebraic Number Theory (v3.08)",
+      "authors": "James S. Milne",
+      "year": 2020,
+      "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "splitting": [
+    {
+      "title": "Algebraic Number Theory (v3.08)",
+      "authors": "James S. Milne",
+      "year": 2020,
+      "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "cm-fields": [
+    {
+      "title": "Complex Multiplication, v0.10",
+      "authors": "James S. Milne",
+      "year": 2020,
+      "url": "https://www.jmilne.org/math/CourseNotes/CM.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Fields and Galois Theory, v5.10",
+      "authors": "James S. Milne",
+      "year": 2022,
+      "url": "https://www.jmilne.org/math/CourseNotes/FT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "lattices": [
+    {
+      "title": "Linear Algebra Done Right, 4th edition",
+      "authors": "Sheldon Axler",
+      "year": 2024,
+      "url": "https://linear.axler.net/LADR4e.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "representations": [
+    {
+      "title": "Group Theory, v4.01",
+      "authors": "James S. Milne",
+      "year": 2025,
+      "url": "https://www.jmilne.org/math/CourseNotes/GT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "hermitian": [
+    {
+      "title": "Linear Algebra Done Right, 4th edition",
+      "authors": "Sheldon Axler",
+      "year": 2024,
+      "url": "https://linear.axler.net/LADR4e.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "adeles": [
+    {
+      "title": "Number Theory I lecture notes",
+      "authors": "Andrew V. Sutherland",
+      "year": 2021,
+      "url": "https://ocw.mit.edu/courses/18-785-number-theory-i-fall-2021/pages/lecture-notes/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "haar": [
+    {
+      "title": "Number Theory I lecture notes",
+      "authors": "Andrew V. Sutherland",
+      "year": 2021,
+      "url": "https://ocw.mit.edu/courses/18-785-number-theory-i-fall-2021/pages/lecture-notes/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "modular-forms": [
+    {
+      "title": "Modular Functions and Modular Forms (v1.31)",
+      "authors": "James S. Milne",
+      "year": 2017,
+      "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Modular Functions and Dirichlet Series in Number Theory, 2nd ed.",
+      "authors": "Tom M. Apostol",
+      "year": 1990,
+      "url": "https://link.springer.com/book/10.1007/978-1-4612-0999-7",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "automorphic": [
+    {
+      "title": "Automorphic Forms and the Theta Correspondence",
+      "authors": "Wee Teck Gan",
+      "year": 2022,
+      "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "hecke": [
+    {
+      "title": "Modular Functions and Modular Forms (v1.31)",
+      "authors": "James S. Milne",
+      "year": 2017,
+      "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Modular Functions and Dirichlet Series in Number Theory, 2nd ed.",
+      "authors": "Tom M. Apostol",
+      "year": 1990,
+      "url": "https://link.springer.com/book/10.1007/978-1-4612-0999-7",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "theta": [
+    {
+      "title": "Automorphic Forms and the Theta Correspondence",
+      "authors": "Wee Teck Gan",
+      "year": 2022,
+      "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "seesaw": [
+    {
+      "title": "Notes on the Local Theta Correspondence",
+      "authors": "Stephen S. Kudla",
+      "year": 1996,
+      "url": "https://www.math.toronto.edu/skudla/castle.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "poincare": [
+    {
+      "title": "Lectures 4 and 5: Poincaré Series",
+      "authors": "Andrew Snowden",
+      "year": 2016,
+      "url": "https://web.math.princeton.edu/~charchan/borcherds4.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "petersson": [
+    {
+      "title": "Lectures 4 and 5: Poincaré Series",
+      "authors": "Andrew Snowden",
+      "year": 2016,
+      "url": "https://web.math.princeton.edu/~charchan/borcherds4.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "jet": [
+    {
+      "title": "Complex Analysis",
+      "authors": "Russell W. Howell",
+      "year": 2024,
+      "url": "https://complexanalysis.org/",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "height": [
+    {
+      "title": "Heights in Diophantine Geometry, chapter 1",
+      "authors": "Enrico Bombieri and Walter Gubler",
+      "year": 2006,
+      "url": "https://www.cambridge.org/core/books/abs/heights-in-diophantine-geometry/heights/8A2DFE14F650538C365D785C49BE223E",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "galois-rep": [
+    {
+      "title": "Euler systems (Arizona Winter School 2018 notes)",
+      "authors": "David Loeffler and Sarah Livia Zerbes",
+      "year": 2018,
+      "url": "https://swc-math.github.io/aws/2018/2018LoefflerZerbesNotes.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "The Arithmetic of Elliptic Curves, 2nd ed.",
+      "authors": "Joseph H. Silverman",
+      "year": 2009,
+      "url": "https://link.springer.com/book/10.1007/978-0-387-09494-6",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "selmer": [
+    {
+      "title": "Euler systems (Arizona Winter School 2018 notes)",
+      "authors": "David Loeffler and Sarah Livia Zerbes",
+      "year": 2018,
+      "url": "https://swc-math.github.io/aws/2018/2018LoefflerZerbesNotes.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "The Arithmetic of Elliptic Curves, 2nd ed.",
+      "authors": "Joseph H. Silverman",
+      "year": 2009,
+      "url": "https://link.springer.com/book/10.1007/978-0-387-09494-6",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "twists": [
+    {
+      "title": "Automorphic Forms and the Theta Correspondence",
+      "authors": "Wee Teck Gan",
+      "year": 2022,
+      "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "landau": [
+    {
+      "title": "Analytic Number Theory, chapter 6: Dirichlet Series",
+      "authors": "Otto Forster",
+      "year": 2001,
+      "url": "https://www.math.lmu.de/~forster/v/ann/annth_06.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Multiplicative Number Theory I: Classical Theory",
+      "authors": "Hugh L. Montgomery and Robert C. Vaughan",
+      "year": 2007,
+      "url": "https://assets.cambridge.org/97805218/49036/frontmatter/9780521849036_frontmatter.pdf",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "mellin": [
+    {
+      "title": "Analytic Number Theory, chapter 6: Dirichlet Series",
+      "authors": "Otto Forster",
+      "year": 2001,
+      "url": "https://www.math.lmu.de/~forster/v/ann/annth_06.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Introduction to Analytic Number Theory",
+      "authors": "Tom M. Apostol",
+      "year": 1976,
+      "url": "https://link.springer.com/book/10.1007/978-1-4757-5579-4",
+      "free": false,
+      "checked": true
+    },
+    {
+      "title": "Multiplicative Number Theory I: Classical Theory",
+      "authors": "Hugh L. Montgomery and Robert C. Vaughan",
+      "year": 2007,
+      "url": "https://assets.cambridge.org/97805218/49036/frontmatter/9780521849036_frontmatter.pdf",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "parameters": [],
+  "rows-columns": [],
+  "prime-error": [],
+  "short-enough": [],
+  "long-forms": [],
+  "groups-fields": [
+    {
+      "title": "Group Theory, v4.01",
+      "authors": "James S. Milne",
+      "year": 2025,
+      "url": "https://www.jmilne.org/math/CourseNotes/GT.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Fields and Galois Theory, v5.10",
+      "authors": "James S. Milne",
+      "year": 2022,
+      "url": "https://www.jmilne.org/math/CourseNotes/FT.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "formal-series": [
+    {
+      "title": "Algebraic Number Theory (v3.08)",
+      "authors": "James S. Milne",
+      "year": 2020,
+      "url": "https://www.jmilne.org/math/CourseNotes/ANT.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "generatingfunctionology, second edition",
+      "authors": "Herbert S. Wilf",
+      "year": 1994,
+      "url": "https://www2.math.upenn.edu/~wilf/gfology2.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "cm-periods": [
+    {
+      "title": "Complex Multiplication, v0.10",
+      "authors": "James S. Milne",
+      "year": 2020,
+      "url": "https://www.jmilne.org/math/CourseNotes/CM.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Modular Functions and Modular Forms (v1.31)",
+      "authors": "James S. Milne",
+      "year": 2017,
+      "url": "https://www.jmilne.org/math/CourseNotes/MF.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "unitary": [
+    {
+      "title": "Automorphic Forms and the Theta Correspondence",
+      "authors": "Wee Teck Gan",
+      "year": 2022,
+      "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "weil-dual": [
+    {
+      "title": "Automorphic Forms and the Theta Correspondence",
+      "authors": "Wee Teck Gan",
+      "year": 2022,
+      "url": "https://swc-math.github.io/aws/2022/2022GanNotes.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "projected": [],
+  "moments": [],
+  "enough-forms": [],
+  "local-index": [],
+  "auxiliary-rows": [
+    {
+      "title": "Integrality of a ratio of Petersson norms and level-lowering congruences",
+      "authors": "Kartik Prasanna",
+      "year": 2006,
+      "url": "https://sites.lsa.umich.edu/kartikp/wp-content/uploads/sites/1326/2024/07/prasanna_final.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "cohomology": [
+    {
+      "title": "Euler systems (Arizona Winter School 2018 notes)",
+      "authors": "David Loeffler and Sarah Livia Zerbes",
+      "year": 2018,
+      "url": "https://swc-math.github.io/aws/2018/2018LoefflerZerbesNotes.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Galois Cohomology",
+      "authors": "Jean-Pierre Serre",
+      "year": 1997,
+      "url": "https://link.springer.com/book/10.1007/978-3-642-59141-9",
+      "free": false,
+      "checked": true
+    }
+  ],
+  "fit-twists": [
+    {
+      "title": "Integrality of a ratio of Petersson norms and level-lowering congruences",
+      "authors": "Kartik Prasanna",
+      "year": 2006,
+      "url": "https://sites.lsa.umich.edu/kartikp/wp-content/uploads/sites/1326/2024/07/prasanna_final.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "windows": [],
+  "quadratic-twist": [
+    {
+      "title": "On mean values of Dirichlet polynomials with real characters",
+      "authors": "Matti Jutila",
+      "year": 1975,
+      "url": "https://matwbn.icm.edu.pl/ksiazki/aa/aa27/aa27116.pdf",
+      "free": true,
+      "checked": true
+    }
+  ],
+  "residues": [
+    {
+      "title": "Complex Analysis: Lecture 26",
+      "authors": "Sachin Gautam",
+      "year": 2020,
+      "url": "https://people.math.osu.edu/gautam.42/S20/LectureNotes/Lecture26.pdf",
+      "free": true,
+      "checked": true
+    },
+    {
+      "title": "Complex Analysis",
+      "authors": "Russell W. Howell",
+      "year": 2024,
+      "url": "https://complexanalysis.org/",
+      "free": true,
+      "checked": true
+    }
+  ]
+}

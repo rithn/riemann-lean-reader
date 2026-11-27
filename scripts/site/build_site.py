@@ -10,7 +10,7 @@ No Lean source text is copied: files appear by module name and path only.
 import os, re, sys, json, glob, shutil, datetime, collections
 import yaml, networkx as nx
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
@@ -1465,14 +1465,32 @@ def ld(obj):  # JSON-LD block; '</' escaped so text cannot close the script tag
     return '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', **obj}, ensure_ascii=False).replace('</', '<\\/') + '</script>\n'
 ORG_ID, SITE_ID = SITE + '/#org', SITE + '/#website'
 ORG = {'@type': 'Organization', '@id': ORG_ID, 'name': SITE_NAME, 'url': SITE + '/', 'logo': SITE + '/logo.png', 'sameAs': [X_SITE]}
+AUTHOR_PATH = '/about/#author'
+AUTHOR_PHOTO = '/about/soumya-sharma.webp'
+AUTHOR_ID = SITE + AUTHOR_PATH
+EDITOR = {
+    '@type': 'Person', '@id': AUTHOR_ID, 'name': 'Soumya Sharma', 'url': AUTHOR_ID,
+    'image': SITE + AUTHOR_PHOTO, 'jobTitle': 'Founder, Livo Assistant',
+    'alumniOf': [
+        {'@type': 'CollegeOrUniversity', 'name': 'IIT Delhi'},
+        {'@type': 'CollegeOrUniversity', 'name': 'IIM Ahmedabad'},
+    ],
+    'sameAs': ['https://x.com/SomTheBuilder', 'https://www.linkedin.com/in/rithn', 'https://github.com/rithn'],
+}
+BYLINED_PAGES = {
+    '/status/', '/timeline/', '/how-we-know/', '/faq/', '/proof-in-numbers/',
+    '/what-is-the-riemann-hypothesis/', '/why-it-matters/', '/learn/',
+    '/shorter-riemann-hypothesis-proof/', '/guides/', '/press/',
+}
 RH_THING = {'@type': 'Thing', 'name': 'Riemann hypothesis', 'sameAs': 'https://en.wikipedia.org/wiki/Riemann_hypothesis'}
 def crumbs_ld(*items):  # (name, path) pairs, home first
     return {'@type': 'BreadcrumbList', 'itemListElement': [
         {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': SITE + p} for i, (n, p) in enumerate(items)]}
 def article_ld(path, headline, desc, published):
+    author_id = AUTHOR_ID if path in BYLINED_PAGES else ORG_ID
     return {'@type': 'Article', '@id': SITE + path + '#article', 'headline': headline, 'description': desc,
             'url': SITE + path, 'mainEntityOfPage': SITE + path, 'inLanguage': 'en',
-            'datePublished': published + 'T00:00:00Z', 'dateModified': '{{UPDATED}}T00:00:00Z', 'author': {'@id': ORG_ID},
+            'datePublished': published + 'T00:00:00Z', 'dateModified': '{{UPDATED}}T00:00:00Z', 'author': {'@id': author_id},
             'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isPartOf': {'@id': SITE_ID}, 'image': SITE + '/og.png?v=2'}
 def faq_ld(pairs):
     """FAQPage for (question, answer) pairs; answers may hold simple HTML (links, lists).
@@ -1608,6 +1626,13 @@ def head(path, title, desc, lds, md=True, img=None):
             f'<meta name="twitter:image" content="{H(img)}">\n')
 SHARE_RE = re.compile(r'<p class="sharebar" data-share-slot></p>| <span class="report">.*?</span>')
 SHARE_SLOT = '<p class="sharebar" data-share-slot></p>'
+NEWSLETTER_URL = 'https://replace-with-your-substack.invalid'
+if (urlsplit(NEWSLETTER_URL).hostname or '').endswith('.invalid'):
+    print('WARNING: NEWSLETTER_URL is a placeholder. Omitting signup from /status/ and /changelog/.', file=sys.stderr)
+    NEWSLETTER_HTML = ''
+else:
+    NEWSLETTER_HTML = ('<p>Get an email when the status changes '
+                       f'<a class="btn" href="{H(NEWSLETTER_URL)}" target="_blank" rel="noopener">Subscribe on Substack</a></p>')
 def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
     m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
@@ -1753,6 +1778,18 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None,
 
     date = lastmod(path, title, desc, SHARE_RE.sub('', body), mirror=md)
     body = body.replace('{{UPDATED}}', date)
+    # Use the existing content revision date for the byline, sitemap and Article.
+    if path in BYLINED_PAGES:
+        author = H(EDITOR['name'])
+        display_date = datetime.date.fromisoformat(date).strftime('%-d %b %Y')
+        byline = (f'<p class="meta article-byline">By <a href="{AUTHOR_PATH}">{author}</a> · '
+                  f'Updated <time datetime="{date}">{display_date}</time></p>')
+        body = body.replace('</h1>', '</h1>' + byline, 1)
+        if md is not None:
+            heading, _, content = md.partition('\n\n')
+            md = f'{heading}\n\nBy [{EDITOR["name"]}]({AUTHOR_ID}) · Updated {display_date}\n\n{content}'
+    if path in BYLINED_PAGES or path == '/about/':
+        lds = [*lds, EDITOR]
     has_md = not is404 and (not noindex or md is not None)
     if canonical:
         page_head = (CLARITY_TAG + f'<meta name="robots" content="noindex">\n<link rel="canonical" href="{SITE}{canonical}">\n'
@@ -1868,7 +1905,7 @@ def fit(name):
     return cut_title(name, TITLE_MAX - len(suffix)) + suffix
 
 # ---------- shared bits
-for sub in ('theme', 'cluster', 'changelog', 'route'):
+for sub in ('theme', 'cluster', 'changelog', 'route', 'learn'):
     shutil.rmtree(os.path.join(OUT, sub), ignore_errors=True)
 def ctitle(k):
     return NAMES[k]['title'] if k in NAMES else folder_label(CL[k]['folders'])
@@ -2285,6 +2322,11 @@ STATUS_FACTS = [
 STATUS_VERIFICATION_AS_OF = STATUS_FACTS[-1]['date']
 
 # ---------- learning path: one disclosure tree for static and interactive navigation
+from learning_concepts import ConceptMap, concept_path
+
+concept_map = ConceptMap(Path(REPO) / 'data' / 'concept-map', sernau_edition)
+assert not ON_LEARN.intersection(f'compact-{key}' for key in ('proof', *concept_map.parts)), 'Learning path anchors overlap'
+
 def tli(i, seen, depth=0):
     n = TT.get(i)
     if not n:
@@ -2308,14 +2350,19 @@ seen = set()
 learning_tree = ''.join(tli(r, seen) for r in core['roots'])
 more_concepts = sorted((n for n in TT.values() if n['kind'] == 'concept' and n['id'] not in seen),
                        key=lambda n: -len(used_concepts[n['id']]))
-LEARN_D = ('The Lean proof of the Riemann hypothesis, step by step: from the headline theorems through its main steps '
-           'down to background maths, linked to the code.')
+LEARN_D = ('Learn the Lean proof of the Riemann hypothesis through six paths for Sernau’s compact edition '
+           'and the dependency tree for Alpöge’s original proof.')
 learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyebrow">Learning path</div>'
-         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT + '<p class="lede">From the Riemann hypothesis down to school maths: '
+         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT
+         + '<p class="lede">Follow the six parts of Sernau’s compact proof or explore the '
+         '<a href="/learn/#alpoge-learning-tree">Alpöge original learning tree</a>.</p>'
+         + concept_map.overview()
+         + '<div class="evidence-article"><h2 id="alpoge-learning-tree">Alpöge original learning tree</h2>'
+         '<p>From the Riemann hypothesis down to school maths, '
          'the outline runs from the two headline theorems through the main steps of the proof, then to background concepts and '
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          '<p>For worked explanations, see <a href="/guides/rubinstein-zeta/">Rubinstein’s guide to the zeta function argument</a>'
-         ' or <a href="/guides/eto/">Eto’s illustrated introduction to the proof</a>.</p>'
+         ' or <a href="/guides/eto/">Eto’s illustrated introduction to the proof</a>.</p></div>'
          f'<ul class="learning-tree">{learning_tree}</ul>'
          f'<h2>More background concepts <span class="n">{len(more_concepts)}</span></h2><ul class="rows">'
          + ''.join(f'<li><a href="/concept/{H(n["id"])}"><span class="kind concept">concept</span>'
@@ -2326,6 +2373,8 @@ assert seen == ON_LEARN, 'learn_href() and the /learn/ page disagree on which en
 page('/learn/', LEARN_T, LEARN_D, 'learn', learn,
      [article_ld('/learn/', 'The Riemann hypothesis proof, step by step: a learning path', LEARN_D, '2026-11-21'),
       crumbs_ld(('Home', '/'), ('Learning path', '/learn/')), ORG], .8)
+for path, name, definition, body, trail in concept_map.pages():
+    page(path, cut_title(name), meta_desc(definition), 'page', body, [crumbs_ld(*trail)])
 
 # ---------- /route/: how the proof is structured, from the main theorem down (keep numbers in step with the data)
 DEPTHS = collections.Counter(dist.values())
@@ -2568,7 +2617,7 @@ for item in GUIDE_CATALOGUE.get('hub_guides', []):
     guide_readings.append((g, item['reading']))
 
 KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {
-    '/', '/learn/', '/route/', '/list/', '/changelog/', '/changelog/feed.xml', '/api/',
+    '/', '/learn/', '/route/', '/list/', '/changelog/', '/changelog/feed.xml', '/api/', AUTHOR_PHOTO,
 }
 DRAFTS = [(f, *read_draft(f), crumb, eb, pr) for f, crumb, eb, pr in CONTENT]
 OLD_PATHS = {**TOLD, **COLD}   # a draft linking to a renamed cluster or theme gets its current address
@@ -2579,6 +2628,7 @@ for i, (f, fm, t, *rest) in enumerate(DRAFTS):
         DRAFTS[i] = (f, fm, t2, *rest)
 KNOWN_PATHS |= {'/alpoge/', '/sernau/', '/sernau/route/', '/sernau/list/'}
 KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS} | {'/guides/'} | set(GPATH.values())
+KNOWN_PATHS |= {concept_path(slug) for slug in concept_map.concepts}
 READABLE_GROUPS = {group['id']: group for group in sernau_data['groups']}
 KNOWN_PATHS |= {group['href'] for group in READABLE_GROUPS.values()}
 # site links added under a page's own text (the drafts are published as written, so these are not part of them)
@@ -2593,6 +2643,10 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
     lv = level_split(t)
     html_body = levels_html(*lv) if lv else figures_html(md_html(t), 'main')
     html_body = re.sub(r'^<p><em>', '<p class="meta asof"><em>', html_body, count=1)
+    if path == '/status/':
+        assert html_body.count('<p>{{newsletter}}</p>\n') == 1
+        html_body = html_body.replace('<p>{{newsletter}}</p>\n', NEWSLETTER_HTML + '\n' if NEWSLETTER_HTML else '')
+        t = t.replace('{{newsletter}}\n\n', to_md(NEWSLETTER_HTML) + '\n' if NEWSLETTER_HTML else '')
     if path == '/core/' and FL:   # #10: after each core cluster's "Cluster page" link, a link to its /lean/ page (HTML and Markdown)
         for k in FL:
             a_ = f'<a href="{CPATH[k]}">Cluster page</a>'
@@ -2938,6 +2992,7 @@ def change_html(e):
 clog = (breadcrumbs([('Home', '/'), ('Changelog', '')]) + '<div class="eyebrow">Changelog</div>'
         '<h1>What changed on this site</h1><p class="lede">Dated changes to the map, its pages and the proof status it reports. '
         'Follow along with the <a href="/changelog/feed.xml">RSS feed</a> or <a href="' + X_SITE + '">@RiemannMap on X</a>.</p>'
+        + NEWSLETTER_HTML
         + ''.join(f'<h2 id="{e["anchor"]}">{H(e["title"])} <small>{datetime.date.fromisoformat(str(e["date"])).strftime("%-d %b %Y")}</small></h2>'
                   + change_html(e) for e in CHANGES))
 page('/changelog/', 'Changelog · RH Lean Explorer', 'Dated changes to the map of the Lean proof of the Riemann hypothesis: '

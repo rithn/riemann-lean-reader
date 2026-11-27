@@ -27,6 +27,8 @@ as_of: "26 Nov 2026"
 
 See the [timeline](/timeline/) for the full dated record or [follow updates via RSS](/changelog/feed.xml).
 
+{{newsletter}}
+
 ## Check the evidence
 
 - [How we know the proof is correct](/how-we-know/) explains the statement comparison and independent checks.
