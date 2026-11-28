@@ -25,7 +25,7 @@ as_of: "28 Nov 2026"
 >
 > **Free to use.** Everything we made, including data, page text, images and clips, is free to use under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Credit "RH Lean Explorer (riemannhypothesissolved.com)".
 >
-> **Contact.** X: [@RiemannMap](https://x.com/RiemannMap)
+> **Contact.** [Soumya Sharma](/about/#author), who built the site: soumyasharma98 (at) gmail.com · X: [@RiemannMap](https://x.com/RiemannMap)
 >
 > **Wording we suggest.** "Certified" refers to the four formal criteria in the joint statement. The certification is a "joint statement by the Lean FRO and the Mathlib Initiative". Cluster names on the map were drafted by AI. For claims about the proof, cite the primary sources.
 
