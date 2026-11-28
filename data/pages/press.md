@@ -10,12 +10,12 @@ target_queries:
   - riemann hypothesis lean certified statement
   - alpöge riemann hypothesis criticism
   - riemann hypothesis proof scientific american nature quanta
-as_of: "26 Nov 2026"
+as_of: "28 Nov 2026"
 ---
 
 # Press, official statements and reactions
 
-*As of 26 Nov 2026. Dates are as printed on each page. For current verification, see [status](/status/). For the predicate criticism and the gaps in Masullo’s manuscript, see [controversies](#controversies).*
+*As of 28 Nov 2026. Dates are as printed on each page. For current verification, see [status](/status/). For the predicate criticism and the gaps in Masullo’s manuscript, see [controversies](#controversies).*
 
 > **For journalists**
 >
@@ -74,6 +74,8 @@ The objections above concern Alpöge’s original archive and Masullo’s separa
 - **24 Nov, 5:15 AM (no time zone stated). WIRED (Isabella Ward), [AI Solved Math’s Most Famous Problem. Now Humans Are Struggling to Understand It](https://www.wired.com/story/ai-solved-maths-most-famous-problem/).** Quotes Abhishek Saha (Queen Mary University of London): "Knowing there is a proof is one thing, … but when we understand the proof, that would allow us to actually go beyond what has happened". Anton Shakov (Principia Math) expects it "will take mathematicians months" to understand. WIRED describes the 250,000 pages as a paper version that "clocks in at 250,000 pages" and adds that Alpöge later called the figure a "joke".
 - **24 Nov. The Wall Street Journal, [article on Alpöge and Claude](https://www.wsj.com/tech/ai/anthropic-mathematician-says-claude-has-solved-the-most-famous-problem-in-math-9361920b) (headline not seen).** Paywalled; we have not read it. WSJ's post on X (24 Nov, 04:17 UTC) says "One day after the company’s IPO, an Anthropic employee says Claude helped discover a proof." ([X](https://x.com/WSJ/status/2125081353641222615))
 - **24 Nov, 11:30 as printed (time zone not stated). Nikkei, [数学難問リーマン予想、アンソロピック証明は「正しいと確信」 専門家](https://www.nikkei.com/article/DGXZQOSG222470S6A121C2000000/)** (roughly: "Hard math problem, the Riemann hypothesis: Anthropic proof 'convinced it is correct', expert"). Paywalled; we read the headline and opening only. The visible text refers to "an outside expert" and the joint statement, and names no one.
+- **24 Nov. Scientific American (Peter Hall), [Why solving the Riemann hypothesis won’t break encryption](https://www.scientificamerican.com/article/why-solving-the-riemann-hypothesis-wont-break-encryption/).** Explains why the proof does not break encryption.
+- **25 Nov. Nature (Davide Castelvecchi), [What is the Riemann hypothesis? A guide to the famed conjecture that rules prime numbers](https://www.nature.com/articles/d41586-026-03854-x).** Explains what the hypothesis says about the distribution of primes.
 
 ## Blogs and commentary
 

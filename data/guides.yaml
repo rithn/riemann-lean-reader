@@ -756,6 +756,10 @@ guides:
     format: pdf
     licence_note: No licence text in the IHES PDF or on the home page; Hexagon v2 lists CC BY 4.0.
     edition_citation: "IHES copy · 22 Nov 2026 · licence unstated. [Hexagon v2](https://hexagonmath.org/2611.00809v2) · revision 22 Nov 2026 · 76 pages · CC BY 4.0."
+    companion_reading:
+      title: On the Alpöge/Claude proof of the Riemann Hypothesis -- with Robin Zhang (IHES)
+      url: https://www.youtube.com/watch?v=tS8Ro66Zu1I
+      description: "In this 27 Nov 2026 interview with Alvaro Lozano-Robledo (31:24), Zhang discusses what background the proof draws on and whether it lies within the convex hull of existing ideas."
     host_copy: false
     versions:
     - version: single file
