@@ -4,16 +4,14 @@ Run with the same Python as the generator: python -I scripts/site/check_editions
 """
 import argparse
 import csv
-from collections import Counter, defaultdict
 from fnmatch import fnmatchcase
 import hashlib
-from graphlib import TopologicalSorter
 from html.parser import HTMLParser
 import json
 from pathlib import Path
 import subprocess
 import sys
-from urllib.parse import quote, unquote, urlsplit
+from urllib.parse import unquote, urlsplit
 from xml.etree import ElementTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -140,10 +138,9 @@ def check_shells(site):
             if reader := html.config.get('reader'):
                 assert reader not in html.links and (site / reader.lstrip('/')).is_file(), page
 
-    for page in ('/', '/sernau/', '/alpoge/'):
-        prefix = '/sernau' if page != '/alpoge/' else ''
-        assert {'/sernau/', '/alpoge/', f'{prefix}/list/', f'{prefix}/route/',
-                f'{prefix}/file/Main#riemannHypothesis'} <= set(load_page(site, page).links), page
+    home = load_page(site, '/')
+    assert {'/sernau/', '/alpoge/', '/sernau/list/', '/list/', '/sernau/route/', '/route/',
+            '/sernau/file/Main#riemannHypothesis', '/file/Main#riemannHypothesis'} <= set(home.links)
     comparison = load_page(site, '/shorter-riemann-hypothesis-proof/')
     assert not comparison.editions
     assert {'/sernau/', '/alpoge/'} <= set(comparison.links)
@@ -221,116 +218,6 @@ def check_locators(site, modules, groups, edition, read_json):
             assert all(modules[module][key] == value for key, value in record.items()), module
 
 
-def check_parts(site, manifest, modules, read_json):
-    graph = read_json(manifest['partGraphUrl'])
-    pin = {key: manifest[key] for key in ('id', 'revision', 'buildId')}
-    assert graph['edition'] == pin
-    clusters, root = graph['clusters'], graph['root']
-    size = len(clusters)
-    assert size == 362 and len({cluster['id'] for cluster in clusters}) == size
-    assert type(root) is int and 0 <= root < size
-    assert clusters[root]['ring'] == '0' and clusters[root]['parent'] is None
-
-    dependencies = {index: set() for index in range(size)}
-    incoming = defaultdict(list)
-    for source, target, weight in graph['imports']:
-        assert 0 <= source < size and 0 <= target < size, (source, target)
-        assert target not in dependencies[source] and type(weight) is int and weight > 0
-        dependencies[source].add(target)
-        incoming[target].append((source, weight))
-    tuple(TopologicalSorter(dependencies).static_order())
-
-    # Recompute breadth-first layers independently of the generator's queue.
-    reached, frontier, step = {}, {root}, 0
-    while frontier:
-        reached.update(dict.fromkeys(frontier, step))
-        frontier = set().union(*(dependencies[index] for index in frontier)) - reached.keys()
-        step += 1
-    expected = Counter(str(reached[index]) if index in reached else 'instances' for index in range(size))
-    assert expected == {'0': 1, '1': 1, '2': 24, '3': 154, '4': 76, '5': 21,
-                        '6': 9, '7': 1, 'instances': 75}
-    assert Counter(cluster['ring'] for cluster in clusters) == expected
-    assert graph['detailUrls'].keys() == expected.keys()
-    for index, cluster in enumerate(clusters):
-        distance = reached.get(index)
-        assert cluster['ring'] == (str(distance) if distance is not None else 'instances')
-        assert set(cluster) == {'id', 'label', 'count', 'ring', 'parent', 'tree'}
-        assert type(cluster['count']) is int and cluster['count'] > 0
-        if not distance:
-            assert cluster['parent'] is None
-            continue
-        candidates = [(source, weight) for source, weight in incoming[index] if reached.get(source) == distance - 1]
-        assert candidates
-        assert cluster['parent'] == max(candidates, key=lambda edge: (edge[1], -edge[0]))[0]
-
-    # A pinned GitHub fragment must resolve to a published copy of the same source.
-    pinned_files = {unquote(urlsplit(item['github']).path): item['raw'] for item in modules.values()}
-    pinned_files.update({unquote(urlsplit(item['github']).path): item['href']
-                         for item in manifest['documents']})
-    line_counts = {}
-
-    def check_pin(link):
-        parsed = urlsplit(link)
-        path = unquote(parsed.path)
-        assert parsed.scheme == 'https' and parsed.netloc == 'github.com' and path in pinned_files, link
-        first, _, last = parsed.fragment.partition('-')
-        assert first.startswith('L') and (not last or last.startswith('L')), link
-        start, end = int(first[1:]), int(last[1:] or first[1:])
-        if path not in line_counts:
-            line_counts[path] = len((site / pinned_files[path].lstrip('/')).read_bytes().splitlines())
-        assert 1 <= start <= end <= line_counts[path], link
-
-    search = read_json(graph['searchUrl'])
-    assert search['edition'] == pin and len(search['search']) == size
-    best_files = {}
-    theorem_names = {theorem['name'] for theorem in read_json('/api/sernau/theorems.json')['theorems']}
-    for ring, url in graph['detailUrls'].items():
-        payload = read_json(url)
-        assert payload['edition'] == pin and set(payload) == {'parts', 'edition'}
-        details = payload['parts']
-        members = [(index, cluster) for index, cluster in enumerate(clusters) if cluster['ring'] == ring]
-        assert details.keys() == {cluster['id'] for _, cluster in members}, ring
-        for index, cluster in members:
-            part = cluster['id']
-            detail = details[part]
-            description, names = search['search'][index]
-            assert detail['label'].strip() and detail['label'] == cluster['label'], part
-            assert description.strip() and description == detail['description'], part
-            declarations = set(names.split())
-            assert len(declarations) == cluster['count'], part
-            assert not detail.keys() & {'kind', 'chapter', 'note', 'splitSiblings', 'handout'}
-            assert detail['evidence'], part
-            for excerpt, link in detail['evidence']:
-                assert excerpt.strip(), part
-                check_pin(link)
-            for declaration in [detail['head'], *detail['mostUsed']]:
-                check_pin(declaration['github'])
-                assert declaration['name'] in declarations, part
-                module = modules[declaration['module']]
-                source = module['href']
-                line = declaration['line']
-                assert declaration['href'] in (source + '#' + quote(declaration['name']), f'{source}#L{line}')
-            if index == root:
-                assert len(theorem_names) == 5
-                assert {theorem['name'] for theorem in detail['theorems']} == theorem_names <= declarations
-                for theorem in detail['theorems']:
-                    check_pin(theorem['github'])
-                    assert theorem['href'].startswith('/sernau/file/')
-            else:
-                assert 'theorems' not in detail
-            files = detail['files']
-            assert files and len({name for _, name, _ in files}) == len(files), part
-            assert sum(count for _, _, count in files) == cluster['count']
-            source_counts = Counter(name.partition('.')[0] for _, name, _ in files)
-            tree = max(('Lib', 'New'), key=source_counts.__getitem__) if source_counts['Lib'] or source_counts['New'] else 'Main'
-            assert cluster['tree'] == tree.lower()
-            for href, name, count in files:
-                assert href == modules[name]['href'] and type(count) is int and count > 0
-                best_files[name] = max(best_files.get(name, (0, 0)), (count, -index))
-
-    assert graph['fileClusters'] == {name: -index for name, (_, index) in best_files.items()}
-
-
 def check(site, baseline=None):
     def read_json(url):
         return json.loads((site / url.lstrip('/')).read_text(encoding='utf-8'))
@@ -351,9 +238,7 @@ def check(site, baseline=None):
     with (Path(__file__).resolve().parents[2] / 'data/sernau/modules.tsv').open(encoding='utf-8') as stream:
         inputs = {row['module']: row for row in csv.DictReader(stream, delimiter='\t')}
 
-    manifest = read_json(edition['manifestUrl'])
-    assert {key: value for key, value in manifest.items() if key != 'partGraphUrl'} == edition
-    check_parts(site, manifest, modules, read_json)
+    assert read_json(edition['manifestUrl']) == edition
     assert read_json(edition['modulesUrl'])['modules'] == modules
     assert read_json(edition['overviewUrl'])['edges'] == graph['edges']
     assert set(inputs) == set(modules)

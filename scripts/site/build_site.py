@@ -7,7 +7,7 @@ e.g.   ... build_site.py ../notes/cluster3 ../site
 Reads only our own derived data (map.json, merged.tsv, import list, naming answers, tree YAML).
 No Lean source text is copied: files appear by module name and path only.
 """
-import os, re, sys, json, glob, shutil, datetime, collections, html
+import os, re, sys, json, glob, shutil, datetime, collections
 import yaml, networkx as nx
 from pathlib import Path
 from urllib.parse import quote, urlsplit
@@ -23,17 +23,14 @@ if __name__ == '__main__' and '_RH_SITE_STAGE_STATE' not in os.environ:
     sys.exit()
 STAGE_STATE = os.environ['_RH_SITE_STAGE_STATE']
 sys.path.insert(0, HERE)
-from proof_editions import (COMPARISON, DEFAULT, ORIGINAL, ROUTES,
+from proof_editions import (COMPARISON, DEFAULT, NAMES as EDITION_NAMES, ORIGINAL, ROUTES, SERNAU_PASS_UTC,
                             VERIFICATION_URL as SERNAU_VERIFICATION, VIRTUAL_ENTRIES,
                             edition_api, verification_api)
 from site_dates import chash, content_revision
 import depth_figure
 from alpoge_layout import pack_constellation
-from math_markup import MathMarkup
 
 D, OUT = sys.argv[1], sys.argv[2]
-KATEX_VENDOR = Path(HERE) / 'vendor' / 'katex'
-math_markup = MathMarkup(KATEX_VENDOR)
 # 80a: --src-bundles[=DIR] also writes one Lean source bundle per cluster (default DIR: <out>/src/c). Off by default:
 # the full set is ~1 GB (the whole archive once more), see the note at SRC_BUNDLE below
 SRC_BUNDLES = next((a.split('=', 1)[1] if '=' in a else os.path.join(OUT, 'src', 'c') for a in sys.argv[3:] if a.startswith('--src-bundles')), None)
@@ -364,6 +361,7 @@ ST_SHORT = f'{ST_CERT} {ST_MORE}'
 ST_META = plain(ST_CERT)
 ST_META_SHORT = 'Certified by the Lean FRO and the Mathlib Initiative on 21 Nov 2026.'   # the home meta description (160-character cap)
 ST_CHIP = 'certified 21 Nov'   # header chip label; its tooltip is ST_META
+ST_CHIP_SHORT = 'Certified'      # the chip's label on narrow screens
 # long form: /api/status.json, llms.txt, llms-full.txt
 ST_RELEASE = (f'On 20 Nov 2026 Levent Alpöge released a proof of the Riemann hypothesis, and of the generalized Riemann hypothesis '
               f'(GRH) for Dirichlet L-functions, as a Lean library of {TOTAL_FILES:,} Lean files, {LINES_TXT}, with a note at '
@@ -1295,16 +1293,6 @@ for k, c in CL.items():
 json.dump({'roots': core['roots'], 'nodes': [tnode(x) for x in core['nodes'] + concepts],
            'concept_clusters': used_concepts},
           open(os.path.join(OUT, 'data', 'tree.json'), 'w'), separators=(',', ':'))
-concept_math = {}
-for node in core['nodes'] + concepts:
-    escaped_prose = html.escape(node.get('plain', ''), quote=False)
-    rendered = math_markup.text(escaped_prose)
-    if rendered != escaped_prose:
-        concept_math[node['id']] = rendered
-write_math = Path(OUT) / 'data' / 'ui' / 'concept-math.json'
-write_math.parent.mkdir(exist_ok=True)
-write_math.write_text(json.dumps(concept_math, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
-
 # ---------- share cards: a 1200x630 PNG per cluster (/og/c/<id>.png) and theme (/og/t/<id>.png), the og:image and
 # twitter:image of its static page. og_cards.py draws them (Pillow: add --with pillow to the uv run command) in a few
 # processes, and only those whose key changed: the key hashes the card's fields, og_cards.py, the fonts and logo.png.
@@ -1377,20 +1365,10 @@ print(f'{len(CL)} clusters ({named} named), {len(TH)} themes, {len(mod_cl)} file
 # The tracked explorer shell is the input for every HTML view. Asset URLs get content hashes so _headers can cache them as immutable.
 # Every page also gets a Markdown copy next to it (<path>index.md, linked with rel=alternate type=text/markdown).
 # Rebuild after editing app.js or style.css: the hashes in the HTML are what bust the long cache.
-import hashlib, secrets, email.utils
+import html, hashlib, secrets, email.utils
 from html.parser import HTMLParser
 SITE = 'https://riemannhypothesissolved.com'
 TPL = (Path(HERE) / 'explorer_shell.html').read_text(encoding='utf-8')
-# Set the theme before the stylesheet can paint. CSS also follows the system without JavaScript.
-THEME_HEAD = """<script>
-(() => {
-  let theme;
-  try { theme = localStorage.getItem('rh-theme'); } catch {}
-  if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  document.documentElement.dataset.theme = theme;
-})();
-</script>"""
-SHARE_TPL = Path(HERE, "explorer_share.html").read_text(encoding="utf-8")
 EMBED_TPL = (Path(HERE) / 'explorer_embed.html').read_text(encoding='utf-8')
 FOOTER_TPL = (Path(HERE) / 'explorer_footer.html').read_text(encoding='utf-8')
 H = html.escape
@@ -1437,12 +1415,6 @@ def version_asset(name):
 
 APP_F, APP_V = version_asset('app.js')
 CSS_F, CSS_V = version_asset('style.css')
-for font in (KATEX_VENDOR / 'fonts').glob('*.woff2'):
-    shutil.copyfile(font, Path(OUT) / 'fonts' / font.name)
-shutil.copyfile(KATEX_VENDOR / 'LICENSE', Path(OUT) / 'fonts' / 'LICENSE-KaTeX.txt')
-shutil.copyfile(KATEX_VENDOR / 'katex.css', Path(OUT) / 'katex.css')
-KATEX_F, _ = version_asset('katex.css')
-CONCEPT_MATH_URL = f'/data/ui/concept-math.json?v={hfiles([str(write_math)])}'
 SHELL_F, _ = version_asset('explorer-shell.js')
 SERNAU_F, _ = version_asset('sernau.js')
 SERNAU_CSS_F, _ = version_asset('sernau.css')
@@ -1674,11 +1646,15 @@ else:
 def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
     m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
-EDITION_NAMES = {'sernau': 'Readable (Sernau)', 'alpoge': 'Original (Alpöge)'}
+ORIGINAL_STATUS = {'href': '/status/', 'title': f'{ST_META} How it was checked.',
+                   'label': f'Lean proof {ST_CHIP}: status of the proof', 'short': ST_CHIP_SHORT, 'text': ST_CHIP}
+SERNAU_PASS_TIME = datetime.datetime.fromisoformat(SERNAU_PASS_UTC).strftime('%-d %B %Y at %H:%M:%S UTC')
+READABLE_STATUS = {'href': SERNAU_VERIFICATION, 'title': f'Andrew Sutherland’s readable paranoid Comparator run passed on {SERNAU_PASS_TIME}.',
+                   'label': 'Sernau readable verification at MIT', 'short': 'Checked', 'text': 'Comparator passed'}
 EXPLORER_CONFIG = {
     'alpoge': {'src': APP_F, 'version': OV_V, 'overview': f'/data/overview.json?v={OV_V}',
                'fileLocator': LEAN_LOCATOR,
-               'dependency': '/vendor/d3.v7.9.0.min.js'},
+               'dependency': 'https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'},
     'sernau': {'src': SERNAU_F, 'map': SERNAU_MAP_F, 'overview': sernau_edition['overviewUrl']},
 }
 HEADLINE_CROSSWALK = {
@@ -1699,12 +1675,12 @@ def edition_switch(edition, view):
     links = []
     for key, href, label in pairs:
         current = ' aria-current="page"' if key == edition else ''
+        if not current and view not in ('map', 'list', 'route'):
+            label = f'Open {label} map'
         links.append(f'<a href="{href}" data-edition="{key}" data-edition-link{current}>{label}</a>')
-    return f'<nav class="edition-switch" aria-label="Edition">{"".join(links)}</nav>'
+    return f'<nav class="edition-switch" aria-label="Proof edition">{"".join(links)}</nav>'
 
 def shell(path, title, desc, route, body, page_head, *, edition='', view=None, embed_target=None):
-    body = re.sub(r'<div class="eyebrow">[^<]*</div>', '', body)
-    body = body.replace(SHARE_SLOT, '')
     view = view or route.split('/')[0] or 'map'
     readable = edition == 'sernau'
     engine = edition or 'alpoge'
@@ -1720,53 +1696,38 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
                            [('revision', 'revision'), ('overview', 'overviewUrl'),
                             ('modules', 'modulesUrl'), ('groups', 'groupsBaseUrl'), ('build-id', 'buildId')]})
         if view == 'map':
-            attributes['data-part-graph'] = sernau_data['partGraphUrl']
+            attributes['data-file-graph'] = sernau_edition['fileGraphUrl']
         if view == 'reader':
             attributes['data-file-locator'] = sernau_data['readerFilesBaseUrl']
             attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
     body_attributes = ' '.join(f'{key}="{H(value)}"' for key, value in attributes.items())
     styles = f'<link rel="stylesheet" href="{CSS_F}">'
-    # Original Lean appendices have a strict per-page HTML budget and quote source.
-    if view in ('page', 'learn', 'route', 'group', 'read') and not path.startswith('/cluster/'):
-        body = math_markup.html(body)
-    # Change the prose presentation after calculating dates and Markdown copies.
-    fragments = re.split(r'(<pre\b[^>]*>.*?</pre>|<code\b[^>]*>.*?</code>|<[^>]+>)', body, flags=re.S)
-    body = ''.join(re.sub(r'\b(L-functions?|Yang-Baxter|p-adic)\b',
-                          lambda match: match[0].replace('-', '‑'), text) if i % 2 == 0 else text
-                   for i, text in enumerate(fragments))
-    if 'class="katex"' in body or (engine == 'alpoge' and view in ('reader', 'route')):
-        styles += f'\n<link rel="stylesheet" href="{KATEX_F}">'
-    viewport = '' if path == '/404.html' else '<canvas id="sky" aria-label="Map of clusters"></canvas>'
+    viewport = '<canvas id="sky" aria-label="Map of clusters"></canvas>'
     if readable:
         styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
-        svg_attributes = ('role="group" aria-label="Dependency map with selectable proof clusters"'
-                          if view == 'map' else 'aria-hidden="true"')
-        viewport = f'<svg id="map-graph" viewBox="0 0 850 554" {svg_attributes}></svg>'
+        viewport = '<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
     entry = EXPLORER_CONFIG[engine].copy()
     config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), 'embedPaths': EMBED_PATHS, engine: entry}
-    share_menu = SHARE_TPL
     if embed_target:
+        if not readable:
+            entry['dependency'] = '/vendor/d3.v7.9.0.min.js'
         return fill_slots(
             EMBED_TPL, title=H(title), description=HA(desc), canonical=H(SITE + embed_target),
             open_url=H(embed_target + '?utm_source=embed&utm_medium=iframe'), styles=styles,
             shell_script=f'<script src="{SHELL_F}" defer></script>', body_attributes=body_attributes,
-            map=viewport, filters=map_filters() if readable else '',
-            theme_head=THEME_HEAD, share_menu=share_menu, scripts=json_script('explorer-config', config),
+            map=viewport, filters=map_filters(sernau_data) if readable else '',
+            scripts=json_script('explorer-config', config),
         )
-    status_html = '<a class="status-chip ok" href="/status/">Verified · 21 Nov 2026</a>'
-    switch = edition_switch(edition, view)
+    status = READABLE_STATUS if readable else ORIGINAL_STATUS
+    status_html = (f'<a class="status-chip ok" href="{H(status["href"])}" title="{H(status["title"])}" aria-label="{H(status["label"])}">'
+                   f'<i></i><span>{"Sernau readable" if readable else "Lean proof"} · <b>{H(status["text"])}</b></span>'
+                   f'<small class="cshort">{H(status["short"])}</small></a>')
+    switch = edition_switch(edition, view) if edition else ''
     panel_heading = switch if not overlay else ''
     if overlay:
-        if view != 'reader':
-            styles = '<link rel="preload" as="font" type="font/woff2" href="/fonts/source-serif-4.f71693e59b.woff2" crossorigin>\n' + styles
-        # Edition links belong to the map editions. Articles outside them have no edition to switch,
-        # and edition pages show the switch under the breadcrumb.
-        if edition:
-            crumbs = re.search(r'<div class="crumbs"[^>]*>.*?</div>', body, re.S)
-            at = crumbs.end() if crumbs and '<h1' not in body[:crumbs.start()] else 0
-            body = body[:at] + switch + body[at:]
+        body = switch + body
     if readable and view != 'map':
-        body = f'<div id="main" class="sr-main">{body}</div>'
+        body = f'<main id="main" class="sr-main">{body}</main>'
     footer = fill_slots(FOOTER_TPL, list=list_url, route=route_url,
                         list_label='List view' if edition else 'Alpöge cluster list',
                         route_label='Route from Main' if edition else 'Alpöge route',
@@ -1776,14 +1737,11 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     if LEAN_READER_F:
         config['reader'] = LEAN_READER_F
     if engine == 'alpoge':
-        entry['mathStyles'] = KATEX_F
-        entry['conceptMath'] = CONCEPT_MATH_URL
         entry['theorems'] = HEADLINE_CROSSWALK
-    elif view not in ('map', 'list'):
+    elif view != 'map':
         entry.pop('map')
     if readable and view == 'reader':
         entry.update({key: sernau_edition[key] for key in ('repository', 'revision', 'sourceRoot')})
-        entry['verification'] = SERNAU_VERIFICATION
     scripts = json_script('explorer-config', config)
     scripts += '\n' + json_script('result-row', RESULT_ROW)
     if engine == 'alpoge':
@@ -1795,7 +1753,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     if view == 'map' and path != '/':
         page_head += f'<link rel="preload" as="fetch" href="{H(entry["overview"])}" crossorigin="anonymous">\n'
         if readable:
-            page_head += f'<link rel="preload" as="fetch" href="{H(sernau_data["partGraphUrl"])}" crossorigin="anonymous">\n'
+            page_head += f'<link rel="preload" as="fetch" href="{H(sernau_edition["fileGraphUrl"])}" crossorigin="anonymous">\n'
         for key in ('dependency', 'map', 'src'):
             if key in entry:
                 page_head += f'<link rel="preload" as="script" href="{H(entry[key])}">\n'
@@ -1805,17 +1763,17 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         body_attributes=body_attributes, shell_script=f'<script src="{SHELL_F}" defer></script>',
         skip_target='#pagebody' if overlay else list_url,
         skip_text='Skip to content' if overlay else 'Skip to the list view of the map',
-        map=viewport, theme_head=THEME_HEAD, share_menu=share_menu,
+        map=viewport, search_placeholder='Search groups, theorems, Lean files…' if readable else 'Search clusters, concepts, Lean files…',
         status_chip=status_html, panel_sheet='half' if view in ('list', 'cluster', 'theme') else 'peek',
         panel_attributes=' inert' if overlay else '', panel_heading=panel_heading,
         panel_content='' if overlay else body, panel_footer='' if overlay else footer, overlay_footer=footer if overlay else '',
-        overlay_hidden=str(not overlay).lower(), header_map=map_url if edition else '/', overlay_content=body if overlay else '',
-        list=list_url, route=route_url, filters=map_filters() if readable and view == 'map' else '',
+        overlay_hidden=str(not overlay).lower(), active_map=map_url, overlay_content=body if overlay else '',
+        list=list_url, route=route_url, filters=map_filters(sernau_data) if readable and view == 'map' else '',
         scripts=scripts,
     )
     nk = NAV_KEY(path)
     if nk:
-        t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">')
+        t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">', 1)
     return t
 
 def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None, fm=False,
@@ -2345,7 +2303,7 @@ def _fl_pages():   # a function, so that its names do not leak into the build's 
                                   ('Lean files' + (f' (part {i + 1})' if i else ''), '')])
             body = (crumbs + f'<div class="eyebrow">Alpöge original · Cluster {k} · Lean files in plain English</div>'
                     f'<h1>{H(title)}: its Lean files in plain English</h1>' + SHARE_SLOT
-                    + f'<p class="provenance">◇ {H(FL_HOW)}</p>'
+                    + f'<p class="lede lhow">{H(FL_HOW)}</p>'
                     + f'<p class="meta">{nf} Lean {"file" if nf == 1 else "files"}, by distance from <code>Main.lean</code>. Each file links to the '
                     f'Lean viewer; the statements below are cut from the source up to <code>:=</code>. '
                     f'<a href="{cp}">Back to the cluster page</a> · <a href="/core/">All {len(CHECKED)} core clusters</a></p>'
@@ -2418,7 +2376,7 @@ more_concepts = sorted((n for n in TT.values() if n['kind'] == 'concept' and n['
 LEARN_D = ('Learn the Lean proof of the Riemann hypothesis through six paths for Sernau’s compact edition '
            'and the dependency tree for Alpöge’s original proof.')
 learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyebrow">Learning path</div>'
-         '<h1>The Riemann hypothesis proof, step by step</h1><p class="provenance">◇ AI-drafted summaries and learning paths.</p>' + SHARE_SLOT
+         '<h1>The Riemann hypothesis proof, step by step</h1>' + SHARE_SLOT
          + '<p class="lede">Follow the six parts of Sernau’s compact proof or explore the '
          '<a href="/learn/#alpoge-learning-tree">Alpöge original learning tree</a>.</p>'
          + concept_map.overview()
@@ -2867,9 +2825,10 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
     sfx = f' · {name}'
     title = g['title'] + sfx if len(g['title'] + sfx) <= TITLE_MAX else cut_title(g['title'], TITLE_MAX - len(sfx)) + sfx
     body = ('<div class="gpage">' + breadcrumbs([*trail[:-1], (name, '')]) +
+            f'<div class="eyebrow">Guide · {H(edition)}</div>'
             f'<div class="ghead">{gav(g, 96)}<div class="ghtext"><p class="gauth">{gauthor(g)}</p><h1>{H(g["title"])}</h1></div></div>'
             f'{gfacts(meta)}<div class="gquotes">{gstatus_row(g)}{gai_html(g)}</div>'
-            f'<div class="cta gact">{"".join(acts)}</div>{notice}' + content
+            f'<div class="cta gact">{"".join(acts)}{G_SHARE_SLOT}</div>{notice}' + content
             + explore(('/guides/', 'All guides')) + '</div>')
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
              **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
@@ -3177,10 +3136,9 @@ page('/', HOME_T, HOME_DESC, '', readable_overview(sernau_data, home=True),
 page(ALPOGE_MAP, 'Alpöge original · Lean proof of the Riemann hypothesis', ORIGINAL_DESC,
      '', original_map, [WEBSITE, ORG, DATASET], .85, md=overview_markdown(original_map), edition='alpoge',
      img=(SITE + '/og.png?v=2', 'Map of the original Lean proof of the Riemann hypothesis'))
-page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, 'page',
-     '<h1>Page not found</h1><p class="lede">We couldn’t find that page.</p>'
-     '<form class="notfound-search" action="/list/"><label>Search the proof <input type="search" name="q"></label> <button type="submit" class="btn">Search</button></form>'
-     '<p><a href="/">Home</a> · <a href="/status/">Status</a> · <a href="/guides/">Guides</a> · <a href="/learn/">Learn</a></p>')
+page('/404.html', 'Page not found · RH Lean Explorer', HOME_DESC, '404',
+     '<div class="eyebrow">404</div><h1>Page not found</h1><p class="lede">That page is not on the map. '
+     '<a href="/alpoge/">Open the Alpöge map</a>, <a href="/sernau/">open the Sernau map</a> or <a href="/status/">read how the proof was checked</a>.</p>')
 page(ROUTES['alpoge']['reader'], 'Lean source and concepts · Alpöge original',
      'Read Lean source files, follow declaration links, and explore the concepts behind the original Lean proof of the Riemann hypothesis.',
      'page', '<h1>Alpöge original reader</h1><p>Use JavaScript to open a file or concept in the reader.</p>'
