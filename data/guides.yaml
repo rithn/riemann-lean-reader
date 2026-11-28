@@ -73,6 +73,20 @@
 # so quotes are as returned; GitHub details come from the GitHub API) and again on 24 Nov 2026 (raw HTML, GitHub API,
 # a headless browser for pages that need scripts).
 #
+# Fields added on 29 Nov 2026 (guides round 3; owner decisions).
+#   trust_tier     1, 2 or 3 on every entry in guides: and hub_guides:. It sets the order inside each section of /guides/ (and the
+#                  order of the guide lists on the map and cluster pages): tier first, then the newest version, snapshot or posting
+#                  date first; `order` and order_group now only break ties. Not the older A/B `tier` of the candidates file.
+#                  1 = written by a named professional mathematician (or an institution of them), with AI help at most.
+#                  2 = a named author whose text is substantially AI-generated, or whose expertise is not stated.
+#                  3 = AI-written, or not reviewed by a human by the author's own statement.
+#   author.photo   a hub_guides item without portrait_from may carry its own, as in guides: (here a GitHub avatar kept in
+#                  data/guide-photos/, photo_source the GitHub profile). Only for an account the guide itself links to.
+#   readable_files (hub_guides, readable edition) {unit, note}: the guide cites Lean files of Sernau's readable edition, listed
+#                  with counts in data/sernau/guide-files/<slug>.tsv (module, count). `unit` says what a count counts. The guide
+#                  page then shows its groups (from readable_group_guides plus the files' groups), the files and an "On the map"
+#                  link. Without it the page lists only its readable_group_guides groups.
+#
 # Not added: the 15 "maybe" entries (tier C), and Terence Tao's blog post (labelled B in the candidates file
 # but "context, not an explainer"; the candidates file has 5 rows marked B, the tracker says 4).
 
@@ -81,6 +95,7 @@ guides:
   # ---------------- Tier A ----------------
 
   - id: rubinstein-zeta-guide
+    trust_tier: 1
     slug: rubinstein-zeta
     companion_reading:
       title: From Chebyshev to the Riemann Hypothesis
@@ -146,6 +161,7 @@ guides:
     clusters_basis: "Lean files the guide cites in its text (version 2 PDF): full paths under lean/src/ and bare file names that occur once in the archive, each mapped to its cluster with site/data/modules.json. Cited names that match no file are left out. Declaration names are not mapped, so the list may be incomplete."
 
   - id: sutherland-grh-verification
+    trust_tier: 1
     slug: sutherland
     page: true
     order: 5
@@ -198,6 +214,7 @@ guides:
     clusters_basis: "The page names Main.lean and its five theorems (Main is in k0677). Its checks cover every module but name no other, so only k0677 is listed."
 
   - id: lean-community-statement
+    trust_tier: 1
     slug: lean-statement
     page: true
     order: 22
@@ -246,6 +263,7 @@ guides:
     clusters_basis: "The statement names no Lean file. It certifies that the theorem proved in the library is Mathlib's RiemannHypothesis, which Main.lean proves (cluster k0677). No other cluster is listed."
 
   - id: jaswal-zenodo-guide
+    trust_tier: 2
     slug: jaswal
     page: true
     order: 11
@@ -258,9 +276,10 @@ guides:
       role: Independent researcher in number theory, Toronto, Canada
       role_source: https://manvirjaswal.github.io/
       order_group: 2
-      photo: null
-      photo_source: null
-      photo_note: No photo on his home page, his guide page, his ORCID record or the Zenodo record. Use initials.
+      photo: data/guide-photos/jaswal-github.png
+      photo_source: https://github.com/manvirjaswal
+      photo_url: https://avatars.githubusercontent.com/u/317277946?v=4
+      photo_note: "GitHub profile avatar of his account manvirjaswal (profile name Manvir Jaswal; his home page is hosted at manvirjaswal.github.io), 400 x 400 px, an illustration, not a photograph. Added 29 Nov 2026 (round 3). No photo on his home page, his guide page, his ORCID record or the Zenodo record."
     title: "The Riemann hypothesis for Dirichlet L-functions [after Levent Alpöge]"
     url: https://zenodo.org/records/24432579
     mapped_version: v2
@@ -310,6 +329,7 @@ guides:
     clusters_basis: "Files the guide cites by path with line numbers (version 2 PDF, record 24432579): its folder abbreviations expanded, '.../' paths matched to one file, and bare file names that occur once in the archive, each mapped with site/data/modules.json. 310 of 329 checkable name-and-file pairs matched a declaration in the resolved file; the rest are parse noise. Cited paths that match no file are left out."
 
   - id: adriazola-reconstruction
+    trust_tier: 1
     hub_detail: The revised 297-page manuscript is dated 25 November 2026. Its author describes the correspondence with the Lean archive as partial.
     slug: adriazola
     page: true
@@ -401,6 +421,7 @@ guides:
     clusters_basis: "Prose reconstruction that mostly uses short, namespace-free Lean names, which cannot be matched to files exactly. It cites lean/src/Main.lean line 4 and the five Main.lean theorems by name (Main is in k0677). Only k0677 is listed."
 
   - id: naskrecki-riemann-rev
+    trust_tier: 1
     slug: naskrecki
     companion_reading:
       title: The condensed Lean proof of RH and GRH
@@ -463,6 +484,7 @@ guides:
     clusters_basis: "All 107 Lean declarations in the atlas (data/model.json at e9bdf8f) matched to files by full name, or by suffix within the stated module for 4 private names (64 files). See research/lean-reader/xref/blueprint_matches.tsv."
 
   - id: merten-riemann-blueprint
+    trust_tier: 2
     slug: blueprint
     page: true
     order: 10
@@ -548,6 +570,7 @@ guides:
   # ---------------- Tier B ----------------
 
   - id: rubinstein-grh-lean-verification
+    trust_tier: 1
     hub_detail: Rubinstein reports a full build, axiom audit, Lean kernel replay and an independent nanoda check. The Waterloo overview credits Claude Code for the run.
     slug: rubinstein-check
     page: true
@@ -594,6 +617,7 @@ guides:
     tier: B
 
   - id: baez-azimuth-masullo
+    trust_tier: 1
     slug: baez
     listed: false
     dropped_note: "24 Nov 2026: dropped for now; the post is about Masullo's claim, not this proof"
@@ -635,6 +659,7 @@ guides:
     tier: B
 
   - id: aaronson-shtetl-optimized
+    trust_tier: 1
     hub_status: Discusses verification by others
     slug: aaronson
     page: true
@@ -679,6 +704,7 @@ guides:
     tier: B
 
   - id: tamnd-riemann-handbook
+    trust_tier: 3
     hub_detail: The About page says the text is written by people or drafted by a model and reviewed by a person.
     slug: tamnd
     page: false
@@ -732,6 +758,7 @@ guides:
   # ---------------- Added 24 Nov 2026 (13 new guides, lane 1) ----------------
 
   - id: zhang-ihes-note
+    trust_tier: 1
     slug: zhang
     page: true
     listed: true
@@ -792,6 +819,7 @@ guides:
         url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf (page 2)
     retrieved: '2026-11-24'
   - id: zahid-alpoge-rh-exposition
+    trust_tier: 2
     slug: zahid
     page: true
     listed: true
@@ -839,6 +867,7 @@ guides:
         url: PDF page 6
     retrieved: '2026-11-24'
   - id: chu-geometry-true
+    trust_tier: 2
     hub_status: Inspected Lean source
     hub_detail: Chu checked the definition and counted the files mentioning it. He left open whether that construction appears in the final theorem’s dependency path.
     slug: chu
@@ -880,6 +909,7 @@ guides:
     ai_note: Nothing about AI or language models in the post text (read in full) or on the profile. The only AI wording on the page is in a comment by another user (Harry Tong), not by the author.
     retrieved: '2026-11-24'
   - id: chojecki-ulam-guide
+    trust_tier: 1
     slug: chojecki
     companion_reading:
       title: Covolumes and Dirichlet Zeros
@@ -932,6 +962,7 @@ guides:
     ai_note: The statement is in his X post, not in the PDF (the PDF has no AI statement; its bibliography lists Alpöge "with Claude"). Text of the post read through the public fxtwitter mirror; a logged-out Chromium returned an empty page for x.com.
     retrieved: '2026-11-24'
   - id: toledo-alpoge-grh-check
+    trust_tier: 2
     hub_status: Ran build and proof checks
     hub_detail: The audit reports successful compilation, kernel replay and con-leche statement comparisons. Its Comparator run ended without a verdict.
     slug: toledo
@@ -974,6 +1005,7 @@ guides:
       url: https://carlostoledo.co/reports/alpoge-grh.html (footer of the report)
     retrieved: '2026-11-24'
   - id: dixit-theta-lifts-account
+    trust_tier: 2
     slug: dixit
     page: true
     listed: true
@@ -1033,6 +1065,7 @@ guides:
         url: https://github.com/ishaan2006/rh-lean-reproduction (README, "How this was made")
     retrieved: '2026-11-24'
   - id: odesky-lean-rh-statements
+    trust_tier: 3
     slug: odesky
     page: true
     listed: true
@@ -1081,6 +1114,7 @@ guides:
         url: https://andrewodesky.com/rh/index.html
     retrieved: '2026-11-24'
   - id: epstein-rh-alpoge-blueprint
+    trust_tier: 2
     slug: epstein
     page: true
     listed: true
@@ -1130,6 +1164,7 @@ guides:
     ai_note: 'No statement about AI in the README or BLUEPRINT.md (both read in full). His commit messages carry the trailers ''Co-Authored-By: Claude Opus 5.5'' and ''Claude-Session: ...''. That is tool-generated attribution in the commit record, not a statement written by him, so it is not recorded as ai_statement; the lead may decide.'
     retrieved: '2026-11-24'
   - id: arledge-rh-verification-receipts
+    trust_tier: 2
     slug: arledge
     page: true
     listed: true
@@ -1171,6 +1206,7 @@ guides:
     ai_note: No statement about AI in the README, the result file or his home page.
     retrieved: '2026-11-24'
   - id: xu-alpoge-lean-exposition
+    trust_tier: 2
     slug: xu
     page: true
     listed: true
@@ -1220,6 +1256,7 @@ guides:
         url: https://github.com/cadamcat/riemann-hypothesis-exposition (README)
     retrieved: '2026-11-24'
   - id: plascencia-riemann-line-by-line
+    trust_tier: 2
     slug: plascencia
     page: true
     listed: true
@@ -1263,6 +1300,7 @@ guides:
     ai_note: No statement about AI or language models on the three pages, the README or his home page (searched).
     retrieved: '2026-11-24'
   - id: dial481-riemann-hypothesis-rosetta
+    trust_tier: 3
     slug: dial481
     page: true
     listed: true
@@ -1309,6 +1347,7 @@ guides:
         url: https://github.com/dial481/riemann-hypothesis-rosetta/blob/main/results/NOTICE.md
     retrieved: '2026-11-24'
   - id: qui-vincit-fable-account
+    trust_tier: 3
     slug: qui-vincit
     page: true
     listed: true
@@ -1362,6 +1401,7 @@ guides:
     retrieved: '2026-11-24'
 
   - id: antieau-rh-after-alpoge
+    trust_tier: 1
     slug: antieau
     page: true
     order: 6.5
@@ -1408,6 +1448,7 @@ guides:
     retrieved: '2026-11-25'
 
   - id: pei-rh-roadmap
+    trust_tier: 2
     slug: pei
     page: true
     order: 14.5
@@ -1454,6 +1495,7 @@ guides:
     retrieved: '2026-11-25'
 
   - id: rh-lean-roadmap
+    trust_tier: 3
     slug: rh-lean-roadmap
     page: true
     byline: organized by Jizhou Guo; text written by AI models
@@ -1575,6 +1617,10 @@ readable_group_guides:
 # editorial references. Original archive map citations stay in the guides above.
 hub_guides:
   - id: nelson-grh-exercises
+    trust_tier: 1
+    readable_files:
+      unit: a place in the sheets that names the file or one of its declarations
+      note: Counted in the 27 November snapshot (commit 8590e35). The 28 November re-pin (aee295e) changed some sheets and has not been counted again.
     clusters: [k0173, k0244, k0248, k0403, k0437, k0463, k0466, k0630, k0648, k0650, k0685, k0695, k0701, k0760, k0762, k0768, k0770, k0774, k0779, k0791, k0793, k0798, k0876, k0896, k0903, k0971, k1057, k1087, k1102, k1110, k1112, k1114, k1116, k1117, k1119, k1138, k1141, k1143, k1148, k1165, k1169, k1176, k1183, k1186, k1188, k1193, k1198, k1362, k1363, k1381, k1625, k1628, k1630, k1633, k1636, k1638, k1640, k1642, k1651, k1655, k1660, k1681, k1691, k1703, k1705, k1841, k1896, k1907, k1917, k2273, k2282, k2404, k2440, k2461, k2463, k2467, k2503, k2545, k2571, k2572]
     clusters_basis: "Exact declaration names in the frozen original-route sheets (identical at 8590e35 and aee295e); evidence: research/guides/n-1127/nelson-original-map.tsv (re-run at aee295e: research/guides/staging/nelson-exercises/nelson-original-map.tsv)."
     slug: nelson-exercises
@@ -1618,6 +1664,9 @@ hub_guides:
 
 
   - id: bolan-grh-manuscript
+    trust_tier: 2
+    readable_files:
+      unit: a source note in the manuscript that links the file
     slug: bolan
     page: true
     edition: readable
@@ -1651,6 +1700,7 @@ hub_guides:
       - {title: Download pinned manuscript (PDF), url: "https://raw.githubusercontent.com/mjtb49/GRH/7fcfd68898/manuscript.pdf"}
 
   - id: sonoda-readable-analysis
+    trust_tier: 2
     slug: sonoda-readable
     page: true
     edition: readable
@@ -1672,6 +1722,9 @@ hub_guides:
       - {title: Methods, url: "https://shosonoda.github.io/lean-rh-alpoge/methods.html"}
 
   - id: tamnd-sernau-handbook
+    trust_tier: 3
+    readable_files:
+      unit: a link from the complete PDF to the file in the readable edition
     slug: grh-lean-handbook
     page: true
     edition: readable
@@ -1703,6 +1756,7 @@ hub_guides:
 
 
   - id: chojecki-complete-guide
+    trust_tier: 1
     slug: chojecki-sernau
     page: true
     edition: compact
@@ -1733,6 +1787,7 @@ hub_guides:
       - {title: Author’s announcement of the earlier note, url: "https://x.com/prz_chojecki/status/2125893524830687454"}
 
   - id: naskrecki-compact-writeup
+    trust_tier: 1
     slug: naskrecki-sernau
     page: true
     edition: compact
@@ -1771,6 +1826,7 @@ hub_guides:
 
 
   - id: eto-reading-alpoge
+    trust_tier: 2
     slug: eto
     page: true
     edition: original
@@ -1791,6 +1847,9 @@ hub_guides:
       Use the Explorer’s [route through Alpöge’s original archive](/route/) to follow the dependencies from the final Lean statements. For reports of checks of the archive, see [How we know](/how-we-know/).
 
   - id: ye-yu-grh
+    trust_tier: 3
+    readable_files:
+      unit: a mention of the file in the author's Lean correspondence document (the PDF itself names no files)
     slug: ye-yu
     page: true
     edition: readable
@@ -1843,6 +1902,7 @@ hub_guides:
       - {title: Chinese edition (PDF), url: "https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/GRH_Proof_ZH.pdf"}
 
   - id: jin-grh-manuscript
+    trust_tier: 3
     slug: jin-compact
     page: true
     edition: compact
@@ -1853,8 +1913,10 @@ hub_guides:
       role: The Hong Kong University of Science and Technology (Guangzhou)
       role_source: https://mathhelm.org/t/402
       order_group: 2
-      photo: null
-      photo_source: null
+      photo: data/guide-photos/jin-compact-github.jpg
+      photo_source: https://github.com/yuiyuiui
+      photo_url: https://avatars.githubusercontent.com/u/92569362?v=4
+      photo_note: "GitHub profile avatar of the owner of the guide's repository (yuiyuiui, profile name 'yui'; the author's home link here), 460 x 460 px, an illustration, not a photograph. Added 29 Nov 2026 (round 3)."
     title: A Proof of the Generalized Riemann Hypothesis for Dirichlet L-Functions
     url: https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/blob/4ea3ce7ca4e48c3408f410def6fb268158d5fbca/proof-of-GRH.pdf
     date: '2026-11-26'
@@ -1898,6 +1960,9 @@ hub_guides:
       - {title: Pinned compact Lean source, url: "https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact"}
 
   - id: rubinstein-outline
+    trust_tier: 1
+    readable_files:
+      unit: a mention of the file path in the PDF text (page 9)
     slug: rubinstein-sernau
     page: true
     edition: readable
@@ -1940,6 +2005,9 @@ hub_guides:
       - {title: "Step 4 file, pinned (QuadraticTwist.lean)", url: "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/src/Lib/Analytic/QuadraticTwist.lean"}
 
   - id: adriazola-readable
+    trust_tier: 1
+    readable_files:
+      unit: a link from the PDF to the file in the readable edition
     slug: adriazola-sernau
     page: true
     edition: readable
