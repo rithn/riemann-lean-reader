@@ -3,6 +3,32 @@
 # links for the affected dated passage and supporting sources.
 # Seeded from the git log of the site repo (rithn/rh-lean-explorer).
 
+- date: 2026-11-29
+  title: Eight reading guide additions and updates
+  items:
+    - "Guides adds the 1,617-page original-archive roadmap organized by Jizhou Guo and written by AI models. The book states that the text has not been reviewed by a human expert. The book’s Lean citations map to 959 clusters."
+    - "The readable-edition catalogue adds Ye Yu’s exposition, Rubinstein’s outline and Adriazola’s 117-page reconstruction. The first version of Ye Yu’s exposition named Alpöge and Claude; corrected on 28 Nov."
+    - "The compact-edition catalogue adds Jin’s 331-page manuscript and updates Naskręcki’s write-up to edition 33. Naskręcki marks the earlier atlas, guide, 25 November note, book and blueprint as superseded."
+    - "Tam Nguyen Duc’s handbook moves to v1.0.1, and Nelson’s exercise sheets move to the 28 November snapshot with a new table of identities between lifts and a first-pass reading path."
+    - "The reading links add Rubinstein’s outline on Learn and Status, the second video with Robin Zhang, and an online edition of Riemann’s 1859 paper."
+  links:
+    - label: Original-archive roadmap organized by Guo
+      url: /guides/rh-lean-roadmap/
+    - label: Ye Yu’s exposition
+      url: /guides/#ye-yu-grh
+    - label: Jin’s compact-edition manuscript
+      url: /guides/#jin-grh-manuscript
+    - label: Rubinstein’s outline
+      url: /guides/#rubinstein-outline
+    - label: The GRH Lean Handbook
+      url: /guides/#tamnd-sernau-handbook
+    - label: Naskręcki’s compact-edition write-up
+      url: /guides/#naskrecki-compact-writeup
+    - label: Adriazola’s readable-edition reconstruction
+      url: /guides/#adriazola-readable
+    - label: Nelson’s exercise sheets
+      url: /guides/#nelson-grh-exercises
+
 - date: 2026-11-27
   title: Schoenfeld bound checked with the compact proof
   published_at: 2026-11-27T14:37:59Z

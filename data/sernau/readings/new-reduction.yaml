@@ -76,6 +76,9 @@ overview:
   - module: Main
   outsideReadings:
   - sonoda-readable
+  - ye-yu
+  - adriazola-sernau
+  - grh-lean-handbook
 files:
   New.Reduction.Data.AdmissibleData:
     group: New.Reduction

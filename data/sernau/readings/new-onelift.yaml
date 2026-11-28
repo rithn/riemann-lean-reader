@@ -67,7 +67,9 @@ overview:
     importer: Main
     line: 2
   - module: Main
-  outsideReadings: []
+  outsideReadings:
+  - ye-yu
+  - grh-lean-handbook
 files:
   New.OneLift.ComparisonOperator.DeterminantProducts:
     group: New.OneLift

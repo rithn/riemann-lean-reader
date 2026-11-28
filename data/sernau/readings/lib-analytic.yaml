@@ -62,7 +62,8 @@ overview:
     importer: Main
     line: 2
   - module: Main
-  outsideReadings: []
+  outsideReadings:
+  - rubinstein-sernau
 files:
   Lib.Analytic.DirichletTheta:
     group: Lib.Analytic

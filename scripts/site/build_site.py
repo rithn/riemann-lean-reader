@@ -715,7 +715,7 @@ def gnorm(g, i):
         assert mapped and mapped.get('url') == g.get('url'), f'{gid}: mapped_version needs the guide URL of that version'
     ph2, ph2src = (a.get('photo_also'), a.get('photo_source_also')) if isinstance(a, dict) else (None, None)   # a second logo (joint statement)
     return {'photo_also': ph2, 'photo_source_also': ph2src, 'home_also': a.get('home_also') if isinstance(a, dict) else None,'id': gid, 'i': i, 'slug': slug_, 'page': bool(g.get('page')) and bool(slug_),
-            'name': name if name and aok else None, 'home': home, 'photo': photo, 'photo_source': psrc,
+            'name': name if name and aok else None, 'byline': g.get('byline'), 'home': home, 'photo': photo, 'photo_source': psrc,
             'title': title + ('' if tok else ' (title not confirmed)'), 'url': mapped['url'] if mapped else url,
             'posted_url': url, 'mapped_version': mapped_version, 'date': _gdate(date) if dok else None,
             'type': gfield(g, 'type')[0] if gfield(g, 'type')[1] else None, 'format': g.get('format'),
@@ -2155,6 +2155,8 @@ def gav(g, px=48):   # the author's photo (alt: the name), or an initials badge;
         hue = (hue * 31 + ord(c)) % 360
     return guide_presentation('initials', hue=hue, size=px, alt=H(g['name'] or 'No author named'), initials=H(g['initials']))
 def gauthor(g, link=True):
+    if g['byline']:
+        return H(g['byline'])
     if not g['name']:
         return 'No author named on the page'
     return f'<a href="{H(g["home"])}">{H(g["name"])}</a>' if link and g['home'] else H(g['name'])
@@ -2442,6 +2444,7 @@ learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyeb
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          '<p>For worked explanations, see <a href="/guides/rubinstein-zeta/">Rubinstein’s guide to the zeta function argument</a>'
          ' or <a href="/guides/eto/">Eto’s illustrated introduction to the proof</a>.</p></div>'
+         '<p>For Sernau’s readable edition, see <a href="/guides/rubinstein-sernau/">Rubinstein’s outline of the shortened proof</a>.</p>'
          f'<ul class="learning-tree">{learning_tree}</ul>'
          f'<h2>More background concepts <span class="n">{len(more_concepts)}</span></h2><ul class="rows">'
          + ''.join(f'<li><a href="/concept/{H(n["id"])}"><span class="kind concept">concept</span>'
@@ -2850,7 +2853,7 @@ def gentry_html(g):
 
 def gentry_md(g):
     status = g['hub_status'] or G_STATUS_T[g['status']]
-    bits = [g['name'] or 'No author named on the page', f'originally posted at {_host(g["posted_url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
+    bits = [g['byline'] or g['name'] or 'No author named on the page', f'originally posted at {_host(g["posted_url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
             gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', status + (f': "{ " ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
             gai_md(g), g.get('detail')]
     bits.extend(f'[{title}]({url})' if url else title for title, url in ghub_tail(g))
@@ -2936,7 +2939,7 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
             f'<div class="cta gact">{"".join(acts)}{G_SHARE_SLOT}</div>{notice}' + content
             + explore(('/guides/', 'All guides')) + '</div>')
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
-             **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
+             **({('contributor' if g['byline'] else 'author'): {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
              **({'datePublished': g['date'].isoformat()} if g['date'] else {}), **({'license': g['licence']} if g['licence'] else {})}
     page(path, title, desc, 'page', body,
          [{'@type': 'WebPage', '@id': SITE + path, 'url': SITE + path, 'name': title, 'about': about, 'isPartOf': {'@id': SITE_ID}},
@@ -3033,11 +3036,14 @@ for g in GD:
                 f' Our copy is {l}' + (f', {d_}' if d_ else '') + '.' if os.path.basename(copy[1]['local']) in l else
                 f' Our copy is {os.path.basename(copy[1]["local"])} from {l}' + (f', {d_}' if d_ else '') + '.')
     companion_html = companion_md = ''
-    if companion := g['companion_reading']:
+    companions = g['companion_reading'] or []
+    if isinstance(companions, dict):
+        companions = [companions]
+    for companion in companions:
         title, url, description = companion['title'], companion['url'], companion['description']
         assert url.startswith('https://'), f'guide {s}: invalid companion URL'
-        companion_html = f'<p><strong>Companion reading.</strong> <a href="{H(url)}">{H(title)}</a>. {H(description)}</p>'
-        companion_md = f'**Companion reading.** [{title}]({url}). {description}\n\n'
+        companion_html += f'<p><strong>Companion reading.</strong> <a href="{H(url)}">{H(title)}</a>. {H(description)}</p>'
+        companion_md += f'**Companion reading.** [{title}]({url}). {description}\n\n'
     psrcs = [x for x in (g['photo_source'], g['photo_source_also'] if g['ph96b'] else None) if x]
     photo_credit = (f'<p class="meta gcredit">{"Logos" if len(psrcs) > 1 else "Photo"}: '
                     + ', '.join(f'<a href="{H(x)}">{H(_host(x))}</a>' for x in psrcs) + '</p>' if g['ph96'] and psrcs else '')
@@ -3053,7 +3059,7 @@ for g in GD:
                       f'{"cluster" if nrow == 1 else "clusters"} it cites, with the pages that cite each. ' if nrow else
                       f'{name}: a guide to the Lean proof of the Riemann hypothesis, with a link to the original. ') + g['title'] + '.')
     original_label = 'First edition' if mapped_version else 'Original'
-    md = (f'# {g["title"]}\n\nEdition covered: Alpöge original proof.\n\n{name}' + (f' ({g["home"]})' if g['home'] else '') + f'. {original_label}: {g["posted_url"]}'
+    md = (f'# {g["title"]}\n\nEdition covered: Alpöge original proof.\n\n{g["byline"] or name}' + (f' ({g["home"]})' if g['home'] and not g['byline'] else '') + f'. {original_label}: {g["posted_url"]}'
           + (f' · {g["edition_citation"]}' if g['edition_citation'] else
              (f' · posted {gdate(g["date"])}' if g['date'] else '') + (f' · versions read: {", ".join(vers)}' if vers else '')
              + (f' · licence: {g["licence"]}' if g['licence'] else '')) + '\n\n'

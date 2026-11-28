@@ -90,7 +90,9 @@ overview:
     importer: Main
     line: 2
   - module: Main
-  outsideReadings: []
+  outsideReadings:
+  - ye-yu
+  - grh-lean-handbook
 files:
   New.UpperBound.Divisibility.ChainDatumExpansion:
     group: New.UpperBound
