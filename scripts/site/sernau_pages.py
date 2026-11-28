@@ -4,6 +4,7 @@ from hashlib import sha256
 from html import escape
 from datetime import datetime
 from pathlib import Path
+import re
 from tempfile import TemporaryDirectory
 from urllib.parse import quote
 
@@ -92,6 +93,8 @@ def overview_content(data, *, home=False):
             ("/learn/", "Learning path"), ("/proof-in-numbers/#community-proof-size", "Track community proof size"),
         ])
     browse.append((COMPARE, "Compare all three editions"))
+    if home:
+        browse = [(LIST, "Browse readable groups and files"), (ROUTE, "Follow the readable route"), ("/learn/", "Learning path")]
     browse_links = "".join(f'<li>{link(href, label)}</li>' for href, label in browse)
     actions = (
         '<div class="cta">'
@@ -172,12 +175,16 @@ def group_content(group, data, share_slot, resources, reading):
         "Lib": "The upstream project puts background and supporting material under Lib.",
     }.get(folder, "One of the readable project’s two entry modules.")
     overview = reading_section("Group overview", reading) + "\n" if reading else ""
+    note = reading_parts(reading)[0] if reading else ""
+    note_text = re.sub(r'^<p class="provenance">◇ |</p>$|</?strong>', "", note)
+    note_text = re.sub(r"^((?:<[^>]+>)*)([A-Z])", lambda m: m.group(1) + m.group(2).lower(), note_text)
+    merged_note = f'<p class="provenance">◇ {provenance(group)}' + (f" · {note_text}" if note_text else "") + "</p>"
     return f"""
 {breadcrumbs([('Sernau readable', MAP), ('Source group', '')])}
 <section class="sr-subhero">
-  <div class="eyebrow">Sernau readable · Source group</div>
   <h1>{esc(group["label"])}</h1>
-  <p><code>{esc(group["id"])}</code> · {provenance(group)}</p>
+  {merged_note}
+  <p><code>{esc(group["id"])}</code></p>
   <p>{scope}</p>
   <p class="sr-actions">{link(MAP + "?group=" + quote(group["slug"]), "Locate on the map →", ' class="sr-primary"')}</p>
   <p class="meta">{" · ".join(link(href, label) for href, label in resources)}</p>
@@ -205,8 +212,14 @@ def group_content(group, data, share_slot, resources, reading):
 </div>"""
 
 
+def reading_parts(record):
+    html = record.get("html", "")
+    match = re.match(r'<p>(<strong>Written by AI, checked against the code</strong>|<strong>Draft, under review</strong>|<a [^>]+>Upstream documentation written by Claude</a>)</p>\s*', html)
+    return (f'<p class="provenance">◇ {re.sub(r"</?strong>", "", match.group(1))}</p>', html[match.end():]) if match else ('', html)
+
+
 def reading_section(title, record):
-    return f'<section class="sr-card sr-reading"><h2>{esc(title)}</h2>{record["html"]}</section>'
+    return f'<section class="sr-card sr-reading"><h2>{esc(title)}</h2>{reading_parts(record)[1]}</section>' 
 
 
 def reading_resources(record, guides):
@@ -221,6 +234,7 @@ def static_reading(module, group, record, modules, resources):
 {breadcrumbs([('Sernau readable', MAP), (group["id"], group["href"]), ('File reading', '')])}
 <section class="sr-subhero">
   <h1>{esc(module["label"])}</h1>
+  {reading_parts(record)[0]}
   <p><code>{esc(name)}.lean</code></p>
   <p class="sr-actions">{link(*links[0], ' class="sr-primary"')}
     <span>{" · ".join(link(href, label) for href, label in links[1:])}</span></p>
@@ -344,7 +358,6 @@ def route_content(data):
 def list_content(data):
     return f"""
 {breadcrumbs([('Sernau readable', MAP), ('List', '')])}
-<div class="eyebrow">Sernau readable · List view</div>
 <h1 id="lv-h" tabindex="-1">Groups and Lean files</h1>
 <p class="meta">Browse {len(data["groups"])} groups or search the {len(data["modules"])} project files by English label or Lean name.</p>
 <form class="sr-list-controls lv-ctl" action="{LIST}" hidden

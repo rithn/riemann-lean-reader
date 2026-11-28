@@ -93,7 +93,6 @@ class ConceptMap:
             '<div class="evidence-article"><h2 id="compact-proof">Sernau’s compact proof</h2>'
             f'<p>Six parts from the <a href="{escape(guide)}">compact edition guide</a>. '
             'Each path puts prerequisites before the concepts that use them.</p>'
-            '<p class="meta">AI-drafted summaries and learning paths.</p>'
             + ''.join(parts) + '</div>'
         )
 
@@ -130,7 +129,7 @@ class ConceptMap:
             body = (
                 breadcrumbs([*trail[:-1], (name, '')])
                 + '<article class="evidence-article">'
-                f'<h1>{escape(name)}</h1><p class="meta">{LEVELS[concept["level"]]} · AI-drafted reading guide</p>'
+                f'<h1>{escape(name)}</h1><p class="provenance">◇ AI-drafted reading guide</p><p class="meta">{LEVELS[concept["level"]]}</p>'
                 f'<p class="article-lead">{escape(definition)}</p>'
                 f'<h2>Prerequisites</h2>{prerequisites}'
                 f'<h2>Where it’s used in the compact proof</h2>{parts}'

@@ -1,0 +1,24 @@
+<dialog id="share-menu" class="share-menu" aria-labelledby="share-heading">
+  <div class="share-options">
+    <div class="share-head"><h2 id="share-heading">Share</h2><button type="button" data-share-close aria-label="Close share options">×</button></div>
+    <button type="button" data-share-native hidden>Share via device</button>
+    <button type="button" data-share-copy autofocus>Copy link</button>
+    <a data-share-network="x" target="_blank" rel="noopener noreferrer">X</a>
+    <a data-share-network="reddit" target="_blank" rel="noopener noreferrer">Reddit</a>
+    <a data-share-network="email">Email</a>
+    <a data-share-network="linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <button type="button" data-share-embed hidden>Embed</button>
+    <fieldset class="share-download" hidden>
+      <legend>Download image</legend>
+      <button type="button" data-image-format="png">PNG</button>
+      <button type="button" data-image-format="svg">SVG</button>
+    </fieldset>
+    <p role="status"></p>
+  </div>
+  <div class="embed-options" hidden>
+    <div class="share-head"><h2 id="embed-heading">Embed</h2><button type="button" data-share-close aria-label="Close embed options">×</button></div>
+    <textarea rows="6" readonly aria-label="Embed HTML"></textarea>
+    <button type="button" data-embed-copy>Copy HTML</button>
+    <p role="status"></p>
+  </div>
+</dialog>

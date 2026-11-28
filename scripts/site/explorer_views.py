@@ -39,7 +39,6 @@ def breadcrumbs(items):
 def route_intro(edition, label, title, lede):
     map_url = '/sernau/' if edition == 'Sernau readable' else '/alpoge/'
     return (breadcrumbs([(edition, map_url), (label, '')]) +
-            f'<div class="eyebrow">{escape(edition)} · {escape(label)}</div>'
             f'<h1>{escape(title)}</h1><p class="lede">{lede}</p>')
 
 
@@ -53,8 +52,7 @@ def map_overview(*, edition, title, lede, stats, peek_actions, desktop_actions, 
 <!--phone-overview--><div class="mpeek">
   <h1 class="hero">{title}</h1>{peek_actions}{verification}{peek_extra}
 </div><!--/phone-overview-->
-<div class="eyebrow dk">{escape(edition)} · Interactive map · Lean 4</div>
 <h1 class="hero dk">{title}</h1><p class="lede">{lede}</p>
-<section class="glance" aria-label="The proof at a glance"><dl class="stat-row">{stats_row(stats)}</dl>{stats_extra}</section>
+<p class="meta">{", ".join(f"{value} {escape(label.lower())}" for label, value in stats)}.</p>{stats_extra}
 {desktop_actions}{body}
 </div>'''
