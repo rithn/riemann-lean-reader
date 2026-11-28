@@ -1439,13 +1439,8 @@ def version_asset(name, source_dir=OUT):
     return '/' + dst.name, version
 
 APP_F, APP_V = version_asset('app.js')
-# Author Cite against the paired site's sources and publish the changes in the hashed assets.
-with tempfile.TemporaryDirectory(dir=OUT) as assets:
-    for name in ('style.css', 'explorer-shell.js'):
-        shutil.copyfile(Path(OUT) / name, Path(assets) / name)
-    subprocess.run(['git', 'apply', str(Path(HERE) / 'cite-assets.patch')], cwd=assets, check=True)
-    CSS_F, CSS_V = version_asset('style.css', assets)
-    SHELL_F, _ = version_asset('explorer-shell.js', assets)
+CSS_F, CSS_V = version_asset('style.css')
+SHELL_F, _ = version_asset('explorer-shell.js')
 SERNAU_F, _ = version_asset('sernau.js')
 SERNAU_CSS_F, _ = version_asset('sernau.css')
 SERNAU_MAP_F, _ = version_asset('explorer-sernau-map.js')
