@@ -77,9 +77,15 @@
 #   trust_tier     1, 2 or 3 on every entry in guides: and hub_guides:. It sets the order inside each section of /guides/ (and the
 #                  order of the guide lists on the map and cluster pages): tier first, then the newest version, snapshot or posting
 #                  date first; `order` and order_group now only break ties. Not the older A/B `tier` of the candidates file.
-#                  1 = written by a named professional mathematician (or an institution of them), with AI help at most.
-#                  2 = a named author whose text is substantially AI-generated, or whose expertise is not stated.
-#                  3 = AI-written, or not reviewed by a human by the author's own statement.
+#                  Definition fixed by the owner on 29 Nov 2026 (round 4); it is about who puts their name to the text, not
+#                  about how much AI helped. AI use is disclosed on each card and does not change the tier.
+#                  1 = an established mathematician or a recognised institution puts their name to the text: faculty or a
+#                      researcher at a university or institute (for example Waterloo, IHES, MIT, Aarhus), or the Lean FRO
+#                      and Mathlib Initiative statement.
+#                  2 = named authors whose mathematical standing is less established: PhD students, engineers, company
+#                      founders, independent researchers and non-mathematicians.
+#                  3 = anonymous or organisation-only authorship, or the author states that no human has reviewed or
+#                      checked the text.
 #   author.photo   a hub_guides item without portrait_from may carry its own, as in guides: (here a GitHub avatar kept in
 #                  data/guide-photos/, photo_source the GitHub profile). Only for an account the guide itself links to.
 #   readable_files (hub_guides, readable edition) {unit, note}: the guide cites Lean files of Sernau's readable edition, listed
@@ -659,7 +665,7 @@ guides:
     tier: B
 
   - id: aaronson-shtetl-optimized
-    trust_tier: 1
+    trust_tier: 2
     hub_status: Discusses verification by others
     slug: aaronson
     page: true
@@ -705,7 +711,7 @@ guides:
 
   - id: tamnd-riemann-handbook
     trust_tier: 3
-    hub_detail: The About page says the text is written by people or drafted by a model and reviewed by a person.
+    hub_detail: The About page says text is either written by people, or drafted by a model and reviewed by a person. The site's own trust report (23 Nov) says no person has yet checked the written steps against the Lean code.
     slug: tamnd
     page: false
     cite_as: tamnd   # short name in "cited on tamnd, …" lists (N3); the author's name order is not stated on the site
@@ -819,7 +825,7 @@ guides:
         url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf (page 2)
     retrieved: '2026-11-24'
   - id: zahid-alpoge-rh-exposition
-    trust_tier: 2
+    trust_tier: 3
     slug: zahid
     page: true
     listed: true
@@ -909,7 +915,7 @@ guides:
     ai_note: Nothing about AI or language models in the post text (read in full) or on the profile. The only AI wording on the page is in a comment by another user (Harry Tong), not by the author.
     retrieved: '2026-11-24'
   - id: chojecki-ulam-guide
-    trust_tier: 1
+    trust_tier: 2
     slug: chojecki
     companion_reading:
       title: Covolumes and Dirichlet Zeros
@@ -1756,7 +1762,7 @@ hub_guides:
 
 
   - id: chojecki-complete-guide
-    trust_tier: 1
+    trust_tier: 2
     slug: chojecki-sernau
     page: true
     edition: compact
