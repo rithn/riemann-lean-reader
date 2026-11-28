@@ -4,6 +4,8 @@ On 20 Nov 2026 Levent Alpöge released a [Lean formalization and announcement no
 
 The release contains 175,187 Lean files and about 17.4 million lines. [RH Lean Explorer](https://riemannhypothesissolved.com/) maps the source, links to [reading guides](https://riemannhypothesissolved.com/guides/), and maintains a dated [verification status](https://riemannhypothesissolved.com/status/). This repository contains the site's generator and the original source-text audit. The original folder descriptions are inferred from file and folder names.
 
+**How to cite** — Cite the Alpöge original dataset on Zenodo. [10.5281/zenodo.24628409](https://doi.org/10.5281/zenodo.24628409)
+
 ## Find the import graph and source
 
 The Explorer publishes static JSON under `/api/` and `/data/`. Start with the API catalogue for endpoint descriptions and the edition index for the full source revision of each map. [API catalogue](https://riemannhypothesissolved.com/api/) · [OpenAPI JSON](https://riemannhypothesissolved.com/api/openapi.json) · [Edition index](https://riemannhypothesissolved.com/api/editions.json)

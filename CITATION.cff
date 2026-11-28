@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: If you use this dataset, please cite it using this metadata.
+type: dataset
+title: "RH Lean Explorer: a map of the Lean proof of the Riemann hypothesis"
+authors:
+  - family-names: Sharma
+    given-names: Soumya
+version: "2026-11-25"
+date-released: "2026-11-28"
+doi: 10.5281/zenodo.24628409
+license: CC-BY-4.0
+url: https://riemannhypothesissolved.com
+repository-code: https://github.com/rithn/riemann-lean-reader

@@ -88,6 +88,26 @@
     <button type="button" data-embed-copy>Copy HTML</button>
     <p role="status"></p>
   </div>
+  <div class="cite-options" hidden>
+    <div class="share-head"><h2 id="cite-heading">Cite</h2><button type="button" data-share-close aria-label="Close cite options">×</button></div>
+    <div class="cite-block">
+      <h3>Cite this page</h3>
+      <p id="cite-page"></p>
+      <button type="button" data-cite-copy="cite-page" aria-label="Copy page citation">Copy</button>
+    </div>
+    <div class="cite-block">
+      <h3>Cite the dataset</h3>
+      <p id="cite-dataset">@CITE_DATASET@</p>
+      <p data-cite-scope hidden>The dataset covers Alpöge's original archive; for the readable map, cite this page.</p>
+      <button type="button" data-cite-copy="cite-dataset" aria-label="Copy dataset citation">Copy</button>
+    </div>
+    <div class="cite-block">
+      <h3>BibTeX</h3>
+      <pre><code id="cite-bibtex">@CITE_BIBTEX@</code></pre>
+      <button type="button" data-cite-copy="cite-bibtex" aria-label="Copy BibTeX">Copy</button>
+    </div>
+    <p role="status"></p>
+  </div>
 </dialog>
 
 <div id="loader" class="done"><p id="map-status" class="meta map-status" role="status"></p></div><noscript><style>

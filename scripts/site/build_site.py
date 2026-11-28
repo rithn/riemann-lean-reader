@@ -7,7 +7,7 @@ e.g.   ... build_site.py ../notes/cluster3 ../site
 Reads only our own derived data (map.json, merged.tsv, import list, naming answers, tree YAML).
 No Lean source text is copied: files appear by module name and path only.
 """
-import os, re, sys, json, glob, shutil, datetime, collections
+import os, re, sys, json, glob, shutil, datetime, collections, subprocess, tempfile
 import yaml, networkx as nx
 from pathlib import Path
 from urllib.parse import quote, urlsplit
@@ -40,7 +40,6 @@ SRC_BUNDLES = next((a.split('=', 1)[1] if '=' in a else os.path.join(OUT, 'src',
 # Without research/ the committed copies are read. Run before data/c/ is cleared: merge.py reads cluster titles there.
 N3_D = os.environ.get('RH_N3') or os.path.join(ROOT, 'research', 'references', 'n3')
 if os.path.exists(os.path.join(N3_D, 'candidates.tsv')):
-    import subprocess
     subprocess.run([sys.executable, '-I', os.path.join(REPO, 'scripts', 'refs', 'guide_cited_refs.py'), '--n3', N3_D], check=True)
 os.makedirs(os.path.join(OUT, 'data', 'c'), exist_ok=True)
 for f in glob.glob(os.path.join(OUT, 'data', 'c', '*.json')):
@@ -1297,7 +1296,7 @@ json.dump({'roots': core['roots'], 'nodes': [tnode(x) for x in core['nodes'] + c
 # twitter:image of its static page. og_cards.py draws them (Pillow: add --with pillow to the uv run command) in a few
 # processes, and only those whose key changed: the key hashes the card's fields, og_cards.py, the fonts and logo.png.
 # OG_V, a hash of all keys, versions the image URLs (/og/* is cached for a year); the app reads it as overview 'ogv'.
-import hashlib, subprocess, tempfile
+import hashlib
 try:
     import PIL
 except ImportError:
@@ -1376,12 +1375,38 @@ GH = 'https://github.com/rithn/riemann-lean-reader'
 X_SITE, X_FEEDBACK = 'https://x.com/RiemannMap', 'https://x.com/SomTheBuilder'
 FILES_TXT = f'{TOTAL_FILES:,} Lean files ({len(mod_cl):,} mapped)'
 SITE_NAME = 'RH Lean Explorer'
+DATASET_DOI = '10.5281/zenodo.24628409'
+DATASET_DOI_URL = f'https://doi.org/{DATASET_DOI}'
+DATASET_RECORD = 'https://zenodo.org/records/24628410'
+DATASET_VERSION = '2026-11-25'
+DATASET_CITATION = (
+    'Sharma, S. (2026). RH Lean Explorer: a map of the Lean proof of the Riemann hypothesis '
+    f'(Version {DATASET_VERSION}) [Data set]. Zenodo. '
+    f'<a href="{DATASET_DOI_URL}">{DATASET_DOI_URL}</a>'
+)
+DATASET_BIBTEX = f'''@misc{{sharma2026rhleanexplorer,
+  author = {{Sharma, Soumya}},
+  title = {{{{RH Lean Explorer}}: a map of the {{Lean}} proof of the {{Riemann}} hypothesis}},
+  year = {{2026}},
+  publisher = {{Zenodo}},
+  version = {{{DATASET_VERSION}}},
+  doi = {{{DATASET_DOI}}},
+  url = {{{DATASET_DOI_URL}}}
+}}'''
+CITE_SECTION = (
+    '<section id="cite-this" aria-labelledby="cite-this-heading"><h2 id="cite-this-heading">Cite this</h2>'
+    f'<p>{DATASET_CITATION}</p>'
+    "<p>The dataset covers 175,027 of 175,187 files in 2,647 clusters from Alpöge’s original archive "
+    "(commit <code>40e56bab</code>).</p>"
+    f'<pre class="wrap"><code>{H(DATASET_BIBTEX)}</code></pre>'
+    '<p>To cite a page, include its title, URL and the date you accessed it.</p></section>'
+)
 
 # ---------- content versions
-def hfiles(paths):
+def hfiles(paths, root=OUT):
     h = hashlib.sha256()
     for f in paths:
-        h.update(os.path.relpath(f, OUT).encode()); h.update(open(f, 'rb').read())
+        h.update(os.path.relpath(f, root).encode()); h.update(open(f, 'rb').read())
     return h.hexdigest()[:10]
 DATA_FILES = sorted(glob.glob(os.path.join(OUT, 'data', '*.json')) + glob.glob(os.path.join(OUT, 'data', 'c', '*.json'))
                     + glob.glob(os.path.join(OUT, 'data', 'lean', '*.json.gz')) + glob.glob(os.path.join(OUT, 'data', 'lean', 'x', '*.json.gz')))
@@ -1406,16 +1431,21 @@ for cluster in overview['clusters']:
 write_overview()
 OV_V = hfiles([os.path.join(OUT, 'data', 'overview.json')])   # data-v: the version of overview.json alone (G3)
 # Keep the published hashed files for cached documents from preceding releases.
-def version_asset(name):
-    src = Path(OUT) / name
-    version = hfiles([str(src)])
-    dst = src.with_name(f'{src.stem}.{version}{src.suffix}')
+def version_asset(name, source_dir=OUT):
+    src = Path(source_dir) / name
+    version = hfiles([str(src)], source_dir)
+    dst = (Path(OUT) / name).with_name(f'{src.stem}.{version}{src.suffix}')
     shutil.copyfile(src, dst)
     return '/' + dst.name, version
 
 APP_F, APP_V = version_asset('app.js')
-CSS_F, CSS_V = version_asset('style.css')
-SHELL_F, _ = version_asset('explorer-shell.js')
+# Author Cite against the paired site's sources and publish the changes in the hashed assets.
+with tempfile.TemporaryDirectory(dir=OUT) as assets:
+    for name in ('style.css', 'explorer-shell.js'):
+        shutil.copyfile(Path(OUT) / name, Path(assets) / name)
+    subprocess.run(['git', 'apply', str(Path(HERE) / 'cite-assets.patch')], cwd=assets, check=True)
+    CSS_F, CSS_V = version_asset('style.css', assets)
+    SHELL_F, _ = version_asset('explorer-shell.js', assets)
 SERNAU_F, _ = version_asset('sernau.js')
 SERNAU_CSS_F, _ = version_asset('sernau.css')
 SERNAU_MAP_F, _ = version_asset('explorer-sernau-map.js')
@@ -1769,6 +1799,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         panel_content='' if overlay else body, panel_footer='' if overlay else footer, overlay_footer=footer if overlay else '',
         overlay_hidden=str(not overlay).lower(), active_map=map_url, overlay_content=body if overlay else '',
         list=list_url, route=route_url, filters=map_filters(sernau_data) if readable and view == 'map' else '',
+        cite_dataset=DATASET_CITATION, cite_bibtex=H(DATASET_BIBTEX),
         scripts=scripts,
     )
     nk = NAV_KEY(path)
@@ -2670,6 +2701,8 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
         assert html_body.count('<p>{{newsletter}}</p>\n') == 1
         html_body = html_body.replace('<p>{{newsletter}}</p>\n', NEWSLETTER_HTML + '\n' if NEWSLETTER_HTML else '')
         t = t.replace('{{newsletter}}\n\n', to_md(NEWSLETTER_HTML) + '\n' if NEWSLETTER_HTML else '')
+    if path == '/about/':
+        html_body = html_body.replace('<h2>Licence</h2>', CITE_SECTION + '\n<h2>Licence</h2>', 1)
     if path == '/core/' and FL:   # #10: after each core cluster's "Cluster page" link, a link to its /lean/ page (HTML and Markdown)
         for k in FL:
             a_ = f'<a href="{CPATH[k]}">Cluster page</a>'
@@ -3109,7 +3142,8 @@ DATASET = {
                     f'{len(CL):,} clusters in {len(TH)} themes, the import links between clusters, each cluster\'s distance in '
                     'import steps from the main theorem, and cluster names and descriptions written by Claude from samples '
                     'of the code (they may be wrong). No Lean source text is included.'),
-    'url': SITE + ALPOGE_MAP, 'sameAs': GH, 'isAccessibleForFree': True, 'license': LICENSE, 'inLanguage': 'en', 'dateModified': DATA_DATE,
+    'url': SITE + ALPOGE_MAP, 'identifier': DATASET_DOI_URL, 'sameAs': [GH, DATASET_RECORD],
+    'isAccessibleForFree': True, 'license': LICENSE, 'inLanguage': 'en', 'dateModified': DATA_DATE,
     'creator': {'@id': ORG_ID}, 'publisher': {'@id': ORG_ID}, 'about': RH_THING, 'isBasedOn': NOTE,
     'keywords': ['Riemann hypothesis', 'Lean 4', 'formal proof', 'Mathlib', 'proof map', 'import graph'],
     'distribution': [{'@type': 'DataDownload', 'encodingFormat': 'application/json', 'contentUrl': SITE + u, 'name': nm}
@@ -3301,7 +3335,8 @@ API_BODY = (breadcrumbs([('Home', '/'), ('API', '')]) + '<div class="eyebrow">AP
     + ''.join(f'<li><a href="{H(u)}"><code>{H(u)}</code></a>: {H(d)}</li>' for u, d in API_INDEX['feeds'].items())
     + f'<li>Source of this site: <a href="{H(API_INDEX["source"])}">{H(API_INDEX["source"].replace("https://", ""))}</a></li></ul>'
     f'<h2 id="license">Licence</h2><p><a href="{LICENSE}">{H(API_STATUS["license"]["name"])}</a>: {H(API_STATUS["license"]["applies_to"])}.</p>'
-    '<h2 id="json">The index as JSON</h2><pre class="wrap"><code>' + H(json.dumps(API_INDEX, indent=2, ensure_ascii=False)) + '</code></pre>')
+    + CITE_SECTION
+    + '<h2 id="json">The index as JSON</h2><pre class="wrap"><code>' + H(json.dumps(API_INDEX, indent=2, ensure_ascii=False)) + '</code></pre>')
 page('/api/', f'API · {SITE_NAME}', API_INDEX['description'], 'page', API_BODY,
      canonical='/api/index.json', noindex=True)
 
