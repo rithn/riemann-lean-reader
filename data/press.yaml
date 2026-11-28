@@ -328,7 +328,7 @@ entries:
     kind: null
   added: '2026-11-28'
 - id: vakil-blog
-  tag: media
+  tag: reaction
   kind: blog
   headline: 'Hurried Announcement: Alessandro Masullo GRH'
   name: Ravi Vakil
@@ -813,3 +813,502 @@ entries:
     credit: null
     kind: null
   added: '2026-11-28'
+- id: lichtman-x
+  tag: reaction
+  kind: post
+  headline: It is certain that RH could never have been proven without Claude.
+  name: Jared Duker Lichtman
+  source: X
+  date: '2026-11-28'
+  date_precision: minute
+  date_verified: true
+  description: Says RH could not have been proven without Claude, and estimates another 6–12 months before Claude could have proved it autonomously.
+  description_status: final
+  url: https://x.com/jdlichtman/status/2126502419681120382
+  date_label: 28 Nov, 02:24 UTC
+  role: Stanford University
+  quote: It is certain that RH could never have been proven without Claude.
+  archive_url: https://fxtwitter.com/jdlichtman/status/2126502419681120382
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: colmez-x
+  tag: reaction
+  kind: post
+  headline: I wish @__alpoge__ would publish the prompts he used
+  name: Pierre Colmez
+  source: X
+  date: '2026-11-28'
+  date_precision: minute
+  date_verified: true
+  description: Replying to Obhishek Saha, points to a paragraph as the main insight, asks Alpöge to publish his prompts, and calls the rest long and full
+    of tricks.
+  description_status: final
+  url: https://x.com/ColmezPierre/status/2126610867563462870
+  date_label: 28 Nov, 09:35 UTC
+  quote: the main insight seems to be the paragraph below, and I wish @__alpoge__ would publish the prompts he used. The rest of the proof is long and full
+    of tricks but probably not the unique path.
+  archive_url: https://fxtwitter.com/ColmezPierre/status/2126610867563462870
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: sarnak-xinhua
+  tag: reaction
+  kind: interview
+  headline: Acclaimed mathematician stresses human understanding of math in AI era
+  name: Peter Sarnak
+  source: Xinhua
+  date: '2026-11-28'
+  date_precision: day
+  date_verified: true
+  description: Says AI-assisted verification of the Riemann hypothesis is neither a machine takeover nor the end of human inquiry, and that a theorem must
+    be understood.
+  description_status: final
+  url: https://english.news.cn/20261128/8321436fbdbf402d8172cc08e4307280/c.html
+  role: Princeton University
+  quote: For me, something is a mathematical truth or theorem only if we can understand it and explain it.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: maynard-lexpress
+  tag: reaction
+  kind: interview
+  headline: 'James Maynard, Fields medallist: “No human understands the proof of the Riemann hypothesis”'
+  name: James Maynard
+  source: L’Express
+  date: '2026-11-27'
+  date_precision: day
+  date_verified: true
+  description: In a French interview, says a machine-checked proof does not yet give the reasons mathematicians wanted. The full text needs a subscription.
+  description_status: final
+  url: https://www.lexpress.fr/sciences-sante/sciences/james-maynard-medaille-fields-aucun-humain-ne-comprend-la-preuve-de-lhypothese-de-riemann-LTNWV4ALARCQFBQAQOMEHTJCGM/
+  original_headline: 'James Maynard, médaille Fields : « Aucun humain ne comprend la preuve de l’hypothèse de Riemann »'
+  language: fr
+  role: University of Oxford, Fields Medal 2022
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: lozano-robledo-zhang-interview
+  tag: reaction
+  kind: video
+  headline: On the Alpöge/Claude proof of the Riemann Hypothesis -- with Robin Zhang (IHES)
+  name: Álvaro Lozano-Robledo
+  source: YouTube
+  date: '2026-11-27'
+  date_precision: day
+  date_verified: true
+  description: Interviews Robin Zhang of IHES about the Alpöge/Claude proof of the generalized Riemann hypothesis, in a general, less technical discussion
+    (Part 1).
+  description_status: final
+  url: https://www.youtube.com/watch?v=tS8Ro66Zu1I
+  related_links:
+  - title: 'Part 2: Robin Zhang’s slide talk'
+    url: https://www.youtube.com/watch?v=bDtAO5fRuGE
+  - title: Robin Zhang’s note on the GRH proof
+    url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: zhang-lozano-robledo-talk
+  tag: reaction
+  kind: video
+  headline: A preliminary overview of Alpöge/Claude’s proof of GRH -- Robin Zhang (IHES)
+  name: Robin Zhang
+  source: YouTube
+  date: '2026-11-27'
+  date_precision: day
+  date_verified: true
+  description: Slide talk on some details of the Alpöge/Claude proof of the generalized Riemann hypothesis, Part 2 of a discussion hosted by Álvaro Lozano-Robledo.
+  description_status: final
+  url: https://www.youtube.com/watch?v=bDtAO5fRuGE
+  role: IHES
+  related_links:
+  - title: 'Part 1: interview with Álvaro Lozano-Robledo'
+    url: https://www.youtube.com/watch?v=tS8Ro66Zu1I
+  - title: Robin Zhang’s note on the GRH proof
+    url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: loeffler-lean-zulip
+  tag: reaction
+  kind: post
+  headline: I personally am hugely grateful for Luke Sernau’s 2nd-generation proof
+  name: David Loeffler
+  source: Lean Zulip
+  date: '2026-11-26'
+  date_precision: minute
+  date_verified: true
+  description: Says he is personally grateful for Sernau’s second-generation proof because it separates new mathematics from newly formalized, previously
+    known mathematics.
+  description_status: final
+  url: https://leanprover.zulipchat.com/#narrow/channel/658556-Riemann-Hypothesis/topic/New.20proof.20in.20300k.20lines/near/643887233
+  date_label: 26 Nov, 19:21 IST
+  quote: it makes a clear separation between "new maths" and "newly-formalized but previously-known mathematics"
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: tao-sawin-polymath
+  tag: reaction
+  kind: post
+  headline: Specializing to upper bound RH
+  name: Terence Tao and Will Sawin
+  source: G.R.H. Polymath
+  date: '2026-11-27'
+  date_precision: day
+  date_verified: true
+  description: Tao asks whether the Lean proof shortens if only the RH upper bound is sought. Sawin replies that the classical analytic step was already
+    separate.
+  description_status: final
+  url: https://rh-polymath.zulipchat.com/#narrow/channel/657831-general/topic/Specializing.20to.20upper.20bound.20RH/with/644230757
+  date_label: 27 Nov, Tao 17:47 UTC, Sawin 19:21 UTC
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: chow-mathoverflow
+  tag: reaction
+  kind: post
+  headline: The proof seems to unexpectedly pull together threads from a vast number of areas
+  name: Timothy Chow
+  source: MathOverflow
+  date: '2026-11-27'
+  date_precision: minute
+  date_verified: true
+  description: Asked which parts experts once thought infeasible, says that is hard to answer; the proof pulls threads from many areas into a bound strong
+    enough to imply GRH.
+  description_status: final
+  url: https://mathoverflow.net/questions/518068/where-to-begin-understanding-the-proof-of-the-riemann-hypothesis#comment1354638_518072
+  date_label: 27 Nov, 20:45 UTC
+  quote: The proof seems to unexpectedly pull together threads from a vast number of areas, and somehow assemble them into a strong enough bound to imply
+    GRH.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: guardian-editorial
+  tag: media
+  kind: editorial
+  headline: 'The Guardian view on AI and the Riemann hypothesis: a triumph of intelligence, a test of democracy'
+  name: Editorial
+  source: The Guardian
+  date: '2026-11-27'
+  date_precision: minute
+  date_verified: true
+  description: Says AI’s pace of discovery is outrunning humanity’s ability to understand and regulate it, and that its power must not become the preserve
+    of billionaires.
+  description_status: final
+  url: https://www.theguardian.com/commentisfree/2026/nov/27/the-guardian-view-on-ai-and-the-riemann-hypothesis-a-triumph-of-intelligence-a-test-of-democracy
+  date_label: 27 Nov, 18:07 GMT
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: calegari-initial-thoughts
+  tag: reaction
+  kind: blog
+  headline: Initial Thoughts on RH
+  name: Frank Calegari
+  source: Persiflage
+  date: '2026-11-23'
+  date_precision: day
+  date_verified: true
+  description: Reflects on the announcement, on how credit for AI-assisted proofs may change, and on the competing Masullo claim.
+  description_status: final
+  url: https://galoisrepresentations.org/2026/11/23/initial-thoughts-on-rh/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: calegari-k-groups
+  tag: reaction
+  kind: blog
+  headline: Bounds on K-groups and reducible modularity lifting
+  name: Frank Calegari
+  source: Persiflage
+  date: '2026-11-25'
+  date_precision: day
+  date_verified: true
+  description: Discusses Vandiver’s conjecture and K-group bounds raised in the announcement, and says the Lean proof is hard to read without Lean fluency.
+  description_status: final
+  url: https://galoisrepresentations.org/2026/11/25/bounds-on-k-groups-and-reducible-modularity-lifting/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: heise-bezmalinovic
+  tag: media
+  kind: article
+  headline: 'Riemann hypothesis: Claude cuts AI proof by more than 99%'
+  name: Tomislav Bezmalinović
+  source: heise online
+  date: '2026-11-26'
+  date_precision: day
+  date_verified: true
+  description: Reports Sernau’s shorter editions (about 113,000 and 477,000 lines) and their independent checks by Sutherland and Rubinstein.
+  description_status: final
+  url: https://www.heise.de/en/news/Riemann-hypothesis-Claude-cuts-AI-proof-by-more-than-99-11539304.html
+  date_label: 26 Nov, 16:40 CET
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: futurism-landymore
+  tag: media
+  kind: article
+  headline: Human Mathematicians Can’t Understand the AI Proof of the Riemann Hypothesis
+  name: Frank Landymore
+  source: Futurism
+  date: '2026-11-28'
+  date_precision: day
+  date_verified: true
+  description: Says the Lean proof is hard for mathematicians to read at millions of lines, and that it came without a paper explaining it in natural language.
+  description_status: final
+  url: https://futurism.com/artificial-intelligence/human-mathematicians-cant-understand-ai-riemann
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: smithsonian-wexler
+  tag: media
+  kind: article
+  headline: A.I. Cracked the Riemann Hypothesis, the Most Famous Unsolved Math Problem. The Proof Is 17 Million Lines Long
+  name: Ellen Wexler
+  source: Smithsonian
+  date: '2026-11-24'
+  date_precision: day
+  date_verified: true
+  description: Explains the problem and the 17-million-line proof, quoting Radziwiłł that it certifies the statement without explaining why it is correct.
+  description_status: final
+  url: https://www.smithsonianmag.com/innovation/ai-cracked-the-riemann-hypothesis-the-most-famous-unsolved-math-problem-the-proof-is-17-million-lines-long-180989939/
+  archive_url: http://web.archive.org/web/20261128031142/https://www.smithsonianmag.com/innovation/ai-cracked-the-riemann-hypothesis-the-most-famous-unsolved-math-problem-the-proof-is-17-million-lines-long-180989939/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: ars-technica-timmer
+  tag: media
+  kind: article
+  headline: What’s going on with the Riemann hypothesis?
+  name: John Timmer
+  source: Ars Technica
+  date: '2026-11-24'
+  date_precision: day
+  date_verified: true
+  description: Says the AI-assisted proof seems solid but it is too early to say much about it, and looks at how it came about and what it tells us about
+    math.
+  description_status: final
+  url: https://arstechnica.com/ai/2026/11/whats-going-on-with-the-riemann-hypothesis/
+  archive_url: http://web.archive.org/web/20261126233923/https://arstechnica.com/ai/2026/11/whats-going-on-with-the-riemann-hypothesis/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: nature-reactions-five
+  tag: media
+  kind: article
+  headline: '‘If we can solve Riemann, what can’t we do?’: mathematicians shocked and excited by AI breakthroughs'
+  name: Davide Castelvecchi and Elizabeth Gibney
+  source: Nature
+  date: '2026-11-25'
+  date_precision: day
+  date_verified: true
+  description: Gathers reactions from five mathematicians, from Tasmin Chu’s “grave concern” to awe and opportunity. Partly behind login.
+  description_status: final
+  url: https://www.nature.com/articles/d41586-026-03835-0
+  date_label: 25 Nov, updated 26 Nov
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: nature-podcast-dual-proofs
+  tag: media
+  kind: podcast
+  headline: Dual proofs of legendary Riemann hypothesis stun mathematicians
+  name: Nick Petrić Howe and Maren Hunsberger
+  source: Nature
+  date: '2026-11-25'
+  date_precision: day
+  date_verified: true
+  description: Nature Podcast episode on the AI and human-written proofs. Its summary says experts expect them to need careful checking.
+  description_status: final
+  url: https://www.nature.com/articles/d41586-026-03853-y
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: sciam-alpoge-profile
+  tag: media
+  kind: article
+  headline: Who is Levent Alpöge, the reclusive genius behind AI’s math conquest?
+  name: Joseph Howlett
+  source: Scientific American
+  date: '2026-11-24'
+  date_precision: day
+  date_verified: true
+  description: Profile of the Anthropic mathematician, describing his Riemann hypothesis proof as the product of unfettered ambition.
+  description_status: final
+  url: https://www.scientificamerican.com/article/who-is-levent-alpoege-the-reclusive-genius-behind-ais-math-conquest/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: sciam-hall-opinion
+  tag: media
+  kind: article
+  headline: AI helped solve my favorite math problem. Why can’t I celebrate?
+  name: Peter Hall
+  source: Scientific American
+  date: '2026-11-25'
+  date_precision: day
+  date_verified: true
+  description: Opinion essay by a writer with a zeta-function tattoo, on why the proof of the Riemann hypothesis is bittersweet.
+  description_status: final
+  url: https://www.scientificamerican.com/article/why-ais-proof-of-the-riemann-hypothesis-is-so-bittersweet/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: quanta-authorship
+  tag: media
+  kind: article
+  headline: What does authorship mean in the age of AI?
+  name: Konstantin Kakaes
+  source: Quanta Magazine
+  date: '2026-11-24'
+  date_precision: day
+  date_verified: true
+  description: Transformation column on who counts as the author of an AI-assisted proof, drawing on the Leiden Declaration, Gowers and David Holmes.
+  description_status: final
+  url: https://www.quantamagazine.org/updates/transformation/#169609
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: science-news-conover
+  tag: media
+  kind: article
+  headline: Math’s holy grail, the Riemann hypothesis, appears solved with AI’s help
+  name: Emily Conover and Kathryn Hulick
+  source: Science News
+  date: '2026-11-23'
+  date_precision: day
+  date_verified: true
+  description: Reports that the proof apparently settles the 167-year-old problem, thanks to a human mathematician working with AI.
+  description_status: final
+  url: https://www.sciencenews.org/article/riemann-hypothesis-solved-math-ai
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: euronews-benton
+  tag: media
+  kind: article
+  headline: 'AI just cracked the biggest maths problem of all time: what does it mean?'
+  name: Jonathan Benton
+  source: Euronews
+  date: '2026-11-23'
+  date_precision: day
+  date_verified: true
+  description: Asks what the result means, including whether it is the start of advanced superintelligence, as some wonder.
+  description_status: final
+  url: https://www.euronews.com/2026/11/23/ai-just-cracked-the-biggest-maths-problem-of-all-time-what-does-it-mean
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'
+- id: techcrunch-fernholz
+  tag: media
+  kind: article
+  headline: AI claimed a solution to the 167-year-old Riemann hypothesis — and a human did, too
+  name: Tim Fernholz
+  source: TechCrunch
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Reports mathematicians’ reactions to the AI-driven result and a competing human claim of a solution.
+  description_status: final
+  url: https://techcrunch.com/2026/11/20/ai-claimed-a-solution-to-the-167-year-old-riemann-hypothesis-and-a-human-did-too/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-29'

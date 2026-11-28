@@ -12,6 +12,12 @@
     if (followAnchor) {
       try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); }
       catch { /* A malformed fragment has no target. */ }
+      if (target?.matches('.press-moved')) {
+        const destination = new URL(target.querySelector('a').href);
+        destination.search = url.search;
+        location.replace(destination);
+        return;
+      }
     }
     const words = fold(input.value).trim().split(/\s+/).filter(Boolean);
     const matches = tile => words.every(word => tile.dataset.q.includes(word));

@@ -21,6 +21,7 @@ body[data-view="doc"] .sitefoot nav a { white-space: normal; }
 #press-main .press-date, #press-main .crumbs { color: var(--fg2); font-size: 14px; }
 #press-main .crumbs { margin: 24px 0 0; }
 #press-main [hidden] { display: none; }
+#press-main .press-moved:not(:target) { display: none; }
 .press-tabs { display: flex; justify-content: flex-start; gap: 4px; margin: 0 0 8px; }
 .press-tabs a {
   display: inline-flex;
