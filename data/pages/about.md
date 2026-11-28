@@ -6,12 +6,12 @@ path: /about/
 target_queries:
   - riemann hypothesis lean proof map
   - riemann hypothesis lean explorer
-as_of: "23 Nov 2026"
+as_of: "28 Nov 2026"
 ---
 
 # About this map
 
-*As of 26 Nov 2026.*
+*As of 28 Nov 2026.*
 
 **RH Lean Explorer maps imports in two Lean editions of the Riemann hypothesis proof.** The original map covers the 20 November Alpöge–Claude archive. The readable map follows the source folders in Luke Sernau’s 25 November rewrite. [Original map](/alpoge/) · [Readable map](/sernau/) · [Verification status](/status/)
 
@@ -63,7 +63,7 @@ Each kind of fact on this site has one source. Pages link their sources.
 
 Computer Science, IIT Delhi · MBA, IIM Ahmedabad · [Founder, Livo Assistant](https://livoassistant.com)
 
-[X](https://x.com/SomTheBuilder) · [LinkedIn](https://www.linkedin.com/in/rithn) · [GitHub](https://github.com/rithn)
+[X](https://x.com/SomTheBuilder) · [LinkedIn](https://www.linkedin.com/in/rithn) · [GitHub](https://github.com/rithn) · [Contact](#contact)
 
 Soumya is not a number theorist: the maths on this site comes from the proof and its cited sources, and corrections are welcome.
 
@@ -82,8 +82,9 @@ Dated changes that fixed something this site had wrong or unclear. The [changelo
 - **22 Nov 2026. Theme names.** 20 themes whose names described only a small part of their content were renamed. The old addresses redirect.
 - **22 Nov 2026. What "Builds on" and "Needed by" count.** Cluster panels now say that both count direct imports. The main theorem's line says it reaches every other cluster through chains of imports.
 
-## Report a wrong name or a correction
+## Contact and corrections {#contact}
 
+- Email Soumya Sharma at soumyasharma98 (at) gmail.com for press, teaching, collaboration or anything else. On X: [@SomTheBuilder](https://x.com/SomTheBuilder).
 - On any cluster page, "Report a wrong name" opens an X post to @SomTheBuilder with the cluster id and address filled in.
 - Post corrections to [@SomTheBuilder](https://x.com/SomTheBuilder) on X. For a readable-map correction, include the edition and the map or source URL, plus the Lean declaration or group if applicable.
 
