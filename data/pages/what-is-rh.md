@@ -12,12 +12,12 @@ target_queries:
   - riemann zeta function zeros critical line
   - generalized riemann hypothesis
   - riemann hypothesis statement
-as_of: "28 Nov 2026"
+as_of: "29 Nov 2026"
 ---
 
 # What is the Riemann hypothesis?
 
-*As of 28 Nov 2026. Pick the level that suits you: [Simple](#simple) · [Student](#student) · [Expert](#expert).*
+*As of 29 Nov 2026. Pick the level that suits you: [Simple](#simple) · [Student](#student) · [Expert](#expert).*
 
 **The Riemann hypothesis is a claim about where a famous function, the Riemann zeta function, equals zero. It says that every "non-trivial" zero lies on one straight line.** A Lean-checked proof was released on 20 Nov 2026. See [status](/status/) for what was checked.
 
@@ -125,4 +125,5 @@ Classical number theory is the smallest field by size, but it holds the main the
 - [Learning path](/learn/): where to start reading, by level.
 - [Browse the original themes and clusters](/list/)
 - [Trace the statement in the readable edition](/sernau/route/)
+- Bernhard Riemann’s 1859 paper, [On the Number of Prime Numbers less than a Given Quantity](https://mellow-atlas-vp47.here.now), in D. R. Wilkins’s English translation, in a web edition with linkable sections.
 - [What is the Riemann hypothesis? A guide to the famed conjecture that rules prime numbers](https://www.nature.com/articles/d41586-026-03854-x), by Davide Castelvecchi (Nature, 25 Nov 2026).

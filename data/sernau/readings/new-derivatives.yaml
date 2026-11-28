@@ -80,7 +80,10 @@ overview:
     importer: Main
     line: 2
   - module: Main
-  outsideReadings: []
+  outsideReadings:
+  - ye-yu
+  - adriazola-sernau
+  - grh-lean-handbook
 files:
   New.Derivatives.Divisibility.Count:
     group: New.Derivatives

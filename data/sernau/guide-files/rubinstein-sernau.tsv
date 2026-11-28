@@ -1,0 +1,4 @@
+# Source: research/guides/staging/rubinstein-outline/mapping.md (full text and links of the PDF; one file path named, p. 9)
+# count = mentions in the text
+module	count
+Lib.Analytic.QuadraticTwist	1

@@ -663,7 +663,6 @@ GUIDE_CATALOGUE = yaml.safe_load(open(GUIDES_Y, encoding='utf-8'))
 GUIDES = GUIDE_CATALOGUE['guides']
 GUIDES = [g for g in GUIDES if g.get('listed', True) is not False]   # listed: false (with dropped_note): kept in guides.yaml, skipped everywhere (hub, pages, sitemap, refs, photos)
 G_STATUS_OF = {'verified': 'checked', 'checked': 'checked', 'explains-only': 'explains', 'explains': 'explains'}
-G_ROLE = {'academic': 0, 'university': 0, 'named': 1, 'person': 1, 'organisation': 2, 'organization': 2, 'org': 2, 'unnamed': 3}
 def gfield(g, k):   # (value, confirmed)
     v = g.get(k)
     return (v.get('value'), not v.get('unconfirmed')) if isinstance(v, dict) and 'value' in v else (v, True)
@@ -714,8 +713,14 @@ def gnorm(g, i):
     if mapped_version:
         assert mapped and mapped.get('url') == g.get('url'), f'{gid}: mapped_version needs the guide URL of that version'
     ph2, ph2src = (a.get('photo_also'), a.get('photo_source_also')) if isinstance(a, dict) else (None, None)   # a second logo (joint statement)
+    tier = g.get('trust_tier')   # 1-3, set by hand on every entry (see the header of guides.yaml); not the older A/B 'tier' of the candidates file
+    assert tier in (1, 2, 3), f'guides.yaml {gid}: trust_tier must be 1, 2 or 3'
+    # newest = the latest version or snapshot date, else the posted date (shown dates stay as before; an unconfirmed date still orders)
+    stamps = [_gdate(x) for x in [g.get('snapshot_date'), gfield(pa, 'date')[0] if pa.get('date') else gfield(g, 'date')[0],
+                                  *(v.get('date') for v in vers)]]
+    newest = max((d for d in stamps if d), default=datetime.date.min)
     return {'photo_also': ph2, 'photo_source_also': ph2src, 'home_also': a.get('home_also') if isinstance(a, dict) else None,'id': gid, 'i': i, 'slug': slug_, 'page': bool(g.get('page')) and bool(slug_),
-            'name': name if name and aok else None, 'home': home, 'photo': photo, 'photo_source': psrc,
+            'name': name if name and aok else None, 'byline': g.get('byline'), 'home': home, 'photo': photo, 'photo_source': psrc,
             'title': title + ('' if tok else ' (title not confirmed)'), 'url': mapped['url'] if mapped else url,
             'posted_url': url, 'mapped_version': mapped_version, 'date': _gdate(date) if dok else None,
             'type': gfield(g, 'type')[0] if gfield(g, 'type')[1] else None, 'format': g.get('format'),
@@ -729,7 +734,7 @@ def gnorm(g, i):
             'edition_citation': g.get('edition_citation'), 'source_label': g.get('source_label') or 'Read at source',
             'mapping_note': g.get('mapping_note'),
             'detail': g.get('hub_detail'), 'hub_status': g.get('hub_status'),
-            'ai': _gai(g),
+            'ai': _gai(g), 'tier': tier, 'newest': newest,
             'clusters': [k for k in (g.get('clusters') or []) if k in CL]}
 # A readable hub guide may also cite the original archive; add it to the original map
 # without creating a second hub card or standalone page.
@@ -741,10 +746,10 @@ for item in MAP_HUB_GUIDES:
     GD.append(mapped)
 assert len({g['id'] for g in GD}) == len(GD), 'guides.yaml: two guides with the same id'
 assert len({g['slug'] for g in GD if g['slug']}) == len([g for g in GD if g['slug']]), 'guides.yaml: two guides with the same slug'
-# hub order: 'order' where given; else role (academic, named, organisation, unnamed), newest first within each
+# hub order (owner decision, 29 Nov 2026): trust tier first (guides.yaml trust_tier 1-3), newest first within each tier; the
+# old 'order' and author.order_group now only break ties. The same key sorts the hub sections, so the map's lists follow it too
 def _gkey(g):
-    role = g['role'] - 1 if isinstance(g['role'], int) else G_ROLE.get(str(g['role'] or '').lower(), 1 if g['name'] else 3)   # order_group 1-3
-    return (g['order'] if isinstance(g['order'], (int, float)) else 10**6, role, -(g['date'] or datetime.date.min).toordinal(), g['id'])
+    return (g['tier'], -g['newest'].toordinal(), g['order'] if isinstance(g['order'], (int, float)) else 10**6, g['id'])
 GD.sort(key=_gkey)
 for i, g in enumerate(GD):
     g['i'] = i
@@ -956,7 +961,9 @@ def _gphoto(g, photo, base, sfx=''):   # writes the copies; sets g['ph48'+sfx], 
             open(dst, 'wb').write(b.getvalue())
         _gph_keep.add(fn)
         g[f'ph{px}{sfx}'] = f'/guides/photos/{fn}'
-for g in GD:
+# a hub_guides item may carry its own author.photo (a GitHub avatar, say) when it does not borrow one with portrait_from
+HUB_OWN_PHOTO = [h for h in (gnorm(i, 0) for i in GUIDE_CATALOGUE.get('hub_guides', []) if not i.get('clusters') and not i.get('portrait_from')) if h['photo']]
+for g in GD + HUB_OWN_PHOTO:
     g['ph48'] = g['ph96'] = g['ph48b'] = g['ph96b'] = None
     g['initials'] = _initials(g['name'] or g['title'])
     if g['photo']:
@@ -2155,6 +2162,8 @@ def gav(g, px=48):   # the author's photo (alt: the name), or an initials badge;
         hue = (hue * 31 + ord(c)) % 360
     return guide_presentation('initials', hue=hue, size=px, alt=H(g['name'] or 'No author named'), initials=H(g['initials']))
 def gauthor(g, link=True):
+    if g['byline']:
+        return H(g['byline'])
     if not g['name']:
         return 'No author named on the page'
     return f'<a href="{H(g["home"])}">{H(g["name"])}</a>' if link and g['home'] else H(g['name'])
@@ -2442,6 +2451,7 @@ learn = (breadcrumbs([('Home', '/'), ('Learning path', '')]) + '<div class="eyeb
          'school or first-year university material. It follows the proof as we read it from the Lean code.</p>'
          '<p>For worked explanations, see <a href="/guides/rubinstein-zeta/">Rubinstein’s guide to the zeta function argument</a>'
          ' or <a href="/guides/eto/">Eto’s illustrated introduction to the proof</a>.</p></div>'
+         '<p>For Sernau’s readable edition, see <a href="/guides/rubinstein-sernau/">Rubinstein’s outline of the shortened proof</a>.</p>'
          f'<ul class="learning-tree">{learning_tree}</ul>'
          f'<h2>More background concepts <span class="n">{len(more_concepts)}</span></h2><ul class="rows">'
          + ''.join(f'<li><a href="/concept/{H(n["id"])}"><span class="kind concept">concept</span>'
@@ -2688,14 +2698,18 @@ for item in GUIDE_CATALOGUE.get('hub_guides', []):
         hub_ids.add(anchor)
     edition = item['edition']
     section = {'original': 'guides', 'readable': 'readable_guides', 'compact': 'compact_guides'}[edition]
-    portrait = portraits.get(item.get('portrait_from'), {})
+    own = {x['id']: x for x in [*GD, *HUB_OWN_PHOTO]}.get(g['id'], {}) if g['photo'] else {}   # the item's own photo (written with the others above)
+    portrait = portraits.get(item.get('portrait_from')) or own
     for key in ('ph48', 'ph96', 'ph48b', 'ph96b', 'photo_source', 'photo_source_also'):
         g[key] = portrait.get(key)
+    g['own_photo'] = bool(own.get('ph96'))
     assert g['page'] and (g['slug'] not in GPATH or any(m['id'] == g['id'] and m['slug'] == g['slug'] and m.get('map_only') for m in GD)) and g['slug'] not in portraits, f'{g["id"]}: needs a unique guide page slug'
     GPATH[g['slug']] = f'/guides/{g["slug"]}/'
     g.update(edition=edition, initials=_initials(g['name']), detail=item['detail'], links=item.get('links', []), aliases=aliases)
     guide_sections[section].append(g)
     guide_readings.append((g, item['reading']))
+for entries in guide_sections.values():   # the original-edition hub items sit among the 'guides:' entries by tier and date, like the rest
+    entries.sort(key=_gkey)
 
 KNOWN_PATHS = set(CPATH.values()) | set(TPATH.values()) | {
     '/', '/learn/', '/route/', '/list/', '/changelog/', '/changelog/feed.xml', '/api/', AUTHOR_PHOTO,
@@ -2711,6 +2725,38 @@ KNOWN_PATHS |= {'/alpoge/', '/sernau/', '/sernau/route/', '/sernau/list/'}
 KNOWN_PATHS |= {fm['path'] for _, fm, *_ in DRAFTS} | {'/guides/'} | set(GPATH.values())
 KNOWN_PATHS |= {concept_path(slug) for slug in concept_map.concepts}
 READABLE_GROUPS = {group['id']: group for group in sernau_data['groups']}
+READABLE_GROUP_GUIDES = GUIDE_CATALOGUE.get('readable_group_guides', {})
+# ---------- readable guides on the Sernau map. Groups: readable_group_guides (the list that also puts a guide on its group
+# pages), plus the groups of any files the guide is known to cite. Files: data/sernau/guide-files/<slug>.tsv (module, count; '#'
+# lines are comments), declared on the hub_guides item as readable_files: {unit: what a count counts, note: optional}. Compact-edition
+# guides have no mapping. The Sernau map selects one group at a time: there is no multi-group filter like the original map's
+# ?guide=, so a guide with several groups links the map as a whole and each row opens its own group.
+GUIDE_FILES_D = os.path.join(REPO, 'data', 'sernau', 'guide-files')
+def readable_coverage(g, item):   # -> None, or {'groups': [(id, files, cites)], 'files': [(module, cites)], 'unit', 'note'}
+    spec, path = item.get('readable_files'), os.path.join(GUIDE_FILES_D, f'{g["slug"]}.tsv')
+    assert bool(spec) == os.path.exists(path), f'{g["id"]}: readable_files and data/sernau/guide-files/{g["slug"]}.tsv go together'
+    files = {}
+    for line in open(path, encoding='utf-8') if spec else []:
+        if line.startswith('#') or line.startswith('module\t'):
+            continue
+        module, n = line.rstrip('\n').split('\t')
+        assert module in sernau_data['modules'] and int(n) > 0 and module not in files, f'{g["id"]}: bad row {line!r} in {path}'
+        files[module] = int(n)
+    per = collections.defaultdict(lambda: [0, 0])   # group -> [files, citations]
+    for module, n in files.items():
+        gr = sernau_data['modules'][module]['group']
+        per[gr][0] += 1
+        per[gr][1] += n
+    curated = [gr for gr, slugs in READABLE_GROUP_GUIDES.items() if g['slug'] in slugs]
+    ids = sorted(per, key=lambda gr: (-per[gr][1], gr)) + [gr for gr in READABLE_GROUPS if gr in curated and gr not in per]
+    if not ids:
+        return None
+    return {'groups': [(gr, *per[gr]) if gr in per else (gr, 0, 0) for gr in ids], 'unit': spec['unit'] if spec else '', 'note': (spec or {}).get('note', ''),
+            'files': sorted(files.items(), key=lambda kv: (ids.index(sernau_data['modules'][kv[0]]['group']), -kv[1], kv[0]))}
+HUB_ITEMS = {i['id']: i for i in GUIDE_CATALOGUE.get('hub_guides', [])}
+for g, _ in guide_readings:
+    g['coverage'] = readable_coverage(g, HUB_ITEMS[g['id']]) if g['edition'] == 'readable' else None
+    assert g['edition'] == 'readable' or not HUB_ITEMS[g['id']].get('readable_files'), f'{g["id"]}: only readable guides have readable_files'
 KNOWN_PATHS |= {group['href'] for group in READABLE_GROUPS.values()}
 # site links added under a page's own text (the drafts are published as written, so these are not part of them)
 RELATED = {'/status/': [('/core/', CORE_NAV), ('/proof-in-numbers/', NUMBERS_NAV),
@@ -2826,7 +2872,10 @@ def gmapq(g):
     return f'/alpoge/?guide={g["slug"] or g["id"]}'
 def ghub_tail(g):
     if 'edition' in g:
-        return [(g['source_label'], g['url']), *((link['title'], link['url']) for link in g['links'])]
+        cov = g.get('coverage')
+        extra = [(f'{len(cov["groups"])} Sernau {"group" if len(cov["groups"]) == 1 else "groups"} on the map', GPATH[g['slug']] + '#groups')] if cov else \
+                [('No map placement', None)] if g['edition'] == 'compact' else []
+        return [(g['source_label'], g['url']), *extra, *((link['title'], link['url']) for link in g['links'])]
     n = gnodes(g)
     nn = f'{n} {"node" if n == 1 else "nodes"}'
     tail = [(f'On the map: {nn}', gmapq(g) if g['page'] else None)] if n else [('0 nodes on the map', None)]
@@ -2850,7 +2899,7 @@ def gentry_html(g):
 
 def gentry_md(g):
     status = g['hub_status'] or G_STATUS_T[g['status']]
-    bits = [g['name'] or 'No author named on the page', f'originally posted at {_host(g["posted_url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
+    bits = [g['byline'] or g['name'] or 'No author named on the page', f'originally posted at {_host(g["posted_url"])}' + (f' on {gdate(g["date"])}' if g['date'] else ''),
             gversion(g), f'licence: {g["licence"]}' if g['licence'] else '', status + (f': "{ " ".join(str(g["quote"]).split())}"' if g.get('quote') else ''),
             gai_md(g), g.get('detail')]
     bits.extend(f'[{title}]({url})' if url else title for title, url in ghub_tail(g))
@@ -2910,7 +2959,6 @@ def dist_txt(k):
 GUIDE_TITLES = {g['slug']: g['title'] for g in GD if g['page']}
 GUIDE_TITLES.update({g['slug']: g['title'] for g, _ in guide_readings})
 RELATED_GUIDES = GUIDE_CATALOGUE.get('related_guides', {})
-READABLE_GROUP_GUIDES = GUIDE_CATALOGUE.get('readable_group_guides', {})
 assert all(slug in GPATH and all(other in GPATH and other != slug for other in targets)
            for slug, targets in RELATED_GUIDES.items())
 assert all(group in READABLE_GROUPS and all(slug in GPATH for slug in slugs)
@@ -2919,8 +2967,9 @@ assert all(group in READABLE_GROUPS and all(slug in GPATH for slug in slugs)
 def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
     path = GPATH[g['slug']]
     related = [(label, GPATH[slug]) for slug, label in RELATED_GUIDES.get(g['slug'], {}).items()]
-    related += [(READABLE_GROUPS[group]['label'], READABLE_GROUPS[group]['href'])
-                for group, slugs in READABLE_GROUP_GUIDES.items() if g['slug'] in slugs]
+    if not g.get('coverage'):   # a guide with a groups block lists its groups there
+        related += [(READABLE_GROUPS[group]['label'], READABLE_GROUPS[group]['href'])
+                    for group, slugs in READABLE_GROUP_GUIDES.items() if g['slug'] in slugs]
     if related:
         content += ('<h2>Related reading</h2><ul class="rows">' +
                     ''.join(f'<li><a href="{H(href)}">{H(label)}</a></li>' for label, href in related) + '</ul>')
@@ -2936,7 +2985,7 @@ def guide_page(g, edition, desc, meta, acts, content, md, *, notice=''):
             f'<div class="cta gact">{"".join(acts)}{G_SHARE_SLOT}</div>{notice}' + content
             + explore(('/guides/', 'All guides')) + '</div>')
     about = {'@type': 'CreativeWork', 'name': g['title'], 'url': g['url'],
-             **({'author': {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
+             **({('contributor' if g['byline'] else 'author'): {'@type': 'Person', 'name': g['name'], **({'url': g['home']} if g['home'] else {})}} if g['name'] else {}),
              **({'datePublished': g['date'].isoformat()} if g['date'] else {}), **({'license': g['licence']} if g['licence'] else {})}
     page(path, title, desc, 'page', body,
          [{'@type': 'WebPage', '@id': SITE + path, 'url': SITE + path, 'name': title, 'about': about, 'isPartOf': {'@id': SITE_ID}},
@@ -3033,11 +3082,14 @@ for g in GD:
                 f' Our copy is {l}' + (f', {d_}' if d_ else '') + '.' if os.path.basename(copy[1]['local']) in l else
                 f' Our copy is {os.path.basename(copy[1]["local"])} from {l}' + (f', {d_}' if d_ else '') + '.')
     companion_html = companion_md = ''
-    if companion := g['companion_reading']:
+    companions = g['companion_reading'] or []
+    if isinstance(companions, dict):
+        companions = [companions]
+    for companion in companions:
         title, url, description = companion['title'], companion['url'], companion['description']
         assert url.startswith('https://'), f'guide {s}: invalid companion URL'
-        companion_html = f'<p><strong>Companion reading.</strong> <a href="{H(url)}">{H(title)}</a>. {H(description)}</p>'
-        companion_md = f'**Companion reading.** [{title}]({url}). {description}\n\n'
+        companion_html += f'<p><strong>Companion reading.</strong> <a href="{H(url)}">{H(title)}</a>. {H(description)}</p>'
+        companion_md += f'**Companion reading.** [{title}]({url}). {description}\n\n'
     psrcs = [x for x in (g['photo_source'], g['photo_source_also'] if g['ph96b'] else None) if x]
     photo_credit = (f'<p class="meta gcredit">{"Logos" if len(psrcs) > 1 else "Photo"}: '
                     + ', '.join(f'<a href="{H(x)}">{H(_host(x))}</a>' for x in psrcs) + '</p>' if g['ph96'] and psrcs else '')
@@ -3053,7 +3105,7 @@ for g in GD:
                       f'{"cluster" if nrow == 1 else "clusters"} it cites, with the pages that cite each. ' if nrow else
                       f'{name}: a guide to the Lean proof of the Riemann hypothesis, with a link to the original. ') + g['title'] + '.')
     original_label = 'First edition' if mapped_version else 'Original'
-    md = (f'# {g["title"]}\n\nEdition covered: Alpöge original proof.\n\n{name}' + (f' ({g["home"]})' if g['home'] else '') + f'. {original_label}: {g["posted_url"]}'
+    md = (f'# {g["title"]}\n\nEdition covered: Alpöge original proof.\n\n{g["byline"] or name}' + (f' ({g["home"]})' if g['home'] and not g['byline'] else '') + f'. {original_label}: {g["posted_url"]}'
           + (f' · {g["edition_citation"]}' if g['edition_citation'] else
              (f' · posted {gdate(g["date"])}' if g['date'] else '') + (f' · versions read: {", ".join(vers)}' if vers else '')
              + (f' · licence: {g["licence"]}' if g['licence'] else '')) + '\n\n'
@@ -3070,6 +3122,40 @@ for g in GD:
     guide_page(g, 'Alpöge original proof', desc, meta, acts, content, md)
 
 G_EDITION = {'original': 'Alpöge original proof', 'readable': 'Sernau readable edition', 'compact': 'Sernau compact edition'}
+G_NO_MAP = 'This guide follows the compact edition, which has no placement on the map here: the Sernau map covers the readable edition only.'
+def gmap_one(group):   # the Sernau map with one group selected
+    return f'{SERNAU_MAP}?group={READABLE_GROUPS[group]["slug"]}'
+def coverage_blocks(g):   # the readable guide page's groups (and cited files) block -> (html, markdown)
+    cov = g['coverage']
+    groups, files, unit = cov['groups'], cov['files'], cov['unit']
+    n = len(groups)
+    lead = (f'The groups of the readable edition that this guide covers, with the Lean files it cites. A citation here is {unit}. '
+            f'{_plural(len(files), "file")}, {_plural(sum(c for _, c in files), "citation")}. ' + cov['note'] if files else
+            'The groups of the readable edition that this guide covers, from its own links and descriptions. No count of the files it cites yet.').strip()
+    if n > 1:
+        lead += ' The map selects one group at a time, so each group opens on its own.'
+    if files:
+        rows = ''.join(f'<tr><td><a href="{H(READABLE_GROUPS[gr]["href"])}">{H(READABLE_GROUPS[gr]["label"])}</a> <span class="meta">{H(gr)}</span></td>'
+                       f'<td>{nf:,}</td><td>{nc:,}</td><td><a href="{H(gmap_one(gr))}">Open</a></td></tr>' for gr, nf, nc in groups)
+        table = ('<div class="tablewrap"><table class="gnodes"><thead><tr><th class="gcn">Group</th><th class="gcd">Files cited</th><th class="gcp">Citations</th>'
+                 f'<th class="gcb">On the map</th></tr></thead><tbody>{rows}</tbody></table></div>')
+        frows = ''.join(f'<tr><td><a href="{H(sernau_data["modules"][m]["href"])}">{H(sernau_data["modules"][m]["label"])}</a> <span class="meta">{H(m)}</span></td>'
+                        f'<td>{c:,}</td><td>{H(sernau_data["modules"][m]["group"])}</td></tr>' for m, c in files)
+        table += (f'<details class="refs" id="files" style="scroll-margin-top:84px"><summary>Files cited ({len(files):,})</summary><div class="tablewrap"><table class="gnodes"><thead><tr>'
+                  f'<th class="gcn">File</th><th class="gcd">Citations</th><th class="gcp">Group</th></tr></thead><tbody>{frows}</tbody></table></div></details>')
+    else:
+        table = '<ul class="rows">' + ''.join(f'<li><a href="{H(READABLE_GROUPS[gr]["href"])}">{H(READABLE_GROUPS[gr]["label"])}</a> · '
+                                              f'<a href="{H(gmap_one(gr))}">On the map</a></li>' for gr, *_ in groups) + '</ul>'
+    html = f'<h2 id="groups" style="scroll-margin-top:84px">Groups in this guide <span class="n">{n}</span></h2><p>{H(lead)}</p>{table}'
+    md = f'\n## Groups in this guide ({n})\n\n{lead}\n\n'
+    if files:
+        md += ('| Group | Files cited | Citations | On the map |\n|---|---|---|---|\n'
+               + ''.join(f'| [{READABLE_GROUPS[gr]["label"]}]({READABLE_GROUPS[gr]["href"]}) (`{gr}`) | {nf:,} | {nc:,} | [Open]({gmap_one(gr)}) |\n' for gr, nf, nc in groups)
+               + f'\n## Files cited ({len(files):,})\n\n'
+               + ''.join(f'- [{sernau_data["modules"][m]["label"]}]({sernau_data["modules"][m]["href"]}) · `{m}` · {c:,} · {sernau_data["modules"][m]["group"]}\n' for m, c in files))
+    else:
+        md += ''.join(f'- [{READABLE_GROUPS[gr]["label"]}]({READABLE_GROUPS[gr]["href"]}) · [On the map]({gmap_one(gr)})\n' for gr, *_ in groups)
+    return html, md_abs(md)
 for g, reading in guide_readings:
     edition = G_EDITION[g['edition']]
     meta = [gposted(g) + '.']
@@ -3078,7 +3164,10 @@ for g, reading in guide_readings:
         meta.append(f'{H(label)}.')
     if g['licence']:
         meta.append(f'Licence: {H(g["licence"])}.')
-    acts = [f'<a class="btn primary" href="{H(g["url"])}">{H(g["source_label"])}</a>']
+    cov = g['coverage']
+    acts = [f'<a class="btn{"" if cov else " primary"}" href="{H(g["url"])}">{H(g["source_label"])}</a>']
+    if cov:   # one group: the map opens on it; several: the whole map (see the note above readable_coverage)
+        acts.append(f'<a class="btn primary" href="{H(gmap_one(cov["groups"][0][0]) if len(cov["groups"]) == 1 else SERNAU_MAP)}">On the map</a>')
     sources = ''.join(f'- [{link["title"]}]({link["url"]})\n' for link in g['links'])
     text = f'{g["detail"]}\n\n{reading.rstrip()}\n'
     if sources:
@@ -3091,7 +3180,18 @@ for g, reading in guide_readings:
                 + f'\n\n[{g["source_label"]}]({g["url"]})\n\n'
                 + (gai_md(g).replace('(' + g['ai']['url'], '([source](' + g['ai']['url'] + ')', 1) + '\n\n' if g['ai'] else '')
                 + f'{text}\n[All guides](/guides/)\n')
-    guide_page(g, edition, meta_desc(f'{g["name"]}. {g["detail"]}'), meta, acts, md_html(text), md)
+    content = md_html(text)
+    if cov:
+        html_, md_ = coverage_blocks(g)
+        content += html_
+        md += md_
+    elif g['edition'] == 'compact':
+        content += f'<p class="meta gzero">{H(G_NO_MAP)}</p>'
+        md += f'\n{G_NO_MAP}\n'
+    if g['own_photo'] and g['photo_source'] and g['ph96']:
+        content += f'<p class="meta gcredit">Photo: <a href="{H(g["photo_source"])}">{H(_host(g["photo_source"]))}</a></p>'
+        md += f'\nPhoto: {g["photo_source"]}\n'
+    guide_page(g, edition, meta_desc(f'{g["name"]}. {g["detail"]}'), meta, acts, content, md)
 
 # ---------- text list of original clusters by distance
 _lmd = [f'# Every cluster, as a list\n\nThe {len(CL):,} clusters of the map of the Lean proof of the Riemann hypothesis, by distance '

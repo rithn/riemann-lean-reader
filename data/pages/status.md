@@ -10,14 +10,14 @@ target_queries:
   - riemann hypothesis update latest
   - riemann hypothesis solved confirmed
   - riemann hypothesis lean proof verified
-as_of: "28 Nov 2026"
+as_of: "29 Nov 2026"
 ---
 
 # Has the Riemann hypothesis been solved?
 
 **Levent Alpöge released a Lean proof of the Riemann hypothesis on 20 November 2026. On 21 November the Lean FRO and the Mathlib Initiative certified that its statement and proof are correct, and independent checks since then have passed. [No refereed paper has been announced yet](#publication-and-the-clay-prize). On 25 November Luke Sernau released [two shorter rewrites](/shorter-riemann-hypothesis-proof/), readable and compact, which have also [passed independent checks](#shorter-editions).** [Release note](https://alpo.ge/remark.pdf) · [Joint statement](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
 
-*Last updated 28 November 2026.*
+*Last updated 29 November 2026.*
 
 ## What changed
 
@@ -38,6 +38,7 @@ See the [timeline](/timeline/) for the full dated record or [follow updates via 
 - [Is the proof a tautology?](/faq/#tautology) covers the objection and the verifiers’ response.
 - [Sutherland’s MIT verification guide](/guides/sutherland/) and [Rubinstein’s Waterloo verification guide](/guides/rubinstein-check/) collect the original-archive checks.
 - [Guides to reading the Lean proof](/guides/) cover the original and shorter editions.
+- [Rubinstein’s outline of the shortened proof](/guides/rubinstein-sernau/) is a 45-page study guide to Sernau’s shortened proof in fifteen steps, written with Claude, Codex and Gemini. It explains the proof and takes three theorems from the Lean development.
 
 ## What was released
 
@@ -154,6 +155,8 @@ The proof is a library of 175,187 Lean files (175,027 on our map), grouped into 
 riemannhypothesissolved.com is free, and independent of Levent Alpöge, Anthropic, the Lean FRO, the Lean and Mathlib communities, and the Mathlib Initiative.
 
 ## Changelog
+
+- **29 Nov 2026.** Added Rubinstein’s outline of the shortened proof to the reading links.
 
 - **28 Nov 2026.** Put the shorter editions’ checks first under “What was verified”, in one Check, Who, Result table covering MIT, Waterloo and Sonoda.
 - **27 Nov 2026.** Added Sutherland’s checked Schoenfeld bound and equivalence to the latest developments.

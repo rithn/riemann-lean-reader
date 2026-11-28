@@ -73,6 +73,26 @@
 # so quotes are as returned; GitHub details come from the GitHub API) and again on 24 Nov 2026 (raw HTML, GitHub API,
 # a headless browser for pages that need scripts).
 #
+# Fields added on 29 Nov 2026 (guides round 3; owner decisions).
+#   trust_tier     1, 2 or 3 on every entry in guides: and hub_guides:. It sets the order inside each section of /guides/ (and the
+#                  order of the guide lists on the map and cluster pages): tier first, then the newest version, snapshot or posting
+#                  date first; `order` and order_group now only break ties. Not the older A/B `tier` of the candidates file.
+#                  Definition fixed by the owner on 29 Nov 2026 (round 4); it is about who puts their name to the text, not
+#                  about how much AI helped. AI use is disclosed on each card and does not change the tier.
+#                  1 = an established mathematician or a recognised institution puts their name to the text: faculty or a
+#                      researcher at a university or institute (for example Waterloo, IHES, MIT, Aarhus), or the Lean FRO
+#                      and Mathlib Initiative statement.
+#                  2 = named authors whose mathematical standing is less established: PhD students, engineers, company
+#                      founders, independent researchers and non-mathematicians.
+#                  3 = anonymous or organisation-only authorship, or the author states that no human has reviewed or
+#                      checked the text.
+#   author.photo   a hub_guides item without portrait_from may carry its own, as in guides: (here a GitHub avatar kept in
+#                  data/guide-photos/, photo_source the GitHub profile). Only for an account the guide itself links to.
+#   readable_files (hub_guides, readable edition) {unit, note}: the guide cites Lean files of Sernau's readable edition, listed
+#                  with counts in data/sernau/guide-files/<slug>.tsv (module, count). `unit` says what a count counts. The guide
+#                  page then shows its groups (from readable_group_guides plus the files' groups), the files and an "On the map"
+#                  link. Without it the page lists only its readable_group_guides groups.
+#
 # Not added: the 15 "maybe" entries (tier C), and Terence Tao's blog post (labelled B in the candidates file
 # but "context, not an explainer"; the candidates file has 5 rows marked B, the tracker says 4).
 
@@ -81,6 +101,7 @@ guides:
   # ---------------- Tier A ----------------
 
   - id: rubinstein-zeta-guide
+    trust_tier: 1
     slug: rubinstein-zeta
     companion_reading:
       title: From Chebyshev to the Riemann Hypothesis
@@ -146,6 +167,7 @@ guides:
     clusters_basis: "Lean files the guide cites in its text (version 2 PDF): full paths under lean/src/ and bare file names that occur once in the archive, each mapped to its cluster with site/data/modules.json. Cited names that match no file are left out. Declaration names are not mapped, so the list may be incomplete."
 
   - id: sutherland-grh-verification
+    trust_tier: 1
     slug: sutherland
     page: true
     order: 5
@@ -198,6 +220,7 @@ guides:
     clusters_basis: "The page names Main.lean and its five theorems (Main is in k0677). Its checks cover every module but name no other, so only k0677 is listed."
 
   - id: lean-community-statement
+    trust_tier: 1
     slug: lean-statement
     page: true
     order: 22
@@ -246,6 +269,7 @@ guides:
     clusters_basis: "The statement names no Lean file. It certifies that the theorem proved in the library is Mathlib's RiemannHypothesis, which Main.lean proves (cluster k0677). No other cluster is listed."
 
   - id: jaswal-zenodo-guide
+    trust_tier: 2
     slug: jaswal
     page: true
     order: 11
@@ -258,9 +282,10 @@ guides:
       role: Independent researcher in number theory, Toronto, Canada
       role_source: https://manvirjaswal.github.io/
       order_group: 2
-      photo: null
-      photo_source: null
-      photo_note: No photo on his home page, his guide page, his ORCID record or the Zenodo record. Use initials.
+      photo: data/guide-photos/jaswal-github.png
+      photo_source: https://github.com/manvirjaswal
+      photo_url: https://avatars.githubusercontent.com/u/317277946?v=4
+      photo_note: "GitHub profile avatar of his account manvirjaswal (profile name Manvir Jaswal; his home page is hosted at manvirjaswal.github.io), 400 x 400 px, an illustration, not a photograph. Added 29 Nov 2026 (round 3). No photo on his home page, his guide page, his ORCID record or the Zenodo record."
     title: "The Riemann hypothesis for Dirichlet L-functions [after Levent Alpöge]"
     url: https://zenodo.org/records/24432579
     mapped_version: v2
@@ -310,6 +335,7 @@ guides:
     clusters_basis: "Files the guide cites by path with line numbers (version 2 PDF, record 24432579): its folder abbreviations expanded, '.../' paths matched to one file, and bare file names that occur once in the archive, each mapped with site/data/modules.json. 310 of 329 checkable name-and-file pairs matched a declaration in the resolved file; the rest are parse noise. Cited paths that match no file are left out."
 
   - id: adriazola-reconstruction
+    trust_tier: 1
     hub_detail: The revised 297-page manuscript is dated 25 November 2026. Its author describes the correspondence with the Lean archive as partial.
     slug: adriazola
     page: true
@@ -401,11 +427,12 @@ guides:
     clusters_basis: "Prose reconstruction that mostly uses short, namespace-free Lean names, which cannot be matched to files exactly. It cites lean/src/Main.lean line 4 and the five Main.lean theorems by name (Main is in k0677). Only k0677 is listed."
 
   - id: naskrecki-riemann-rev
+    trust_tier: 1
     slug: naskrecki
     companion_reading:
       title: The condensed Lean proof of RH and GRH
       url: https://riemannhypothesissolved.com/guides/naskrecki-sernau/
-      description: "Naskręcki’s 26 November working draft follows Sernau’s compact edition and comes with source concordances."
+      description: "Naskręcki’s compact-edition write-up (edition 33, 28 November) comes with source concordances. He marks the earlier atlas, guide, 25 November note, book and blueprint as superseded by this write-up."
     page: true
     order: 3
     author:
@@ -455,6 +482,7 @@ guides:
       md5: b19e6bfb57ee72884b932df1fb533428
       note: Committed 2026-11-24 05:14 UTC.
     changed_since_2026-11-23: 'The site and repository grew after the mapped commit: a third deformalization note (Descent to a layer of the cyclotomic tower, 70 Lean declarations, commit ae05a37f, 24 Nov), a 17-chapter book, a link to a separate proof atlas (https://nasqret.github.io/riemann-proof-atlas/), and fixes to notes 1 and 2. The status_quote is still on the page. The 11-page guide is unchanged in description.'
+    changed_since_2026-11-28: 'The author’s README now lists the atlas, the guide, the 25 November condensed-proof note, the book and the blueprint as "Earlier materials, made for the original announcement and superseded by the write-up" (README at commit 94466c30, 28 Nov). The map rows here are still those of commit e9bdf8f4 and are unchanged.'
     tier: A
     clusters: [k0302, k0415, k0595, k0641, k0677, k0682, k0688, k0694, k0695, k0697, k1091,
       k1092, k1108, k1112, k1114, k1148, k1209, k1633, k1636, k1703, k1989, k2342, k2358, k2401,
@@ -462,6 +490,7 @@ guides:
     clusters_basis: "All 107 Lean declarations in the atlas (data/model.json at e9bdf8f) matched to files by full name, or by suffix within the stated module for 4 private names (64 files). See research/lean-reader/xref/blueprint_matches.tsv."
 
   - id: merten-riemann-blueprint
+    trust_tier: 2
     slug: blueprint
     page: true
     order: 10
@@ -547,6 +576,7 @@ guides:
   # ---------------- Tier B ----------------
 
   - id: rubinstein-grh-lean-verification
+    trust_tier: 1
     hub_detail: Rubinstein reports a full build, axiom audit, Lean kernel replay and an independent nanoda check. The Waterloo overview credits Claude Code for the run.
     slug: rubinstein-check
     page: true
@@ -593,6 +623,7 @@ guides:
     tier: B
 
   - id: baez-azimuth-masullo
+    trust_tier: 1
     slug: baez
     listed: false
     dropped_note: "24 Nov 2026: dropped for now; the post is about Masullo's claim, not this proof"
@@ -634,6 +665,7 @@ guides:
     tier: B
 
   - id: aaronson-shtetl-optimized
+    trust_tier: 2
     hub_status: Discusses verification by others
     slug: aaronson
     page: true
@@ -678,7 +710,8 @@ guides:
     tier: B
 
   - id: tamnd-riemann-handbook
-    hub_detail: The About page says the text is written by people or drafted by a model and reviewed by a person.
+    trust_tier: 3
+    hub_detail: The About page says text is either written by people, or drafted by a model and reviewed by a person. The site's own trust report (23 Nov) says no person has yet checked the written steps against the Lean code.
     slug: tamnd
     page: false
     cite_as: tamnd   # short name in "cited on tamnd, …" lists (N3); the author's name order is not stated on the site
@@ -731,6 +764,7 @@ guides:
   # ---------------- Added 24 Nov 2026 (13 new guides, lane 1) ----------------
 
   - id: zhang-ihes-note
+    trust_tier: 1
     slug: zhang
     page: true
     listed: true
@@ -757,9 +791,12 @@ guides:
     licence_note: No licence text in the IHES PDF or on the home page; Hexagon v2 lists CC BY 4.0.
     edition_citation: "IHES copy · 22 Nov 2026 · licence unstated. [Hexagon v2](https://hexagonmath.org/2611.00809v2) · revision 22 Nov 2026 · 76 pages · CC BY 4.0."
     companion_reading:
-      title: On the Alpöge/Claude proof of the Riemann Hypothesis -- with Robin Zhang (IHES)
-      url: https://www.youtube.com/watch?v=tS8Ro66Zu1I
-      description: "In this 27 Nov 2026 interview with Alvaro Lozano-Robledo (31:24), Zhang discusses what background the proof draws on and whether it lies within the convex hull of existing ideas."
+      - title: On the Alpöge/Claude proof of the Riemann Hypothesis -- with Robin Zhang (IHES)
+        url: https://www.youtube.com/watch?v=tS8Ro66Zu1I
+        description: "In this 27 Nov 2026 interview with Álvaro Lozano-Robledo (31:24), Zhang discusses what background the proof draws on and whether it lies within the convex hull of existing ideas."
+      - title: A preliminary overview of Alpöge/Claude’s proof of GRH -- Robin Zhang (IHES)
+        url: https://www.youtube.com/watch?v=bDtAO5fRuGE
+        description: "Part 2 of the 27 Nov 2026 discussion hosted by Álvaro Lozano-Robledo. Zhang presents a slide talk on the Alpöge–Claude proof of the generalized Riemann hypothesis."
     host_copy: false
     versions:
     - version: single file
@@ -788,6 +825,7 @@ guides:
         url: https://www.ihes.fr/~rzhang/files/GRH%20note.pdf (page 2)
     retrieved: '2026-11-24'
   - id: zahid-alpoge-rh-exposition
+    trust_tier: 3
     slug: zahid
     page: true
     listed: true
@@ -835,6 +873,7 @@ guides:
         url: PDF page 6
     retrieved: '2026-11-24'
   - id: chu-geometry-true
+    trust_tier: 2
     hub_status: Inspected Lean source
     hub_detail: Chu checked the definition and counted the files mentioning it. He left open whether that construction appears in the final theorem’s dependency path.
     slug: chu
@@ -876,6 +915,7 @@ guides:
     ai_note: Nothing about AI or language models in the post text (read in full) or on the profile. The only AI wording on the page is in a comment by another user (Harry Tong), not by the author.
     retrieved: '2026-11-24'
   - id: chojecki-ulam-guide
+    trust_tier: 2
     slug: chojecki
     companion_reading:
       title: Covolumes and Dirichlet Zeros
@@ -928,6 +968,7 @@ guides:
     ai_note: The statement is in his X post, not in the PDF (the PDF has no AI statement; its bibliography lists Alpöge "with Claude"). Text of the post read through the public fxtwitter mirror; a logged-out Chromium returned an empty page for x.com.
     retrieved: '2026-11-24'
   - id: toledo-alpoge-grh-check
+    trust_tier: 2
     hub_status: Ran build and proof checks
     hub_detail: The audit reports successful compilation, kernel replay and con-leche statement comparisons. Its Comparator run ended without a verdict.
     slug: toledo
@@ -970,6 +1011,7 @@ guides:
       url: https://carlostoledo.co/reports/alpoge-grh.html (footer of the report)
     retrieved: '2026-11-24'
   - id: dixit-theta-lifts-account
+    trust_tier: 2
     slug: dixit
     page: true
     listed: true
@@ -1029,6 +1071,7 @@ guides:
         url: https://github.com/ishaan2006/rh-lean-reproduction (README, "How this was made")
     retrieved: '2026-11-24'
   - id: odesky-lean-rh-statements
+    trust_tier: 3
     slug: odesky
     page: true
     listed: true
@@ -1077,6 +1120,7 @@ guides:
         url: https://andrewodesky.com/rh/index.html
     retrieved: '2026-11-24'
   - id: epstein-rh-alpoge-blueprint
+    trust_tier: 2
     slug: epstein
     page: true
     listed: true
@@ -1126,6 +1170,7 @@ guides:
     ai_note: 'No statement about AI in the README or BLUEPRINT.md (both read in full). His commit messages carry the trailers ''Co-Authored-By: Claude Opus 5.5'' and ''Claude-Session: ...''. That is tool-generated attribution in the commit record, not a statement written by him, so it is not recorded as ai_statement; the lead may decide.'
     retrieved: '2026-11-24'
   - id: arledge-rh-verification-receipts
+    trust_tier: 2
     slug: arledge
     page: true
     listed: true
@@ -1167,6 +1212,7 @@ guides:
     ai_note: No statement about AI in the README, the result file or his home page.
     retrieved: '2026-11-24'
   - id: xu-alpoge-lean-exposition
+    trust_tier: 2
     slug: xu
     page: true
     listed: true
@@ -1216,6 +1262,7 @@ guides:
         url: https://github.com/cadamcat/riemann-hypothesis-exposition (README)
     retrieved: '2026-11-24'
   - id: plascencia-riemann-line-by-line
+    trust_tier: 2
     slug: plascencia
     page: true
     listed: true
@@ -1259,6 +1306,7 @@ guides:
     ai_note: No statement about AI or language models on the three pages, the README or his home page (searched).
     retrieved: '2026-11-24'
   - id: dial481-riemann-hypothesis-rosetta
+    trust_tier: 3
     slug: dial481
     page: true
     listed: true
@@ -1305,6 +1353,7 @@ guides:
         url: https://github.com/dial481/riemann-hypothesis-rosetta/blob/main/results/NOTICE.md
     retrieved: '2026-11-24'
   - id: qui-vincit-fable-account
+    trust_tier: 3
     slug: qui-vincit
     page: true
     listed: true
@@ -1358,6 +1407,7 @@ guides:
     retrieved: '2026-11-24'
 
   - id: antieau-rh-after-alpoge
+    trust_tier: 1
     slug: antieau
     page: true
     order: 6.5
@@ -1404,6 +1454,7 @@ guides:
     retrieved: '2026-11-25'
 
   - id: pei-rh-roadmap
+    trust_tier: 2
     slug: pei
     page: true
     order: 14.5
@@ -1449,6 +1500,61 @@ guides:
     clusters_basis: Exact file paths from the pinned links in Appendix A. The declaration index also includes names that match the local file and line and appear on the cited page.
     retrieved: '2026-11-25'
 
+  - id: rh-lean-roadmap
+    trust_tier: 3
+    slug: rh-lean-roadmap
+    page: true
+    byline: organized by Jizhou Guo; text written by AI models
+    author:
+      as_listed: Jizhou Guo
+      name: Jizhou Guo
+      name_source: https://github.com/rh-lean-roadmap/rh-lean-roadmap/commit/d3b52c73 (commit author on the repository, 28 Nov 2026)
+      name_basis: Commit author name on two commits (19a54909, d3b52c73) of the repository. The book, the README, the site and the Zenodo record name no author (the Zenodo creator is "rh-lean-roadmap"). He tagged the Explorer's owner on X on 27 Nov and replied with v45 on 28 Nov, from @TheOsmanthus.
+      name_note: 'Owner-approved credit line (29 Nov): "organized by Jizhou Guo; text written by AI models". The book says "The project organizer set the editorial rules" without naming him.'
+      home: https://github.com/rh-lean-roadmap
+      role: Organizer of the project; the text was written by AI models
+      role_source: https://zenodo.org/records/24623004/files/rh-lean-roadmap-book-v45.pdf#page=7 (About this text)
+      order_group: 2
+      photo: null
+    title: 'The Riemann hypothesis and GRH for Dirichlet L-functions: a readable account of the Lean proof in Alpöge’s archive'
+    url: https://rh-lean-roadmap.github.io/rh-lean-roadmap/
+    type: Book (1,617 pages)
+    language: en
+    format: pdf
+    posted_at:
+      url: https://github.com/rh-lean-roadmap/rh-lean-roadmap
+      date: '2026-11-21'
+      note: The repository's first commit (21 Nov 07:28 UTC) added a reading guide and roadmap; the first book commit (9f7c45ed) followed at 20:15 UTC. The page opens the Zenodo version v45 of 28 Nov.
+    licence: CC BY 4.0
+    licence_note: 'README: "Text, web pages and video (docs/, paper/, web/, video/, index.html, this README): CC BY 4.0." The Zenodo record says CC BY 4.0. Not hosted here; the page links to the Zenodo PDF.'
+    host_copy: false
+    versions:
+    - version: v45
+      date: '2026-11-28'
+      url: https://rh-lean-roadmap.github.io/rh-lean-roadmap/
+      file_url: https://zenodo.org/records/24623004/files/rh-lean-roadmap-book-v45.pdf
+      raw: https://github.com/rh-lean-roadmap/rh-lean-roadmap/blob/7278a66e0dff075ca2c42e65edcf503824ac2f44/docs/book.pdf
+      commit: 7278a66e0dff075ca2c42e65edcf503824ac2f44
+      doi: 10.5281/zenodo.24623004
+      md5: b8850a230a230e655d333120852b331a
+      sha256: 25e2503eb45c2830e9ddb54ae03d71bce22306921b14e51fbd5514dc5ec8c7bb
+      pages: 1617
+      note: Concept DOI 10.5281/zenodo.24562450. Main text pages 1 to 500, appendix of longer proofs from page 501, index of Lean declarations from page 1497.
+    status: explains
+    status_quote: The text has not been reviewed by a human expert.
+    status_quote_url: https://zenodo.org/records/24623004/files/rh-lean-roadmap-book-v45.pdf#page=7 (About this text)
+    status_note: The book runs no check of the archive. Its source index is the author's own means of checking the exposition against the archive; it is not a verification of the proof.
+    hub_detail: Several AI models wrote the 1,617-page book from the Lean source and cross-checked it; no human expert has reviewed the text.
+    ai_statement:
+      quote: Several AI models, including Claude, wrote the text from the Lean source and cross-checked it.
+      url: https://zenodo.org/records/24623004/files/rh-lean-roadmap-book-v45.pdf#page=7 (About this text)
+    ai_note: 'The README and homepage do NOT say "No human expert has reviewed the text"; that sentence is not in any pinned source. The nearest wording is on book page 7: "The text has not been reviewed by a human expert." Commit messages mention blind reviews "by three model families" (5509c842), i.e. model reviews, not human ones.'
+    parts_covered: The whole argument of the original archive in mathematical prose, from the five final statements down to the three inputs (window bound, Green, the HypsAlt witness). 500 pages of main text, a 995-page appendix of longer proofs and an index from each numbered statement to the Lean declarations that prove it, with modules and source lines. 65 proofs are given in outline.
+    clusters_basis: Exact Lean declaration names (3,248 rows) and module names (11 rows) found on pages of the pinned PDF, validated against the archive's declaration list. 1,885 rows come from the appendix, 1,374 from the pages of the index of Lean declarations. Page numbers are physical PDF pages.
+    mapping_note: Rows come from the appendix and the index (physical pages 503 to 1606). Main-text pages cite declarations only through the index at the end, so a row's page is the page where the declaration is named, not the numbered statement that it proves.
+    edition_citation: "Listed on 21 Nov 2026. Follows [Alpöge’s original archive](/alpoge/). [Read the pinned Zenodo PDF (v45)](https://zenodo.org/records/24623004/files/rh-lean-roadmap-book-v45.pdf) · CC BY 4.0."
+    retrieved: '2026-11-29'
+
 # Related site pages for guide entries, keyed by guide slug.
 related_guides:
   lean-statement:
@@ -1459,26 +1565,70 @@ related_guides:
     rubinstein-check: Rubinstein’s independent checks at Waterloo
   rubinstein-check:
     sutherland: Sutherland’s independent checks at MIT
+    rubinstein-sernau: Rubinstein’s outline of the shortened proof
   chojecki:
     chojecki-sernau: Chojecki’s exposition of the compact edition
   naskrecki:
     naskrecki-sernau: Naskręcki’s reading of the compact edition
   sonoda-readable:
     grh-lean-handbook: The GRH Lean Handbook
+    ye-yu: Ye Yu’s AI-generated exposition
   grh-lean-handbook:
     sonoda-readable: Sonoda’s source-linked theorem graph
+    ye-yu: Ye Yu’s AI-generated exposition
+  ye-yu:
+    sonoda-readable: Sonoda’s source-linked theorem graph
+    grh-lean-handbook: The GRH Lean Handbook
+  adriazola:
+    adriazola-sernau: Adriazola’s reconstruction from Sernau’s readable edition
+  adriazola-sernau:
+    adriazola: Adriazola’s reconstruction of the original archive
+  naskrecki-sernau:
+    naskrecki: Naskręcki’s earlier atlas of the original archive
+    chojecki-sernau: Chojecki’s exposition of the compact edition
+  rubinstein-zeta:
+    rubinstein-sernau: Rubinstein’s outline of the shortened proof
+  rubinstein-sernau:
+    rubinstein-zeta: Rubinstein’s guide to the original proof for the zeta function
+    rubinstein-check: Rubinstein’s independent checks at Waterloo
+    nelson-exercises: Nelson’s exercise sheets (cites this outline)
+  nelson-exercises:
+    rubinstein-sernau: Rubinstein’s outline of the shortened proof
+  rh-lean-roadmap:
+    pei: Pei’s 23-page roadmap of the proof
+    antieau: Antieau’s book on the proof
+  pei:
+    rh-lean-roadmap: The 1,617-page roadmap organized by Jizhou Guo
+  antieau:
+    rh-lean-roadmap: The 1,617-page roadmap organized by Jizhou Guo
+  jin-compact:
+    chojecki-sernau: Chojecki’s exposition of the compact edition
+  chojecki-sernau:
+    jin-compact: Jin’s manuscript from the compact edition
+    naskrecki-sernau: Naskręcki’s compact-edition write-up
 
 # Readable source groups linked by the guides that discuss their proof steps.
 readable_group_guides:
   Main: [sonoda-readable, grh-lean-handbook]
-  New.Reduction: [sonoda-readable]
+  New.Reduction: [sonoda-readable, ye-yu, adriazola-sernau, grh-lean-handbook]
+  New.Spanning: [ye-yu, adriazola-sernau, grh-lean-handbook]
+  New.UpperBound: [ye-yu, grh-lean-handbook]
+  New.Congruences: [ye-yu, grh-lean-handbook]
+  New.Determinant: [ye-yu, grh-lean-handbook]
+  New.OneLift: [ye-yu, grh-lean-handbook]
+  New.Derivatives: [ye-yu, adriazola-sernau, grh-lean-handbook]
+  Lib.Analytic: [rubinstein-sernau]
 
 # Reading guides share the catalogue and page layout. Their source links are
 # editorial references. Original archive map citations stay in the guides above.
 hub_guides:
   - id: nelson-grh-exercises
+    trust_tier: 1
+    readable_files:
+      unit: a place in the sheets that names the file or one of its declarations
+      note: Counted in the 27 November snapshot (commit 8590e35). The 28 November re-pin (aee295e) changed some sheets and has not been counted again.
     clusters: [k0173, k0244, k0248, k0403, k0437, k0463, k0466, k0630, k0648, k0650, k0685, k0695, k0701, k0760, k0762, k0768, k0770, k0774, k0779, k0791, k0793, k0798, k0876, k0896, k0903, k0971, k1057, k1087, k1102, k1110, k1112, k1114, k1116, k1117, k1119, k1138, k1141, k1143, k1148, k1165, k1169, k1176, k1183, k1186, k1188, k1193, k1198, k1362, k1363, k1381, k1625, k1628, k1630, k1633, k1636, k1638, k1640, k1642, k1651, k1655, k1660, k1681, k1691, k1703, k1705, k1841, k1896, k1907, k1917, k2273, k2282, k2404, k2440, k2461, k2463, k2467, k2503, k2545, k2571, k2572]
-    clusters_basis: "Exact declaration names in the pinned original-route sheets; evidence: research/guides/n-1127/nelson-original-map.tsv."
+    clusters_basis: "Exact declaration names in the frozen original-route sheets (identical at 8590e35 and aee295e); evidence: research/guides/n-1127/nelson-original-map.tsv (re-run at aee295e: research/guides/staging/nelson-exercises/nelson-original-map.tsv)."
     slug: nelson-exercises
     page: true
     edition: readable
@@ -1492,28 +1642,37 @@ hub_guides:
       photo: null
       photo_source: null
     title: GRH via exercises
-    url: https://github.com/ultronozm/grh-workbook/tree/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a
+    url: https://github.com/ultronozm/grh-workbook/tree/aee295e4c644784335166ab2ce892f9111bfa29c          # CHANGED (was 8590e35e...)
     date: '2026-11-25'
-    snapshot_date: '2026-11-27'
+    snapshot_date: '2026-11-28'                                                                             # CHANGED (was 2026-11-27)
     language: English
+    licence: CC BY 4.0                                                                                      # NEW (LICENSE file, README "Licence"); optional, see notes.md Q3
     status: explains
-    ai_statement:
-      quote: The sheets are drafts written and refereed by AI agents (Claude, Codex and Gemini).
-      url: https://raw.githubusercontent.com/ultronozm/grh-workbook/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a/20261125T012000--grh-workbook__guide.org
-    detail: Exercise sheets presenting the shorter proof, with models, a flowchart and a list of statements taken on trust.
-    reading: |
+    ai_statement:                                                                                           # CHANGED: quote and url
+      quote: The sheets are drafts written and refereed by AI agents.
+      url: https://raw.githubusercontent.com/ultronozm/grh-workbook/aee295e4c644784335166ab2ce892f9111bfa29c/20261125T012000--grh-workbook__guide.org
+    versions:                                                                                               # NEW (skill: add a versions item on a re-pin)
+      - {version: "commit aee295e", date: '2026-11-28', url: "https://github.com/ultronozm/grh-workbook/tree/aee295e4c644784335166ab2ce892f9111bfa29c", commit: aee295e4c644784335166ab2ce892f9111bfa29c, note: "Head at 28 Nov 2026 17:50 UTC. Mapped rows come from the frozen original-route sheets, unchanged since 8590e35."}
+      - {version: "commit 8590e35", date: '2026-11-27', url: "https://github.com/ultronozm/grh-workbook/tree/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a", commit: 8590e35eb9a6e8cd07d546bd5b3b115ebac9672a, note: "First pin (27 Nov 2026 16:25 UTC)."}
+    detail: Exercise sheets presenting the shorter proof, with models, a flowchart, an overview with a table of the identities between lifts and a first-pass reading path, and a list of statements taken on trust.    # CHANGED
+    reading: |                                                                                              # CHANGED
       ## Where to start
 
-      Use the workbook index and flowchart to choose a sequence of exercises. The sheets introduce ingredients in simple cases; the overview lists statements taken from Lean without proof.
+      Read the overview first. It gives the proof in a paragraph, shows how the Parts depend on each other, suggests a first pass through the chapters, collects the identities between lifts in one table, and lists the statements taken from Lean without proof. Then use the workbook index and flowchart to choose a sequence of exercises. The sheets introduce ingredients in simple cases.
 
       ## Edition and scope
 
-      The 27 November snapshot is in English. It follows Sernau’s readable edition at `72fead1`. Parts VI–IX present the whole proof, according to the status file. The earlier route through the original archive is preserved separately. The workbook explains the proof; it is not an independent verification.
-    links:
+      The 28 November snapshot is in English. It follows Sernau’s readable edition at `72fead1`, and cites Rubinstein’s outline among its sources. Parts VI–IX present the whole proof, according to the status file. The earlier route through the original archive is preserved as a frozen snapshot, and the nodes listed on the map come from that snapshot. The workbook explains the proof; it is not an independent verification.
+    links:                                                                                                  # CHANGED: SHA, plus one new link
       - {title: Workbook website, url: "https://ultronozm.github.io/grh-workbook/"}
-      - {title: Pinned status, url: "https://raw.githubusercontent.com/ultronozm/grh-workbook/8590e35eb9a6e8cd07d546bd5b3b115ebac9672a/STATUS.md"}
+      - {title: Pinned status, url: "https://raw.githubusercontent.com/ultronozm/grh-workbook/aee295e4c644784335166ab2ce892f9111bfa29c/STATUS.md"}
+      - {title: Original-route snapshot (frozen, source of the map), url: "https://ultronozm.github.io/grh-workbook/original-route/index.html"}
+
 
   - id: bolan-grh-manuscript
+    trust_tier: 2
+    readable_files:
+      unit: a source note in the manuscript that links the file
     slug: bolan
     page: true
     edition: readable
@@ -1547,6 +1706,7 @@ hub_guides:
       - {title: Download pinned manuscript (PDF), url: "https://raw.githubusercontent.com/mjtb49/GRH/7fcfd68898/manuscript.pdf"}
 
   - id: sonoda-readable-analysis
+    trust_tier: 2
     slug: sonoda-readable
     page: true
     edition: readable
@@ -1568,29 +1728,41 @@ hub_guides:
       - {title: Methods, url: "https://shosonoda.github.io/lean-rh-alpoge/methods.html"}
 
   - id: tamnd-sernau-handbook
+    trust_tier: 3
+    readable_files:
+      unit: a link from the complete PDF to the file in the readable edition
     slug: grh-lean-handbook
     page: true
     edition: readable
     author: {name: Tam Nguyen Duc, home: "https://github.com/tamnd"}
     portrait_from: tamnd
     title: The GRH Lean Handbook
-    url: https://github.com/tamnd/grh-lean-handbook/releases/tag/v0.2.0
-    date: '2026-11-26'
+    url: https://github.com/tamnd/grh-lean-handbook/releases/tag/v1.0.1
+    date: '2026-11-28'
     status: explains
-    versions: [{version: '0.2.0'}]
-    detail: A model-drafted handbook for graduate students reading Sernau’s proof. Volume 0 runs to 264 pages and Volume 1 lists 13 draft chapters. The release reports no human checking or Lean replay.
+    licence: CC BY 4.0 (text), MIT (builder code)
+    ai_statement:
+      quote: "The chapters of this book were drafted by a model."
+      url: https://github.com/tamnd/grh-lean-handbook/releases/download/v1.0.1/grh-lean-handbook-00-guide-1.0.1.pdf (PDF page 14, Volume 0 section 1.4 How the book was written)
+    versions:
+      - {version: '0.2.0', date: '2026-11-26'}
+      - {version: '1.0.1', date: '2026-11-28', pages: 3435, sha256: 7acd8d4ca35d318d5bfb371a16ccd6d95bba86219052b58e63374a18624870b0}
+    detail: A model-drafted handbook for graduate students reading Sernau’s proof, now complete in 13 volumes and 3,435 pages (Volume 0 alone runs to 603 pages). Every chapter is labelled drafted by a model and none has been checked by a named person. The handbook reports that it ran the Lean build and axiom check at the pinned commit on 27 November and cites independent runs by others.
     reading: |
       ## Where to start
 
-      Open Volume 0 for the handbook’s overview of the argument. Follow the release page for the 13 draft chapters listed under Volume 1. The Explorer’s [route from Main](/sernau/route/) leads into the same readable Lean edition.
+      Open Volume 0 for the handbook’s overview of the argument and its register of findings. Volume 1 gives the whole proof in outline, and Volumes 9 to 12 explain Theorems A, B and C and the congruence step. The release page lists all thirteen volumes as separate PDFs, or you can download the complete book. The Explorer’s [route from Main](/sernau/route/) leads into the same readable Lean edition.
 
       ## Edition and scope
 
-      This page covers the 26 November v0.2.0 release for Sernau’s readable `grh/` project. See the release for the project’s drafting and checking disclosure. Nguyen Duc’s [earlier written proof](https://riemann.tamnd.com/about/) follows Alpöge’s original archive.
+      This page covers the 28 November v1.0.1 release, the complete 13-volume edition, for Sernau’s readable `grh/` project at commit `72fead10`. The book follows the readable edition and does not follow the compact one. See Volume 0, chapters 1 and 2, for the project’s drafting and checking disclosure. Nguyen Duc’s [earlier written proof](https://riemann.tamnd.com/about/) follows Alpöge’s original archive.
     links:
-      - {title: Volume 0 PDF, url: "https://github.com/tamnd/grh-lean-handbook/releases/download/v0.2.0/grh-lean-handbook-00-guide-0.2.0.pdf"}
+      - {title: "Volume 0 PDF (603 pages)", url: "https://github.com/tamnd/grh-lean-handbook/releases/download/v1.0.1/grh-lean-handbook-00-guide-1.0.1.pdf"}
+      - {title: "Complete handbook PDF (3,435 pages, 29 MB)", url: "https://github.com/tamnd/grh-lean-handbook/releases/download/v1.0.1/grh-lean-handbook-1.0.1.pdf"}
+
 
   - id: chojecki-complete-guide
+    trust_tier: 2
     slug: chojecki-sernau
     page: true
     edition: compact
@@ -1621,30 +1793,46 @@ hub_guides:
       - {title: Author’s announcement of the earlier note, url: "https://x.com/prz_chojecki/status/2125893524830687454"}
 
   - id: naskrecki-compact-writeup
+    trust_tier: 1
     slug: naskrecki-sernau
     page: true
     edition: compact
     author: Bartosz Naskręcki
     portrait_from: naskrecki
     title: "The condensed Lean proof of RH and GRH: a reading"
-    url: https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/handout.pdf
-    date: '2026-11-26'
-    versions: [{version: '11'}]
+    url: https://github.com/nasqret/riemann-rev/blob/94466c3027bc5308174604f6f1be070c655e90ac/writeup/handout.pdf
+    date: '2026-11-28'
+    versions:
+      - version: '11'
+        date: '2026-11-26'
+        url: https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/handout.pdf
+        sha256: c8d249c3601a2f826be29bd729f0fad602b34b1d044ee6e5ea62556b736175b5
+        pages: 1352
+        note: Edition 11, commit a2d6c1fa (26 Nov 2026), the version first listed.
+      - version: '33'
+        date: '2026-11-28'
+        url: https://github.com/nasqret/riemann-rev/blob/94466c3027bc5308174604f6f1be070c655e90ac/writeup/handout.pdf
+        sha256: 8c55ac33e819f15c1dac6c9fa177520aa0ae5c7fd1cc2685c3db5ea3b2a37354
+        pages: 1369
+        note: Edition 33, commit 94466c30 (28 Nov 2026, 16:14 UTC).
     licence: 0BSD for the text
     status: explains
-    detail: Edition 11 is a 1,352-page working draft. Its 47 notes cover 24 units of the compact edition at 72fead10 and come with source concordances. The project credits Claude agents for the writing and reports program checks. Human refereeing is pending.
+    detail: Edition 33 is a 1,369-page working draft with a 1,152-page light reading edition that has no Lean links. Its 47 notes cover 24 units of the compact edition at 72fead10 and come with source concordances. The project credits Claude agents for the writing and reports program checks. Human refereeing is pending.
     reading: |
       ## Where to start
 
-      Begin with the five final theorems, then use the notes to follow their ingredients into the [pinned compact Lean source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact). A separate [concordance for the final theorems](https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/notes/final-theorems/concordance.json) names their files and lines.
+      Begin with the five final theorems (section 0.1, handout page 24), then use the notes to follow their ingredients into the [pinned compact Lean source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact). A separate [concordance for the final theorems](https://github.com/nasqret/riemann-rev/blob/94466c3027bc5308174604f6f1be070c655e90ac/writeup/notes/final-theorems/concordance.json) names their files and lines. The [light reading edition](https://github.com/nasqret/riemann-rev/blob/94466c3027bc5308174604f6f1be070c655e90ac/writeup/reading/reading-handout.pdf) has the same mathematics without the Lean links.
 
       ## Edition and scope
 
-      The methods describe automated checks of Lean citations and a separate AI reading of the prose. Naskręcki’s [earlier atlas of Alpöge’s original archive](/guides/naskrecki/) includes the Explorer’s original-archive citations.
+      The methods describe automated checks of Lean citations and a separate AI reading of the prose. Naskręcki marks his earlier atlas, guide, 25 November note, book and blueprint as superseded by this write-up. The Explorer’s entry for the [earlier atlas of Alpöge’s original archive](/guides/naskrecki/) keeps its original-archive citations. Earlier editions stay at their commits, for example [edition 11](https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/handout.pdf) (1,352 pages).
     links:
-      - {title: Methods and credits, url: "https://github.com/nasqret/riemann-rev/blob/a2d6c1fa0400fd8b15271d4947a1299d07e4bd1f/writeup/README.md"}
+      - {title: Methods and credits, url: "https://github.com/nasqret/riemann-rev/blob/94466c3027bc5308174604f6f1be070c655e90ac/writeup/README.md"}
+      - {title: Light reading edition without Lean links (1,152 pages), url: "https://github.com/nasqret/riemann-rev/blob/94466c3027bc5308174604f6f1be070c655e90ac/writeup/reading/reading-handout.pdf"}
+
 
   - id: eto-reading-alpoge
+    trust_tier: 2
     slug: eto
     page: true
     edition: original
@@ -1663,3 +1851,215 @@ hub_guides:
       ## Follow the Lean argument
 
       Use the Explorer’s [route through Alpöge’s original archive](/route/) to follow the dependencies from the final Lean statements. For reports of checks of the archive, see [How we know](/how-we-know/).
+
+  - id: ye-yu-grh
+    trust_tier: 3
+    readable_files:
+      unit: a mention of the file in the author's Lean correspondence document (the PDF itself names no files)
+    slug: ye-yu
+    page: true
+    edition: readable
+    author:
+      name: Ye Yu
+      name_source: https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/README.md
+      home: https://github.com/sdyy1990
+      order_group: 2
+      # No photo (hub_guides: initials only). No employer or role shown.
+    title: "The Generalized Riemann Hypothesis: A Self-Contained Natural-Language Proof"
+    url: https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/GRH_Proof_EN.pdf
+    date: '2026-11-27'
+    language: English and Chinese
+    format: pdf
+    status: explains
+    licence: MIT (repository LICENSE)
+    versions:
+      - date: '2026-11-28'
+        pages: 43
+        commit: b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2
+        sha256: f270caf27c84cc198597f74589b0433cf774ade566dd71e55d393b00957d51f4
+        md5: 1bd7b8d0801fef30d783b6fca6a1a59f
+        note: "Title page names Ye Yu only. The 27 Nov first version (commit 9dd9b7c7dc11, sha256 bf43a857f478...) named Levent Alpoge and Claude as authors."
+    ai_statement:
+      quote: "All natural-language expositions, translations, and notes were generated by large language models (LLMs) and may contain logical errors, omissions, or mistranslations."
+      url: "https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/README.md (IMPORTANT DISCLAIMER box, third bullet)"
+      also:
+        - quote: "Author & Maintainer (Unofficial Exposition): Ye Yu (yeyu.space), using Gemini in Antigravity"
+          url: "https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/README.md (header)"
+    ai_note: "README says the text was generated by LLMs (Gemini in Antigravity) and has not been reviewed by the maintainer. The build only offers the AI-assisted pill; the AI-written wording is in detail."
+    detail: >-
+      An unofficial exposition of Sernau’s readable edition, generated with Gemini and compiled by Ye Yu: a 43-page natural-language proof in English and Chinese, with a separate Lean correspondence.
+      The first version named Alpöge and Claude; corrected on 28 Nov.
+      The author says no mathematician has reviewed the text and gives no guarantee of its correctness.
+    reading: |
+      ## Where to start
+
+      Open the 43-page PDF for the argument in ordinary mathematical prose; it names no Lean files. The separate Lean correspondence document maps each part to files of Sernau’s readable edition. The Explorer’s [route from Main](/sernau/route/) leads into the same Lean files.
+
+      ## Authorship and review
+
+      Ye Yu generated the text with Gemini. The first version named Alpöge and Claude; corrected on 28 Nov. The README says the maintainer has no mathematical training beyond the undergraduate level, has not reviewed the text, and that only the Lean verification is established. No expert review has been reported. For the separately reported machine checks, see [verification of the shorter editions](/status/#shorter-editions).
+
+      ## Edition and scope
+
+      The correspondence document cites 317 files of Sernau’s readable `grh/` project (803 files). It states no commit, and every path it cites exists in revision `72fead10`. It does not follow the original archive or the compact edition.
+    links:
+      - {title: README (pinned), url: "https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/README.md"}
+      - {title: Lean correspondence (Markdown), url: "https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/GRH_Lean4_Correspondence.md"}
+      - {title: Chinese edition (PDF), url: "https://github.com/sdyy1990/riemann-hypothesis/blob/b90d8a3ccc8cd5f6263178d2e7f048ad2945cdf2/GRH_Proof_ZH.pdf"}
+
+  - id: jin-grh-manuscript
+    trust_tier: 3
+    slug: jin-compact
+    page: true
+    edition: compact
+    author:
+      name: Kaiwen Jin
+      name_source: https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/blob/4ea3ce7ca4e48c3408f410def6fb268158d5fbca/README.md
+      home: https://github.com/yuiyuiui
+      role: The Hong Kong University of Science and Technology (Guangzhou)
+      role_source: https://mathhelm.org/t/402
+      order_group: 2
+      photo: data/guide-photos/jin-compact-github.jpg
+      photo_source: https://github.com/yuiyuiui
+      photo_url: https://avatars.githubusercontent.com/u/92569362?v=4
+      photo_note: "GitHub profile avatar of the owner of the guide's repository (yuiyuiui, profile name 'yui'; the author's home link here), 460 x 460 px, an illustration, not a photograph. Added 29 Nov 2026 (round 3)."
+    title: A Proof of the Generalized Riemann Hypothesis for Dirichlet L-Functions
+    url: https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/blob/4ea3ce7ca4e48c3408f410def6fb268158d5fbca/proof-of-GRH.pdf
+    date: '2026-11-26'
+    retrieved: '2026-11-29'
+    language: English
+    status: explains
+    licence: No licence stated
+    source_label: Pinned repository and manuscript
+    versions:
+      - pages: 331
+        date: '2026-11-28'
+        commit: 4ea3ce7ca4e48c3408f410def6fb268158d5fbca
+        md5: 4686f309a65850272a143a5d397bfd33
+        sha256: cf42b0099124938a996508b6b6bd0af4dac51f61d24550b05984079552953fff
+      - pages: 322
+        date: '2026-11-26'
+        commit: 163ad1f1289299b14dad7f48aa292cd5f85c69ca
+    ai_statement:
+      quote: "Using Gemini + GPT, I back-translated the 76k-line Lean proof from the newly released grh-compact into a 322-page natural-language proof."
+      url: "https://mathhelm.org/t/402 (Kaiwen Jin's post, 26 Nov 2026; not in the repository or the PDF)"
+    ai_note: "Searched README.md, main.tex, sections/*.tex, references.bib, the PDF title page, metadata and full text, all 4 commit messages and the 5 issues at 4ea3ce7c: no AI-use statement anywhere in the repository or PDF. The README credits 'Authors: Levent Alpöge and Claude' and 'Lean-to-natural-language translation: Kaiwen Jin'. The only statement is the author's own MathHelm post."
+    detail: A 331-page natural-language manuscript of the Dirichlet GRH proof by Kaiwen Jin, translated back from Sernau's compact Lean edition at 72fead10. The title page names Alpöge and Claude as authors and credits Jin with the exposition. Jin says he made it using Gemini and GPT; the repository and PDF state nothing about AI use. The author published errata on 28 November.
+    reading: |
+      ## Where to start
+
+      Read Theorem 1.1 and the introduction (page 4), then Sections 2 and 3 (pages 4–13), which derive the theorem from four propositions. Section 3.3 (page 10) uses the prime number theorem for a fixed modulus. The README says that step follows the [readable edition's argument](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/src/New/Reduction/Zeros/PrimeNumberTheorem.lean), not the compact derivation. The README links the Lean source, and the PDF names no Lean files or declarations. There is no source concordance (a [request for one](https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/issues/1) is open), so this guide has no map links.
+
+      ## Edition and scope
+
+      The manuscript follows the [compact edition](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact) at `72fead10`. Experts on the Lean Zulip (Loeffler, Brasca, Nuccio) advise reading the mathematics from the readable edition, because some compact-edition names and definitions do not match the standard objects (for example, `def Bcris` defines B_max). Loeffler says this does not logically invalidate the proof. See [the shorter proof](/shorter-riemann-hypothesis-proof/) for the two editions and [verification of the shorter editions](/status/#shorter-editions) for the machine checks, which cover the Lean code and not this manuscript.
+
+      ## Attribution and errata
+
+      The repository and PDF do not say whether AI helped write the text; Jin's own post says he used Gemini and GPT. Jin also says he ran an audit with his "Yui" natural-language auditing system; we have found no outside review of the manuscript. On 28 November, Jin revised the manuscript from 322 to 331 pages and added an errata section to the README. It lists corrections to the determinant multiplier in Section 11.11, the final branching count, equation (119), the proof of equation (67), the first-descent argument, Appendices B, D and E.3, the Selmer and auxiliary-prime arguments in Section 9, and the theta exchange in Section 11. The README says the equation numbers refer to the 322-page edition at `163ad1f`. The Section 11.11 error was reported by two readers (@RayzorYv and @cyjin-yl) and is [issue 4](https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/issues/4). Page numbers in this guide refer to the 331-page edition.
+    links:
+      - {title: Repository at the pinned commit, url: "https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/tree/4ea3ce7ca4e48c3408f410def6fb268158d5fbca"}
+      - {title: Download pinned manuscript (PDF, 331 pages), url: "https://raw.githubusercontent.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/4ea3ce7ca4e48c3408f410def6fb268158d5fbca/proof-of-GRH.pdf"}
+      - {title: README with revision and errata, url: "https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/blob/4ea3ce7ca4e48c3408f410def6fb268158d5fbca/README.md#revision-and-errata"}
+      - {title: Errata issue 4 (Section 11.11), url: "https://github.com/yuiyuiui/Natural-Language-Proof-Generalized-Riemann-Hypothesis/issues/4"}
+      - {title: "Author's announcement (MathHelm)", url: "https://mathhelm.org/t/402"}
+      - {title: Pinned compact Lean source, url: "https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact"}
+
+  - id: rubinstein-outline
+    trust_tier: 1
+    readable_files:
+      unit: a mention of the file path in the PDF text (page 9)
+    slug: rubinstein-sernau
+    page: true
+    edition: readable
+    author:
+      name: Michael Rubinstein
+      name_source: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/rh-outline.pdf
+      home: https://www.math.uwaterloo.ca/~mrubinst/
+    portrait_from: rubinstein-zeta
+    title: An outline of the shortened proof of the Riemann Hypothesis
+    url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/rh-outline.pdf
+    source_label: Version 1.5 PDF (overwritten in place)
+    date: '2026-11-27'
+    language: English
+    status: explains
+    ai_statement:
+      quote: The outline was extracted from the formal proof with the help of the AI models Claude Fable 5.2 and Claude Opus 5.5, Codex Astra 6.2 and Codex Sol 6.1, and Gemini Carbon. I reshaped it, with the goal of creating a study guide to understand the proof in the language of classical analytic number theory wherever possible, and to make the various steps as concrete as possible.
+      url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/rh-outline.pdf (Background and status, page 3)
+    versions:
+      - version: '1.5'
+        date: '2026-11-27'
+        url: https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/rh-outline.pdf
+        pages: 45
+        sha256: 61e10b6c63a00b5f6d2cc4390c2b91a8948991b451970658b935edb8f11073e9
+        md5: 6ba6fed11a1e06128bf9fc9a06014b5a
+        commit: bed3af51d896201df057f40d9b458c5b7f471410
+        note: 'Title page: "Version 1.5, 27 November 2026". File last-modified 28 Nov 2026 02:51:19 GMT, 670,492 bytes. The author overwrites the PDF at the same URL; the repository commit bed3af51 (28 Nov 02:51 UTC) holds identical bytes.'
+    detail: A 45-page study guide to Sernau’s shortened proof in fifteen steps, written by Rubinstein with Claude, Codex and Gemini. Steps 1–4 reduce RH to a one-sided prime-sum bound; Steps 5–10 deduce it from three theorems, A, B and C, taken from the Lean development; Steps 11–14 outline their proofs without proving them. The author calls it a work in progress.
+    reading: |
+      ## Where to start
+
+      Read the one-page outline of the fifteen steps on pages 1–2, then Steps 9–10 (the main inequality and the exponent 1/2) to see how Theorems A, B and C fit together. Steps 1–3 are proved in the paper, Step 4 is outlined, and Steps 11–14 outline the proofs of the three theorems without proving them. The appendix works three small numerical examples. Step 4 points to `Lib/Analytic/QuadraticTwist.lean`, which is linked below at the pinned commit; the Explorer’s [route from Main](/sernau/route/) leads into the same readable edition.
+
+      ## Edition and scope
+
+      The paper follows Sernau’s shortened proof (`lsernau/grh-lean`) and states no commit. Its one file path, `Lib/Analytic/QuadraticTwist.lean`, is in the readable `grh/` project at `72fead10`; the paper also says the author rebuilt both the readable and the compact editions. It is not an independent verification: it takes the three theorems from the formal proof. For Rubinstein’s machine checks of the Lean proofs, see [Rubinstein’s independent checks at Waterloo](/guides/rubinstein-check/) and [verification of the shorter editions](/status/#shorter-editions). His longer guide to the original archive for the zeta function is [here](/guides/rubinstein-zeta/). The PDF is overwritten in place; this page records the 27 November version 1.5.
+    links:
+      - {title: "Version 1.5 PDF (45 pages)", url: "https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/rh-outline.pdf"}
+      - {title: "LaTeX source", url: "https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/rh-outline.tex"}
+      - {title: "Repository at the pinned commit", url: "https://github.com/mrubinst/alpoge-claude-rh-explained/tree/bed3af51d896201df057f40d9b458c5b7f471410"}
+      - {title: "Step 4 file, pinned (QuadraticTwist.lean)", url: "https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/src/Lib/Analytic/QuadraticTwist.lean"}
+
+  - id: adriazola-readable
+    trust_tier: 1
+    readable_files:
+      unit: a link from the PDF to the file in the readable edition
+    slug: adriazola-sernau
+    page: true
+    edition: readable
+    author:
+      name: Jimmie Adriazola
+      name_source: https://jimjamzola.github.io/me/
+      home: https://jimjamzola.github.io/me/
+      role: Assistant Professor, School of Mathematical and Statistical Sciences, Arizona State University
+      role_source: https://search.asu.edu/profile/5123395
+      order_group: 1
+    portrait_from: adriazola
+    title: The Alpöge–Claude Argument for the Riemann Hypothesis
+    url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/c062bca17a28940ea2d203b3c629f784158457ed/canonical/main.pdf
+    date: '2026-11-26'
+    language: en
+    format: pdf
+    status: explains
+    status_quote: The written reconstruction remains conditional.
+    status_quote_url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/c062bca17a28940ea2d203b3c629f784158457ed/README.md#from-luke-sernaus-readable-edition-117-pages
+    licence: CC BY 4.0
+    licence_note: 'LICENSE file and README of the repository; the Lean source is not covered.'
+    versions:
+      - date: '2026-11-26'
+        pages: 117
+        commit: c062bca17a28940ea2d203b3c629f784158457ed
+        sha256: c0f7134dd26ab5a74cedb43ecc16bce8c65b6907b1af881c5cf5ece1e2d5a405
+        md5: 7a7011ea668621fff9153bb5620e21c5
+        note: 'canonical/main.pdf, dated 26 November 2026; last changed in commit 1cc63e99 (26 Nov 19:31 UTC).'
+    ai_statement:
+      quote: I used Claude, GPT and Kimi in the reconstruction and manuscript preparation.
+      url: https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/c062bca17a28940ea2d203b3c629f784158457ed/README.md#the-argument-and-its-reconstruction
+    ai_note: 'The statement is the README sentence at c062bca1 (section "The argument and its reconstruction"); it covers the repository, not this PDF specifically. The PDF itself has no AI disclosure (searched the extracted text of all 117 pages for Claude, GPT, Kimi, assist, acknowledg). Same wording as the entry for the 297-page manuscript, but re-read from this commit, not copied.'
+    detail: >-
+      A 117-page reconstruction, in conventional mathematics, of the determinant argument in Sernau’s readable Lean edition at revision 72fead10, dated 26 November 2026.
+      Theorem 1.1 deduces Dirichlet GRH from a signed determinant bound, and the author says the written reconstruction remains conditional on arithmetic estimates that are still to be established.
+      The author used Claude, GPT and Kimi and invites community review.
+    reading: |
+      ## Where to start
+
+      Read the abstract and Theorem 1.1 on page 2, which deduces Dirichlet GRH from the determinant bound (Hypothesis S). Corollary 7.2 on page 13 proves the converse. Part II (pages 15–56) compares the determinant on a selected family, and Proposition 12.3 on page 55 gives the precision needed for the two moment estimates. Appendix E on page 83 lists the construction hypotheses the author still treats as inputs. The manuscript links 78 places in the [pinned readable Lean source](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh), 41 of them in `New/Spanning` (pages 39 and 90–101).
+
+      ## Edition and scope
+
+      This is the author’s manuscript for Sernau’s readable edition. His [297-page manuscript for the original archive](/guides/adriazola/) has its own page, with the Explorer’s map citations. The repository’s separate 73-page manuscript, which the author calls conditional and not independently verified, is not listed here.
+    links:
+      - {title: "Theorem 1.1 and Hypothesis S, page 2", url: "https://raw.githubusercontent.com/jimjamzola/RH-Alpoge-Reconstruction/c062bca17a28940ea2d203b3c629f784158457ed/canonical/main.pdf#page=2"}
+      - {title: "Appendix E, page 83 (open construction hypotheses)", url: "https://raw.githubusercontent.com/jimjamzola/RH-Alpoge-Reconstruction/c062bca17a28940ea2d203b3c629f784158457ed/canonical/main.pdf#page=83"}
+      - {title: "Repository README at the pinned revision", url: "https://github.com/jimjamzola/RH-Alpoge-Reconstruction/blob/c062bca17a28940ea2d203b3c629f784158457ed/README.md"}
+      - {title: "LaTeX source (canonical/)", url: "https://github.com/jimjamzola/RH-Alpoge-Reconstruction/tree/c062bca17a28940ea2d203b3c629f784158457ed/canonical"}
