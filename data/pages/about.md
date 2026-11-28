@@ -82,6 +82,20 @@ Dated changes that fixed something this site had wrong or unclear. The [changelo
 - **22 Nov 2026. Theme names.** 20 themes whose names described only a small part of their content were renamed. The old addresses redirect.
 - **22 Nov 2026. What "Builds on" and "Needed by" count.** Cluster panels now say that both count direct imports. The main theorem's line says it reaches every other cluster through chains of imports.
 
+## For journalists {#for-journalists}
+
+> **For journalists**
+>
+> **What the original map offers.** An interactive map of Alpöge’s 20 November Lean archive: 175,187 Lean files (175,027 on the map) in 2,647 clusters and 63 themes, about 17.4 million lines. It shows how the proof is structured: the main theorem's cluster, and how far each cluster is from it. [How the proof is structured](/route/) · [main theorem's cluster](/cluster/k0677-explicit-formula-perron-kernel-and-zero-free-conditions-for/) · [browse the list](/list/) · [learning path](/learn/).
+>
+> **Numbers you can quote.** The longest import chain is 203 files. The median file is 13 imports from `Main`, and the farthest is 43. By import distance from the main-theorem cluster, the clusters fall into bands 0 to 8, with 1, 3, 22, 437, 1,443, 637, 76, 25 and 3 clusters. The 175,187 figure is for the submitted archive. The community repository has since removed most of those files: at its main commit [6866a9c6](https://github.com/leanprover-community/riemann-hypothesis/commit/6866a9c6260d77b88a7b5477433e3044b6844f9b) (24 Nov 2026, 13:39 UTC) it has 60,156 `.lean` files, 60,147 of them under `src/`. The count changes with every merge.
+>
+> **Free to use.** Everything we made, including data, page text, images and clips, is free to use under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Credit "RH Lean Explorer (riemannhypothesissolved.com)".
+>
+> **Contact.** [Soumya Sharma](/about/#author), who built the site: soumyasharma98 (at) gmail.com · X: [@RiemannMap](https://x.com/RiemannMap)
+>
+> **Wording we suggest.** "Certified" refers to the four formal criteria in the joint statement. The certification is a "joint statement by the Lean FRO and the Mathlib Initiative". Cluster names on the map were drafted by AI. For claims about the proof, cite the primary sources.
+
 ## Contact and corrections {#contact}
 
 - Email Soumya Sharma at soumyasharma98 (at) gmail.com for press, teaching, collaboration or anything else. On X: [@SomTheBuilder](https://x.com/SomTheBuilder).

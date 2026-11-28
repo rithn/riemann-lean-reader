@@ -28,6 +28,7 @@ from proof_editions import (COMPARISON, DEFAULT, NAMES as EDITION_NAMES, ORIGINA
                             edition_api, verification_api)
 from site_dates import chash, content_revision
 import depth_figure
+from press_feed import load_press, press_feed_html, press_feed_ld, press_feed_md, press_images
 from alpoge_layout import pack_constellation
 
 D, OUT = sys.argv[1], sys.argv[2]
@@ -1705,6 +1706,23 @@ def edition_switch(edition, view):
         links.append(f'<a href="{href}" data-edition="{key}" data-edition-link{current}>{label}</a>')
     return f'<nav class="edition-switch" aria-label="Proof edition">{"".join(links)}</nav>'
 
+def press_doc(title, desc, body, page_head, styles, status, footer, map_url):
+    # Reuse the common head and topbar. Submit site search to the map, which owns its results.
+    frame = TPL.split('</header>', 1)[0] + '</header>'
+    frame = frame.replace('<div id="tip" role="tooltip"></div>\n', '')
+    frame = frame.replace('type="button" aria-label="Search"', 'type="button" hidden aria-label="Search"')
+    frame = frame.replace('<div class="search">', f'<form class="search" action="{map_url}" role="search" aria-label="Site">')
+    frame = frame.replace(' disabled autocomplete=', ' name="search" enterkeyhint="search" autocomplete=')
+    frame = frame.replace('    <div id="results" hidden></div>\n  </div>', '  </form>')
+    styles += '\n<style>\n' + (Path(HERE) / 'press.css').read_text(encoding='utf-8') + '</style>'
+    script = (Path(HERE) / 'press.js').read_text(encoding='utf-8')
+    return (fill_slots(frame, title=H(title, quote=False), description=HA(desc), head=page_head,
+                       styles=styles, shell_script='', body_attributes='data-view="doc"',
+                       skip_target='#press-main', skip_text='Skip to content', map='',
+                       search_placeholder='Search clusters, concepts, Lean files…', status_chip=status)
+            + f'\n<main id="press-main" tabindex="-1">{body}</main>\n{footer}\n<script>\n{script}</script>\n</body>\n</html>\n')
+
+
 def shell(path, title, desc, route, body, page_head, *, edition='', view=None, embed_target=None):
     view = view or route.split('/')[0] or 'map'
     readable = edition == 'sernau'
@@ -1757,6 +1775,8 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
                         list_label='List view' if edition else 'Alpöge cluster list',
                         route_label='Route from Main' if edition else 'Alpöge route',
                         provenance=source_provenance(sernau_edition) if readable else '')
+    if view == 'doc':
+        return press_doc(title, desc, body, page_head, styles, status_html, footer, map_url)
     if path == '/':
         config['legacyOverview'] = EXPLORER_CONFIG['alpoge']['overview']
     if LEAN_READER_F:
@@ -1823,7 +1843,10 @@ def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None,
         display_date = datetime.date.fromisoformat(date).strftime('%-d %b %Y')
         byline = (f'<p class="meta article-byline">By <a href="{AUTHOR_PATH}">{author}</a> · '
                   f'Updated <time datetime="{date}">{display_date}</time></p>')
-        body = body.replace('</h1>', '</h1>' + byline, 1)
+        if view == 'doc':
+            body = body.replace('{{BYLINE}}', byline.replace('class="meta article-byline"', 'class="press-date"'))
+        else:
+            body = body.replace('</h1>', '</h1>' + byline, 1)
         if md is not None:
             heading, _, content = md.partition('\n\n')
             md = f'{heading}\n\nBy [{EDITOR["name"]}]({AUTHOR_ID}) · Updated {display_date}\n\n{content}'
@@ -2696,6 +2719,22 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
         assert html_body.count('<p>{{newsletter}}</p>\n') == 1
         html_body = html_body.replace('<p>{{newsletter}}</p>\n', NEWSLETTER_HTML + '\n' if NEWSLETTER_HTML else '')
         t = t.replace('{{newsletter}}\n\n', to_md(NEWSLETTER_HTML) + '\n' if NEWSLETTER_HTML else '')
+    extra_ld = []
+    if path == '/press/':
+        anchors = set(re.findall(r'id="([^"]+)"', html_body)) | {
+            'press-main', 'press-list', 'press-q', 'press-live', 'press-empty', 'sitefoot', 'q', 'sbtn',
+        }
+        press_file = Path(REPO) / 'data' / 'press.yaml'
+        entries = load_press(press_file, anchors)
+        pictures, credits = press_images(entries, press_file.parent, Path(OUT))
+        assert html_body.count('<p>{{press_feed}}</p>') == 1, 'press.md: expected one {{press_feed}}'
+        html_body = html_body.replace('<p>{{press_feed}}</p>', press_feed_html(entries, _initials, pictures))
+        t = t.replace('{{press_feed}}', press_feed_md(entries))
+        if credits:
+            html_body += '\n' + md_html(credits)
+            t += '\n' + credits
+        extra_ld.append(press_feed_ld(entries))
+        print(f'press: {len(entries)} tiles, 0 skipped')
     if path == '/about/':
         html_body = html_body.replace('<h2>Licence</h2>', CITE_SECTION + '\n<h2>Licence</h2>', 1)
     if path == '/core/' and FL:   # #10: after each core cluster's "Cluster page" link, a link to its /lean/ page (HTML and Markdown)
@@ -2705,7 +2744,10 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
     trail = breadcrumbs([('Home', '/'), (crumb, '')])
-    if folded := fm.get('fold_sections'):
+    doc = path == '/press/' and fm.get('layout') == 'doc'
+    if doc:
+        body = f'<h1>{H(h1)}</h1>{html_body}{{{{BYLINE}}}}{trail}'
+    elif folded := fm.get('fold_sections'):
         body = f'{trail}<article class="evidence-article"><h1>{H(h1)}</h1>{article_html(html_body, folded)}</article>'
     else:
         body = f'{trail}<div class="eyebrow">{H(eb)}</div><h1>{H(h1)}</h1>{html_body}'
@@ -2715,12 +2757,14 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
     assert all(u in KNOWN_PATHS for u, _ in rel)
     if rel:
         body += '<h2>More on this site</h2><ul class="rows">' + ''.join(f'<li><a href="{u}">{H(x)}</a></li>' for u, x in rel) + '</ul>'
-    lds = [article_ld(path, h1, fm['description'], str(fm.get('published', CONTENT_PUBLISHED))), crumbs_ld(('Home', '/'), (crumb, path)), ORG]
+    lds = [article_ld(path, h1, fm['description'], str(fm.get('published', CONTENT_PUBLISHED))),
+           crumbs_ld(('Home', '/'), (crumb, path)), ORG, *extra_ld]
     if fm.get('structured_data') == 'FAQPage':
         pairs = faq_pairs(t)
         assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
         lds.insert(1, faq_ld(pairs))
-    page(path, fm['title'], fm['description'], 'page', body, lds, pr, fm=True, md=md_abs(figures_md(f'# {h1}\n\n{t}' + (
+    page(path, fm['title'], fm['description'], 'page', body, lds, pr, fm=True, view='doc' if doc else None,
+         md=md_abs(figures_md(f'# {h1}\n\n{t}' + (
         '\n## More on this site\n\n' + ''.join(f'- [{x}]({u})\n' for u, x in rel) if rel else ''))))
     if lv:   # one Markdown file per level: title, a one-line intro, the level's section, the closing links
         before, secs, after = lv

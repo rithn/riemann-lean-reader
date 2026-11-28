@@ -1,0 +1,815 @@
+# Existing press coverage and reactions migrated from pages/press.md.
+# date_label preserves ranges, update dates and times as printed on the old page.
+# X archives link to verbatim republications or mirrors.
+# related_links preserves source context for the Markdown alternate.
+entries:
+- id: sciam-howlett
+  tag: media
+  kind: article
+  headline: Anthropic mathematician proves Riemann hypothesis, most famous problem in all of math
+  name: Joseph Howlett
+  source: Scientific American
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Reports the announcement with comments from Pasten, Pagano and Sutherland.
+  description_status: reused
+  url: https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/
+  date_label: 20 Nov, updated 21 Nov
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: nature-first-report
+  tag: media
+  kind: article
+  headline: Mathematicians astounded by AI and human-written proofs of iconic Riemann hypothesis
+  name: Davide Castelvecchi
+  source: Nature
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Covers the Alpöge and Masullo claims, with Maynard, Granville and Buckmaster. Partly paywalled.
+  description_status: reused
+  url: https://www.nature.com/articles/d41586-026-03812-7
+  date_label: 20 Nov, updated 21 Nov
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: quanta-first-report
+  tag: media
+  kind: article
+  headline: A claimed proof of the Riemann hypothesis
+  name: Konstantin Kakaes
+  source: Quanta Magazine
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: The first report on Quanta’s Transformation page.
+  description_status: reused
+  url: https://www.quantamagazine.org/updates/transformation/#169564
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: quanta-verification-race
+  tag: media
+  kind: article
+  headline: As mathematicians race to verify AI Riemann proof, a human proof emerges
+  name: Konstantin Kakaes
+  source: Quanta Magazine
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Covers the verification race, the Masullo draft and Radziwiłł’s criticism.
+  description_status: reused
+  url: https://www.quantamagazine.org/updates/transformation/#169569
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: ibm-think-brodsky
+  tag: media
+  kind: article
+  headline: Anthropic mathematician claims AI helped solve a 167-year-old math mystery
+  name: Sascha Brodsky
+  source: IBM Think
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Interviews with James Maynard and Youness Lamzouri.
+  description_status: reused
+  url: https://www.ibm.com/think/news/anthropic-claude-riemann-hypothesis-math-proof
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: sciam-independent-checks
+  tag: media
+  kind: article
+  headline: The AI Riemann hypothesis proof is true, independent mathematicians confirm
+  name: Clara Moskowitz
+  source: Scientific American
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Reports independent compiles and the joint statement, with Buzzard and Sutherland.
+  description_status: reused
+  url: https://www.scientificamerican.com/article/the-ai-riemann-hypothesis-proof-is-almost-certainly-true-independent-mathematicians-attest/
+  date_label: 20 Nov, updated 21 Nov
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: the-next-web-constantin
+  tag: media
+  kind: article
+  headline: Anthropic mathematician says he and Claude proved the Riemann hypothesis
+  name: Ana Maria Constantin
+  source: The Next Web
+  date: '2026-11-20'
+  date_precision: approximate
+  date_verified: true
+  description: Relays New York Times quotes from Brian Conrad and James Maynard.
+  description_status: reused
+  url: https://thenextweb.com/news/anthropic-alpoge-claude-riemann-hypothesis-proof-lean
+  date_label: About 20–21 Nov
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: officechai-roundup
+  tag: media
+  kind: article
+  headline: How mathematicians have reacted to claimed Riemann hypothesis proof
+  name: OfficeChai Team
+  source: OfficeChai
+  date: '2026-11-20'
+  date_precision: range
+  date_verified: true
+  description: A roundup of mathematicians’ posts on X.
+  description_status: reused
+  url: https://officechai.com/ai/how-mathematicians-have-reacted-to-claimed-riemann-hypothesis-proof-by-anthropics-levent-alpoge/
+  date_label: 20–21 Nov
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: startup-fortune-barr
+  tag: media
+  kind: article
+  headline: Lean groups certify Claude-assisted Riemann hypothesis proof from Anthropic
+  name: Dave Barr
+  source: Startup Fortune
+  date: '2026-11-22'
+  date_precision: day
+  date_verified: true
+  description: Summarises the certification and Clay’s rules using other outlets’ reporting.
+  description_status: reused
+  url: https://startupfortune.com/lean-groups-certify-claude-assisted-riemann-hypothesis-proof-from-anthropic/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: wired-ward
+  tag: media
+  kind: article
+  headline: AI Solved Math’s Most Famous Problem. Now Humans Are Struggling to Understand It
+  name: Isabella Ward
+  source: WIRED
+  date: '2026-11-24'
+  date_precision: minute
+  date_verified: true
+  description: Abhishek Saha and Anton Shakov discuss how long human understanding may take.
+  description_status: reused
+  url: https://www.wired.com/story/ai-solved-maths-most-famous-problem/
+  date_label: 24 Nov, 5:15 AM (no time zone stated)
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: wsj-cohen
+  tag: media
+  kind: article
+  headline: Anthropic Mathematician Says AI Has Solved the Most Famous Problem in Math
+  name: Ben Cohen
+  source: The Wall Street Journal
+  date: '2026-11-24'
+  date_precision: day
+  date_verified: true
+  description: Paywalled. The Journal’s post on X places the announcement one day after Anthropic’s IPO.
+  description_status: reused
+  url: https://www.wsj.com/tech/ai/anthropic-mathematician-says-claude-has-solved-the-most-famous-problem-in-math-9361920b
+  related_links:
+  - title: The Wall Street Journal on X
+    url: https://x.com/WSJ/status/2125081353641222615
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: nikkei-report
+  tag: media
+  kind: article
+  headline: 'Riemann hypothesis: Expert is convinced Anthropic’s proof is correct'
+  name: Editorial
+  source: Nikkei
+  date: '2026-11-24'
+  date_precision: minute
+  date_verified: true
+  description: Paywalled. The opening refers to an outside expert and the joint verification statement.
+  description_status: reused
+  url: https://www.nikkei.com/article/DGXZQOSG222470S6A121C2000000/
+  date_label: 24 Nov, 11:30 as printed (time zone not stated)
+  original_headline: 数学難問リーマン予想、アンソロピック証明は「正しいと確信」 専門家
+  language: ja
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: sciam-encryption
+  tag: media
+  kind: article
+  headline: Why solving the Riemann hypothesis won’t break encryption
+  name: Peter Hall
+  source: Scientific American
+  date: '2026-11-24'
+  date_precision: day
+  date_verified: true
+  description: Explains why the proof does not break encryption.
+  description_status: reused
+  url: https://www.scientificamerican.com/article/why-solving-the-riemann-hypothesis-wont-break-encryption/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: nature-primes-guide
+  tag: media
+  kind: article
+  headline: What is the Riemann hypothesis? A guide to the famed conjecture that rules prime numbers
+  name: Davide Castelvecchi
+  source: Nature
+  date: '2026-11-25'
+  date_precision: day
+  date_verified: true
+  description: Explains what the hypothesis says about the distribution of primes.
+  description_status: reused
+  url: https://www.nature.com/articles/d41586-026-03854-x
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: tao-blog
+  tag: reaction
+  kind: blog
+  headline: Unforced Euler singularity, unforced Navier-Stokes singularity, and the Generalized Riemann Hypothesis
+  name: Terence Tao
+  source: What’s new
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Lists three AI-assisted results and expects that digesting the Riemann proof will take time.
+  description_status: reused
+  url: https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/
+  stance: neutral
+  quote: I imagine the digestion process will take some time, though in this case at least we have a human author to communicate with to assist with this
+    task.
+  related_links:
+  - title: 21 Nov link roundup
+    url: https://terrytao.wordpress.com/2026/11/21/even-more-posts-opinion-pieces-interviews-and-position-statements/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: aaronson-blog
+  tag: reaction
+  kind: blog
+  headline: The stochastic parrots have apparently proved the Riemann Hypothesis
+  name: Scott Aaronson
+  source: Shtetl-Optimized
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Bets the proof will stand and discusses Lean’s remaining soundness issues.
+  description_status: reused
+  url: https://scottaaronson.blog/?p=10344
+  stance: cautiously positive
+  quote: So I’m not 100% sure, but my bet is that the proof will stand.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: vakil-blog
+  tag: media
+  kind: blog
+  headline: 'Hurried Announcement: Alessandro Masullo GRH'
+  name: Ravi Vakil
+  source: Math 216
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Posts Alessandro Masullo’s separate GRH draft, followed about eight hours later by an update on reported problems.
+  description_status: reused
+  url: https://math216.wordpress.com/2026/11/20/hurried-announcement-alessandro-masullo-grh/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: buzzard-xena
+  tag: reaction
+  kind: blog
+  headline: and the proof is checked in Lean
+  name: Kevin Buzzard
+  source: Xena Project
+  date: '2026-11-12'
+  date_precision: day
+  date_verified: true
+  description: Sets out four questions before the release, starting with whether the theorem in Lean matches the intended statement.
+  description_status: reused
+  url: https://xenaproject.wordpress.com/2026/11/12/and-the-proof-is-checked-in-lean/
+  stance: neutral
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: sutherland-sciam
+  tag: reaction
+  kind: interview
+  headline: Anthropic mathematician proves Riemann hypothesis, most famous problem in all of math
+  name: Andrew Sutherland
+  source: Scientific American
+  date: '2026-11-20'
+  date_precision: range
+  date_verified: true
+  description: Calls the result a historic moment and a human triumph, and expresses confidence in the proof.
+  description_status: reused
+  url: https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/
+  stance: supportive
+  role: MIT
+  date_label: 20–21 Nov
+  quote: This is indeed an historic moment. […] Honestly the chance that anything is fishy here is approximately zero.
+  related_links:
+  - title: Second Scientific American article
+    url: https://www.scientificamerican.com/article/the-ai-riemann-hypothesis-proof-is-almost-certainly-true-independent-mathematicians-attest/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: nuccio-quanta
+  tag: reaction
+  kind: interview
+  headline: A claimed proof of the Riemann hypothesis
+  name: Filippo Nuccio
+  source: Quanta Magazine
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: In a Lean Zulip post quoted by Quanta, he marvels at the breadth of number theory in the proof.
+  description_status: reused
+  url: https://www.quantamagazine.org/updates/transformation/#169564
+  stance: supportive
+  role: Jean Monnet University
+  quote: 'WOW, this is gorgeous: it basically contains all number theory produced in the last 50 years, in all branches of the discipline.'
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: lamzouri-ibm
+  tag: reaction
+  kind: interview
+  headline: Anthropic mathematician claims AI helped solve a 167-year-old math mystery
+  name: Youness Lamzouri
+  source: IBM Think
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Expresses awe at the result and says mathematics is mainly about understanding why something is true.
+  description_status: reused
+  url: https://www.ibm.com/think/news/anthropic-claude-riemann-hypothesis-math-proof
+  stance: supportive
+  role: University of Lorraine
+  quote: I don’t have words to describe what I am feeling right now. I am just in awe.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: maynard-nature
+  tag: reaction
+  kind: interview
+  headline: Mathematicians astounded by AI and human-written proofs of iconic Riemann hypothesis
+  name: James Maynard
+  source: Nature
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Says the result would be historic if it checks out and expects it will take substantial work to understand.
+  description_status: reused
+  url: https://www.nature.com/articles/d41586-026-03812-7
+  stance: cautiously positive
+  role: Oxford
+  quote: If this fully checks out, it is clearly a historic milestone in mathematics.
+  related_links:
+  - title: James Maynard in IBM Think
+    url: https://www.ibm.com/think/news/anthropic-claude-riemann-hypothesis-math-proof
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: dedeo-quanta
+  tag: reaction
+  kind: interview
+  headline: As mathematicians race to verify AI Riemann proof, a human proof emerges
+  name: Simon DeDeo
+  source: Quanta Magazine
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Tells Quanta by email that he would be very surprised if there were any secret tricks.
+  description_status: reused
+  url: https://www.quantamagazine.org/updates/transformation/#169569
+  stance: cautiously positive
+  role: Carnegie Mellon
+  quote: I’d be very surprised if there were any secret tricks.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: buckmaster-nature
+  tag: reaction
+  kind: interview
+  headline: Mathematicians astounded by AI and human-written proofs of iconic Riemann hypothesis
+  name: Tristan Buckmaster
+  source: Nature
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Says the proof is highly complicated and will take mathematicians a long time to digest.
+  description_status: reused
+  url: https://www.nature.com/articles/d41586-026-03812-7
+  stance: cautiously positive
+  role: NYU
+  quote: It’s going to take a long time for mathematicians to digest.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: richemond-x
+  tag: reaction
+  kind: post
+  headline: The Riemann Hypothesis may be solved (pending Lean review) – not totally unexpected, yet raising more questions than it answers.
+  name: Pierre Richemond
+  source: X
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Reflects on a possible proof and the questions it raises before humans have verified it in their own terms.
+  description_status: reused
+  url: https://x.com/TheOneKloud/status/2123804288921027070
+  stance: cautious
+  role: Cohere, per OfficeChai
+  quote: 'We’re now in a bizarre epistemic zone that barely existed before 2026: unmistakably serious mathematics, yet completely unverified in human terms.'
+  archive_url: https://officechai.com/ai/how-mathematicians-have-reacted-to-claimed-riemann-hypothesis-proof-by-anthropics-levent-alpoge/
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: bloom-x
+  tag: reaction
+  kind: post
+  headline: A coherent proof that, written out in human-readable format, is 250,000+ pages long
+  name: Thomas Bloom
+  source: X
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Expresses surprise at the claimed length of a human-readable proof. Alpöge later called the page count a joke.
+  description_status: reused
+  url: https://x.com/thomasfbloom/status/2123796489197514945
+  stance: cautious
+  role: University of Manchester, per OfficeChai
+  quote: that, written out in human-readable format, is 250,000+ pages long.
+  archive_url: https://officechai.com/ai/how-mathematicians-have-reacted-to-claimed-riemann-hypothesis-proof-by-anthropics-levent-alpoge/
+  related_links:
+  - title: Alpöge’s note
+    url: https://alpo.ge/remark.pdf
+  - title: 23 Nov clarification
+    url: https://x.com/__alpoge__/status/2124987173439209561
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: buzzard-al-jazeera
+  tag: reaction
+  kind: interview
+  headline: 'Riemann hypothesis: Has the world’s most famous maths problem been cracked?'
+  name: Kevin Buzzard
+  source: Al Jazeera
+  date: '2026-11-21'
+  date_precision: day
+  date_verified: true
+  description: Says the reason the theorem is true remains unclear and expects people will understand more after reading the Lean code.
+  description_status: reused
+  url: https://www.aljazeera.com/news/2026/11/21/riemann-hypothesis-has-the-worlds-most-famous-maths-problem-been-cracked
+  stance: cautious
+  role: Imperial College London
+  quote: At the minute, we don’t even know why the theorem is true.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: granville-nature
+  tag: reaction
+  kind: interview
+  headline: Mathematicians astounded by AI and human-written proofs of iconic Riemann hypothesis
+  name: Andrew Granville
+  source: Nature
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Calls the release garbled and says a clearer write-up should have come first.
+  description_status: reused
+  url: https://www.nature.com/articles/d41586-026-03812-7
+  stance: critical
+  role: Université de Montréal
+  quote: What he released is garbled.
+  related_links:
+  - title: Alpöge’s note on the timing
+    url: https://alpo.ge/remark.pdf
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: radziwill-quanta
+  tag: reaction
+  kind: interview
+  headline: As mathematicians race to verify AI Riemann proof, a human proof emerges
+  name: Maksym Radziwiłł
+  source: Quanta Magazine
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Tells Quanta the proof does not explain why the hypothesis holds and criticises the four-page note.
+  description_status: reused
+  url: https://www.quantamagazine.org/updates/transformation/#169569
+  stance: critical
+  role: NYU
+  quote: The object of mathematics as the rest of science is really the question ‘why?’ and this doesn’t answer it at all.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: ahm-statement
+  tag: reaction
+  kind: statement
+  headline: AHM Statement on the Announced Proof of the Riemann Hypothesis
+  name: Association for Human Mathematics
+  source: Association for Human Mathematics
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Criticises the way the proof was announced. The statement predates the joint verification statement.
+  description_status: reused
+  url: https://www.ahmath.org/statements
+  stance: critical
+  quote: At this time, no human being can reasonably claim to be responsible for, or even to understand, such a document. Neither can any mathematician
+    confirm with full certainty that the proof is correct.
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: conrad-thenextweb
+  tag: reaction
+  kind: interview
+  headline: Anthropic mathematician says he and Claude proved the Riemann hypothesis
+  name: Brian Conrad
+  source: The Next Web
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: The Next Web, citing The New York Times, relays his criticism of releasing a proof Alpöge did not fully understand.
+  description_status: reused
+  url: https://thenextweb.com/news/anthropic-alpoge-claude-riemann-hypothesis-proof-lean
+  stance: critical
+  role: Stanford
+  quote: frankly completely outrageous
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: alpoge-note
+  tag: reaction
+  kind: statement
+  headline: I believe I have, working with Claude, discovered a proof of the Riemann Hypothesis.
+  name: Levent Alpöge
+  source: alpo.ge
+  date: '2026-11-20'
+  date_precision: day
+  date_verified: true
+  description: Announces the proof with Claude and reflects on the timing and choices in the argument.
+  description_status: reused
+  url: https://alpo.ge/remark.pdf
+  stance: author
+  quote: I may have baked lots of strange suboptimal choices into the argument
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: alpoge-x
+  tag: reaction
+  kind: post
+  headline: 250,000+ pages was a joke guys!
+  name: Levent Alpöge
+  source: X
+  date: '2026-11-23'
+  date_precision: minute
+  date_verified: true
+  description: Calls the page count a joke and reflects on why the proof should be easier.
+  description_status: reused
+  url: https://x.com/__alpoge__/status/2124987173439209561
+  stance: author
+  date_label: 23 Nov, 22:03 UTC
+  quote: I feel Riemann should be easy, and any real difficulty is an indication our setup is just dumb at the moment.
+  archive_url: https://www.nitter.gq/__alpoge__/status/2124987173439209561
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: anthropic-zeta-zeros
+  tag: media
+  kind: article
+  headline: Learning more about Claude’s mathematical capabilities
+  name: Editorial
+  source: Anthropic
+  date: '2026-08-10'
+  date_precision: day
+  date_verified: true
+  description: Reports an increase from 41.6% to 67.2% in the lower bound for the share of zeros satisfying the hypothesis.
+  description_status: reused
+  url: https://www.anthropic.com/research/riemann-zeta
+  context: background
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: sciam-august-zeros
+  tag: media
+  kind: article
+  headline: No, Anthropic's AI didn't just solve math's hardest problem
+  name: Joseph Howlett
+  source: Scientific American
+  date: '2026-08-12'
+  date_precision: day
+  date_verified: true
+  description: Explains what Anthropic’s August result says about the Riemann hypothesis.
+  description_status: reused
+  url: https://www.scientificamerican.com/article/no-ai-didnt-just-solve-the-thorniest-problem-in-math/
+  context: background
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: sciam-september-openai
+  tag: media
+  kind: article
+  headline: OpenAI claims blockbuster math breakthrough amid swirl of controversy
+  name: Joseph Howlett
+  source: Scientific American
+  date: '2026-09-08'
+  date_precision: day
+  date_verified: true
+  description: Covers OpenAI’s Navier–Stokes claim.
+  description_status: reused
+  url: https://www.scientificamerican.com/article/openai-claims-blockbuster-math-breakthrough-amid-swirl-of-controversy/
+  context: background
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: sciam-october-openai
+  tag: media
+  kind: article
+  headline: The inside story behind OpenAI's million-dollar math proof
+  name: Joseph Howlett
+  source: Scientific American
+  date: '2026-10-22'
+  date_precision: day
+  date_verified: true
+  description: The inside story of OpenAI’s million-dollar math proof.
+  description_status: reused
+  url: https://www.scientificamerican.com/article/the-inside-story-behind-openais-million-dollar-math-proof/
+  context: background
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
+- id: quanta-quasi-riemann
+  tag: media
+  kind: article
+  headline: AI Proved the Quasi-Riemann Hypothesis. What Happens Now?
+  name: Konstantin Kakaes
+  source: Quanta Magazine
+  date: '2026-10-19'
+  date_precision: day
+  date_verified: true
+  description: Examines what follows from OpenAI’s October result.
+  description_status: reused
+  url: https://www.quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019/
+  context: background
+  image:
+    file: null
+    source_url: null
+    licence: null
+    credit: null
+    kind: null
+  added: '2026-11-28'
