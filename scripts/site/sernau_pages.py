@@ -103,8 +103,10 @@ def overview_content(data, *, home=False):
     )
     body = f"""
   <h2>Read the graph</h2>
-  <p>Each dot is a Lean file. Select a dot to see its direct imports, or select a group label to see its files and connections. An arrow points from the importing file to the file it imports.</p>
-  <p class="meta">Zoom in for more labels. With a keyboard, Tab to a group, then use the arrow keys to move between its files and Enter to select.</p>
+  <p>Each dot is a cluster of Lean declarations. Larger dots contain more declarations. The star at the centre holds the five final theorems.</p>
+  <p>Each ring is one more dependency step from the star. The outer ring holds clusters reached through instance search.</p>
+  <p>Faint lines trace the dependency tree. Select a dot to see its arrows. <span class="sr-arrow-key uses">Uses</span> arrows point to clusters it depends on. <span class="sr-arrow-key by">Used by</span> arrows point in from clusters that depend on it.</p>
+  <p class="meta">Dependencies come from reading the source text, not from a Lean build.</p>
   <p>The readable release contains {number(total["physicalLines"])} physical lines under <code>grh/src/</code>. The pinned README gives its code-line estimate.</p>
   <p class="meta">Andrew Sutherland’s paranoid Comparator run passed on {datetime.fromisoformat(SERNAU_PASS_UTC).strftime('%-d %B %Y at %H:%M:%S UTC')}. {link(MIT, "Independent verification record")}.</p>
   <h2>Explore the proof</h2>
@@ -118,17 +120,14 @@ def overview_content(data, *, home=False):
                         body=body, id='map-detail')
 
 
-def map_filters(data):
-    depths = range(data["edition"]["totals"]["maxGroupDepth"] + 1)
-    options = ''.join(f'<option value="{d}">{d}</option>' for d in depths)
-    return f"""
+def map_filters():
+    return """
 <div class="sr-map-selects">
-  <label>Source tree <select id="tree" aria-controls="map-graph map-count" disabled><option value="">All groups</option><option value="main">Entry files</option><option value="new">Argument · New</option><option value="lib">Background · Lib</option></select></label>
-  <label>Group steps <select id="depth" aria-controls="map-graph map-count" disabled><option value="">Any distance</option>{options}</select></label>
-  <label>Colour <select id="colour" aria-controls="map-graph" disabled><option value="tree">Source tree</option><option value="depth">Group distance</option></select></label>
+  <label>Steps <select id="steps" aria-controls="map-graph map-count" disabled><option value="">All rings</option></select></label>
+  <label>Colour <select id="colour" aria-controls="map-graph" disabled><option value="step">Step</option><option value="tree">Source tree</option></select></label>
 </div>
 <p id="map-count" role="status"></p>
-<div id="map-legend" aria-label="File colours"></div>"""
+<div id="map-legend" aria-label="Cluster colours"></div>"""
 
 
 def source_provenance(edition):

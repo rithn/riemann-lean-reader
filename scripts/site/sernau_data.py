@@ -572,7 +572,7 @@ def build_sernau_data(out: Path):
             },
         })
     part_graph_url = base + "part-graph.json"
-    build_part_graph(out, part_graph_url, parts_inputs, edition, modules, groups, map_labels, theorems, json_output, github)
+    build_part_graph(out, part_graph_url, parts_inputs, edition, modules, theorems, json_output, github)
     json_output(out, edition["manifestUrl"], {**edition, "partGraphUrl": part_graph_url})
     json_output(out, edition["overviewUrl"], overview)
     module_ids = {name: index for index, name in enumerate(modules)}
@@ -598,7 +598,7 @@ def build_sernau_data(out: Path):
     json_output(out, "/api/sernau/theorems.json", {"edition": edition, "theorems": theorems})
     preview_readings = {name: record["html"] for name, record in readings["files"].items()
                         if record["html"] != modules[name]["readingHtml"]}
-    return {**overview, "modules": modules, "readings": readings, "previewReadings": preview_readings,
+    return {**overview, "partGraphUrl": part_graph_url, "modules": modules, "readings": readings, "previewReadings": preview_readings,
             "readerFilesBaseUrl": reader_files}
 
 
