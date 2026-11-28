@@ -1756,7 +1756,12 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     if overlay:
         if view != 'reader':
             styles = '<link rel="preload" as="font" type="font/woff2" href="/fonts/source-serif-4.f71693e59b.woff2" crossorigin>\n' + styles
-        body = switch + body
+        # Edition links belong to the map editions. Articles outside them have no edition to switch,
+        # and edition pages show the switch under the breadcrumb.
+        if edition:
+            crumbs = re.search(r'<div class="crumbs"[^>]*>.*?</div>', body, re.S)
+            at = crumbs.end() if crumbs and '<h1' not in body[:crumbs.start()] else 0
+            body = body[:at] + switch + body[at:]
     if readable and view != 'map':
         body = f'<div id="main" class="sr-main">{body}</div>'
     footer = fill_slots(FOOTER_TPL, list=list_url, route=route_url,
@@ -1807,7 +1812,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     )
     nk = NAV_KEY(path)
     if nk:
-        t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">', 1)
+        t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">')
     return t
 
 def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None, fm=False,
