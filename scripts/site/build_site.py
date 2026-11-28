@@ -1720,7 +1720,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
                            [('revision', 'revision'), ('overview', 'overviewUrl'),
                             ('modules', 'modulesUrl'), ('groups', 'groupsBaseUrl'), ('build-id', 'buildId')]})
         if view == 'map':
-            attributes['data-file-graph'] = sernau_edition['fileGraphUrl']
+            attributes['data-part-graph'] = sernau_data['partGraphUrl']
         if view == 'reader':
             attributes['data-file-locator'] = sernau_data['readerFilesBaseUrl']
             attributes['data-file-groups'] = ' '.join(group['id'] for group in sernau_data['groups'])
@@ -1739,7 +1739,9 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     viewport = '' if path == '/404.html' else '<canvas id="sky" aria-label="Map of clusters"></canvas>'
     if readable:
         styles += f'\n<link rel="stylesheet" href="{SERNAU_CSS_F}">'
-        viewport = '<svg id="map-graph" viewBox="0 0 850 554" role="group" aria-label="Import graph with selectable Lean files and source groups"></svg>'
+        svg_attributes = ('role="group" aria-label="Dependency map with selectable proof clusters"'
+                          if view == 'map' else 'aria-hidden="true"')
+        viewport = f'<svg id="map-graph" viewBox="0 0 850 554" {svg_attributes}></svg>'
     entry = EXPLORER_CONFIG[engine].copy()
     config = {'routes': ROUTES, 'editionSwitchTemplate': edition_switch('', 'map'), 'embedPaths': EMBED_PATHS, engine: entry}
     share_menu = SHARE_TPL
@@ -1748,7 +1750,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
             EMBED_TPL, title=H(title), description=HA(desc), canonical=H(SITE + embed_target),
             open_url=H(embed_target + '?utm_source=embed&utm_medium=iframe'), styles=styles,
             shell_script=f'<script src="{SHELL_F}" defer></script>', body_attributes=body_attributes,
-            map=viewport, filters=map_filters(sernau_data) if readable else '',
+            map=viewport, filters=map_filters() if readable else '',
             theme_head=THEME_HEAD, share_menu=share_menu, scripts=json_script('explorer-config', config),
         )
     status_html = '<a class="status-chip ok" href="/status/">Verified · 21 Nov 2026</a>'
@@ -1777,7 +1779,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         entry['mathStyles'] = KATEX_F
         entry['conceptMath'] = CONCEPT_MATH_URL
         entry['theorems'] = HEADLINE_CROSSWALK
-    elif view != 'map':
+    elif view not in ('map', 'list'):
         entry.pop('map')
     if readable and view == 'reader':
         entry.update({key: sernau_edition[key] for key in ('repository', 'revision', 'sourceRoot')})
@@ -1793,7 +1795,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
     if view == 'map' and path != '/':
         page_head += f'<link rel="preload" as="fetch" href="{H(entry["overview"])}" crossorigin="anonymous">\n'
         if readable:
-            page_head += f'<link rel="preload" as="fetch" href="{H(sernau_edition["fileGraphUrl"])}" crossorigin="anonymous">\n'
+            page_head += f'<link rel="preload" as="fetch" href="{H(sernau_data["partGraphUrl"])}" crossorigin="anonymous">\n'
         for key in ('dependency', 'map', 'src'):
             if key in entry:
                 page_head += f'<link rel="preload" as="script" href="{H(entry[key])}">\n'
@@ -1808,7 +1810,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         panel_attributes=' inert' if overlay else '', panel_heading=panel_heading,
         panel_content='' if overlay else body, panel_footer='' if overlay else footer, overlay_footer=footer if overlay else '',
         overlay_hidden=str(not overlay).lower(), header_map=map_url if edition else '/', overlay_content=body if overlay else '',
-        list=list_url, route=route_url, filters=map_filters(sernau_data) if readable and view == 'map' else '',
+        list=list_url, route=route_url, filters=map_filters() if readable and view == 'map' else '',
         scripts=scripts,
     )
     nk = NAV_KEY(path)

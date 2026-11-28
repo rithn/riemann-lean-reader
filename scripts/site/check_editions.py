@@ -4,6 +4,7 @@ Run with the same Python as the generator: python -I scripts/site/check_editions
 """
 import argparse
 import csv
+from collections import Counter, defaultdict
 from fnmatch import fnmatchcase
 import hashlib
 from graphlib import TopologicalSorter
@@ -224,28 +225,43 @@ def check_parts(site, manifest, modules, read_json):
     graph = read_json(manifest['partGraphUrl'])
     pin = {key: manifest[key] for key in ('id', 'revision', 'buildId')}
     assert graph['edition'] == pin
-    clouds = graph['groups']
-    centers = graph['groupCenters']
-    assert clouds.keys() == graph['groupLabels'].keys() == centers.keys()
-    assert all(len(center) == 2 and all(type(x) is int for x in center) for center in centers.values())
-    assert len({tuple(center) for center in centers.values()}) == len(clouds)
-    files = graph['files']
-    ids = [record[0] for record in files]
-    assert files and len(ids) == len(set(ids))
-    siblings = {}
-    for part in ids:
-        siblings.setdefault(part.partition('#')[0], []).append(part)
-    assert sum(final for *_, final in files) == 1
+    clusters, root = graph['clusters'], graph['root']
+    size = len(clusters)
+    assert size == 362 and len({cluster['id'] for cluster in clusters}) == size
+    assert type(root) is int and 0 <= root < size
+    assert clusters[root]['ring'] == '0' and clusters[root]['parent'] is None
 
-    dependencies = {index: set() for index in range(len(ids))}
+    dependencies = {index: set() for index in range(size)}
+    incoming = defaultdict(list)
     for source, target, weight in graph['imports']:
-        assert 0 <= source < len(ids) and 0 <= target < len(ids), (source, target)
+        assert 0 <= source < size and 0 <= target < size, (source, target)
         assert target not in dependencies[source] and type(weight) is int and weight > 0
         dependencies[source].add(target)
-    heights = {}
-    for index in TopologicalSorter(dependencies).static_order():
-        heights[index] = 1 + max((heights[target] for target in dependencies[index]), default=-1)
-        assert files[index][2] == heights[index], ids[index]
+        incoming[target].append((source, weight))
+    tuple(TopologicalSorter(dependencies).static_order())
+
+    # Recompute breadth-first layers independently of the generator's queue.
+    reached, frontier, step = {}, {root}, 0
+    while frontier:
+        reached.update(dict.fromkeys(frontier, step))
+        frontier = set().union(*(dependencies[index] for index in frontier)) - reached.keys()
+        step += 1
+    expected = Counter(str(reached[index]) if index in reached else 'instances' for index in range(size))
+    assert expected == {'0': 1, '1': 1, '2': 24, '3': 154, '4': 76, '5': 21,
+                        '6': 9, '7': 1, 'instances': 75}
+    assert Counter(cluster['ring'] for cluster in clusters) == expected
+    assert graph['detailUrls'].keys() == expected.keys()
+    for index, cluster in enumerate(clusters):
+        distance = reached.get(index)
+        assert cluster['ring'] == (str(distance) if distance is not None else 'instances')
+        assert set(cluster) == {'id', 'label', 'count', 'ring', 'parent', 'tree'}
+        assert type(cluster['count']) is int and cluster['count'] > 0
+        if not distance:
+            assert cluster['parent'] is None
+            continue
+        candidates = [(source, weight) for source, weight in incoming[index] if reached.get(source) == distance - 1]
+        assert candidates
+        assert cluster['parent'] == max(candidates, key=lambda edge: (edge[1], -edge[0]))[0]
 
     # A pinned GitHub fragment must resolve to a published copy of the same source.
     pinned_files = {unquote(urlsplit(item['github']).path): item['raw'] for item in modules.values()}
@@ -264,30 +280,55 @@ def check_parts(site, manifest, modules, read_json):
             line_counts[path] = len((site / pinned_files[path].lstrip('/')).read_bytes().splitlines())
         assert 1 <= start <= end <= line_counts[path], link
 
-    for cloud, info in clouds.items():
-        payload = read_json(info['dataUrl'])
-        assert payload['edition'] == pin
+    search = read_json(graph['searchUrl'])
+    assert search['edition'] == pin and len(search['search']) == size
+    best_files = {}
+    theorem_names = {theorem['name'] for theorem in read_json('/api/sernau/theorems.json')['theorems']}
+    for ring, url in graph['detailUrls'].items():
+        payload = read_json(url)
+        assert payload['edition'] == pin and set(payload) == {'parts', 'edition'}
         details = payload['parts']
-        expected = {part: (label, kind) for part, label, _, group, _, kind, _ in files if group == cloud}
-        assert expected and details.keys() == expected.keys(), cloud
-        for part, detail in details.items():
-            assert detail['label'].strip() and (detail['label'], detail['kind']) == expected[part], part
-            assert detail['splitSiblings'] == [other for other in siblings[part.partition('#')[0]]
-                                               if other != part], part
+        members = [(index, cluster) for index, cluster in enumerate(clusters) if cluster['ring'] == ring]
+        assert details.keys() == {cluster['id'] for _, cluster in members}, ring
+        for index, cluster in members:
+            part = cluster['id']
+            detail = details[part]
+            description, names = search['search'][index]
+            assert detail['label'].strip() and detail['label'] == cluster['label'], part
+            assert description.strip() and description == detail['description'], part
+            declarations = set(names.split())
+            assert len(declarations) == cluster['count'], part
+            assert not detail.keys() & {'kind', 'chapter', 'note', 'splitSiblings', 'handout'}
             assert detail['evidence'], part
             for excerpt, link in detail['evidence']:
                 assert excerpt.strip(), part
                 check_pin(link)
             for declaration in [detail['head'], *detail['mostUsed']]:
                 check_pin(declaration['github'])
+                assert declaration['name'] in declarations, part
                 module = modules[declaration['module']]
                 source = module['href']
                 line = declaration['line']
                 assert declaration['href'] in (source + '#' + quote(declaration['name']), f'{source}#L{line}')
+            if index == root:
+                assert len(theorem_names) == 5
+                assert {theorem['name'] for theorem in detail['theorems']} == theorem_names <= declarations
+                for theorem in detail['theorems']:
+                    check_pin(theorem['github'])
+                    assert theorem['href'].startswith('/sernau/file/')
+            else:
+                assert 'theorems' not in detail
+            files = detail['files']
+            assert files and len({name for _, name, _ in files}) == len(files), part
+            assert sum(count for _, _, count in files) == cluster['count']
+            source_counts = Counter(name.partition('.')[0] for _, name, _ in files)
+            tree = max(('Lib', 'New'), key=source_counts.__getitem__) if source_counts['Lib'] or source_counts['New'] else 'Main'
+            assert cluster['tree'] == tree.lower()
+            for href, name, count in files:
+                assert href == modules[name]['href'] and type(count) is int and count > 0
+                best_files[name] = max(best_files.get(name, (0, 0)), (count, -index))
 
-    for part, _, _, cloud, count, kind, _ in files:
-        assert cloud in clouds and count > 0, part
-        assert kind in {'note', 'shared', 'not attributed', 'unsplit', 'not cited'}, part
+    assert graph['fileClusters'] == {name: -index for name, (_, index) in best_files.items()}
 
 
 def check(site, baseline=None):
