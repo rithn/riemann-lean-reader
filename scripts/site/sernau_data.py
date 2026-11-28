@@ -20,6 +20,7 @@ import yaml
 
 if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).resolve().parent))
+from sernau_parts import EXPORTS, build_part_graph
 from sernau_readings import MARKDOWN, reading_markdown
 
 
@@ -497,7 +498,9 @@ def build_sernau_data(out: Path):
     digest = hashlib.sha256()
     preview = os.environ.get("SERNAU_READINGS_PREVIEW") == "1"
     input_files = ("edition.json", "groups.json", "modules.tsv", "theorems.json")
+    parts_inputs = INPUTS / "parts"
     for path in [Path(__file__), Path(__file__).with_name("sernau_readings.py"),
+                 Path(__file__).with_name("sernau_parts.py"), *(parts_inputs / name for name in EXPORTS),
                  XREF / "leansrc.py", *(INPUTS / name for name in input_files),
                  *sorted((INPUTS / "readings").glob("*.yaml"))]:
         digest.update(path.name.encode() + b"\0" + path.read_bytes() + b"\0")
@@ -568,7 +571,9 @@ def build_sernau_data(out: Path):
                 for name in group["modules"]
             },
         })
-    json_output(out, edition["manifestUrl"], edition)
+    part_graph_url = base + "part-graph.json"
+    build_part_graph(out, part_graph_url, parts_inputs, edition, modules, groups, map_labels, theorems, json_output, github)
+    json_output(out, edition["manifestUrl"], {**edition, "partGraphUrl": part_graph_url})
     json_output(out, edition["overviewUrl"], overview)
     module_ids = {name: index for index, name in enumerate(modules)}
     json_output(out, edition["fileGraphUrl"], {

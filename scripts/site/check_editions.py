@@ -6,12 +6,13 @@ import argparse
 import csv
 from fnmatch import fnmatchcase
 import hashlib
+from graphlib import TopologicalSorter
 from html.parser import HTMLParser
 import json
 from pathlib import Path
 import subprocess
 import sys
-from urllib.parse import unquote, urlsplit
+from urllib.parse import quote, unquote, urlsplit
 from xml.etree import ElementTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -138,9 +139,10 @@ def check_shells(site):
             if reader := html.config.get('reader'):
                 assert reader not in html.links and (site / reader.lstrip('/')).is_file(), page
 
-    home = load_page(site, '/')
-    assert {'/sernau/', '/alpoge/', '/sernau/list/', '/list/', '/sernau/route/', '/route/',
-            '/sernau/file/Main#riemannHypothesis', '/file/Main#riemannHypothesis'} <= set(home.links)
+    for page in ('/', '/sernau/', '/alpoge/'):
+        prefix = '/sernau' if page != '/alpoge/' else ''
+        assert {'/sernau/', '/alpoge/', f'{prefix}/list/', f'{prefix}/route/',
+                f'{prefix}/file/Main#riemannHypothesis'} <= set(load_page(site, page).links), page
     comparison = load_page(site, '/shorter-riemann-hypothesis-proof/')
     assert not comparison.editions
     assert {'/sernau/', '/alpoge/'} <= set(comparison.links)
@@ -218,6 +220,76 @@ def check_locators(site, modules, groups, edition, read_json):
             assert all(modules[module][key] == value for key, value in record.items()), module
 
 
+def check_parts(site, manifest, modules, read_json):
+    graph = read_json(manifest['partGraphUrl'])
+    pin = {key: manifest[key] for key in ('id', 'revision', 'buildId')}
+    assert graph['edition'] == pin
+    clouds = graph['groups']
+    centers = graph['groupCenters']
+    assert clouds.keys() == graph['groupLabels'].keys() == centers.keys()
+    assert all(len(center) == 2 and all(type(x) is int for x in center) for center in centers.values())
+    assert len({tuple(center) for center in centers.values()}) == len(clouds)
+    files = graph['files']
+    ids = [record[0] for record in files]
+    assert files and len(ids) == len(set(ids))
+    siblings = {}
+    for part in ids:
+        siblings.setdefault(part.partition('#')[0], []).append(part)
+    assert sum(final for *_, final in files) == 1
+
+    dependencies = {index: set() for index in range(len(ids))}
+    for source, target, weight in graph['imports']:
+        assert 0 <= source < len(ids) and 0 <= target < len(ids), (source, target)
+        assert target not in dependencies[source] and type(weight) is int and weight > 0
+        dependencies[source].add(target)
+    heights = {}
+    for index in TopologicalSorter(dependencies).static_order():
+        heights[index] = 1 + max((heights[target] for target in dependencies[index]), default=-1)
+        assert files[index][2] == heights[index], ids[index]
+
+    # A pinned GitHub fragment must resolve to a published copy of the same source.
+    pinned_files = {unquote(urlsplit(item['github']).path): item['raw'] for item in modules.values()}
+    pinned_files.update({unquote(urlsplit(item['github']).path): item['href']
+                         for item in manifest['documents']})
+    line_counts = {}
+
+    def check_pin(link):
+        parsed = urlsplit(link)
+        path = unquote(parsed.path)
+        assert parsed.scheme == 'https' and parsed.netloc == 'github.com' and path in pinned_files, link
+        first, _, last = parsed.fragment.partition('-')
+        assert first.startswith('L') and (not last or last.startswith('L')), link
+        start, end = int(first[1:]), int(last[1:] or first[1:])
+        if path not in line_counts:
+            line_counts[path] = len((site / pinned_files[path].lstrip('/')).read_bytes().splitlines())
+        assert 1 <= start <= end <= line_counts[path], link
+
+    for cloud, info in clouds.items():
+        payload = read_json(info['dataUrl'])
+        assert payload['edition'] == pin
+        details = payload['parts']
+        expected = {part: (label, kind) for part, label, _, group, _, kind, _ in files if group == cloud}
+        assert expected and details.keys() == expected.keys(), cloud
+        for part, detail in details.items():
+            assert detail['label'].strip() and (detail['label'], detail['kind']) == expected[part], part
+            assert detail['splitSiblings'] == [other for other in siblings[part.partition('#')[0]]
+                                               if other != part], part
+            assert detail['evidence'], part
+            for excerpt, link in detail['evidence']:
+                assert excerpt.strip(), part
+                check_pin(link)
+            for declaration in [detail['head'], *detail['mostUsed']]:
+                check_pin(declaration['github'])
+                module = modules[declaration['module']]
+                source = module['href']
+                line = declaration['line']
+                assert declaration['href'] in (source + '#' + quote(declaration['name']), f'{source}#L{line}')
+
+    for part, _, _, cloud, count, kind, _ in files:
+        assert cloud in clouds and count > 0, part
+        assert kind in {'note', 'shared', 'not attributed', 'unsplit', 'not cited'}, part
+
+
 def check(site, baseline=None):
     def read_json(url):
         return json.loads((site / url.lstrip('/')).read_text(encoding='utf-8'))
@@ -238,7 +310,9 @@ def check(site, baseline=None):
     with (Path(__file__).resolve().parents[2] / 'data/sernau/modules.tsv').open(encoding='utf-8') as stream:
         inputs = {row['module']: row for row in csv.DictReader(stream, delimiter='\t')}
 
-    assert read_json(edition['manifestUrl']) == edition
+    manifest = read_json(edition['manifestUrl'])
+    assert {key: value for key, value in manifest.items() if key != 'partGraphUrl'} == edition
+    check_parts(site, manifest, modules, read_json)
     assert read_json(edition['modulesUrl'])['modules'] == modules
     assert read_json(edition['overviewUrl'])['edges'] == graph['edges']
     assert set(inputs) == set(modules)
