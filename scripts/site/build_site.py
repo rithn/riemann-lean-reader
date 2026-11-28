@@ -1682,8 +1682,8 @@ if (urlsplit(NEWSLETTER_URL).hostname or '').endswith('.invalid'):
 else:
     NEWSLETTER_HTML = ('<p>Get an email when the status changes '
                        f'<a class="btn" href="{H(NEWSLETTER_URL)}" target="_blank" rel="noopener">Subscribe on Substack</a></p>')
-def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn; the section a page belongs to, or ''
-    m = re.match(r'/(status|guides|timeline|learn|concept)/', path)
+def NAV_KEY(path):   # top bar (owner, 24 Nov): Status · Guides · Timeline · Learn · Reactions; the section a page belongs to, or ''
+    m = re.match(r'/(status|guides|timeline|learn|concept|press)/', path)
     return ('learn' if m.group(1) == 'concept' else m.group(1)) if m else ''
 ORIGINAL_STATUS = {'href': '/status/', 'title': f'{ST_META} How it was checked.',
                    'label': f'Lean proof {ST_CHIP}: status of the proof', 'short': ST_CHIP_SHORT, 'text': ST_CHIP}
@@ -1719,7 +1719,14 @@ def edition_switch(edition, view):
         links.append(f'<a href="{href}" data-edition="{key}" data-edition-link{current}>{label}</a>')
     return f'<nav class="edition-switch" aria-label="Proof edition">{"".join(links)}</nav>'
 
-def press_doc(title, desc, body, page_head, styles, status, footer, map_url):
+def mark_nav(t, path):
+    nk = NAV_KEY(path)
+    if nk:
+        href = PRESS_REACTIONS if nk == 'press' else f'/{nk}/'   # Reactions covers /press/, /press/reactions/ and /press/media/
+        t = t.replace(f'<a href="{href}" data-nav="{nk}">', f'<a href="{href}" data-nav="{nk}" class="on" aria-current="page">', 1)
+    return t
+
+def press_doc(path, title, desc, body, page_head, styles, status, footer, map_url):
     # Reuse the common head and topbar. Submit site search to the map, which owns its results.
     frame = TPL.split('</header>', 1)[0] + '</header>'
     frame = frame.replace('<div id="tip" role="tooltip"></div>\n', '')
@@ -1730,6 +1737,7 @@ def press_doc(title, desc, body, page_head, styles, status, footer, map_url):
     styles += '\n<style>\n' + (Path(HERE) / 'press.css').read_text(encoding='utf-8') + '</style>'
     script = (Path(HERE) / 'press.js').read_text(encoding='utf-8')
     footer = re.sub(r'(?m)^[ \t]+$', '', footer)
+    frame = mark_nav(frame, path)
     return (fill_slots(frame, title=H(title, quote=False), description=HA(desc), head=page_head,
                        styles=styles, shell_script='', body_attributes='data-view="doc"',
                        skip_target='#press-main', skip_text='Skip to content', map='',
@@ -1790,7 +1798,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
                         route_label='Route from Main' if edition else 'Alpöge route',
                         provenance=source_provenance(sernau_edition) if readable else '')
     if view == 'doc':
-        return press_doc(title, desc, body, page_head, styles, status_html, footer, map_url)
+        return press_doc(path, title, desc, body, page_head, styles, status_html, footer, map_url)
     if path == '/':
         config['legacyOverview'] = EXPLORER_CONFIG['alpoge']['overview']
     if LEAN_READER_F:
@@ -1831,9 +1839,7 @@ def shell(path, title, desc, route, body, page_head, *, edition='', view=None, e
         cite_dataset=DATASET_CITATION, cite_bibtex=H(DATASET_BIBTEX),
         scripts=scripts,
     )
-    nk = NAV_KEY(path)
-    if nk:
-        t = t.replace(f'<a href="/{nk}/" data-nav="{nk}">', f'<a href="/{nk}/" data-nav="{nk}" class="on" aria-current="page">', 1)
+    t = mark_nav(t, path)
     return t
 
 def page(path, title, desc, route, body, lds=(), priority=.5, md=None, img=None, fm=False,
