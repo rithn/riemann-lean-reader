@@ -1,9 +1,9 @@
 {
-"submitted":"2026-11-27",
-"note":"84 of 84 URLs accepted",
+"submitted":"2026-11-29",
+"note":"4 of 4 URLs accepted",
 "urls":{
 "/":"216fc22f88ad",
-"/about/":"7d562a993298",
+"/about/":"5d09db6618a6",
 "/alpoge/":"9cf3d83de357",
 "/changelog/":"5c98cb27fd8f",
 "/cluster/k0001-gaussian-sums-over-lattices-and-height-kernels/":"eb5ebbea3793",
@@ -2775,7 +2775,9 @@
 "/learn/weil-dual/":"48425a2f1b91",
 "/learn/windows/":"5a3c2a13465b",
 "/learn/zeta-series/":"ee8e4a836827",
-"/press/":"ca7ea1ec6893",
+"/press/":"fe3e745eb3a4",
+"/press/media/":"9ce2b843330a",
+"/press/reactions/":"4760740bbd3f",
 "/proof-in-numbers/":"2a7de2a2b74b",
 "/route/":"9bad6ebd8612",
 "/sernau/":"c23e18257390",
