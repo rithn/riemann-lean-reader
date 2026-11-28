@@ -19,7 +19,7 @@ def press_error(label, message):
 
 
 def press_date(entry):
-    return entry.get('date_label') or datetime.date.fromisoformat(entry['date']).strftime('%-d %b')
+    return datetime.date.fromisoformat(entry['date']).strftime('%-d %b')
 
 
 def iso_date(value, field, label):
@@ -134,7 +134,8 @@ def press_feed_md(entries):
     blocks = []
     for entry in entries:
         heading = f'## [{entry["headline"]}]({entry["url"]})'
-        meta = f'{entry["name"]} · {entry["source"]} · {press_date(entry)} · {entry["tag"]}'
+        date = entry.get('date_label') or press_date(entry)
+        meta = f'{entry["name"]} · {entry["source"]} · {date} · {entry["tag"]}'
         lines = [heading, meta, entry['description']]
         if entry.get('original_headline'):
             lines.append(entry['original_headline'])
@@ -192,4 +193,4 @@ def press_images(entries, data_dir, out):
     for existing in folder.glob('*-112.webp'):
         if existing.name not in keep:
             existing.unlink()
-    return pictures, '## Image credits\n\n' + '\n'.join(credits) + '\n' if credits else ''
+    return pictures, '## Image credits {#image-credits}\n\n' + '\n'.join(credits) + '\n' if credits else ''

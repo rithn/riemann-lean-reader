@@ -1512,11 +1512,16 @@ EDITOR = {
     ],
     'sameAs': ['https://x.com/SomTheBuilder', 'https://www.linkedin.com/in/rithn', 'https://github.com/rithn'],
 }
+PRESS_VIEWS = {
+    '/press/': ('All', None),
+    '/press/mathematicians/': ('Mathematicians', 'reaction'),
+    '/press/media/': ('Media', 'media'),
+}
 BYLINED_PAGES = {
     '/status/', '/timeline/', '/how-we-know/', '/faq/', '/proof-in-numbers/',
     '/what-is-the-riemann-hypothesis/', '/why-it-matters/', '/learn/',
-    '/shorter-riemann-hypothesis-proof/', '/guides/', '/press/',
-}
+    '/shorter-riemann-hypothesis-proof/', '/guides/',
+} | PRESS_VIEWS.keys()
 RH_THING = {'@type': 'Thing', 'name': 'Riemann hypothesis', 'sameAs': 'https://en.wikipedia.org/wiki/Riemann_hypothesis'}
 def crumbs_ld(*items):  # (name, path) pairs, home first
     return {'@type': 'BreadcrumbList', 'itemListElement': [
@@ -1716,6 +1721,7 @@ def press_doc(title, desc, body, page_head, styles, status, footer, map_url):
     frame = frame.replace('    <div id="results" hidden></div>\n  </div>', '  </form>')
     styles += '\n<style>\n' + (Path(HERE) / 'press.css').read_text(encoding='utf-8') + '</style>'
     script = (Path(HERE) / 'press.js').read_text(encoding='utf-8')
+    footer = re.sub(r'(?m)^[ \t]+$', '', footer)
     return (fill_slots(frame, title=H(title, quote=False), description=HA(desc), head=page_head,
                        styles=styles, shell_script='', body_attributes='data-view="doc"',
                        skip_target='#press-main', skip_text='Skip to content', map='',
@@ -2514,6 +2520,8 @@ CONTENT = [   # draft, breadcrumb name, eyebrow, sitemap priority, first publish
     ('faq.md', 'FAQ', 'Frequently asked questions', .8),
     ('why-it-matters.md', 'Why it matters', 'Why it matters', .7),
     ('press.md', 'Press', 'Press, statements and reactions', .7),
+    ('press-mathematicians.md', 'Mathematicians', 'Press', .7),
+    ('press-media.md', 'Media', 'Press', .7),
     ('shorter-riemann-hypothesis-proof.md', 'Shorter editions', 'Readable and compact editions', .85),
     ('core.md', 'The core', 'The core of the proof · 16 clusters', .8),
     ('proof-in-numbers.md', 'In numbers', 'The proof in numbers', .7),
@@ -2706,6 +2714,15 @@ KNOWN_PATHS |= {group['href'] for group in READABLE_GROUPS.values()}
 # site links added under a page's own text (the drafts are published as written, so these are not part of them)
 RELATED = {'/status/': [('/core/', CORE_NAV), ('/proof-in-numbers/', NUMBERS_NAV),
                         ('/timeline/', 'Timeline of the Riemann hypothesis, 1748 to the 2026 Lean proof')]}
+press_anchors = {'press-main', 'press-list', 'press-q', 'press-live', 'press-empty',
+                 'image-credits', 'sitefoot', 'q', 'sbtn'}
+for _, fm, draft, *_ in DRAFTS:
+    if fm['path'] in PRESS_VIEWS:
+        press_anchors.update(re.findall(r'id="([^"]+)"', md_html(draft)))
+press_file = Path(REPO) / 'data' / 'press.yaml'
+press_entries = load_press(press_file, press_anchors)
+press_pictures, press_credits = press_images(press_entries, press_file.parent, Path(OUT))
+
 for f, fm, t, crumb, eb, pr in DRAFTS:
     bad = [u for u in re.findall(r'\]\((/[^)#\s]*)', t) if u not in KNOWN_PATHS]
     assert not bad, f'{f}: links to pages that do not exist: {bad}'
@@ -2720,21 +2737,27 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
         html_body = html_body.replace('<p>{{newsletter}}</p>\n', NEWSLETTER_HTML + '\n' if NEWSLETTER_HTML else '')
         t = t.replace('{{newsletter}}\n\n', to_md(NEWSLETTER_HTML) + '\n' if NEWSLETTER_HTML else '')
     extra_ld = []
-    if path == '/press/':
-        anchors = set(re.findall(r'id="([^"]+)"', html_body)) | {
-            'press-main', 'press-list', 'press-q', 'press-live', 'press-empty', 'sitefoot', 'q', 'sbtn',
-        }
-        press_file = Path(REPO) / 'data' / 'press.yaml'
-        entries = load_press(press_file, anchors)
-        pictures, credits = press_images(entries, press_file.parent, Path(OUT))
-        assert html_body.count('<p>{{press_feed}}</p>') == 1, 'press.md: expected one {{press_feed}}'
-        html_body = html_body.replace('<p>{{press_feed}}</p>', press_feed_html(entries, _initials, pictures))
-        t = t.replace('{{press_feed}}', press_feed_md(entries))
-        if credits:
-            html_body += '\n' + md_html(credits)
-            t += '\n' + credits
+    if path in PRESS_VIEWS:
+        _, tag = PRESS_VIEWS[path]
+        entries = [entry for entry in press_entries if tag is None or entry['tag'] == tag]
+        links = []
+        for url, (label, _) in PRESS_VIEWS.items():
+            current = ' aria-current="page"' if url == path else ''
+            links.append(f'<a href="{url}"{current}>{H(label)}</a>')
+        tabs = '<nav class="press-tabs" aria-label="Press sections">' + ''.join(links) + '</nav>'
+        tabs_md = ' · '.join(f'[{label}]({url})' for url, (label, _) in PRESS_VIEWS.items())
+        assert html_body.count('<p>{{press_feed}}</p>') == 1, f'{f}: expected one {{{{press_feed}}}}'
+        html_body = html_body.replace('<p>{{press_feed}}</p>', tabs + '\n' + press_feed_html(entries, _initials, press_pictures))
+        t = t.replace('{{press_feed}}', tabs_md + '\n\n' + press_feed_md(entries))
+        if press_credits and tag is None:
+            html_body += '\n' + md_html(press_credits)
+            t += '\n' + press_credits
+        elif press_credits:
+            credit_link = '[Image credits](/press/#image-credits)'
+            html_body += '\n' + md_html(credit_link)
+            t += '\n' + credit_link + '\n'
         extra_ld.append(press_feed_ld(entries))
-        print(f'press: {len(entries)} tiles, 0 skipped')
+        print(f'{path}: {len(entries)} press tiles')
     if path == '/about/':
         html_body = html_body.replace('<h2>Licence</h2>', CITE_SECTION + '\n<h2>Licence</h2>', 1)
     if path == '/core/' and FL:   # #10: after each core cluster's "Cluster page" link, a link to its /lean/ page (HTML and Markdown)
@@ -2743,8 +2766,11 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
             assert html_body.count(a_) == 1 and t.count(f'[Cluster page]({CPATH[k]})') == 1, f'core.md: no single "Cluster page" link for {k}'
             html_body = html_body.replace(a_, a_ + f' · <a href="{CPATH[k]}lean/">{H(fl_link_text(k))}</a>')
             t = t.replace(f'[Cluster page]({CPATH[k]})', f'[Cluster page]({CPATH[k]}) · [{fl_link_text(k)}]({CPATH[k]}lean/)')
-    trail = breadcrumbs([('Home', '/'), (crumb, '')])
-    doc = path == '/press/' and fm.get('layout') == 'doc'
+    crumb_parents = [('Home', '/')]
+    if path in PRESS_VIEWS and path != '/press/':
+        crumb_parents.append(('Press', '/press/'))
+    trail = breadcrumbs([*crumb_parents, (crumb, '')])
+    doc = path in PRESS_VIEWS and fm.get('layout') == 'doc'
     if doc:
         body = f'<h1>{H(h1)}</h1>{html_body}{{{{BYLINE}}}}{trail}'
     elif folded := fm.get('fold_sections'):
@@ -2758,7 +2784,7 @@ for f, fm, t, crumb, eb, pr in DRAFTS:
     if rel:
         body += '<h2>More on this site</h2><ul class="rows">' + ''.join(f'<li><a href="{u}">{H(x)}</a></li>' for u, x in rel) + '</ul>'
     lds = [article_ld(path, h1, fm['description'], str(fm.get('published', CONTENT_PUBLISHED))),
-           crumbs_ld(('Home', '/'), (crumb, path)), ORG, *extra_ld]
+           crumbs_ld(*crumb_parents, (crumb, path)), ORG, *extra_ld]
     if fm.get('structured_data') == 'FAQPage':
         pairs = faq_pairs(t)
         assert len(pairs) >= 10, f'{f}: FAQPage with only {len(pairs)} questions'
